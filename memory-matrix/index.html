@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>星际记忆方块</title>
+    <style>
+        :root {
+            --bg-color: #2c3e50;
+            --grid-bg: #34495e;
+            --cell-color: #ecf0f1;
+            --highlight-color: #f1c40f; /* 亮黄色，显眼 */
+            --correct-color: #2ecc71;   /* 绿色 */
+            --wrong-color: #e74c3c;     /* 红色 */
+            --text-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: "Rounded Mplus 1c", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation; /* 防止双击缩放 */
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 50px; /* 增加间距，给浮动文字留出空间 */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .stats {
+            display: none; /* 初始隐藏 */
+            gap: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+
+        .game-board {
+            display: none; /* 初始隐藏 */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            background-color: var(--grid-bg);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            width: 90vw;
+            max-width: 400px;
+            aspect-ratio: 1; /* 保持正方形 */
+            z-index: 10;
+        }
+
+        /* 菜单容器 */
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 20;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .level-card {
+            background: linear-gradient(145deg, #34495e, #2c3e50);
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 5px 5px 10px #1a252f, -5px -5px 10px #3e5771;
+            transition: transform 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight-color);
+        }
+
+        .level-card h3 {
+            margin: 0 0 5px 0;
+            color: var(--highlight-color);
+        }
+
+        .level-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .cell {
+            background-color: var(--cell-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+            position: relative;
+        }
+
+        .cell:active {
+            transform: scale(0.95);
+        }
+
+        /* 状态样式 */
+        .cell.highlight {
+            background-color: var(--highlight-color);
+            box-shadow: 0 0 15px var(--highlight-color);
+            transform: scale(1.05);
+        }
+
+        .cell.correct {
+            background-color: var(--correct-color);
+            animation: pulse 0.3s;
+        }
+
+        .cell.wrong {
+            background-color: var(--wrong-color);
+            animation: shake 0.4s;
+        }
+
+        .btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background-color: var(--highlight-color);
+            color: #2c3e50;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #c0392b; /* 按钮立体感 */
+            font-weight: bold;
+            transition: transform 0.1s, box-shadow 0.1s;
+            display: none; /* 默认隐藏 */
+            z-index: 10;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #c0392b;
+        }
+
+        .message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.85);
+            padding: 20px 40px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 2rem;
+            color: #f1c40f;
+            display: none;
+            z-index: 100;
+            pointer-events: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            white-space: nowrap;
+        }
+
+        .score-float {
+            position: absolute;
+            color: #bdc3c7; /* 柔和的灰白色 */
+            font-weight: normal; 
+            font-size: 1rem; 
+            pointer-events: none;
+            animation: floatUpCentered 1.5s ease-out forwards;
+            z-index: 20;
+            white-space: nowrap;
+            left: 50%; /* 水平居中基准 */
+        }
+
+        /* 胜利动画：全屏彩带 */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* 动画定义 */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes floatUpCentered {
+            0% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -20px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="stats" id="stats-panel">
+        <div>关卡: <span id="level-display">1</span> / <span id="target-display">5</span></div>
+        <div>分数: <span id="score-display">0</span></div>
+    </div>
+
+    <h1 id="game-title">星际记忆方块</h1>
+
+    <!-- 难度选择菜单 -->
+    <div class="menu-container" id="menu">
+        <div class="level-card" onclick="selectDifficulty(5)">
+            <h3>⭐ 初级挑战</h3>
+            <p>通关目标：第 5 关</p>
+        </div>
+        <div class="level-card" onclick="selectDifficulty(10)">
+            <h3>⭐⭐ 中级挑战</h3>
+            <p>通关目标：第 10 关</p>
+        </div>
+        <div class="level-card" onclick="selectDifficulty(15)">
+            <h3>⭐⭐⭐ 大师挑战</h3>
+            <p>通关目标：第 15 关</p>
+        </div>
+    </div>
+
+    <div class="game-board" id="board">
+        <!-- 格子会由 JS 生成 -->
+    </div>
+
+    <button class="btn" id="restart-btn" onclick="showMenu()">返回菜单</button>
+
+    <div class="message" id="message"></div>
+
+    <script>
+        // 游戏配置
+        const GRID_SIZE = 4; // 4x4
+        const TOTAL_CELLS = GRID_SIZE * GRID_SIZE;
+        let currentLevel = 1;
+        let targetLevel = 5; // 默认目标
+        let score = 0;
+        let pattern = []; 
+        let userClicks = [];
+        let isInputLocked = true; 
+        let inputStartTime = 0; // 记录开始点击的时间
+        
+        // --- 音频系统 (Web Audio API) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        const Sound = {
+            playTone: (freq, type, duration, volume = 0.1) => {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            },
+            
+            // 爬音阶：C Major Pentatonic (C, D, E, G, A)
+            // 基础频率 C4 = 261.63
+            playClick: (step) => {
+                const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+                const note = scale[step % scale.length] * (1 + Math.floor(step / scale.length)); // 超过八度升调
+                Sound.playTone(note, 'sine', 0.3, 0.1);
+            },
+            
+            playError: () => {
+                Sound.playTone(150, 'sawtooth', 0.5, 0.2);
+                setTimeout(() => Sound.playTone(100, 'sawtooth', 0.5, 0.2), 100);
+            },
+            
+            playLevelComplete: () => {
+                Sound.playTone(523.25, 'triangle', 0.2); // C5
+                setTimeout(() => Sound.playTone(659.25, 'triangle', 0.4), 100); // E5
+            },
+            
+            playWin: () => {
+                // 简单的琶音 C-E-G-C
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, i) => {
+                    setTimeout(() => Sound.playTone(freq, 'square', 0.4, 0.1), i * 150);
+                });
+            }
+        };
+
+        // 难度配置
+        function getDifficulty(level) {
+            let count = 3 + Math.floor((level - 1) / 2); 
+            count = Math.min(count, TOTAL_CELLS - 4); 
+            let time = 1000 + (count * 200); 
+            return { count, time };
+        }
+
+        // DOM 元素
+        const board = document.getElementById('board');
+        const menuEl = document.getElementById('menu');
+        const statsEl = document.getElementById('stats-panel');
+        const restartBtn = document.getElementById('restart-btn');
+        const msgEl = document.getElementById('message');
+        const levelEl = document.getElementById('level-display');
+        const targetEl = document.getElementById('target-display');
+        const scoreEl = document.getElementById('score-display');
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const cells = [];
+
+        function initBoard() {
+            board.innerHTML = '';
+            for (let i = 0; i < TOTAL_CELLS; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = i;
+                cell.addEventListener('mousedown', () => handleCellClick(i, cell));
+                cell.addEventListener('touchstart', (e) => {
+                    e.preventDefault(); 
+                    handleCellClick(i, cell);
+                });
+                board.appendChild(cell);
+                cells.push(cell);
+            }
+        }
+
+        function showMenu() {
+            menuEl.style.display = 'flex';
+            board.style.display = 'none';
+            statsEl.style.display = 'none';
+            restartBtn.style.display = 'none';
+            stopConfetti();
+        }
+
+        function selectDifficulty(target) {
+            targetLevel = target;
+            // 用户点击时激活 AudioContext (浏览器限制)
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            startGame();
+        }
+
+        function startGame() {
+            menuEl.style.display = 'none';
+            board.style.display = 'grid';
+            statsEl.style.display = 'flex';
+            
+            score = 0;
+            currentLevel = 1;
+            updateUI();
+            playLevel();
+        }
+
+        function updateUI() {
+            scoreEl.innerText = score;
+            levelEl.innerText = currentLevel;
+            targetEl.innerText = targetLevel;
+        }
+
+        function showMessage(text, duration = 1000) {
+            msgEl.innerText = text;
+            msgEl.style.display = 'block';
+            if (duration > 0) {
+                setTimeout(() => {
+                    msgEl.style.display = 'none';
+                }, duration);
+            }
+        }
+
+        function hideMessage() {
+            msgEl.style.display = 'none';
+        }
+
+        // 显示飘浮分数
+        function showFloatingScore(text) {
+            const el = document.createElement('div');
+            el.className = 'score-float';
+            el.innerText = text;
+            
+            // 获取标题位置
+            const titleEl = document.getElementById('game-title');
+            const titleRect = titleEl.getBoundingClientRect();
+            
+            // 定位在标题正下方 10px 处
+            // left 由 CSS 控制为 50%
+            el.style.top = (titleRect.bottom + 10) + 'px';
+            
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1500);
+        }
+
+        async function playLevel() {
+            isInputLocked = true;
+            userClicks = [];
+            cells.forEach(c => c.className = 'cell');
+
+            showMessage(`第 ${currentLevel} 关`, 1000);
+            await new Promise(r => setTimeout(r, 1000));
+
+            const diff = getDifficulty(currentLevel);
+            pattern = generatePattern(diff.count);
+
+            pattern.forEach(index => {
+                cells[index].classList.add('highlight');
+            });
+
+            setTimeout(() => {
+                cells.forEach(c => c.classList.remove('highlight'));
+                isInputLocked = false; 
+                inputStartTime = Date.now(); // 开始计时
+            }, diff.time);
+        }
+
+        function generatePattern(count) {
+            const indices = Array.from({length: TOTAL_CELLS}, (_, i) => i);
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            return indices.slice(0, count);
+        }
+
+        function handleCellClick(index, cellEl) {
+            if (isInputLocked) return;
+            if (userClicks.includes(index)) return; 
+
+            if (pattern.includes(index)) {
+                // 正确
+                cellEl.classList.add('correct');
+                userClicks.push(index);
+                
+                // 播放音阶音效 (Do Re Mi...)
+                Sound.playClick(userClicks.length - 1);
+                
+                if (userClicks.length === pattern.length) {
+                    levelComplete();
+                }
+            } else {
+                // 错误
+                cellEl.classList.add('wrong');
+                Sound.playError();
+                isInputLocked = true; 
+                gameOver();
+            }
+        }
+
+        async function levelComplete() {
+            isInputLocked = true;
+            Sound.playLevelComplete();
+            
+            // --- 计分逻辑 ---
+            const baseScore = 100; // 基础分
+            const timeTaken = Date.now() - inputStartTime;
+            // 速度奖励：假设每个格子给 1.5秒，快于这个时间就有奖励
+            const standardTime = pattern.length * 1500; 
+            const speedBonus = Math.max(0, Math.floor((standardTime - timeTaken) / 100)); // 每快100ms加1分
+            
+            const levelScore = baseScore + speedBonus;
+            score += levelScore;
+            
+            // 显示分数详情
+            showFloatingScore(`+${levelScore} (速度+${speedBonus})`);
+            updateUI();
+            
+            await new Promise(r => setTimeout(r, 500));
+
+            // 检查是否通关
+            if (currentLevel >= targetLevel) {
+                gameWin();
+                return;
+            }
+
+            showMessage("太棒了！", 1000);
+            await new Promise(r => setTimeout(r, 1000));
+            
+            currentLevel++;
+            updateUI();
+            playLevel();
+        }
+
+        function gameWin() {
+            startConfetti();
+            Sound.playWin();
+            showMessage(`🎉 挑战成功！\n最终得分: ${score}`, 0); // 0表示不自动消失
+            restartBtn.innerText = "挑战更高难度";
+            restartBtn.style.display = 'block';
+        }
+
+        function gameOver() {
+            showMessage("哎呀！点错了！", 2000);
+            setTimeout(() => {
+                pattern.forEach(index => {
+                    if (!cells[index].classList.contains('correct')) {
+                        cells[index].classList.add('highlight');
+                    }
+                });
+                
+                restartBtn.innerText = "返回菜单";
+                restartBtn.style.display = 'block';
+            }, 1000);
+        }
+
+        // --- 简单的彩带粒子系统 ---
+        let confettiCtx = confettiCanvas.getContext('2d');
+        let particles = [];
+        let animationId = null;
+
+        function startConfetti() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            particles = [];
+            for(let i=0; i<150; i++) {
+                particles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    vx: Math.random() * 4 - 2,
+                    vy: Math.random() * 5 + 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    size: Math.random() * 10 + 5,
+                    rotation: Math.random() * 360
+                });
+            }
+            animateConfetti();
+        }
+
+        function stopConfetti() {
+            if (animationId) cancelAnimationFrame(animationId);
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            hideMessage(); // 顺便隐藏胜利消息
+        }
+
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            particles.forEach(p => {
+                p.y += p.vy;
+                p.x += p.vx;
+                p.rotation += 5;
+                
+                if (p.y > confettiCanvas.height) {
+                    p.y = -20;
+                    p.x = Math.random() * confettiCanvas.width;
+                }
+
+                confettiCtx.fillStyle = p.color;
+                confettiCtx.save();
+                confettiCtx.translate(p.x, p.y);
+                confettiCtx.rotate(p.rotation * Math.PI / 180);
+                confettiCtx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                confettiCtx.restore();
+            });
+            animationId = requestAnimationFrame(animateConfetti);
+        }
+
+        window.addEventListener('resize', () => {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        });
+
+        // 初始化
+        initBoard();
+        showMenu(); // 初始显示菜单
+
+    </script>
+</body>
+</html>
