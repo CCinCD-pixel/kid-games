@@ -1,9 +1,11 @@
-const CACHE_NAME = 'kid-games-v1';
+const CACHE_NAME = 'kid-games-v2';
 
 // 需要预缓存的核心资源
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/memory-matrix/index.html',
+  '/emoji-match/index.html',
   '/icons/icon.svg'
 ];
 

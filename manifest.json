@@ -3,7 +3,7 @@
   "short_name": "游戏乐园",
   "description": "专为孩子打造的趣味游戏合集",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait",
   "theme_color": "#1a1a2e",
   "background_color": "#1a1a2e",

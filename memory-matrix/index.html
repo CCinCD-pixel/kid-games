@@ -2,628 +2,1162 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>星际记忆方块</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="/icons/icon.svg">
     <style>
         :root {
-            --bg-color: #2c3e50;
-            --grid-bg: #34495e;
-            --cell-color: #ecf0f1;
-            --highlight-color: #f1c40f; /* 亮黄色，显眼 */
-            --correct-color: #2ecc71;   /* 绿色 */
-            --wrong-color: #e74c3c;     /* 红色 */
-            --text-color: #ffffff;
+            --panel: rgba(255, 255, 255, 0.9);
+            --line: rgba(255, 188, 214, 0.9);
+            --text: #7a4b37;
+            --muted: rgba(122, 75, 55, 0.72);
+            --accent: #ff9f1c;
+            --accent-soft: #ffe29a;
+            --good: #6ed6a5;
+            --bad: #ff7b89;
+            --pink: #ffcad4;
+            --blue: #bde0fe;
+            --mint: #c7f9cc;
+            --lavender: #d9c8ff;
+            --grid-size: 4;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: "Rounded Mplus 1c", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            touch-action: manipulation; /* 防止双击缩放 */
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 50px; /* 增加间距，给浮动文字留出空间 */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            z-index: 10;
-        }
-
-        .stats {
-            display: none; /* 初始隐藏 */
-            gap: 20px;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            z-index: 10;
-        }
-
-        .game-board {
-            display: none; /* 初始隐藏 */
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            background-color: var(--grid-bg);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            width: 90vw;
-            max-width: 400px;
-            aspect-ratio: 1; /* 保持正方形 */
-            z-index: 10;
-        }
-
-        /* 菜单容器 */
-        .menu-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            z-index: 20;
-            width: 80%;
-            max-width: 300px;
-        }
-
-        .level-card {
-            background: linear-gradient(145deg, #34495e, #2c3e50);
-            padding: 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 5px 5px 10px #1a252f, -5px -5px 10px #3e5771;
-            transition: transform 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .level-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--highlight-color);
-        }
-
-        .level-card h3 {
-            margin: 0 0 5px 0;
-            color: var(--highlight-color);
-        }
-
-        .level-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .cell {
-            background-color: var(--cell-color);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.1s, background-color 0.2s;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 15% 12%, rgba(255, 255, 255, 0.95), transparent 12%),
+                radial-gradient(circle at 82% 14%, rgba(255, 255, 255, 0.78), transparent 13%),
+                radial-gradient(circle at 88% 72%, rgba(255, 255, 255, 0.7), transparent 14%),
+                linear-gradient(180deg, #a9def9 0%, #e4c1f9 46%, #ffcad4 100%);
+            color: var(--text);
+            font-family: "Comic Sans MS", "Trebuchet MS", "PingFang SC", "Helvetica Neue", sans-serif;
+            padding: env(safe-area-inset-top) 14px env(safe-area-inset-bottom);
             position: relative;
+            overflow-x: hidden;
         }
 
-        .cell:active {
-            transform: scale(0.95);
-        }
-
-        /* 状态样式 */
-        .cell.highlight {
-            background-color: var(--highlight-color);
-            box-shadow: 0 0 15px var(--highlight-color);
-            transform: scale(1.05);
-        }
-
-        .cell.correct {
-            background-color: var(--correct-color);
-            animation: pulse 0.3s;
-        }
-
-        .cell.wrong {
-            background-color: var(--wrong-color);
-            animation: shake 0.4s;
-        }
-
-        .btn {
-            margin-top: 30px;
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            background-color: var(--highlight-color);
-            color: #2c3e50;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #c0392b; /* 按钮立体感 */
-            font-weight: bold;
-            transition: transform 0.1s, box-shadow 0.1s;
-            display: none; /* 默认隐藏 */
-            z-index: 10;
-        }
-
-        .btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #c0392b;
-        }
-
-        .message {
+        body::before,
+        body::after {
+            content: "";
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.85);
-            padding: 20px 40px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 2rem;
-            color: #f1c40f;
-            display: none;
-            z-index: 100;
+            inset: auto;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            filter: blur(2px);
             pointer-events: none;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            white-space: nowrap;
+            z-index: 0;
         }
 
-        .score-float {
-            position: absolute;
-            color: #bdc3c7; /* 柔和的灰白色 */
-            font-weight: normal; 
-            font-size: 1rem; 
-            pointer-events: none;
-            animation: floatUpCentered 1.5s ease-out forwards;
-            z-index: 20;
-            white-space: nowrap;
-            left: 50%; /* 水平居中基准 */
+        body::before {
+            top: 110px;
+            left: -36px;
+        }
+
+        body::after {
+            bottom: 70px;
+            right: -28px;
+        }
+
+        .back-home,
+        .ghost-btn,
+        .primary-btn,
+        .mini-btn,
+        .level-pill,
+        .ladder-card,
+        .cell {
+            touch-action: manipulation;
         }
 
         .back-home {
             position: fixed;
-            top: max(10px, env(safe-area-inset-top));
-            left: 10px;
-            z-index: 999;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(8px);
-            border: none;
-            border-radius: 12px;
-            padding: 8px 14px;
-            color: white;
-            font-size: 0.9em;
-            font-weight: 700;
-            cursor: pointer;
+            top: max(12px, env(safe-area-inset-top));
+            left: 12px;
+            z-index: 30;
+            padding: 10px 15px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.88);
+            color: var(--text);
             text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
+            font-weight: 900;
+            box-shadow: 0 10px 20px rgba(217, 174, 206, 0.35);
         }
-        .back-home:active { transform: scale(0.95); }
 
-        .high-score {
+        .app {
+            width: min(980px, 100%);
+            margin: 0 auto;
+            padding: 56px 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3.1rem);
+            letter-spacing: 0.02em;
+            text-shadow: 0 3px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .hero p {
+            margin: 10px auto 0;
+            max-width: 560px;
+            color: var(--muted);
+            font-size: 1.02rem;
+            line-height: 1.5;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 3px solid var(--line);
+            border-radius: 32px;
+            box-shadow: 0 18px 0 rgba(255, 172, 188, 0.45);
+        }
+
+        .menu-panel,
+        .levels-panel,
+        .game-panel {
+            padding: 18px;
+        }
+
+        .ladder-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        }
+
+        .ladder-card {
+            border: 3px solid transparent;
+            border-radius: 28px;
+            padding: 18px;
+            background:
+                radial-gradient(circle at top right, rgba(255, 255, 255, 0.9), transparent 34%),
+                linear-gradient(160deg, #fffaf1, #ffe4ef);
+            cursor: pointer;
+            text-align: left;
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+            box-shadow: 0 10px 0 rgba(244, 194, 194, 0.75);
+        }
+
+        .ladder-card:active {
+            transform: translateY(4px);
+            box-shadow: 0 6px 0 rgba(244, 194, 194, 0.75);
+        }
+
+        .ladder-card h3,
+        .section-title {
+            margin: 0;
+        }
+
+        .ladder-card .desc,
+        .small-muted,
+        .hud-note,
+        .helper-text {
+            color: var(--muted);
+        }
+
+        .ladder-card .meta {
+            margin-top: 14px;
+            display: grid;
+            gap: 6px;
+            font-size: 0.93rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: #fff5bf;
+            border: 2px solid rgba(255, 203, 119, 0.7);
+            font-size: 0.88rem;
+            font-weight: 900;
+        }
+
+        .section-head,
+        .levels-top,
+        .hud,
+        .result-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .levels-top,
+        .hud {
+            flex-wrap: wrap;
+        }
+
+        .summary-grid {
+            margin-top: 18px;
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+
+        .summary-card {
+            padding: 14px;
+            border-radius: 24px;
+            background: linear-gradient(160deg, #ffffff, #fff0f7);
+            border: 2px solid rgba(255, 207, 228, 0.82);
+            box-shadow: 0 8px 0 rgba(255, 208, 196, 0.48);
+        }
+
+        .summary-card strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 1.25rem;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ghost-btn,
+        .primary-btn,
+        .mini-btn {
+            border: none;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .ghost-btn,
+        .mini-btn {
+            color: var(--text);
+            background: linear-gradient(180deg, #ffffff, #ffeef5);
+        }
+
+        .ghost-btn,
+        .primary-btn {
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 0.96rem;
+            box-shadow: 0 8px 0 rgba(255, 199, 170, 0.65);
+        }
+
+        .primary-btn {
+            color: white;
+            background: linear-gradient(135deg, #ff9f1c, #ffbf69);
+        }
+
+        .mini-btn {
+            padding: 8px 12px;
+            border-radius: 999px;
             font-size: 0.85rem;
-            opacity: 0.6;
+            box-shadow: 0 6px 0 rgba(255, 199, 170, 0.6);
+        }
+
+        .ghost-btn:active,
+        .primary-btn:active,
+        .mini-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgba(255, 199, 170, 0.6);
+        }
+
+        .levels-grid {
+            margin-top: 18px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+        }
+
+        .level-pill {
+            min-height: 68px;
+            border: 2px solid rgba(255, 211, 234, 0.95);
+            border-radius: 22px;
+            background: linear-gradient(180deg, #ffffff, #ffeef7);
+            color: var(--text);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            position: relative;
+            font-size: 1.05rem;
+            box-shadow: 0 8px 0 rgba(255, 208, 196, 0.48);
+        }
+
+        .level-pill.done {
+            background: linear-gradient(180deg, #effff5, #d8f3dc);
+            border-color: rgba(110, 214, 165, 0.95);
+        }
+
+        .level-pill.current {
+            box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.55), 0 8px 0 rgba(255, 208, 196, 0.48);
+        }
+
+        .level-pill.locked {
+            opacity: 0.36;
+            cursor: not-allowed;
+        }
+
+        .level-pill .badge {
+            position: absolute;
+            bottom: 6px;
+            right: 8px;
+            font-size: 0.72rem;
+        }
+
+        .hud {
+            margin-bottom: 12px;
+        }
+
+        .hud-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hud-chip {
+            padding: 10px 12px;
+            border-radius: 22px;
+            background: linear-gradient(180deg, #ffffff, #fdf0ff);
+            border: 2px solid rgba(217, 200, 255, 0.75);
+            min-width: 94px;
+            box-shadow: 0 8px 0 rgba(207, 191, 255, 0.34);
+        }
+
+        .hud-chip span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .hud-chip strong {
+            display: block;
             margin-top: 4px;
+            font-size: 1.08rem;
         }
 
-        /* 胜利动画：全屏彩带 */
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .memory-board {
+            width: min(92vw, 520px);
+            height: min(92vw, 520px);
+            margin: 18px auto 10px;
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
+            grid-template-rows: repeat(var(--grid-size), minmax(0, 1fr));
+            padding: 14px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 236, 244, 0.86));
+            border-radius: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.88);
+            box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.9), 0 12px 0 rgba(255, 199, 170, 0.45);
+            overflow: visible;
+        }
+
+        .cell {
+            appearance: none;
+            border: none;
+            padding: 0;
+            border-radius: 26px;
+            background:
+                radial-gradient(circle at top, rgba(255, 255, 255, 0.92), transparent 42%),
+                linear-gradient(180deg, #ffffff, #d6ecff);
+            color: rgba(122, 75, 55, 0.94);
+            font-size: clamp(1.35rem, 5vw, 2.25rem);
+            font-weight: 900;
+            line-height: 1;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.2s ease;
+            box-shadow: 0 8px 0 rgba(163, 213, 255, 0.65);
+            position: relative;
+        }
+
+        .cell::before {
+            content: "☁️";
+            opacity: 0.28;
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
             pointer-events: none;
-            z-index: 50;
         }
 
-        /* 动画定义 */
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
+        .cell:active {
+            transform: scale(0.97);
+            box-shadow: 0 8px 0 rgba(163, 213, 255, 0.65);
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        .cell.showing {
+            background: linear-gradient(180deg, #fff6b7, #ffd166);
+            color: #9c6644;
+            box-shadow: 0 0 0 4px rgba(255, 237, 160, 0.7), 0 8px 0 rgba(255, 195, 0, 0.4);
+            animation: jelly 0.35s ease;
+        }
+
+        .cell.correct {
+            background: linear-gradient(180deg, #e8fff1, #95d5b2);
+            box-shadow: 0 0 0 4px rgba(110, 214, 165, 0.42), 0 8px 0 rgba(110, 214, 165, 0.4);
+            animation: popGood 0.3s ease;
+        }
+
+        .cell.wrong {
+            background: linear-gradient(180deg, #fff0f2, #ff8fab);
+            box-shadow: 0 0 0 4px rgba(255, 123, 137, 0.42), 0 8px 0 rgba(255, 123, 137, 0.36);
+            animation: wobble 0.35s ease;
+        }
+
+        .status-box {
+            text-align: center;
+            min-height: 70px;
+            padding: 10px 12px;
+        }
+
+        .status-title {
+            font-size: 1.38rem;
+            font-weight: 900;
+        }
+
+        .status-subtitle {
+            margin-top: 6px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .result-panel {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 24px;
+            background: linear-gradient(160deg, #ffffff, #fff0f7);
+            border: 2px solid rgba(255, 205, 227, 0.84);
+            display: none;
+            box-shadow: 0 8px 0 rgba(255, 208, 196, 0.42);
+        }
+
+        .result-panel.show {
+            display: block;
+        }
+
+        .result-score {
+            font-size: 1.45rem;
+            font-weight: 900;
+            margin: 8px 0 10px;
+        }
+
+        .progress-line {
+            margin-top: 14px;
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 180, 0.65);
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #ff9f1c, #ffd166, #6ed6a5);
+            width: 0;
+        }
+
+        @keyframes jelly {
+            0% { transform: scale(0.9); }
+            60% { transform: scale(1.06); }
             100% { transform: scale(1); }
         }
-        
-        @keyframes floatUpCentered {
-            0% { opacity: 1; transform: translate(-50%, 0); }
-            100% { opacity: 0; transform: translate(-50%, -20px); }
+
+        @keyframes popGood {
+            0% { transform: scale(0.88); }
+            70% { transform: scale(1.08); }
+            100% { transform: scale(1); }
         }
 
+        @keyframes wobble {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            75% { transform: rotate(-4deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @media (max-width: 640px) {
+            .app {
+                padding-top: 62px;
+            }
+
+            .menu-panel,
+            .levels-panel,
+            .game-panel {
+                padding: 14px;
+            }
+
+            .memory-board {
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .cell {
+                border-radius: 18px;
+            }
+        }
     </style>
 </head>
 <body>
-
     <a href="../index.html" class="back-home">🏠 返回</a>
-    <canvas id="confetti-canvas"></canvas>
 
-    <div class="stats" id="stats-panel">
-        <div>关卡: <span id="level-display">1</span> / <span id="target-display">5</span></div>
-        <div>分数: <span id="score-display">0</span></div>
-    </div>
-
-    <h1 id="game-title">星际记忆方块</h1>
-
-    <!-- 难度选择菜单 -->
-    <div class="menu-container" id="menu">
-        <div class="level-card" onclick="selectDifficulty(5)">
-            <h3>⭐ 初级挑战</h3>
-            <p>通关目标：第 5 关</p>
-            <p class="high-score" id="hs-5"></p>
+    <div class="app">
+        <div class="hero">
+            <h1>🌈 记忆方块乐园</h1>
+            <p>像玩彩色积木一样练记忆。每个阶梯都有 40 关，通关记录会自动保存，孩子能一眼看到自己闯到哪里了。</p>
         </div>
-        <div class="level-card" onclick="selectDifficulty(10)">
-            <h3>⭐⭐ 中级挑战</h3>
-            <p>通关目标：第 10 关</p>
-            <p class="high-score" id="hs-10"></p>
-        </div>
-        <div class="level-card" onclick="selectDifficulty(15)">
-            <h3>⭐⭐⭐ 大师挑战</h3>
-            <p>通关目标：第 15 关</p>
-            <p class="high-score" id="hs-15"></p>
-        </div>
+
+        <section class="screen active" id="menu-screen">
+            <div class="panel menu-panel">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">选择训练阶梯</h2>
+                        <div class="small-muted">从简单到难，记忆块数量、展示时间、分散程度都会逐步变化。</div>
+                    </div>
+                    <div class="pill" id="global-progress">已完成 0 / 160 关</div>
+                </div>
+                <div class="ladder-grid" id="ladder-grid"></div>
+            </div>
+        </section>
+
+        <section class="screen" id="levels-screen">
+            <div class="panel levels-panel">
+                <div class="levels-top">
+                    <div>
+                        <h2 class="section-title" id="levels-title"></h2>
+                        <div class="helper-text" id="levels-desc"></div>
+                    </div>
+                    <div class="button-row">
+                        <button class="ghost-btn" id="back-to-menu-btn">返回阶梯</button>
+                        <button class="primary-btn" id="continue-btn">继续挑战</button>
+                    </div>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        已完成
+                        <strong id="summary-cleared">0 / 40</strong>
+                    </div>
+                    <div class="summary-card">
+                        下一关
+                        <strong id="summary-next">第 1 关</strong>
+                    </div>
+                    <div class="summary-card">
+                        最佳星星
+                        <strong id="summary-stars">0 ✨</strong>
+                    </div>
+                </div>
+
+                <div class="progress-line">
+                    <div class="progress-fill" id="levels-progress-fill"></div>
+                </div>
+
+                <div class="levels-grid" id="levels-grid"></div>
+            </div>
+        </section>
+
+        <section class="screen" id="game-screen">
+            <div class="panel game-panel">
+                <div class="hud">
+                    <div class="hud-group">
+                        <div class="hud-chip">
+                            <span>阶梯</span>
+                            <strong id="hud-ladder">萌芽</strong>
+                        </div>
+                        <div class="hud-chip">
+                            <span>关卡</span>
+                            <strong id="hud-level">1 / 40</strong>
+                        </div>
+                        <div class="hud-chip">
+                            <span>记忆块</span>
+                            <strong id="hud-count">3 个</strong>
+                        </div>
+                        <div class="hud-chip">
+                            <span>展示</span>
+                            <strong id="hud-preview">2.0 秒</strong>
+                        </div>
+                    </div>
+                    <div class="button-row">
+                        <button class="mini-btn" id="retry-btn" type="button">重玩本关</button>
+                        <button class="ghost-btn" id="back-to-levels-btn" type="button">回到选关</button>
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-title" id="status-title">准备开始</div>
+                    <div class="status-subtitle" id="status-subtitle">看清楚会亮起来的格子，等它们消失后再按出来。</div>
+                </div>
+
+                <div class="memory-board" id="memory-board"></div>
+
+                <div class="result-panel" id="result-panel">
+                    <div class="small-muted" id="result-caption">本关结果</div>
+                    <div class="result-score" id="result-score">0 分</div>
+                    <div class="helper-text" id="result-detail"></div>
+                    <div class="result-actions">
+                        <button class="ghost-btn" id="result-secondary-btn">返回选关</button>
+                        <button class="primary-btn" id="result-primary-btn">下一关</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-
-    <div class="game-board" id="board">
-        <!-- 格子会由 JS 生成 -->
-    </div>
-
-    <button class="btn" id="restart-btn" onclick="showMenu()">返回菜单</button>
-
-    <div class="message" id="message"></div>
 
     <script>
-        // 游戏配置
-        const GRID_SIZE = 4; // 4x4
-        const TOTAL_CELLS = GRID_SIZE * GRID_SIZE;
-        let currentLevel = 1;
-        let targetLevel = 5; // 默认目标
-        let score = 0;
-        let pattern = []; 
-        let userClicks = [];
-        let isInputLocked = true;
-        let inputStartTime = 0; // 记录开始点击的时间
+        const STORAGE_KEY = "kid_games_memory_matrix_v2";
 
-        // 最高分记录
-        let highScores = {};
-        try { highScores = JSON.parse(localStorage.getItem('memory_matrix_high') || '{}'); } catch(e) {}
-        
-        // --- 音频系统 (Web Audio API) ---
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        const Sound = {
-            playTone: (freq, type, duration, volume = 0.1) => {
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                
-                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
+        function buildLevels(spec) {
+            const levels = [];
+            spec.phases.forEach((phase) => {
+                for (let step = 0; step < phase.length; step += 1) {
+                    const t = phase.length === 1 ? 1 : step / (phase.length - 1);
+                    const count = Math.round(phase.countStart + (phase.countEnd - phase.countStart) * t);
+                    const previewMs = Math.round(phase.previewStart + (phase.previewEnd - phase.previewStart) * t);
+                    const spread = Number((phase.spreadStart + (phase.spreadEnd - phase.spreadStart) * t).toFixed(2));
+                    levels.push({
+                        number: levels.length + 1,
+                        boardSize: phase.boardSize,
+                        count,
+                        previewMs,
+                        spread
+                    });
+                }
+            });
+            return levels;
+        }
+
+        const LADDERS = [
+            {
+                id: "sprout",
+                title: "🌱 萌芽阶梯",
+                shortTitle: "萌芽",
+                accent: "#ffbe0b",
+                description: "3x3 起步，图形更集中，适合刚开始建立记忆节奏。",
+                levels: buildLevels({
+                    phases: [
+                        { length: 10, boardSize: 3, countStart: 2, countEnd: 4, previewStart: 2400, previewEnd: 2000, spreadStart: 0.18, spreadEnd: 0.28 },
+                        { length: 10, boardSize: 3, countStart: 4, countEnd: 5, previewStart: 2000, previewEnd: 1700, spreadStart: 0.24, spreadEnd: 0.38 },
+                        { length: 10, boardSize: 4, countStart: 5, countEnd: 6, previewStart: 1750, previewEnd: 1450, spreadStart: 0.34, spreadEnd: 0.48 },
+                        { length: 10, boardSize: 4, countStart: 6, countEnd: 8, previewStart: 1450, previewEnd: 1180, spreadStart: 0.42, spreadEnd: 0.58 }
+                    ]
+                })
             },
-            
-            // 爬音阶：C Major Pentatonic (C, D, E, G, A)
-            // 基础频率 C4 = 261.63
-            playClick: (step) => {
-                const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
-                const note = scale[step % scale.length] * (1 + Math.floor(step / scale.length)); // 超过八度升调
-                Sound.playTone(note, 'sine', 0.3, 0.1);
+            {
+                id: "explore",
+                title: "🚀 探索阶梯",
+                shortTitle: "探索",
+                accent: "#7bdff2",
+                description: "4x4 主场，记忆块更多，展示更短，开始拉开难度差。",
+                levels: buildLevels({
+                    phases: [
+                        { length: 10, boardSize: 4, countStart: 4, countEnd: 6, previewStart: 1850, previewEnd: 1550, spreadStart: 0.36, spreadEnd: 0.5 },
+                        { length: 10, boardSize: 4, countStart: 6, countEnd: 7, previewStart: 1520, previewEnd: 1260, spreadStart: 0.46, spreadEnd: 0.62 },
+                        { length: 10, boardSize: 4, countStart: 7, countEnd: 9, previewStart: 1230, previewEnd: 980, spreadStart: 0.56, spreadEnd: 0.72 },
+                        { length: 10, boardSize: 4, countStart: 9, countEnd: 10, previewStart: 980, previewEnd: 820, spreadStart: 0.68, spreadEnd: 0.85 }
+                    ]
+                })
             },
-            
-            playError: () => {
-                Sound.playTone(150, 'sawtooth', 0.5, 0.2);
-                setTimeout(() => Sound.playTone(100, 'sawtooth', 0.5, 0.2), 100);
+            {
+                id: "leap",
+                title: "🌠 飞跃阶梯",
+                shortTitle: "飞跃",
+                accent: "#ffd6a5",
+                description: "先用高密度 4x4，再过渡到 5x5，大脑要开始稳住节奏。",
+                levels: buildLevels({
+                    phases: [
+                        { length: 10, boardSize: 4, countStart: 6, countEnd: 8, previewStart: 1450, previewEnd: 1180, spreadStart: 0.52, spreadEnd: 0.68 },
+                        { length: 10, boardSize: 4, countStart: 8, countEnd: 10, previewStart: 1160, previewEnd: 920, spreadStart: 0.62, spreadEnd: 0.82 },
+                        { length: 10, boardSize: 5, countStart: 8, countEnd: 10, previewStart: 1350, previewEnd: 1080, spreadStart: 0.64, spreadEnd: 0.86 },
+                        { length: 10, boardSize: 5, countStart: 10, countEnd: 12, previewStart: 1050, previewEnd: 820, spreadStart: 0.74, spreadEnd: 0.94 }
+                    ]
+                })
             },
-            
-            playLevelComplete: () => {
-                Sound.playTone(523.25, 'triangle', 0.2); // C5
-                setTimeout(() => Sound.playTone(659.25, 'triangle', 0.4), 100); // E5
-            },
-            
-            playWin: () => {
-                // 简单的琶音 C-E-G-C
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((freq, i) => {
-                    setTimeout(() => Sound.playTone(freq, 'square', 0.4, 0.1), i * 150);
-                });
+            {
+                id: "galaxy",
+                title: "🪐 银河阶梯",
+                shortTitle: "银河",
+                accent: "#caffbf",
+                description: "5x5 全开，分散布局和更短展示并行推进，是这版最高难度。",
+                levels: buildLevels({
+                    phases: [
+                        { length: 10, boardSize: 5, countStart: 7, countEnd: 9, previewStart: 1500, previewEnd: 1220, spreadStart: 0.58, spreadEnd: 0.74 },
+                        { length: 10, boardSize: 5, countStart: 9, countEnd: 11, previewStart: 1200, previewEnd: 1020, spreadStart: 0.7, spreadEnd: 0.86 },
+                        { length: 10, boardSize: 5, countStart: 11, countEnd: 12, previewStart: 1000, previewEnd: 860, spreadStart: 0.8, spreadEnd: 0.96 },
+                        { length: 10, boardSize: 5, countStart: 12, countEnd: 13, previewStart: 860, previewEnd: 720, spreadStart: 0.88, spreadEnd: 1 }
+                    ]
+                })
             }
+        ];
+
+        const screens = {
+            menu: document.getElementById("menu-screen"),
+            levels: document.getElementById("levels-screen"),
+            game: document.getElementById("game-screen")
         };
 
-        // 难度配置
-        function getDifficulty(level) {
-            let count = 3 + Math.floor((level - 1) / 2); 
-            count = Math.min(count, TOTAL_CELLS - 4); 
-            let time = 1000 + (count * 200); 
-            return { count, time };
-        }
+        const ladderGridEl = document.getElementById("ladder-grid");
+        const globalProgressEl = document.getElementById("global-progress");
+        const levelsTitleEl = document.getElementById("levels-title");
+        const levelsDescEl = document.getElementById("levels-desc");
+        const levelsGridEl = document.getElementById("levels-grid");
+        const summaryClearedEl = document.getElementById("summary-cleared");
+        const summaryNextEl = document.getElementById("summary-next");
+        const summaryStarsEl = document.getElementById("summary-stars");
+        const levelsProgressFillEl = document.getElementById("levels-progress-fill");
+        const continueBtn = document.getElementById("continue-btn");
+        const backToMenuBtn = document.getElementById("back-to-menu-btn");
+        const memoryBoardEl = document.getElementById("memory-board");
+        const hudLadderEl = document.getElementById("hud-ladder");
+        const hudLevelEl = document.getElementById("hud-level");
+        const hudCountEl = document.getElementById("hud-count");
+        const hudPreviewEl = document.getElementById("hud-preview");
+        const statusTitleEl = document.getElementById("status-title");
+        const statusSubtitleEl = document.getElementById("status-subtitle");
+        const retryBtn = document.getElementById("retry-btn");
+        const backToLevelsBtn = document.getElementById("back-to-levels-btn");
+        const resultPanelEl = document.getElementById("result-panel");
+        const resultCaptionEl = document.getElementById("result-caption");
+        const resultScoreEl = document.getElementById("result-score");
+        const resultDetailEl = document.getElementById("result-detail");
+        const resultPrimaryBtn = document.getElementById("result-primary-btn");
+        const resultSecondaryBtn = document.getElementById("result-secondary-btn");
 
-        // DOM 元素
-        const board = document.getElementById('board');
-        const menuEl = document.getElementById('menu');
-        const statsEl = document.getElementById('stats-panel');
-        const restartBtn = document.getElementById('restart-btn');
-        const msgEl = document.getElementById('message');
-        const levelEl = document.getElementById('level-display');
-        const targetEl = document.getElementById('target-display');
-        const scoreEl = document.getElementById('score-display');
-        const confettiCanvas = document.getElementById('confetti-canvas');
-        const cells = [];
+        let progress = loadProgress();
+        let currentLadderId = LADDERS[0].id;
+        let currentLevelNumber = 1;
+        let currentConfig = null;
+        let cellButtons = [];
+        let pattern = [];
+        let patternSet = new Set();
+        let clicked = [];
+        let inputLocked = true;
+        let previewTimer = null;
+        let levelStartAt = 0;
 
-        function initBoard() {
-            board.innerHTML = '';
-            for (let i = 0; i < TOTAL_CELLS; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.dataset.index = i;
-                cell.addEventListener('mousedown', () => handleCellClick(i, cell));
-                cell.addEventListener('touchstart', (e) => {
-                    e.preventDefault(); 
-                    handleCellClick(i, cell);
-                });
-                board.appendChild(cell);
-                cells.push(cell);
-            }
-        }
-
-        function showMenu() {
-            menuEl.style.display = 'flex';
-            board.style.display = 'none';
-            statsEl.style.display = 'none';
-            restartBtn.style.display = 'none';
-            stopConfetti();
-            // 显示最高分
-            [5, 10, 15].forEach(t => {
-                const el = document.getElementById('hs-' + t);
-                if (el) el.textContent = highScores[t] ? '最高分: ' + highScores[t] : '';
-            });
-        }
-
-        function selectDifficulty(target) {
-            targetLevel = target;
-            // 用户点击时激活 AudioContext (浏览器限制)
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            startGame();
-        }
-
-        function startGame() {
-            menuEl.style.display = 'none';
-            board.style.display = 'grid';
-            statsEl.style.display = 'flex';
-            
-            score = 0;
-            currentLevel = 1;
-            updateUI();
-            playLevel();
-        }
-
-        function updateUI() {
-            scoreEl.innerText = score;
-            levelEl.innerText = currentLevel;
-            targetEl.innerText = targetLevel;
-        }
-
-        function showMessage(text, duration = 1000) {
-            msgEl.innerText = text;
-            msgEl.style.display = 'block';
-            if (duration > 0) {
-                setTimeout(() => {
-                    msgEl.style.display = 'none';
-                }, duration);
-            }
-        }
-
-        function hideMessage() {
-            msgEl.style.display = 'none';
-        }
-
-        // 显示飘浮分数
-        function showFloatingScore(text) {
-            const el = document.createElement('div');
-            el.className = 'score-float';
-            el.innerText = text;
-            
-            // 获取标题位置
-            const titleEl = document.getElementById('game-title');
-            const titleRect = titleEl.getBoundingClientRect();
-            
-            // 定位在标题正下方 10px 处
-            // left 由 CSS 控制为 50%
-            el.style.top = (titleRect.bottom + 10) + 'px';
-            
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 1500);
-        }
-
-        async function playLevel() {
-            isInputLocked = true;
-            userClicks = [];
-            cells.forEach(c => c.className = 'cell');
-
-            showMessage(`第 ${currentLevel} 关`, 1000);
-            await new Promise(r => setTimeout(r, 1000));
-
-            const diff = getDifficulty(currentLevel);
-            pattern = generatePattern(diff.count);
-
-            pattern.forEach(index => {
-                cells[index].classList.add('highlight');
-            });
-
-            setTimeout(() => {
-                cells.forEach(c => c.classList.remove('highlight'));
-                isInputLocked = false; 
-                inputStartTime = Date.now(); // 开始计时
-            }, diff.time);
-        }
-
-        function generatePattern(count) {
-            const indices = Array.from({length: TOTAL_CELLS}, (_, i) => i);
-            for (let i = indices.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [indices[i], indices[j]] = [indices[j], indices[i]];
-            }
-            return indices.slice(0, count);
-        }
-
-        function handleCellClick(index, cellEl) {
-            if (isInputLocked) return;
-            if (userClicks.includes(index)) return; 
-
-            if (pattern.includes(index)) {
-                // 正确
-                cellEl.classList.add('correct');
-                userClicks.push(index);
-                
-                // 播放音阶音效 (Do Re Mi...)
-                Sound.playClick(userClicks.length - 1);
-                
-                if (userClicks.length === pattern.length) {
-                    levelComplete();
+        const AudioEngine = (() => {
+            let ctx = null;
+            function ensure() {
+                if (!ctx) {
+                    const Ctor = window.AudioContext || window.webkitAudioContext;
+                    if (!Ctor) return null;
+                    ctx = new Ctor();
                 }
-            } else {
-                // 错误
-                cellEl.classList.add('wrong');
-                Sound.playError();
-                isInputLocked = true; 
-                gameOver();
+                if (ctx.state === "suspended") ctx.resume().catch(() => {});
+                return ctx;
+            }
+            function beep(freq, duration, type, volume) {
+                const audio = ensure();
+                if (!audio) return;
+                const osc = audio.createOscillator();
+                const gain = audio.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                gain.gain.value = volume;
+                gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audio.destination);
+                osc.start();
+                osc.stop(audio.currentTime + duration);
+            }
+            return {
+                tap(step) {
+                    const notes = [392, 440, 523, 659, 784, 880];
+                    beep(notes[step % notes.length], 0.18, "sine", 0.06);
+                },
+                win() {
+                    [523, 659, 784].forEach((freq, index) => {
+                        window.setTimeout(() => beep(freq, 0.28, "triangle", 0.08), index * 120);
+                    });
+                },
+                fail() {
+                    beep(180, 0.25, "sawtooth", 0.1);
+                    window.setTimeout(() => beep(120, 0.25, "sawtooth", 0.1), 120);
+                }
+            };
+        })();
+
+        function loadProgress() {
+            const defaultState = { ladders: {} };
+            LADDERS.forEach((ladder) => {
+                defaultState.ladders[ladder.id] = {
+                    unlocked: 1,
+                    solved: {}
+                };
+            });
+            try {
+                const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+                if (!raw || typeof raw !== "object" || !raw.ladders) return defaultState;
+                LADDERS.forEach((ladder) => {
+                    const saved = raw.ladders[ladder.id] || {};
+                    defaultState.ladders[ladder.id] = {
+                        unlocked: Math.max(1, Math.min(ladder.levels.length, Number(saved.unlocked) || 1)),
+                        solved: typeof saved.solved === "object" && saved.solved ? saved.solved : {}
+                    };
+                });
+            } catch (error) {
+                return defaultState;
+            }
+            return defaultState;
+        }
+
+        function saveProgress() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            } catch (error) {}
+        }
+
+        function setScreen(name) {
+            Object.entries(screens).forEach(([key, el]) => {
+                el.classList.toggle("active", key === name);
+            });
+        }
+
+        function getLadder(id) {
+            return LADDERS.find((item) => item.id === id);
+        }
+
+        function getLadderProgress(id) {
+            return progress.ladders[id];
+        }
+
+        function getSolvedCount(ladderId) {
+            return Object.keys(getLadderProgress(ladderId).solved).length;
+        }
+
+        function getStarCount(ladderId) {
+            const solved = Object.values(getLadderProgress(ladderId).solved);
+            return solved.reduce((sum, item) => sum + (item.stars || 0), 0);
+        }
+
+        function getNextLevelNumber(ladderId) {
+            const ladder = getLadder(ladderId);
+            const ladderProgress = getLadderProgress(ladderId);
+            return Math.min(ladder.levels.length, ladderProgress.unlocked);
+        }
+
+        function renderMenu(shouldSwitch = true) {
+            const totalLevels = LADDERS.reduce((sum, ladder) => sum + ladder.levels.length, 0);
+            const totalDone = LADDERS.reduce((sum, ladder) => sum + getSolvedCount(ladder.id), 0);
+            globalProgressEl.textContent = `已完成 ${totalDone} / ${totalLevels} 关`;
+
+            ladderGridEl.innerHTML = "";
+            LADDERS.forEach((ladder) => {
+                const solved = getSolvedCount(ladder.id);
+                const stars = getStarCount(ladder.id);
+                const nextLevel = getNextLevelNumber(ladder.id);
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "ladder-card";
+                card.style.borderColor = `${ladder.accent}44`;
+                card.innerHTML = `
+                    <div class="pill" style="background:${ladder.accent}22;color:${ladder.accent};border:1px solid ${ladder.accent}44;">${ladder.title}</div>
+                    <h3 style="margin-top:14px;font-size:1.35rem;">${ladder.shortTitle}</h3>
+                    <div class="desc" style="margin-top:8px;line-height:1.55;">${ladder.description}</div>
+                    <div class="meta">
+                        <div>已通关：${solved} / ${ladder.levels.length}</div>
+                        <div>累计星星：${stars} ✨</div>
+                        <div>继续建议：第 ${nextLevel} 关</div>
+                    </div>
+                `;
+                card.addEventListener("click", () => {
+                    currentLadderId = ladder.id;
+                    renderLevelsScreen();
+                });
+                ladderGridEl.appendChild(card);
+            });
+            if (shouldSwitch) setScreen("menu");
+        }
+
+        function renderLevelsScreen() {
+            const ladder = getLadder(currentLadderId);
+            const ladderProgress = getLadderProgress(currentLadderId);
+            const solvedCount = getSolvedCount(currentLadderId);
+            const nextLevel = getNextLevelNumber(currentLadderId);
+            levelsTitleEl.textContent = ladder.title;
+            levelsDescEl.textContent = ladder.description;
+            summaryClearedEl.textContent = `${solvedCount} / ${ladder.levels.length}`;
+            summaryNextEl.textContent = `第 ${nextLevel} 关`;
+            summaryStarsEl.textContent = `${getStarCount(currentLadderId)} ✨`;
+            levelsProgressFillEl.style.width = `${(solvedCount / ladder.levels.length) * 100}%`;
+
+            levelsGridEl.innerHTML = "";
+            ladder.levels.forEach((level) => {
+                const record = ladderProgress.solved[level.number];
+                const unlocked = level.number <= ladderProgress.unlocked || Boolean(record);
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "level-pill";
+                if (!unlocked) button.classList.add("locked");
+                if (record) button.classList.add("done");
+                if (level.number === nextLevel) button.classList.add("current");
+                button.innerHTML = `${level.number}${record ? `<span class="badge">${"✨".repeat(record.stars || 1)}</span>` : ""}`;
+                if (unlocked) {
+                    button.addEventListener("click", () => startLevel(currentLadderId, level.number));
+                } else {
+                    button.disabled = true;
+                }
+                levelsGridEl.appendChild(button);
+            });
+
+            continueBtn.textContent = solvedCount >= ladder.levels.length ? "重玩第 40 关" : `继续第 ${nextLevel} 关`;
+            continueBtn.onclick = () => startLevel(currentLadderId, solvedCount >= ladder.levels.length ? ladder.levels.length : nextLevel);
+            setScreen("levels");
+        }
+
+        function buildBoard(size) {
+            memoryBoardEl.style.setProperty("--grid-size", String(size));
+            memoryBoardEl.innerHTML = "";
+            cellButtons = [];
+            const total = size * size;
+            for (let index = 0; index < total; index += 1) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "cell";
+                button.textContent = "";
+                button.addEventListener("click", () => handleCellClick(index));
+                memoryBoardEl.appendChild(button);
+                cellButtons.push(button);
             }
         }
 
-        async function levelComplete() {
-            isInputLocked = true;
-            Sound.playLevelComplete();
-            
-            // --- 计分逻辑 ---
-            const baseScore = 100; // 基础分
-            const timeTaken = Date.now() - inputStartTime;
-            // 速度奖励：假设每个格子给 1.5秒，快于这个时间就有奖励
-            const standardTime = pattern.length * 1500; 
-            const speedBonus = Math.max(0, Math.floor((standardTime - timeTaken) / 100)); // 每快100ms加1分
-            
-            const levelScore = baseScore + speedBonus;
-            score += levelScore;
-            
-            // 显示分数详情
-            showFloatingScore(`+${levelScore} (速度+${speedBonus})`);
-            updateUI();
-            
-            await new Promise(r => setTimeout(r, 500));
-
-            // 检查是否通关
-            if (currentLevel >= targetLevel) {
-                gameWin();
-                return;
-            }
-
-            showMessage("太棒了！", 1000);
-            await new Promise(r => setTimeout(r, 1000));
-            
-            currentLevel++;
-            updateUI();
-            playLevel();
+        function startLevel(ladderId, levelNumber) {
+            clearTimeout(previewTimer);
+            currentLadderId = ladderId;
+            currentLevelNumber = levelNumber;
+            currentConfig = getLadder(ladderId).levels[levelNumber - 1];
+            clicked = [];
+            pattern = [];
+            patternSet = new Set();
+            inputLocked = true;
+            hideResultPanel();
+            buildBoard(currentConfig.boardSize);
+            updateHud();
+            setStatus(`第 ${levelNumber} 关`, "先看亮起来的方块，记住它们的位置。");
+            setScreen("game");
+            window.setTimeout(playLevel, 350);
         }
 
-        function gameWin() {
-            startConfetti();
-            Sound.playWin();
-            // 保存最高分
-            if (!highScores[targetLevel] || score > highScores[targetLevel]) {
-                highScores[targetLevel] = score;
-                try { localStorage.setItem('memory_matrix_high', JSON.stringify(highScores)); } catch(e) {}
-                showMessage(`🎉 挑战成功！新纪录!\n最终得分: ${score}`, 0);
-            } else {
-                showMessage(`🎉 挑战成功！\n最终得分: ${score}`, 0);
-            }
-            restartBtn.innerText = "挑战更高难度";
-            restartBtn.style.display = 'block';
+        function updateHud() {
+            const ladder = getLadder(currentLadderId);
+            hudLadderEl.textContent = ladder.shortTitle;
+            hudLevelEl.textContent = `${currentLevelNumber} / ${ladder.levels.length}`;
+            hudCountEl.textContent = `${currentConfig.count} 个`;
+            hudPreviewEl.textContent = `${(currentConfig.previewMs / 1000).toFixed(1)} 秒`;
         }
 
-        function gameOver() {
-            showMessage("哎呀！点错了！", 2000);
-            setTimeout(() => {
-                pattern.forEach(index => {
-                    if (!cells[index].classList.contains('correct')) {
-                        cells[index].classList.add('highlight');
+        function setStatus(title, subtitle) {
+            statusTitleEl.textContent = title;
+            statusSubtitleEl.textContent = subtitle;
+        }
+
+        function hideResultPanel() {
+            resultPanelEl.classList.remove("show");
+        }
+
+        function showResultPanel({ caption, score, detail, primaryLabel, primaryAction, secondaryLabel, secondaryAction }) {
+            resultCaptionEl.textContent = caption;
+            resultScoreEl.textContent = score;
+            resultDetailEl.textContent = detail;
+            resultPrimaryBtn.textContent = primaryLabel;
+            resultSecondaryBtn.textContent = secondaryLabel;
+            resultPrimaryBtn.onclick = primaryAction;
+            resultSecondaryBtn.onclick = secondaryAction;
+            resultPanelEl.classList.add("show");
+        }
+
+        function playLevel() {
+            clicked = [];
+            pattern = generatePattern(currentLadderId, currentLevelNumber, currentConfig);
+            patternSet = new Set(pattern);
+            cellButtons.forEach((button) => {
+                button.className = "cell";
+                button.textContent = "";
+            });
+
+            pattern.forEach((index) => {
+                cellButtons[index].classList.add("showing");
+                cellButtons[index].textContent = "✨";
+            });
+
+            setStatus("认真看", `这一关要记住 ${currentConfig.count} 个方块。`);
+            previewTimer = window.setTimeout(() => {
+                cellButtons.forEach((button) => {
+                    button.classList.remove("showing");
+                    button.textContent = "";
+                });
+                inputLocked = false;
+                levelStartAt = performance.now();
+                setStatus("轮到你了", "把刚才亮过的方块全部按出来。");
+            }, currentConfig.previewMs);
+        }
+
+        function hashString(text) {
+            let hash = 2166136261;
+            for (let i = 0; i < text.length; i += 1) {
+                hash ^= text.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
+            }
+            return hash >>> 0;
+        }
+
+        function makeRng(seed) {
+            let value = seed || 1;
+            return function next() {
+                value += 0x6D2B79F5;
+                let t = Math.imul(value ^ (value >>> 15), 1 | value);
+                t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        function indexToCoord(index, size) {
+            return { x: index % size, y: Math.floor(index / size) };
+        }
+
+        function distance(a, b) {
+            return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+        }
+
+        function generatePattern(ladderId, levelNumber, config) {
+            const total = config.boardSize * config.boardSize;
+            const rng = makeRng(hashString(`${ladderId}:${levelNumber}`));
+            const center = {
+                x: Math.floor(rng() * config.boardSize),
+                y: Math.floor(rng() * config.boardSize)
+            };
+            const picks = [];
+            const used = new Set();
+            while (picks.length < config.count) {
+                let bestIndex = 0;
+                let bestScore = Infinity;
+                for (let index = 0; index < total; index += 1) {
+                    if (used.has(index)) continue;
+                    const coord = indexToCoord(index, config.boardSize);
+                    const baseDistance = distance(coord, center);
+                    const randomness = rng() * (config.spread * 3.2 + 0.35);
+                    const clusterWeight = baseDistance * (1.25 - config.spread);
+                    const score = clusterWeight + randomness;
+                    if (score < bestScore) {
+                        bestScore = score;
+                        bestIndex = index;
                     }
-                });
-                
-                restartBtn.innerText = "返回菜单";
-                restartBtn.style.display = 'block';
-            }, 1000);
+                }
+                used.add(bestIndex);
+                picks.push(bestIndex);
+            }
+            return picks.sort((a, b) => a - b);
         }
 
-        // --- 简单的彩带粒子系统 ---
-        let confettiCtx = confettiCanvas.getContext('2d');
-        let particles = [];
-        let animationId = null;
+        function revealPattern() {
+            pattern.forEach((index) => {
+                const button = cellButtons[index];
+                if (!button.classList.contains("correct")) {
+                    button.classList.add("showing");
+                    button.textContent = "⭐";
+                }
+            });
+        }
 
-        function startConfetti() {
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-            particles = [];
-            for(let i=0; i<150; i++) {
-                particles.push({
-                    x: Math.random() * confettiCanvas.width,
-                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-                    vx: Math.random() * 4 - 2,
-                    vy: Math.random() * 5 + 2,
-                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                    size: Math.random() * 10 + 5,
-                    rotation: Math.random() * 360
+        function handleCellClick(index) {
+            if (inputLocked) return;
+            if (clicked.includes(index)) return;
+
+            const button = cellButtons[index];
+            if (patternSet.has(index)) {
+                clicked.push(index);
+                button.classList.add("correct");
+                button.textContent = "🌟";
+                AudioEngine.tap(clicked.length - 1);
+                if (clicked.length === pattern.length) {
+                    completeLevel();
+                } else {
+                    setStatus("继续", `已经找对 ${clicked.length} / ${pattern.length} 个了。`);
+                }
+            } else {
+                inputLocked = true;
+                button.classList.add("wrong");
+                button.textContent = "💥";
+                AudioEngine.fail();
+                revealPattern();
+                setStatus("这次点错了", "没关系，看一眼答案，再试一次就会更稳。");
+                showResultPanel({
+                    caption: "本关未通过",
+                    score: "再试一次",
+                    detail: "系统会保留已经通关的关卡记录，重玩不会丢失进度。",
+                    primaryLabel: "重玩本关",
+                    primaryAction: () => startLevel(currentLadderId, currentLevelNumber),
+                    secondaryLabel: "回到选关",
+                    secondaryAction: () => renderLevelsScreen()
                 });
             }
-            animateConfetti();
         }
 
-        function stopConfetti() {
-            if (animationId) cancelAnimationFrame(animationId);
-            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            hideMessage(); // 顺便隐藏胜利消息
-        }
+        function completeLevel() {
+            inputLocked = true;
+            AudioEngine.win();
+            const responseMs = performance.now() - levelStartAt;
+            const idealMs = currentConfig.count * 950 + currentConfig.boardSize * 180;
+            const stars = responseMs <= idealMs * 0.72 ? 3 : responseMs <= idealMs * 1.08 ? 2 : 1;
+            const score = Math.max(120, Math.round(currentConfig.count * 65 + currentConfig.previewMs / 12 + stars * 90 - responseMs / 18));
+            const ladder = getLadder(currentLadderId);
+            const ladderProgress = getLadderProgress(currentLadderId);
+            const existing = ladderProgress.solved[currentLevelNumber];
+            ladderProgress.solved[currentLevelNumber] = {
+                stars: Math.max(stars, existing ? existing.stars || 0 : 0),
+                bestScore: Math.max(score, existing ? existing.bestScore || 0 : 0),
+                bestTimeMs: existing ? Math.min(responseMs, existing.bestTimeMs || responseMs) : responseMs
+            };
+            ladderProgress.unlocked = Math.min(ladder.levels.length, Math.max(ladderProgress.unlocked, currentLevelNumber + 1));
+            saveProgress();
+            renderMenu(false);
 
-        function animateConfetti() {
-            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            particles.forEach(p => {
-                p.y += p.vy;
-                p.x += p.vx;
-                p.rotation += 5;
-                
-                if (p.y > confettiCanvas.height) {
-                    p.y = -20;
-                    p.x = Math.random() * confettiCanvas.width;
-                }
-
-                confettiCtx.fillStyle = p.color;
-                confettiCtx.save();
-                confettiCtx.translate(p.x, p.y);
-                confettiCtx.rotate(p.rotation * Math.PI / 180);
-                confettiCtx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-                confettiCtx.restore();
+            setStatus("太棒了", `你成功记住了 ${currentConfig.count} 个方块。`);
+            showResultPanel({
+                caption: "本关通关",
+                score: `${score} 分  ·  ${"✨".repeat(stars)}`,
+                detail: currentLevelNumber >= ladder.levels.length
+                    ? "这一整个阶梯都完成了，可以回选关重玩，也可以挑战更高阶梯。"
+                    : `已自动解锁第 ${Math.min(ladder.levels.length, currentLevelNumber + 1)} 关。`,
+                primaryLabel: currentLevelNumber >= ladder.levels.length ? "回到选关" : "下一关",
+                primaryAction: () => {
+                    if (currentLevelNumber >= ladder.levels.length) {
+                        renderLevelsScreen();
+                    } else {
+                        startLevel(currentLadderId, currentLevelNumber + 1);
+                    }
+                },
+                secondaryLabel: "回到选关",
+                secondaryAction: () => renderLevelsScreen()
             });
-            animationId = requestAnimationFrame(animateConfetti);
         }
 
-        window.addEventListener('resize', () => {
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-        });
+        backToMenuBtn.addEventListener("click", renderMenu);
+        backToLevelsBtn.addEventListener("click", renderLevelsScreen);
+        retryBtn.addEventListener("click", () => startLevel(currentLadderId, currentLevelNumber));
 
-        // 初始化
-        initBoard();
-        showMenu(); // 初始显示菜单
-
+        renderMenu();
     </script>
 </body>
 </html>
