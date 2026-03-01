@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>星际记忆方块</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon.svg">
     <style>
         :root {
             --bg-color: #2c3e50;
@@ -176,6 +179,31 @@
             left: 50%; /* 水平居中基准 */
         }
 
+        .back-home {
+            position: fixed;
+            top: max(10px, env(safe-area-inset-top));
+            left: 10px;
+            z-index: 999;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 14px;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-home:active { transform: scale(0.95); }
+
+        .high-score {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            margin-top: 4px;
+        }
+
         /* 胜利动画：全屏彩带 */
         #confetti-canvas {
             position: fixed;
@@ -211,6 +239,7 @@
 </head>
 <body>
 
+    <a href="/" class="back-home">🏠 返回</a>
     <canvas id="confetti-canvas"></canvas>
 
     <div class="stats" id="stats-panel">
@@ -225,14 +254,17 @@
         <div class="level-card" onclick="selectDifficulty(5)">
             <h3>⭐ 初级挑战</h3>
             <p>通关目标：第 5 关</p>
+            <p class="high-score" id="hs-5"></p>
         </div>
         <div class="level-card" onclick="selectDifficulty(10)">
             <h3>⭐⭐ 中级挑战</h3>
             <p>通关目标：第 10 关</p>
+            <p class="high-score" id="hs-10"></p>
         </div>
         <div class="level-card" onclick="selectDifficulty(15)">
             <h3>⭐⭐⭐ 大师挑战</h3>
             <p>通关目标：第 15 关</p>
+            <p class="high-score" id="hs-15"></p>
         </div>
     </div>
 
@@ -253,8 +285,12 @@
         let score = 0;
         let pattern = []; 
         let userClicks = [];
-        let isInputLocked = true; 
+        let isInputLocked = true;
         let inputStartTime = 0; // 记录开始点击的时间
+
+        // 最高分记录
+        let highScores = {};
+        try { highScores = JSON.parse(localStorage.getItem('memory_matrix_high') || '{}'); } catch(e) {}
         
         // --- 音频系统 (Web Audio API) ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -347,6 +383,11 @@
             statsEl.style.display = 'none';
             restartBtn.style.display = 'none';
             stopConfetti();
+            // 显示最高分
+            [5, 10, 15].forEach(t => {
+                const el = document.getElementById('hs-' + t);
+                if (el) el.textContent = highScores[t] ? '最高分: ' + highScores[t] : '';
+            });
         }
 
         function selectDifficulty(target) {
@@ -497,7 +538,14 @@
         function gameWin() {
             startConfetti();
             Sound.playWin();
-            showMessage(`🎉 挑战成功！\n最终得分: ${score}`, 0); // 0表示不自动消失
+            // 保存最高分
+            if (!highScores[targetLevel] || score > highScores[targetLevel]) {
+                highScores[targetLevel] = score;
+                try { localStorage.setItem('memory_matrix_high', JSON.stringify(highScores)); } catch(e) {}
+                showMessage(`🎉 挑战成功！新纪录!\n最终得分: ${score}`, 0);
+            } else {
+                showMessage(`🎉 挑战成功！\n最终得分: ${score}`, 0);
+            }
             restartBtn.innerText = "挑战更高难度";
             restartBtn.style.display = 'block';
         }

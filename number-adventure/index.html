@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字小探险家 🌟</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px 12px 40px;
+        }
+
+        .wrapper { width: 100%; max-width: 560px; }
+
+        /* ── Header ── */
+        .site-header { text-align: center; color: white; margin-bottom: 14px; }
+        .site-header h1 {
+            font-size: clamp(1.3em, 6vw, 2em);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+            font-weight: 900;
+        }
+
+        /* ── Stats bar ── */
+        .stats {
+            background: rgba(255,255,255,0.22);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 1.05em;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        /* ── Game card ── */
+        .card {
+            background: white;
+            border-radius: 26px;
+            padding: 26px 22px;
+            box-shadow: 0 14px 44px rgba(0,0,0,0.22);
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Question ── */
+        .q-type {
+            font-size: 0.78em;
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            color: #bbb;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+        .q-prompt {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 18px;
+            line-height: 1.4;
+        }
+        .q-visual {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 18px;
+            min-height: 100px;
+        }
+        .emoji-row {
+            font-size: clamp(1.8em, 6vw, 2.4em);
+            line-height: 1.5;
+            word-break: break-all;
+        }
+        .seq-display {
+            font-size: clamp(1.6em, 7vw, 2.4em);
+            font-weight: 900;
+            color: #333;
+            letter-spacing: 1px;
+        }
+        .seq-blank { color: #e74c3c; }
+        .big-nums {
+            font-size: clamp(2.5em, 12vw, 4em);
+            font-weight: 900;
+            color: #333;
+        }
+        .plus-sign {
+            font-size: clamp(1.4em, 5vw, 2em);
+            font-weight: 900;
+            color: #667eea;
+            margin: 4px 0;
+        }
+
+        /* ── Choices ── */
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .choice-btn {
+            padding: 16px 8px;
+            font-size: clamp(1.5em, 6vw, 2em);
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 3px 10px rgba(102,126,234,0.32);
+            transition: transform 0.15s, box-shadow 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .choice-btn:hover:not([disabled]) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(102,126,234,0.44);
+        }
+        .choice-btn[disabled] { cursor: default; }
+        .choice-btn.correct {
+            background: linear-gradient(135deg, #43e97b, #38f9d7) !important;
+            box-shadow: 0 4px 14px rgba(67,233,123,0.42);
+            animation: bounce 0.4s ease;
+        }
+        .choice-btn.wrong {
+            background: linear-gradient(135deg, #f093fb, #f5576c) !important;
+            box-shadow: 0 4px 14px rgba(245,87,108,0.42);
+            animation: wiggle 0.4s ease;
+        }
+
+        /* ── Feedback ── */
+        .feedback-msg {
+            text-align: center;
+            font-size: 1.15em;
+            font-weight: 700;
+            min-height: 1.6em;
+        }
+        .feedback-msg.ok { color: #27ae60; }
+        .feedback-msg.no { color: #e74c3c; }
+
+        /* ── Progress ── */
+        .progress { margin-top: 12px; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+        .progress-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* ── Start screen ── */
+        .start {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+        }
+        .start-mascot { font-size: clamp(4em, 15vw, 6em); margin-bottom: 10px; }
+        .start-title { font-size: 1.6em; font-weight: 900; color: #333; margin-bottom: 18px; }
+        .game-modes {
+            background: #f4f0ff; border-radius: 16px;
+            padding: 14px 18px; margin-bottom: 24px;
+            text-align: left; width: 100%;
+        }
+        .game-modes p { font-size: 0.95em; color: #555; padding: 4px 0; line-height: 1.7; }
+        .btn-start {
+            padding: 16px 52px; font-size: 1.3em; font-weight: 900;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white; border: none; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 5px 18px rgba(245,87,108,0.38);
+            transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 0.5px;
+        }
+        .btn-start:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 9px 26px rgba(245,87,108,0.48); }
+
+        /* ── Result screen ── */
+        .result {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+        }
+        .result-emoji { font-size: clamp(3em, 12vw, 5em); margin-bottom: 10px; }
+        .result-msg { font-size: 1.3em; font-weight: 700; color: #333; margin-bottom: 14px; line-height: 1.4; }
+        .result-stars { font-size: clamp(1.8em, 7vw, 2.5em); min-height: 1.4em; word-break: break-all; margin-bottom: 8px; }
+        .result-num { font-size: clamp(2.5em, 10vw, 3.5em); font-weight: 900; color: #667eea; }
+        .result-sub { color: #aaa; font-size: 0.9em; margin-bottom: 22px; }
+        .btn-again {
+            padding: 14px 38px; font-size: 1.2em; font-weight: 900;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white; border: none; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 5px 18px rgba(245,87,108,0.38);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-again:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 24px rgba(245,87,108,0.48); }
+
+        /* ── Particle ── */
+        .back-home {
+            position: fixed;
+            top: max(10px, env(safe-area-inset-top));
+            left: 10px;
+            z-index: 999;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 14px;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-home:active { transform: scale(0.95); }
+
+        .particle {
+            position: fixed; pointer-events: none;
+            font-size: 1.8em; z-index: 9999;
+            animation: floatUp 0.9s ease forwards;
+        }
+
+        /* ── Keyframes ── */
+        @keyframes bounce {
+            0%,100% { transform: scale(1); }
+            50%      { transform: scale(1.13); }
+        }
+        @keyframes wiggle {
+            0%,100% { transform: rotate(0deg); }
+            25%     { transform: rotate(-6deg); }
+            75%     { transform: rotate(6deg); }
+        }
+        @keyframes floatUp {
+            from { transform: translateY(0) scale(0.8); opacity: 1; }
+            to   { transform: translateY(-75px) scale(1.6); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-home">🏠 返回</a>
+    <div class="wrapper">
+        <div class="site-header">
+            <h1>🌟 数字小探险家 🌟</h1>
+        </div>
+        <div class="stats">
+            <span>⭐ 星星：<b id="score">0</b></span>
+            <span>第 <b id="qnum">0</b> / 10 题</span>
+        </div>
+        <div class="card" id="card"></div>
+    </div>
+
+    <script>
+    'use strict';
+
+    /* ── State ── */
+    let score = 0, qCount = 0;
+    const TOTAL = 10;
+    let currentQ = null, answered = false;
+
+    /* ── Data ── */
+    const EMOJIS   = ['🍎','🍊','🍋','🍇','🍓','🌸','⭐','🐱','🐶','🦋','🚂','🏀','🎈','🦖','🐸','🌈','🍭','🎁'];
+    const OK_MSG   = ['太棒了！🎉','真聪明！⭐','答对啦！🌟','厉害极了！👏','好厉害呀！✨','完全正确！🎊','哇，答对啦！🥳','你真棒！💫'];
+    const FAIL_MSG = ['差一点，再想想！💪','加油哦，试试看！😊','没关系，继续加油！🌈','好好想一想！🤔'];
+    const CELE_E   = ['⭐','🌟','✨','🎉','🎊','💫'];
+
+    /* ── Helpers ── */
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+    const rInt = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = rInt(0, i); [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function wrongNums(correct, min, max, n) {
+        const s = new Set();
+        let tries = 0;
+        while (s.size < n && tries < 300) {
+            tries++;
+            const v = rInt(min, max);
+            if (v !== correct) s.add(v);
+        }
+        return [...s].slice(0, n);
+    }
+
+    /* ── Audio (Web Audio API, no files needed) ── */
+    function playTones(notes) {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            notes.forEach(([freq, t, dur]) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.frequency.value = freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.18, ctx.currentTime + t);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur);
+                osc.start(ctx.currentTime + t);
+                osc.stop(ctx.currentTime + t + dur + 0.01);
+            });
+        } catch(e) { /* audio not supported, silently ignore */ }
+    }
+
+    const playCorrect  = () => playTones([[523,0,0.13],[659,0.12,0.13],[784,0.24,0.16]]);
+    const playWrong    = () => playTones([[280,0,0.22],[210,0.2,0.22]]);
+    const playCelebrate= () => playTones([[523,0,0.15],[659,0.1,0.15],[784,0.2,0.15],[1047,0.32,0.2]]);
+
+    /* ── Particles ── */
+    function spawnParticles(x, y, count) {
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                const el = document.createElement('span');
+                el.className = 'particle';
+                el.textContent = pick(['⭐','✨','🌟']);
+                el.style.left = (x + (Math.random() - 0.5) * 40) + 'px';
+                el.style.top  = y + 'px';
+                document.body.appendChild(el);
+                el.addEventListener('animationend', () => el.remove());
+            }, i * 120);
+        }
+    }
+
+    function celebrate() {
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                const el = document.createElement('span');
+                el.className = 'particle';
+                el.textContent = pick(CELE_E);
+                el.style.left = rInt(5, 95) + 'vw';
+                el.style.top  = rInt(10, 85) + 'vh';
+                el.style.fontSize = rInt(16, 30) + 'px';
+                document.body.appendChild(el);
+                el.addEventListener('animationend', () => el.remove());
+            }, i * 90);
+        }
+    }
+
+    /* ── Question generators ── */
+    const generators = [
+
+        // 1. Count emojis (1–8)
+        () => {
+            const n = rInt(1, 8);
+            const e = pick(EMOJIS);
+            return {
+                typeLabel: '数一数',
+                prompt: '数数看，一共有几个？',
+                visual: `<div class="emoji-row">${e.repeat(n)}</div>`,
+                answer: n,
+                choices: shuffle([n, ...wrongNums(n, Math.max(1, n - 2), n + 4, 3)])
+            };
+        },
+
+        // 2. Number sequence fill-in (step 1 or 2)
+        () => {
+            const start = rInt(1, 7);
+            const step  = Math.random() < 0.65 ? 1 : 2;
+            const nums  = [0, 1, 2, 3].map(i => start + i * step);
+            const bi    = rInt(0, 3);
+            const answer = nums[bi];
+            const parts  = nums.map((v, i) =>
+                i === bi ? '<span class="seq-blank">?</span>' : v
+            );
+            return {
+                typeLabel: '找规律',
+                prompt: '找出数字规律，? 是几？',
+                visual: `<div class="seq-display">${parts.join(' → ')}</div>`,
+                answer,
+                choices: shuffle([answer, ...wrongNums(answer, 1, 20, 3)])
+            };
+        },
+
+        // 3. Simple addition (a + b, sum ≤ 9)
+        () => {
+            const a = rInt(1, 4);
+            const b = rInt(1, Math.min(4, 9 - a));
+            const answer = a + b;
+            const eA = pick(EMOJIS);
+            let eB;
+            do { eB = pick(EMOJIS); } while (eB === eA);
+            return {
+                typeLabel: '加一加',
+                prompt: `${a} 加 ${b} 等于几？`,
+                visual: `
+                    <div class="emoji-row">${eA.repeat(a)}</div>
+                    <div class="plus-sign">＋</div>
+                    <div class="emoji-row">${eB.repeat(b)}</div>
+                `,
+                answer,
+                choices: shuffle([answer, ...wrongNums(answer, 1, 12, 3)])
+            };
+        },
+
+        // 4. Emoji / color pattern (repeating sequence)
+        () => {
+            const patterns = [
+                { seq: ['🔴','🔵','🔴','🔵','?'],       ans: '🔴', wrong: ['🔵','🟡','🟢'] },
+                { seq: ['🟡','🟢','🟡','🟢','?'],        ans: '🟡', wrong: ['🟢','🔴','🔵'] },
+                { seq: ['🐱','🐶','🐱','🐶','?'],        ans: '🐱', wrong: ['🐶','🐸','🐰'] },
+                { seq: ['🌸','🌻','🌸','🌻','🌸','?'],   ans: '🌻', wrong: ['🌸','🌹','🌺'] },
+                { seq: ['⭐','❤️','⭐','❤️','?'],       ans: '⭐', wrong: ['❤️','💙','🌙'] },
+                { seq: ['🍎','🍊','🍋','🍎','🍊','?'],   ans: '🍋', wrong: ['🍎','🍊','🍇'] },
+                { seq: ['🚂','🚗','🚂','🚗','?'],        ans: '🚂', wrong: ['🚗','✈️','🚀'] },
+                { seq: ['🐸','🐸','🌸','🐸','🐸','?'],   ans: '🌸', wrong: ['🐸','🦋','🌻'] },
+                { seq: ['🎈','🎁','🎈','🎁','?'],        ans: '🎈', wrong: ['🎁','🎉','🎊'] },
+                { seq: ['🦖','🦋','🦖','🦋','?'],        ans: '🦖', wrong: ['🦋','🐱','🐶'] },
+            ];
+            const p = pick(patterns);
+            const visual = p.seq
+                .map(s => s === '?' ? '<span class="seq-blank">?</span>' : s)
+                .join(' ');
+            return {
+                typeLabel: '图形接龙',
+                prompt: '找出规律，? 是什么？',
+                visual: `<div class="emoji-row" style="font-size:2em;letter-spacing:2px">${visual}</div>`,
+                answer: p.ans,
+                choices: shuffle([p.ans, ...p.wrong])
+            };
+        },
+
+        // 5. Compare two numbers (bigger or smaller)
+        () => {
+            let a, b;
+            do { a = rInt(1, 9); b = rInt(1, 9); } while (a === b);
+            const askBig = Math.random() > 0.5;
+            const answer = askBig ? Math.max(a, b) : Math.min(a, b);
+            return {
+                typeLabel: '比大小',
+                prompt: askBig
+                    ? `${a} 和 ${b}，哪个数更大？`
+                    : `${a} 和 ${b}，哪个数更小？`,
+                visual: `<div class="big-nums">${a}&nbsp;&nbsp;和&nbsp;&nbsp;${b}</div>`,
+                answer,
+                choices: shuffle([a, b])
+            };
+        }
+    ];
+
+    /* ── Update stats bar ── */
+    function updateStats() {
+        document.getElementById('score').textContent = score;
+        document.getElementById('qnum').textContent  = qCount;
+    }
+
+    /* ── Screens ── */
+    function showStart() {
+        document.getElementById('card').innerHTML = `
+            <div class="start">
+                <div class="start-mascot">🧒</div>
+                <div class="start-title">准备好了吗？</div>
+                <div class="game-modes">
+                    <p>🔢 &nbsp;数一数 ─ 数出一共有几个</p>
+                    <p>🔍 &nbsp;找规律 ─ 找出缺少的数字</p>
+                    <p>➕ &nbsp;加一加 ─ 学习简单加法</p>
+                    <p>🎨 &nbsp;图形接龙 ─ 找出下一个图案</p>
+                    <p>📏 &nbsp;比大小 ─ 找出较大（小）的数</p>
+                </div>
+                <button class="btn-start" id="btn-start">开始探险！🚀</button>
+            </div>`;
+        document.getElementById('btn-start').onclick = startGame;
+    }
+
+    function showQuestion() {
+        currentQ = pick(generators)();
+        answered = false;
+
+        const progress    = Math.round((qCount / TOTAL) * 100);
+        const choicesHTML = currentQ.choices
+            .map((c, i) => `<button class="choice-btn" data-idx="${i}">${c}</button>`)
+            .join('');
+
+        document.getElementById('card').innerHTML = `
+            <div class="q-type">${currentQ.typeLabel}</div>
+            <div class="q-prompt">${currentQ.prompt}</div>
+            <div class="q-visual">${currentQ.visual}</div>
+            <div class="choices">${choicesHTML}</div>
+            <div class="feedback-msg" id="fb"></div>
+            <div class="progress"><div class="progress-inner" style="width:${progress}%"></div></div>`;
+
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (answered) return;
+                answered = true;
+
+                const idx      = +btn.dataset.idx;
+                const selected = currentQ.choices[idx];
+                const correct  = selected === currentQ.answer;
+
+                document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+                btn.classList.add(correct ? 'correct' : 'wrong');
+
+                if (!correct) {
+                    document.querySelectorAll('.choice-btn').forEach(b => {
+                        if (currentQ.choices[+b.dataset.idx] === currentQ.answer)
+                            b.classList.add('correct');
+                    });
+                }
+
+                const fb = document.getElementById('fb');
+                fb.textContent = correct ? pick(OK_MSG) : pick(FAIL_MSG);
+                fb.className   = 'feedback-msg ' + (correct ? 'ok' : 'no');
+
+                if (correct) {
+                    score++;
+                    playCorrect();
+                    const r = btn.getBoundingClientRect();
+                    spawnParticles(r.left + r.width / 2, r.top, 4);
+                } else {
+                    playWrong();
+                }
+
+                qCount++;
+                updateStats();
+
+                setTimeout(() => {
+                    if (qCount >= TOTAL) showResult();
+                    else showQuestion();
+                }, correct ? 1200 : 1800);
+            });
+        });
+    }
+
+    function showResult() {
+        const pct = score / TOTAL;
+        let emoji, msg;
+        if      (pct >= 0.9) { emoji = '🏆'; msg = '满分探险家！你真的太厉害了！'; }
+        else if (pct >= 0.7) { emoji = '🌟'; msg = '做得非常棒！继续加油！'; }
+        else if (pct >= 0.5) { emoji = '😊'; msg = '不错哦！再练练会更棒！'; }
+        else                 { emoji = '💪'; msg = '没关系！多玩几次就越来越棒！'; }
+
+        const stars = '⭐'.repeat(score);
+
+        document.getElementById('card').innerHTML = `
+            <div class="result">
+                <div class="result-emoji">${emoji}</div>
+                <div class="result-msg">${msg}</div>
+                <div class="result-stars">${stars}</div>
+                <div class="result-num">${score} / ${TOTAL}</div>
+                <div class="result-sub">答对了 ${score} 道题！</div>
+                <button class="btn-again" id="btn-again">再玩一次！🎮</button>
+            </div>`;
+
+        if (pct >= 0.7) { playCelebrate(); celebrate(); }
+        else            { playTones([[440,0,0.18],[494,0.18,0.18]]); }
+
+        document.getElementById('btn-again').onclick = startGame;
+    }
+
+    function startGame() {
+        score = 0; qCount = 0;
+        updateStats();
+        showQuestion();
+    }
+
+    /* ── Init ── */
+    showStart();
+    </script>
+</body>
+</html>

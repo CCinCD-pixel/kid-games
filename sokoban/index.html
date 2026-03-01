@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>推箱子大冒险</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #2d1b69 0%, #11998e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 12px 8px 40px;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .wrapper { width: 100%; max-width: 680px; }
+
+        /* Header */
+        .header { text-align: center; color: white; margin-bottom: 10px; }
+        .header h1 {
+            font-size: clamp(1.2em, 5.5vw, 1.8em);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-weight: 900;
+        }
+
+        /* Stats */
+        .stats {
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 0.95em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .stats span { white-space: nowrap; }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 22px;
+            padding: 18px 14px;
+            box-shadow: 0 14px 44px rgba(0,0,0,0.25);
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Game board */
+        .board {
+            display: inline-grid;
+            gap: 0;
+            margin: 8px auto 12px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+        .cell {
+            width: clamp(48px, 11vw, 68px);
+            height: clamp(48px, 11vw, 68px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(26px, 6.5vw, 38px);
+            position: relative;
+            transition: background 0.15s;
+        }
+        /* checkerboard pattern for floor cells */
+        .cell-wall { background: #4a4a6a; }
+        .cell-floor { background: #f0ead6; }
+        .cell-floor.checker { background: #e8e0c8; }
+        .cell-target { background: #ffe0b2; }
+        .cell-target.checker { background: #f5d29e; }
+        .cell-target::after {
+            content: '';
+            position: absolute;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #ff7043;
+            opacity: 0.5;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        .cell-target.has-box::after { display: none; }
+        .cell-void { background: transparent; }
+
+        .cell .entity {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.1s ease;
+        }
+        .cell .entity.push { animation: pushBounce 0.2s ease; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.4); opacity: 0.7; }
+        }
+        @keyframes pushBounce {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .ctrl-btn {
+            padding: 10px 18px;
+            font-size: 0.9em;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.15s, box-shadow 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ctrl-btn:hover { transform: translateY(-2px); }
+        .ctrl-btn:active { transform: scale(0.95); }
+        .btn-undo { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .btn-restart { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .btn-menu { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
+
+        /* D-Pad for touch */
+        .dpad {
+            display: grid;
+            grid-template-areas:
+                ". up ."
+                "left . right"
+                ". down .";
+            gap: 6px;
+            margin: 10px auto;
+        }
+        .dpad-btn {
+            width: clamp(52px, 14vw, 68px);
+            height: clamp(52px, 14vw, 68px);
+            border: none;
+            border-radius: 14px;
+            font-size: clamp(22px, 6vw, 30px);
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 3px 10px rgba(102,126,234,0.3);
+            transition: transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dpad-btn:active { transform: scale(0.9); }
+        .dpad-up { grid-area: up; }
+        .dpad-down { grid-area: down; }
+        .dpad-left { grid-area: left; }
+        .dpad-right { grid-area: right; }
+
+        /* Level select */
+        .level-select {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            text-align: center;
+        }
+        .level-title {
+            font-size: clamp(2.5em, 10vw, 4em);
+            margin-bottom: 8px;
+        }
+        .level-subtitle {
+            font-size: 1.4em;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .level-btn {
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.3em;
+            font-weight: 900;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .level-btn:hover { transform: translateY(-3px) scale(1.05); }
+        .level-btn.unlocked { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .level-btn.locked {
+            background: #ccc;
+            cursor: not-allowed;
+            color: #999;
+        }
+        .level-btn.locked:hover { transform: none; }
+        .level-btn.completed { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
+        .level-btn .best-mark {
+            font-size: 0.45em;
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+
+        /* Win overlay */
+        .win-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            animation: fadeIn 0.3s ease;
+        }
+        .win-card {
+            background: white;
+            border-radius: 26px;
+            padding: 30px 26px;
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .win-emoji { font-size: 3.5em; margin-bottom: 8px; }
+        .win-title { font-size: 1.5em; font-weight: 900; color: #333; margin-bottom: 6px; }
+        .win-detail { color: #666; font-size: 1em; margin-bottom: 4px; line-height: 1.6; }
+        .win-record { color: #43e97b; font-weight: 700; font-size: 1.05em; margin: 8px 0; }
+        .win-stars { font-size: 2em; margin: 10px 0; }
+        .win-btns { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+        .win-btn {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 800;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .win-btn:hover { transform: translateY(-2px) scale(1.03); }
+        .win-btn.next { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
+        .win-btn.retry { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .win-btn.back { background: linear-gradient(135deg, #f093fb, #f5576c); }
+
+        /* Level info */
+        .level-info {
+            font-size: 0.85em;
+            color: #999;
+            text-align: center;
+            margin-top: 4px;
+        }
+        .level-name {
+            font-size: 1.1em;
+            font-weight: 800;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        /* Hint */
+        .hint-bar {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.85em;
+            color: #795548;
+            text-align: center;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Particles */
+        .back-home {
+            position: fixed;
+            top: max(10px, env(safe-area-inset-top));
+            left: 10px;
+            z-index: 999;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 14px;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-home:active { transform: scale(0.95); }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.8em;
+            z-index: 200;
+            animation: floatUp 1s ease forwards;
+        }
+        @keyframes floatUp {
+            from { transform: translateY(0) scale(0.8); opacity: 1; }
+            to   { transform: translateY(-80px) scale(1.6); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-home">🏠 返回</a>
+    <div class="wrapper">
+        <div class="header">
+            <h1>📦 推箱子大冒险 📦</h1>
+        </div>
+        <div class="stats" id="stats">
+            <span>关卡 <b id="stat-level">1</b></span>
+            <span>步数 <b id="stat-steps">0</b></span>
+            <span>最佳 <b id="stat-best">-</b></span>
+        </div>
+        <div class="card" id="card"></div>
+    </div>
+    <div id="overlay"></div>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════
+//  LEVELS
+//  Legend: # wall, . floor, @ player,
+//          $ box, O target, * box-on-target,
+//          + player-on-target, space = void
+// ══════════════════════════════════════
+const LEVELS = [
+    {
+        name: '初来乍到',
+        hint: '把箱子推到橙色圆点上就过关啦！用方向键或滑动屏幕移动小人',
+        par: 5,
+        map: [
+            '######',
+            '#....#',
+            '#.@$.#',
+            '#..O.#',
+            '#....#',
+            '######',
+        ]
+    },
+    {
+        name: '小试牛刀',
+        hint: '想一想，箱子只能推不能拉哦！',
+        par: 10,
+        map: [
+            '######',
+            '#....#',
+            '#.@..#',
+            '#.$..#',
+            '#..O.#',
+            '#....#',
+            '######',
+        ]
+    },
+    {
+        name: '双箱挑战',
+        hint: '两个箱子，两个目标，注意别把箱子推到角落里！',
+        par: 15,
+        map: [
+            '#######',
+            '#.....#',
+            '#.$.$.#',
+            '#..@..#',
+            '#.O.O.#',
+            '#.....#',
+            '#######',
+        ]
+    },
+    {
+        name: '拐弯抹角',
+        hint: '有时候要绕个路才能把箱子推到目标',
+        par: 15,
+        map: [
+            '#######',
+            '#.....#',
+            '#.#.$.#',
+            '#.#.O.#',
+            '#.@...#',
+            '#.....#',
+            '#######',
+        ]
+    },
+    {
+        name: '曲径通幽',
+        hint: '别急，先想好再走！',
+        par: 20,
+        map: [
+            '########',
+            '#......#',
+            '#.#.##.#',
+            '#.$.@..#',
+            '#.#.##.#',
+            '#.O....#',
+            '#......#',
+            '########',
+        ]
+    },
+    {
+        name: '三箱初探',
+        hint: '三个箱子了！规划好顺序很重要',
+        par: 25,
+        map: [
+            '########',
+            '#..#...#',
+            '#.$.$.##',
+            '#...@..#',
+            '#.$.#..#',
+            '#O.O.O.#',
+            '#......#',
+            '########',
+        ]
+    },
+    {
+        name: '窄路勇者',
+        hint: '走廊很窄，推错就麻烦了，想好再动！',
+        par: 25,
+        map: [
+            '#######',
+            '#O..#.#',
+            '#.#.$.#',
+            '#.....#',
+            '#.#$#.#',
+            '#..@..#',
+            '#######',
+        ]
+    },
+    {
+        name: '迷宫搬运',
+        hint: '路线有点复杂，一步一步来',
+        par: 35,
+        map: [
+            '########',
+            '#...#..#',
+            '#.$.#O.#',
+            '#...$..#',
+            '##.#.#.#',
+            '#..@.O.#',
+            '#......#',
+            '########',
+        ]
+    },
+    {
+        name: '高手之路',
+        hint: '这关需要动动脑筋了！',
+        par: 40,
+        map: [
+            '########',
+            '#....#.#',
+            '#.$....#',
+            '#..#.#.#',
+            '#.$..$.#',
+            '#..#.#.#',
+            '#.O.O.O#',
+            '#..@...#',
+            '########',
+        ]
+    },
+    {
+        name: '推箱大师',
+        hint: '最终挑战！你能用最少的步数完成吗？',
+        par: 50,
+        map: [
+            '#########',
+            '#...#...#',
+            '#.$.$.$.#',
+            '#..###..#',
+            '#..$@$..#',
+            '#..###..#',
+            '#.O.O.O.#',
+            '#.O...O.#',
+            '#...#...#',
+            '#########',
+        ]
+    },
+];
+
+// ══════════════════════════════════
+//  GAME STATE
+// ══════════════════════════════════
+let currentLevel = 0;
+let grid = [];       // 2D array of cell types: 'wall','floor','target','void'
+let player = {r:0,c:0};
+let boxes = [];      // [{r,c}, ...]
+let targets = [];    // [{r,c}, ...]
+let steps = 0;
+let history = [];    // for undo
+let bestScores = {}; // levelIndex -> bestSteps
+let unlockedLevel = 0;
+
+// Load saved data
+try {
+    const saved = JSON.parse(localStorage.getItem('sokoban_save') || '{}');
+    bestScores = saved.best || {};
+    unlockedLevel = saved.unlocked || 0;
+} catch(e) {}
+
+function saveData() {
+    localStorage.setItem('sokoban_save', JSON.stringify({
+        best: bestScores,
+        unlocked: unlockedLevel
+    }));
+}
+
+// ══════════════════════════════════
+//  PARSE LEVEL
+// ══════════════════════════════════
+function parseLevel(levelIdx) {
+    const level = LEVELS[levelIdx];
+    const rows = level.map;
+    const h = rows.length;
+    const w = Math.max(...rows.map(r => r.length));
+
+    grid = [];
+    boxes = [];
+    targets = [];
+    player = {r:0, c:0};
+
+    for (let r = 0; r < h; r++) {
+        grid[r] = [];
+        for (let c = 0; c < w; c++) {
+            const ch = (rows[r] || '')[c] || ' ';
+            switch(ch) {
+                case '#':
+                    grid[r][c] = 'wall';
+                    break;
+                case '.':
+                    grid[r][c] = 'floor';
+                    break;
+                case '@':
+                    grid[r][c] = 'floor';
+                    player = {r, c};
+                    break;
+                case '$':
+                    grid[r][c] = 'floor';
+                    boxes.push({r, c});
+                    break;
+                case 'O':
+                    grid[r][c] = 'target';
+                    targets.push({r, c});
+                    break;
+                case '*':
+                    grid[r][c] = 'target';
+                    boxes.push({r, c});
+                    targets.push({r, c});
+                    break;
+                case '+':
+                    grid[r][c] = 'target';
+                    player = {r, c};
+                    targets.push({r, c});
+                    break;
+                default:
+                    grid[r][c] = 'void';
+            }
+        }
+    }
+    steps = 0;
+    history = [];
+}
+
+// ══════════════════════════════════
+//  GAME LOGIC
+// ══════════════════════════════════
+function isWall(r, c) {
+    if (r < 0 || r >= grid.length || c < 0 || c >= (grid[0]||[]).length) return true;
+    return grid[r][c] === 'wall' || grid[r][c] === 'void';
+}
+
+function boxAt(r, c) {
+    return boxes.findIndex(b => b.r === r && b.c === c);
+}
+
+function move(dr, dc) {
+    const nr = player.r + dr;
+    const nc = player.c + dc;
+
+    if (isWall(nr, nc)) return false;
+
+    const bi = boxAt(nr, nc);
+    if (bi >= 0) {
+        // trying to push a box
+        const br = nr + dr;
+        const bc = nc + dc;
+        if (isWall(br, bc) || boxAt(br, bc) >= 0) return false;
+
+        // save state for undo
+        history.push({
+            player: {r: player.r, c: player.c},
+            box: {index: bi, r: boxes[bi].r, c: boxes[bi].c}
+        });
+
+        boxes[bi].r = br;
+        boxes[bi].c = bc;
+    } else {
+        history.push({
+            player: {r: player.r, c: player.c},
+            box: null
+        });
+    }
+
+    player.r = nr;
+    player.c = nc;
+    steps++;
+    return true;
+}
+
+function undo() {
+    if (history.length === 0) return;
+    const state = history.pop();
+    player.r = state.player.r;
+    player.c = state.player.c;
+    if (state.box) {
+        boxes[state.box.index].r = state.box.r;
+        boxes[state.box.index].c = state.box.c;
+    }
+    steps--;
+}
+
+function checkWin() {
+    return targets.every(t => boxAt(t.r, t.c) >= 0);
+}
+
+// ══════════════════════════════════
+//  AUDIO
+// ══════════════════════════════════
+function playTones(notes) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        notes.forEach(([freq, t, dur]) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.frequency.value = freq;
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.15, ctx.currentTime + t);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur);
+            osc.start(ctx.currentTime + t);
+            osc.stop(ctx.currentTime + t + dur + 0.01);
+        });
+    } catch(e) {}
+}
+const playMove = () => playTones([[440, 0, 0.06]]);
+const playPush = () => playTones([[330, 0, 0.08], [440, 0.06, 0.08]]);
+const playWin  = () => playTones([[523,0,0.12],[659,0.1,0.12],[784,0.2,0.12],[1047,0.32,0.18]]);
+
+// ══════════════════════════════════
+//  RENDER
+// ══════════════════════════════════
+function renderBoard() {
+    const h = grid.length;
+    const w = grid[0].length;
+
+    let html = `<div class="board" style="grid-template-columns: repeat(${w}, 1fr); grid-template-rows: repeat(${h}, 1fr);">`;
+
+    for (let r = 0; r < h; r++) {
+        for (let c = 0; c < w; c++) {
+            const type = grid[r][c];
+            const isPlayer = player.r === r && player.c === c;
+            const bi = boxAt(r, c);
+            const isTarget = type === 'target';
+            const isBoxOnTarget = bi >= 0 && isTarget;
+
+            const isChecker = (r + c) % 2 === 1;
+            let cellClass = 'cell ';
+            if (type === 'wall') cellClass += 'cell-wall';
+            else if (type === 'void') cellClass += 'cell-void';
+            else if (isTarget) cellClass += 'cell-target' + (bi >= 0 ? ' has-box' : '') + (isChecker ? ' checker' : '');
+            else cellClass += 'cell-floor' + (isChecker ? ' checker' : '');
+
+            let entity = '';
+            if (isPlayer) {
+                entity = '<span class="entity">🧒</span>';
+            } else if (bi >= 0) {
+                entity = isBoxOnTarget
+                    ? '<span class="entity">🎁</span>'
+                    : '<span class="entity">📦</span>';
+            } else if (type === 'wall') {
+                entity = '<span class="entity">🧱</span>';
+            }
+
+            html += `<div class="${cellClass}">${entity}</div>`;
+        }
+    }
+    html += '</div>';
+    return html;
+}
+
+function renderGame() {
+    const level = LEVELS[currentLevel];
+    const best = bestScores[currentLevel];
+
+    document.getElementById('stat-level').textContent = currentLevel + 1;
+    document.getElementById('stat-steps').textContent = steps;
+    document.getElementById('stat-best').textContent = best != null ? best : '-';
+    document.getElementById('stats').style.display = 'flex';
+
+    const card = document.getElementById('card');
+    card.innerHTML = `
+        <div class="level-name">${level.name}</div>
+        <div class="hint-bar">${level.hint}</div>
+        ${renderBoard()}
+        <div class="controls">
+            <button class="ctrl-btn btn-undo" id="btn-undo">↩ 撤销</button>
+            <button class="ctrl-btn btn-restart" id="btn-restart">🔄 重来</button>
+            <button class="ctrl-btn btn-menu" id="btn-menu">📋 选关</button>
+        </div>
+        <div class="dpad">
+            <button class="dpad-btn dpad-up" data-dir="up">⬆</button>
+            <button class="dpad-btn dpad-left" data-dir="left">⬅</button>
+            <button class="dpad-btn dpad-right" data-dir="right">➡</button>
+            <button class="dpad-btn dpad-down" data-dir="down">⬇</button>
+        </div>
+        <div class="level-info">键盘方向键 / WASD / 滑动屏幕 / 点击方向按钮</div>
+    `;
+
+    document.getElementById('btn-undo').onclick = () => { undo(); renderGame(); };
+    document.getElementById('btn-restart').onclick = () => { parseLevel(currentLevel); renderGame(); };
+    document.getElementById('btn-menu').onclick = showLevelSelect;
+
+    document.querySelectorAll('.dpad-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const dir = btn.dataset.dir;
+            handleDirection(dir);
+        });
+    });
+}
+
+function handleDirection(dir) {
+    let dr = 0, dc = 0;
+    switch(dir) {
+        case 'up':    dr = -1; break;
+        case 'down':  dr = 1;  break;
+        case 'left':  dc = -1; break;
+        case 'right': dc = 1;  break;
+    }
+
+    const hadBox = boxAt(player.r + dr, player.c + dc) >= 0;
+    if (move(dr, dc)) {
+        hadBox ? playPush() : playMove();
+        renderGame();
+        if (checkWin()) {
+            setTimeout(showWin, 200);
+        }
+    }
+}
+
+// ══════════════════════════════════
+//  WIN SCREEN
+// ══════════════════════════════════
+function showWin() {
+    playWin();
+    spawnCelebration();
+
+    const level = LEVELS[currentLevel];
+    const prevBest = bestScores[currentLevel];
+    const isNewRecord = prevBest == null || steps < prevBest;
+
+    if (isNewRecord) {
+        bestScores[currentLevel] = steps;
+    }
+
+    // unlock next level
+    if (currentLevel + 1 > unlockedLevel && currentLevel + 1 < LEVELS.length) {
+        unlockedLevel = currentLevel + 1;
+    }
+    saveData();
+
+    // stars: 3 if <= par, 2 if <= par*1.5, 1 otherwise
+    const par = level.par;
+    let stars = 1;
+    if (steps <= par) stars = 3;
+    else if (steps <= Math.floor(par * 1.5)) stars = 2;
+
+    const starStr = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
+    const hasNext = currentLevel + 1 < LEVELS.length;
+
+    let recordHtml = '';
+    if (isNewRecord && prevBest != null) {
+        recordHtml = `<div class="win-record">🎉 新纪录！比上次少了 ${prevBest - steps} 步！</div>`;
+    } else if (isNewRecord) {
+        recordHtml = `<div class="win-record">首次通关记录：${steps} 步</div>`;
+    } else {
+        recordHtml = `<div class="win-detail">最佳记录：${prevBest} 步</div>`;
+    }
+
+    document.getElementById('overlay').innerHTML = `
+        <div class="win-overlay" id="win-overlay">
+            <div class="win-card">
+                <div class="win-emoji">${stars === 3 ? '🏆' : stars === 2 ? '🌟' : '🎉'}</div>
+                <div class="win-title">恭喜过关！</div>
+                <div class="win-stars">${starStr}</div>
+                <div class="win-detail">本次用了 <b>${steps}</b> 步完成（标准 ${par} 步）</div>
+                ${recordHtml}
+                <div class="win-btns">
+                    <button class="win-btn retry" id="win-retry">🔄 再试</button>
+                    ${hasNext ? '<button class="win-btn next" id="win-next">▶ 下一关</button>' : ''}
+                    <button class="win-btn back" id="win-back">📋 选关</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('win-retry').onclick = () => {
+        document.getElementById('overlay').innerHTML = '';
+        parseLevel(currentLevel);
+        renderGame();
+    };
+    if (hasNext) {
+        document.getElementById('win-next').onclick = () => {
+            document.getElementById('overlay').innerHTML = '';
+            currentLevel++;
+            parseLevel(currentLevel);
+            renderGame();
+        };
+    }
+    document.getElementById('win-back').onclick = () => {
+        document.getElementById('overlay').innerHTML = '';
+        showLevelSelect();
+    };
+}
+
+// ══════════════════════════════════
+//  LEVEL SELECT
+// ══════════════════════════════════
+function showLevelSelect() {
+    document.getElementById('stats').style.display = 'none';
+    const card = document.getElementById('card');
+
+    let btnsHtml = '';
+    for (let i = 0; i < LEVELS.length; i++) {
+        const unlocked = i <= unlockedLevel;
+        const completed = bestScores[i] != null;
+        let cls = 'level-btn ';
+        if (completed) cls += 'completed';
+        else if (unlocked) cls += 'unlocked';
+        else cls += 'locked';
+
+        const best = bestScores[i];
+        const bestMark = best != null ? `<span class="best-mark">${best}步</span>` : '';
+
+        btnsHtml += `<button class="${cls}" data-level="${i}" ${unlocked ? '' : 'disabled'}>
+            ${i + 1}${bestMark}
+        </button>`;
+    }
+
+    card.innerHTML = `
+        <div class="level-select">
+            <div class="level-title">📦</div>
+            <div class="level-subtitle">选择关卡</div>
+            <div class="level-grid">${btnsHtml}</div>
+            <div class="level-info" style="color:#aaa; font-size:0.85em;">
+                绿色 = 已通关 &nbsp;|&nbsp; 紫色 = 可挑战 &nbsp;|&nbsp; 灰色 = 未解锁
+            </div>
+        </div>
+    `;
+
+    document.querySelectorAll('.level-btn.unlocked, .level-btn.completed').forEach(btn => {
+        btn.onclick = () => {
+            currentLevel = parseInt(btn.dataset.level);
+            parseLevel(currentLevel);
+            renderGame();
+        };
+    });
+}
+
+// ══════════════════════════════════
+//  CELEBRATION PARTICLES
+// ══════════════════════════════════
+function spawnCelebration() {
+    const emojis = ['⭐','🌟','✨','🎉','🎊','💫','📦','🎁'];
+    for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+            const el = document.createElement('span');
+            el.className = 'particle';
+            el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.left = (5 + Math.random() * 90) + 'vw';
+            el.style.top  = (10 + Math.random() * 80) + 'vh';
+            el.style.fontSize = (16 + Math.random() * 18) + 'px';
+            document.body.appendChild(el);
+            el.addEventListener('animationend', () => el.remove());
+        }, i * 80);
+    }
+}
+
+// ══════════════════════════════════
+//  KEYBOARD INPUT
+// ══════════════════════════════════
+document.addEventListener('keydown', (e) => {
+    // only handle if game is active (not on level select or win screen)
+    if (document.querySelector('.level-select') || document.querySelector('.win-overlay')) return;
+
+    let dir = null;
+    switch(e.key) {
+        case 'ArrowUp':    case 'w': case 'W': dir = 'up';    break;
+        case 'ArrowDown':  case 's': case 'S': dir = 'down';  break;
+        case 'ArrowLeft':  case 'a': case 'A': dir = 'left';  break;
+        case 'ArrowRight': case 'd': case 'D': dir = 'right'; break;
+        case 'z': case 'Z':
+            if (e.ctrlKey || e.metaKey) { undo(); renderGame(); }
+            break;
+        case 'u': case 'U':
+            undo(); renderGame();
+            break;
+    }
+    if (dir) {
+        e.preventDefault();
+        handleDirection(dir);
+    }
+});
+
+// ══════════════════════════════════
+//  TOUCH / SWIPE INPUT
+// ══════════════════════════════════
+let touchStart = null;
+document.addEventListener('touchstart', (e) => {
+    if (e.target.closest('.dpad-btn, .ctrl-btn, .level-btn, .win-btn, button')) return;
+    const t = e.touches[0];
+    touchStart = { x: t.clientX, y: t.clientY };
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    if (!touchStart) return;
+    if (document.querySelector('.level-select') || document.querySelector('.win-overlay')) {
+        touchStart = null;
+        return;
+    }
+
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.x;
+    const dy = t.clientY - touchStart.y;
+    touchStart = null;
+
+    const minSwipe = 30;
+    if (Math.abs(dx) < minSwipe && Math.abs(dy) < minSwipe) return;
+
+    let dir;
+    if (Math.abs(dx) > Math.abs(dy)) {
+        dir = dx > 0 ? 'right' : 'left';
+    } else {
+        dir = dy > 0 ? 'down' : 'up';
+    }
+    handleDirection(dir);
+}, { passive: true });
+
+// ══════════════════════════════════
+//  INIT
+// ══════════════════════════════════
+showLevelSelect();
+
+</script>
+</body>
+</html>

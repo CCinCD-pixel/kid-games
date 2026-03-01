@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>军棋大作战</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #2d1b69 0%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 12px 8px 40px;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .wrapper { width: 100%; max-width: 500px; }
+
+        .back-home {
+            position: fixed;
+            top: max(10px, env(safe-area-inset-top));
+            left: 10px;
+            z-index: 999;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 14px;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-home:active { transform: scale(0.95); }
+
+        .header { text-align: center; color: white; margin-bottom: 10px; }
+        .header h1 {
+            font-size: clamp(1.3em, 5.5vw, 1.8em);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-weight: 900;
+        }
+
+        .info-bar {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .turn-label { display: flex; align-items: center; gap: 6px; }
+        .turn-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 22px;
+            padding: 14px;
+            box-shadow: 0 14px 44px rgba(0,0,0,0.25);
+            min-height: 500px;
+        }
+
+        /* Board - 5 columns x 12 rows for flip chess */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin: 0 auto;
+            max-width: 400px;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.7em, 3vw, 0.95em);
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .cell:active { transform: scale(0.95); }
+
+        /* Cell types */
+        .cell-empty {
+            background: #f0ead6;
+            cursor: default;
+        }
+        .cell-empty:active { transform: none; }
+
+        .cell-hidden {
+            background: linear-gradient(145deg, #5b6abf, #4a5699);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 1.5em;
+        }
+        .cell-hidden:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+        .cell-red {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a24);
+            color: white;
+            box-shadow: 0 2px 8px rgba(238,90,36,0.3);
+        }
+
+        .cell-blue {
+            background: linear-gradient(145deg, #74b9ff, #0984e3);
+            color: white;
+            box-shadow: 0 2px 8px rgba(9,132,227,0.3);
+        }
+
+        .cell-selected {
+            outline: 3px solid #f1c40f;
+            outline-offset: 2px;
+            transform: scale(1.05);
+        }
+
+        .cell-movable {
+            outline: 3px dashed rgba(46, 204, 113, 0.7);
+            outline-offset: 1px;
+        }
+
+        .cell-camp {
+            background: #fff8e1;
+            border: 2px dashed #ffb74d;
+        }
+
+        .cell-hq {
+            background: #fce4ec;
+            border: 2px solid #e57373;
+        }
+
+        /* Piece label */
+        .piece-name { font-size: 0.75em; }
+        .piece-rank { font-size: 0.55em; opacity: 0.8; margin-top: 1px; }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .ctrl-btn {
+            padding: 10px 18px;
+            font-size: 0.9em;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ctrl-btn:active { transform: scale(0.95); }
+        .btn-restart { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .btn-rules { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+        /* Menu */
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 450px;
+            text-align: center;
+            padding: 20px;
+        }
+        .menu-icon { font-size: clamp(3em, 12vw, 5em); margin-bottom: 10px; }
+        .menu-title { font-size: 1.5em; font-weight: 900; color: #333; margin-bottom: 8px; }
+        .menu-sub { color: #888; font-size: 0.9em; margin-bottom: 20px; line-height: 1.6; }
+        .menu-btn {
+            padding: 14px 40px;
+            font-size: 1.2em;
+            font-weight: 900;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            margin: 6px;
+        }
+        .menu-btn:hover { transform: translateY(-3px); }
+        .menu-btn.primary { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .menu-btn.secondary { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+        /* Rules popup */
+        .rules-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+        }
+        .rules-card {
+            background: white;
+            border-radius: 22px;
+            padding: 24px 20px;
+            max-width: 380px;
+            width: 92%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .rules-card h2 { font-size: 1.3em; margin-bottom: 12px; text-align: center; }
+        .rules-card h3 { font-size: 1em; margin: 12px 0 6px; color: #667eea; }
+        .rules-card p, .rules-card li { font-size: 0.85em; color: #555; line-height: 1.7; }
+        .rules-card ul { padding-left: 20px; }
+        .rules-card .close-btn {
+            display: block;
+            margin: 16px auto 0;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Win overlay */
+        .win-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+        }
+        .win-card {
+            background: white;
+            border-radius: 22px;
+            padding: 30px 24px;
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .win-emoji { font-size: 3.5em; margin-bottom: 8px; }
+        .win-title { font-size: 1.5em; font-weight: 900; color: #333; margin-bottom: 6px; }
+        .win-sub { color: #888; margin-bottom: 16px; }
+        .win-btns { display: flex; gap: 10px; justify-content: center; }
+        .win-btn {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 800;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+        }
+        .win-btn.again { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
+        .win-btn.back { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.8em;
+            z-index: 600;
+            animation: floatUp 1s ease forwards;
+        }
+
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes floatUp {
+            from { transform: translateY(0) scale(0.8); opacity: 1; }
+            to   { transform: translateY(-80px) scale(1.6); opacity: 0; }
+        }
+
+        /* Battle animation */
+        .battle-flash {
+            animation: flash 0.3s ease;
+        }
+        @keyframes flash {
+            0%,100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-home">🏠 返回</a>
+    <div class="wrapper">
+        <div class="header">
+            <h1>⚔️ 军棋大作战 ⚔️</h1>
+        </div>
+        <div class="info-bar" id="info-bar" style="display:none;">
+            <div class="turn-label">
+                <span class="turn-dot" id="turn-dot"></span>
+                <span id="turn-text">红方回合</span>
+            </div>
+            <span id="status-text">点击翻开棋子</span>
+        </div>
+        <div class="card" id="card"></div>
+    </div>
+    <div id="overlay"></div>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════
+//  PIECE DEFINITIONS
+//  军长>师长>旅长>团长>营长>连长>排长>工兵
+//  炸弹: 与任何棋子同归于尽
+//  地雷: 不能移动, 除工兵外其他子碰到地雷都死, 工兵可排雷
+//  军旗: 不能移动, 被扛走则输
+// ══════════════════════════════════════
+const PIECES = [
+    { name: '军长', rank: 9, count: 1, movable: true, emoji: '⭐' },
+    { name: '师长', rank: 8, count: 1, movable: true, emoji: '🎖️' },
+    { name: '旅长', rank: 7, count: 1, movable: true, emoji: '🏅' },
+    { name: '团长', rank: 6, count: 2, movable: true, emoji: '💎' },
+    { name: '营长', rank: 5, count: 2, movable: true, emoji: '🔶' },
+    { name: '连长', rank: 4, count: 2, movable: true, emoji: '🔷' },
+    { name: '排长', rank: 3, count: 2, movable: true, emoji: '🔹' },
+    { name: '工兵', rank: 1, count: 3, movable: true, emoji: '🔧' },
+    { name: '炸弹', rank: -1, count: 2, movable: true, emoji: '💣' },
+    { name: '地雷', rank: -2, count: 3, movable: false, emoji: '💥' },
+    { name: '军旗', rank: 0, count: 1, movable: false, emoji: '🚩' },
+];
+
+// ══════════════════════════════════════
+//  BOARD LAYOUT (翻棋模式 - 5x12 grid)
+//  For flip chess, we use a simplified layout:
+//  - 60 positions total (5 cols x 12 rows)
+//  - Each side has 25 pieces, 10 cells are special (camps/HQ)
+//  - Actually: each side has exactly 25 pieces
+//  - Total pieces: 25 x 2 = 50, board has 60 cells
+//  - Camps (行营): safe zones where pieces can't be attacked
+//  - HQ (大本营): where 军旗 must be placed (in full game)
+//
+//  For flip mode simplification:
+//  - 5x6 grid per side = 30 cells per side
+//  - We use a 5x6 compact board with all 25 pieces per side
+//  - Total: 50 pieces on a 5x12 grid with some empty cells
+//
+//  Let's use a 6x5 grid (6 rows, 5 cols) = 30 cells
+//  Each side has 25 pieces, so 5 cells empty, total 50 pieces + 10 empty = 60
+//  Actually let's do a clean 5x5 per side = 50 cells for 50 pieces!
+//  That's perfect: 5 columns, 10 rows, all filled.
+// ══════════════════════════════════════
+
+const ROWS = 10;
+const COLS = 5;
+
+// Camp positions (行营) - pieces in camps can't be attacked
+const CAMPS = [
+    {r: 2, c: 1}, {r: 2, c: 3},
+    {r: 3, c: 2},
+    {r: 4, c: 1}, {r: 4, c: 3},
+    {r: 5, c: 1}, {r: 5, c: 3},
+    {r: 6, c: 2},
+    {r: 7, c: 1}, {r: 7, c: 3},
+];
+
+function isCamp(r, c) {
+    return CAMPS.some(p => p.r === r && p.c === c);
+}
+
+// ══════════════════════════════════════
+//  GAME STATE
+// ══════════════════════════════════════
+let board = [];      // 2D array, each cell: { piece, team, revealed } or null
+let currentTurn = 'red';  // 'red' or 'blue'
+let selectedCell = null;
+let gameMode = null;  // 'flip' or 'classic'
+let gameOver = false;
+let playerTeam = null; // assigned when first piece is flipped
+
+// ══════════════════════════════════════
+//  INIT BOARD (FLIP MODE)
+// ══════════════════════════════════════
+function generatePieces(team) {
+    const pieces = [];
+    for (const def of PIECES) {
+        for (let i = 0; i < def.count; i++) {
+            pieces.push({
+                name: def.name,
+                rank: def.rank,
+                movable: def.movable,
+                emoji: def.emoji,
+                team
+            });
+        }
+    }
+    return pieces;
+}
+
+function initFlipBoard() {
+    // Generate all pieces for both teams
+    const redPieces = generatePieces('red');
+    const bluePieces = generatePieces('blue');
+    const allPieces = [...redPieces, ...bluePieces];
+
+    // Shuffle
+    for (let i = allPieces.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allPieces[i], allPieces[j]] = [allPieces[j], allPieces[i]];
+    }
+
+    // Place on board (skip camps)
+    board = [];
+    let pieceIdx = 0;
+    for (let r = 0; r < ROWS; r++) {
+        board[r] = [];
+        for (let c = 0; c < COLS; c++) {
+            if (isCamp(r, c)) {
+                board[r][c] = null; // camp is empty
+            } else if (pieceIdx < allPieces.length) {
+                board[r][c] = {
+                    ...allPieces[pieceIdx],
+                    revealed: false
+                };
+                pieceIdx++;
+            } else {
+                board[r][c] = null;
+            }
+        }
+    }
+
+    currentTurn = 'red';
+    selectedCell = null;
+    gameOver = false;
+    playerTeam = null;
+}
+
+// ══════════════════════════════════════
+//  GAME LOGIC
+// ══════════════════════════════════════
+function getAdjacent(r, c) {
+    const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+    const result = [];
+    for (const [dr, dc] of dirs) {
+        const nr = r + dr;
+        const nc = c + dc;
+        if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+            result.push({r: nr, c: nc});
+        }
+    }
+    return result;
+}
+
+function canMoveTo(fromR, fromC, toR, toC) {
+    const piece = board[fromR][fromC];
+    if (!piece || !piece.revealed || !piece.movable) return false;
+    if (piece.team !== currentTurn) return false;
+
+    const target = board[toR][toC];
+
+    // Can only move to adjacent cells (for flip mode simplicity)
+    const dr = Math.abs(toR - fromR);
+    const dc = Math.abs(toC - fromC);
+    if (dr + dc !== 1) return false;
+
+    // Can't move to camp
+    if (isCamp(toR, toC) && target && target.team === piece.team) return false;
+
+    // Empty cell
+    if (!target) return true;
+
+    // Can't attack own team
+    if (target.revealed && target.team === piece.team) return false;
+
+    // Can't attack unrevealed
+    if (!target.revealed) return false;
+
+    // Can't attack piece in camp
+    if (isCamp(toR, toC)) return false;
+
+    return true;
+}
+
+function getValidMoves(r, c) {
+    const moves = [];
+    const adj = getAdjacent(r, c);
+    for (const {r: nr, c: nc} of adj) {
+        if (canMoveTo(r, c, nr, nc)) {
+            moves.push({r: nr, c: nc});
+        }
+    }
+    return moves;
+}
+
+// Battle resolution
+function battle(attacker, defender) {
+    // 炸弹 vs anything = both die
+    if (attacker.name === '炸弹' || defender.name === '炸弹') {
+        return 'both_die';
+    }
+
+    // 地雷: can't move, but if attacked:
+    // 工兵 attacks 地雷 = 工兵 wins (排雷)
+    // anyone else attacks 地雷 = attacker dies
+    if (defender.name === '地雷') {
+        if (attacker.name === '工兵') return 'attacker_wins';
+        return 'defender_wins';
+    }
+
+    // 军旗: can be captured by anyone = attacker wins
+    if (defender.name === '军旗') {
+        return 'attacker_wins';
+    }
+
+    // Normal rank comparison
+    if (attacker.rank > defender.rank) return 'attacker_wins';
+    if (attacker.rank < defender.rank) return 'defender_wins';
+    return 'both_die'; // equal rank = both die
+}
+
+function executeMove(fromR, fromC, toR, toC) {
+    const attacker = board[fromR][fromC];
+    const defender = board[toR][toC];
+
+    if (!defender) {
+        // Move to empty cell
+        board[toR][toC] = attacker;
+        board[fromR][fromC] = null;
+        playTones([[440, 0, 0.06]]);
+    } else {
+        // Battle!
+        const result = battle(attacker, defender);
+        playTones([[330, 0, 0.08], [220, 0.06, 0.1]]);
+
+        if (result === 'attacker_wins') {
+            // Check if captured 军旗
+            if (defender.name === '军旗') {
+                board[toR][toC] = attacker;
+                board[fromR][fromC] = null;
+                gameOver = true;
+                setTimeout(() => showWin(attacker.team), 300);
+                return;
+            }
+            board[toR][toC] = attacker;
+            board[fromR][fromC] = null;
+        } else if (result === 'defender_wins') {
+            board[fromR][fromC] = null;
+        } else {
+            // both die
+            board[fromR][fromC] = null;
+            board[toR][toC] = null;
+        }
+    }
+
+    // Check for win: if one side has no movable pieces left
+    checkWinCondition();
+}
+
+function checkWinCondition() {
+    if (gameOver) return;
+
+    let redMovable = 0, blueMovable = 0;
+    let redFlag = false, blueFlag = false;
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            const p = board[r][c];
+            if (!p) continue;
+            if (p.team === 'red') {
+                if (p.movable && p.revealed) redMovable++;
+                if (p.name === '军旗') redFlag = true;
+            } else {
+                if (p.movable && p.revealed) blueMovable++;
+                if (p.name === '军旗') blueFlag = true;
+            }
+        }
+    }
+
+    if (!redFlag) {
+        gameOver = true;
+        setTimeout(() => showWin('blue'), 300);
+    } else if (!blueFlag) {
+        gameOver = true;
+        setTimeout(() => showWin('red'), 300);
+    }
+}
+
+// ══════════════════════════════════════
+//  CELL CLICK HANDLING
+// ══════════════════════════════════════
+function handleCellClick(r, c) {
+    if (gameOver) return;
+
+    const cell = board[r][c];
+
+    // If we have a selected piece, try to move
+    if (selectedCell) {
+        const {r: sr, c: sc} = selectedCell;
+        if (sr === r && sc === c) {
+            // Deselect
+            selectedCell = null;
+            renderGame();
+            return;
+        }
+
+        if (canMoveTo(sr, sc, r, c)) {
+            executeMove(sr, sc, r, c);
+            selectedCell = null;
+            if (!gameOver) {
+                currentTurn = currentTurn === 'red' ? 'blue' : 'red';
+            }
+            renderGame();
+            // AI move if it's AI's turn
+            if (!gameOver && playerTeam && currentTurn !== playerTeam) {
+                setTimeout(aiMove, 600);
+            }
+            return;
+        }
+
+        // Clicking on own revealed piece - reselect
+        if (cell && cell.revealed && cell.team === currentTurn) {
+            selectedCell = {r, c};
+            renderGame();
+            return;
+        }
+
+        // Invalid move, deselect
+        selectedCell = null;
+        renderGame();
+        return;
+    }
+
+    // No selection - flip or select
+    if (!cell) return;
+
+    if (!cell.revealed) {
+        // Flip the piece
+        cell.revealed = true;
+        playTones([[523, 0, 0.1], [659, 0.08, 0.1]]);
+
+        // Assign player team on first flip
+        if (!playerTeam) {
+            playerTeam = cell.team;
+        }
+
+        currentTurn = currentTurn === 'red' ? 'blue' : 'red';
+        renderGame();
+
+        // AI move
+        if (!gameOver && playerTeam && currentTurn !== playerTeam) {
+            setTimeout(aiMove, 600);
+        }
+        return;
+    }
+
+    // Click on revealed piece - select if it's current turn's piece
+    if (cell.team === currentTurn && cell.movable) {
+        selectedCell = {r, c};
+        renderGame();
+    }
+}
+
+// ══════════════════════════════════════
+//  AI (SIMPLE)
+// ══════════════════════════════════════
+function aiMove() {
+    if (gameOver || currentTurn === playerTeam) return;
+
+    const aiTeam = currentTurn;
+
+    // Collect all possible actions
+    const flips = [];
+    const moves = [];
+
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            const cell = board[r][c];
+            if (!cell) continue;
+
+            if (!cell.revealed) {
+                flips.push({r, c});
+            } else if (cell.team === aiTeam && cell.movable) {
+                const valid = getValidMoves(r, c);
+                for (const target of valid) {
+                    const defender = board[target.r][target.c];
+                    let priority = 1;
+
+                    if (defender && defender.revealed) {
+                        const result = battle(cell, defender);
+                        if (result === 'attacker_wins') {
+                            priority = 10 + defender.rank;
+                            if (defender.name === '军旗') priority = 100;
+                        } else if (result === 'defender_wins') {
+                            priority = -5;
+                        } else {
+                            priority = 0;
+                        }
+                    }
+
+                    moves.push({
+                        from: {r, c},
+                        to: target,
+                        priority
+                    });
+                }
+            }
+        }
+    }
+
+    // Prefer good captures, then moves, then flips
+    moves.sort((a, b) => b.priority - a.priority);
+
+    if (moves.length > 0 && moves[0].priority >= 5) {
+        // Make a good capture
+        const move = moves[0];
+        executeMove(move.from.r, move.from.c, move.to.r, move.to.c);
+        selectedCell = null;
+        if (!gameOver) currentTurn = currentTurn === 'red' ? 'blue' : 'red';
+        renderGame();
+        return;
+    }
+
+    // Random: 40% chance to flip if flips available, else move
+    if (flips.length > 0 && (moves.length === 0 || Math.random() < 0.4)) {
+        const flip = flips[Math.floor(Math.random() * flips.length)];
+        board[flip.r][flip.c].revealed = true;
+        playTones([[523, 0, 0.1], [659, 0.08, 0.1]]);
+        currentTurn = currentTurn === 'red' ? 'blue' : 'red';
+        renderGame();
+        return;
+    }
+
+    if (moves.length > 0) {
+        // Filter out bad moves
+        const okMoves = moves.filter(m => m.priority >= 0);
+        const pool = okMoves.length > 0 ? okMoves : moves;
+        const move = pool[Math.floor(Math.random() * Math.min(3, pool.length))];
+        executeMove(move.from.r, move.from.c, move.to.r, move.to.c);
+        selectedCell = null;
+        if (!gameOver) currentTurn = currentTurn === 'red' ? 'blue' : 'red';
+        renderGame();
+        return;
+    }
+
+    // No moves or flips possible for AI - flip if possible
+    if (flips.length > 0) {
+        const flip = flips[Math.floor(Math.random() * flips.length)];
+        board[flip.r][flip.c].revealed = true;
+        currentTurn = currentTurn === 'red' ? 'blue' : 'red';
+        renderGame();
+    }
+}
+
+// ══════════════════════════════════════
+//  RENDERING
+// ══════════════════════════════════════
+function renderGame() {
+    const card = document.getElementById('card');
+    const infoBar = document.getElementById('info-bar');
+    infoBar.style.display = 'flex';
+
+    // Turn indicator
+    document.getElementById('turn-dot').style.background = currentTurn === 'red' ? '#e74c3c' : '#3498db';
+    const turnName = currentTurn === 'red' ? '红方' : '蓝方';
+    const isMyTurn = !playerTeam || currentTurn === playerTeam;
+    document.getElementById('turn-text').textContent = `${turnName}回合`;
+    document.getElementById('status-text').textContent =
+        !playerTeam ? '点击翻开棋子' :
+        isMyTurn ? (selectedCell ? '选择目标位置' : '选择棋子或翻开') :
+        'AI思考中...';
+
+    // Valid moves for selected piece
+    const validMoves = selectedCell ? getValidMoves(selectedCell.r, selectedCell.c) : [];
+
+    let html = '<div class="board">';
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            const cell = board[r][c];
+            const camp = isCamp(r, c);
+            const isSelected = selectedCell && selectedCell.r === r && selectedCell.c === c;
+            const isMovable = validMoves.some(m => m.r === r && m.c === c);
+
+            let cls = 'cell';
+            let content = '';
+
+            if (!cell) {
+                cls += camp ? ' cell-camp' : ' cell-empty';
+                if (camp) content = '<span style="opacity:0.3;font-size:0.7em">行营</span>';
+            } else if (!cell.revealed) {
+                cls += ' cell-hidden';
+                content = '❓';
+            } else {
+                cls += cell.team === 'red' ? ' cell-red' : ' cell-blue';
+                content = `<div class="piece-name">${cell.emoji}<br>${cell.name}</div>`;
+            }
+
+            if (isSelected) cls += ' cell-selected';
+            if (isMovable) cls += ' cell-movable';
+
+            html += `<div class="${cls}" data-r="${r}" data-c="${c}">${content}</div>`;
+        }
+    }
+    html += '</div>';
+
+    html += `
+        <div class="controls">
+            <button class="ctrl-btn btn-restart" id="btn-game-restart">🔄 重新开始</button>
+            <button class="ctrl-btn btn-rules" id="btn-rules">📖 规则</button>
+        </div>
+    `;
+
+    card.innerHTML = html;
+
+    // Attach events
+    document.querySelectorAll('.cell[data-r]').forEach(el => {
+        el.addEventListener('click', () => {
+            handleCellClick(+el.dataset.r, +el.dataset.c);
+        });
+    });
+
+    document.getElementById('btn-game-restart').onclick = () => {
+        initFlipBoard();
+        renderGame();
+    };
+    document.getElementById('btn-rules').onclick = showRules;
+}
+
+// ══════════════════════════════════════
+//  SCREENS
+// ══════════════════════════════════════
+function showMenu() {
+    document.getElementById('info-bar').style.display = 'none';
+    document.getElementById('overlay').innerHTML = '';
+    const card = document.getElementById('card');
+    card.innerHTML = `
+        <div class="menu">
+            <div class="menu-icon">⚔️</div>
+            <div class="menu-title">军棋大作战</div>
+            <div class="menu-sub">
+                两军对垒，斗智斗勇！<br>
+                翻开棋子，制定策略，扛走军旗获胜！
+            </div>
+            <button class="menu-btn primary" id="btn-flip">🎴 翻棋模式</button>
+            <div style="font-size:0.8em;color:#aaa;margin-top:12px;line-height:1.5;">
+                翻棋：棋子背面朝上，轮流翻开<br>
+                充满未知的探索乐趣！
+            </div>
+        </div>
+    `;
+
+    document.getElementById('btn-flip').onclick = () => {
+        gameMode = 'flip';
+        initFlipBoard();
+        renderGame();
+    };
+}
+
+function showRules() {
+    document.getElementById('overlay').innerHTML = `
+        <div class="rules-overlay" id="rules-overlay">
+            <div class="rules-card">
+                <h2>⚔️ 军棋规则</h2>
+                <h3>🎯 目标</h3>
+                <p>扛走对方的军旗🚩，或消灭对方所有可移动棋子即可获胜！</p>
+
+                <h3>🎴 翻棋模式</h3>
+                <ul>
+                    <li>棋子背面朝上，轮流翻开</li>
+                    <li>翻开第一个棋子时，你的颜色就确定了</li>
+                    <li>翻开棋子也算一回合</li>
+                </ul>
+
+                <h3>⚔️ 吃子规则</h3>
+                <ul>
+                    <li><b>大吃小</b>：军长 > 师长 > 旅长 > 团长 > 营长 > 连长 > 排长 > 工兵</li>
+                    <li><b>同级相遇</b>：两个都消失</li>
+                    <li><b>💣 炸弹</b>：碰到任何棋子，同归于尽</li>
+                    <li><b>💥 地雷</b>：不能移动。除了工兵🔧，谁碰谁死</li>
+                    <li><b>🔧 工兵</b>：最小的兵，但能排除地雷！</li>
+                    <li><b>🚩 军旗</b>：不能移动，被吃掉就输了</li>
+                </ul>
+
+                <h3>🛡️ 行营</h3>
+                <p>标记了"行营"的位置是安全区，里面的棋子不会被攻击。</p>
+
+                <button class="close-btn" id="btn-close-rules">知道了！</button>
+            </div>
+        </div>
+    `;
+    document.getElementById('btn-close-rules').onclick = () => {
+        document.getElementById('overlay').innerHTML = '';
+    };
+    document.getElementById('rules-overlay').onclick = (e) => {
+        if (e.target === document.getElementById('rules-overlay')) {
+            document.getElementById('overlay').innerHTML = '';
+        }
+    };
+}
+
+function showWin(winner) {
+    spawnCelebration();
+    playTones([[523,0,0.12],[659,0.1,0.12],[784,0.2,0.12],[1047,0.32,0.18]]);
+
+    const isPlayerWin = winner === playerTeam;
+    const emoji = isPlayerWin ? '🏆' : '😢';
+    const title = isPlayerWin ? '恭喜你赢了！' : '这次没赢，再来一局！';
+    const color = winner === 'red' ? '红方' : '蓝方';
+
+    document.getElementById('overlay').innerHTML = `
+        <div class="win-overlay">
+            <div class="win-card">
+                <div class="win-emoji">${emoji}</div>
+                <div class="win-title">${title}</div>
+                <div class="win-sub">${color}获胜</div>
+                <div class="win-btns">
+                    <button class="win-btn again" id="win-again">🔄 再来一局</button>
+                    <button class="win-btn back" id="win-menu">📋 返回</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('win-again').onclick = () => {
+        document.getElementById('overlay').innerHTML = '';
+        initFlipBoard();
+        renderGame();
+    };
+    document.getElementById('win-menu').onclick = () => {
+        document.getElementById('overlay').innerHTML = '';
+        showMenu();
+    };
+}
+
+function spawnCelebration() {
+    const emojis = ['⭐','🌟','✨','🎉','🎊','💫','⚔️','🏆'];
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            const el = document.createElement('span');
+            el.className = 'particle';
+            el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.left = (5 + Math.random() * 90) + 'vw';
+            el.style.top = (10 + Math.random() * 80) + 'vh';
+            document.body.appendChild(el);
+            el.addEventListener('animationend', () => el.remove());
+        }, i * 80);
+    }
+}
+
+// ══════════════════════════════════════
+//  AUDIO
+// ══════════════════════════════════════
+function playTones(notes) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        notes.forEach(([freq, t, dur]) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.frequency.value = freq;
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.15, ctx.currentTime + t);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur);
+            osc.start(ctx.currentTime + t);
+            osc.stop(ctx.currentTime + t + dur + 0.01);
+        });
+    } catch(e) {}
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+showMenu();
+
+</script>
+</body>
+</html>
