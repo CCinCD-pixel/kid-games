@@ -280,8 +280,8 @@ function createSnake(isPlayer) {
     const segments = [];
     for (let i = 0; i < INITIAL_LENGTH; i++) {
         segments.push({
-            x: x - Math.cos(angle) * i * SEGMENT_SPACING,
-            y: y - Math.sin(angle) * i * SEGMENT_SPACING
+            x: x - Math.cos(angle) * i * BASE_SPACING,
+            y: y - Math.sin(angle) * i * BASE_SPACING
         });
     }
 
