@@ -157,7 +157,7 @@
     </style>
 </head>
 <body>
-    <a href="/" class="back-home">🏠 返回</a>
+    <a href="../index.html" class="back-home">🏠 返回</a>
     <canvas id="canvas"></canvas>
 
     <div class="hud">
@@ -173,8 +173,8 @@
         <div class="desc">吃食物变长，撞到别的蛇就会变成食物哦！</div>
         <div class="tip">
             🎯 用手指滑动控制方向<br>
-            🍎 吃彩色小球变长<br>
-            💀 碰到其他蛇的身体会死<br>
+            🍎 吃彩色小球变长变粗<br>
+            💀 碰到其他蛇或撞墙会死<br>
             ♻️ 死了可以马上重来！
         </div>
         <button id="btn-start">开始游戏！</button>
@@ -197,10 +197,10 @@ const WORLD_SIZE = 3000;
 const FOOD_COUNT = 200;
 const AI_COUNT = 7;
 const INITIAL_LENGTH = 10;
-const SEGMENT_RADIUS = 8;
-const SEGMENT_SPACING = 12;
+const BASE_RADIUS = 8;
+const BASE_SPACING = 12;
 const SNAKE_SPEED = 2.5;
-const AI_SPEED = 2.2;
+const AI_SPEED = 2.3;
 const FOOD_RADIUS = 5;
 const DEATH_FOOD_COUNT = 8; // food dropped on death
 
@@ -295,11 +295,20 @@ function createSnake(isPlayer) {
         colors: SNAKE_COLORS[colorIdx],
         isPlayer,
         alive: true,
-        name: isPlayer ? '我' : names[Math.floor(Math.random() * names.length)],
+        name: isPlayer ? '陈亦承' : names[Math.floor(Math.random() * names.length)],
         aiTimer: 0,
         aiTarget: null,
         length: INITIAL_LENGTH
     };
+}
+
+// Snake radius grows with length: base 8, max ~20 for very long snakes
+function getSnakeRadius(snake) {
+    return BASE_RADIUS + Math.min(12, snake.length * 0.15);
+}
+
+function getSnakeSpacing(snake) {
+    return BASE_SPACING + Math.min(8, snake.length * 0.1);
 }
 
 function growSnake(snake, amount) {
@@ -315,62 +324,82 @@ function growSnake(snake, amount) {
 // ══════════════════════════════
 function updateAI(snake, dt) {
     snake.aiTimer -= dt;
+    const head = snake.segments[0];
+    const radius = getSnakeRadius(snake);
 
-    // Find nearest food
-    if (snake.aiTimer <= 0 || !snake.aiTarget) {
-        snake.aiTimer = 0.5 + Math.random() * 1.5;
-        let bestDist = Infinity;
-        let bestFood = null;
-        const head = snake.segments[0];
+    // Retarget periodically
+    if (snake.aiTimer <= 0) {
+        snake.aiTimer = 0.3 + Math.random() * 0.8;
 
+        // Find nearby foods (pick from top 5 nearest, with some randomness)
+        const scored = [];
         for (const food of foods) {
             const dx = food.x - head.x;
             const dy = food.y - head.y;
             const dist = dx * dx + dy * dy;
-            if (dist < bestDist) {
-                bestDist = dist;
-                bestFood = food;
+            if (dist < 500 * 500) { // only consider foods within 500px
+                scored.push({ food, dist });
             }
         }
+        scored.sort((a, b) => a.dist - b.dist);
 
-        if (bestFood) {
-            snake.aiTarget = bestFood;
+        if (scored.length > 0) {
+            // Pick randomly from top few for variety
+            const pick = Math.min(scored.length - 1, Math.floor(Math.random() * 3));
+            snake.aiTarget = scored[pick].food;
+        } else {
+            // No nearby food - wander toward center
+            snake.aiTarget = {
+                x: WORLD_SIZE / 2 + (Math.random() - 0.5) * 1000,
+                y: WORLD_SIZE / 2 + (Math.random() - 0.5) * 1000
+            };
         }
     }
 
-    const head = snake.segments[0];
-
-    // Avoid walls
-    const wallMargin = 150;
+    // Priority 1: Avoid walls (hard turn)
+    const wallMargin = 200;
+    let wallUrgency = false;
     let avoidX = 0, avoidY = 0;
-    if (head.x < wallMargin) avoidX = 1;
-    if (head.x > WORLD_SIZE - wallMargin) avoidX = -1;
-    if (head.y < wallMargin) avoidY = 1;
-    if (head.y > WORLD_SIZE - wallMargin) avoidY = -1;
+    if (head.x < wallMargin) { avoidX = 1; wallUrgency = head.x < 80; }
+    if (head.x > WORLD_SIZE - wallMargin) { avoidX = -1; wallUrgency = head.x > WORLD_SIZE - 80; }
+    if (head.y < wallMargin) { avoidY = 1; wallUrgency = head.y < 80; }
+    if (head.y > WORLD_SIZE - wallMargin) { avoidY = -1; wallUrgency = head.y > WORLD_SIZE - 80; }
 
     if (avoidX || avoidY) {
-        snake.targetAngle = Math.atan2(avoidY, avoidX);
-    } else if (snake.aiTarget) {
-        const dx = snake.aiTarget.x - head.x;
-        const dy = snake.aiTarget.y - head.y;
-        snake.targetAngle = Math.atan2(dy, dx);
+        snake.targetAngle = Math.atan2(avoidY || (Math.random() - 0.5), avoidX || (Math.random() - 0.5));
+        if (wallUrgency) {
+            snake.angle = snake.targetAngle; // instant turn when very close to wall
+        }
+        return;
     }
 
-    // Avoid other snakes (simple)
+    // Priority 2: Avoid other snakes
+    let avoiding = false;
+    const avoidDist = radius * 4 + 30;
     for (const other of snakes) {
         if (other === snake || !other.alive) continue;
-        for (let i = 0; i < Math.min(other.segments.length, 20); i++) {
+        for (let i = 0; i < Math.min(other.segments.length, 30); i++) {
             const seg = other.segments[i];
             const dx = seg.x - head.x;
             const dy = seg.y - head.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 40) {
-                // Steer away
-                snake.targetAngle = Math.atan2(-dy, -dx);
-                snake.aiTimer = 0; // recalculate soon
+            if (dist < avoidDist) {
+                // Steer perpendicular to avoid (not directly away - prevents circling)
+                const awayAngle = Math.atan2(-dy, -dx);
+                // Add perpendicular offset to break symmetry
+                snake.targetAngle = awayAngle + (Math.random() > 0.5 ? 0.5 : -0.5);
+                avoiding = true;
                 break;
             }
         }
+        if (avoiding) break;
+    }
+
+    // Priority 3: Chase food target
+    if (!avoiding && snake.aiTarget) {
+        const dx = snake.aiTarget.x - head.x;
+        const dy = snake.aiTarget.y - head.y;
+        snake.targetAngle = Math.atan2(dy, dx);
     }
 }
 
@@ -389,31 +418,33 @@ function moveSnake(snake, dt) {
 
     // Move head
     const head = snake.segments[0];
+    const radius = getSnakeRadius(snake);
     const nx = head.x + Math.cos(snake.angle) * snake.speed * dt * 60;
     const ny = head.y + Math.sin(snake.angle) * snake.speed * dt * 60;
 
-    // World boundary
-    const bounded = {
-        x: Math.max(SEGMENT_RADIUS, Math.min(WORLD_SIZE - SEGMENT_RADIUS, nx)),
-        y: Math.max(SEGMENT_RADIUS, Math.min(WORLD_SIZE - SEGMENT_RADIUS, ny))
-    };
+    // Wall collision = death
+    if (nx < radius || nx > WORLD_SIZE - radius || ny < radius || ny > WORLD_SIZE - radius) {
+        killSnake(snake);
+        return;
+    }
 
-    // Shift segments
+    // Shift segments with dynamic spacing
+    const spacing = getSnakeSpacing(snake);
     for (let i = snake.segments.length - 1; i > 0; i--) {
         const prev = snake.segments[i - 1];
         const seg = snake.segments[i];
         const dx = prev.x - seg.x;
         const dy = prev.y - seg.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > SEGMENT_SPACING) {
-            const ratio = SEGMENT_SPACING / dist;
+        if (dist > spacing) {
+            const ratio = spacing / dist;
             seg.x = prev.x - dx * ratio;
             seg.y = prev.y - dy * ratio;
         }
     }
 
-    head.x = bounded.x;
-    head.y = bounded.y;
+    head.x = nx;
+    head.y = ny;
 }
 
 // ══════════════════════════════
@@ -423,17 +454,18 @@ function checkCollisions() {
     for (const snake of snakes) {
         if (!snake.alive) continue;
         const head = snake.segments[0];
-        const headR = SEGMENT_RADIUS;
+        const headR = getSnakeRadius(snake);
 
-        // Food collision
+        // Food collision - generous pickup range (head radius + food radius + bonus)
+        const pickupBonus = 8; // extra pixels to make eating easier
         for (let i = foods.length - 1; i >= 0; i--) {
             const food = foods[i];
             const dx = food.x - head.x;
             const dy = food.y - head.y;
-            if (dx * dx + dy * dy < (headR + food.radius) * (headR + food.radius)) {
+            const pickupR = headR + food.radius + pickupBonus;
+            if (dx * dx + dy * dy < pickupR * pickupR) {
                 foods.splice(i, 1);
                 growSnake(snake, 1);
-                // Respawn food
                 foods.push(spawnFood());
             }
         }
@@ -441,12 +473,14 @@ function checkCollisions() {
         // Snake-to-snake collision (head vs body)
         for (const other of snakes) {
             if (other === snake || !other.alive) continue;
-            // Skip first 3 segments (head area) to prevent false hits
-            for (let i = 3; i < other.segments.length; i++) {
+            const otherR = getSnakeRadius(other);
+            // Skip first 5 segments (head area) to prevent false hits
+            for (let i = 5; i < other.segments.length; i++) {
                 const seg = other.segments[i];
                 const dx = seg.x - head.x;
                 const dy = seg.y - head.y;
-                if (dx * dx + dy * dy < (headR + SEGMENT_RADIUS - 2) * (headR + SEGMENT_RADIUS - 2)) {
+                const hitR = headR + otherR - 3;
+                if (dx * dx + dy * dy < hitR * hitR) {
                     killSnake(snake);
                     break;
                 }
@@ -558,38 +592,36 @@ function drawGrid(vw, vh) {
 function drawSnake(snake) {
     const segs = snake.segments;
     const [c1, c2] = snake.colors;
+    const baseR = getSnakeRadius(snake);
 
-    // Body
+    // Body - draw from tail to head so head is on top
     for (let i = segs.length - 1; i >= 0; i--) {
         const seg = segs[i];
         const t = i / segs.length;
-        const r = SEGMENT_RADIUS * (0.5 + (1 - t) * 0.5); // taper tail
+        // Head is full size, tail tapers to 40%
+        const r = baseR * (0.4 + (1 - t) * 0.6);
 
         ctx.beginPath();
         ctx.arc(seg.x, seg.y, r, 0, Math.PI * 2);
-
-        // Alternate colors
         ctx.fillStyle = i % 2 === 0 ? c1 : c2;
         ctx.fill();
     }
 
     // Eyes on head
     const head = segs[0];
-    const eyeOffset = SEGMENT_RADIUS * 0.4;
-    const eyeR = SEGMENT_RADIUS * 0.3;
+    const eyeOffset = baseR * 0.45;
+    const eyeR = baseR * 0.28;
     const perpAngle = snake.angle + Math.PI / 2;
 
     for (const side of [-1, 1]) {
         const ex = head.x + Math.cos(snake.angle) * eyeOffset * 0.5 + Math.cos(perpAngle) * eyeOffset * side;
         const ey = head.y + Math.sin(snake.angle) * eyeOffset * 0.5 + Math.sin(perpAngle) * eyeOffset * side;
 
-        // White
         ctx.beginPath();
         ctx.arc(ex, ey, eyeR, 0, Math.PI * 2);
         ctx.fillStyle = '#fff';
         ctx.fill();
 
-        // Pupil
         ctx.beginPath();
         ctx.arc(
             ex + Math.cos(snake.angle) * eyeR * 0.3,
@@ -600,11 +632,11 @@ function drawSnake(snake) {
         ctx.fill();
     }
 
-    // Name above head
+    // Name + length above head
     ctx.fillStyle = 'rgba(255,255,255,0.8)';
-    ctx.font = 'bold 11px system-ui';
+    ctx.font = `bold ${Math.min(14, 10 + baseR * 0.2)}px system-ui`;
     ctx.textAlign = 'center';
-    ctx.fillText(snake.name, head.x, head.y - SEGMENT_RADIUS - 8);
+    ctx.fillText(`${snake.name} (${snake.length})`, head.x, head.y - baseR - 8);
 }
 
 function drawMinimap(vw, vh) {
