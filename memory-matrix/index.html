@@ -10,525 +10,236 @@
     <link rel="apple-touch-icon" href="/icons/icon.svg">
     <style>
         :root {
-            --panel: rgba(255, 255, 255, 0.9);
-            --line: rgba(255, 188, 214, 0.9);
-            --text: #7a4b37;
-            --muted: rgba(122, 75, 55, 0.72);
-            --accent: #ff9f1c;
-            --accent-soft: #ffe29a;
-            --good: #6ed6a5;
-            --bad: #ff7b89;
-            --pink: #ffcad4;
-            --blue: #bde0fe;
-            --mint: #c7f9cc;
-            --lavender: #d9c8ff;
+            --space-deep: #0a0a2e;
+            --space-purple: #1a0a3e;
+            --space-midnight: #0d1b3e;
+            --cyan-glow: #00d4ff;
+            --gold-glow: #ffd700;
+            --violet-glow: #b388ff;
+            --cell-glass: #1a1a3e;
+            --cell-glass-border: rgba(100, 120, 255, 0.25);
+            --cell-showing: #ffd700;
+            --cell-correct: #00e676;
+            --cell-wrong: #ff5252;
+            --hud-glass: rgba(20, 20, 60, 0.7);
+            --text-primary: #e8e8ff;
+            --text-muted: rgba(200, 200, 255, 0.6);
             --grid-size: 4;
         }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            margin: 0;
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at 15% 12%, rgba(255, 255, 255, 0.95), transparent 12%),
-                radial-gradient(circle at 82% 14%, rgba(255, 255, 255, 0.78), transparent 13%),
-                radial-gradient(circle at 88% 72%, rgba(255, 255, 255, 0.7), transparent 14%),
-                linear-gradient(180deg, #a9def9 0%, #e4c1f9 46%, #ffcad4 100%);
-            color: var(--text);
-            font-family: "Comic Sans MS", "Trebuchet MS", "PingFang SC", "Helvetica Neue", sans-serif;
+            margin: 0; min-height: 100vh;
+            background: linear-gradient(180deg, var(--space-deep) 0%, var(--space-purple) 50%, var(--space-midnight) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
             padding: env(safe-area-inset-top) 14px env(safe-area-inset-bottom);
-            position: relative;
-            overflow-x: hidden;
+            position: relative; overflow-x: hidden;
         }
-
-        body::before,
-        body::after {
-            content: "";
-            position: fixed;
-            inset: auto;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.18);
-            filter: blur(2px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body::before {
-            top: 110px;
-            left: -36px;
-        }
-
-        body::after {
-            bottom: 70px;
-            right: -28px;
-        }
-
-        .back-home,
-        .ghost-btn,
-        .primary-btn,
-        .mini-btn,
-        .level-pill,
-        .ladder-card,
-        .cell {
-            touch-action: manipulation;
-        }
-
+        .starfield { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .star { position: absolute; border-radius: 50%; background: white; animation: twinkle var(--duration) ease-in-out infinite; animation-delay: var(--delay); }
+        @keyframes twinkle { 0%, 100% { opacity: var(--base-opacity); transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+        .nebula { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+        .nebula-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(179, 136, 255, 0.15), transparent 70%); top: -100px; right: -100px; }
+        .nebula-2 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(0, 212, 255, 0.12), transparent 70%); bottom: -50px; left: -80px; }
+        .constellation { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.08; }
+        .constellation svg { width: 100%; height: 100%; }
+        .back-home, .ghost-btn, .primary-btn, .mini-btn, .level-pill, .ladder-card, .cell { touch-action: manipulation; }
         .back-home {
-            position: fixed;
-            top: max(12px, env(safe-area-inset-top));
-            left: 12px;
-            z-index: 30;
-            padding: 10px 15px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.88);
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 900;
-            box-shadow: 0 10px 20px rgba(217, 174, 206, 0.35);
+            position: fixed; top: max(12px, env(safe-area-inset-top)); left: 12px; z-index: 30;
+            padding: 10px 18px; border-radius: 999px;
+            background: var(--hud-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            color: var(--cyan-glow); text-decoration: none; font-weight: 700; font-size: 0.9rem;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: all 0.25s ease;
         }
-
-        .app {
-            width: min(980px, 100%);
-            margin: 0 auto;
-            padding: 56px 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
+        .back-home:hover { background: rgba(0, 212, 255, 0.15); box-shadow: 0 0 30px rgba(0, 212, 255, 0.4); }
+        .app { width: min(980px, 100%); margin: 0 auto; padding: 56px 0 20px; position: relative; z-index: 1; }
+        .hero { text-align: center; margin-bottom: 20px; }
         .hero h1 {
-            margin: 0;
-            font-size: clamp(2rem, 5vw, 3.1rem);
-            letter-spacing: 0.02em;
-            text-shadow: 0 3px 0 rgba(255, 255, 255, 0.45);
+            margin: 0; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: 0.04em; font-weight: 700;
+            background: linear-gradient(135deg, var(--cyan-glow), var(--violet-glow), var(--gold-glow));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.4));
         }
-
-        .hero p {
-            margin: 10px auto 0;
-            max-width: 560px;
-            color: var(--muted);
-            font-size: 1.02rem;
-            line-height: 1.5;
-        }
-
-        .screen {
-            display: none;
-        }
-
-        .screen.active {
-            display: block;
-        }
-
+        .hero p { margin: 10px auto 0; max-width: 560px; color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+        .screen { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .screen.active { display: block; opacity: 1; transform: translateY(0); }
         .panel {
-            background: var(--panel);
-            border: 3px solid var(--line);
-            border-radius: 32px;
-            box-shadow: 0 18px 0 rgba(255, 172, 188, 0.45);
+            background: var(--hud-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(100, 120, 255, 0.2); border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
         }
-
-        .menu-panel,
-        .levels-panel,
-        .game-panel {
-            padding: 18px;
-        }
-
-        .ladder-grid {
-            display: grid;
-            gap: 16px;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-        }
-
+        .menu-panel, .levels-panel, .game-panel { padding: 20px; }
+        .ladder-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
         .ladder-card {
-            border: 3px solid transparent;
-            border-radius: 28px;
-            padding: 18px;
-            background:
-                radial-gradient(circle at top right, rgba(255, 255, 255, 0.9), transparent 34%),
-                linear-gradient(160deg, #fffaf1, #ffe4ef);
-            cursor: pointer;
-            text-align: left;
-            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-            box-shadow: 0 10px 0 rgba(244, 194, 194, 0.75);
+            border-radius: 24px; padding: 18px;
+            background: linear-gradient(135deg, rgba(30, 30, 80, 0.6), rgba(20, 20, 50, 0.8));
+            border: 1px solid var(--card-accent, rgba(0, 212, 255, 0.3)); cursor: pointer; text-align: left;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 40px var(--card-glow, rgba(0, 212, 255, 0.1));
+            position: relative; overflow: hidden;
         }
-
-        .ladder-card:active {
-            transform: translateY(4px);
-            box-shadow: 0 6px 0 rgba(244, 194, 194, 0.75);
+        .ladder-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, transparent 40%, var(--card-accent, rgba(0, 212, 255, 0.1)));
+            opacity: 0.3; transition: opacity 0.3s ease;
         }
-
-        .ladder-card h3,
-        .section-title {
-            margin: 0;
-        }
-
-        .ladder-card .desc,
-        .small-muted,
-        .hud-note,
-        .helper-text {
-            color: var(--muted);
-        }
-
-        .ladder-card .meta {
-            margin-top: 14px;
-            display: grid;
-            gap: 6px;
-            font-size: 0.93rem;
-        }
-
+        .ladder-card:hover::before, .ladder-card:active::before { opacity: 0.5; }
+        .ladder-card:active { transform: translateY(2px) scale(0.98); }
+        .ladder-card h3, .section-title { margin: 0; position: relative; z-index: 1; }
+        .ladder-card .desc, .small-muted, .hud-note, .helper-text { color: var(--text-muted); position: relative; z-index: 1; }
+        .ladder-card .meta { margin-top: 14px; display: grid; gap: 6px; font-size: 0.9rem; position: relative; z-index: 1; }
         .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 12px;
-            border-radius: 999px;
-            background: #fff5bf;
-            border: 2px solid rgba(255, 203, 119, 0.7);
-            font-size: 0.88rem;
-            font-weight: 900;
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--accent, rgba(0, 212, 255, 0.4));
+            font-size: 0.85rem; font-weight: 600; color: var(--accent, var(--cyan-glow)); position: relative; z-index: 1;
         }
-
-        .section-head,
-        .levels-top,
-        .hud,
-        .result-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .levels-top,
-        .hud {
-            flex-wrap: wrap;
-        }
-
-        .summary-grid {
-            margin-top: 18px;
-            display: grid;
-            gap: 12px;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        }
-
+        .section-head, .levels-top, .hud, .result-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .levels-top, .hud { flex-wrap: wrap; }
+        .summary-grid { margin-top: 18px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
         .summary-card {
-            padding: 14px;
-            border-radius: 24px;
-            background: linear-gradient(160deg, #ffffff, #fff0f7);
-            border: 2px solid rgba(255, 207, 228, 0.82);
-            box-shadow: 0 8px 0 rgba(255, 208, 196, 0.48);
+            padding: 14px; border-radius: 20px;
+            background: linear-gradient(135deg, rgba(40, 40, 90, 0.5), rgba(30, 30, 70, 0.6));
+            border: 1px solid rgba(100, 120, 255, 0.2); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
-
-        .summary-card strong {
-            display: block;
-            margin-top: 6px;
-            font-size: 1.25rem;
-        }
-
-        .button-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .ghost-btn,
-        .primary-btn,
-        .mini-btn {
-            border: none;
-            cursor: pointer;
-            font-weight: 800;
-        }
-
-        .ghost-btn,
-        .mini-btn {
-            color: var(--text);
-            background: linear-gradient(180deg, #ffffff, #ffeef5);
-        }
-
-        .ghost-btn,
+        .summary-card strong { display: block; margin-top: 6px; font-size: 1.2rem; color: var(--cyan-glow); }
+        .button-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .ghost-btn, .primary-btn, .mini-btn { border: none; cursor: pointer; font-weight: 700; border-radius: 16px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        .ghost-btn, .mini-btn { color: var(--text-primary); background: linear-gradient(180deg, rgba(60, 60, 120, 0.6), rgba(40, 40, 90, 0.7)); border: 1px solid rgba(100, 120, 255, 0.25); }
+        .ghost-btn, .primary-btn { padding: 12px 20px; font-size: 0.92rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); }
         .primary-btn {
-            padding: 12px 18px;
-            border-radius: 18px;
-            font-size: 0.96rem;
-            box-shadow: 0 8px 0 rgba(255, 199, 170, 0.65);
+            color: var(--space-deep); background: linear-gradient(135deg, var(--cyan-glow), var(--violet-glow)); border: none;
+            box-shadow: 0 4px 24px rgba(0, 212, 255, 0.4), 0 0 40px rgba(0, 212, 255, 0.2);
+            animation: pulse-glow 2s ease-in-out infinite;
         }
-
-        .primary-btn {
-            color: white;
-            background: linear-gradient(135deg, #ff9f1c, #ffbf69);
-        }
-
-        .mini-btn {
-            padding: 8px 12px;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            box-shadow: 0 6px 0 rgba(255, 199, 170, 0.6);
-        }
-
-        .ghost-btn:active,
-        .primary-btn:active,
-        .mini-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 4px 0 rgba(255, 199, 170, 0.6);
-        }
-
-        .levels-grid {
-            margin-top: 18px;
-            display: grid;
-            gap: 10px;
-            grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
-        }
-
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 4px 24px rgba(0, 212, 255, 0.4), 0 0 40px rgba(0, 212, 255, 0.2); } 50% { box-shadow: 0 4px 32px rgba(0, 212, 255, 0.6), 0 0 60px rgba(0, 212, 255, 0.35); } }
+        .mini-btn { padding: 8px 14px; border-radius: 999px; font-size: 0.82rem; }
+        .ghost-btn:hover, .primary-btn:hover, .mini-btn:hover { transform: translateY(-2px); }
+        .ghost-btn:active, .primary-btn:active, .mini-btn:active { transform: translateY(1px); }
+        .levels-grid { margin-top: 18px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
         .level-pill {
-            min-height: 68px;
-            border: 2px solid rgba(255, 211, 234, 0.95);
-            border-radius: 22px;
-            background: linear-gradient(180deg, #ffffff, #ffeef7);
-            color: var(--text);
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            font-weight: 900;
-            position: relative;
-            font-size: 1.05rem;
-            box-shadow: 0 8px 0 rgba(255, 208, 196, 0.48);
+            min-height: 60px; border-radius: 16px;
+            background: linear-gradient(135deg, rgba(50, 50, 100, 0.6), rgba(30, 30, 70, 0.7));
+            border: 1px solid rgba(100, 120, 255, 0.25); color: var(--text-primary); cursor: pointer;
+            display: grid; place-items: center; font-weight: 700; position: relative; font-size: 1rem;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-
-        .level-pill.done {
-            background: linear-gradient(180deg, #effff5, #d8f3dc);
-            border-color: rgba(110, 214, 165, 0.95);
-        }
-
-        .level-pill.current {
-            box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.55), 0 8px 0 rgba(255, 208, 196, 0.48);
-        }
-
-        .level-pill.locked {
-            opacity: 0.36;
-            cursor: not-allowed;
-        }
-
-        .level-pill .badge {
-            position: absolute;
-            bottom: 6px;
-            right: 8px;
-            font-size: 0.72rem;
-        }
-
-        .hud {
-            margin-bottom: 12px;
-        }
-
-        .hud-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
+        .level-pill:not(.locked):hover { background: linear-gradient(135deg, rgba(70, 70, 140, 0.7), rgba(50, 50, 100, 0.8)); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.2); }
+        .level-pill.done { background: linear-gradient(135deg, rgba(0, 100, 60, 0.5), rgba(0, 80, 50, 0.6)); border-color: rgba(0, 230, 118, 0.4); }
+        .level-pill.current { border-color: var(--cyan-glow); box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3); }
+        .level-pill.locked { opacity: 0.35; cursor: not-allowed; }
+        .level-pill .badge { position: absolute; bottom: 4px; right: 6px; font-size: 0.65rem; }
+        .star-shape { display: inline-block; width: 12px; height: 12px; background: var(--gold-glow); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); filter: drop-shadow(0 0 4px var(--gold-glow)); flex-shrink: 0; }
+        .star-shape.small { width: 8px; height: 8px; }
+        .hud { margin-bottom: 12px; animation: slideDown 0.4s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .hud-group { display: flex; gap: 10px; flex-wrap: wrap; }
         .hud-chip {
-            padding: 10px 12px;
-            border-radius: 22px;
-            background: linear-gradient(180deg, #ffffff, #fdf0ff);
-            border: 2px solid rgba(217, 200, 255, 0.75);
-            min-width: 94px;
-            box-shadow: 0 8px 0 rgba(207, 191, 255, 0.34);
+            padding: 10px 14px; border-radius: 18px; background: rgba(20, 20, 50, 0.7);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 120, 255, 0.2); min-width: 88px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
         }
-
-        .hud-chip span {
-            display: block;
-            color: var(--muted);
-            font-size: 0.82rem;
-        }
-
-        .hud-chip strong {
-            display: block;
-            margin-top: 4px;
-            font-size: 1.08rem;
-        }
-
+        .hud-chip span { display: block; color: var(--text-muted); font-size: 0.78rem; }
+        .hud-chip strong { display: block; margin-top: 4px; font-size: 1rem; color: var(--cyan-glow); }
         .memory-board {
-            width: min(92vw, 520px);
-            height: min(92vw, 520px);
-            margin: 18px auto 10px;
-            display: grid;
-            gap: 12px;
+            width: min(92vw, 480px); height: min(92vw, 480px); margin: 18px auto 10px;
+            display: grid; gap: 10px;
             grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
-            grid-template-rows: repeat(var(--grid-size), minmax(0, 1fr));
-            padding: 14px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 236, 244, 0.86));
-            border-radius: 30px;
-            border: 3px solid rgba(255, 255, 255, 0.88);
-            box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.9), 0 12px 0 rgba(255, 199, 170, 0.45);
-            overflow: visible;
+            grid-template-rows: repeat(var(--grid-size), minmax(0, 1fr)); padding: 14px;
+            background: rgba(10, 10, 40, 0.6); border-radius: 28px; border: 1px solid rgba(100, 120, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255,255,255,0.02); overflow: visible;
         }
-
         .cell {
-            appearance: none;
-            border: none;
-            padding: 0;
-            border-radius: 26px;
-            background:
-                radial-gradient(circle at top, rgba(255, 255, 255, 0.92), transparent 42%),
-                linear-gradient(180deg, #ffffff, #d6ecff);
-            color: rgba(122, 75, 55, 0.94);
-            font-size: clamp(1.35rem, 5vw, 2.25rem);
-            font-weight: 900;
-            line-height: 1;
-            display: grid;
-            place-items: center;
-            overflow: hidden;
-            transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.2s ease;
-            box-shadow: 0 8px 0 rgba(163, 213, 255, 0.65);
-            position: relative;
+            appearance: none; border: none; padding: 0; border-radius: 20px;
+            background: linear-gradient(135deg, var(--cell-glass), rgba(30, 30, 70, 0.8));
+            border: 1px solid var(--cell-glass-border); color: rgba(200, 200, 255, 0.6);
+            font-size: clamp(1.2rem, 4.5vw, 2rem); font-weight: 700; line-height: 1;
+            display: grid; place-items: center; overflow: hidden;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05); position: relative;
         }
-
-        .cell::before {
-            content: "☁️";
-            opacity: 0.28;
-            position: absolute;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            pointer-events: none;
-        }
-
-        .cell:active {
-            transform: scale(0.97);
-            box-shadow: 0 8px 0 rgba(163, 213, 255, 0.65);
-        }
-
+        .cell::before { content: ''; position: absolute; inset: 20%; background: radial-gradient(circle, rgba(100, 120, 255, 0.15), transparent 70%); border-radius: 50%; transition: all 0.2s ease; pointer-events: none; }
+        .cell:active { transform: scale(0.95); }
         .cell.showing {
-            background: linear-gradient(180deg, #fff6b7, #ffd166);
-            color: #9c6644;
-            box-shadow: 0 0 0 4px rgba(255, 237, 160, 0.7), 0 8px 0 rgba(255, 195, 0, 0.4);
-            animation: jelly 0.35s ease;
+            background: linear-gradient(135deg, #ffa000, #ff8f00, #ffd700); border-color: rgba(255, 215, 0, 0.6); color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.4), 0 0 90px rgba(255, 215, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.3);
+            animation: gemPulse 0.6s ease-in-out infinite, cellShowIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
+        .cell.showing::before { background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent 60%); inset: 15%; }
+        @keyframes gemPulse { 0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.4), 0 0 90px rgba(255, 215, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.3); } 50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.85), 0 0 80px rgba(255, 215, 0, 0.5), 0 0 120px rgba(255, 215, 0, 0.25), inset 0 0 25px rgba(255, 255, 255, 0.4); } }
+        @keyframes cellShowIn { 0% { transform: scale(0.85); opacity: 0.5; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
         .cell.correct {
-            background: linear-gradient(180deg, #e8fff1, #95d5b2);
-            box-shadow: 0 0 0 4px rgba(110, 214, 165, 0.42), 0 8px 0 rgba(110, 214, 165, 0.4);
-            animation: popGood 0.3s ease;
+            background: linear-gradient(135deg, #00c853, #00e676, #69f0ae); border-color: rgba(0, 230, 118, 0.6); color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.6), 0 0 50px rgba(0, 230, 118, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.25);
+            animation: correctPulse 0.4s ease-out;
         }
-
+        .cell.correct::before { background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent 60%); }
+        @keyframes correctPulse { 0% { transform: scale(0.85); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         .cell.wrong {
-            background: linear-gradient(180deg, #fff0f2, #ff8fab);
-            box-shadow: 0 0 0 4px rgba(255, 123, 137, 0.42), 0 8px 0 rgba(255, 123, 137, 0.36);
-            animation: wobble 0.35s ease;
+            background: linear-gradient(135deg, #d50000, #ff1744, #ff5252); border-color: rgba(255, 82, 82, 0.6); color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 25px rgba(255, 82, 82, 0.6), 0 0 50px rgba(255, 82, 82, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.2);
+            animation: wrongShake 0.4s ease-out;
         }
-
-        .status-box {
-            text-align: center;
-            min-height: 70px;
-            padding: 10px 12px;
-        }
-
-        .status-title {
-            font-size: 1.38rem;
-            font-weight: 900;
-        }
-
-        .status-subtitle {
-            margin-top: 6px;
-            color: var(--muted);
-            line-height: 1.5;
-        }
-
+        @keyframes wrongShake { 0% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } 100% { transform: translateX(0); } }
+        .status-box { text-align: center; min-height: 70px; padding: 10px 12px; }
+        .status-title { font-size: 1.35rem; font-weight: 700; color: var(--text-primary); animation: fadeInUp 0.4s ease; }
+        .status-subtitle { margin-top: 6px; color: var(--text-muted); line-height: 1.5; animation: fadeInUp 0.4s ease 0.1s both; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .result-panel {
-            margin-top: 14px;
-            padding: 14px;
-            border-radius: 24px;
-            background: linear-gradient(160deg, #ffffff, #fff0f7);
-            border: 2px solid rgba(255, 205, 227, 0.84);
-            display: none;
-            box-shadow: 0 8px 0 rgba(255, 208, 196, 0.42);
+            margin-top: 14px; padding: 16px; border-radius: 22px;
+            background: linear-gradient(135deg, rgba(40, 40, 90, 0.6), rgba(25, 25, 65, 0.7));
+            border: 1px solid rgba(100, 120, 255, 0.25); display: none; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
         }
-
-        .result-panel.show {
-            display: block;
-        }
-
-        .result-score {
-            font-size: 1.45rem;
-            font-weight: 900;
-            margin: 8px 0 10px;
-        }
-
-        .progress-line {
-            margin-top: 14px;
-            height: 12px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.72);
-            overflow: hidden;
-            border: 2px solid rgba(255, 215, 180, 0.65);
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(90deg, #ff9f1c, #ffd166, #6ed6a5);
-            width: 0;
-        }
-
-        @keyframes jelly {
-            0% { transform: scale(0.9); }
-            60% { transform: scale(1.06); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes popGood {
-            0% { transform: scale(0.88); }
-            70% { transform: scale(1.08); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes wobble {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-            75% { transform: rotate(-4deg); }
-            100% { transform: rotate(0deg); }
-        }
-
+        .result-panel.show { display: block; animation: fadeInUp 0.4s ease; }
+        .result-score { font-size: 1.4rem; font-weight: 700; margin: 8px 0 10px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .result-stars { display: inline-flex; gap: 4px; }
+        .progress-line { margin-top: 14px; height: 10px; border-radius: 999px; background: rgba(20, 20, 50, 0.6); overflow: hidden; border: 1px solid rgba(100, 120, 255, 0.15); }
+        .progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan-glow), var(--violet-glow), var(--gold-glow)); width: 0; transition: width 0.5s ease; }
+        .particle-container { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
+        .particle { position: absolute; border-radius: 50%; animation: particleFall linear forwards; }
+        .particle.star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+        @keyframes particleFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
         @media (max-width: 640px) {
-            .app {
-                padding-top: 62px;
-            }
-
-            .menu-panel,
-            .levels-panel,
-            .game-panel {
-                padding: 14px;
-            }
-
-            .memory-board {
-                gap: 8px;
-                padding: 10px;
-            }
-
-            .cell {
-                border-radius: 18px;
-            }
+            .app { padding-top: 62px; }
+            .menu-panel, .levels-panel, .game-panel { padding: 14px; }
+            .memory-board { gap: 8px; padding: 10px; }
+            .cell { border-radius: 16px; }
+            .levels-grid { grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); }
+            .level-pill { min-height: 54px; }
         }
     </style>
 </head>
 <body>
-    <a href="../index.html" class="back-home">🏠 返回</a>
-
+    <div class="starfield" id="starfield"></div>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="constellation">
+        <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+            <line x1="50" y1="100" x2="150" y2="200" stroke="rgba(179, 136, 255, 0.6)" stroke-width="0.5"/>
+            <line x1="150" y1="200" x2="300" y2="150" stroke="rgba(179, 136, 255, 0.6)" stroke-width="0.5"/>
+            <line x1="300" y1="150" x2="400" y2="300" stroke="rgba(179, 136, 255, 0.6)" stroke-width="0.5"/>
+            <line x1="400" y1="300" x2="600" y2="250" stroke="rgba(0, 212, 255, 0.6)" stroke-width="0.5"/>
+            <line x1="600" y1="250" x2="700" y2="400" stroke="rgba(0, 212, 255, 0.6)" stroke-width="0.5"/>
+            <line x1="700" y1="400" x2="750" y2="550" stroke="rgba(0, 212, 255, 0.6)" stroke-width="0.5"/>
+            <circle cx="50" cy="100" r="2" fill="rgba(179, 136, 255, 0.8)"/>
+            <circle cx="150" cy="200" r="2.5" fill="rgba(179, 136, 255, 0.8)"/>
+            <circle cx="300" cy="150" r="2" fill="rgba(179, 136, 255, 0.8)"/>
+            <circle cx="400" cy="300" r="3" fill="rgba(0, 212, 255, 0.8)"/>
+            <circle cx="600" cy="250" r="2" fill="rgba(0, 212, 255, 0.8)"/>
+            <circle cx="700" cy="400" r="2.5" fill="rgba(0, 212, 255, 0.8)"/>
+            <circle cx="750" cy="550" r="2" fill="rgba(0, 212, 255, 0.8)"/>
+        </svg>
+    </div>
+    <div class="particle-container" id="particle-container"></div>
+    <a href="../index.html" class="back-home">← 返回</a>
     <div class="app">
         <div class="hero">
-            <h1>🌈 记忆方块乐园</h1>
-            <p>像玩彩色积木一样练记忆。每个阶梯都有 40 关，通关记录会自动保存，孩子能一眼看到自己闯到哪里了。</p>
+            <h1>星际记忆方块</h1>
+            <p>在星际观测站训练你的记忆能力。每个阶梯都有 40 关，通关记录会自动保存，快来挑战吧！</p>
         </div>
-
         <section class="screen active" id="menu-screen">
             <div class="panel menu-panel">
                 <div class="section-head">
@@ -541,7 +252,6 @@
                 <div class="ladder-grid" id="ladder-grid"></div>
             </div>
         </section>
-
         <section class="screen" id="levels-screen">
             <div class="panel levels-panel">
                 <div class="levels-top">
@@ -554,64 +264,34 @@
                         <button class="primary-btn" id="continue-btn">继续挑战</button>
                     </div>
                 </div>
-
                 <div class="summary-grid">
-                    <div class="summary-card">
-                        已完成
-                        <strong id="summary-cleared">0 / 40</strong>
-                    </div>
-                    <div class="summary-card">
-                        下一关
-                        <strong id="summary-next">第 1 关</strong>
-                    </div>
-                    <div class="summary-card">
-                        最佳星星
-                        <strong id="summary-stars">0 ✨</strong>
-                    </div>
+                    <div class="summary-card">已完成<strong id="summary-cleared">0 / 40</strong></div>
+                    <div class="summary-card">下一关<strong id="summary-next">第 1 关</strong></div>
+                    <div class="summary-card">最佳星星<strong id="summary-stars"><span class="star-shape small"></span> 0</strong></div>
                 </div>
-
-                <div class="progress-line">
-                    <div class="progress-fill" id="levels-progress-fill"></div>
-                </div>
-
+                <div class="progress-line"><div class="progress-fill" id="levels-progress-fill"></div></div>
                 <div class="levels-grid" id="levels-grid"></div>
             </div>
         </section>
-
         <section class="screen" id="game-screen">
             <div class="panel game-panel">
                 <div class="hud">
                     <div class="hud-group">
-                        <div class="hud-chip">
-                            <span>阶梯</span>
-                            <strong id="hud-ladder">萌芽</strong>
-                        </div>
-                        <div class="hud-chip">
-                            <span>关卡</span>
-                            <strong id="hud-level">1 / 40</strong>
-                        </div>
-                        <div class="hud-chip">
-                            <span>记忆块</span>
-                            <strong id="hud-count">3 个</strong>
-                        </div>
-                        <div class="hud-chip">
-                            <span>展示</span>
-                            <strong id="hud-preview">2.0 秒</strong>
-                        </div>
+                        <div class="hud-chip"><span>阶梯</span><strong id="hud-ladder">萌芽</strong></div>
+                        <div class="hud-chip"><span>关卡</span><strong id="hud-level">1 / 40</strong></div>
+                        <div class="hud-chip"><span>记忆块</span><strong id="hud-count">3 个</strong></div>
+                        <div class="hud-chip"><span>展示</span><strong id="hud-preview">2.0 秒</strong></div>
                     </div>
                     <div class="button-row">
                         <button class="mini-btn" id="retry-btn" type="button">重玩本关</button>
                         <button class="ghost-btn" id="back-to-levels-btn" type="button">回到选关</button>
                     </div>
                 </div>
-
                 <div class="status-box">
                     <div class="status-title" id="status-title">准备开始</div>
                     <div class="status-subtitle" id="status-subtitle">看清楚会亮起来的格子，等它们消失后再按出来。</div>
                 </div>
-
                 <div class="memory-board" id="memory-board"></div>
-
                 <div class="result-panel" id="result-panel">
                     <div class="small-muted" id="result-caption">本关结果</div>
                     <div class="result-score" id="result-score">0 分</div>
@@ -624,10 +304,50 @@
             </div>
         </section>
     </div>
-
     <script>
         const STORAGE_KEY = "kid_games_memory_matrix_v2";
-
+        (function initStarfield() {
+            const container = document.getElementById('starfield');
+            const starCount = 120;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                star.style.setProperty('--delay', Math.random() * 5 + 's');
+                star.style.setProperty('--base-opacity', Math.random() * 0.5 + 0.3);
+                container.appendChild(star);
+            }
+        })();
+        function spawnCelebration() {
+            const container = document.getElementById('particle-container');
+            container.innerHTML = '';
+            const colors = ['#00d4ff', '#b388ff', '#ffd700', '#00e676'];
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle' + (Math.random() > 0.5 ? ' star' : '');
+                p.style.left = Math.random() * 100 + '%';
+                p.style.width = (Math.random() * 8 + 4) + 'px';
+                p.style.height = p.style.width;
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                p.style.animationDelay = (Math.random() * 0.5) + 's';
+                container.appendChild(p);
+            }
+            setTimeout(() => container.innerHTML = '', 4000);
+        }
+        function makeStarsHTML(count) {
+            let html = '<div class="result-stars">';
+            for (let i = 0; i < count; i++) {
+                html += '<span class="star-shape"></span>';
+            }
+            html += '</div>';
+            return html;
+        }
         function buildLevels(spec) {
             const levels = [];
             spec.phases.forEach((phase) => {
@@ -651,9 +371,11 @@
         const LADDERS = [
             {
                 id: "sprout",
-                title: "🌱 萌芽阶梯",
+                title: "萌芽阶梯",
                 shortTitle: "萌芽",
                 accent: "#ffbe0b",
+                cardAccent: "rgba(255, 190, 11, 0.4)",
+                cardGlow: "rgba(255, 190, 11, 0.15)",
                 description: "3x3 起步，图形更集中，适合刚开始建立记忆节奏。",
                 levels: buildLevels({
                     phases: [
@@ -666,9 +388,11 @@
             },
             {
                 id: "explore",
-                title: "🚀 探索阶梯",
+                title: "探索阶梯",
                 shortTitle: "探索",
                 accent: "#7bdff2",
+                cardAccent: "rgba(123, 223, 242, 0.4)",
+                cardGlow: "rgba(123, 223, 242, 0.15)",
                 description: "4x4 主场，记忆块更多，展示更短，开始拉开难度差。",
                 levels: buildLevels({
                     phases: [
@@ -681,9 +405,11 @@
             },
             {
                 id: "leap",
-                title: "🌠 飞跃阶梯",
+                title: "飞跃阶梯",
                 shortTitle: "飞跃",
                 accent: "#ffd6a5",
+                cardAccent: "rgba(255, 214, 165, 0.4)",
+                cardGlow: "rgba(255, 214, 165, 0.15)",
                 description: "先用高密度 4x4，再过渡到 5x5，大脑要开始稳住节奏。",
                 levels: buildLevels({
                     phases: [
@@ -696,9 +422,11 @@
             },
             {
                 id: "galaxy",
-                title: "🪐 银河阶梯",
+                title: "银河阶梯",
                 shortTitle: "银河",
                 accent: "#caffbf",
+                cardAccent: "rgba(202, 255, 191, 0.4)",
+                cardGlow: "rgba(202, 255, 191, 0.15)",
                 description: "5x5 全开，分散布局和更短展示并行推进，是这版最高难度。",
                 levels: buildLevels({
                     phases: [
@@ -784,16 +512,16 @@
             return {
                 tap(step) {
                     const notes = [392, 440, 523, 659, 784, 880];
-                    beep(notes[step % notes.length], 0.18, "sine", 0.06);
+                    beep(notes[step % notes.length], 0.22, "sine", 0.07);
                 },
                 win() {
                     [523, 659, 784].forEach((freq, index) => {
-                        window.setTimeout(() => beep(freq, 0.28, "triangle", 0.08), index * 120);
+                        window.setTimeout(() => beep(freq, 0.35, "triangle", 0.09), index * 140);
                     });
                 },
                 fail() {
-                    beep(180, 0.25, "sawtooth", 0.1);
-                    window.setTimeout(() => beep(120, 0.25, "sawtooth", 0.1), 120);
+                    beep(180, 0.3, "sawtooth", 0.12);
+                    window.setTimeout(() => beep(120, 0.3, "sawtooth", 0.12), 150);
                 }
             };
         })();
@@ -857,6 +585,14 @@
             return Math.min(ladder.levels.length, ladderProgress.unlocked);
         }
 
+        function makeStarBadgeHTML(stars) {
+            let html = '';
+            for (let i = 0; i < stars; i++) {
+                html += '<span class="star-shape small"></span>';
+            }
+            return html;
+        }
+
         function renderMenu(shouldSwitch = true) {
             const totalLevels = LADDERS.reduce((sum, ladder) => sum + ladder.levels.length, 0);
             const totalDone = LADDERS.reduce((sum, ladder) => sum + getSolvedCount(ladder.id), 0);
@@ -870,14 +606,15 @@
                 const card = document.createElement("button");
                 card.type = "button";
                 card.className = "ladder-card";
-                card.style.borderColor = `${ladder.accent}44`;
+                card.style.setProperty('--card-accent', ladder.cardAccent || ladder.accent);
+                card.style.setProperty('--card-glow', ladder.cardGlow || 'rgba(0, 212, 255, 0.1)');
                 card.innerHTML = `
-                    <div class="pill" style="background:${ladder.accent}22;color:${ladder.accent};border:1px solid ${ladder.accent}44;">${ladder.title}</div>
+                    <div class="pill" style="--accent: ${ladder.accent}">${ladder.title}</div>
                     <h3 style="margin-top:14px;font-size:1.35rem;">${ladder.shortTitle}</h3>
                     <div class="desc" style="margin-top:8px;line-height:1.55;">${ladder.description}</div>
                     <div class="meta">
                         <div>已通关：${solved} / ${ladder.levels.length}</div>
-                        <div>累计星星：${stars} ✨</div>
+                        <div>累计星星：${makeStarBadgeHTML(stars)} ${stars}</div>
                         <div>继续建议：第 ${nextLevel} 关</div>
                     </div>
                 `;
@@ -899,7 +636,7 @@
             levelsDescEl.textContent = ladder.description;
             summaryClearedEl.textContent = `${solvedCount} / ${ladder.levels.length}`;
             summaryNextEl.textContent = `第 ${nextLevel} 关`;
-            summaryStarsEl.textContent = `${getStarCount(currentLadderId)} ✨`;
+            summaryStarsEl.innerHTML = `<span class="star-shape small"></span> ${getStarCount(currentLadderId)}`;
             levelsProgressFillEl.style.width = `${(solvedCount / ladder.levels.length) * 100}%`;
 
             levelsGridEl.innerHTML = "";
@@ -912,7 +649,7 @@
                 if (!unlocked) button.classList.add("locked");
                 if (record) button.classList.add("done");
                 if (level.number === nextLevel) button.classList.add("current");
-                button.innerHTML = `${level.number}${record ? `<span class="badge">${"✨".repeat(record.stars || 1)}</span>` : ""}`;
+                button.innerHTML = `${level.number}${record ? `<span class="badge">${makeStarBadgeHTML(record.stars || 1)}</span>` : ""}`;
                 if (unlocked) {
                     button.addEventListener("click", () => startLevel(currentLadderId, level.number));
                 } else {
@@ -935,7 +672,7 @@
                 const button = document.createElement("button");
                 button.type = "button";
                 button.className = "cell";
-                button.textContent = "";
+                button.innerHTML = "";
                 button.addEventListener("click", () => handleCellClick(index));
                 memoryBoardEl.appendChild(button);
                 cellButtons.push(button);
@@ -970,6 +707,12 @@
         function setStatus(title, subtitle) {
             statusTitleEl.textContent = title;
             statusSubtitleEl.textContent = subtitle;
+            statusTitleEl.style.animation = 'none';
+            statusTitleEl.offsetHeight;
+            statusTitleEl.style.animation = 'fadeInUp 0.4s ease';
+            statusSubtitleEl.style.animation = 'none';
+            statusSubtitleEl.offsetHeight;
+            statusSubtitleEl.style.animation = 'fadeInUp 0.4s ease 0.1s both';
         }
 
         function hideResultPanel() {
@@ -978,7 +721,7 @@
 
         function showResultPanel({ caption, score, detail, primaryLabel, primaryAction, secondaryLabel, secondaryAction }) {
             resultCaptionEl.textContent = caption;
-            resultScoreEl.textContent = score;
+            resultScoreEl.innerHTML = score;
             resultDetailEl.textContent = detail;
             resultPrimaryBtn.textContent = primaryLabel;
             resultSecondaryBtn.textContent = secondaryLabel;
@@ -993,19 +736,17 @@
             patternSet = new Set(pattern);
             cellButtons.forEach((button) => {
                 button.className = "cell";
-                button.textContent = "";
+                button.innerHTML = "";
             });
 
             pattern.forEach((index) => {
                 cellButtons[index].classList.add("showing");
-                cellButtons[index].textContent = "✨";
             });
 
             setStatus("认真看", `这一关要记住 ${currentConfig.count} 个方块。`);
             previewTimer = window.setTimeout(() => {
                 cellButtons.forEach((button) => {
                     button.classList.remove("showing");
-                    button.textContent = "";
                 });
                 inputLocked = false;
                 levelStartAt = performance.now();
@@ -1075,7 +816,6 @@
                 const button = cellButtons[index];
                 if (!button.classList.contains("correct")) {
                     button.classList.add("showing");
-                    button.textContent = "⭐";
                 }
             });
         }
@@ -1088,7 +828,6 @@
             if (patternSet.has(index)) {
                 clicked.push(index);
                 button.classList.add("correct");
-                button.textContent = "🌟";
                 AudioEngine.tap(clicked.length - 1);
                 if (clicked.length === pattern.length) {
                     completeLevel();
@@ -1098,7 +837,6 @@
             } else {
                 inputLocked = true;
                 button.classList.add("wrong");
-                button.textContent = "💥";
                 AudioEngine.fail();
                 revealPattern();
                 setStatus("这次点错了", "没关系，看一眼答案，再试一次就会更稳。");
@@ -1117,6 +855,7 @@
         function completeLevel() {
             inputLocked = true;
             AudioEngine.win();
+            spawnCelebration();
             const responseMs = performance.now() - levelStartAt;
             const idealMs = currentConfig.count * 950 + currentConfig.boardSize * 180;
             const stars = responseMs <= idealMs * 0.72 ? 3 : responseMs <= idealMs * 1.08 ? 2 : 1;
@@ -1136,7 +875,7 @@
             setStatus("太棒了", `你成功记住了 ${currentConfig.count} 个方块。`);
             showResultPanel({
                 caption: "本关通关",
-                score: `${score} 分  ·  ${"✨".repeat(stars)}`,
+                score: `${score} 分 · ${makeStarsHTML(stars)}`,
                 detail: currentLevelNumber >= ladder.levels.length
                     ? "这一整个阶梯都完成了，可以回选关重玩，也可以挑战更高阶梯。"
                     : `已自动解锁第 ${Math.min(ladder.levels.length, currentLevelNumber + 1)} 关。`,
