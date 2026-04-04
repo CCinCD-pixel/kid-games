@@ -79,41 +79,9 @@
             margin: 4px 0 8px;
         }
 
-        /* Capture boxes (chess boxes on left/right) */
+        /* Capture boxes — hidden, keeping JS logic intact */
         .capture-box {
-            width: clamp(42px, 8vw, 56px);
-            background: linear-gradient(180deg, #5d4037 0%, #4e342e 100%);
-            border-radius: 10px;
-            padding: 6px 4px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15);
-            overflow-y: auto;
-            max-height: calc(clamp(40px, 10.5vw, 66px) * 8);
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.2) transparent;
-        }
-        .capture-box-label {
-            font-size: 0.55em;
-            color: #d7ccc8;
-            font-weight: 800;
-            text-align: center;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-            white-space: nowrap;
-        }
-        .capture-box .cap-piece {
-            font-size: clamp(18px, 4vw, 24px);
-            line-height: 1.2;
-            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.4));
-        }
-        .capture-box .advantage {
-            font-size: 0.55em;
-            color: #ff8a65;
-            font-weight: 800;
-            margin-top: auto;
+            display: none !important;
         }
 
         /* Floating animated piece */
@@ -240,17 +208,16 @@
             overflow: visible;
         }
         .trajectory-line {
-            stroke: rgba(255, 136, 0, 0.55);
-            stroke-width: 5;
+            stroke: rgba(100, 160, 255, 0.45);
+            stroke-width: 3;
             stroke-linecap: round;
             fill: none;
-            filter: drop-shadow(0 0 3px rgba(255,136,0,0.6));
         }
         .trajectory-arrowhead {
-            fill: rgba(255, 136, 0, 0.7);
+            fill: rgba(100, 160, 255, 0.55);
         }
         .trajectory-dot {
-            fill: rgba(255, 136, 0, 0.4);
+            fill: rgba(100, 160, 255, 0.35);
         }
 
         /* Move hints */
@@ -1275,7 +1242,7 @@ function renderBoard() {
                     </marker>
                 </defs>
                 <line id="traj-line" class="trajectory-line" x1="0" y1="0" x2="0" y2="0" marker-end="url(#arrowhead)"/>
-                <circle id="traj-start" class="trajectory-dot" r="5"/>
+                <circle id="traj-start" class="trajectory-dot" r="3"/>
             </svg>
         </div>`;
     }
@@ -1392,9 +1359,7 @@ function renderGame() {
     const card = document.getElementById('card');
     card.innerHTML = `
         <div class="board-area">
-            ${renderCaptureBox(leftColor)}
             ${renderBoard()}
-            ${renderCaptureBox(rightColor)}
         </div>
         <div class="msg-bar ${getMsgClass()}" id="msg-bar">${getMsgText()}</div>
         <div class="controls">
