@@ -1444,10 +1444,20 @@ function executePlayerMove(move) {
                         if (isInCheck(board, turn)) playCheckSound();
                         aiThinking = false;
                         renderGame();
+                        // Check if AI's move ended the game (player checkmated)
+                        const aiStatus = getStatusMessage();
+                        if (aiStatus && (aiStatus.type === 'checkmate' || aiStatus.type === 'stalemate')) {
+                            return;
+                        }
                     });
                 } else {
                     aiThinking = false;
                     renderGame();
+                    // AI has no legal moves - check if it's checkmate (player won)
+                    const aiStatus = getStatusMessage();
+                    if (aiStatus && (aiStatus.type === 'checkmate' || aiStatus.type === 'stalemate')) {
+                        return;
+                    }
                 }
             }, 300 + Math.random() * 400);
         }
