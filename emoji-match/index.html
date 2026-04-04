@@ -652,6 +652,68 @@
             }
         }
 
+        /* === ENHANCED VISUAL EFFECTS === */
+
+        /* Full board flash overlay */
+        .flash-overlay { position: absolute; inset: -20px; border-radius: 40px; opacity: 0; pointer-events: none; z-index: 10; }
+        .flash-overlay.active { animation: flash-burst 0.5s ease-out forwards; }
+        .flash-overlay.white { background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 40%, transparent 70%); }
+        .flash-overlay.rainbow { background: conic-gradient(from 0deg, #ff8fab, #ffd166, #8ecae6, #80ed99, #cdb4db, #ff8fab); }
+        @keyframes flash-burst { 0% { opacity: 0.95; transform: scale(0.8); } 30% { opacity: 0.7; transform: scale(1.05); } 100% { opacity: 0; transform: scale(1.2); } }
+
+        /* Combo banner - much bigger and more dramatic */
+        .combo-banner { position: absolute; left: 50%; top: 20px; transform: translateX(-50%) scale(0); padding: 14px 28px; border-radius: 999px; background: linear-gradient(135deg, #ff8fab, #f4b942); color: white; font-weight: 900; font-size: clamp(1.2rem, 4vw, 1.8rem); text-shadow: 0 3px 12px rgba(0,0,0,0.25), 0 0 30px rgba(255,143,171,0.6); box-shadow: 0 10px 40px rgba(255, 143, 171, 0.5), 0 0 60px rgba(244, 185, 66, 0.4); opacity: 0; z-index: 20; white-space: nowrap; }
+        .combo-banner.show { animation: combo-pop 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes combo-pop { 0% { opacity: 0; transform: translateX(-50%) scale(0) rotate(-5deg); } 15% { opacity: 1; transform: translateX(-50%) scale(1.3) rotate(3deg); } 25% { transform: translateX(-50%) scale(0.95) rotate(-2deg); } 35% { transform: translateX(-50%) scale(1.08) rotate(1deg); } 50% { opacity: 1; transform: translateX(-50%) scale(1) rotate(0deg); } 80% { opacity: 1; transform: translateX(-50%) scale(1); } 100% { opacity: 0; transform: translateX(-50%) scale(0.8) translateY(-30px); } }
+
+        /* Board shake effect */
+        .board-shell.shake { animation: board-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards; }
+        .board-shell.shake-light { animation: board-shake-light 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards; }
+        @keyframes board-shake { 0%, 100% { transform: translate(0, 0); } 10% { transform: translate(-8px, -4px) rotate(-1.5deg); } 20% { transform: translate(8px, 4px) rotate(1.5deg); } 30% { transform: translate(-6px, -3px) rotate(-1deg); } 40% { transform: translate(6px, 3px) rotate(1deg); } 50% { transform: translate(-4px, -2px); } 60% { transform: translate(4px, 2px); } 70% { transform: translate(-2px, -1px); } 80% { transform: translate(2px, 1px); } 90% { transform: translate(-1px, 0); } }
+        @keyframes board-shake-light { 0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-4px, -2px); } 40% { transform: translate(4px, 2px); } 60% { transform: translate(-3px, -1px); } 80% { transform: translate(3px, 1px); } }
+
+        /* Shockwave ring effect */
+        .shockwave { position: absolute; border-radius: 50%; border: 6px solid rgba(255, 200, 100, 0.9); box-shadow: 0 0 20px rgba(255, 180, 50, 0.8), inset 0 0 20px rgba(255, 200, 100, 0.4); pointer-events: none; z-index: 15; }
+        .shockwave.active { animation: shockwave-expand 0.6s ease-out forwards; }
+        @keyframes shockwave-expand { 0% { width: 20px; height: 20px; opacity: 1; margin-left: -10px; margin-top: -10px; } 100% { width: 300px; height: 300px; opacity: 0; margin-left: -150px; margin-top: -150px; } }
+
+        /* Stripe line sweep effect */
+        .stripe-line { position: absolute; pointer-events: none; z-index: 12; border-radius: 8px; }
+        .stripe-line.horizontal { left: -10px; right: -10px; height: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(255,200,100,0.8), rgba(255,255,255,0.95), transparent); box-shadow: 0 0 30px rgba(255,200,100,0.9); }
+        .stripe-line.vertical { top: -10px; bottom: -10px; width: 0; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.95), rgba(100,200,255,0.8), rgba(255,255,255,0.95), transparent); box-shadow: 0 0 30px rgba(100,200,255,0.9); }
+        .stripe-line.active { animation: stripe-sweep 0.45s ease-out forwards; }
+        @keyframes stripe-sweep { 0% { opacity: 1; transform: scaleY(0.5); } 40% { opacity: 1; transform: scaleY(3); } 100% { opacity: 0; transform: scaleY(1); } }
+
+        /* Rainbow wave effect */
+        .rainbow-wave { position: absolute; inset: -15px; border-radius: 35px; background: conic-gradient(from 0deg, #ff8fab, #ffd166, #8ecae6, #80ed99, #cdb4db, #ff8fab); opacity: 0; pointer-events: none; z-index: 11; }
+        .rainbow-wave.active { animation: rainbow-wave-expand 0.8s ease-out forwards; }
+        @keyframes rainbow-wave-expand { 0% { opacity: 0.9; transform: scale(0.5); filter: blur(0); } 50% { opacity: 0.7; filter: blur(2px); } 100% { opacity: 0; transform: scale(1.3); filter: blur(8px); } }
+
+        /* Charge-up animation for special tiles */
+        .tile.charging { animation: charge-up 0.5s ease-out forwards; }
+        @keyframes charge-up { 0% { transform: scale(1); filter: brightness(1); } 30% { transform: scale(1.05); filter: brightness(1.2); } 60% { transform: scale(1.15); filter: brightness(1.4); box-shadow: 0 0 25px rgba(255,200,100,0.8); } 80% { transform: scale(1.2); filter: brightness(1.6); box-shadow: 0 0 35px rgba(255,200,100,1); } 100% { transform: scale(1.1); filter: brightness(1.3); } }
+
+        /* Enhanced burst text with bounce and glow */
+        .burst-text { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%) scale(0); color: white; font-weight: 900; font-size: clamp(1.4rem, 6vw, 2.4rem); text-shadow: 0 0 10px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.2), 0 0 40px currentColor; opacity: 0; white-space: nowrap; z-index: 25; pointer-events: none; }
+        .burst-text.show { animation: burst-text-bounce 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes burst-text-bounce { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-10deg); } 25% { opacity: 1; transform: translate(-50%, -50%) scale(1.4) rotate(5deg); } 40% { transform: translate(-50%, -50%) scale(0.95) rotate(-2deg); } 55% { transform: translate(-50%, -50%) scale(1.15) rotate(1deg); } 70% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 85% { transform: translate(-50%, -60%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -90%) scale(0.8); } }
+        .burst-text.good { color: #ff7b89; }
+        .burst-text.combo { color: #f4b942; }
+
+        /* Chain number display */
+        .chain-display { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: clamp(3rem, 12vw, 5rem); font-weight: 900; color: white; text-shadow: 0 0 20px rgba(255,200,100,0.9), 0 0 40px rgba(255,150,50,0.7), 0 0 60px rgba(255,100,50,0.5), 0 6px 20px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; z-index: 30; }
+        .chain-display.show { animation: chain-pop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes chain-pop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-20deg); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.6) rotate(10deg); } 35% { transform: translate(-50%, -50%) scale(0.9) rotate(-5deg); } 50% { transform: translate(-50%, -50%) scale(1.15) rotate(3deg); } 65% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 85% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -60%) scale(0.5); } }
+
+        /* Enhanced spark particles - bigger, more varied shapes */
+        .spark { position: absolute; border-radius: 999px; opacity: 1; animation: spark-fly 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; z-index: 20; }
+        .spark.star { border-radius: 0; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+        .spark.diamond { border-radius: 0; transform-origin: center; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+        .spark.circle { border-radius: 50%; }
+        .spark.burst { animation: spark-fly-burst 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        @keyframes spark-fly { 0% { transform: translate(0, 0) scale(1.5); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(0.1); opacity: 0; } }
+        @keyframes spark-fly-burst { 0% { transform: translate(0, 0) scale(2) rotate(0); opacity: 1; } 50% { opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(0.2) rotate(180deg); opacity: 0; } }
+
         @media (max-width: 640px) {
             .app {
                 padding-top: 62px;
@@ -903,6 +965,143 @@
         let badSwapSet = new Set();
         let dragState = null;
 
+        // ==========================================
+        // ENHANCED VISUAL EFFECTS SYSTEM (VFX)
+        // ==========================================
+        const VFX = {
+            // Show full board flash
+            flashBoard(type = 'white') {
+                const flash = document.createElement('div');
+                flash.className = `flash-overlay ${type}`;
+                effectLayerEl.appendChild(flash);
+                requestAnimationFrame(() => flash.classList.add('active'));
+                setTimeout(() => flash.remove(), 600);
+            },
+
+            // Screen shake
+            shakeBoard(intensity = 'light') {
+                boardShellEl.classList.remove('shake', 'shake-light');
+                void boardShellEl.offsetWidth;
+                boardShellEl.classList.add(intensity === 'heavy' ? 'shake' : 'shake-light');
+                setTimeout(() => boardShellEl.classList.remove('shake', 'shake-light'), 600);
+            },
+
+            // Show shockwave at position
+            showShockwave(x, y) {
+                const shockwave = document.createElement('div');
+                shockwave.className = 'shockwave';
+                shockwave.style.left = x + 'px';
+                shockwave.style.top = y + 'px';
+                effectLayerEl.appendChild(shockwave);
+                requestAnimationFrame(() => shockwave.classList.add('active'));
+                setTimeout(() => shockwave.remove(), 700);
+            },
+
+            // Show stripe line sweep (horizontal or vertical)
+            showStripeLine(orientation, index, tileSize, gap) {
+                const line = document.createElement('div');
+                line.className = `stripe-line ${orientation}`;
+                if (orientation === 'horizontal') {
+                    line.style.top = (index * (tileSize + gap) + tileSize / 2) + 'px';
+                } else {
+                    line.style.left = (index * (tileSize + gap) + tileSize / 2) + 'px';
+                }
+                effectLayerEl.appendChild(line);
+                requestAnimationFrame(() => line.classList.add('active'));
+                setTimeout(() => line.remove(), 500);
+            },
+
+            // Show rainbow wave
+            showRainbowWave() {
+                const wave = document.createElement('div');
+                wave.className = 'rainbow-wave';
+                effectLayerEl.appendChild(wave);
+                requestAnimationFrame(() => wave.classList.add('active'));
+                setTimeout(() => wave.remove(), 900);
+            },
+
+            // Show chain combo number
+            showChainNumber(level) {
+                const display = document.createElement('div');
+                display.className = 'chain-display';
+                display.textContent = level + 'x';
+                effectLayerEl.appendChild(display);
+                requestAnimationFrame(() => display.classList.add('show'));
+                setTimeout(() => display.remove(), 1100);
+            },
+
+            // Enhanced spark burst with many particles and varied shapes
+            createSparkBurst(indices, color = '#ff8fab', maxCount = 20) {
+                const shellRect = boardShellEl.getBoundingClientRect();
+                const shapes = ['circle', 'star', 'diamond'];
+                indices.slice(0, maxCount).forEach((index, i) => {
+                    const tileEl = matchBoardEl.querySelector(`[data-index="${index}"]`);
+                    if (!tileEl) return;
+                    const rect = tileEl.getBoundingClientRect();
+                    const spark = document.createElement('div');
+                    const shape = shapes[i % shapes.length];
+                    spark.className = `spark ${shape}`;
+                    const size = 12 + Math.random() * 16;
+                    spark.style.width = size + 'px';
+                    spark.style.height = size + 'px';
+                    spark.style.left = (rect.left - shellRect.left + rect.width / 2 - size / 2) + 'px';
+                    spark.style.top = (rect.top - shellRect.top + rect.height / 2 - size / 2) + 'px';
+                    spark.style.background = color;
+                    spark.style.setProperty('--dx', ((Math.random() - 0.5) * 140) + 'px');
+                    spark.style.setProperty('--dy', ((Math.random() - 0.7) * 130) + 'px');
+                    effectLayerEl.appendChild(spark);
+                    setTimeout(() => spark.remove(), 900);
+                });
+            },
+
+            // Show charge-up effect on special tiles
+            chargeTiles(indices) {
+                indices.forEach(index => {
+                    const tileEl = matchBoardEl.querySelector(`[data-index="${index}"]`);
+                    if (tileEl) {
+                        tileEl.classList.add('charging');
+                        setTimeout(() => tileEl.classList.remove('charging'), 500);
+                    }
+                });
+            },
+
+            // Bomb explosion - shockwave + many sparks
+            bombExplosion(centerIndex) {
+                const tileEl = matchBoardEl.querySelector(`[data-index="${centerIndex}"]`);
+                if (tileEl) {
+                    const rect = tileEl.getBoundingClientRect();
+                    const shellRect = boardShellEl.getBoundingClientRect();
+                    this.showShockwave(
+                        rect.left - shellRect.left + rect.width / 2,
+                        rect.top - shellRect.top + rect.height / 2
+                    );
+                    // Extra sparks for bomb
+                    this.createSparkBurst([centerIndex], '#ffd700', 30);
+                }
+                this.shakeBoard('heavy');
+            },
+
+            // Stripe activation - line sweep effect
+            activateStripe(type, lineIndex) {
+                const matchBoard = document.querySelector('.match-board');
+                const tileSize = matchBoard.querySelector('.tile')?.offsetWidth || 60;
+                const gap = 8;
+                this.showStripeLine(type === 'row' ? 'horizontal' : 'vertical', lineIndex, tileSize, gap);
+                this.createSparkBurst([lineIndex], type === 'row' ? '#ffcc66' : '#66ccff', 16);
+            },
+
+            // Rainbow activation - wave effect
+            activateRainbow() {
+                this.showRainbowWave();
+                this.flashBoard('rainbow');
+                this.shakeBoard('heavy');
+                // Rainbow creates sparks across entire board
+                const allIndices = Array.from({length: boardSize * boardSize}, (_, i) => i);
+                this.createSparkBurst(allIndices, '#ffd700', 40);
+            }
+        };
+
+        // Enhanced AudioEngine with more impactful sounds
         const AudioEngine = (() => {
             let ctx = null;
             function ensure() {
@@ -928,20 +1127,47 @@
                 osc.start();
                 osc.stop(audio.currentTime + duration);
             }
+            // Play multiple harmonics for richer sound
+            function chord(freqs, duration, volume) {
+                freqs.forEach(f => tone(f, duration, 'sine', volume / freqs.length));
+            }
             return {
-                select() { tone(520, 0.07, "triangle", 0.03); },
-                swap() { tone(640, 0.08, "square", 0.04); },
+                select() { tone(520, 0.07, "triangle", 0.04); },
+                swap() { tone(640, 0.08, "square", 0.05); },
                 clear(power = 1) {
-                    tone(520 + power * 45, 0.09, "triangle", 0.05);
-                    window.setTimeout(() => tone(690 + power * 40, 0.12, "triangle", 0.05), 70);
+                    // More impactful clear sound
+                    tone(520 + power * 45, 0.12, "triangle", 0.07);
+                    window.setTimeout(() => tone(690 + power * 40, 0.15, "triangle", 0.07), 60);
+                    window.setTimeout(() => tone(860 + power * 30, 0.18, "sine", 0.05), 120);
                 },
                 combo(level) {
-                    tone(720 + level * 50, 0.12, "sine", 0.06);
-                    window.setTimeout(() => tone(920 + level * 60, 0.18, "triangle", 0.06), 80);
+                    // Dramatic combo sound with harmonics
+                    const baseFreq = 600 + level * 80;
+                    chord([baseFreq, baseFreq * 1.5, baseFreq * 2], 0.15, 0.08);
+                    window.setTimeout(() => chord([baseFreq * 1.2, baseFreq * 1.8], 0.2, 0.07), 100);
+                    window.setTimeout(() => tone(baseFreq * 2.5, 0.3, "triangle", 0.06), 200);
                 },
                 fail() {
-                    tone(220, 0.12, "sawtooth", 0.05);
-                    window.setTimeout(() => tone(160, 0.15, "sawtooth", 0.05), 70);
+                    tone(220, 0.15, "sawtooth", 0.06);
+                    window.setTimeout(() => tone(160, 0.2, "sawtooth", 0.06), 80);
+                },
+                explosion() {
+                    // Bomb/explosion sound
+                    tone(150, 0.1, "sawtooth", 0.1);
+                    tone(100, 0.2, "square", 0.08);
+                    window.setTimeout(() => tone(80, 0.3, "sawtooth", 0.06), 50);
+                },
+                stripe() {
+                    // Stripe sweep sound
+                    tone(800, 0.08, "square", 0.06);
+                    tone(1000, 0.1, "square", 0.05);
+                    tone(1200, 0.12, "triangle", 0.04);
+                },
+                rainbow() {
+                    // Rainbow super effect sound
+                    chord([523, 659, 784, 1047], 0.2, 0.06);
+                    window.setTimeout(() => chord([587, 740, 880, 1175], 0.25, 0.06), 150);
+                    window.setTimeout(() => chord([659, 784, 988, 1319], 0.3, 0.07), 300);
                 }
             };
         })();
@@ -1237,34 +1463,13 @@
             el.className = `burst-text ${kind}`;
             el.textContent = text;
             effectLayerEl.appendChild(el);
-            requestAnimationFrame(() => {
-                el.style.opacity = "1";
-                el.style.transform = "translate(-50%, -58%) scale(1.08)";
-                el.style.transition = "transform 0.14s ease, opacity 0.14s ease";
-            });
-            window.setTimeout(() => {
-                el.style.opacity = "0";
-                el.style.transform = "translate(-50%, -92%) scale(0.92)";
-            }, 220);
-            window.setTimeout(() => el.remove(), 700);
+            requestAnimationFrame(() => el.classList.add("show"));
+            window.setTimeout(() => el.remove(), 1000);
         }
 
-        function createSparkBurst(indices, color = "#ff8fab", maxCount = 8) {
-            const shellRect = boardShellEl.getBoundingClientRect();
-            indices.slice(0, maxCount).forEach((index) => {
-                const tileEl = matchBoardEl.querySelector(`[data-index="${index}"]`);
-                if (!tileEl) return;
-                const rect = tileEl.getBoundingClientRect();
-                const spark = document.createElement("div");
-                spark.className = "spark";
-                spark.style.left = `${rect.left - shellRect.left + rect.width / 2 - 5}px`;
-                spark.style.top = `${rect.top - shellRect.top + rect.height / 2 - 5}px`;
-                spark.style.background = color;
-                spark.style.setProperty("--dx", `${(Math.random() - 0.5) * 90}px`);
-                spark.style.setProperty("--dy", `${(Math.random() - 0.7) * 85}px`);
-                effectLayerEl.appendChild(spark);
-                window.setTimeout(() => spark.remove(), 760);
-            });
+        function createSparkBurst(indices, color = "#ff8fab", maxCount = 20) {
+            // Use enhanced VFX system (20 particles default, up from 8)
+            VFX.createSparkBurst(indices, color, maxCount);
         }
 
         function setSwapAnimationPair(a, b) {
@@ -1620,19 +1825,71 @@
             specialFlashSet = new Set(createMap.keys());
             clearingSet = new Set(clearSet);
             renderGame();
+
+            // Enhanced VFX: charge-up special tiles before explosion
+            if (createMap.size > 0) {
+                VFX.chargeTiles([...createMap.keys()]);
+            }
+
+            // Detect and trigger special tile VFX
+            let hasBomb = false;
+            let hasStripe = false;
+            let stripeType = null;
+            let stripeIndex = -1;
+            let hasRainbow = meta.source === 'rainbow';
+
+            // Check clearSet for bomb and stripe activations
+            clearSet.forEach(index => {
+                const tile = board[index];
+                if (tile && tile.special) {
+                    if (tile.special === 'bomb' && !hasBomb) {
+                        hasBomb = true;
+                        VFX.bombExplosion(index);
+                        AudioEngine.explosion();
+                    }
+                    if ((tile.special === 'row' || tile.special === 'col') && !hasStripe) {
+                        hasStripe = true;
+                        stripeType = tile.special;
+                        const c = coords(index);
+                        stripeIndex = tile.special === 'row' ? c.y : c.x;
+                        AudioEngine.stripe();
+                    }
+                }
+            });
+
+            // Trigger rainbow wave
+            if (hasRainbow) {
+                VFX.activateRainbow();
+                AudioEngine.rainbow();
+            }
+
+            // Trigger stripe line sweep
+            if (hasStripe) {
+                VFX.activateStripe(stripeType, stripeIndex);
+            }
+
+            // Enhanced spark bursts
             createSparkBurst(
                 [...clearSet],
                 meta.flashColor || (createMap.size ? "#f4b942" : "#ff8fab"),
-                meta.source === "rainbow" ? 20 : 8
+                meta.source === "rainbow" ? 40 : 20
             );
-            if (comboLevel > 1 && meta.source !== "rainbow") {
-                showComboBanner(`连锁 x${comboLevel}`);
-                AudioEngine.combo(comboLevel);
-            } else if (comboLevel > 1) {
-                AudioEngine.combo(comboLevel + 1);
+
+            // Chain combo effects
+            if (comboLevel > 1) {
+                VFX.flashBoard('white');
+                VFX.shakeBoard(comboLevel >= 3 ? 'heavy' : 'light');
+                VFX.showChainNumber(comboLevel);
+                if (meta.source !== 'rainbow') {
+                    showComboBanner(`连锁 x${comboLevel}`);
+                    AudioEngine.combo(comboLevel);
+                } else {
+                    AudioEngine.combo(comboLevel + 1);
+                }
             } else {
                 AudioEngine.clear(createMap.size + clearSet.size / 4);
             }
+
             if (meta.burstText) {
                 showBurstText(meta.burstText, "combo");
             } else if (createMap.size) {
