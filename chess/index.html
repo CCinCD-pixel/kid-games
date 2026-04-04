@@ -189,17 +189,58 @@
             line-height: 1;
             z-index: 2;
             transition: transform 0.08s;
-            filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
         }
-        .piece.white-piece { filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4)); }
-        .piece.black-piece { filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2)); }
+        /* 白棋子：明亮显眼，深色描边，小朋友一眼可辨 */
+        .piece.white-piece {
+            color: #ffffff;
+            text-shadow:
+                0 0 4px #000,
+                0 0 6px #000,
+                1px 1px 0 #1a1a1a,
+                -1px -1px 0 #1a1a1a,
+                1px -1px 0 #1a1a1a,
+                -1px 1px 0 #1a1a1a;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.5));
+        }
+        /* 黑棋子：纯黑+亮黄/金色边框，非常醒目 */
+        .piece.black-piece {
+            color: #1a1a1a;
+            text-shadow:
+                0 0 3px #FFD700,
+                0 0 5px #FFA500,
+                0 0 2px #fff;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4));
+        }
 
         /* Square states */
         .square.selected { background: #f6f669 !important; }
-        .square.last-move-from { background: #cdd26a88 !important; }
-        .square.last-move-to { background: #cdd26a !important; }
+        .square.last-move-from { background: #a8d47588 !important; }
+        .square.last-move-to { background: #a8d475 !important; }
         .square.in-check {
             background: radial-gradient(circle, #ff0000 0%, #ff000066 50%, transparent 70%) !important;
+        }
+
+        /* Move trajectory — arrow/line from last-move-from to last-move-to */
+        .trajectory-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            overflow: visible;
+        }
+        .trajectory-line {
+            stroke: rgba(255, 136, 0, 0.55);
+            stroke-width: 5;
+            stroke-linecap: round;
+            fill: none;
+            filter: drop-shadow(0 0 3px rgba(255,136,0,0.6));
+        }
+        .trajectory-arrowhead {
+            fill: rgba(255, 136, 0, 0.7);
+        }
+        .trajectory-dot {
+            fill: rgba(255, 136, 0, 0.4);
         }
 
         /* Move hints */
@@ -352,6 +393,33 @@
             margin-top: 10px;
         }
         .btn-play:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 26px rgba(102,126,234,0.48); }
+
+        /* Mode selection buttons (AI vs PvP) */
+        .mode-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            justify-content: center;
+        }
+        .mode-tab {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            background: white;
+            font-size: 0.9em;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: #666;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .mode-tab:hover { border-color: #667eea; color: #667eea; }
+        .mode-tab.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
 
         /* Toggle for hints */
         .toggle-row {
@@ -614,6 +682,7 @@ let showHints = true;
 let boardFlipped = false;
 let aiThinking = false;
 let playerColor = 'w';
+let gameMode = 'ai'; // 'ai' or 'pvp'
 
 const ENCOURAGE_MSGS = [
     '好棋！继续加油！', '不错的一步！', '你在进步！',
@@ -1138,7 +1207,8 @@ function renderBoard() {
     }
     html += '</div>';
 
-    html += '<div class="board">';
+    // Build squares
+    let squaresHtml = '';
     for (let vr = 0; vr < 8; vr++) {
         for (let vc = 0; vc < 8; vc++) {
             const r = boardFlipped ? 7 - vr : vr;
@@ -1179,10 +1249,28 @@ function renderBoard() {
                 pieceHtml = `<span class="piece ${piece.color === 'w' ? 'white-piece' : 'black-piece'}">${sym}</span>`;
             }
 
-            html += `<div class="${classes}" data-r="${r}" data-c="${c}">${hintHtml}${pieceHtml}</div>`;
+            squaresHtml += `<div class="${classes}" data-r="${r}" data-c="${c}">${hintHtml}${pieceHtml}</div>`;
         }
     }
-    html += '</div>';
+
+    // Trajectory SVG overlay (only if lastMove exists)
+    let trajectoryHtml = '';
+    if (lastMove) {
+        // We'll compute arrow positions after we know square sizes
+        trajectoryHtml = `<div class="trajectory-overlay" id="traj-overlay">
+            <svg id="traj-svg" width="100%" height="100%" style="position:absolute;top:0;left:0;overflow:visible;">
+                <defs>
+                    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" class="trajectory-arrowhead">
+                        <polygon points="0 0, 6 3, 0 6" fill="rgba(255,136,0,0.7)"/>
+                    </marker>
+                </defs>
+                <line id="traj-line" class="trajectory-line" x1="0" y1="0" x2="0" y2="0" marker-end="url(#arrowhead)"/>
+                <circle id="traj-start" class="trajectory-dot" r="5"/>
+            </svg>
+        </div>`;
+    }
+
+    html += `<div class="board" id="main-board">${squaresHtml}${trajectoryHtml}</div>`;
 
     // File labels
     html += '<div class="file-labels">';
@@ -1197,6 +1285,45 @@ function renderBoard() {
     return html;
 }
 
+function drawTrajectory() {
+    if (!lastMove) return;
+    const line = document.getElementById('traj-line');
+    const startDot = document.getElementById('traj-start');
+    if (!line || !startDot) return;
+
+    const fromSq = document.querySelector(`.square[data-r="${lastMove.from.r}"][data-c="${lastMove.from.c}"]`);
+    const toSq = document.querySelector(`.square[data-r="${lastMove.to.r}"][data-c="${lastMove.to.c}"]`);
+    if (!fromSq || !toSq) return;
+
+    const boardEl = document.getElementById('main-board');
+    if (!boardEl) return;
+    const boardRect = boardEl.getBoundingClientRect();
+
+    const fromRect = fromSq.getBoundingClientRect();
+    const toRect = toSq.getBoundingClientRect();
+
+    // Center of squares relative to board
+    const x1 = fromRect.left + fromRect.width / 2 - boardRect.left;
+    const y1 = fromRect.top + fromRect.height / 2 - boardRect.top;
+    const x2 = toRect.left + toRect.width / 2 - boardRect.left;
+    const y2 = toRect.top + toRect.height / 2 - boardRect.top;
+
+    // Shorten the arrow slightly so it doesn't overlap the destination piece
+    const dx = x2 - x1, dy = y2 - y1;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    const shorten = 18;
+    const ax2 = x2 - (dx/len) * shorten;
+    const ay2 = y2 - (dy/len) * shorten;
+
+    line.setAttribute('x1', x1);
+    line.setAttribute('y1', y1);
+    line.setAttribute('x2', ax2);
+    line.setAttribute('y2', ay2);
+
+    startDot.setAttribute('cx', x1);
+    startDot.setAttribute('cy', y1);
+}
+
 function renderCaptureBox(color) {
     const pieces = capturedPieces[color];
     const sorted = [...pieces].sort((a,b) => PIECE_VALUES[b.type] - PIECE_VALUES[a.type]);
@@ -1208,7 +1335,12 @@ function renderCaptureBox(color) {
     const adv = myMat - theirMat;
     const advHtml = adv > 0 ? `<span class="advantage">+${Math.round(adv/100)}</span>` : '';
 
-    const label = color === playerColor ? '我方' : aiProfile.icon;
+    let label;
+    if (gameMode === 'pvp') {
+        label = color === 'w' ? '白方 ♔' : '黑方 ♚';
+    } else {
+        label = color === playerColor ? '我方' : aiProfile.icon;
+    }
     return `<div class="capture-box">
         <div class="capture-box-label">${label}</div>
         ${piecesHtml}
@@ -1237,7 +1369,11 @@ function getStatusMessage() {
 function renderGame() {
     document.getElementById('info-bar').style.display = 'flex';
     document.getElementById('turn-dot').className = `turn-dot ${turn === 'w' ? 'white-turn' : 'black-turn'}`;
-    document.getElementById('turn-text').textContent = turn === 'w' ? '白方走棋' : '黑方走棋';
+    if (gameMode === 'pvp') {
+        document.getElementById('turn-text').textContent = turn === 'w' ? '👤 白方走棋' : '👤 黑方走棋';
+    } else {
+        document.getElementById('turn-text').textContent = turn === 'w' ? '白方走棋' : '黑方走棋';
+    }
     document.getElementById('move-count').textContent = `第 ${Math.ceil(moveNumber / 2)} 回合`;
 
     const leftColor = playerColor;  // player's capture box on left
@@ -1262,7 +1398,9 @@ function renderGame() {
     // Event listeners
     document.querySelectorAll('.square').forEach(sq => {
         sq.addEventListener('click', () => {
-            if (gameOver || aiThinking || turn !== playerColor) return;
+            if (gameOver || aiThinking) return;
+            // In AI mode: only playerColor can click. In PvP: anyone can click their own pieces.
+            if (gameMode === 'ai' && turn !== playerColor) return;
             const r = parseInt(sq.dataset.r);
             const c = parseInt(sq.dataset.c);
             handleSquareClick(r, c);
@@ -1282,6 +1420,9 @@ function renderGame() {
         renderGame();
     };
     document.getElementById('btn-new').onclick = showMenu;
+
+    // Draw trajectory arrow after DOM is painted
+    requestAnimationFrame(() => requestAnimationFrame(drawTrajectory));
 
     // Check game status
     const status = getStatusMessage();
@@ -1305,12 +1446,21 @@ function getMsgText() {
     const status = getStatusMessage();
     if (!status) return '';
     if (status.type === 'check') {
+        if (gameMode === 'pvp') {
+            return turn === 'w' ? '⚠️ 白方被将军！' : '⚠️ 黑方被将军！';
+        }
         return turn === playerColor ? '⚠️ 你被将军了！赶紧防守' : '⚠️ 将军！好棋！';
     }
     if (status.type === 'checkmate') {
+        if (gameMode === 'pvp') {
+            return status.winner === 'w' ? '🏆 白方获胜！' : '🏆 黑方获胜！';
+        }
         return status.winner === playerColor ? '🏆 将杀！你赢了！' : '💪 被将杀了，再来一局！';
     }
     if (status.type === 'stalemate') return '🤝 和棋（逼和）';
+    if (gameMode === 'pvp') {
+        return turn === 'w' ? '👤 白方走棋' : '👤 黑方走棋';
+    }
     if (turn === playerColor) {
         return showHints ? '💡 点击棋子查看可以走哪里' : '轮到你走棋了';
     }
@@ -1394,9 +1544,10 @@ function handleSquareClick(r, c) {
     }
 
     // Select a piece
-    if (piece && piece.color === playerColor) {
+    const clickableColor = gameMode === 'ai' ? playerColor : turn;
+    if (piece && piece.color === clickableColor) {
         selectedSq = {r, c};
-        const allMoves = getLegalMoves(board, playerColor, castling, enPassantTarget);
+        const allMoves = getLegalMoves(board, clickableColor, castling, enPassantTarget);
         legalMoves = allMoves.filter(m => m.from.r === r && m.from.c === c);
         renderGame();
     } else {
@@ -1428,8 +1579,8 @@ function executePlayerMove(move) {
             return;
         }
 
-        // AI's turn
-        if (!gameOver) {
+        // AI's turn (only in AI mode, not PvP)
+        if (!gameOver && gameMode === 'ai') {
             aiThinking = true;
             renderGame();
             setTimeout(() => {
@@ -1460,6 +1611,9 @@ function executePlayerMove(move) {
                     }
                 }
             }, 300 + Math.random() * 400);
+        } else {
+            // PvP mode: just re-render, next player clicks their piece
+            renderGame();
         }
     });
 }
@@ -1496,16 +1650,30 @@ function showGameOver(status) {
     let emoji, title, msg;
 
     if (status.type === 'checkmate') {
-        if (status.winner === playerColor) {
-            emoji = '🏆';
-            title = '你赢啦！';
-            msg = `太棒了！你打败了${aiProfile.icon}${aiProfile.name}！继续挑战更强的对手吧！`;
+        if (gameMode === 'pvp') {
+            if (status.winner === 'w') {
+                emoji = '🏆';
+                title = '白方获胜！';
+                msg = '恭喜白方取得胜利！';
+            } else {
+                emoji = '🏆';
+                title = '黑方获胜！';
+                msg = '恭喜黑方取得胜利！';
+            }
             playWinSound();
             spawnCelebration();
         } else {
-            emoji = '💪';
-            title = '被将杀了';
-            msg = `${aiProfile.icon}${aiProfile.name}这次赢了，但别灰心！每一盘棋都在让你变得更强！`;
+            if (status.winner === playerColor) {
+                emoji = '🏆';
+                title = '你赢啦！';
+                msg = `太棒了！你打败了${aiProfile.icon}${aiProfile.name}！继续挑战更强的对手吧！`;
+                playWinSound();
+                spawnCelebration();
+            } else {
+                emoji = '💪';
+                title = '被将杀了';
+                msg = `${aiProfile.icon}${aiProfile.name}这次赢了，但别灰心！每一盘棋都在让你变得更强！`;
+            }
         }
     } else {
         emoji = '🤝';
@@ -1561,24 +1729,45 @@ function showMenu() {
     document.getElementById('info-bar').style.display = 'none';
     document.getElementById('overlay').innerHTML = '';
 
+    const pvpSelected = gameMode === 'pvp' ? 'selected' : '';
+    const aiSelected = gameMode === 'ai' ? 'selected' : '';
+
     const card = document.getElementById('card');
     card.innerHTML = `
         <div class="menu">
             <div class="menu-icon">♚</div>
             <div class="menu-title">小棋手大冒险</div>
-            <div class="menu-sub">选择你的对手，开始下棋吧！</div>
+            <div class="menu-sub">选择游戏模式，开始下棋吧！</div>
 
+            <!-- Mode tabs: PvP vs AI -->
             <div class="menu-section">
-                <h3>🎮 选择对手</h3>
-                ${AI_PROFILES.map((p, i) => `
-                    <div class="ai-option ${p.id === aiProfile.id ? 'selected' : ''}" data-idx="${i}">
-                        <span class="ai-icon">${p.icon}</span>
-                        <div class="ai-info">
-                            <div class="ai-name">${p.name}</div>
-                            <div class="ai-desc">${p.desc}</div>
+                <div class="mode-tabs">
+                    <button class="mode-tab ${pvpSelected}" id="tab-pvp">👥 对战模式</button>
+                    <button class="mode-tab ${aiSelected}" id="tab-ai">🤖 人机模式</button>
+                </div>
+
+                <!-- AI sub-options -->
+                <div id="ai-options" style="${gameMode === 'ai' ? '' : 'display:none'}">
+                    <h3 style="font-size:0.9em;color:#667eea;margin:10px 0 8px;">🎮 选择对手</h3>
+                    ${AI_PROFILES.map((p, i) => `
+                        <div class="ai-option ${p.id === aiProfile.id ? 'selected' : ''}" data-idx="${i}">
+                            <span class="ai-icon">${p.icon}</span>
+                            <div class="ai-info">
+                                <div class="ai-name">${p.name}</div>
+                                <div class="ai-desc">${p.desc}</div>
+                            </div>
                         </div>
+                    `).join('')}
+                </div>
+
+                <!-- PvP info -->
+                <div id="pvp-info" style="${gameMode === 'pvp' ? '' : 'display:none'}; margin-top:8px;">
+                    <div style="padding:8px 10px;background:#ede7f6;border-radius:10px;font-size:0.85em;color:#555;line-height:1.5;">
+                        👥 <b>双人对战</b><br>
+                        白方先行，玩家1执白棋，玩家2执黑棋。<br>
+                        轮流走棋，同一设备即可对战！
                     </div>
-                `).join('')}
+                </div>
             </div>
 
             <div class="menu-section">
@@ -1592,6 +1781,22 @@ function showMenu() {
             <button class="btn-play" id="btn-start">开始下棋！ ♔</button>
         </div>
     `;
+
+    // Tab switching
+    document.getElementById('tab-pvp').onclick = () => {
+        gameMode = 'pvp';
+        document.getElementById('tab-pvp').classList.add('active');
+        document.getElementById('tab-ai').classList.remove('active');
+        document.getElementById('ai-options').style.display = 'none';
+        document.getElementById('pvp-info').style.display = '';
+    };
+    document.getElementById('tab-ai').onclick = () => {
+        gameMode = 'ai';
+        document.getElementById('tab-ai').classList.add('active');
+        document.getElementById('tab-pvp').classList.remove('active');
+        document.getElementById('ai-options').style.display = '';
+        document.getElementById('pvp-info').style.display = 'none';
+    };
 
     document.querySelectorAll('.ai-option').forEach(opt => {
         opt.onclick = () => {
@@ -1609,7 +1814,10 @@ function showMenu() {
 
     document.getElementById('btn-start').onclick = () => {
         initBoard();
+        // In PvP, always start with white at bottom (player 1)
         boardFlipped = false;
+        // playerColor only matters in AI mode; in PvP both players use same click logic
+        playerColor = 'w';
         renderGame();
     };
 }
