@@ -1,0 +1,6 @@
+[build]
+  command = "cd games/phaser-demo && npm install && npm run build && cp -r dist/star-catcher/* ../../star-catcher/"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
