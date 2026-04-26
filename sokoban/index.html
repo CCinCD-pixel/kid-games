@@ -19,67 +19,34 @@
         .cell-floor { background: linear-gradient(135deg, #f5f0e6, #ebe5d9); }
         .cell-floor.checker { background: linear-gradient(135deg, #e8e2d4, #ddd7c7); }
         .cell-wall {
-            background: linear-gradient(180deg, #6b7280 0%, #4b5563 40%, #374151 100%);
+            background:
+                linear-gradient(rgba(32, 35, 43, 0.1), rgba(32, 35, 43, 0.18)),
+                url("assets/PNG/Default size/Blocks/block_01.png") center / 94% 94% no-repeat,
+                linear-gradient(135deg, #6b7280, #374151);
             box-shadow:
                 inset 0 3px 0 rgba(255,255,255,0.12),
                 inset 0 -3px 0 rgba(0,0,0,0.3),
                 0 4px 8px rgba(0,0,0,0.25);
             position: relative;
         }
-        .cell-wall::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                repeating-linear-gradient(
-                    90deg,
-                    transparent 0px, transparent 46%,
-                    rgba(0,0,0,0.18) 46%, rgba(0,0,0,0.18) 50%,
-                    transparent 50%, transparent 96%,
-                    rgba(0,0,0,0.18) 96%, rgba(0,0,0,0.18) 100%
-                );
-        }
-        .cell-wall::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent 0px, transparent 28%,
-                rgba(0,0,0,0.15) 28%, rgba(0,0,0,0.15) 33%,
-                transparent 33%, transparent 63%,
-                rgba(0,0,0,0.12) 63%, rgba(0,0,0,0.12) 67%,
-                transparent 67%
-            );
-        }
+        .cell-wall::before, .cell-wall::after { display: none; }
         .cell-void { background: transparent; }
         .cell-target { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
         .cell-target.checker { background: linear-gradient(135deg, #ffe0b2, #ffd494); }
-        .cell-target::before { content: ""; position: absolute; width: 65%; height: 65%; border-radius: 50%; background: radial-gradient(circle, rgba(255,152,0,0.6), rgba(255,87,34,0.3) 50%, transparent 70%); animation: targetPulse 2s ease-in-out infinite; }
-        .cell-target::after { content: ""; position: absolute; width: 40%; height: 40%; border-radius: 50%; border: 3px solid rgba(255,152,0,0.7); animation: targetRing 2s ease-in-out infinite; }
+        .cell-target::before { content: ""; position: absolute; width: 78%; height: 78%; border-radius: 50%; background: radial-gradient(circle, rgba(255,213,79,0.9) 0 28%, rgba(255,152,0,0.58) 46%, rgba(255,193,7,0.18) 64%, transparent 72%); box-shadow: 0 0 18px rgba(255,193,7,0.75); animation: targetPulse 2s ease-in-out infinite; z-index: 2; }
+        .cell-target::after { content: ""; position: absolute; width: 58%; height: 58%; border-radius: 50%; border: 4px solid rgba(255,183,77,0.95); box-shadow: inset 0 0 0 3px rgba(255,245,157,0.45), 0 0 12px rgba(255,152,0,0.75); animation: targetRing 2s ease-in-out infinite; z-index: 3; }
         @keyframes targetPulse { 0%, 100% { transform: scale(0.8); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
         @keyframes targetRing { 0%, 100% { transform: scale(0.9); opacity: 0.5; } 50% { transform: scale(1.15); opacity: 1; } }
-        .cell-target.has-box::before, .cell-target.has-box::after { display: none; }
-        .cell .entity { position: absolute; z-index: 10; }
-        .player { width: 75%; height: 75%; position: relative; animation: playerIdle 1.5s ease-in-out infinite; }
-        .player-body { width: 100%; height: 100%; background: linear-gradient(180deg, #ff9a9e, #ff6b6b); border-radius: 50% 50% 45% 45%; box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 -5px 15px rgba(0,0,0,0.15), inset 0 5px 10px rgba(255,255,255,0.3); }
-        .player-eye { position: absolute; top: 25%; width: 10px; height: 12px; background: #333; border-radius: 50%; animation: blink 4s ease-in-out infinite; }
-        .player-eye.left { left: 22%; } .player-eye.right { right: 22%; }
-        .player-eye::after { content: ""; position: absolute; top: 2px; left: 2px; width: 4px; height: 4px; background: #fff; border-radius: 50%; }
-        .player-mouth { position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%); width: 14px; height: 7px; border: 2.5px solid #333; border-top: none; border-radius: 0 0 14px 14px; }
-        .player-blush { position: absolute; top: 45%; width: 8px; height: 5px; background: rgba(255,100,100,0.5); border-radius: 50%; }
-        .player-blush.left { left: 8%; } .player-blush.right { right: 8%; }
-        @keyframes blink { 0%, 95%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
-        @keyframes playerIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-        .player.facing-up .player-body::before { content: ""; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); border-width: 0 6px 8px 6px; border-style: solid; border-color: transparent transparent #ff6b6b transparent; }
-        .player.facing-down .player-body::before { content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); border-width: 8px 6px 0 6px; border-style: solid; border-color: #ff6b6b transparent transparent transparent; }
-        .player.facing-left .player-body::before { content: ""; position: absolute; left: -6px; top: 50%; transform: translateY(-50%); border-width: 6px 8px 6px 0; border-style: solid; border-color: transparent #ff6b6b transparent transparent; }
-        .player.facing-right .player-body::before { content: ""; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); border-width: 6px 0 6px 8px; border-style: solid; border-color: transparent transparent transparent #ff6b6b; }
-        .crate { width: 78%; height: 78%; position: relative; border-radius: 8px; background: linear-gradient(145deg, #c9a66b, #a67c52 50%, #8b6914); box-shadow: 0 6px 12px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.2), inset 0 -3px 6px rgba(0,0,0,0.2); }
-        .crate::before { content: ""; position: absolute; inset: 4px; border: 2px solid rgba(139,105,20,0.6); border-radius: 4px; }
-        .crate .highlight { position: absolute; top: 6px; left: 6px; width: 10px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 2px; }
-        .crate.on-target { background: linear-gradient(145deg, #ffd700, #daa520 50%, #b8860b); box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 6px 12px rgba(0,0,0,0.3); animation: crateGlow 1.5s ease-in-out infinite; }
-        @keyframes crateGlow { 0%, 100% { box-shadow: 0 0 15px rgba(255,215,0,0.5), 0 6px 12px rgba(0,0,0,0.3); } 50% { box-shadow: 0 0 30px rgba(255,215,0,0.8), 0 6px 12px rgba(0,0,0,0.3); } }
+        .cell-target.has-box::before { width: 92%; height: 92%; opacity: 0.7; z-index: 8; }
+        .cell-target.has-box::after { width: 86%; height: 86%; opacity: 0.95; z-index: 9; }
+        .cell .entity { position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+        .entity img { width: 85%; height: 85%; object-fit: contain; image-rendering: pixelated; }
+        .sprite-player { --player-scale-x: 1; animation: playerIdle 1.5s ease-in-out infinite; transform-origin: center; }
+        .sprite-player.facing-left { --player-scale-x: -1; }
+        .sprite-player.facing-right, .sprite-player.facing-up, .sprite-player.facing-down { --player-scale-x: 1; }
+        @keyframes playerIdle { 0%, 100% { transform: scaleX(var(--player-scale-x)) translateY(0); } 50% { transform: scaleX(var(--player-scale-x)) translateY(-3px); } }
+        .sprite-crate.on-target { filter: drop-shadow(0 0 10px rgba(255,215,0,0.85)) drop-shadow(0 4px 4px rgba(0,0,0,0.25)); animation: crateGlow 1.5s ease-in-out infinite; }
+        @keyframes crateGlow { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
         .entity.push { animation: pushBounce 0.25s ease; }
         @keyframes pushBounce { 0% { transform: scale(1); } 30% { transform: scale(1.15); } 60% { transform: scale(0.95); } 100% { transform: scale(1); } }
         .player.win { animation: playerWin 0.6s ease infinite; }
@@ -155,6 +122,10 @@ const LEVELS=[
     {name:"高手之路",hint:"这关需要动动脑筋了！",par:40,map:["########","#....#.#","#.$.#..#","#..#.#.#","#.$.#$.#","#..#.#.#","#.O.O.O#","#..@...#","########"]},
     {name:"推箱大师",hint:"最终挑战！你能用最少的步数完成吗？",par:50,map:["#########","#...#...#","#.$.$.$.#","#..###..#","#..$@$..#","#..###..#","#.O.O.O.#","#.O...O.#","#...#...#","#########"]}
 ];
+const ASSETS={
+    crate:"assets/PNG/Default size/Crates/crate_01.png",
+    player:"assets/PNG/Retina/Player/player_01.png"
+};
 let currentLevel=0,grid=[],player={r:0,c:0},boxes=[],targets=[],steps=0,history=[],bestScores={},unlockedLevel=0;
 let playerFacing="down";
 try{const s=JSON.parse(localStorage.getItem("sokoban_save")||"{}");bestScores=s.best||{};unlockedLevel=s.unlocked||0;}catch(e){}
@@ -169,7 +140,7 @@ function playTones(notes){try{const ctx=new(window.AudioContext||window.webkitAu
 const playMove=()=>playTones([[440,0,0.06]]);
 const playPush=()=>playTones([[330,0,0.08],[440,0.06,0.08]]);
 const playWin=()=>playTones([[523,0,0.12],[659,0.1,0.12],[784,0.2,0.12],[1047,0.32,0.18]]);
-function renderBoard(){const h=grid.length,w=grid[0].length;let html="<div class=\"board\" style=\"grid-template-columns: repeat("+w+", 1fr); grid-template-rows: repeat("+h+", 1fr);\">";for(let r=0;r<h;r++){for(let c=0;c<w;c++){const type=grid[r][c],isPlayer=player.r===r&&player.c===c,bi=boxAt(r,c),isTarget=type==="target",isBoxOnTarget=bi>=0&&isTarget;const isChecker=(r+c)%2===1;let cellClass="cell ";if(type==="wall")cellClass+="cell-wall";else if(type==="void")cellClass+="cell-void";else if(isTarget)cellClass+="cell-target"+(bi>=0?" has-box":"")+(isChecker?" checker":"");else cellClass+="cell-floor"+(isChecker?" checker":"");let entity="";if(isPlayer){entity='<span class="entity"><div class="player facing-'+playerFacing+'"><div class="player-body"><div class="player-eye left"></div><div class="player-eye right"></div><div class="player-mouth"></div><div class="player-blush left"></div><div class="player-blush right"></div></div></div></span>';}else if(bi>=0){entity='<span class="entity"><div class="crate'+(isBoxOnTarget?" on-target":"")+'"><div class="highlight"></div></div></span>';}html+='<div class="'+cellClass+'">'+entity+"</div>";}}html+="</div>";return html;}
+function renderBoard(){const h=grid.length,w=grid[0].length;let html="<div class=\"board\" style=\"grid-template-columns: repeat("+w+", 1fr); grid-template-rows: repeat("+h+", 1fr);\">";for(let r=0;r<h;r++){for(let c=0;c<w;c++){const type=grid[r][c],isPlayer=player.r===r&&player.c===c,bi=boxAt(r,c),isTarget=type==="target",isBoxOnTarget=bi>=0&&isTarget;const isChecker=(r+c)%2===1;let cellClass="cell ";if(type==="wall")cellClass+="cell-wall";else if(type==="void")cellClass+="cell-void";else if(isTarget)cellClass+="cell-target"+(bi>=0?" has-box":"")+(isChecker?" checker":"");else cellClass+="cell-floor"+(isChecker?" checker":"");let entity="";if(isPlayer){entity='<span class="entity"><img class="sprite-player facing-'+playerFacing+'" src="'+ASSETS.player+'" alt="player"></span>';}else if(bi>=0){entity='<span class="entity"><img class="sprite-crate'+(isBoxOnTarget?" on-target":"")+'" src="'+ASSETS.crate+'" alt="crate"></span>';}html+='<div class="'+cellClass+'">'+entity+"</div>";}}html+="</div>";return html;}
 function renderGame(){const level=LEVELS[currentLevel],best=bestScores[currentLevel];document.getElementById("stat-level").textContent=currentLevel+1;document.getElementById("stat-steps").textContent=steps;document.getElementById("stat-best").textContent=best!=null?best:"-";document.getElementById("stats").style.display="flex";const card=document.getElementById("card");card.innerHTML='<div class="level-name">'+level.name+'</div><div class="hint-bar">'+level.hint+"</div>"+renderBoard()+'<div class="controls"><button class="ctrl-btn btn-undo" id="btn-undo">撤销</button><button class="ctrl-btn btn-restart" id="btn-restart">重来</button><button class="ctrl-btn btn-menu" id="btn-menu">选关</button></div><div class="dpad"><button class="dpad-btn dpad-up" data-dir="up"><svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg></button><button class="dpad-btn dpad-left" data-dir="left"><svg viewBox="0 0 24 24"><path d="M14 7l-5 5 5 5z"/></svg></button><button class="dpad-btn dpad-right" data-dir="right"><svg viewBox="0 0 24 24"><path d="M10 7l5 5-5 5z"/></svg></button><button class="dpad-btn dpad-down" data-dir="down"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="level-info">键盘方向键 / WASD / 滑动屏幕 / 点击方向按钮</div>';document.getElementById("btn-undo").onclick=()=>{undo();renderGame();};document.getElementById("btn-restart").onclick=()=>{parseLevel(currentLevel);renderGame();};document.getElementById("btn-menu").onclick=showLevelSelect;document.querySelectorAll(".dpad-btn").forEach(btn=>{btn.addEventListener("click",e=>{e.preventDefault();handleDirection(btn.dataset.dir);});});}
 function handleDirection(dir){let dr=0,dc=0;switch(dir){case"up":dr=-1;break;case"down":dr=1;break;case"left":dc=-1;break;case"right":dc=1;break;}const hadBox=boxAt(player.r+dr,player.c+dc)>=0;if(move(dr,dc)){hadBox?playPush():playMove();renderGame();if(checkWin()){setTimeout(showWin,200);}}}
 function showWin(){playWin();spawnCelebration();const level=LEVELS[currentLevel],prevBest=bestScores[currentLevel],isNewRecord=prevBest==null||steps<prevBest;if(isNewRecord){bestScores[currentLevel]=steps;}if(currentLevel+1>unlockedLevel&&currentLevel+1<LEVELS.length){unlockedLevel=currentLevel+1;}saveData();const par=level.par;let stars=1;if(steps<=par)stars=3;else if(steps<=Math.floor(par*1.5))stars=2;const starStr='<span class="star">&#9733;</span>'.repeat(stars)+'<span class="star">&#9734;</span>'.repeat(3-stars);const hasNext=currentLevel+1<LEVELS.length;let recordHtml="";if(isNewRecord&&prevBest!=null){recordHtml='<div class="win-record">新纪录！比上次少了 '+(prevBest-steps)+' 步！</div>';}else if(isNewRecord){recordHtml='<div class="win-record">首次通关记录：'+steps+' 步</div>';}else{recordHtml='<div class="win-detail">最佳记录：'+prevBest+' 步</div>';}

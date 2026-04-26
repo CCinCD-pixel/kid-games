@@ -1,6 +1,43 @@
 [build]
-  command = "cd games/phaser-demo && npm install && npm run build && cp -r dist/star-catcher/* ../../star-catcher/"
+  command = "cd snake-battle && npm install && npm run build && cd ../emoji-match && npm install && npm run build && cd .. && cp -r dist/star-catcher/* star-catcher/ && cp -r snake-battle/dist/* snake-battle/ && cp -r emoji-match/dist/* emoji-match/"
   publish = "."
 
 [build.environment]
   NODE_VERSION = "20"
+
+# =============================================
+# 缓存策略：Netlify 会自动读取 _headers 文件
+# 这里额外配置确保覆盖所有边界情况
+# =============================================
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+
+[[headers]]
+  for = "/star-catcher/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/snake-battle/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/emoji-match/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

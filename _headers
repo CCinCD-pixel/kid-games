@@ -1,0 +1,26 @@
+# 强制 HTML 文件每次都从网络获取（孩子能立即看到更新）
+*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+# hashed 静态资源长期缓存（Vite content hash 保证不会混用旧版本）
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/sokoban/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 图标等公共资源
+/icons/*
+  Cache-Control: public, max-age=86400
+
+# Service Worker 本身不缓存
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# 安全 headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
