@@ -4,9 +4,17 @@ const CACHE_NAME = 'kid-games-v2';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/manifest.json',
+  '/icons/icon.svg',
   '/memory-matrix/index.html',
   '/emoji-match/index.html',
-  '/icons/icon.svg'
+  '/number-adventure/index.html',
+  '/sokoban/index.html',
+  '/chess/index.html',
+  '/checkers/index.html',
+  '/snake-battle/index.html',
+  '/military-chess/index.html',
+  '/star-catcher/index.html'
 ];
 
 // 安装：预缓存核心资源

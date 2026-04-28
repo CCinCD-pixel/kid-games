@@ -1,5 +1,5 @@
 [build]
-  command = "cd snake-battle && npm install && npm run build && cd ../emoji-match && npm install && npm run build && cd .. && cp -r dist/star-catcher/* star-catcher/ && cp -r snake-battle/dist/* snake-battle/ && cp -r emoji-match/dist/* emoji-match/"
+  command = "cd snake-battle && npm install && npm run build && cd ../emoji-match && npm install && npm run build && cd .. && cp -r snake-battle/dist/* snake-battle/ && cp -r emoji-match/dist/* emoji-match/"
   publish = "."
 
 [build.environment]

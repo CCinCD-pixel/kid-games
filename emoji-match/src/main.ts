@@ -68,6 +68,13 @@ const resultDetailEl = requireElement<HTMLElement>("result-detail");
 const resultPrimaryBtn = requireElement<HTMLButtonElement>("result-primary-btn");
 const resultSecondaryBtn = requireElement<HTMLButtonElement>("result-secondary-btn");
 
+const SPECIAL_NAMES: Record<SpecialKind, string> = {
+    row: "横向清除特效",
+    col: "纵向清除特效",
+    bomb: "炸弹特效",
+    rainbow: "彩虹特效",
+};
+
 let progress: ProgressState = loadProgress();
 let currentLadderId = LADDERS[0].id;
 let currentLevelNumber = 1;
@@ -536,6 +543,16 @@ function swapTiles(source: BoardTile[], a: number, b: number): void {
     source[b] = temp;
 }
 
+function tileAccessibleName(tile: BoardTile, index: number): string {
+    const { x, y } = coords(index);
+    const position = `第 ${y + 1} 行第 ${x + 1} 列`;
+    if (!tile) return `空位，${position}`;
+
+    const specialName = tile.special ? `，${SPECIAL_NAMES[tile.special]}` : "";
+    const selectedName = selectedIndex === index ? "，已选中" : "";
+    return `${tile.kind}${specialName}${selectedName}，${position}`;
+}
+
 function renderGame(): void {
     const ladder = getLadder(currentLadderId);
     matchBoardEl.style.setProperty("--grid-size", String(boardSize));
@@ -568,7 +585,8 @@ function renderGame(): void {
         if (tile && tile.special) button.classList.add(`special-${tile.special}`);
         const swapClass = swapAnimations.get(index);
         if (swapClass) button.classList.add(swapClass);
-        button.innerHTML = tile ? `<span class="emoji">${tile.kind}</span>` : "";
+        button.setAttribute("aria-label", tileAccessibleName(tile, index));
+        button.innerHTML = tile ? `<span class="emoji" aria-hidden="true">${tile.kind}</span>` : "";
         matchBoardEl.appendChild(button);
     });
 }

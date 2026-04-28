@@ -452,7 +452,7 @@
     /* ── Update stats bar ── */
     function updateStats() {
         document.getElementById('score').textContent = score;
-        document.getElementById('qnum').textContent  = qCount;
+        document.getElementById('qnum').textContent  = Math.min(qCount + (currentQ ? 1 : 0), TOTAL);
     }
 
     /* ── Screens ── */
@@ -476,6 +476,7 @@
     function showQuestion() {
         currentQ = pick(generators)();
         answered = false;
+        updateStats();
 
         const progress    = Math.round((qCount / TOTAL) * 100);
         const choicesHTML = currentQ.choices
@@ -534,6 +535,9 @@
     }
 
     function showResult() {
+        currentQ = null;
+        updateStats();
+
         const pct = score / TOTAL;
         let emoji, msg;
         if      (pct >= 0.9) { emoji = '🏆'; msg = '满分探险家！你真的太厉害了！'; }
@@ -560,7 +564,7 @@
     }
 
     function startGame() {
-        score = 0; qCount = 0;
+        score = 0; qCount = 0; currentQ = null;
         updateStats();
         showQuestion();
     }
