@@ -1,21 +1,69 @@
 import {
-  AI_NAMES,
+  AI_PALETTE,
+  AI_SPAWN_MARGIN,
   AI_SPEED,
   BASE_RADIUS,
   BASE_SPACING,
   INITIAL_LENGTH,
+  PLAYER_COLORS,
   PLAYER_NAME,
-  SNAKE_COLORS,
+  PLAYER_SPAWN_CLEARANCE,
+  PLAYER_SPAWN_MARGIN,
   SNAKE_SPEED,
   WORLD_SIZE,
 } from '../config';
-import type { Snake } from '../types';
+import type { Point, Snake } from '../types';
 
-export function createSnake(isPlayer: boolean): Snake {
-  const x = 200 + Math.random() * (WORLD_SIZE - 400);
-  const y = 200 + Math.random() * (WORLD_SIZE - 400);
-  const angle = Math.random() * Math.PI * 2;
-  const colorIdx = Math.floor(Math.random() * SNAKE_COLORS.length);
+function randomIn(margin: number): number {
+  return margin + Math.random() * (WORLD_SIZE - margin * 2);
+}
+
+function nearestAISegment(p: Point, others: readonly Snake[]): number {
+  let best = Infinity;
+  for (const other of others) {
+    if (!other.alive || other.isPlayer) continue;
+    for (const seg of other.segments) {
+      const d = Math.hypot(seg.x - p.x, seg.y - p.y);
+      if (d < best) best = d;
+    }
+  }
+  return best;
+}
+
+/** Player spawn: inner area, heading toward the centre, no AI body within PLAYER_SPAWN_CLEARANCE. */
+function pickPlayerSpawn(others: readonly Snake[]): { x: number; y: number; angle: number } {
+  let fallback = { x: WORLD_SIZE / 2, y: WORLD_SIZE / 2, angle: 0, clearance: -1 };
+  for (let attempt = 0; attempt < 60; attempt += 1) {
+    const x = randomIn(PLAYER_SPAWN_MARGIN);
+    const y = randomIn(PLAYER_SPAWN_MARGIN);
+    const angle = Math.atan2(WORLD_SIZE / 2 - y, WORLD_SIZE / 2 - x);
+    const clearance = nearestAISegment({ x, y }, others);
+    if (clearance >= PLAYER_SPAWN_CLEARANCE) return { x, y, angle };
+    if (clearance > fallback.clearance) fallback = { x, y, angle, clearance };
+  }
+  return fallback;
+}
+
+/** AI colours/names never equal the player's palette and are unique among living AI snakes. */
+function pickAIStyle(others: readonly Snake[]): (typeof AI_PALETTE)[number] {
+  const used = new Set(others.filter((s) => s.alive && !s.isPlayer).map((s) => s.name));
+  const free = AI_PALETTE.filter((entry) => !used.has(entry.name));
+  const pool = free.length > 0 ? free : AI_PALETTE;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+export function createSnake(isPlayer: boolean, others: readonly Snake[] = []): Snake {
+  let x: number;
+  let y: number;
+  let angle: number;
+  if (isPlayer) {
+    ({ x, y, angle } = pickPlayerSpawn(others));
+  } else {
+    x = randomIn(AI_SPAWN_MARGIN);
+    y = randomIn(AI_SPAWN_MARGIN);
+    angle = Math.random() * Math.PI * 2;
+  }
+  const style = isPlayer ? { colors: PLAYER_COLORS, name: PLAYER_NAME } : pickAIStyle(others);
 
   const segments = [];
   for (let i = 0; i < INITIAL_LENGTH; i += 1) {
@@ -30,10 +78,10 @@ export function createSnake(isPlayer: boolean): Snake {
     angle,
     targetAngle: angle,
     speed: isPlayer ? SNAKE_SPEED : AI_SPEED,
-    colors: SNAKE_COLORS[colorIdx],
+    colors: style.colors,
     isPlayer,
     alive: true,
-    name: isPlayer ? PLAYER_NAME : AI_NAMES[Math.floor(Math.random() * AI_NAMES.length)],
+    name: style.name,
     aiTimer: 0,
     aiTarget: null,
     length: INITIAL_LENGTH,

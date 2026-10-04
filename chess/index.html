@@ -658,6 +658,7 @@ let aiProfile = AI_PROFILES[0];
 let showHints = true;
 let boardFlipped = false;
 let aiThinking = false;
+let inputLocked = false; // HOTFIX: busy during move animation
 let playerColor = 'w';
 let gameMode = 'ai'; // 'ai' or 'pvp'
 
@@ -697,6 +698,7 @@ function initBoard() {
     capturedPieces = { w: [], b: [] };
     gameOver = false;
     aiThinking = false;
+    inputLocked = false;
 }
 
 function cloneBoard(b) {
@@ -1148,9 +1150,17 @@ function getAIMove() {
 // ═══════════════════════════════════════
 //  AUDIO
 // ═══════════════════════════════════════
+let sharedAudioCtx = null;
+function getAudioCtx() {
+    if (!sharedAudioCtx) sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return sharedAudioCtx;
+}
+['touchend', 'click'].forEach(ev => document.addEventListener(ev, () => {
+    try { const c = getAudioCtx(); if (c.state !== 'running') c.resume(); } catch (e) {}
+}, true));
 function playTones(notes) {
     try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const ctx = getAudioCtx();
         notes.forEach(([freq, t, dur]) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -1331,7 +1341,6 @@ function getStatusMessage() {
     const inCheck = isInCheck(board, turn);
 
     if (moves.length === 0) {
-        gameOver = true;
         if (inCheck) {
             return { type: 'checkmate', winner: turn === 'w' ? 'b' : 'w' };
         }
@@ -1373,7 +1382,7 @@ function renderGame() {
     // Event listeners
     document.querySelectorAll('.square').forEach(sq => {
         sq.addEventListener('click', () => {
-            if (gameOver || aiThinking) return;
+            if (gameOver || aiThinking || inputLocked) return;
             // In AI mode: only playerColor can click. In PvP: anyone can click their own pieces.
             if (gameMode === 'ai' && turn !== playerColor) return;
             const r = parseInt(sq.dataset.r);
@@ -1383,7 +1392,7 @@ function renderGame() {
     });
 
     document.getElementById('btn-undo').onclick = () => {
-        if (aiThinking) return;
+        if (aiThinking || inputLocked) return;
         if (undoMove()) renderGame();
     };
     document.getElementById('btn-hints').onclick = () => {
@@ -1402,6 +1411,7 @@ function renderGame() {
     // Check game status
     const status = getStatusMessage();
     if (status && (status.type === 'checkmate' || status.type === 'stalemate')) {
+        gameOver = true;
         setTimeout(() => showGameOver(status), 400);
     }
 }
@@ -1534,10 +1544,12 @@ function handleSquareClick(r, c) {
 
 function executePlayerMove(move) {
     const wasCapture = move.captured != null;
+    inputLocked = true;
 
     // Animate the player's move, then apply
     animateMove(move, () => {
         makeMove(move);
+        inputLocked = false;
         selectedSq = null;
         legalMoves = [];
 

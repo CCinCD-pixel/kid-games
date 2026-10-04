@@ -19,8 +19,7 @@
       <div class="hero">
         <h1>🍓 表情消消乐</h1>
         <p>
-          给 5 岁半小朋友做的轻策略版。支持四消做横扫/竖扫，五消或十字形做炸弹，每个阶梯同样有
-          40 关和本地进度记录。
+          三个一样的连成一排就能消掉。四个连排变横扫或竖扫，L 形或 T 形变炸弹，五个连排变彩虹超级棋子。
         </p>
       </div>
 
@@ -112,9 +111,9 @@
           </div>
 
           <div class="legend">
-            <div class="legend-chip">🍬 四消条纹棋子</div>
-            <div class="legend-chip">💣 十字炸弹</div>
-            <div class="legend-chip">🌈 五消超级棋子</div>
+            <div class="legend-chip">四连 → 横扫 / 竖扫</div>
+            <div class="legend-chip">L 形 / T 形 → 炸弹</div>
+            <div class="legend-chip">五连 → 彩虹超级棋子</div>
           </div>
 
           <div class="board-shell" id="board-shell">
@@ -124,13 +123,15 @@
             <div class="match-board" id="match-board"></div>
           </div>
 
-          <div class="result-panel" id="result-panel">
-            <div class="muted" id="result-caption">本关结果</div>
-            <div class="result-score" id="result-score">0 分</div>
-            <div class="muted" id="result-detail"></div>
-            <div class="result-actions">
-              <button class="ghost-btn" id="result-secondary-btn">返回选关</button>
-              <button class="primary-btn" id="result-primary-btn">下一关</button>
+          <div class="result-panel" id="result-panel" role="dialog" aria-modal="true" aria-hidden="true">
+            <div class="result-card">
+              <div class="muted" id="result-caption">本关结果</div>
+              <div class="result-score" id="result-score">0 分</div>
+              <div class="muted" id="result-detail"></div>
+              <div class="result-actions">
+                <button class="ghost-btn" id="result-secondary-btn">返回选关</button>
+                <button class="primary-btn" id="result-primary-btn">下一关</button>
+              </div>
             </div>
           </div>
         </div>

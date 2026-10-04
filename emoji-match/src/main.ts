@@ -92,6 +92,8 @@ let swapAnimations: Map<number, string> = new Map();
 let specialFlashSet: Set<number> = new Set();
 let badSwapSet: Set<number> = new Set();
 let dragState: DragState | null = null;
+/** Incremented on every startLevel; async turn code aborts when the level it started on is gone. */
+let levelToken = 0;
 
 // ==========================================
 // ENHANCED VISUAL EFFECTS SYSTEM (VFX)
@@ -330,6 +332,8 @@ function setScreen(name: ScreenName): void {
     Object.entries(screens).forEach(([key, el]) => {
         el.classList.toggle("active", key === name);
     });
+    document.body.classList.toggle("in-game", name === "game");
+    if (name !== "game") hideResult();
 }
 
 function getLadder(id: string): Ladder {
@@ -361,6 +365,7 @@ function setStatus(title: string, text: string): void {
 
 function hideResult(): void {
     resultPanelEl.classList.remove("show");
+    resultPanelEl.setAttribute("aria-hidden", "true");
 }
 
 function showResult(options: ResultOptions): void {
@@ -372,6 +377,7 @@ function showResult(options: ResultOptions): void {
     resultPrimaryBtn.onclick = options.primaryAction;
     resultSecondaryBtn.onclick = options.secondaryAction;
     resultPanelEl.classList.add("show");
+    resultPanelEl.setAttribute("aria-hidden", "false");
 }
 
 function renderMenu(shouldSwitch = true): void {
@@ -441,12 +447,37 @@ function renderLevels(): void {
     setScreen("levels");
 }
 
+/** The kinds that actually spawn on the board for a level (initial board, refill and reshuffle). */
+function spawnPool(ladder: Ladder, level: LevelSpec): string[] {
+    return ladder.pool.slice(0, level.kindCount);
+}
+
+/** Goal kinds are always drawn from the spawn pool, so every goal piece can appear on the board. */
 function pickGoalKinds(pool: string[], count: number, seed: number): string[] {
-    const result = [];
+    const result: string[] = [];
     for (let i = 0; i < count; i += 1) {
-        result.push(pool[(seed + i * 2) % pool.length]);
+        let kind = pool[(seed + i * 2) % pool.length];
+        for (let k = 1; result.includes(kind) && k < pool.length; k += 1) {
+            kind = pool[(seed + i * 2 + k) % pool.length];
+        }
+        result.push(kind);
     }
     return result;
+}
+
+function goalKindsFor(ladder: Ladder, level: LevelSpec): string[] {
+    return pickGoalKinds(spawnPool(ladder, level), level.goals.length, level.number + ladder.pool.length);
+}
+
+/** Startup assertion: every goal kind of every level is in that level's spawn pool. */
+function assertGoalsSpawnable(): void {
+    for (const ladder of LADDERS) {
+        for (const level of ladder.levels) {
+            const pool = spawnPool(ladder, level);
+            const bad = goalKindsFor(ladder, level).filter((kind) => !pool.includes(kind));
+            if (bad.length) console.error(`[emoji-match] ${ladder.id} ${level.number}: goal ${bad.join(",")} not in spawn pool`);
+        }
+    }
 }
 
 function startLevel(ladderId: string, levelNumber: number): void {
@@ -456,6 +487,7 @@ function startLevel(ladderId: string, levelNumber: number): void {
     boardSize = currentLevel.boardSize;
     selectedIndex = null;
     busy = false;
+    levelToken += 1;
     score = 0;
     movesLeft = currentLevel.moves;
     clearingSet = new Set();
@@ -467,16 +499,16 @@ function startLevel(ladderId: string, levelNumber: number): void {
     hideResult();
 
     const ladder = getLadder(ladderId);
-    const goalKinds = pickGoalKinds(ladder.pool, currentLevel.goals.length, levelNumber + ladder.pool.length);
+    const goalKinds = goalKindsFor(ladder, currentLevel);
     goalsState = currentLevel.goals.map((target, index) => ({
         kind: goalKinds[index],
         target,
         collected: 0
     }));
 
-    board = createPlayableBoard(boardSize, ladder.pool.slice(0, currentLevel.kindCount));
+    board = createPlayableBoard(boardSize, spawnPool(ladder, currentLevel));
     renderGame();
-    setStatus("开始闯关", "做四个会得到横扫或竖扫，做五个或者十字形会得到炸弹。");
+    setStatus("开始闯关", "四个连成一排变横扫或竖扫，L 形或 T 形变炸弹，五个连成一排变彩虹。");
     setScreen("game");
 }
 
@@ -727,6 +759,7 @@ function onBoardPointerUp(event: PointerEvent): void {
 async function attemptSwap(a: number, b: number, options: SwapOptions = {}): Promise<void> {
     if (busy) return;
     busy = true;
+    const token = levelToken;
     swapTiles(board, a, b);
     setSwapAnimationPair(a, b);
     AudioEngine.swap();
@@ -744,7 +777,9 @@ async function attemptSwap(a: number, b: number, options: SwapOptions = {}): Pro
             flashColor: rainbow.color,
             burstText: rainbow.label
         });
+        if (token !== levelToken) return;
         await resolveCascades();
+        if (token !== levelToken) return;
         finishTurn();
         return;
     }
@@ -756,7 +791,9 @@ async function attemptSwap(a: number, b: number, options: SwapOptions = {}): Pro
         let clearSet = new Set([a, b]);
         expandSpecials(clearSet);
         await applyClearSet(clearSet, new Map(), { comboLevel: 1, source: "special" });
+        if (token !== levelToken) return;
         await resolveCascades();
+        if (token !== levelToken) return;
         finishTurn();
         return;
     }
@@ -764,6 +801,7 @@ async function attemptSwap(a: number, b: number, options: SwapOptions = {}): Pro
     const groups = findMatches(board, boardSize);
     if (!groups.length) {
         await wait(240);
+        if (token !== levelToken) return;
         swapTiles(board, a, b);
         setSwapAnimationPair(b, a);
         badSwapSet = new Set([a, b]);
@@ -782,7 +820,9 @@ async function attemptSwap(a: number, b: number, options: SwapOptions = {}): Pro
     movesLeft -= 1;
     setStatus("消掉啦", "继续找机会做四消和五消。");
     await applyMatchGroups(groups, [a, b], 1);
+    if (token !== levelToken) return;
     await resolveCascades();
+    if (token !== levelToken) return;
     finishTurn();
 }
 
@@ -1092,7 +1132,7 @@ function collapseBoard(): void {
 }
 
 function refillBoard(): void {
-    const pool = getLadder(currentLadderId).pool.slice(0, currentLevel.kindCount);
+    const pool = spawnPool(getLadder(currentLadderId), currentLevel);
     for (let index = 0; index < board.length; index += 1) {
         if (!board[index]) {
             board[index] = makeTile(pool[Math.floor(Math.random() * pool.length)]);
@@ -1102,7 +1142,8 @@ function refillBoard(): void {
 
 async function resolveCascades(): Promise<void> {
     let comboLevel = 1;
-    while (true) {
+    const token = levelToken;
+    while (token === levelToken) {
         const groups = findMatches(board, boardSize);
         if (!groups.length) break;
         comboLevel += 1;
@@ -1134,7 +1175,9 @@ function finishTurn(): void {
 }
 
 function finishWin(): void {
-    busy = false;
+    // Keep busy=true: the board stays locked until the next startLevel.
+    busy = true;
+    selectedIndex = null;
     const ladder = getLadder(currentLadderId);
     const ladderProgress = getLadderProgress(currentLadderId);
     const stars = movesLeft >= Math.ceil(currentLevel.moves * 0.35) ? 3 : movesLeft >= Math.ceil(currentLevel.moves * 0.15) ? 2 : 1;
@@ -1161,7 +1204,9 @@ function finishWin(): void {
 }
 
 function finishFail(): void {
-    busy = false;
+    // Keep busy=true: no more swaps after the move budget is spent.
+    busy = true;
+    selectedIndex = null;
     setStatus("步数用完了", "下一次优先做特殊块，清目标会更快。");
     showResult({
         caption: "本关未通过",
@@ -1194,7 +1239,7 @@ function hasPossibleMove(source: BoardTile[], size: number): boolean {
 }
 
 function reshuffleBoard(): void {
-    const pool = getLadder(currentLadderId).pool.slice(0, currentLevel.kindCount);
+    const pool = spawnPool(getLadder(currentLadderId), currentLevel);
     board = createPlayableBoard(boardSize, pool);
 }
 
@@ -1210,4 +1255,5 @@ window.addEventListener("pointermove", onBoardPointerMove);
 window.addEventListener("pointerup", onBoardPointerUp);
 window.addEventListener("pointercancel", onBoardPointerUp);
 
+assertGoalsSpawnable();
 renderMenu();

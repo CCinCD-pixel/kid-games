@@ -11,18 +11,28 @@ export const AI_SPEED = 2.3;
 export const FOOD_RADIUS = 5;
 export const DEATH_FOOD_COUNT = 8;
 
-export const PLAYER_NAME = '陈亦承';
+export const PLAYER_NAME = '小步步';
 export const PLAYER_COLORS: SnakeColors = ['#f1c40f', '#f39c12'];
 
-export const SNAKE_COLORS: SnakeColors[] = [
-  ['#f1c40f', '#f39c12'],
-  ['#e74c3c', '#c0392b'],
-  ['#2ecc71', '#27ae60'],
-  ['#3498db', '#2980b9'],
-  ['#9b59b6', '#8e44ad'],
-  ['#1abc9c', '#16a085'],
-  ['#e67e22', '#d35400'],
-  ['#fd79a8', '#e84393'],
+/** Spawn safety: the player appears inside the inner area, heading toward the centre. */
+export const PLAYER_SPAWN_MARGIN = WORLD_SIZE * 0.25;
+/** No AI segment may be closer than this to the player's spawn point. */
+export const PLAYER_SPAWN_CLEARANCE = 250;
+export const AI_SPAWN_MARGIN = 200;
+
+/**
+ * AI palette: every entry differs from PLAYER_COLORS, and the name follows the colour,
+ * so two AI snakes alive at the same time never share a colour or a name.
+ */
+export const AI_PALETTE: ReadonlyArray<{ colors: SnakeColors; name: string }> = [
+  { colors: ['#e74c3c', '#c0392b'], name: '小红蛇' },
+  { colors: ['#2ecc71', '#27ae60'], name: '小绿蛇' },
+  { colors: ['#3498db', '#2980b9'], name: '小蓝蛇' },
+  { colors: ['#9b59b6', '#8e44ad'], name: '小紫蛇' },
+  { colors: ['#1abc9c', '#16a085'], name: '小青蛇' },
+  { colors: ['#e67e22', '#d35400'], name: '小橙蛇' },
+  { colors: ['#fd79a8', '#e84393'], name: '小粉蛇' },
+  { colors: ['#95a5a6', '#7f8c8d'], name: '小灰蛇' },
 ];
 
 export const FOOD_COLORS = [
@@ -34,17 +44,4 @@ export const FOOD_COLORS = [
   '#a66cff',
   '#ff9f43',
   '#00d2d3',
-];
-
-export const AI_NAMES = [
-  '小花蛇',
-  '小青蛇',
-  '小红蛇',
-  '小金蛇',
-  '小紫蛇',
-  '小蓝蛇',
-  '小胖蛇',
-  '小快蛇',
-  '小灵蛇',
-  '小勇蛇',
 ];

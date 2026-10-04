@@ -336,7 +336,7 @@
         }
 
         .board-shell {
-            width: min(92vw, 560px);
+            width: min(92vw, 560px, calc(100vh - 250px));
             margin: 14px auto 6px;
             position: relative;
         }
@@ -368,7 +368,7 @@
         }
 
         .match-board {
-            width: min(92vw, 560px);
+            width: 100%;
             display: grid;
             grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
             gap: 8px;
@@ -520,17 +520,68 @@
             animation: twinkle 1.2s ease-in-out infinite alternate;
         }
 
+        /* Result: a centred modal, visible in both orientations without scrolling. */
         .result-panel {
-            margin-top: 14px;
-            padding: 14px;
-            border-radius: 22px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.76);
+            position: fixed;
+            inset: 0;
+            z-index: 60;
             display: none;
+            align-items: center;
+            justify-content: center;
+            padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+            background: rgba(83, 57, 45, 0.38);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
         }
 
         .result-panel.show {
-            display: block;
+            display: flex;
+            animation: result-fade 0.25s ease-out;
+        }
+
+        .result-card {
+            width: min(440px, 100%);
+            padding: 24px 22px 20px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(180deg, #fffaf0, #ffeef3);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 24px 60px rgba(83, 57, 45, 0.28);
+            animation: result-pop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .result-card .result-actions {
+            margin-top: 18px;
+            justify-content: center;
+        }
+
+        .result-card .result-actions button {
+            min-height: 56px;
+            min-width: 132px;
+            font-size: 1.05rem;
+        }
+
+        @keyframes result-fade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes result-pop { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* In-game: hide the big title; in landscape also hide the status box and legend so goals + board fit. */
+        body.in-game .hero {
+            display: none;
+        }
+
+        @media (orientation: landscape) {
+            body.in-game .status-box,
+            body.in-game .legend {
+                display: none;
+            }
+
+            body.in-game .app {
+                padding-bottom: 0;
+            }
+
+            body.in-game .board-shell {
+                width: min(92vw, 560px, calc(100vh - 290px));
+            }
         }
 
         .result-score {

@@ -51,10 +51,8 @@ REQUIRED_PREVIEW_FILES=(
   "number-adventure/index.html"
   "sokoban/index.html"
   "chess/index.html"
-  "checkers/index.html"
   "snake-battle/index.html"
   "military-chess/index.html"
-  "star-catcher/index.html"
 )
 
 for file in "${REQUIRED_PREVIEW_FILES[@]}"; do

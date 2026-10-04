@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kid-games-v2';
+const CACHE_NAME = 'kid-games-v3';
 
 // 需要预缓存的核心资源
 const PRECACHE_URLS = [
@@ -11,10 +11,8 @@ const PRECACHE_URLS = [
   '/number-adventure/index.html',
   '/sokoban/index.html',
   '/chess/index.html',
-  '/checkers/index.html',
   '/snake-battle/index.html',
-  '/military-chess/index.html',
-  '/star-catcher/index.html'
+  '/military-chess/index.html'
 ];
 
 // 安装：预缓存核心资源

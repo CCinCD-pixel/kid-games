@@ -1,4 +1,4 @@
-import { AI_COUNT, DEATH_FOOD_COUNT, PLAYER_COLORS } from '../config';
+import { AI_COUNT, DEATH_FOOD_COUNT } from '../config';
 import { InputController } from '../input/InputController';
 import { Renderer } from '../render/Renderer';
 import { Hud } from '../ui/Hud';
@@ -33,11 +33,10 @@ export class Game {
     this.snakes = [];
 
     for (let i = 0; i < AI_COUNT; i += 1) {
-      this.snakes.push(createSnake(false));
+      this.snakes.push(createSnake(false, this.snakes));
     }
 
-    this.player = createSnake(true);
-    this.player.colors = PLAYER_COLORS;
+    this.player = createSnake(true, this.snakes);
     this.snakes.push(this.player);
     this.input.setPlayer(this.player);
 
@@ -61,8 +60,7 @@ export class Game {
       }
     }
 
-    this.player = createSnake(true);
-    this.player.colors = PLAYER_COLORS;
+    this.player = createSnake(true, this.snakes);
     this.snakes.push(this.player);
     this.input.setPlayer(this.player);
   }
@@ -120,7 +118,7 @@ export class Game {
     window.setTimeout(() => {
       const idx = this.snakes.indexOf(snake);
       if (idx >= 0) {
-        this.snakes[idx] = createSnake(false);
+        this.snakes[idx] = createSnake(false, this.snakes);
       }
     }, 2000);
   }

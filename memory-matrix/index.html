@@ -27,6 +27,7 @@
             --grid-size: 4;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        button { font: inherit; color: inherit; }
         body {
             margin: 0; min-height: 100vh;
             background: linear-gradient(180deg, var(--space-deep) 0%, var(--space-purple) 50%, var(--space-midnight) 100%);
@@ -145,7 +146,8 @@
         .hud-chip span { display: block; color: var(--text-muted); font-size: 0.78rem; }
         .hud-chip strong { display: block; margin-top: 4px; font-size: 1rem; color: var(--cyan-glow); }
         .memory-board {
-            width: min(92vw, 480px); height: min(92vw, 480px); margin: 18px auto 10px;
+            --board-side: min(92vw, 480px, calc(100vh - 290px - env(safe-area-inset-top)));
+            width: var(--board-side); height: var(--board-side); margin: 18px auto 10px;
             display: grid; gap: 10px;
             grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
             grid-template-rows: repeat(var(--grid-size), minmax(0, 1fr)); padding: 14px;
@@ -194,8 +196,11 @@
             border: 1px solid rgba(100, 120, 255, 0.25); display: none; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
         }
         .result-panel.show { display: block; animation: fadeInUp 0.4s ease; }
+        .result-actions button { min-height: 56px; }
+        body.in-game .hero { display: none; }
         .result-score { font-size: 1.4rem; font-weight: 700; margin: 8px 0 10px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
         .result-stars { display: inline-flex; gap: 4px; }
+        .attempt-note { font-size: 1rem; color: var(--text-muted); }
         .progress-line { margin-top: 14px; height: 10px; border-radius: 999px; background: rgba(20, 20, 50, 0.6); overflow: hidden; border: 1px solid rgba(100, 120, 255, 0.15); }
         .progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan-glow), var(--violet-glow), var(--gold-glow)); width: 0; transition: width 0.5s ease; }
         .particle-container { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
@@ -225,7 +230,7 @@
             .status-box { min-height: 56px; padding: 6px 8px; }
             .status-title { font-size: 1.18rem; }
             .status-subtitle { margin-top: 4px; font-size: 0.92rem; line-height: 1.35; }
-            .memory-board { width: min(89vw, 360px); height: min(89vw, 360px); margin: 8px auto 4px; gap: 7px; padding: 9px; border-radius: 22px; }
+            .memory-board { --board-side: min(89vw, 360px, calc(100vh - 250px - env(safe-area-inset-top))); margin: 8px auto 4px; gap: 7px; padding: 9px; border-radius: 22px; }
             .cell { border-radius: 14px; }
         }
     </style>
@@ -312,7 +317,7 @@
                 <div class="memory-board" id="memory-board"></div>
                 <div class="result-panel" id="result-panel">
                     <div class="small-muted" id="result-caption">本关结果</div>
-                    <div class="result-score" id="result-score">0 分</div>
+                    <div class="result-score" id="result-score"></div>
                     <div class="helper-text" id="result-detail"></div>
                     <div class="result-actions">
                         <button class="ghost-btn" id="result-secondary-btn">返回选关</button>
@@ -372,7 +377,7 @@
                 for (let step = 0; step < phase.length; step += 1) {
                     const t = phase.length === 1 ? 1 : step / (phase.length - 1);
                     const count = Math.round(phase.countStart + (phase.countEnd - phase.countStart) * t);
-                    const previewMs = Math.round(phase.previewStart + (phase.previewEnd - phase.previewStart) * t);
+                    const previewMs = Math.max(1200, Math.round(phase.previewStart + (phase.previewEnd - phase.previewStart) * t));
                     const spread = Number((phase.spreadStart + (phase.spreadEnd - phase.spreadStart) * t).toFixed(2));
                     levels.push({
                         number: levels.length + 1,
@@ -501,6 +506,11 @@
         let inputLocked = true;
         let previewTimer = null;
         let levelStartAt = 0;
+        // Attempts at the current level in this visit: 1st try = 3 stars, 2nd = 2, later = 1.
+        let attemptKey = "";
+        let attemptCount = 0;
+        let lastPatternKey = "";
+        const MIN_PREVIEW_MS = 1200;
 
         const AudioEngine = (() => {
             let ctx = null;
@@ -578,6 +588,11 @@
             Object.entries(screens).forEach(([key, el]) => {
                 el.classList.toggle("active", key === name);
             });
+            document.body.classList.toggle("in-game", name === "game");
+            if (name !== "game") {
+                clearTimeout(previewTimer);
+                inputLocked = true;
+            }
         }
 
         function getLadder(id) {
@@ -699,6 +714,12 @@
 
         function startLevel(ladderId, levelNumber) {
             clearTimeout(previewTimer);
+            const key = `${ladderId}:${levelNumber}`;
+            if (key !== attemptKey) {
+                attemptKey = key;
+                attemptCount = 0;
+            }
+            attemptCount += 1;
             currentLadderId = ladderId;
             currentLevelNumber = levelNumber;
             currentConfig = getLadder(ladderId).levels[levelNumber - 1];
@@ -711,7 +732,9 @@
             updateHud();
             setStatus(`第 ${levelNumber} 关`, "先看亮起来的方块，记住它们的位置。");
             setScreen("game");
-            window.setTimeout(playLevel, 350);
+            window.scrollTo(0, 0);
+            clearTimeout(previewTimer);
+            previewTimer = window.setTimeout(playLevel, 350);
         }
 
         function updateHud() {
@@ -746,11 +769,18 @@
             resultPrimaryBtn.onclick = primaryAction;
             resultSecondaryBtn.onclick = secondaryAction;
             resultPanelEl.classList.add("show");
+            requestAnimationFrame(() => resultPanelEl.scrollIntoView({ block: "nearest", behavior: "smooth" }));
         }
 
         function playLevel() {
             clicked = [];
-            pattern = generatePattern(currentLadderId, currentLevelNumber, currentConfig);
+            let salt = (Math.random() * 0x7fffffff) | 0;
+            pattern = generatePattern(currentLadderId, currentLevelNumber, currentConfig, salt);
+            for (let tries = 0; tries < 8 && pattern.join(",") === lastPatternKey; tries += 1) {
+                salt = (Math.random() * 0x7fffffff) | 0;
+                pattern = generatePattern(currentLadderId, currentLevelNumber, currentConfig, salt);
+            }
+            lastPatternKey = pattern.join(",");
             patternSet = new Set(pattern);
             cellButtons.forEach((button) => {
                 button.className = "cell";
@@ -769,7 +799,7 @@
                 inputLocked = false;
                 levelStartAt = performance.now();
                 setStatus("轮到你了", "把刚才亮过的方块全部按出来。");
-            }, currentConfig.previewMs);
+            }, Math.max(MIN_PREVIEW_MS, currentConfig.previewMs));
         }
 
         function hashString(text) {
@@ -799,9 +829,9 @@
             return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
         }
 
-        function generatePattern(ladderId, levelNumber, config) {
+        function generatePattern(ladderId, levelNumber, config, salt = 0) {
             const total = config.boardSize * config.boardSize;
-            const rng = makeRng(hashString(`${ladderId}:${levelNumber}`));
+            const rng = makeRng(hashString(`${ladderId}:${levelNumber}:${salt}`));
             const center = {
                 x: Math.floor(rng() * config.boardSize),
                 y: Math.floor(rng() * config.boardSize)
@@ -861,7 +891,7 @@
                 showResultPanel({
                     caption: "本关未通过",
                     score: "再试一次",
-                    detail: "系统会保留已经通关的关卡记录，重玩不会丢失进度。",
+                    detail: "亮过的方块已经显示出来了。再来一次会换一个新图案。",
                     primaryLabel: "重玩本关",
                     primaryAction: () => startLevel(currentLadderId, currentLevelNumber),
                     secondaryLabel: "回到选关",
@@ -875,15 +905,12 @@
             AudioEngine.win();
             spawnCelebration();
             const responseMs = performance.now() - levelStartAt;
-            const idealMs = currentConfig.count * 950 + currentConfig.boardSize * 180;
-            const stars = responseMs <= idealMs * 0.72 ? 3 : responseMs <= idealMs * 1.08 ? 2 : 1;
-            const score = Math.max(120, Math.round(currentConfig.count * 65 + currentConfig.previewMs / 12 + stars * 90 - responseMs / 18));
+            const stars = attemptCount <= 1 ? 3 : attemptCount === 2 ? 2 : 1;
             const ladder = getLadder(currentLadderId);
             const ladderProgress = getLadderProgress(currentLadderId);
             const existing = ladderProgress.solved[currentLevelNumber];
             ladderProgress.solved[currentLevelNumber] = {
                 stars: Math.max(stars, existing ? existing.stars || 0 : 0),
-                bestScore: Math.max(score, existing ? existing.bestScore || 0 : 0),
                 bestTimeMs: existing ? Math.min(responseMs, existing.bestTimeMs || responseMs) : responseMs
             };
             ladderProgress.unlocked = Math.min(ladder.levels.length, Math.max(ladderProgress.unlocked, currentLevelNumber + 1));
@@ -893,7 +920,7 @@
             setStatus("太棒了", `你成功记住了 ${currentConfig.count} 个方块。`);
             showResultPanel({
                 caption: "本关通关",
-                score: `${score} 分 · ${makeStarsHTML(stars)}`,
+                score: `${makeStarsHTML(stars)}<span class="attempt-note">${attemptCount <= 1 ? "第 1 次就记住了！" : `第 ${attemptCount} 次记住了`}</span>`,
                 detail: currentLevelNumber >= ladder.levels.length
                     ? "这一整个阶梯都完成了，可以回选关重玩，也可以挑战更高阶梯。"
                     : `已自动解锁第 ${Math.min(ladder.levels.length, currentLevelNumber + 1)} 关。`,
