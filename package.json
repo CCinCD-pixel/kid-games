@@ -9,11 +9,11 @@
   },
   "scripts": {
     "dev": "vite --host",
-    "build": "node tools/check-registry.mjs && tsc --noEmit -p tsconfig.json && vite build",
+    "build": "node tools/check-registry.mjs && node tools/check-content.mjs && tsc --noEmit -p tsconfig.json && vite build",
     "preview": "vite preview --host",
     "test": "vitest run",
     "test:smoke": "npm run build && playwright test -c tests/smoke/playwright.config.ts",
-    "check": "node tools/check-registry.mjs && tsc --noEmit -p tsconfig.json && vitest run",
+    "check": "node tools/check-registry.mjs && node tools/check-content.mjs && tsc --noEmit -p tsconfig.json && vitest run",
     "icons": "node tools/generate-icons.mjs"
   },
   "dependencies": {
