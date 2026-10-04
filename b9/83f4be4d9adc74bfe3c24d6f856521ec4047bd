@@ -1,0 +1,37 @@
+tests/unit/audio.test.ts
+  ai_agent 1-28
+tests/unit/registry.test.ts
+  ai_agent 1-67
+tests/unit/content.test.ts
+  ai_agent 1-43
+tests/helpers/memory-storage.ts
+  ai_agent 1-24
+tests/unit/log.test.ts
+  ai_agent 1-60
+tests/unit/rng.test.ts
+  ai_agent 1-69
+tests/unit/sw.test.ts
+  ai_agent 1-75
+tests/unit/companion.test.ts
+  ai_agent 1-20
+tests/smoke/smoke.spec.ts
+  ai_agent 1-218
+tests/smoke/playwright.config.ts
+  ai_agent 1-49
+tests/unit/narration.test.ts
+  ai_agent 1-146
+tests/unit/progress.test.ts
+  ai_agent 1-109
+tests/unit/tween.test.ts
+  ai_agent 1-24
+vitest.config.ts
+  ai_agent 1-23
+tests/unit/input.test.ts
+  ai_agent 1-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "b983f4be4d9adc74bfe3c24d6f856521ec4047bd",
+  "prompts": {}
+}
