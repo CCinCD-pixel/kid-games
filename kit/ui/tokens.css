@@ -1,0 +1,121 @@
+/* =============================================================================
+   kit/ui/tokens.css — PLACEHOLDER design tokens.
+   The real 星港 design system (separate agent) replaces this file wholesale. It uses the same
+   naming (--xg-<group>-<name>[-<step>]), so kit components and games written against these names
+   keep working. Only role aliases and scales that kit components need are defined here.
+   Import once per page: import '@kit/ui/tokens.css' (the kit shell does it for you).
+   ============================================================================= */
+:root {
+  /* palette (subset) */
+  --xg-night-950: #070b1f;
+  --xg-night-900: #0c1230;
+  --xg-night-800: #131b42;
+  --xg-night-200: #b7c1ec;
+  --xg-moon-50: #fffaf0;
+  --xg-moon-300: #f9d27c;
+  --xg-paper-0: #fffdf8;
+  --xg-paper-100: #fbf3e3;
+  --xg-paper-200: #f4e7cd;
+  --xg-ink-900: #261c30;
+  --xg-ink-700: #4b3f58;
+  --xg-ink-500: #776a85;
+  --xg-gold-500: #f6b934;
+  --xg-jade-500: #1aa892;
+  --xg-jade-700: #0f7466;
+  --xg-jade-100: #d9f5ee;
+  --xg-ok-500: #1aa892;
+  --xg-try-500: #f0a53a;
+  --xg-info-500: #3f7be6;
+  --xg-led: #8ff7ec;
+
+  /* roles (themes override these) */
+  --xg-bg: var(--xg-paper-100);
+  --xg-surface: var(--xg-paper-0);
+  --xg-surface-sunk: var(--xg-paper-200);
+  --xg-text: var(--xg-ink-900);
+  --xg-text-2: var(--xg-ink-700);
+  --xg-text-3: var(--xg-ink-500);
+  --xg-line: rgba(76, 52, 30, .14);
+  --xg-focus: var(--xg-info-500);
+  --xg-accent: var(--xg-jade-500);
+  --xg-accent-deep: var(--xg-jade-700);
+  --xg-accent-soft: var(--xg-jade-100);
+
+  /* type */
+  --xg-font-ui: "PingFang SC", -apple-system, "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+  --xg-font-read: "XG WenKai", "LXGW WenKai GB", "Kaiti SC", "STKaiti", "KaiTi", serif;
+  --xg-font-title: "XG KuaiLe", "ZCOOL KuaiLe", "PingFang SC", system-ui, sans-serif;
+  --xg-font-num: "XG Baloo", "Baloo 2", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  --xg-fs-caption: 15px;
+  --xg-fs-small: 17px;
+  --xg-fs-body: 20px;
+  --xg-fs-lead: 23px;
+  --xg-fs-h3: 28px;
+  --xg-fs-h2: 36px;
+  --xg-fs-h1: 46px;
+  --xg-lh-body: 1.5;
+  --xg-fw-bold: 700;
+  --xg-fw-black: 800;
+
+  /* space, touch, radius */
+  --xg-sp-1: 4px;
+  --xg-sp-2: 8px;
+  --xg-sp-3: 12px;
+  --xg-sp-4: 16px;
+  --xg-sp-6: 24px;
+  --xg-sp-8: 32px;
+  --xg-gutter: 24px;
+  --xg-hit-min: 48px;
+  --xg-hit-primary: 64px;
+  --xg-hit-back: 56px;
+  --xg-r-sm: 12px;
+  --xg-r-md: 18px;
+  --xg-r-lg: 26px;
+  --xg-r-pill: 999px;
+
+  /* depth */
+  --xg-shadow-color: 52, 30, 12;
+  --xg-sh-1: 0 1px 0 rgba(var(--xg-shadow-color), .10), 0 2px 6px rgba(var(--xg-shadow-color), .10);
+  --xg-sh-2: 0 2px 0 rgba(var(--xg-shadow-color), .10), 0 8px 18px -4px rgba(var(--xg-shadow-color), .24);
+  --xg-sh-3: 0 3px 0 rgba(var(--xg-shadow-color), .10), 0 16px 32px -8px rgba(var(--xg-shadow-color), .32);
+  --xg-btn-depth: 6px;
+  --xg-btn-depth-pressed: 2px;
+
+  /* motion */
+  --xg-dur-press: 110ms;
+  --xg-dur-release: 320ms;
+  --xg-dur-fast: 160ms;
+  --xg-dur-base: 240ms;
+  --xg-dur-slow: 420ms;
+  --xg-ease-out: cubic-bezier(.22, 1, .36, 1);
+  --xg-ease-back: cubic-bezier(.34, 1.56, .64, 1);
+
+  /* z-index */
+  --xg-z-hud: 10;
+  --xg-z-drag: 50;
+  --xg-z-companion: 60;
+  --xg-z-toast: 70;
+  --xg-z-modal: 100;
+}
+
+[data-xg-theme="night"] {
+  --xg-bg: var(--xg-night-900);
+  --xg-surface: var(--xg-night-800);
+  --xg-surface-sunk: var(--xg-night-950);
+  --xg-text: var(--xg-moon-50);
+  --xg-text-2: var(--xg-night-200);
+  --xg-text-3: #8594d6;
+  --xg-line: rgba(183, 193, 236, .16);
+  --xg-shadow-color: 3, 5, 22;
+  --xg-focus: var(--xg-moon-300);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --xg-dur-press: 1ms;
+    --xg-dur-release: 1ms;
+    --xg-dur-fast: 1ms;
+    --xg-dur-base: 1ms;
+    --xg-dur-slow: 1ms;
+  }
+}
