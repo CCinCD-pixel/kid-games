@@ -1,0 +1,67 @@
+{
+  "dev.hello": {
+    "src": "/dev/kit/audio/dev.hello.ba77bb2c.m4a",
+    "text": "你好，我是领航员。",
+    "durationMs": 2073,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "你",
+        "t0": 0,
+        "t1": 230
+      },
+      {
+        "ch": "好",
+        "t0": 230,
+        "t1": 461
+      },
+      {
+        "ch": "，",
+        "t0": 461,
+        "t1": 691
+      },
+      {
+        "ch": "我",
+        "t0": 691,
+        "t1": 921
+      },
+      {
+        "ch": "是",
+        "t0": 921,
+        "t1": 1152
+      },
+      {
+        "ch": "领",
+        "t0": 1152,
+        "t1": 1382
+      },
+      {
+        "ch": "航",
+        "t0": 1382,
+        "t1": 1612
+      },
+      {
+        "ch": "员",
+        "t0": 1612,
+        "t1": 1843
+      },
+      {
+        "ch": "。",
+        "t0": 1843,
+        "t1": 2073
+      }
+    ]
+  },
+  "dev.replay": {
+    "src": "/dev/kit/audio/dev.replay.354750ea.m4a",
+    "text": "点一下喇叭，可以再听一遍。",
+    "durationMs": 2745,
+    "role": "companion"
+  },
+  "dev.missing": {
+    "src": "/dev/kit/audio/dev.missing.00000000.m4a",
+    "text": "这句话的录音不存在，用备用朗读。",
+    "durationMs": 2500,
+    "role": "narrator"
+  }
+}

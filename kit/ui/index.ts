@@ -1,5 +1,7 @@
 /**
- * Base UI components (placeholder look; the 星港 design system restyles them through tokens).
+ * Base UI components (placeholder look). The 星港 design system lands here later: it replaces
+ * tokens.css/base.css and adds components (result card, keypad, node map, ghost hand, …). The
+ * names below stay as the stable API; class names `.kit-*` are the styling seam.
  *
  *   import { h, showModal, toast, starRow, createSubtitleBar } from '@kit/ui';
  *   const choice = await showModal({ title: '过关啦！', body: starRow(2, 3), actions: [
@@ -96,11 +98,18 @@ export function showModal(opts: ModalOptions): Promise<string> {
   });
 }
 
-/** Short non-blocking message at the bottom. */
-export function toast(text: string, ms = 2200): void {
-  const el = h('div', { class: 'kit-toast', role: 'status' }, text);
+export interface ToastOptions {
+  /** semantic tone; the design system colours it (placeholder ignores it) */
+  tone?: 'ok' | 'try' | 'info' | 'accent';
+  ms?: number;
+}
+
+/** Short non-blocking message at the bottom. Same signature as the design system's toast(). */
+export function toast(text: string, opts: ToastOptions | number = {}): void {
+  const o = typeof opts === 'number' ? { ms: opts } : opts;
+  const el = h('div', { class: 'kit-toast', role: 'status', 'data-tone': o.tone }, text);
   document.body.append(el);
-  setTimeout(() => el.remove(), ms);
+  setTimeout(() => el.remove(), o.ms ?? 2200);
 }
 
 /**

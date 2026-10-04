@@ -14,7 +14,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MEDIA_PREFIXES = ['/audio/', '/models/', '/fonts/'];
 const NEVER = new Set(['/sw.js', '/_redirects', '/_headers']);
 const SKIP_EXT = /\.(map|txt|md)$/i;
-const DEV_PREFIXES = ['/dev/'];
+const DEV_PREFIXES = ['/dev/', '/assets/dev/'];
 
 /** @param {string} dir @param {string} [base] @returns {string[]} */
 function listFiles(dir, base = dir) {

@@ -62,8 +62,9 @@ export function pointInRect(p: Point, r: Rect, slop = 0): boolean {
 
 /** Snap a point to the centre of a grid cell. */
 export function snapToGrid(p: Point, cell: number, origin: Point = { x: 0, y: 0 }): Point & { col: number; row: number } {
-  const col = Math.round((p.x - origin.x - cell / 2) / cell);
-  const row = Math.round((p.y - origin.y - cell / 2) / cell);
+  // `|| 0` turns Math.round's -0 into a plain 0 (Object.is, deep equality and 1/x see -0)
+  const col = Math.round((p.x - origin.x - cell / 2) / cell) || 0;
+  const row = Math.round((p.y - origin.y - cell / 2) / cell) || 0;
   return { col, row, x: origin.x + col * cell + cell / 2, y: origin.y + row * cell + cell / 2 };
 }
 

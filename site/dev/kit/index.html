@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-xg-theme="night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="robots" content="noindex">
+  <title>kit 演示台</title>
+  <link rel="manifest" href="/manifest.json">
+  <script type="module" src="./main.ts"></script>
+</head>
+<body>
+  <main class="kd">
+    <header class="kd-head">
+      <h1>kit 演示台</h1>
+      <p>开发用：所有 kit 组件的活样例，冒烟测试也跑这一页。</p>
+    </header>
+
+    <section class="kd-panel kit-panel" aria-label="旁白">
+      <h2>旁白 narration</h2>
+      <div class="kd-row">
+        <button class="kit-btn kit-btn--primary" id="say-hello" type="button">说一句</button>
+        <button class="kit-btn" id="say-queue" type="button">排队两句</button>
+        <button class="kit-btn" id="say-missing" type="button">缺录音</button>
+        <button class="kit-btn" id="say-stop" type="button">停</button>
+      </div>
+    </section>
+
+    <section class="kd-panel kit-panel" aria-label="界面">
+      <h2>界面 ui</h2>
+      <div class="kd-row">
+        <button class="kit-btn" id="ui-modal" type="button">弹窗</button>
+        <button class="kit-btn" id="ui-toast" type="button">提示条</button>
+        <button class="kit-btn" id="ui-confetti" type="button">撒花</button>
+        <button class="kit-btn" id="ui-tone" type="button">音效</button>
+      </div>
+    </section>
+
+    <section class="kd-panel kit-panel kd-play" aria-label="拖拽">
+      <h2>拖拽吸附 input</h2>
+      <div class="kd-board" id="board">
+        <div class="kd-slot" data-slot="0"></div>
+        <div class="kd-slot" data-slot="1"></div>
+        <div class="kd-slot" data-slot="2"></div>
+        <div class="kd-tile" id="tile">🚀</div>
+      </div>
+      <div class="kd-companion" id="bot"></div>
+    </section>
+
+    <section class="kd-panel kit-panel" aria-label="存档">
+      <h2>存档 progress / 随机 rng</h2>
+      <div class="kd-row">
+        <button class="kit-btn" id="save-inc" type="button">计数 +1</button>
+        <span class="kd-out" id="save-out">0</span>
+        <button class="kit-btn" id="rng-roll" type="button">掷骰子</button>
+        <span class="kd-out" id="rng-out">–</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
