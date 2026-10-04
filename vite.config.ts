@@ -11,12 +11,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, type Plugin } from 'vite';
 // @ts-expect-error -- plain ESM helper with JSDoc types
-import { buildRedirects, findPages, hubEntries, loadRegistry, SITE_DIR } from './tools/registry.mjs';
+import { buildHeaders, buildRedirects, findPages, hubEntries, loadRegistry, renderHub, SITE_DIR } from './tools/registry.mjs';
 // @ts-expect-error -- plain ESM helper with JSDoc types
 import { buildServiceWorker } from './tools/sw/build-sw.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const VIRTUAL_REGISTRY = 'virtual:kg-registry';
+const HUB_PLACEHOLDER = '<!-- kg:hub -->';
 const RESOLVED_REGISTRY = '\0' + VIRTUAL_REGISTRY;
 
 function pageInputs(): Record<string, string> {
@@ -40,6 +41,14 @@ function kidGamesSite(): Plugin[] {
         if (id !== RESOLVED_REGISTRY) return null;
         return `export default ${JSON.stringify(hubEntries(loadRegistry()), null, 2)};`;
       },
+      // The hub's card list is rendered into site/index.html at build (and dev) time.
+      transformIndexHtml: {
+        order: 'pre',
+        handler(html, ctx) {
+          if (ctx.path !== '/index.html' || !html.includes(HUB_PLACEHOLDER)) return html;
+          return html.replace(HUB_PLACEHOLDER, renderHub(loadRegistry()));
+        },
+      },
       configureServer(server) {
         server.watcher.add(path.join(SITE_DIR, '*/game.json'));
         server.watcher.on('change', (file) => {
@@ -60,7 +69,11 @@ function kidGamesSite(): Plugin[] {
         const games = loadRegistry();
         const sw = buildServiceWorker(outDir, games);
         fs.writeFileSync(path.join(outDir, '_redirects'), buildRedirects(games));
-        this.info(`sw.js ${sw.version}: ${sw.precacheCount} precached, ${sw.mediaCount} media; _redirects written`);
+        // public/_headers (static rules) + explicit no-cache rules for every built page
+        const headersPath = path.join(outDir, '_headers');
+        const base = fs.existsSync(headersPath) ? fs.readFileSync(headersPath, 'utf8') : '';
+        fs.writeFileSync(headersPath, base.trimEnd() + '\n\n' + buildHeaders(findPages(SITE_DIR)));
+        this.info(`sw.js ${sw.version}: ${sw.precacheCount} precached, ${sw.mediaCount} media; _redirects + _headers written`);
       },
     },
   ];

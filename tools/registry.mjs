@@ -161,6 +161,60 @@ export function buildRedirects(games, staticRules = loadStaticRedirects()) {
   return lines.join('\n') + '\n';
 }
 
+/**
+ * Netlify _headers rules generated from the page list: every HTML page (and the manifest) must
+ * revalidate on each load, so a deploy is visible on the next launch. Explicit paths rather than
+ * wildcards because Netlify merges the values of overlapping rules for the same header.
+ * @param {string[]} pages  site-relative index.html paths from findPages()
+ */
+export function buildHeaders(pages) {
+  const lines = ['# Generated at build from the page list (tools/registry.mjs buildHeaders).'];
+  const paths = new Set(['/manifest.json']);
+  for (const rel of pages) {
+    const dir = rel === 'index.html' ? '/' : `/${rel.slice(0, -'index.html'.length)}`;
+    paths.add(dir);
+    paths.add(`${dir}index.html`);
+  }
+  for (const p of [...paths].sort()) lines.push(p, '  Cache-Control: no-cache');
+  return lines.join('\n') + '\n';
+}
+
+/** Child-facing section names for the hub (plan §4.1: places, not subjects). */
+export const PLACE_LABELS = { base: '基地', playground: '游乐场', classic: '经典角' };
+
+const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+/**
+ * Static hub markup, rendered at build time into site/index.html (placeholder `<!-- kg:hub -->`),
+ * so the hub paints without waiting for JS. `live` games are visible; `wip` games are rendered
+ * hidden and revealed by the hub script with ?dev; `hidden` games are never listed.
+ * @param {GameEntry[]} games
+ */
+export function renderHub(games) {
+  const listed = games.filter((g) => g.status !== 'hidden');
+  const out = [];
+  for (const place of PLACES) {
+    const inPlace = listed.filter((g) => g.place === place);
+    if (!inPlace.length) continue;
+    const allWip = inPlace.every((g) => g.status === 'wip');
+    out.push(`<section class="hub-section" data-place="${place}"${allWip ? ' data-wip hidden' : ''}>`);
+    out.push(`  <h2 class="hub-section__title">${PLACE_LABELS[place]}</h2>`);
+    out.push('  <div class="hub-grid">');
+    for (const g of inPlace) {
+      const icon = g.icon.startsWith('/') ? `<img src="${escapeHtml(g.icon)}" alt="" width="64" height="64">` : escapeHtml(g.icon);
+      const wip = g.status === 'wip' ? ' data-wip hidden' : '';
+      out.push(`    <a class="hub-card" href="${g.href}" data-game="${g.id}" style="--accent:${escapeHtml(g.accent.startsWith('--') ? `var(${g.accent})` : g.accent)}"${wip}>`);
+      out.push(`      <span class="hub-card__icon" aria-hidden="true">${icon}</span>`);
+      out.push(`      <span class="hub-card__title">${escapeHtml(g.title)}</span>`);
+      out.push(`      <span class="hub-card__subtitle">${escapeHtml(g.subtitle)}</span>`);
+      out.push('    </a>');
+    }
+    out.push('  </div>');
+    out.push('</section>');
+  }
+  return out.join('\n');
+}
+
 /** The public subset the hub needs (no parent notes in the child bundle beyond what is shown). */
 export function hubEntries(games) {
   return games.map(({ id, title, subtitle, place, order, status, accent, icon, href, domains, parentNote }) => ({ id, title, subtitle, place, order, status, accent, icon, href, domains, parentNote }));

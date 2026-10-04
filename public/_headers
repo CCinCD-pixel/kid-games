@@ -1,7 +1,8 @@
-# Netlify headers for dist/ (copied verbatim from public/_headers).
-# Netlify's default for anything not listed here is "public, max-age=0, must-revalidate" with an
-# ETag — that is what HTML pages, the manifest, audio/models/fonts get, so updates show up
-# immediately and unchanged files cost only a 304. The service worker keeps its own offline copy.
+# Netlify headers for dist/. This file is the static part; the build (vite.config.ts →
+# tools/registry.mjs buildHeaders) appends a "Cache-Control: no-cache" rule for every HTML page
+# and the manifest, so a deploy shows up on the next launch. Audio/models/fonts keep Netlify's
+# default (max-age=0, must-revalidate + ETag: unchanged files cost a 304) and are cached offline by
+# the service worker's content-addressed media cache.
 
 /*
   X-Content-Type-Options: nosniff

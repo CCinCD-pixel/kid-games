@@ -3,6 +3,7 @@
  * Generate dist/sw.js from the built file list (run after `vite build`, see vite.config.ts).
  *   precache: every shell/code file (html, js, css, images, manifest, icons) — versioned per deploy
  *   media:    /audio/**, /models/**, /fonts/** — content-hashed map, cached lazily, survives deploys
+ *   skipped:  source maps, .md/.txt, dotfiles, /dev/** pages (kit playground; online only)
  */
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -13,6 +14,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MEDIA_PREFIXES = ['/audio/', '/models/', '/fonts/'];
 const NEVER = new Set(['/sw.js', '/_redirects', '/_headers']);
 const SKIP_EXT = /\.(map|txt|md)$/i;
+const DEV_PREFIXES = ['/dev/'];
 
 /** @param {string} dir @param {string} [base] @returns {string[]} */
 function listFiles(dir, base = dir) {
@@ -35,7 +37,8 @@ export function buildServiceWorker(distDir, games) {
   /** @type {Record<string,string>} */ const media = {};
   const versionHash = crypto.createHash('sha1');
   for (const f of files) {
-    if (NEVER.has(f)) continue;
+    if (NEVER.has(f) || SKIP_EXT.test(f) || /\/\./.test(f)) continue; // docs, dotfiles (.gitkeep)
+    if (DEV_PREFIXES.some((p) => f.startsWith(p))) continue; // dev/test pages: online only
     const buf = fs.readFileSync(path.join(distDir, f));
     // media binaries are cached lazily; their small JSON manifests are precached so the game knows
     // offline which clips exist
@@ -43,7 +46,6 @@ export function buildServiceWorker(distDir, games) {
       media[encodeURI(f)] = sha1(buf);
       continue;
     }
-    if (SKIP_EXT.test(f)) continue;
     // pages are cached under their directory URL ("/chess/"), which is what links and navigations use
     const key = encodeURI(f.endsWith("/index.html") ? f.slice(0, -"index.html".length) : f);
     precache.push(key);
