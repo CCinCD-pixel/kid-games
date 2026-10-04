@@ -1,0 +1,40 @@
+engines/puzzle/README.md
+  s_0eb5d4e8842e10::t_2633918e15cf37 1-24
+engines/board/README.md
+  s_0eb5d4e8842e10::t_2633918e15cf37 1-25
+package.json
+  s_0eb5d4e8842e10::t_8ac37889a19894 12,16
+content/README.md
+  s_0eb5d4e8842e10::t_df1d62bfce402c 1-19
+tools/check-content.mjs
+  s_0eb5d4e8842e10::t_c630ae9e12957e 64
+  s_0eb5d4e8842e10::t_6c11b9535b861a 1-63,65-122
+engines/story/README.md
+  s_0eb5d4e8842e10::t_2633918e15cf37 1-24
+assets-src/LICENSES.md
+  s_0eb5d4e8842e10::t_df1d62bfce402c 1-18
+engines/README.md
+  s_0eb5d4e8842e10::t_2633918e15cf37 1-30
+engines/manip/README.md
+  s_0eb5d4e8842e10::t_2633918e15cf37 1-25
+engines/voxel/README.md
+  s_0eb5d4e8842e10::t_2633918e15cf37 1-22
+content/narration/README.md
+  s_0eb5d4e8842e10::t_df1d62bfce402c 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "069c8dcfbe792c0f6c9a342df930b697a4c0004b",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
