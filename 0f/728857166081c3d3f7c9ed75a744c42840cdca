@@ -1,0 +1,77 @@
+site/chess/index.html
+  s_0eb5d4e8842e10::t_23ca43559bf144 1-1829
+site/emoji-match/game.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-12
+site/index.html
+  s_0eb5d4e8842e10::t_23ca43559bf144 1-186,196-199
+tsconfig.json
+  s_0eb5d4e8842e10::t_0c7934b4866bd5 1-24
+site/number-adventure/index.html
+  s_0eb5d4e8842e10::t_23ca43559bf144 1-576
+site/number-adventure/game.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-12
+site/memory-matrix/index.html
+  s_0eb5d4e8842e10::t_23ca43559bf144 1-947
+site/military-chess/index.html
+  s_0eb5d4e8842e10::t_23ca43559bf144 1-989
+site/sokoban/game.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-13
+site/sokoban/index.html
+  s_0eb5d4e8842e10::t_23ca43559bf144 7
+  s_0eb5d4e8842e10::t_c0e33a88327314 1-6,8-166
+site/redirects.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-4
+vite.config.ts
+  s_0eb5d4e8842e10::t_0c7934b4866bd5 1-95
+netlify.toml
+  s_0eb5d4e8842e10::t_33707912eb17d2 1-2,4-5,9-10,12-13
+site/snake-battle/index.html
+  s_0eb5d4e8842e10::t_c0e33a88327314 1-11,13-47
+  s_0eb5d4e8842e10::t_23ca43559bf144 12
+play.sh
+  s_0eb5d4e8842e10::t_44e022bb63431d 2-5,9,12,15-18,20-22,24-26,30,32,34-35,41,49-50,59,64
+site/military-chess/game.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-12
+tools/check-registry.mjs
+  s_0eb5d4e8842e10::t_569e3bbf538b81 1-45
+tools/registry.mjs
+  s_0eb5d4e8842e10::t_3282e032960c7f 1-167
+site/memory-matrix/game.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-12
+site/emoji-match/index.html
+  s_0eb5d4e8842e10::t_c0e33a88327314 1-12,14-143
+  s_0eb5d4e8842e10::t_23ca43559bf144 13
+tools/sw/build-sw.mjs
+  s_0eb5d4e8842e10::t_20d066681ea8df 40-42,44
+  s_0eb5d4e8842e10::t_33707912eb17d2 43,48
+  s_0eb5d4e8842e10::t_8aa600a28898af 1-39,45-47,49-61
+public/_headers
+  s_0eb5d4e8842e10::t_d4d12fe4dc1ed3 1-4,14
+  s_0eb5d4e8842e10::t_33707912eb17d2 5-13,15-16
+tools/sw/sw-template.js
+  s_0eb5d4e8842e10::t_8aa600a28898af 1-175
+site/chess/game.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-12
+public/manifest.json
+  s_0eb5d4e8842e10::t_b60ac85c1eb372 1-19
+tools/generate-icons.mjs
+  s_0eb5d4e8842e10::t_5253df5b0d23cb 1-42
+site/snake-battle/game.json
+  s_0eb5d4e8842e10::t_b5499a0c8af5cb 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "0f728857166081c3d3f7c9ed75a744c42840cdca",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
