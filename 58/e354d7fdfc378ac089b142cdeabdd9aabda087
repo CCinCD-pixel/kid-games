@@ -1,0 +1,43 @@
+snake-battle/src/config.ts
+  s_0eb5d4e8842e10::t_eec03c012ff94e 14,17-35
+snake-battle/src/game/Game.ts
+  s_0eb5d4e8842e10::t_a483b4078b163f 1,36,39,63,121
+sw.js
+  s_0eb5d4e8842e10::t_cbea7b92e63bbe 1,15
+emoji-match/src/main.ts
+  s_0eb5d4e8842e10::t_10fa4d79857983 95-96,335-336,368,380,450-455,457,459-463,468-482,490,502,509,511,762,780,782,794,796,804,823,825,1135,1145-1146,1178-1180,1207-1209,1242,1258
+emoji-match/index.html
+  s_0eb5d4e8842e10::t_9c378b807bfa39 22,114-116,126-134
+_redirects
+  s_0eb5d4e8842e10::t_cbea7b92e63bbe 1-3
+  s_0eb5d4e8842e10::t_131223bf00580a 4-5
+sokoban/index.html
+  s_0eb5d4e8842e10::t_131223bf00580a 123,125-128
+  s_0eb5d4e8842e10::t_61d001ef479a7c 18,101-105,135,138,144-146,150-151,161
+  s_0eb5d4e8842e10::t_344112e074ea91 152
+emoji-match/src/styles.css
+  s_0eb5d4e8842e10::t_9c378b807bfa39 339,371,523,525-527,529-534,538-576
+  s_0eb5d4e8842e10::t_348605bc08ff7c 577-584
+memory-matrix/index.html
+  s_0eb5d4e8842e10::t_95747cd071f037 30,149-150,199-200,203,233,320,380,509-513,591-595,717-722,735-737,772,777-783,802,832,834,894,908,923
+snake-battle/src/game/snake.ts
+  s_0eb5d4e8842e10::t_a483b4078b163f 2-3,8,10-11,15,17-66,81,84
+chess/index.html
+  s_0eb5d4e8842e10::t_d6b1696a5fac57 661,701,1153-1160,1163,1385,1395,1414,1547,1552
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "58e354d7fdfc378ac089b142cdeabdd9aabda087",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
