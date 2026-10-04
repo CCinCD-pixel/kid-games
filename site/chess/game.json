@@ -1,0 +1,12 @@
+{
+  "id": "chess",
+  "title": "国际象棋",
+  "subtitle": "和小动物棋手下一盘",
+  "place": "classic",
+  "order": 40,
+  "status": "live",
+  "accent": "#4c6fe0",
+  "icon": "♟️",
+  "domains": ["strategy"],
+  "parentNote": "完整规则 + 3 档电脑对手（走法生成经 perft 验证）。之后升级为棋艺舱·棋手学院。"
+}

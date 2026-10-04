@@ -1,89 +1,44 @@
 #!/bin/bash
+# Build the whole site exactly like Netlify does and serve dist/ on the LAN so the iPad can open it.
+#   ./play.sh            build + serve on port 8000 (or the next free port)
+#   PORT=9000 ./play.sh  choose a port
+#   SKIP_BUILD=1 ./play.sh   serve the existing dist/ without rebuilding
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PREVIEW_DIR="${TMPDIR:-/tmp}/kid-games-preview"
+cd "$ROOT_DIR"
 
 echo "=================================================="
-echo "🎮 准备本地预览文件..."
-echo "--------------------------------------------------"
-echo "会先构建 Vite 游戏，再用临时目录启动静态服务器。"
-echo "这样本地预览和 Netlify 部署看到的是同一类文件。"
+echo "🎮 准备本地预览（与 Netlify 相同的构建：npm run build → dist/）"
 echo "=================================================="
 
-rm -rf "$PREVIEW_DIR"
-mkdir -p "$PREVIEW_DIR"
+if [ ! -d node_modules ]; then
+  echo "📦 首次运行：安装依赖（npm ci）..."
+  npm ci --no-fund --no-audit
+fi
 
-rsync -a \
-  --exclude ".git" \
-  --exclude ".gstack" \
-  --exclude "node_modules" \
-  --exclude "dist" \
-  "$ROOT_DIR/" "$PREVIEW_DIR/"
+if [ "${SKIP_BUILD:-0}" != "1" ]; then
+  npm run build
+fi
 
-build_vite_game() {
-  local game_dir="$1"
-
-  echo "🔧 构建 $game_dir ..."
-  (
-    cd "$ROOT_DIR/$game_dir"
-    if [ ! -d node_modules ]; then
-      npm install --no-fund --no-audit
-    fi
-    npm run build
-  )
-
-  rm -rf "$PREVIEW_DIR/$game_dir"
-  mkdir -p "$PREVIEW_DIR/$game_dir"
-  cp -R "$ROOT_DIR/$game_dir/dist/." "$PREVIEW_DIR/$game_dir/"
-}
-
-build_vite_game "snake-battle"
-build_vite_game "emoji-match"
-
-REQUIRED_PREVIEW_FILES=(
-  "index.html"
-  "manifest.json"
-  "sw.js"
-  "icons/icon.svg"
-  "memory-matrix/index.html"
-  "emoji-match/index.html"
-  "number-adventure/index.html"
-  "sokoban/index.html"
-  "chess/index.html"
-  "snake-battle/index.html"
-  "military-chess/index.html"
-)
-
-for file in "${REQUIRED_PREVIEW_FILES[@]}"; do
-  if [ ! -f "$PREVIEW_DIR/$file" ]; then
-    echo "预览文件缺失：${file}"
+for file in index.html sw.js manifest.json _redirects; do
+  if [ ! -f "dist/$file" ]; then
+    echo "预览文件缺失：dist/${file}"
     exit 1
   fi
 done
+echo "构建产物检查通过。"
 
-echo "预览文件检查通过。"
-
-# 获取本机局域网 IP (针对 macOS)
+# 本机局域网 IP（macOS：先试 en0，再试 en1）
 IP=$(ipconfig getifaddr en0 2>/dev/null || true)
-
-# 如果 en0 没获取到 (比如用的是 WiFi en1)，尝试 en1
-if [ -z "$IP" ]; then
-    IP=$(ipconfig getifaddr en1 2>/dev/null || true)
-fi
-
-if [ -z "$IP" ]; then
-    IP="localhost"
-fi
+if [ -z "$IP" ]; then IP=$(ipconfig getifaddr en1 2>/dev/null || true); fi
+if [ -z "$IP" ]; then IP="localhost"; fi
 
 PORT="${PORT:-8000}"
 REQUESTED_PORT="$PORT"
-
 port_available() {
   python3 - "$1" <<'PY'
-import socket
-import sys
-
+import socket, sys
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     try:
         sock.bind(("", int(sys.argv[1])))
@@ -91,14 +46,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sys.exit(1)
 PY
 }
-
-while ! port_available "$PORT"; do
-  PORT=$((PORT + 1))
-done
-
-if [ "$PORT" != "$REQUESTED_PORT" ]; then
-  echo "端口 ${REQUESTED_PORT} 已被占用，改用 ${PORT}。"
-fi
+while ! port_available "$PORT"; do PORT=$((PORT + 1)); done
+if [ "$PORT" != "$REQUESTED_PORT" ]; then echo "端口 ${REQUESTED_PORT} 已被占用，改用 ${PORT}。"; fi
 
 echo "=================================================="
 echo "🎮 游戏服务器启动中..."
@@ -107,10 +56,9 @@ echo "请拿起 iPad，打开 Safari 浏览器，输入以下地址："
 echo ""
 echo "👉  http://${IP}:${PORT}"
 echo ""
+echo "（注意：Service Worker 只在 https 或 localhost 下工作，局域网 http 预览不会离线缓存。）"
 echo "--------------------------------------------------"
 echo "按 Ctrl+C 可以停止服务器"
 echo "=================================================="
 
-# 启动 Python 内置服务器
-cd "$PREVIEW_DIR"
-python3 -m http.server "$PORT"
+exec npx vite preview --host 0.0.0.0 --port "$PORT" --strictPort

@@ -1,0 +1,12 @@
+{
+  "id": "emoji-match",
+  "title": "表情消消乐",
+  "subtitle": "三个连一排，消掉它们",
+  "place": "playground",
+  "order": 20,
+  "status": "live",
+  "accent": "#c057d4",
+  "icon": "🍓",
+  "domains": ["relax"],
+  "parentNote": "休息区：放松用，不计入学习时长。"
+}

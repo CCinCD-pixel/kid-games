@@ -1,0 +1,12 @@
+{
+  "id": "military-chess",
+  "title": "军棋",
+  "subtitle": "翻翻棋，比比谁大",
+  "place": "classic",
+  "order": 50,
+  "status": "live",
+  "accent": "#7d8f34",
+  "icon": "⚔️",
+  "domains": ["strategy"],
+  "parentNote": "旧版简化翻棋。会按标准陆战棋规则重写（人机 + 和爸爸同屏对战）。"
+}

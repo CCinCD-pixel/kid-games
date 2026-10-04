@@ -1,0 +1,12 @@
+{
+  "id": "number-adventure",
+  "title": "数字探险家",
+  "subtitle": "数一数，比一比",
+  "place": "classic",
+  "order": 20,
+  "status": "live",
+  "accent": "#f4b942",
+  "icon": "🔢",
+  "domains": ["number"],
+  "parentNote": "旧版数感练习。火星基地上线当天会从这里 301 跳转过去。"
+}

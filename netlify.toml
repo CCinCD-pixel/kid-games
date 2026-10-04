@@ -1,38 +1,13 @@
+# Netlify (free plan): main = production. Every push to main costs a production deploy,
+# so batch changes and use Deploy Previews / ./play.sh for review.
 [build]
-  command = "cd snake-battle && npm install && npm run build && cd ../emoji-match && npm install && npm run build && cd .. && cp -r snake-battle/dist/* snake-battle/ && cp -r emoji-match/dist/* emoji-match/"
-  publish = "."
+  command = "npm ci && npm run build"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
+  # Browsers are only needed for local tests, never on Netlify.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
 
-# =============================================
-# 缓存策略：Netlify 会自动读取 _headers 文件
-# 这里额外配置确保覆盖所有边界情况
-# =============================================
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-    Pragma = "no-cache"
-
-[[headers]]
-  for = "/sw.js"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-
-[[headers]]
-  for = "/snake-battle/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/emoji-match/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+# Cache headers live in public/_headers (copied to dist/_headers).
+# Redirects are generated into dist/_redirects from site/redirects.json and game.json "redirectFrom".

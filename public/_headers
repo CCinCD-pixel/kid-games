@@ -1,0 +1,16 @@
+# Netlify headers for dist/ (copied verbatim from public/_headers).
+# Netlify's default for anything not listed here is "public, max-age=0, must-revalidate" with an
+# ETag — that is what HTML pages, the manifest, audio/models/fonts get, so updates show up
+# immediately and unchanged files cost only a 304. The service worker keeps its own offline copy.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Vite's content-hashed bundles never change under the same name.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

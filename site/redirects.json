@@ -1,0 +1,4 @@
+[
+  { "from": "/checkers", "to": "/", "status": 302, "force": true, "note": "国际跳棋 retired 2026-10 (dad's decision)" },
+  { "from": "/star-catcher", "to": "/", "status": 302, "force": true, "note": "星星大作战 retired 2026-10 (dad's decision)" }
+]

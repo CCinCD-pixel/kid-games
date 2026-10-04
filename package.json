@@ -1,0 +1,30 @@
+{
+  "name": "kid-games",
+  "version": "2.0.0",
+  "private": true,
+  "description": "爸爸的游戏乐园 / 星港 — a static, offline-capable game hall for one kid's iPad (home-screen web app).",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite --host",
+    "build": "node tools/check-registry.mjs && tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview --host",
+    "test": "vitest run",
+    "test:smoke": "npm run build && playwright test -c tests/smoke/playwright.config.ts",
+    "check": "node tools/check-registry.mjs && tsc --noEmit -p tsconfig.json && vitest run",
+    "icons": "node tools/generate-icons.mjs"
+  },
+  "dependencies": {
+    "three": "^0.186.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "^20.19.0",
+    "@types/three": "^0.186.0",
+    "vitest": "^4.1.11"
+  }
+}

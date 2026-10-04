@@ -1,0 +1,12 @@
+{
+  "id": "memory-matrix",
+  "title": "记忆方块",
+  "subtitle": "看一眼，记住亮起的星星",
+  "place": "classic",
+  "order": 10,
+  "status": "live",
+  "accent": "#7bdff2",
+  "icon": "🧩",
+  "domains": ["memory", "spatial"],
+  "parentNote": "视觉空间记忆小练习（旧版）。之后会并入月宫建造师的「看一眼就搭」一章。"
+}

@@ -1,5 +1,0 @@
-# Retired games: force-redirect even if a stale file still exists (the "!" forces it).
-/checkers/*      /  302!
-/star-catcher/*  /  302!
-/checkers        /  302!
-/star-catcher    /  302!

@@ -1,0 +1,13 @@
+{
+  "id": "sokoban",
+  "title": "推箱子",
+  "subtitle": "把箱子推到发光的圆点上",
+  "place": "classic",
+  "order": 30,
+  "status": "live",
+  "accent": "#f3a632",
+  "icon": "📦",
+  "domains": ["planning", "spatial"],
+  "parentNote": "经典 10 关（全部经求解器验证可解）。新版「星港搬运工」会原地替换它，旧关卡保留为「经典仓库」。",
+  "smoke": { "waitFor": ".level-select" }
+}
