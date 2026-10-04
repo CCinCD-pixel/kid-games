@@ -1,0 +1,59 @@
+kit/particles.ts
+  s_0eb5d4e8842e10::t_0a349caff66dfe 1-225
+kit/narration.ts
+  s_0eb5d4e8842e10::t_32b1b118bc846c 1-318
+kit/ui/index.ts
+  s_0eb5d4e8842e10::t_f93be7234e3908 1-152
+kit/shell.ts
+  s_0eb5d4e8842e10::t_d63978d1a3cfa0 1-84,90-103,105-134,137-171,174-191,194,196-222,225-241,243-265,267-291,293-321,328-331,334,338-340,342-344
+  s_0eb5d4e8842e10::t_2f1517ab449e3f 135-136
+  s_0eb5d4e8842e10::t_68698d81394140 322-327,341
+  s_0eb5d4e8842e10::t_e49b6ca4dd7dc8 85-89,104,172-173,192-193,195,223-224,242,266,292,332-333,335-337
+kit/tween.ts
+  s_0eb5d4e8842e10::t_6080d48789fc66 1-131
+kit/sw-register.ts
+  s_0eb5d4e8842e10::t_255794d95a9509 1-11,13-24,28
+  s_0eb5d4e8842e10::t_bc283635529ff9 12,25-27
+kit/input.ts
+  s_0eb5d4e8842e10::t_9b6cc26bd9dbd8 1-304
+kit/ui/tokens.css
+  s_0eb5d4e8842e10::t_f1689e2233a9c7 1-121
+kit/rng.ts
+  s_0eb5d4e8842e10::t_6080d48789fc66 1-110
+kit/ui/base.css
+  s_0eb5d4e8842e10::t_6b96cf6972a704 8,21
+  s_0eb5d4e8842e10::t_6ec368546cbbfd 9-11,20,28,33
+  s_0eb5d4e8842e10::t_f81194a8aacedc 1-7,12-19,22-27,29-32,34-241
+types/kg-registry.d.ts
+  s_0eb5d4e8842e10::t_cb233cae9b916c 1-18
+kit/audio.ts
+  s_0eb5d4e8842e10::t_767a869878fcdf 1-70,73-152,157-287,290-299,303,308-344,348,350-513
+  s_0eb5d4e8842e10::t_64e804ef8959ec 71-72
+  s_0eb5d4e8842e10::t_2a5f9f56a9f1f0 300-301
+  s_0eb5d4e8842e10::t_370f31510540c6 153-156
+  s_0eb5d4e8842e10::t_95dc1b4df941c4 288-289,302,304-307,345-347,349
+kit/companion/companion.css
+  s_0eb5d4e8842e10::t_92f90df0a9624f 1-42
+kit/progress.ts
+  s_0eb5d4e8842e10::t_708c5e74d17437 1-299
+kit/log.ts
+  s_0eb5d4e8842e10::t_d65dedd6a8fa40 1-238
+kit/companion/index.ts
+  s_0eb5d4e8842e10::t_92f90df0a9624f 1-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "c13f99e92ba754ee51ea4f80772609f2633034d7",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
