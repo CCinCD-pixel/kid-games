@@ -17,7 +17,10 @@ export const SHOTS_DIR = process.env.KG_SHOTS_DIR || path.join(os.homedir(), 'ki
 const ipad = { deviceScaleFactor: 2, isMobile: true, hasTouch: true } as const;
 
 export default defineConfig({
-  testDir: '.',
+  // Platform smoke tests + each game's own browser tests (site/<id>/tests/*.spec.ts).
+  testDir: ROOT,
+  testMatch: /(tests\/smoke|site\/[^/]+\/tests)\/.*\.spec\.ts$/,
+  testIgnore: ['**/node_modules/**', 'dist/**'],
   outputDir: path.join(ROOT, 'test-results/smoke'),
   fullyParallel: false,
   workers: 1,
