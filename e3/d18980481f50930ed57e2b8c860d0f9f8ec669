@@ -1,0 +1,52 @@
+content/narration/_lexicon.yaml
+  s_0eb5d4e8842e10::t_130b2b88580029 1-6
+tools/voice/README.md
+  s_0eb5d4e8842e10::t_130b2b88580029 2-6,19-72
+  s_0eb5d4e8842e10::t_3fdabfa533e6b3 1,7-18
+tools/voice/requirements.lock.txt
+  s_0eb5d4e8842e10::t_130b2b88580029 1-45
+tools/voice/voice.sh
+  s_0eb5d4e8842e10::t_b096b323af28b7 1-12
+.gitignore
+  s_0eb5d4e8842e10::t_b3d52e01bcb1c9 146-150
+tools/voice/build-repo.sh
+  s_0eb5d4e8842e10::t_b096b323af28b7 1-27
+public/audio/hub/audio-manifest.json
+  s_0eb5d4e8842e10::t_f60f476ee07ca2 1-1961
+tools/voice/eval/narration/eval25.yaml
+  s_0eb5d4e8842e10::t_130b2b88580029 1-41
+tools/voice/voice/config.py
+  s_0eb5d4e8842e10::t_b096b323af28b7 1-74
+docs/VOICE.md
+  s_0eb5d4e8842e10::t_79e1b18e431246 1-111
+content/narration/_takes/hub.qwen3.json
+  s_0eb5d4e8842e10::t_f60f476ee07ca2 17-27
+  s_0eb5d4e8842e10::t_130b2b88580029 1-16,28-30
+content/narration/README.md
+  s_0eb5d4e8842e10::t_b3d52e01bcb1c9 4-5,36,39-41
+tools/voice/voice/__main__.py
+  s_0eb5d4e8842e10::t_b096b323af28b7 1-94
+package.json
+  s_0eb5d4e8842e10::t_b3d52e01bcb1c9 17-18
+tools/voice/memrun.sh
+  s_0eb5d4e8842e10::t_130b2b88580029 1-19,22-91
+  s_0eb5d4e8842e10::t_b096b323af28b7 20-21
+content/narration/hub.yaml
+  s_0eb5d4e8842e10::t_affa072c8eccd2 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "e3d18980481f50930ed57e2b8c860d0f9f8ec669",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
