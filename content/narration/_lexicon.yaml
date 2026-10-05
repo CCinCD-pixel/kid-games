@@ -1,0 +1,6 @@
+# Site-wide polyphone locks (word: toned pinyin), applied to every line of every game.
+# Only locks whose reading is NOT the char's default actually change the engine input (pinyin.py).
+银行: yín háng
+长大: zhǎng dà
+重新: chóng xīn
+还书: huán shū

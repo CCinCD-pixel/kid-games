@@ -1,0 +1,39 @@
+# 星港大厅 (hub) + companion greetings. Role companion = the robot 领航员 (Vivian + robot fx).
+# Built by `npm run voice:build -- hub` → public/audio/hub/ (docs/VOICE.md).
+# *.plain variants carry no name: the hub uses them when the parent page sets a display name other
+# than 小步步 (the voice cannot say an arbitrary name; the bubble text always matches the voice).
+game: hub
+seed: 1234
+lines:
+  # greetings by time of day (hub load: bubble only; voiced when the child taps the robot)
+  - {id: hub.hello.morning, role: companion, text: 早上好，小步步！今天想去哪里探险？}
+  - {id: hub.hello.morning.plain, role: companion, text: 早上好！今天想去哪里探险？}
+  - {id: hub.hello.afternoon, role: companion, text: 下午好，小步步！星港的飞船已经加满能量啦。}
+  - {id: hub.hello.afternoon.plain, role: companion, text: 下午好！星港的飞船已经加满能量啦。}
+  - {id: hub.hello.evening, role: companion, text: 晚上好，小步步！抬头看看今天的月亮吧。}
+  - {id: hub.hello.evening.plain, role: companion, text: 晚上好！抬头看看今天的月亮吧。}
+  - {id: hub.back, role: companion, text: 欢迎回来！接下来想去哪儿？}
+  - {id: hub.pick, role: companion, text: 点一点卡片，就能出发啦。}
+
+  # the three places (first visit to a tab in a session)
+  - {id: hub.place.base, role: companion, text: 这里是基地，每个地方都有任务等着你。}
+  - {id: hub.place.playground, role: companion, text: 游乐场到啦，轻松玩一会儿吧。}
+  - {id: hub.place.classic, role: companion, text: 经典角里，是我们以前的老游戏。}
+
+  # a card that is still being built
+  - {id: hub.building, role: companion, text: 这里还在建造中，工程师们正在努力呢！}
+
+  # tapping the robot again
+  - {id: hub.poke.1, role: companion, text: 嘀嘀！我的天线能收到星星的信号。}
+  - {id: hub.poke.2, role: companion, text: 我是领航员，星港的路我都认识。}
+  - {id: hub.poke.3, role: companion, text: 你看，我的屏幕会变出好多种表情。}
+
+  # tapping the moon: today's real phase (computed on the device, site/_hub/moon.ts)
+  - {id: hub.moon.new, role: companion, text: 今天是新月，月亮躲到太阳那边去啦。}
+  - {id: hub.moon.waxing-crescent, role: companion, text: 今天的月亮像一条弯弯的小船。}
+  - {id: hub.moon.first-quarter, role: companion, text: 今天是上弦月，亮的是右边一半。}
+  - {id: hub.moon.waxing-gibbous, role: companion, text: 月亮一天比一天胖，快要圆啦。}
+  - {id: hub.moon.full, role: companion, text: 今天是满月，又大又圆！}
+  - {id: hub.moon.waning-gibbous, role: companion, text: 满月过去了，月亮开始慢慢变瘦。}
+  - {id: hub.moon.last-quarter, role: companion, text: 今天是下弦月，亮的是左边一半。}
+  - {id: hub.moon.waning-crescent, role: companion, text: 今天的月亮细细的，像一根眉毛。}

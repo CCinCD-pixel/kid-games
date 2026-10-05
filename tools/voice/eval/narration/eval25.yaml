@@ -1,0 +1,41 @@
+# Bake-off test set from the interrupted run (_seed/eval/testset.yaml), in pipeline format.
+# Not game content: used to report CER / polyphone behaviour of an engine through the full chain.
+#   ../voice.sh build --game eval25 --engine qwen3 --content content-eval
+# p03 rephrased (the tone lint bans 做错了 in child-facing text); words carry explicit pinyin.
+game: eval25
+seed: 1234
+lines:
+  - {id: n01, role: narrator, text: 很久很久以前，炎帝有一个小女儿，名字叫女娃。}
+  - {id: n02, role: narrator, text: 女娃最喜欢大海。有一天，她划着小船，去东海看日出。}
+  - {id: n03, role: narrator, text: 忽然，海上刮起了大风，掀起了巨浪。小船翻了，女娃再也没有回来。}
+  - {id: n04, role: narrator, text: "女娃变成了一只小鸟，白色的嘴巴，红色的脚。她总是叫着：“精卫！精卫！”"}
+  - {id: n05, role: narrator, text: 精卫从西山衔来一根根小树枝、一颗颗小石子，投进大海里。她要把大海填平！}
+  - {id: c01, role: companion, text: 嗨，小步步！我是领航员，今天我们一起去火星基地探险吧！}
+  - {id: c02, role: companion, text: 哇，你太厉害了！一次就做对了！}
+  - {id: c03, role: companion, text: 没关系，我们再试一次。慢慢想，你一定可以的。}
+  - {id: c04, role: companion, text: 滴滴，能量充满啦！三、二、一，发射！}
+  - {id: c05, role: companion, text: 嗯，这一关有点难。要不要我给你一个小提示？}
+  - {id: i01, role: companion, text: 把箱子推到发光的格子上，所有箱子都到位，就过关啦。}
+  - {id: i02, role: companion, text: 拖动积木，让小兔子走到月亮门那里。}
+  - {id: i03, role: companion, text: 点一下喇叭，可以再听一遍。}
+  - {id: m01, role: narrator, text: 火星基地一共有三百零五块太阳能板。}
+  - {id: m02, role: companion, text: 我们已经走了一千步啦！}
+  - {id: m03, role: companion, text: 先拿两根小棒，再拿二十三根。}
+  - {id: m04, role: companion, text: 二十三加十七等于四十。}
+  - {id: m05, role: narrator, text: 第3关有12个箱子，你用了305步。}
+  - {id: p01, role: narrator, text: 小树长大了，我们来比一比树枝的长短。}
+  - {id: p02, role: narrator, text: 我们先去银行，再走路回家。行走的时候要注意安全。}
+  - {id: p03, role: companion, text: 这一步很重要。没关系，我们重新来一次。}
+  - {id: p04, role: companion, text: 你想先玩游戏，还是先去图书馆还书？}
+  - {id: p05, role: companion, text: 我了解了，好了，我们出发吧！}
+  - {id: q01, role: narrator, text: 精卫、后羿、夸父和嫦娥，都是中国神话里的英雄。}
+  - {id: q02, role: narrator, text: 祝融号火星车和鹊桥中继星，都是中国航天的好帮手。}
+words:
+  - {id: w.zhangda, text: 长大, pinyin: zhǎng dà}
+  - {id: w.changduan, text: 长短, pinyin: cháng duǎn}
+  - {id: w.yinhang, text: 银行, pinyin: yín háng}
+  - {id: w.xingzou, text: 行走, pinyin: xíng zǒu}
+  - {id: w.chongxin, text: 重新, pinyin: chóng xīn}
+  - {id: w.huanshu, text: 还书, pinyin: huán shū}
+  - {id: w.hang, text: 行, pinyin: háng, notes: single char forced to háng (一行字)}
+  - {id: w.liang, text: 两, pinyin: liǎng}

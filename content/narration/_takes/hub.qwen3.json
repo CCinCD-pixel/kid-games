@@ -1,0 +1,30 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "hub.hello.afternoon": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b05f28f6ca4f664cab9ccf8c8af85da0b56996f4",
+   "score": 1.131,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "hub.moon.waning-gibbous": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "69d8f5bd7e902df994e8f10dc8be72a70eb0e2fc",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  }
+ }
+}

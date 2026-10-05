@@ -143,3 +143,8 @@ vite.config.ts.timestamp-*
 # Test output
 /test-results/
 /playwright-report/
+
+# voice pipeline (code in tools/voice; venv/models/cache live in $VOICE_HOME, never here)
+__pycache__/
+*.pyc
+.venv/

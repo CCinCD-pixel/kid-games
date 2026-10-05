@@ -1,7 +1,8 @@
 # content/narration/
 
 One YAML file per game: `content/narration/<game>.yaml`. The voice pipeline (free local TTS today,
-swappable later — it lives outside this repo under ~/kid-games-work/voice) turns it into
+swappable later — code in tools/voice/, setup and procedure in docs/VOICE.md; run
+`npm run voice:build -- <game>`) turns it into
 `public/audio/<game>/<id>.<hash8>.m4a` plus `public/audio/<game>/audio-manifest.json`, which is
 the only thing the game reads at runtime (kit/narration.ts).
 
@@ -32,8 +33,11 @@ Generated manifest (do not edit by hand):
 }
 ```
 
-- Audio: AAC in .m4a, mono, 22.05–44.1 kHz, ~48–64 kbps; loudness-normalised by the pipeline.
+- Audio: AAC-LC in .m4a, mono, 44.1 kHz, 40 kbps; −16 LUFS, true peak ≤ −1.5 dBTP (docs/VOICE.md).
 - File names are content-addressed (hash of text + voice + engine version + seed), so the
   service worker's media cache keeps unchanged clips across deploys.
+- `_lexicon.yaml` (site-wide polyphone locks), `_takes/<game>.<engine>.json` (QC-chosen seeds, keep
+  in git so rebuilds are reproducible) and `overrides/<id>.m4a|wav` (Dad's recording replaces the
+  engine for that id) live next to the yaml files.
 - A line without a clip still works: the runtime falls back to speechSynthesis (zh-CN) and always
   shows the subtitle. `npm run build` fails if a manifest points at a missing file.
