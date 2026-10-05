@@ -15,21 +15,27 @@ kid-games/
 ├─ vite.config.ts                    multi-page build: root site/ → dist/; registry/SW/headers/redirects plugins
 ├─ netlify.toml                      npm ci && npm run build; publish dist; Node 20
 ├─ site/                             DIRECTORY = URL. site/<id>/index.html is served at /<id>/
-│  ├─ index.html                     hub; card list rendered at build time from the registry
+│  ├─ index.html                     星港 hub; card panels rendered at build time from the registry
 │  ├─ <id>/game.json                 registry entry for game <id> (validated by tools/registry.mjs)
-│  ├─ <id>/index.html, src/ …        the game (owned by its game agent)
+│  ├─ <id>/index.html, src/ …        the game (owned by its game agent); wip titles start on the
+│  │                                 shared 建造中 screen (site/_shared/building.ts)
 │  ├─ _hub/, _shared/                shared page code ("_" folders are never games)
+│  ├─ parent/, credits/              platform pages: 家长中心 (/parent/) and 素材与致谢 (/credits/)
 │  ├─ dev/kit/                       kit playground (/dev/kit/): built, not listed, not precached
 │  └─ redirects.json                 retired URLs (→ dist/_redirects)
-├─ kit/                              platform runtime every page uses (§3)
+├─ kit/                              platform runtime every page uses (§3); kit/textures = paper/sky art
 ├─ engines/                          shared game engines: story, manip, voxel, board, puzzle (READMEs = contracts)
 ├─ content/                          levels, banks, scripts, narration yaml — what a parent can review
-├─ public/                           copied verbatim: manifest, icons, audio/, fonts/, models/, _headers, legacy sprites
-├─ assets-src/                       source art + LICENSES.md ledger (never published)
-├─ tools/                            build/validation scripts (registry, sw, content checks, icons)
+├─ public/                           copied verbatim: manifest, icons/ (+ icons/games/<id>.svg emblems),
+│                                    audio/<game>/ (narration), audio/sfx/ (62 kit sounds), fonts/ (OFL
+│                                    subsets + licences), models/, _headers, legacy sprites
+├─ assets-src/                       source art, design-system generators + LICENSES.md ledger (never published)
+├─ tools/                            build/validation scripts (registry, sw, content checks, icons);
+│                                    tools/voice = the narration pipeline (docs/VOICE.md)
 ├─ tests/unit, tests/smoke           vitest (Node) and Playwright WebKit smoke tests
 ├─ types/                            ambient declarations (virtual:kg-registry)
-└─ docs/                             this file, GAME_AUTHORING.md
+└─ docs/                             this file, GAME_AUTHORING.md, VOICE.md, specs/ (per-game build
+                                     specs), plan-2026-10.md (master plan)
 ```
 
 Aliases: `@kit/*` → `kit/*`, `@engines/*` → `engines/*` (vite.config.ts, tsconfig.json, vitest.config.ts).
@@ -60,8 +66,10 @@ pages, the smoke-test matrix, `_redirects`, and the parent page later.
 | `title`, `subtitle` | child-facing name and a fantasy-action line (not a skill label) |
 | `place` | `base` (基地, learning) · `playground` (游乐场, rest area) · `classic` (经典角, legacy) |
 | `order` | sort key within the place |
-| `status` | `live` (on the hub) · `wip` (built; hub shows it only with `?dev`) · `hidden` (URL only) |
-| `accent`, `icon` | CSS colour or `--xg-*` token; emoji or `/public` path |
+| `status` | `live` (on the hub) · `wip` (on the hub as a 建造中 card that answers but does not navigate; `/?dev` makes it a link) · `hidden` (URL only) |
+| `accent`, `icon` | CSS colour or `--xg-*` token; `/icons/games/<id>.svg` (the 星港 emblem, placed by the platform) |
+| `theme` | 星港 colour theme → `data-xg-game` (`mars moon rabbit story lab porter chess army snake match defense`) |
+| `newContent` | `{ id, label? }` on a live game: a real content drop; the hub shows NEW until the child opens the game once |
 | `domains[]` | parent-facing ability tags (tools/registry.mjs DOMAINS) |
 | `parentNote` | one sentence for the parent page |
 | `redirectFrom[]` | old paths that should 301 here (e.g. `/number-adventure` → `/mars-base/`) |
@@ -82,7 +90,9 @@ Full API with examples: docs/GAME_AUTHORING.md §4.
 | `log` | play sessions `kg:log:v1`: heartbeat, hidden-timeout split, crash recovery, launch source, marks |
 | `input` | primary-pointer gate, tap vs drag threshold, swipe, drag + snap, hit slop, geometry helpers |
 | `rng`, `tween`, `particles` | seeded mulberry32; easing/tween/WAAPI; canvas particle overlay |
-| `ui`, `companion` | placeholder tokens/components and the companion robot stub; the 星港 design system replaces the look behind the same API (§7) |
+| `ui` | the 星港 design system: tokens (`--xg-*`), fonts (XG WenKai / KuaiLe / Baloo, `/fonts/`), `.xg-*` components (tactile buttons, cards, result panel, level map, keypad, segmented, toggle, drag ghost, ghost hand, confetti), 43 icons, 13 emblems; `skin.css` restyles the base `.kit-*` components; `sfx-bridge` plays the 62 kit sounds (`/audio/sfx/`) through `audio` |
+| `companion` | the robot 领航员 (parametric SVG + 15×9 LED dot-matrix face, 7 moods, no sad mood), `mount` / `sayLine` |
+| `settings` | family settings from the parent page (display name, narration, pinyin, hidden games) and the parent PIN |
 
 ### Local data (never leaves the device)
 
@@ -93,6 +103,11 @@ Full API with examples: docs/GAME_AUTHORING.md §4.
 | `kg:log:v1` | `kit/log` | ≤600 session records |
 | `kg:launch` (sessionStorage) | hub → game | launch source hint |
 | `kg:settings:audio-muted` | `kit/audio` | mute switch |
+| `kg:settings:v1` | `kit/settings` | display name, narration, pinyin, hidden games |
+| `kg:parent:pin` | `kit/settings` | salted hash of the parent PIN (soft gate) |
+| `kg:hub:v1` | `setHubProgress` | one progress line per game card (`{ label, value? }`) |
+| `kg:hub:seen` | hub | NEW content ids already opened |
+| `kg:hub:tab`, `kg:hub:visited`, `kg:parent:unlocked`, `kg:parent:tab` (sessionStorage) | hub / parent | last tab, 欢迎回来 greeting, 30-min parent unlock |
 | `sokoban_save`, `kid_games_memory_matrix_v2`, `kid_games_emoji_match_v1` | legacy games | never deleted; exported with progress |
 
 Big blobs (recordings, drawings) go to IndexedDB, not localStorage.
@@ -128,22 +143,34 @@ Generated per build from the dist file list (tools/sw/sw-template.js → dist/sw
 | command | what |
 |---|---|
 | `npm run check` | registry + content checks, typecheck, vitest |
-| `npm test` | vitest unit tests (Node; kit logic, tools, SW builder, tone lint) |
-| `npm run test:smoke` | build, then Playwright **WebKit** at 810×1080 and 1080×810 (DPR 2, touch, one worker) over hub + every registered game + /dev/kit/: 200, 0 console errors, 0 failed requests, no horizontal overflow, ≥56 px back button, ≤1 AudioContext, screenshots to `~/kid-games-work/shots/foundation/<project>/`; plus kit/hub behaviour tests. Games add their own `site/<id>/tests/*.spec.ts`. |
+| `npm test` | vitest unit tests (Node; kit logic, tools, SW builder, tone lint, hub state, moon phase, parent stats, settings) |
+| `npm run voice:build [-- <game>]` | narration clips from content/narration (docs/VOICE.md; not part of the build — clips are committed) |
+| `npm run test:smoke` | build, then Playwright **WebKit** at 810×1080 and 1080×810 (DPR 2, touch, one worker) over hub + every registered game + /parent/ + /credits/ + /dev/kit/: 200, 0 console errors, 0 failed requests, no horizontal overflow, ≥56 px back button, ≤1 AudioContext, screenshots to `~/kid-games-work/shots/foundation/<project>/`; plus kit/hub/parent behaviour tests (place tabs = registry, 建造中 cards, launch source, 3 s hold → PIN → hide a game). Games add their own `site/<id>/tests/*.spec.ts`. |
 
 Not covered locally (needs the real device or the iPadOS simulator, plan §6.7): mute switch,
 home-screen icon/standalone mode, safe-area insets with real values, real fonts (PingFang,
 Apple Color Emoji), audio interruption by calls, memory pressure on a 3 GB device.
 
-## 7. Seams for work landing later
+## 7. Hub, parent page, design system, voice (landed 2026-10-05)
 
-- **Design system** (星港 tokens, fonts, UI components, companion art): replaces
-  `kit/ui/tokens.css` + `kit/ui/base.css`, extends `kit/ui/index.ts`, and swaps
-  `kit/companion/index.ts` (same API: `mount/setMood/say/hush/react/lookAt/destroy`, same moods).
-  Token names are already `--xg-<group>-<name>[-<step>]`.
-- **Hub redesign** (plan §4.1): replace `site/index.html` markup and `site/_hub/hub.css`; keep the
-  `<!-- kg:hub -->` placeholder (or read `virtual:kg-registry`) so the registry stays the source.
-- **Voice pipeline**: produces `public/audio/<game>/` from `content/narration/<game>.yaml`; the
-  runtime only reads `audio-manifest.json`, so engines can be swapped without code changes.
-- **Parent page** (`site/parent/`, later): reads `kit/log` `summarize()`, `exportProgress()`,
-  registry `domains/parentNote`.
+- **Design system** (kit/ui, kit/companion, kit/textures, public/fonts, public/audio/sfx,
+  public/icons/games; sources in assets-src/design-system/): every page gets tokens, fonts, the
+  `.xg-*` kit and the re-skinned `.kit-*` components through the shell. Games set
+  `<body data-xg-game="<theme>">`; night scenes add `data-xg-theme="night"`.
+- **Hub** (site/index.html, site/_hub/): paper-cut night port (`kit/textures/hub-*.webp`, drawn in
+  a "stage" box that reproduces cover so the live moon sits where the sky leaves room), today's
+  moon phase computed on the device (`_hub/moon.ts`, Meeus ch. 48), the companion with a
+  time-of-day greeting (bubble on arrival, voice on the first tap — iOS rule), place tabs
+  基地 / 游乐场 / 经典角, cards with fantasy action + progress (`setHubProgress`, legacy saves,
+  play count), at most one 继续 + one 推荐 + NEW for declared content, 建造中 cards for `wip`.
+  Card grid buckets by count (1–9) for both orientations; never scrolls. Pure logic in
+  `_hub/state.ts` (unit-tested).
+- **Parent page** (site/parent/): hold the hub's 家长 button or the 星港 title 3 s → PIN (set on
+  first use) → 概览 / 进度 / 设置 / 备份. Reads `kit/log` sessions, registry
+  `domains`/`parentNote`, `kg:hub:v1` and legacy saves; writes `kit/settings`; export via the
+  share sheet (iPad home-screen apps cannot download blobs reliably) or download; import with
+  confirmation. No time budgets, timers or locks (Dad's rule 10).
+- **Voice**: `npm run voice:build -- <game>` (docs/VOICE.md) produces `public/audio/<game>/` from
+  `content/narration/<game>.yaml`; the runtime only reads `audio-manifest.json`, so engines can be
+  swapped without code changes. The parent 旁白 switch is applied inside `kit/narration`.
+- **Credits** (site/credits/): human-readable mirror of assets-src/LICENSES.md.

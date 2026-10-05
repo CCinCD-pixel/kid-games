@@ -14,6 +14,7 @@ import { mount, sayLine } from '@kit/companion';
 import { Narrator } from '@kit/narration';
 import { initShell } from '@kit/shell';
 import { bindPress, h, icon } from '@kit/ui';
+import { installKitSfx } from '@kit/ui/sfx-bridge';
 import './building.css';
 
 export function mountBuildingScreen(id: string): void {
@@ -47,5 +48,6 @@ export function mountBuildingScreen(id: string): void {
     bot.react('hop');
     void sayLine(bot, narrator, 'hub.building', { interrupt: true, hold: 0, mood: 'encouraging' });
   });
+  void installKitSfx({ only: ['ui-press', 'ui-tap', 'blip-happy', 'blip-think', 'blip-talk'] });
   app.dataset.ready = '';
 }

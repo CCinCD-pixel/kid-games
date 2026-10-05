@@ -39,8 +39,10 @@ content/mars-base/    levels/banks (yaml/json) read by game AND validators
 content/narration/mars-base.yaml   every spoken line (§5)
 ```
 
-1. Create the folder and `game.json` with `"status": "wip"` (visible on the hub only with `/?dev`).
-2. Write `index.html` + `src/main.ts` from the templates below.
+1. Create the folder and `game.json` with `"status": "wip"` (the hub shows a 建造中 card that does
+   not navigate; `/?dev` makes it a link). The six new titles already have this plus a placeholder
+   `src/main.ts` (shared 建造中 screen) — replace that file with your game.
+2. Write `index.html` + `src/main.ts` from the templates below. Your spec is in `docs/specs/<id>.md`.
 3. `npm run dev` → http://localhost:5173/mars-base/ (check memory first; stop the server after).
 4. `npm run check` and `npm run test:smoke` until green; review the screenshots of **both
    orientations** in `~/kid-games-work/shots/foundation/` (and your own shots).
@@ -60,7 +62,8 @@ still exists, so delete it in the same change.
   "place": "base",
   "order": 10,
   "status": "wip",
-  "accent": "#e4513d",
+  "accent": "--xg-mars",
+  "theme": "mars",
   "icon": "/icons/games/mars-base.svg",
   "domains": ["number", "measurement"],
   "parentNote": "数学主力：100 以内加减、乘法启蒙，自适应出题。",
@@ -70,7 +73,11 @@ still exists, so delete it in the same change.
 ```
 
 `subtitle` is a fantasy action, never a skill label ("练数感" is wrong). Domains and parent notes are
-parent-facing only. Allowed `domains`: number, literacy, spatial, planning, coding, science,
+parent-facing only. `icon` is your 星港 emblem at `/icons/games/<id>.svg` (the platform makes it;
+ask for a redraw instead of shipping emoji). `theme` picks your design-system accent
+(`data-xg-game`). When you ship a real content drop (a new chapter), add
+`"newContent": { "id": "2026-11-ch3", "label": "新章节" }` and the hub shows NEW until the child
+opens your game once. Allowed `domains`: number, literacy, spatial, planning, coding, science,
 engineering, strategy, social, measurement, creativity, memory, reflex, relax.
 
 ## 3. Page template
@@ -88,7 +95,7 @@ engineering, strategy, social, measurement, creativity, memory, reflex, relax.
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
   <script type="module" src="./src/main.ts"></script>
 </head>
-<body>
+<body data-xg-game="mars">
   <div id="app"></div>
 </body>
 </html>
@@ -206,22 +213,41 @@ const fx = createParticles(); fx.burstAt(el); fx.confetti(); fx.sparkle(x, y)
 ```
 Math.random() is not allowed for anything a validator or replay must reproduce.
 
-### ui / companion (placeholder look; the 星港 design system restyles behind the same API)
+### ui / companion (the 星港 design system)
 ```ts
-h('button', { class: 'kit-btn kit-btn--primary', onclick }, '下一关')
-await showModal({ title: '过关啦！', body: [starRow(2, 3)], actions: [{ id: 'next', label: '下一关', primary: true }] })
-toast('已保存', { tone: 'ok' }) ; createSubtitleBar()
-const bot = mount(hostEl, { size: 140, bubble: 'right' }); bot.setMood('thinking'); bot.react('hop')
+import { installKitSfx, chime } from '@kit/ui/sfx-bridge';
+await shell.ready; await installKitSfx();               // 62 kit sounds via kit/audio (or { only: [...] })
+bindPress(document);                                    // press/squash + sounds on .xg-btn/.xg-card/.xg-key…
+h('button', { class: 'xg-btn xg-btn--primary xg-btn--lg', onclick }, '下一关')   // or the base kit-btn
+const id = await showResult({ ribbon: '过关啦', stars: 2, title: '…', actions: [{ id: 'next', label: '下一关', kind: 'primary' }] })
+nodeMap(el, nodes, { onPick }) ; mountKeypad(el, { maxLength: 3, onSubmit }) ; segmented(el, { options, onChange })
+ghostTap(el) ; ghostDrag(from, to) ; startDrag(src, ev, targets) ; confetti() ; icon('hint') ; emblem('mars')
+replayButton() ; setPlaying(btn, true) ; setHintReady(btn, true) ; xgToast('已保存', { tone: 'ok' })
+await showModal({ … }) ; toast(…) ; createSubtitleBar() ; starRow(2, 3)                 // base components
+const bot = mount(hostEl, { size: 140, bubble: 'right', sfx: (n) => sfx.play(n) }); bot.setMood('thinking'); bot.react('hop')
 await sayLine(bot, narrator, 'mars.hint.1', { mood: 'encouraging' })
+chime(combo)                                            // pentatonic ladder for chains (eat, cascade)
 ```
-Style with `--xg-*` tokens and `.kit-*` classes; don't depend on kit DOM internals. The companion
-has no sad mood and never guilt-trips (lint-enforced).
+Style with `--xg-*` tokens and `.xg-*` / `.kit-*` classes; don't depend on kit DOM internals.
+Fonts: `--xg-font-read` (霞鹜文楷, reading/instructions), `--xg-font-title` (站酷快乐体, big titles
+only), `--xg-font-num` (Baloo 2, numbers). The subsets hold 3500 common characters + extras; if your
+text needs a rarer character, ask the platform to re-run the subsetter. The companion has no sad
+mood and never guilt-trips (lint-enforced). Catalogue: /dev/kit/ and assets-src/design-system/README.md.
+
+### settings / hub progress
+```ts
+import { getSettings, onSettingsChange } from '@kit/settings';
+const { displayName, pinyin } = getSettings();          // parent page; narration on/off is applied by kit/narration
+import { setHubProgress } from '@kit/progress';
+setHubProgress('mars-base', { label: '第 2 章', value: 0.45 });   // the line under your hub card (a place in the story, never a score)
+```
 
 Live examples of all of the above: `/dev/kit/` (site/dev/kit/main.ts).
 
 ## 5. Narration content
 
-`content/narration/<game>.yaml` → (voice pipeline, free local TTS, swappable) →
+`content/narration/<game>.yaml` → `npm run voice:build -- <game>` (free local TTS, swappable;
+memory-safe procedure in docs/VOICE.md — check memory first, one model process at a time) →
 `public/audio/<game>/<id>.<hash8>.m4a` + `public/audio/<game>/audio-manifest.json`
 `{ id: { src, text, durationMs, words?, role? } }`. Format details: content/narration/README.md.
 Ids: `<short-game>.<scene>.<n>`, no spaces. `npm run build` fails on a manifest that points at a

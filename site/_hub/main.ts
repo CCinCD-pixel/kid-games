@@ -187,7 +187,7 @@ let bot: Companion | null = null;
 const botHost = document.getElementById('hub-bot')!;
 function mountBot() {
   bot?.destroy();
-  bot = mount(botHost, { size: portrait() ? 132 : 118, mood: 'idle', bubble: 'left', bubbleMax: portrait() ? 470 : 470, sfx: (n) => sfx.play(n) });
+  bot = mount(botHost, { size: portrait() ? 132 : 118, mood: 'idle', bubble: 'left', bubbleMax: portrait() ? 600 : 560, sfx: (n) => sfx.play(n) });
 }
 mountBot();
 

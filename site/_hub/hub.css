@@ -44,6 +44,21 @@ body.hub {
 .hub-moon.is-poked { animation: hub-moon-poke .7s var(--xg-ease-back); }
 @keyframes hub-moon-rise { from { opacity: 0; translate: 0 14px; } }
 @keyframes hub-moon-poke { 30% { scale: 1.08; } 60% { scale: .97; } }
+/* a few stars twinkle and a shooting star crosses now and then (compositor-only CSS animations) */
+.hub-twinkle {
+  position: absolute; width: 1.6%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  background: #fff6e3; clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  filter: drop-shadow(0 0 4px rgba(255, 246, 227, .9)); opacity: .25;
+  animation: hub-twinkle 4.2s ease-in-out var(--d, 0s) infinite;
+}
+.hub-twinkle--sm { width: 1.1%; }
+@keyframes hub-twinkle { 0%, 100% { opacity: .2; scale: .7; } 45% { opacity: 1; scale: 1.15; } 55% { opacity: .9; scale: 1; } }
+.hub-meteor {
+  position: absolute; left: 18%; top: 6%; width: 14%; height: 2px; border-radius: 2px; transform: rotate(18deg); transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(255, 246, 227, 0), rgba(255, 246, 227, .95)); opacity: 0;
+  animation: hub-meteor 13s linear 4s infinite;
+}
+@keyframes hub-meteor { 0%, 88% { opacity: 0; translate: 0 0; } 90% { opacity: 1; } 96% { opacity: 0; translate: 22vw 7vw; } 100% { opacity: 0; translate: 22vw 7vw; } }
 .hub-ground {
   position: absolute; left: 0; right: 0; bottom: 0; top: calc(var(--hub-nav-top) + 28px);
   background: url("../../kit/textures/speckle-overlay.webp") 0 0 / 256px 256px; opacity: .5; pointer-events: none;
@@ -79,7 +94,7 @@ body.hub {
 
 /* ---- companion ----------------------------------------------------------------------------------- */
 .hub-bot { position: absolute; z-index: 4; right: calc(var(--hub-safe-r) + 26px); top: calc(var(--hub-safe-t) + var(--hub-bot-top)); cursor: pointer; }
-.hub-bot .xg-bot-bubble { font-size: 23px; white-space: normal; text-wrap: balance; }
+.hub-bot .xg-bot-bubble { font-size: 23px; white-space: normal; }
 
 /* ---- place tabs ------------------------------------------------------------------------------------ */
 .hub-nav { position: absolute; z-index: 3; left: 0; right: 0; top: calc(var(--hub-safe-t) + var(--hub-nav-top)); display: flex; justify-content: center; pointer-events: none; }
@@ -236,5 +251,6 @@ html[data-dev] .hub-card[data-wip] { outline: 3px dashed var(--xg-gold-500); out
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hub-moon, .hub-panel.is-entering .hub-card, .hub-tag--new { animation: none !important; }
+  .hub-moon, .hub-panel.is-entering .hub-card, .hub-tag--new, .hub-twinkle { animation: none !important; }
+  .hub-meteor { display: none; }
 }
