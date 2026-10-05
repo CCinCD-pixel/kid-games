@@ -26,6 +26,16 @@ exhaustion during this project):**
   down instead of retrying blindly.
 - Working files go under `~/kid-games-work/` (persistent). `/private/tmp` is wiped on reboot.
 
+**SILENCE RULE (mandatory — test audio through the Mac's speakers woke the family at night):**
+- Never produce audible sound on the build machine: no `afplay`, no `say` without `-o <file>`,
+  never change the system volume or mute state.
+- Pages that load the kit are silent under Playwright automatically (`kit/automute.ts`:
+  `navigator.webdriver` → every Web Audio destination goes through a zero-gain node, media
+  elements muted, speech volume 0). Route all game audio through `@kit/audio` anyway.
+- Pages that do not load the kit: `context.addInitScript({ path: 'tools/qa/mute-audio.js' })`;
+  Chromium: launch with `args: ['--mute-audio']`. Manual silent preview: add `?mute` to the URL.
+- Check audio by inspecting files (ffprobe, durations, ASR) or Web Audio events, never by listening.
+
 ## 1. Add a game in five steps
 
 ```
