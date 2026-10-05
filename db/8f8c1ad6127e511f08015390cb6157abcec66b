@@ -1,0 +1,41 @@
+docs/specs/mars-base.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-1999
+docs/specs/memory-matrix.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-302
+docs/plan-2026-10.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-1599
+docs/specs/military-chess.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-1800
+docs/specs/emoji-match.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-2606
+docs/specs/moon-builder.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-1474
+docs/specs/tiangong-lab.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-2149
+docs/specs/snake-battle.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-481
+docs/specs/sokoban.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-1826
+docs/specs/story-box.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-2165
+docs/specs/README.md
+  ai_agent 1-23
+docs/specs/rover-code.md
+  s_0eb5d4e8842e10::t_912c69290a6712 1-2489
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "db8f8c1ad6127e511f08015390cb6157abcec66b",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
