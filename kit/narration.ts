@@ -24,6 +24,7 @@
  */
 
 import { decodeClip, getBus, music, playBuffer, whenAudioUnlocked, type Voice } from './audio';
+import { narrationEnabled } from './settings';
 
 export interface WordTiming {
   /** the character (or word) shown */
@@ -83,12 +84,19 @@ export interface NarratorOptions {
   backends?: NarrationBackend[];
   /** Wait for the start-gate tap before speaking (default true). Tests pass a resolved promise. */
   unlocked?: () => Promise<void>;
+  /**
+   * Whether lines are voiced (default: the parent page's 旁白 setting, kit/settings). When false,
+   * lines are shown as subtitles at reading pace; an explicit replay() still speaks.
+   */
+  voiced?: () => boolean;
 }
 
 interface QueueItem {
   cue: Cue;
   clip: NarrationClip | undefined;
   resolve: (r: SayResult) => void;
+  /** speak even when narration is switched off (再听一遍) */
+  force?: boolean;
 }
 
 const ID_PATTERN = /^[a-z0-9][a-z0-9_.:-]*$/i;
@@ -214,12 +222,12 @@ export class Narrator {
    * literal text (spoken by the fallback backend, always shown as subtitle).
    * `vars` fills {placeholders} in the subtitle text of templated lines.
    */
-  say(idOrText: string, options: { interrupt?: boolean; vars?: Record<string, string | number> } = {}): Promise<SayResult> {
+  say(idOrText: string, options: { interrupt?: boolean; vars?: Record<string, string | number>; force?: boolean } = {}): Promise<SayResult> {
     const cue = this.resolveCue(idOrText, options.vars);
     if (!cue) return Promise.resolve('skipped');
     if (options.interrupt) this.stop();
     return new Promise<SayResult>((resolve) => {
-      this.queue.push({ cue, clip: cue.id ? this.manifest[cue.id] : undefined, resolve });
+      this.queue.push({ cue, clip: cue.id ? this.manifest[cue.id] : undefined, resolve, force: options.force });
       void this.pump();
     });
   }
@@ -234,7 +242,7 @@ export class Narrator {
   replay(): Promise<SayResult> {
     const cue = this.last;
     if (!cue) return Promise.resolve('skipped');
-    return this.say(cue.id ?? cue.text, { interrupt: true });
+    return this.say(cue.id ?? cue.text, { interrupt: true, force: true });
   }
 
   /** Decode clips ahead of time (e.g. the next page's lines). */
@@ -283,7 +291,8 @@ export class Narrator {
 
   private async playItem(item: QueueItem, signal: AbortSignal): Promise<SayResult> {
     const { cue, clip } = item;
-    for (const backend of this.backends) {
+    const voiced = item.force || (this.opts.voiced ?? narrationEnabled)();
+    for (const backend of voiced ? this.backends : []) {
       if (signal.aborted) return 'interrupted';
       let ok = false;
       try {

@@ -12,11 +12,13 @@ import { expect, test } from '@playwright/test';
 import { loadRegistry } from '../../tools/registry.mjs';
 import { instrument, probe, shot, watch } from './helpers';
 
-interface Entry { id: string; href: string; status: string; smoke?: { waitFor?: string; skip?: boolean } }
+interface Entry { id: string; title: string; href: string; place: string; status: string; smoke?: { waitFor?: string; skip?: boolean } }
 const games: Entry[] = loadRegistry();
 const matrix = [
   { id: 'hub', href: '/', back: false, waitFor: '.hub-card' },
   ...games.filter((g) => !g.smoke?.skip).map((g) => ({ id: g.id, href: g.href, back: true, waitFor: g.smoke?.waitFor })),
+  { id: 'parent', href: '/parent/', back: true, waitFor: '#app[data-gate]' },
+  { id: 'credits', href: '/credits/', back: true, waitFor: '#app[data-ready]' },
   { id: 'dev-kit', href: '/dev/kit/', back: true, waitFor: '.kit-start' },
 ];
 
@@ -58,18 +60,80 @@ test.describe('every page', () => {
 });
 
 test.describe('hub', () => {
-  test('cards come from the registry and a launch is logged with its source', async ({ page }) => {
+  const listed = games.filter((g) => g.status !== 'hidden');
+
+  /** Visit every place tab and collect the cards it shows. */
+  async function cardsByTab(page: import('@playwright/test').Page) {
+    const out: Record<string, string[]> = {};
+    for (const tab of await page.locator('#hub-tabs button[data-id]').all()) {
+      await tab.tap();
+      const id = (await tab.getAttribute('data-id'))!;
+      out[id] = await page.locator('.hub-panel:not([hidden]) .hub-card:visible').evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.game!));
+    }
+    return out;
+  }
+
+  test('place tabs show every listed game from the registry; wip cards say 建造中', async ({ page }) => {
     await page.goto('/');
-    const live = games.filter((g) => g.status === 'live').map((g) => g.id).sort();
-    const shown = (await page.locator('.hub-card:visible').evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.game!))).sort();
-    expect(shown).toEqual(live);
+    await page.waitForSelector('body[data-ready]');
+    const byTab = await cardsByTab(page);
+    for (const [place, ids] of Object.entries(byTab)) {
+      expect(ids.sort()).toEqual(listed.filter((g) => g.place === place).map((g) => g.id).sort());
+    }
+    expect(Object.values(byTab).flat().sort()).toEqual(listed.map((g) => g.id).sort());
+    for (const g of listed.filter((x) => x.status === 'wip')) {
+      await expect(page.locator(`.hub-card[data-game="${g.id}"]`)).toHaveAttribute('aria-disabled', 'true');
+      await expect(page.locator(`.hub-card[data-game="${g.id}"] .hub-card__building`)).toHaveText('建造中');
+    }
+    // today's moon is drawn
+    await expect(page.locator('#hub-moon svg')).toHaveCount(1);
+    expect(await page.locator('#hub-moon').getAttribute('aria-label')).toMatch(/^今天的月亮：/);
+  });
+
+  test('a wip card answers instead of navigating; a live card launches with its source logged', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForSelector('body[data-ready]');
+    const wip = games.find((g) => g.status === 'wip');
+    if (wip) {
+      await page.locator(`#hub-tabs button[data-id="${wip.place}"]`).tap();
+      await page.locator(`.hub-card[data-game="${wip.id}"]`).tap({ force: true }); // aria-disabled: Playwright would wait for "enabled"
+      await page.waitForTimeout(400);
+      expect(new URL(page.url()).pathname).toBe('/');
+    }
     const target = games.find((g) => g.status === 'live')!;
-    await page.locator(`.hub-card[data-game="${target.id}"]`).click();
+    await page.locator(`#hub-tabs button[data-id="${target.place}"]`).tap();
+    await page.locator(`.hub-card[data-game="${target.id}"]`).tap();
     await page.waitForURL(`**${target.href}`);
     await page.waitForTimeout(300);
     const sessions = await page.evaluate(() => JSON.parse(localStorage.getItem('kg:log:v1') || '[]'));
     const mine = sessions.filter((s: { game: string }) => s.game === target.id);
     expect(mine.at(-1)?.source).toBe('hub');
+  });
+
+  test('parent page: 3 s hold → set PIN → hide a game → the hub hides it', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForSelector('body[data-ready]');
+    const parent = page.locator('#hub-parent');
+    await parent.dispatchEvent('pointerdown', { isPrimary: true, pointerId: 1, button: 0 });
+    await page.waitForURL('**/parent/', { timeout: 6000 });
+    await expect(page.locator('.pg-gate__msg')).toContainText('设置 4 位家长 PIN');
+    for (let round = 0; round < 2; round += 1) {
+      for (const d of ['1', '3', '5', '7']) await page.locator(`.pg-keypad [data-k="${d}"]`).tap();
+      await page.waitForTimeout(300);
+    }
+    await expect(page.locator('.pg-head h1')).toHaveText('家长中心');
+    await shot(page, test.info().project.name, 'parent-overview');
+    expect(await page.evaluate(() => localStorage.getItem('kg:parent:pin'))).not.toContain('1357');
+    await page.locator('.pg-tabs button[data-id="settings"]').tap();
+    const victim = games.find((g) => g.status === 'live')!;
+    const row = page.locator('.pg-gametoggles .pg-row', { hasText: victim.title }).first();
+    await row.locator('label').tap();
+    await shot(page, test.info().project.name, 'parent-settings');
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem('kg:settings:v1') || '{}').hiddenGames)).toContain(victim.id);
+    await page.locator('.kit-back').tap();
+    await page.waitForURL((u) => u.pathname === '/');
+    await page.waitForSelector('body[data-ready]');
+    await expect(page.locator(`.hub-card[data-game="${victim.id}"]`)).toBeHidden();
   });
 
   test('service worker installs and precaches the shell', async ({ page, browserName }) => {

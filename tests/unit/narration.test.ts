@@ -144,3 +144,22 @@ describe('Narrator', () => {
     expect(n.text('zzz')).toBeUndefined();
   });
 });
+
+describe('Narrator: parent 旁白 switch', () => {
+  it('shows subtitles without voice when narration is off; replay still speaks', async () => {
+    const clip = new FakeBackend('clip', () => true);
+    const cues: (Cue | null)[] = [];
+    vi.useFakeTimers();
+    const n = new Narrator({ manifest, backends: [clip], unlocked: () => Promise.resolve(), onCue: (c) => cues.push(c), duckMusic: false, voiced: () => false });
+    const r = n.say('a.1');
+    await vi.advanceTimersByTimeAsync(10_000);
+    expect(await r).toBe('done');
+    expect(clip.played).toEqual([]);
+    expect(cues.find(Boolean)).toMatchObject({ id: 'a.1', source: 'text' });
+    const again = n.replay();
+    await vi.advanceTimersByTimeAsync(0);
+    expect(clip.played).toEqual(['第一句']);
+    clip.finish();
+    expect(await again).toBe('done');
+  });
+});

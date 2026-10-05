@@ -3,29 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>爸爸的游戏乐园</title>
+    <title>星港</title>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0c1230">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="游戏乐园">
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
     <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
-    <!-- Placeholder hub look. The 星港 hub (plan §4.1) replaces the markup/CSS; the card list
-         stays generated from site/<id>/game.json (tools/registry.mjs renderHub). -->
+    <!-- 星港 hub (plan §4.1). Card panels are rendered at build time from site/<id>/game.json
+         (tools/registry.mjs renderHub → the kg:hub placeholder below); site/_hub/main.ts adds the
+         moon, the companion, progress, 继续/推荐/NEW tags, tabs and the parent long-press. -->
     <script type="module" src="/_hub/main.ts"></script>
 </head>
-<body>
-    <header class="hub-header">
-        <h1>🎮 爸爸的游戏乐园</h1>
-        <p>和爸爸一起玩，一起成长</p>
+<body class="hub" data-xg-theme="night">
+    <div class="hub-stage">
+        <button class="hub-moon" id="hub-moon" type="button" aria-label="今天的月亮"></button>
+    </div>
+    <div class="hub-ground" aria-hidden="true"></div>
+
+    <header class="hub-top">
+        <div class="hub-brand" id="hub-brand" title="家长：长按 3 秒">
+            <span class="hub-brand__title">星港</span>
+            <small class="hub-brand__sub"><span data-display-name>小步步</span>的航天基地</small>
+        </div>
+        <div class="hub-tools">
+            <button class="xg-iconbtn xg-iconbtn--night" id="hub-sound" type="button" aria-label="声音" aria-pressed="true"></button>
+            <button class="xg-iconbtn xg-iconbtn--night hub-parent" id="hub-parent" type="button" aria-label="家长入口（长按 3 秒）" data-sfx="none">
+                <svg class="hub-parent__ring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29"/></svg>
+            </button>
+        </div>
     </header>
 
-    <main class="hub-main">
+    <div class="hub-bot" id="hub-bot"></div>
+
+    <nav class="hub-nav" aria-label="星港的地方"><div id="hub-tabs"></div></nav>
+
+    <main class="hub-panels" id="hub-panels">
 <!-- kg:hub -->
     </main>
-
-    <footer class="hub-footer">Made with ❤️ by Dad</footer>
 </body>
 </html>

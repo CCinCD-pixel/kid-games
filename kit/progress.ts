@@ -167,6 +167,49 @@ export function requestPersistence(): Promise<boolean> {
   return persistAsked;
 }
 
+// ---------------------------------------------------------------- hub card progress
+
+/** `kg:hub:v1` → { [gameId]: HubProgress } — the one line of progress the hub card shows. */
+export const HUB_PROGRESS_KEY = 'kg:hub:v1';
+
+export interface HubProgress {
+  /** fantasy-progress label for the card foot, e.g. "第 2 章" or "B 区 · 第 7 关" (≤ 12 chars) */
+  label: string;
+  /** 0..1 fill of the card's progress bar; omit for no bar */
+  value?: number;
+  updatedAt: number;
+}
+
+/**
+ * Games call this when the child reaches a milestone, so the hub card reads e.g. "第 2 章" with a
+ * progress bar. Keep the label a place in the story, never a skill or a score.
+ *
+ *   setHubProgress('mars-base', { label: '第 2 章', value: 0.45 });
+ */
+export function setHubProgress(game: string, p: { label: string; value?: number }, storage: Storage | undefined = defaultStorage()): void {
+  if (!storage) return;
+  storeKey(game); // validates the id
+  const all = readHubProgress(storage);
+  const value = typeof p.value === 'number' && Number.isFinite(p.value) ? Math.max(0, Math.min(1, p.value)) : undefined;
+  all[game] = { label: String(p.label).slice(0, 24), ...(value === undefined ? {} : { value }), updatedAt: Date.now() };
+  try {
+    storage.setItem(HUB_PROGRESS_KEY, JSON.stringify(all));
+  } catch {
+    /* quota */
+  }
+}
+
+export function readHubProgress(storage: Storage | undefined = defaultStorage()): Record<string, HubProgress> {
+  const raw = safeParse(storage?.getItem(HUB_PROGRESS_KEY) ?? null);
+  const out: Record<string, HubProgress> = {};
+  if (!isObj(raw)) return out;
+  for (const [game, v] of Object.entries(raw)) {
+    if (!isObj(v) || typeof v.label !== 'string') continue;
+    out[game] = { label: v.label, ...(typeof v.value === 'number' ? { value: v.value } : {}), updatedAt: typeof v.updatedAt === 'number' ? v.updatedAt : 0 };
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------- legacy keys (pre-2026-10 games)
 
 /** localStorage keys written by the old single-file games. Never deleted (old pages still read them). */
