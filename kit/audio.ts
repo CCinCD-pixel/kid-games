@@ -18,6 +18,8 @@
  *   sfx.play('tap', { volume: 0.8 });
  */
 
+import { AUTOMATION_MUTE } from './automute'; // must stay first: silences all output under browser automation
+
 type Ctor = new (opts?: AudioContextOptions) => AudioContext;
 export type BusName = 'master' | 'sfx' | 'voice' | 'music';
 
@@ -87,6 +89,7 @@ function markUnlocked(): void {
 }
 
 function setPlaybackSession(): void {
+  if (AUTOMATION_MUTE) return; // tests: never claim the playback session
   const nav = globalThis.navigator as Navigator & { audioSession?: AudioSessionLike };
   try {
     if (nav?.audioSession && nav.audioSession.type !== 'playback') nav.audioSession.type = 'playback';

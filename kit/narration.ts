@@ -25,6 +25,7 @@
 
 import { decodeClip, getBus, music, playBuffer, whenAudioUnlocked, type Voice } from './audio';
 import { narrationEnabled } from './settings';
+import { AUTOMATION_MUTE } from './automute';
 
 export interface WordTiming {
   /** the character (or word) shown */
@@ -160,6 +161,12 @@ export class SpeechBackend implements NarrationBackend {
         speechSynthesis.cancel();
         done();
       }, { once: true });
+      if (AUTOMATION_MUTE) {
+        // Browser automation (QA on the family Mac): never speak through the speakers; keep timing.
+        clearTimeout(guard);
+        setTimeout(done, Math.min(cue.text.length * 120, 4000));
+        return;
+      }
       speechSynthesis.speak(u);
     });
   }

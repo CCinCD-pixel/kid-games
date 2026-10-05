@@ -22,6 +22,7 @@
  *   await shell.ready;   // audio unlocked, start your intro narration
  */
 
+import './automute'; // first: silence all page audio under browser automation (QA runs on the family Mac)
 import { installAudioAutoUnlock, unlockAudio } from './audio';
 import { startSession, type Session } from './log';
 import { requestPersistence } from './progress';
