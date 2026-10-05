@@ -1,34 +1,107 @@
 /* =============================================================================
-   kit/ui/tokens.css — PLACEHOLDER design tokens.
-   The real 星港 design system (separate agent) replaces this file wholesale. It uses the same
-   naming (--xg-<group>-<name>[-<step>]), so kit components and games written against these names
-   keep working. Only role aliases and scales that kit components need are defined here.
-   Import once per page: import '@kit/ui/tokens.css' (the kit shell does it for you).
+   星港 Design Tokens  ·  v1.0  (2026-10)
+   -----------------------------------------------------------------------------
+   One source of truth for colour, type, space, radius, depth and motion.
+   Framework-free CSS custom properties. Import once at the top of every page:
+     <link rel="stylesheet" href="/kit/ui/tokens.css">
+   Naming:  --xg-<group>-<name>[-<step>]
+   Light source is top-left everywhere; paper layers cast shadow down-right-ish
+   (dy only, dx = 0 keeps things calm on rotation).
    ============================================================================= */
+
 :root {
-  /* palette (subset) */
+  /* ---------------------------------------------------------------- colour */
+  /* Night sky — the hub / 星港 base. Blue-violet, never pure black. */
   --xg-night-950: #070b1f;
   --xg-night-900: #0c1230;
   --xg-night-800: #131b42;
+  --xg-night-700: #1b2656;
+  --xg-night-600: #26346e;
+  --xg-night-500: #35468c;
+  --xg-night-400: #5466b0;
+  --xg-night-300: #8594d6;
   --xg-night-200: #b7c1ec;
-  --xg-moon-50: #fffaf0;
+  --xg-night-100: #e2e7fb;
+
+  /* Dusk glow at the horizon (paper-cut sky gradient end stop) */
+  --xg-dusk-500: #6a4a8c;
+  --xg-dusk-300: #b77fae;
+
+  /* Moonlight / starlight — warm highlights on the night base */
+  --xg-moon-50:  #fffaf0;
+  --xg-moon-100: #fff3d6;
+  --xg-moon-200: #fde6ad;
   --xg-moon-300: #f9d27c;
-  --xg-paper-0: #fffdf8;
+  --xg-moon-500: #f2b740;
+
+  /* Warm paper — every panel / card / game surface */
+  --xg-paper-0:   #fffdf8;
+  --xg-paper-50:  #fffaf0;
   --xg-paper-100: #fbf3e3;
   --xg-paper-200: #f4e7cd;
+  --xg-paper-300: #e8d5b1;
+  --xg-paper-400: #d2b88b;
+  --xg-paper-500: #b0956a;
+
+  /* Ink — text on paper. Warm plum-brown, not grey. */
   --xg-ink-900: #261c30;
+  --xg-ink-800: #352a40;
   --xg-ink-700: #4b3f58;
   --xg-ink-500: #776a85;
-  --xg-gold-500: #f6b934;
-  --xg-jade-500: #1aa892;
-  --xg-jade-700: #0f7466;
-  --xg-jade-100: #d9f5ee;
-  --xg-ok-500: #1aa892;
-  --xg-try-500: #f0a53a;
-  --xg-info-500: #3f7be6;
-  --xg-led: #8ff7ec;
+  --xg-ink-400: #988ca5;
+  --xg-ink-300: #bdb3c6;
+  --xg-ink-200: #ddd6e2;
 
-  /* roles (themes override these) */
+  /* Brand */
+  --xg-cinnabar-600: #c93a2c;   /* 朱砂 — brand red, used sparingly */
+  --xg-cinnabar-500: #e4513d;
+  --xg-cinnabar-300: #f39a85;
+  --xg-gold-700: #b9780f;
+  --xg-gold-600: #df9a1c;
+  --xg-gold-500: #f6b934;        /* star / reward gold */
+  --xg-gold-300: #fdd877;
+  --xg-gold-100: #fff1c9;
+  --xg-jade-700: #0f7466;
+  --xg-jade-600: #148a7a;
+  --xg-jade-500: #1aa892;        /* 玉 jade — primary action */
+  --xg-jade-300: #7bd8c6;
+  --xg-jade-100: #d9f5ee;
+  --xg-led: #8ff7ec;             /* companion LED screen glow */
+  --xg-led-warm: #ffd863;
+
+  /* Semantic — colour is NEVER the only signal: every state pairs with an icon
+     or shape (✓ badge, dashed outline, wobble). Chosen to stay distinct under
+     protan/deutan/tritan simulation (blue-teal vs amber, not red vs green). */
+  --xg-ok-600: #127e6c;
+  --xg-ok-500: #1aa892;
+  --xg-ok-100: #d9f5ee;
+  --xg-try-600: #c27411;         /* "not yet" — amber, never red */
+  --xg-try-500: #f0a53a;
+  --xg-try-100: #fdebcc;
+  --xg-info-600: #2c5fc4;
+  --xg-info-500: #3f7be6;
+  --xg-info-100: #dde8fc;
+  --xg-danger-600: #b8352a;      /* parent area / destructive only */
+  --xg-danger-500: #d9483a;
+
+  /* Per-game accents — base / deep (edges, pressed, text on soft) / soft (tinted surfaces) /
+     hi (gradient top) / on (text colour ON the base: white, or a dark ink where white < 3:1).
+     Chosen by _src/opt_palette.py in OKLCH with the theme hue held: lightness is staggered so
+     every pair stays ≥ 7.7 ΔE2000 apart under protan / deutan simulation (≥ 6 tritan, which
+     is ~0.01 % of boys). Hue is still a bonus cue: every card also has a unique emblem + name. */
+  --xg-mars:    #ec6e38; --xg-mars-deep:    #b44100; --xg-mars-soft:    #ffe6dc; --xg-mars-hi:    #ff9367; --xg-mars-on:    #fff;     /* 火星基地 */
+  --xg-moon:    #8170db; --xg-moon-deep:    #5744a5; --xg-moon-soft:    #ebeaff; --xg-moon-hi:    #9b8fed; --xg-moon-on:    #fff;     /* 月宫建造师 */
+  --xg-rabbit:  #3eb28d; --xg-rabbit-deep:  #008362; --xg-rabbit-soft:  #d9f4e9; --xg-rabbit-hi:  #72ccab; --xg-rabbit-on:  #fff;     /* 玉兔编程 */
+  --xg-story:   #d54c6c; --xg-story-deep:   #9d1c43; --xg-story-soft:   #ffe5e8; --xg-story-hi:   #ea738a; --xg-story-on:   #fff;     /* 山海故事匣 */
+  --xg-lab:     #33a0d9; --xg-lab-deep:     #0071a5; --xg-lab-soft:     #daf1ff; --xg-lab-hi:     #68bbed; --xg-lab-on:     #fff;     /* 天宫实验室 */
+  --xg-porter:  #f9a726; --xg-porter-deep:  #c37900; --xg-porter-soft:  #fbead6; --xg-porter-hi:  #ffc86b; --xg-porter-on:  #482300;  /* 星港搬运工 */
+  --xg-chess:   #4f59ca; --xg-chess-deep:   #2c2d93; --xg-chess-soft:   #e6ecff; --xg-chess-hi:   #6a79da; --xg-chess-on:   #fff;     /* 棋手学院 */
+  --xg-army:    #7d7413; --xg-army-deep:    #524900; --xg-army-soft:    #f0eed6; --xg-army-hi:    #968f48; --xg-army-on:    #fff;     /* 陆战棋 */
+  --xg-snake:   #83d766; --xg-snake-deep:   #58a53b; --xg-snake-soft:   #e3f2de; --xg-snake-hi:   #aaf292; --xg-snake-on:   #123802;  /* 贪吃蛇 */
+  --xg-match:   #c8459d; --xg-match-deep:   #92136f; --xg-match-soft:   #fde5f2; --xg-match-hi:   #dd6eb5; --xg-match-on:   #fff;     /* 消消乐 */
+  --xg-defense: #5ca753; --xg-defense-deep: #317829; --xg-defense-soft: #e1f3df; --xg-defense-hi: #81c179; --xg-defense-on: #fff;     /* 塔防 (theme TBD) */
+
+  /* Role aliases (themes override these, not the ramps) */
   --xg-bg: var(--xg-paper-100);
   --xg-surface: var(--xg-paper-0);
   --xg-surface-sunk: var(--xg-paper-200);
@@ -40,57 +113,127 @@
   --xg-accent: var(--xg-jade-500);
   --xg-accent-deep: var(--xg-jade-700);
   --xg-accent-soft: var(--xg-jade-100);
+  --xg-accent-hi: #3fcbb2;
+  --xg-accent-on: #fff;
+  --xg-accent-on-sh: rgba(0, 0, 0, .24);
 
-  /* type */
+  /* ------------------------------------------------------------ typography */
+  /* Families. PingFang is the UI workhorse (system, 0 bytes). WenKai for reading
+     (楷体 matches 人教版 textbooks), ZCOOL KuaiLe for big friendly titles only,
+     Baloo 2 for numerals (tabular, round, very legible at 72px+). */
   --xg-font-ui: "PingFang SC", -apple-system, "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
   --xg-font-read: "XG WenKai", "LXGW WenKai GB", "Kaiti SC", "STKaiti", "KaiTi", serif;
   --xg-font-title: "XG KuaiLe", "ZCOOL KuaiLe", "PingFang SC", system-ui, sans-serif;
   --xg-font-num: "XG Baloo", "Baloo 2", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+
+  /* Scale (px). Tuned for a 6-year-old at arm's length on a 10.2" iPad. Body
+     never goes below 18px; reading text 26px with 1.8 line-height (room for pinyin). */
+  --xg-fs-micro: 13px;   /* parent page meta only */
   --xg-fs-caption: 15px;
   --xg-fs-small: 17px;
   --xg-fs-body: 20px;
   --xg-fs-lead: 23px;
+  --xg-fs-read: 26px;    /* WenKai story / instruction text */
   --xg-fs-h3: 28px;
   --xg-fs-h2: 36px;
   --xg-fs-h1: 46px;
+  --xg-fs-display: 62px;
+  --xg-fs-num-l: 44px;
+  --xg-fs-num-xl: 72px;
+
+  --xg-lh-tight: 1.12;
+  --xg-lh-snug: 1.3;
   --xg-lh-body: 1.5;
+  --xg-lh-read: 1.8;
+
+  --xg-fw-regular: 400;
+  --xg-fw-medium: 500;
+  --xg-fw-semibold: 600;
   --xg-fw-bold: 700;
   --xg-fw-black: 800;
 
-  /* space, touch, radius */
+  --xg-tracking-title: .02em;
+  --xg-tracking-read: .06em;
+
+  /* ---------------------------------------------------------------- space */
+  --xg-sp-0: 0;
   --xg-sp-1: 4px;
   --xg-sp-2: 8px;
   --xg-sp-3: 12px;
   --xg-sp-4: 16px;
+  --xg-sp-5: 20px;
   --xg-sp-6: 24px;
+  --xg-sp-7: 28px;
   --xg-sp-8: 32px;
-  --xg-gutter: 24px;
-  --xg-hit-min: 48px;
-  --xg-hit-primary: 64px;
-  --xg-hit-back: 56px;
+  --xg-sp-10: 40px;
+  --xg-sp-12: 48px;
+  --xg-sp-16: 64px;
+  --xg-gutter: 24px;               /* screen edge gutter (+ safe-area) */
+
+  /* Touch targets */
+  --xg-hit-min: 48px;              /* every tappable thing */
+  --xg-hit-primary: 64px;          /* primary actions */
+  --xg-hit-key: 76px;              /* numeric keypad keys */
+  --xg-hit-back: 56px;             /* back-to-hub button (plan §4.3) */
+
+  /* --------------------------------------------------------------- radius */
+  --xg-r-xs: 8px;
   --xg-r-sm: 12px;
   --xg-r-md: 18px;
   --xg-r-lg: 26px;
+  --xg-r-xl: 34px;
   --xg-r-pill: 999px;
 
-  /* depth */
-  --xg-shadow-color: 52, 30, 12;
+  /* --------------------------------------------------------------- depth */
+  /* Paper-cut shadows: a crisp "contact" offset (the paper's thickness) plus
+     a soft ambient. Layer n sits n sheets above the one below it. */
+  --xg-shadow-color: 52, 30, 12;          /* warm brown on paper */
+  --xg-sh-0: none;
   --xg-sh-1: 0 1px 0 rgba(var(--xg-shadow-color), .10), 0 2px 6px rgba(var(--xg-shadow-color), .10);
   --xg-sh-2: 0 2px 0 rgba(var(--xg-shadow-color), .10), 0 8px 18px -4px rgba(var(--xg-shadow-color), .24);
   --xg-sh-3: 0 3px 0 rgba(var(--xg-shadow-color), .10), 0 16px 32px -8px rgba(var(--xg-shadow-color), .32);
+  --xg-sh-4: 0 4px 0 rgba(var(--xg-shadow-color), .08), 0 28px 56px -12px rgba(var(--xg-shadow-color), .42);
+  /* Night variants (hub): deep blue-black, a touch longer */
+  --xg-night-shadow: 3, 5, 22;
+  --xg-sh-night-1: 0 2px 0 rgba(var(--xg-night-shadow), .35), 0 6px 14px rgba(var(--xg-night-shadow), .35);
+  --xg-sh-night-2: 0 3px 0 rgba(var(--xg-night-shadow), .35), 0 14px 28px -6px rgba(var(--xg-night-shadow), .55);
+  --xg-sh-night-3: 0 4px 0 rgba(var(--xg-night-shadow), .30), 0 26px 48px -10px rgba(var(--xg-night-shadow), .65);
+  /* Paper edge highlight (top bevel of a cut sheet) */
+  --xg-bevel: inset 0 1.5px 0 rgba(255, 255, 255, .75);
+  --xg-bevel-dark: inset 0 1px 0 rgba(255, 255, 255, .12);
+  /* Tactile button "edge" depth */
   --xg-btn-depth: 6px;
   --xg-btn-depth-pressed: 2px;
+  /* SVG layer shadow (offline rasterisation / small sprites only) */
+  --xg-svg-paper-shadow: drop-shadow(0 5px 5px rgba(42, 20, 8, .30));
 
-  /* motion */
-  --xg-dur-press: 110ms;
-  --xg-dur-release: 320ms;
-  --xg-dur-fast: 160ms;
-  --xg-dur-base: 240ms;
-  --xg-dur-slow: 420ms;
+  /* Glows */
+  --xg-glow-gold: 0 0 0 6px rgba(246, 185, 52, .22), 0 0 28px rgba(246, 185, 52, .55);
+  --xg-glow-led: 0 0 12px rgba(143, 247, 236, .7);
+  --xg-focus-ring: 0 0 0 4px var(--xg-paper-0), 0 0 0 7px var(--xg-focus);
+
+  /* -------------------------------------------------------------- motion */
+  --xg-dur-instant: 70ms;
+  --xg-dur-press: 110ms;       /* finger down: squash */
+  --xg-dur-release: 320ms;     /* finger up: spring back */
+  --xg-dur-fast: 160ms;        /* hover/tint/toggle */
+  --xg-dur-base: 240ms;        /* panels, slides */
+  --xg-dur-slow: 420ms;        /* modal enter, page transitions */
+  --xg-dur-pop: 520ms;         /* star/badge pop */
+  --xg-dur-celebrate: 1200ms;  /* confetti, result fanfare */
+  --xg-stagger: 90ms;          /* list/star stagger */
+
   --xg-ease-out: cubic-bezier(.22, 1, .36, 1);
-  --xg-ease-back: cubic-bezier(.34, 1.56, .64, 1);
+  --xg-ease-in: cubic-bezier(.55, 0, 1, .45);
+  --xg-ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --xg-ease-press: cubic-bezier(.3, 0, .6, 1);
+  --xg-ease-back: cubic-bezier(.34, 1.56, .64, 1);      /* overshoot */
+  /* Real spring (Safari 17.2+ linear()): settle ~ 1.0s, 1 visible overshoot */
+  --xg-ease-spring: linear(0, .009, .035 2.1%, .141, .281 6.7%, .723 12.9%, .938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, .991, .977 51%, .974 53.8%, .975 57.1%, .997 69.8%, 1.003 76.9%, 1.004 83.8%, 1);
+  /* Bouncy pop for stars/badges: big overshoot, quick settle */
+  --xg-ease-pop: linear(0, .023 1.1%, .095 2.3%, .391 5.9%, .787 10.2%, 1.068 14.1%, 1.204 17%, 1.257 19.2%, 1.27 21.4%, 1.245 23.9%, 1.096 30.7%, 1.007 35.6%, .955 40.8%, .944 44.4%, .953 49.1%, 1.012 61.6%, 1.022 68.2%, 1.006 85.6%, 1);
 
-  /* z-index */
+  /* -------------------------------------------------------------- z-index */
   --xg-z-hud: 10;
   --xg-z-drag: 50;
   --xg-z-companion: 60;
@@ -98,24 +241,44 @@
   --xg-z-modal: 100;
 }
 
+/* Night theme (hub, launch screens, space scenes). Apply to <body> or any subtree. */
 [data-xg-theme="night"] {
   --xg-bg: var(--xg-night-900);
   --xg-surface: var(--xg-night-800);
   --xg-surface-sunk: var(--xg-night-950);
   --xg-text: var(--xg-moon-50);
   --xg-text-2: var(--xg-night-200);
-  --xg-text-3: #8594d6;
+  --xg-text-3: var(--xg-night-300);
   --xg-line: rgba(183, 193, 236, .16);
   --xg-shadow-color: 3, 5, 22;
   --xg-focus: var(--xg-moon-300);
+  --xg-bevel: var(--xg-bevel-dark);
+  /* re-declared: var() inside a custom property is resolved where it is declared, so changing
+     --xg-shadow-color alone would not reach the --xg-sh-* scale */
+  --xg-sh-1: var(--xg-sh-night-1);
+  --xg-sh-2: var(--xg-sh-night-2);
+  --xg-sh-3: var(--xg-sh-night-3);
+  --xg-sh-4: 0 5px 0 rgba(var(--xg-night-shadow), .30), 0 34px 64px -12px rgba(var(--xg-night-shadow), .72);
+  --xg-focus-ring: 0 0 0 4px var(--xg-night-900), 0 0 0 7px var(--xg-moon-300);
 }
 
+
+/* Per-game accent switch:  <body data-xg-game="mars"> → every --xg-accent* role follows. */
+[data-xg-game="mars"]     { --xg-accent: var(--xg-mars); --xg-accent-deep: var(--xg-mars-deep); --xg-accent-soft: var(--xg-mars-soft); --xg-accent-hi: var(--xg-mars-hi); --xg-accent-on: var(--xg-mars-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="moon"]     { --xg-accent: var(--xg-moon); --xg-accent-deep: var(--xg-moon-deep); --xg-accent-soft: var(--xg-moon-soft); --xg-accent-hi: var(--xg-moon-hi); --xg-accent-on: var(--xg-moon-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="rabbit"]   { --xg-accent: var(--xg-rabbit); --xg-accent-deep: var(--xg-rabbit-deep); --xg-accent-soft: var(--xg-rabbit-soft); --xg-accent-hi: var(--xg-rabbit-hi); --xg-accent-on: var(--xg-rabbit-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="story"]    { --xg-accent: var(--xg-story); --xg-accent-deep: var(--xg-story-deep); --xg-accent-soft: var(--xg-story-soft); --xg-accent-hi: var(--xg-story-hi); --xg-accent-on: var(--xg-story-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="lab"]      { --xg-accent: var(--xg-lab); --xg-accent-deep: var(--xg-lab-deep); --xg-accent-soft: var(--xg-lab-soft); --xg-accent-hi: var(--xg-lab-hi); --xg-accent-on: var(--xg-lab-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="porter"]   { --xg-accent: var(--xg-porter); --xg-accent-deep: var(--xg-porter-deep); --xg-accent-soft: var(--xg-porter-soft); --xg-accent-hi: var(--xg-porter-hi); --xg-accent-on: var(--xg-porter-on); --xg-accent-on-sh: rgba(255, 255, 255, .45); }
+[data-xg-game="chess"]    { --xg-accent: var(--xg-chess); --xg-accent-deep: var(--xg-chess-deep); --xg-accent-soft: var(--xg-chess-soft); --xg-accent-hi: var(--xg-chess-hi); --xg-accent-on: var(--xg-chess-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="army"]     { --xg-accent: var(--xg-army); --xg-accent-deep: var(--xg-army-deep); --xg-accent-soft: var(--xg-army-soft); --xg-accent-hi: var(--xg-army-hi); --xg-accent-on: var(--xg-army-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="snake"]    { --xg-accent: var(--xg-snake); --xg-accent-deep: var(--xg-snake-deep); --xg-accent-soft: var(--xg-snake-soft); --xg-accent-hi: var(--xg-snake-hi); --xg-accent-on: var(--xg-snake-on); --xg-accent-on-sh: rgba(255, 255, 255, .45); }
+[data-xg-game="match"]    { --xg-accent: var(--xg-match); --xg-accent-deep: var(--xg-match-deep); --xg-accent-soft: var(--xg-match-soft); --xg-accent-hi: var(--xg-match-hi); --xg-accent-on: var(--xg-match-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="defense"]  { --xg-accent: var(--xg-defense); --xg-accent-deep: var(--xg-defense-deep); --xg-accent-soft: var(--xg-defense-soft); --xg-accent-hi: var(--xg-defense-hi); --xg-accent-on: var(--xg-defense-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+
 @media (prefers-reduced-motion: reduce) {
-  :root {
-    --xg-dur-press: 1ms;
-    --xg-dur-release: 1ms;
-    --xg-dur-fast: 1ms;
-    --xg-dur-base: 1ms;
-    --xg-dur-slow: 1ms;
+  :root, [data-xg-theme] {
+    --xg-dur-press: 1ms; --xg-dur-release: 1ms; --xg-dur-fast: 1ms; --xg-dur-base: 1ms;
+    --xg-dur-slow: 1ms; --xg-dur-pop: 1ms; --xg-dur-celebrate: 1ms; --xg-stagger: 0ms;
   }
 }

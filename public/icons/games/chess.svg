@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+<defs>
+  <linearGradient id="chess-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a79da"/><stop offset=".55" stop-color="#4f59ca"/><stop offset="1" stop-color="#2c2d93"/></linearGradient>
+  <radialGradient id="chess-hl" cx=".25" cy=".12" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <filter id="chess-sh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="1.6" stdDeviation="1.1" flood-color="#2a1408" flood-opacity=".32"/></filter>
+  <filter id="chess-sh2" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="2.4" stdDeviation="1.8" flood-color="#2a1408" flood-opacity=".30"/></filter>
+  <clipPath id="chess-clip"><rect x="2" y="2" width="92" height="92" rx="24"/></clipPath>
+</defs>
+<rect x="2" y="2" width="92" height="92" rx="24" fill="url(#chess-bg)"/>
+<g clip-path="url(#chess-clip)">
+
+  <path d="M-2 72H98V100H-2Z" fill="#2a439c"/>
+  <path d="M8 72h12l-2 8H4ZM32 72h12l-1 8H31ZM56 72h12l1 8H57ZM80 72h12l4 8H82ZM4 80h14l-2 10H0ZM31 80h12l-1 10H30ZM57 80h12l1 10H58ZM82 80h14l4 10H84Z" fill="#3a5bc4"/>
+  <path d="M76 14Q77.08 18.92 82 20Q77.08 21.08 76 26Q74.92 21.08 70 20Q74.92 18.92 76 14Z" fill="#f6b934" opacity="1"/><circle cx="66" cy="12" r="1.2" fill="#fff6e3" opacity="0.8"/><circle cx="18" cy="18" r="1.1" fill="#fff6e3" opacity="0.7"/><circle cx="84" cy="34" r="1" fill="#fff6e3" opacity="0.6"/>
+  <g filter="url(#chess-sh2)">
+     <path d="M29 84h38a3 3 0 0 0 3-3v-1a3 3 0 0 0-3-3H29a3 3 0 0 0-3 3v1a3 3 0 0 0 3 3Z" fill="#f3e3c3"/>
+     <path d="M32 77h32l-2-6H34Z" fill="#fff6e3"/>
+     <path d="M35 71C34 61 37 54 43 48L34 50.5C29.5 51.5 26.5 48 28 44 29.5 39 34.5 34 40.5 30 42 25 45 20 50 18L52 22.5C61 24 68.5 32 69.5 44 70.5 56 67 64 64.5 71Z" fill="#fff6e3"/>
+     <path d="M52 22.5C61 24 68.5 32 69.5 44 70.5 56 67 64 64.5 71H57C61 63 63 55 62 45 61 36 57 28 52 22.5Z" fill="#f3e3c3"/>
+     <path d="M50 18l3-7 2.5 9Z" fill="#fff6e3"/>
+     <circle cx="44.5" cy="32" r="2.2" fill="#261c30"/>
+     <path d="M31 46.5l3-1" stroke="#4b3f58" stroke-width="1.6" stroke-linecap="round"/>
+     <path d="M54 24c3 4 5 8 6 13M57 27c3 3 5 6 6 10" stroke="#f6b934" stroke-width="2.2" stroke-linecap="round" fill="none"/></g>
+
+<rect x="2" y="2" width="92" height="92" fill="url(#chess-hl)"/>
+</g>
+<rect x="3" y="3" width="90" height="90" rx="23" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.5"/>
+<rect x="2.5" y="2.5" width="91" height="91" rx="23.5" fill="none" stroke="#000" stroke-opacity=".10" stroke-width="1"/>
+</svg>

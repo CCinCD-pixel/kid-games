@@ -1,16 +1,38 @@
 /**
- * Base UI components (placeholder look). The 星港 design system lands here later: it replaces
- * tokens.css/base.css and adds components (result card, keypad, node map, ghost hand, …). The
- * names below stay as the stable API; class names `.kit-*` are the styling seam.
+ * UI kit = the 星港 design system (tokens.css, fonts.css, kit.css, skin.css, xg.ts) plus the small
+ * base components below. Two layers, one import:
  *
- *   import { h, showModal, toast, starRow, createSubtitleBar } from '@kit/ui';
- *   const choice = await showModal({ title: '过关啦！', body: starRow(2, 3), actions: [
- *     { id: 'next', label: '下一关', primary: true }, { id: 'menu', label: '选关' }] });
+ *  - Base components (stable since the platform stub): h, showModal, toast, starRow,
+ *    createSubtitleBar. Their `.kit-*` markup is re-skinned by skin.css with the 星港 look.
+ *  - 星港 components (xg.ts, `.xg-*` classes): tactile buttons (bindPress), result panel with
+ *    landing stars (showResult), level map (nodeMap), 76 px keypad, segmented control, progress,
+ *    drag ghost + tap-to-select, ghost-hand demos, confetti, 43 UI icons, 13 game emblems.
+ *    Full catalogue with live examples: /dev/kit/ and assets-src/design-system/README.md.
+ *
+ *   import { h, showModal, toast, starRow, createSubtitleBar, showResult, icon, bindPress } from '@kit/ui';
+ *   bindPress(document);                                 // press/squash + sounds on every .xg-btn/.xg-card…
+ *   const choice = await showResult({ ribbon: '过关啦', stars: 2, actions: [{ id: 'next', label: '下一关', kind: 'primary' }] });
+ *
+ * Sounds: call `installKitSfx()` from '@kit/ui/sfx-bridge' after the start-gate tap so the kit's
+ * semantic sounds (ui-tap, star-1 …) play through kit/audio's single AudioContext.
+ * Per-game colour: <body data-xg-game="mars|moon|rabbit|story|lab|porter|chess|army|snake|match|defense">;
+ * night theme: data-xg-theme="night".
  */
 
 import './tokens.css';
+import './fonts.css';
 import './base.css';
+import './kit.css';
+import './skin.css';
 import type { Cue, Narrator } from '../narration';
+import { icon } from './xg';
+
+export {
+  bindPress, showResult, mountKeypad, segmented, progress, setProgress, nodeMap, startDrag, ghostTap, ghostDrag,
+  confetti, icon, emblem, starSvg, starRating, replayButton, setPlaying, setHintReady, setSfx, sound,
+  toast as xgToast, UI_ICONS, GAME_EMBLEMS,
+} from './xg';
+export type { UiIconName, GameEmblemId, MapNode, ResultOptions, ResultAction, KeypadOptions, NodeMapOptions, DragHandle } from './xg';
 
 type Child = Node | string | number | null | undefined | false;
 
@@ -122,7 +144,8 @@ export function toast(text: string, opts: ToastOptions | number = {}): void {
  */
 export function createSubtitleBar(parent: HTMLElement = document.body) {
   const text = h('span', { class: 'kit-subtitle__text', 'aria-live': 'polite' });
-  const replay = h('button', { class: 'kit-btn kit-subtitle__replay', type: 'button' }, '🔊 再听一遍');
+  const replay = h('button', { class: 'kit-btn kit-subtitle__replay', type: 'button', 'aria-label': '再听一遍' });
+  replay.innerHTML = `${icon('listen')}<span>再听一遍</span>`;
   const bar = h('div', { class: 'kit-subtitle', hidden: true }, text, replay);
   parent.append(bar);
   let narrator: Narrator | null = null;

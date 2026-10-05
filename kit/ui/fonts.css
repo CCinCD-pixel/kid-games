@@ -1,0 +1,36 @@
+/* 星港 webfonts — self-hosted subsets built by _src/build_fonts.py (licences: public/fonts/licenses/, assets-src/LICENSES.md).
+   Families are registered under "XG *" names so a locally installed copy of the full
+   font never shadows (or is shadowed by) our subset; tokens.css falls back to the
+   original family names and then to system fonts (PingFang / Kaiti SC / SF Rounded).
+
+   Files live in public/fonts/ (served at /fonts/; the service worker caches them on first use, ~1.3 MB):
+     wenkai-gb-medium-3500.woff2   ~840 KB  霞鹜文楷 GB Medium · 3500 一级字 + extras + pinyin
+     zcool-kuaile-3500.woff2       ~420 KB  站酷快乐体 · same CJK set (titles only)
+     baloo2-vf-latin.woff2          ~20 KB  Baloo 2 variable (wght 400–800) · digits, Latin, maths
+   One WenKai weight covers 300–800 so the browser never synthesises a fake bold
+   (Medium reads better than Regular for a 6-year-old at arm's length).
+   font-display: swap — never block a story or a button label on a font. */
+
+@font-face {
+  font-family: "XG WenKai";
+  src: url("/fonts/wenkai-gb-medium-3500.woff2") format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "XG KuaiLe";
+  src: url("/fonts/zcool-kuaile-3500.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "XG Baloo";
+  src: url("/fonts/baloo2-vf-latin.woff2") format("woff2-variations"), url("/fonts/baloo2-vf-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+  /* only claim the code points the subset really has, so CJK falls through to the next family */
+  unicode-range: U+0020-007E, U+00B0, U+00B1, U+00B7, U+00D7, U+00F7, U+2013-2014, U+2018-2019, U+201C-201D, U+2022, U+2026, U+2032-2033, U+2190-2193, U+2212, U+2260, U+2264-2265;
+}

@@ -27,7 +27,10 @@ import { startSession, type Session } from './log';
 import { requestPersistence } from './progress';
 import { registerServiceWorker } from './sw-register';
 import './ui/tokens.css';
+import './ui/fonts.css';
 import './ui/base.css';
+import './ui/kit.css';
+import './ui/skin.css';
 
 export interface SafeArea {
   top: number;
