@@ -6,7 +6,8 @@
   "order": 10,
   "status": "live",
   "accent": "#9cc63b",
-  "icon": "🐍",
+  "theme": "snake",
+  "icon": "/icons/games/snake-battle.svg",
   "domains": ["reflex", "relax"],
   "parentNote": "休息区：放松用，不计入学习时长。",
   "orientation": "any"

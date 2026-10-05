@@ -6,7 +6,7 @@
   "order": 10,
   "status": "live",
   "accent": "#7bdff2",
-  "icon": "🧩",
+  "icon": "/icons/games/memory-matrix.svg",
   "domains": ["memory", "spatial"],
   "parentNote": "视觉空间记忆小练习（旧版）。之后会并入月宫建造师的「看一眼就搭」一章。"
 }

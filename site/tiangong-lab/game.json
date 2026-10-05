@@ -1,0 +1,15 @@
+{
+  "id": "tiangong-lab",
+  "title": "天宫实验室",
+  "subtitle": "帮古人做实验，给天宫接新舱",
+  "place": "base",
+  "order": 50,
+  "status": "wip",
+  "accent": "--xg-lab",
+  "theme": "lab",
+  "icon": "/icons/games/tiangong-lab.svg",
+  "domains": ["science", "engineering", "measurement", "number"],
+  "parentNote": "预测—观察—解释；公平测试；6 个实验室 + 委托。证据等级 C，配回家卡。",
+  "orientation": "any",
+  "smoke": {"waitFor": "#app[data-ready]"}
+}

@@ -1,0 +1,16 @@
+{
+  "id": "gear-fort",
+  "title": "机关守城",
+  "subtitle": "跟墨子在沙盘上守住小城",
+  "place": "playground",
+  "order": 30,
+  "status": "wip",
+  "accent": "--xg-defense",
+  "theme": "defense",
+  "icon": "/icons/games/gear-fort.svg",
+  "domains": ["strategy", "planning", "science"],
+  "parentNote": "车道策略新作《机关守城·九攻九距》：墨子止楚攻宋的沙盘推演，用杠杆、凹面镜、风箱等古代机关见招拆招；只守不攻，输了就复盘。",
+  "orientation": "landscape",
+  "smoke": {"waitFor": "#app[data-ready]"},
+  "notes": "规格 docs/specs/lane-defense.md 尚未写完（规格任务中断）；数值与关卡原型见 ~/kid-games-work/specs/lane-defense-tools/。"
+}

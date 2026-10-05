@@ -12,6 +12,10 @@ declare module 'virtual:kg-registry' {
     href: string;
     domains: string[];
     parentNote: string;
+    /** 星港 colour theme (data-xg-game) */
+    theme?: 'mars' | 'moon' | 'rabbit' | 'story' | 'lab' | 'porter' | 'chess' | 'army' | 'snake' | 'match' | 'defense';
+    /** a real content drop: the hub shows NEW until the child opens the game after it appeared */
+    newContent?: { id: string; label?: string };
   }
   const entries: HubEntry[];
   export default entries;

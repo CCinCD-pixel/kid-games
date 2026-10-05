@@ -6,7 +6,8 @@
   "order": 50,
   "status": "live",
   "accent": "#7d8f34",
-  "icon": "⚔️",
+  "theme": "army",
+  "icon": "/icons/games/military-chess.svg",
   "domains": ["strategy"],
   "parentNote": "旧版简化翻棋。会按标准陆战棋规则重写（人机 + 和爸爸同屏对战）。"
 }

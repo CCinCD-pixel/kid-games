@@ -6,8 +6,9 @@
   "order": 30,
   "status": "live",
   "accent": "#f3a632",
-  "icon": "📦",
+  "theme": "porter",
+  "icon": "/icons/games/sokoban.svg",
   "domains": ["planning", "spatial"],
   "parentNote": "经典 10 关（全部经求解器验证可解）。新版「星港搬运工」会原地替换它，旧关卡保留为「经典仓库」。",
-  "smoke": { "waitFor": ".level-select" }
+  "smoke": {"waitFor": ".level-select"}
 }

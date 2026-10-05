@@ -1,0 +1,15 @@
+{
+  "id": "rover-code",
+  "title": "玉兔编程",
+  "subtitle": "给月球车排指令卡",
+  "place": "base",
+  "order": 30,
+  "status": "wip",
+  "accent": "--xg-rabbit",
+  "theme": "rabbit",
+  "icon": "/icons/games/rover-code.svg",
+  "domains": ["coding", "spatial", "measurement", "engineering"],
+  "parentNote": "用指令卡给月球车编程：顺序、调试、重复、魔法卡；64 关全部经程序枚举校验。",
+  "orientation": "any",
+  "smoke": {"waitFor": "#app[data-ready]"}
+}

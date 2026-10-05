@@ -1,0 +1,40 @@
+/* 建造中 screen for registered-but-unbuilt games (status "wip"). Night paper-cut scene, one paper
+   card with the game's emblem, a hazard-tape ribbon and the companion. Both orientations, no scroll. */
+.bld {
+  position: fixed; inset: 0; overflow: hidden; color: var(--xg-moon-50);
+  background: var(--xg-night-900) url("../../kit/textures/scene-landscape.webp") 50% 0 / cover no-repeat;
+  display: grid; place-items: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 88px) calc(env(safe-area-inset-right, 0px) + 32px) calc(env(safe-area-inset-bottom, 0px) + 32px) calc(env(safe-area-inset-left, 0px) + 32px);
+}
+html[data-orientation="portrait"] .bld { background-image: url("../../kit/textures/scene-portrait.webp"); }
+.bld::before { /* darken the lower half so the card reads */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 11, 31, 0) 30%, rgba(7, 11, 31, .55) 100%);
+}
+.bld__stage { position: relative; display: flex; align-items: flex-end; gap: 8px; }
+.bld__card {
+  position: relative; width: min(520px, calc(var(--kit-vw, 100vw) - 64px)); padding: 40px 36px 34px; text-align: center;
+  border-radius: var(--xg-r-xl); color: var(--xg-ink-900);
+  background: var(--xg-paper-0) url("../../kit/textures/paper-light.webp") 0 0 / 256px 256px;
+  box-shadow: 0 7px 0 var(--xg-paper-400), var(--xg-sh-night-3, 0 24px 48px -12px rgba(3, 5, 22, .6)), inset 0 2px 0 #fff;
+  animation: xg-modal-in var(--xg-dur-slow) var(--xg-ease-spring) both;
+}
+.bld__card::before { /* accent strip */
+  content: ""; position: absolute; left: 40px; right: 40px; top: 0; height: 7px; border-radius: 0 0 7px 7px; background: var(--xg-accent);
+}
+.bld__emblem { width: 148px; height: 148px; margin: -6px auto 14px; filter: drop-shadow(0 6px 6px rgba(52, 30, 12, .28)); }
+.bld__emblem img { width: 100%; height: 100%; display: block; }
+.bld__title { margin: 0; font: 400 52px/1.1 var(--xg-font-title); letter-spacing: .06em; }
+.bld__sub { margin: 10px 0 0; font: 500 22px/1.5 var(--xg-font-read); color: var(--xg-ink-500); letter-spacing: .04em; }
+.bld__tape {
+  position: relative; margin: 26px -36px 0; padding: 12px 0; overflow: hidden;
+  font: 800 22px/1 var(--xg-font-ui); letter-spacing: .3em; color: #3a2a00;
+  background: repeating-linear-gradient(-45deg, var(--xg-gold-500) 0 22px, #ffd96b 22px 44px);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .45), inset 0 -3px 0 rgba(140, 90, 0, .25);
+}
+.bld__tape span { position: relative; display: inline-block; padding: 6px 22px; border-radius: 10px; background: var(--xg-paper-0); box-shadow: 0 3px 0 rgba(140, 90, 0, .35); }
+.bld__note { margin: 18px 0 24px; font: 500 20px/1.5 var(--xg-font-read); color: var(--xg-ink-700); }
+.bld__bot { position: relative; flex: none; margin-left: 44px; margin-bottom: -6px; }
+.bld__bot .xg-bot-bubble { text-wrap: balance; }
+html[data-orientation="portrait"] .bld__stage { flex-direction: column; align-items: center; gap: 0; }
+html[data-orientation="portrait"] .bld__bot { margin: 0 24px 6px 0; order: -1; align-self: flex-end; }

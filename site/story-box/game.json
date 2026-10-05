@@ -1,0 +1,15 @@
+{
+  "id": "story-box",
+  "title": "山海故事匣",
+  "subtitle": "打开发光的木匣，帮精卫衔石",
+  "place": "base",
+  "order": 40,
+  "status": "wip",
+  "accent": "--xg-story",
+  "theme": "story",
+  "icon": "/icons/games/story-box.svg",
+  "domains": ["literacy", "social", "science"],
+  "parentNote": "阅读主力：听→跟读→自己读→讲给爸爸听；字宝盒形声识字、因果理解、二阶心理理论，外加航天小科普。",
+  "orientation": "any",
+  "smoke": {"waitFor": "#app[data-ready]"}
+}

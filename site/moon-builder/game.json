@@ -1,0 +1,16 @@
+{
+  "id": "moon-builder",
+  "title": "月宫建造师",
+  "subtitle": "在月球南极搭一座基地",
+  "place": "base",
+  "order": 20,
+  "status": "wip",
+  "accent": "--xg-moon",
+  "theme": "moon",
+  "icon": "/icons/games/moon-builder.svg",
+  "domains": ["spatial", "engineering", "memory"],
+  "parentNote": "3D 空间：照图搭建、推理看不见的块、视角、三视图、对称与旋转；吸收旧记忆方块（看一眼就搭）。",
+  "orientation": "any",
+  "smoke": {"waitFor": "#app[data-ready]"},
+  "notes": "上线那次提交：删除 site/memory-matrix/，加 \"redirectFrom\": [\"/memory-matrix\"]（docs/specs/moon-builder.md）。"
+}

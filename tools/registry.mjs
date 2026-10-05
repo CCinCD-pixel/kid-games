@@ -24,6 +24,13 @@ export const DOMAINS = /** @type {const} */ ([
   'strategy', 'social', 'measurement', 'creativity', 'memory', 'reflex', 'relax',
 ]);
 export const ORIENTATIONS = /** @type {const} */ (['any', 'landscape', 'portrait']);
+/** 星港 design-system colour themes (`<body data-xg-game="…">`, kit/ui/tokens.css). */
+export const THEMES = /** @type {const} */ (['mars', 'moon', 'rabbit', 'story', 'lab', 'porter', 'chess', 'army', 'snake', 'match', 'defense']);
+/**
+ * Top-level page folders that belong to the platform, not to a game: built and precached like
+ * any page, but never registered, listed on the hub or put in the smoke matrix as a game.
+ */
+export const PLATFORM_PAGES = /** @type {const} */ (['parent', 'credits', 'dev']);
 
 /**
  * @typedef {object} GameEntry
@@ -32,7 +39,7 @@ export const ORIENTATIONS = /** @type {const} */ (['any', 'landscape', 'portrait
  * @property {string} subtitle    child-facing one-liner: a fantasy action, not a skill label
  * @property {'base'|'playground'|'classic'} place   hub section: 基地 / 游乐场 / 经典角
  * @property {number} order       sort key inside the section (lower first)
- * @property {'live'|'wip'|'hidden'} status  live = on the hub; wip = built, hub only with ?dev; hidden = built, URL only
+ * @property {'live'|'wip'|'hidden'} status  live = on the hub; wip = on the hub as 建造中 (not enterable; ?dev makes it a link); hidden = built, URL only
  * @property {string} accent      CSS colour or a design token name ("--xg-mars")
  * @property {string} icon        an emoji, or an absolute public path (/icons/games/x.svg)
  * @property {string[]} domains   subset of DOMAINS
@@ -40,6 +47,9 @@ export const ORIENTATIONS = /** @type {const} */ (['any', 'landscape', 'portrait
  * @property {string[]} [redirectFrom]  old URL paths that should 301 to this game (e.g. "/number-adventure")
  * @property {'any'|'landscape'|'portrait'} [orientation]
  * @property {{ waitFor?: string, skip?: boolean }} [smoke]  smoke-test hints
+ * @property {string} [theme]     星港 colour theme (THEMES) → data-xg-game on the hub card / page
+ * @property {{ id: string, label?: string }} [newContent]  real new content: the hub shows NEW until
+ *                                the child opens the game once after this id appeared
  * @property {string} href        computed: "/<id>/"
  */
 
@@ -85,11 +95,18 @@ export function validateGame(g, folderId) {
   if (!Array.isArray(g.domains) || g.domains.length === 0) errs.push(`${at}: domains must be a non-empty array`);
   else for (const d of g.domains) if (!DOMAINS.includes(d)) errs.push(`${at}: unknown domain "${d}" (allowed: ${DOMAINS.join(', ')})`);
   if (g.orientation !== undefined && !ORIENTATIONS.includes(g.orientation)) errs.push(`${at}: orientation must be one of ${ORIENTATIONS.join('|')}`);
+  if (g.theme !== undefined && !THEMES.includes(g.theme)) errs.push(`${at}: theme must be one of ${THEMES.join('|')}`);
+  if (g.newContent !== undefined) {
+    const n = g.newContent;
+    if (!n || typeof n !== 'object' || !isStr(n.id) || !/^[a-z0-9][a-z0-9._-]*$/i.test(n.id)) errs.push(`${at}: newContent must be { "id": "<ascii id of this content drop>", "label"?: "新章节" }`);
+    else if (n.label !== undefined && (!isStr(n.label) || [...n.label].length > 6)) errs.push(`${at}: newContent.label must be ≤ 6 characters`);
+    if (g.status !== 'live') errs.push(`${at}: newContent only makes sense on a live game`);
+  }
   if (g.redirectFrom !== undefined) {
     if (!Array.isArray(g.redirectFrom)) errs.push(`${at}: redirectFrom must be an array of paths`);
     else for (const r of g.redirectFrom) if (!/^\/[a-z0-9/_-]+$/i.test(r)) errs.push(`${at}: redirectFrom "${r}" must be an absolute path like /old-game`);
   }
-  const allowed = new Set(['$schema', 'id', 'title', 'subtitle', 'place', 'order', 'status', 'accent', 'icon', 'domains', 'parentNote', 'redirectFrom', 'orientation', 'smoke', 'notes']);
+  const allowed = new Set(['$schema', 'id', 'title', 'subtitle', 'place', 'order', 'status', 'accent', 'icon', 'domains', 'parentNote', 'redirectFrom', 'orientation', 'smoke', 'notes', 'theme', 'newContent']);
   for (const k of Object.keys(g)) if (!allowed.has(k)) errs.push(`${at}: unknown field "${k}"`);
   return errs;
 }
@@ -97,7 +114,8 @@ export function validateGame(g, folderId) {
 /**
  * Load and validate every game. Throws one Error listing all problems.
  * A "game" is a top-level folder of site/ that has an index.html. Folders starting with "_" are
- * shared code, not games. Nested pages (site/<id>/sub/index.html) belong to their game.
+ * shared code and PLATFORM_PAGES (parent, credits, dev) are platform pages, not games. Nested pages
+ * (site/<id>/sub/index.html) belong to their game.
  * @returns {GameEntry[]} sorted by place, then order
  */
 export function loadRegistry(siteDir = SITE_DIR) {
@@ -106,7 +124,7 @@ export function loadRegistry(siteDir = SITE_DIR) {
   const pages = findPages(siteDir);
   const topDirs = new Set(pages.filter((p) => p !== 'index.html').map((p) => p.split('/')[0]));
   for (const id of [...topDirs].sort()) {
-    if (id.startsWith('_')) continue;
+    if (id.startsWith('_') || /** @type {readonly string[]} */ (PLATFORM_PAGES).includes(id)) continue;
     const jsonPath = path.join(siteDir, id, 'game.json');
     if (!fs.existsSync(path.join(siteDir, id, 'index.html'))) continue; // nested-only folder, e.g. site/dev/perf/
     if (!fs.existsSync(jsonPath)) { errs.push(`site/${id}/: has index.html but no game.json`); continue; }
@@ -184,10 +202,15 @@ export const PLACE_LABELS = { base: '基地', playground: '游乐场', classic: 
 
 const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
+/** Card accent as a CSS value: a --xg-* token or a colour. @param {string} accent */
+const accentCss = (accent) => (accent.startsWith('--') ? `var(${accent})` : accent);
+
 /**
  * Static hub markup, rendered at build time into site/index.html (placeholder `<!-- kg:hub -->`),
- * so the hub paints without waiting for JS. `live` games are visible; `wip` games are rendered
- * hidden and revealed by the hub script with ?dev; `hidden` games are never listed.
+ * so the hub paints without waiting for JS: one tab panel per place (基地 / 游乐场 / 经典角), each a
+ * grid of paper cards. `live` games are links; `wip` games are shown as 建造中 cards that do not
+ * navigate (the hub script makes them links with ?dev); `hidden` games are never listed. The hub
+ * script adds what only the device knows: progress, 继续 / 推荐 / NEW tags, parent-hidden games.
  * @param {GameEntry[]} games
  */
 export function renderHub(games) {
@@ -195,19 +218,27 @@ export function renderHub(games) {
   const out = [];
   for (const place of PLACES) {
     const inPlace = listed.filter((g) => g.place === place);
-    if (!inPlace.length) continue;
-    const allWip = inPlace.every((g) => g.status === 'wip');
-    out.push(`<section class="hub-section" data-place="${place}"${allWip ? ' data-wip hidden' : ''}>`);
-    out.push(`  <h2 class="hub-section__title">${PLACE_LABELS[place]}</h2>`);
-    out.push('  <div class="hub-grid">');
+    out.push(`<section class="hub-panel" id="hub-panel-${place}" data-place="${place}" role="tabpanel" aria-label="${PLACE_LABELS[place]}" hidden>`);
+    out.push(`  <div class="hub-grid" data-n="${inPlace.length}">`);
     for (const g of inPlace) {
-      const icon = g.icon.startsWith('/') ? `<img src="${escapeHtml(g.icon)}" alt="" width="64" height="64">` : escapeHtml(g.icon);
-      const wip = g.status === 'wip' ? ' data-wip hidden' : '';
-      out.push(`    <a class="hub-card" href="${g.href}" data-game="${g.id}" style="--accent:${escapeHtml(g.accent.startsWith('--') ? `var(${g.accent})` : g.accent)}"${wip}>`);
-      out.push(`      <span class="hub-card__icon" aria-hidden="true">${icon}</span>`);
-      out.push(`      <span class="hub-card__title">${escapeHtml(g.title)}</span>`);
-      out.push(`      <span class="hub-card__subtitle">${escapeHtml(g.subtitle)}</span>`);
-      out.push('    </a>');
+      const wip = g.status === 'wip';
+      const icon = g.icon.startsWith('/')
+        ? `<img src="${escapeHtml(g.icon)}" alt="" width="96" height="96" decoding="async">`
+        : `<span class="hub-card__emoji">${escapeHtml(g.icon)}</span>`;
+      const theme = g.theme ? ` data-xg-game="${g.theme}"` : '';
+      const style = g.theme ? '' : ` style="--xg-accent:${escapeHtml(accentCss(g.accent))}"`;
+      const tag = wip ? 'div' : 'a';
+      const attrs = wip
+        ? `role="link" aria-disabled="true" tabindex="0" data-href="${g.href}" data-wip`
+        : `href="${g.href}"`;
+      out.push(`    <${tag} class="xg-card hub-card" ${attrs} data-game="${g.id}" data-place="${place}"${theme}${style}>`);
+      out.push(`      <span class="xg-card__emblem">${icon}</span>`);
+      out.push(`      <span class="xg-card__title">${escapeHtml(g.title)}</span>`);
+      out.push(`      <span class="xg-card__sub">${escapeHtml(g.subtitle)}</span>`);
+      out.push(wip
+        ? '      <span class="xg-card__foot hub-card__foot"><span class="hub-card__building">建造中</span></span>'
+        : '      <span class="xg-card__foot hub-card__foot"></span>\n      <span class="hub-card__go" aria-hidden="true"></span>');
+      out.push(`    </${tag}>`);
     }
     out.push('  </div>');
     out.push('</section>');
@@ -217,5 +248,5 @@ export function renderHub(games) {
 
 /** The public subset the hub needs (no parent notes in the child bundle beyond what is shown). */
 export function hubEntries(games) {
-  return games.map(({ id, title, subtitle, place, order, status, accent, icon, href, domains, parentNote }) => ({ id, title, subtitle, place, order, status, accent, icon, href, domains, parentNote }));
+  return games.map(({ id, title, subtitle, place, order, status, accent, icon, href, domains, parentNote, theme, newContent }) => ({ id, title, subtitle, place, order, status, accent, icon, href, domains, parentNote, ...(theme ? { theme } : {}), ...(newContent ? { newContent } : {}) }));
 }

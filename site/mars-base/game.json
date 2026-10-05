@@ -1,0 +1,16 @@
+{
+  "id": "mars-base",
+  "title": "火星基地",
+  "subtitle": "给祝融基地装货、建造",
+  "place": "base",
+  "order": 10,
+  "status": "wip",
+  "accent": "--xg-mars",
+  "theme": "mars",
+  "icon": "/icons/games/mars-base.svg",
+  "domains": ["number", "measurement"],
+  "parentNote": "数学主力：0–1000 数轴、位值、两位数加减认证、乘除意义、等式天平、人民币和钟表。",
+  "orientation": "any",
+  "smoke": {"waitFor": "#app[data-ready]"},
+  "notes": "上线那次提交：删除 site/number-adventure/，加 \"redirectFrom\": [\"/number-adventure\"]，status 改 live（docs/specs/mars-base.md §8.8）。"
+}

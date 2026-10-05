@@ -53,15 +53,34 @@ describe('game registry', () => {
     expect(text).toContain('/manifest.json\n  Cache-Control: no-cache');
   });
 
-  it('renders hub cards: escaped, wip hidden, hidden status omitted', () => {
+  it('renders hub panels: escaped, wip as non-navigating 建造中 cards, hidden status omitted', () => {
     const html: string = renderHub([
-      { ...valid, status: 'live', title: '<b>火星</b>', href: '/mars-base/' },
+      { ...valid, status: 'live', title: '<b>火星</b>', href: '/mars-base/', theme: 'mars' },
       { ...valid, id: 'lab', status: 'wip', href: '/lab/' },
       { ...valid, id: 'secret', status: 'hidden', href: '/secret/' },
     ]);
     expect(html).toContain('&lt;b&gt;火星&lt;/b&gt;');
-    expect(html).toMatch(/href="\/lab\/" data-game="lab"[^>]*data-wip hidden/);
+    expect(html).toMatch(/<a class="xg-card hub-card" href="\/mars-base\/" data-game="mars-base"[^>]*data-xg-game="mars"/);
+    expect(html).toMatch(/<div class="xg-card hub-card" role="link" aria-disabled="true"[^>]*data-href="\/lab\/" data-wip data-game="lab"/);
+    expect(html).toContain('建造中');
     expect(html).not.toContain('secret');
-    expect(html).toContain('基地');
+    for (const place of ['base', 'playground', 'classic']) expect(html).toContain(`id="hub-panel-${place}"`);
+    expect(html).toContain('aria-label="基地"');
+  });
+
+  it('validates theme and newContent', () => {
+    expect(validateGame({ ...valid, theme: 'mars' }, 'mars-base')).toEqual([]);
+    expect(validateGame({ ...valid, theme: 'pluto' }, 'mars-base').join()).toContain('theme must be');
+    expect(validateGame({ ...valid, status: 'live', newContent: { id: '2026-10-ch2', label: '新章节' } }, 'mars-base')).toEqual([]);
+    expect(validateGame({ ...valid, newContent: { id: '2026-10-ch2' } }, 'mars-base').join()).toContain('only makes sense on a live game');
+    expect(validateGame({ ...valid, status: 'live', newContent: { id: 'x y' } }, 'mars-base').join()).toContain('newContent must be');
+  });
+
+  it('keeps platform pages (parent, credits, dev) out of the game registry', () => {
+    const games = loadRegistry();
+    for (const id of ['parent', 'credits', 'dev']) expect(games.find((g: { id: string }) => g.id === id)).toBeUndefined();
+    expect(findPages()).toEqual(expect.arrayContaining(['parent/index.html', 'credits/index.html']));
+    // every registered game has a 星港 emblem file named after its id
+    for (const g of games) expect(g.icon).toBe(`/icons/games/${g.id}.svg`);
   });
 });
