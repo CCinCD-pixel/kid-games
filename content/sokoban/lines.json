@@ -1,0 +1,896 @@
+[
+ {
+  "id": "sok.open.1",
+  "role": "companion",
+  "text": "小步步调度员，火箭等着装货！",
+  "pinyin": {
+   "调度": "diào dù",
+   "等着": "děng zhe"
+  }
+ },
+ {
+  "id": "sok.open.1.plain",
+  "role": "companion",
+  "text": "调度员，火箭等着装货！",
+  "pinyin": {
+   "调度": "diào dù",
+   "等着": "děng zhe"
+  }
+ },
+ {
+  "id": "sok.open.2",
+  "role": "companion",
+  "text": "把补给箱推上发射台吧",
+  "pinyin": {
+   "补给": "bǔ jǐ"
+  }
+ },
+ {
+  "id": "sok.tut.walk",
+  "role": "companion",
+  "text": "点地面，小推就走过去"
+ },
+ {
+  "id": "sok.tut.stand",
+  "role": "companion",
+  "text": "先走到脚印上，再点箱子"
+ },
+ {
+  "id": "sok.tut.push",
+  "role": "companion",
+  "text": "点挨着的箱子，推一下"
+ },
+ {
+  "id": "sok.tut.pad",
+  "role": "companion",
+  "text": "推上发射台，箱子就锁好啦"
+ },
+ {
+  "id": "sok.tut.behind",
+  "role": "companion",
+  "text": "想往右推，就站到箱子左边"
+ },
+ {
+  "id": "sok.tut.undo",
+  "role": "companion",
+  "text": "点撤销，就能倒回去",
+  "pinyin": {
+   "倒回": "dào huí"
+  }
+ },
+ {
+  "id": "sok.tut.redo",
+  "role": "companion",
+  "text": "撤多了，可以点重做",
+  "pinyin": {
+   "重做": "chóng zuò"
+  }
+ },
+ {
+  "id": "sok.tut.turn",
+  "role": "companion",
+  "text": "推到拐角，再绕到另一边"
+ },
+ {
+  "id": "sok.tut.restart",
+  "role": "companion",
+  "text": "想从头来，就点这个"
+ },
+ {
+  "id": "sok.tut.upgrade",
+  "role": "companion",
+  "text": "小推学会自己绕路啦"
+ },
+ {
+  "id": "sok.tut.arrows",
+  "role": "companion",
+  "text": "点箱子再点箭头，它会绕过去"
+ },
+ {
+  "id": "sok.dead.corner.first",
+  "role": "companion",
+  "text": "进墙角了！推不出来了"
+ },
+ {
+  "id": "sok.dead.wall.first",
+  "role": "companion",
+  "text": "贴着空墙边，回不来了"
+ },
+ {
+  "id": "sok.dead.pair.first",
+  "role": "companion",
+  "text": "两个并排贴墙，卡住了",
+  "pinyin": {
+   "卡住": "qiǎ zhù"
+  }
+ },
+ {
+  "id": "sok.dead.square.first",
+  "role": "companion",
+  "text": "挤成四方块，谁也推不动"
+ },
+ {
+  "id": "sok.dead.generic",
+  "role": "companion",
+  "text": "推不动了，点撤销试试"
+ },
+ {
+  "id": "sok.dead.undo",
+  "role": "companion",
+  "text": "点撤销，倒回去试试",
+  "pinyin": {
+   "倒回": "dào huí"
+  }
+ },
+ {
+  "id": "sok.praise.spot",
+  "role": "companion",
+  "text": "你自己看出来了"
+ },
+ {
+  "id": "sok.stuck.1",
+  "role": "companion",
+  "text": "这样好像推不完了"
+ },
+ {
+  "id": "sok.stuck.2",
+  "role": "companion",
+  "text": "我们回到能推完的地方"
+ },
+ {
+  "id": "sok.hint.glow",
+  "role": "companion",
+  "text": "卡住了可以点小灯泡",
+  "pinyin": {
+   "卡住": "qiǎ zhù"
+  }
+ },
+ {
+  "id": "sok.hint.h1",
+  "role": "companion",
+  "text": "先动这个箱子"
+ },
+ {
+  "id": "sok.hint.h1.unlock",
+  "role": "companion",
+  "text": "先把它从台上推下来"
+ },
+ {
+  "id": "sok.hint.h1.park",
+  "role": "companion",
+  "text": "先把它停到旁边"
+ },
+ {
+  "id": "sok.hint.h2",
+  "role": "companion",
+  "text": "站在这里，往这边推"
+ },
+ {
+  "id": "sok.hint.h3",
+  "role": "companion",
+  "text": "看我推三下，然后你来"
+ },
+ {
+  "id": "sok.hint.h3.after",
+  "role": "companion",
+  "text": "该你啦"
+ },
+ {
+  "id": "sok.hint.rewind",
+  "role": "companion",
+  "text": "这样推不完了，我们倒回去",
+  "pinyin": {
+   "倒回": "dào huí"
+  }
+ },
+ {
+  "id": "sok.hint.think",
+  "role": "companion",
+  "text": "让我想一想"
+ },
+ {
+  "id": "sok.tip.unreach",
+  "role": "companion",
+  "text": "那里走不到，箱子挡住啦"
+ },
+ {
+  "id": "sok.tip.skip",
+  "role": "companion",
+  "text": "要不要先试试下一关？"
+ },
+ {
+  "id": "sok.tip.slow",
+  "role": "companion",
+  "text": "这关慢慢来，推前先看看"
+ },
+ {
+  "id": "sok.random.smaller",
+  "role": "companion",
+  "text": "试试小一号的货单？"
+ },
+ {
+  "id": "sok.ch0.intro",
+  "role": "narrator",
+  "text": "训练坞：学会走和推"
+ },
+ {
+  "id": "sok.ch1.intro",
+  "role": "narrator",
+  "text": "单箱仓：先想好站在哪儿"
+ },
+ {
+  "id": "sok.ch2.intro",
+  "role": "narrator",
+  "text": "双箱仓：谁先谁后很重要"
+ },
+ {
+  "id": "sok.ch3.intro",
+  "role": "narrator",
+  "text": "死局侦探：找出没救的箱子"
+ },
+ {
+  "id": "sok.ch4.intro",
+  "role": "narrator",
+  "text": "三箱仓：试着倒过来想",
+  "pinyin": {
+   "倒过来": "dào guò lái"
+  }
+ },
+ {
+  "id": "sok.classic.intro",
+  "role": "companion",
+  "text": "以前的推箱子，欢迎回来"
+ },
+ {
+  "id": "sok.random.intro",
+  "role": "companion",
+  "text": "新货单来啦，每次都不一样"
+ },
+ {
+  "id": "sok.praise.plain",
+  "role": "companion",
+  "text": "一推一推，全装好了"
+ },
+ {
+  "id": "sok.praise.turn",
+  "role": "companion",
+  "text": "你先绕到了另一边"
+ },
+ {
+  "id": "sok.praise.trap",
+  "role": "companion",
+  "text": "你绕开了墙角"
+ },
+ {
+  "id": "sok.praise.deep",
+  "role": "companion",
+  "text": "你先装了最里面的"
+ },
+ {
+  "id": "sok.praise.order",
+  "role": "companion",
+  "text": "你选对了先推哪个"
+ },
+ {
+  "id": "sok.praise.park",
+  "role": "companion",
+  "text": "你找到了停车位"
+ },
+ {
+  "id": "sok.praise.backward",
+  "role": "companion",
+  "text": "你倒着想出来了",
+  "pinyin": {
+   "倒着": "dào zhe"
+  }
+ },
+ {
+  "id": "sok.praise.square",
+  "role": "companion",
+  "text": "你没让箱子挤成一团"
+ },
+ {
+  "id": "sok.praise.undo",
+  "role": "companion",
+  "text": "撤回再想，找到办法了"
+ },
+ {
+  "id": "sok.praise.lean",
+  "role": "companion",
+  "text": "一推都没有多推"
+ },
+ {
+  "id": "sok.praise.mixed",
+  "role": "companion",
+  "text": "停车、顺序，全想到了"
+ },
+ {
+  "id": "sok.cert.ask",
+  "role": "companion",
+  "text": "已经会推箱子了吗？"
+ },
+ {
+  "id": "sok.cert.go",
+  "role": "companion",
+  "text": "考两关，过了就跳级"
+ },
+ {
+  "id": "sok.cert.rule",
+  "role": "companion",
+  "text": "考试不用小灯泡，自己想"
+ },
+ {
+  "id": "sok.cert.veteran",
+  "role": "companion",
+  "text": "你以前推过好多箱子！"
+ },
+ {
+  "id": "sok.cert.pass",
+  "role": "companion",
+  "text": "跳级成功！去推两个箱子"
+ },
+ {
+  "id": "sok.cert.later",
+  "role": "companion",
+  "text": "那我们从第一章热热身"
+ },
+ {
+  "id": "sok.quiz.ask",
+  "role": "companion",
+  "text": "哪些箱子再也推不到台上？"
+ },
+ {
+  "id": "sok.quiz.tap",
+  "role": "companion",
+  "text": "点它们，再点检查"
+ },
+ {
+  "id": "sok.quiz.bar",
+  "role": "companion",
+  "text": "点出推不到发射台的箱子"
+ },
+ {
+  "id": "sok.quiz.right",
+  "role": "companion",
+  "text": "侦探发现了！"
+ },
+ {
+  "id": "sok.quiz.missed",
+  "role": "companion",
+  "text": "这个也没救了，你看"
+ },
+ {
+  "id": "sok.quiz.alive",
+  "role": "companion",
+  "text": "这个还能推到台上，你看",
+  "pinyin": {
+   "还能": "hái néng"
+  }
+ },
+ {
+  "id": "sok.quiz.home",
+  "role": "companion",
+  "text": "在台上的，已经到家啦"
+ },
+ {
+  "id": "sok.quiz.again",
+  "role": "companion",
+  "text": "换个方向，再找一次"
+ },
+ {
+  "id": "sok.quiz.w.corner",
+  "role": "companion",
+  "text": "这是墙角"
+ },
+ {
+  "id": "sok.quiz.w.wall",
+  "role": "companion",
+  "text": "这是墙边"
+ },
+ {
+  "id": "sok.quiz.w.pair",
+  "role": "companion",
+  "text": "这是并排"
+ },
+ {
+  "id": "sok.quiz.w.square",
+  "role": "companion",
+  "text": "这是四方块"
+ },
+ {
+  "id": "sok.ch.done",
+  "role": "companion",
+  "text": "整章完成！小推有新装备"
+ },
+ {
+  "id": "sok.unlock.chapter",
+  "role": "companion",
+  "text": "新仓库开门了"
+ },
+ {
+  "id": "sok.unlock.random",
+  "role": "companion",
+  "text": "随机新仓库开门了"
+ },
+ {
+  "id": "sok.unlock.classic",
+  "role": "companion",
+  "text": "经典仓库一直开着哦"
+ },
+ {
+  "id": "sok.launch.tiangong",
+  "role": "companion",
+  "text": "火箭飞向天宫空间站！"
+ },
+ {
+  "id": "sok.launch.moon",
+  "role": "companion",
+  "text": "火箭飞向月宫基地！"
+ },
+ {
+  "id": "sok.launch.mars",
+  "role": "companion",
+  "text": "火箭飞向火星基地！"
+ },
+ {
+  "id": "sok.finale.1",
+  "role": "companion",
+  "text": "一级调度员，就是你！",
+  "pinyin": {
+   "调度": "diào dù"
+  }
+ },
+ {
+  "id": "sok.finale.2",
+  "role": "companion",
+  "text": "三条航线，全都送到了"
+ },
+ {
+  "id": "sok.finale.next",
+  "role": "companion",
+  "text": "新货单还在路上",
+  "pinyin": {
+   "还在": "hái zài"
+  }
+ },
+ {
+  "id": "sok.hangar.intro",
+  "role": "companion",
+  "text": "这是小推的机库"
+ },
+ {
+  "id": "sok.hangar.new",
+  "role": "companion",
+  "text": "新装备！点一下戴上"
+ },
+ {
+  "id": "sok.hangar.skills",
+  "role": "companion",
+  "text": "这里能调小推的本领",
+  "pinyin": {
+   "能调": "néng tiáo"
+  }
+ },
+ {
+  "id": "sok.skill.swipe",
+  "role": "companion",
+  "text": "滑动走路"
+ },
+ {
+  "id": "sok.skill.auto",
+  "role": "companion",
+  "text": "自动绕路"
+ },
+ {
+  "id": "sok.item.plate",
+  "role": "companion",
+  "text": "小推铭牌"
+ },
+ {
+  "id": "sok.item.hat",
+  "role": "companion",
+  "text": "黄色安全帽"
+ },
+ {
+  "id": "sok.item.lamp",
+  "role": "companion",
+  "text": "双肩工作灯"
+ },
+ {
+  "id": "sok.item.badge",
+  "role": "companion",
+  "text": "侦探放大镜徽章"
+ },
+ {
+  "id": "sok.item.stripes",
+  "role": "companion",
+  "text": "三箱条纹涂装"
+ },
+ {
+  "id": "sok.item.retro",
+  "role": "companion",
+  "text": "复古木箱涂装"
+ },
+ {
+  "id": "sok.item.random",
+  "role": "companion",
+  "text": "随机货单徽章"
+ },
+ {
+  "id": "sok.card.tianzhou",
+  "role": "narrator",
+  "text": "天舟是给空间站送货的太空快递车"
+ },
+ {
+  "id": "sok.card.cz7",
+  "role": "narrator",
+  "text": "发射天舟的火箭叫长征七号",
+  "pinyin": {
+   "长征": "cháng zhēng"
+  }
+ },
+ {
+  "id": "sok.card.wenchang",
+  "role": "narrator",
+  "text": "文昌离赤道近，火箭更省燃料"
+ },
+ {
+  "id": "sok.card.strap",
+  "role": "narrator",
+  "text": "太空里东西会飘，货物要绑好"
+ },
+ {
+  "id": "sok.card.order",
+  "role": "narrator",
+  "text": "装货有顺序：先用的放外面"
+ },
+ {
+  "id": "sok.wrap.title",
+  "role": "companion",
+  "text": "今天发射了这么多火箭"
+ },
+ {
+  "id": "sok.talk.1",
+  "role": "companion",
+  "text": "收拾书包时，先放哪个？"
+ },
+ {
+  "id": "sok.talk.2",
+  "role": "companion",
+  "text": "哪个箱子最难推？为什么？"
+ },
+ {
+  "id": "sok.talk.3",
+  "role": "companion",
+  "text": "箱子在哪里会卡住？",
+  "pinyin": {
+   "卡住": "qiǎ zhù"
+  }
+ },
+ {
+  "id": "sok.talk.4",
+  "role": "companion",
+  "text": "停车位是做什么用的？"
+ },
+ {
+  "id": "sok.talk.5",
+  "role": "companion",
+  "text": "先推近的会怎么样？"
+ },
+ {
+  "id": "sok.talk.6",
+  "role": "companion",
+  "text": "最后一个箱子怎么进去的？"
+ },
+ {
+  "id": "sok.talk.8",
+  "role": "companion",
+  "text": "你是倒着想的吗？讲讲",
+  "pinyin": {
+   "倒着": "dào zhe"
+  }
+ },
+ {
+  "id": "sok.talk.9",
+  "role": "companion",
+  "text": "墙角和墙边哪里不一样？"
+ },
+ {
+  "id": "sok.talk.10",
+  "role": "companion",
+  "text": "玩具箱怎么放才放得下？"
+ },
+ {
+  "id": "sok.talk.11",
+  "role": "companion",
+  "text": "没有撤销的话怎么推？"
+ },
+ {
+  "id": "sok.talk.12",
+  "role": "companion",
+  "text": "哪一关你想了最久？"
+ },
+ {
+  "id": "sok.random.t1",
+  "role": "companion",
+  "text": "小货单"
+ },
+ {
+  "id": "sok.random.t2",
+  "role": "companion",
+  "text": "中货单"
+ },
+ {
+  "id": "sok.random.t3",
+  "role": "companion",
+  "text": "大货单"
+ },
+ {
+  "id": "sok.random.again",
+  "role": "companion",
+  "text": "再来一个新仓库？"
+ },
+ {
+  "id": "sok.rnd.park",
+  "role": "companion",
+  "text": "先给一个箱子找个停车位"
+ },
+ {
+  "id": "sok.rnd.order",
+  "role": "companion",
+  "text": "先送对的那一个箱子"
+ },
+ {
+  "id": "sok.rnd.pair",
+  "role": "companion",
+  "text": "别让两个箱子并排贴墙"
+ },
+ {
+  "id": "sok.rnd.corner",
+  "role": "companion",
+  "text": "小心墙角"
+ },
+ {
+  "id": "sok.rnd.wall",
+  "role": "companion",
+  "text": "别把箱子推到空墙边"
+ },
+ {
+  "id": "sok.rnd.plan",
+  "role": "companion",
+  "text": "先想好路线再推"
+ },
+ {
+  "id": "sok.lv.0-1",
+  "role": "companion",
+  "text": "点地面走，点箱子推"
+ },
+ {
+  "id": "sok.lv.0-2",
+  "role": "companion",
+  "text": "站到箱子后面再推"
+ },
+ {
+  "id": "sok.lv.0-3",
+  "role": "companion",
+  "text": "墙角进去就出不来"
+ },
+ {
+  "id": "sok.lv.0-4",
+  "role": "companion",
+  "text": "推到拐角，绕过去接着推"
+ },
+ {
+  "id": "sok.lv.cert-1",
+  "role": "companion",
+  "text": "站位、转弯、躲墙角"
+ },
+ {
+  "id": "sok.lv.cert-2",
+  "role": "companion",
+  "text": "先对准，再进窄道"
+ },
+ {
+  "id": "sok.lv.1-1",
+  "role": "companion",
+  "text": "近路走不通，绕远路"
+ },
+ {
+  "id": "sok.lv.1-2",
+  "role": "companion",
+  "text": "先对准窄道口再推"
+ },
+ {
+  "id": "sok.lv.1-3",
+  "role": "companion",
+  "text": "推之前，看看有没有墙角"
+ },
+ {
+  "id": "sok.lv.1-4",
+  "role": "companion",
+  "text": "连着转两次弯"
+ },
+ {
+  "id": "sok.lv.1-5",
+  "role": "companion",
+  "text": "墙边有台，贴墙也能推"
+ },
+ {
+  "id": "sok.lv.1-6",
+  "role": "companion",
+  "text": "每次转弯，先想好站哪"
+ },
+ {
+  "id": "sok.lv.2-1",
+  "role": "companion",
+  "text": "一次推一个，两个都进台"
+ },
+ {
+  "id": "sok.lv.2-2",
+  "role": "companion",
+  "text": "死胡同里，先装最里面"
+ },
+ {
+  "id": "sok.lv.2-3",
+  "role": "companion",
+  "text": "走廊尽头，先推远的"
+ },
+ {
+  "id": "sok.lv.2-4",
+  "role": "companion",
+  "text": "两个箱子都绕开墙角"
+ },
+ {
+  "id": "sok.lv.2-5",
+  "role": "companion",
+  "text": "挡路的箱子，先让一让"
+ },
+ {
+  "id": "sok.lv.2-6",
+  "role": "companion",
+  "text": "先停一个到旁边"
+ },
+ {
+  "id": "sok.lv.2-7",
+  "role": "companion",
+  "text": "停车加顺序，一起想"
+ },
+ {
+  "id": "sok.lv.2-8",
+  "role": "companion",
+  "text": "两个箱子各走各的"
+ },
+ {
+  "id": "sok.lv.3-1",
+  "role": "companion",
+  "text": "两面是墙，就推不动了"
+ },
+ {
+  "id": "sok.lv.3-2",
+  "role": "companion",
+  "text": "贴着空墙边，回不来"
+ },
+ {
+  "id": "sok.lv.3-3",
+  "role": "companion",
+  "text": "找出没救的箱子"
+ },
+ {
+  "id": "sok.lv.3-4",
+  "role": "companion",
+  "text": "并排贴墙，谁也推不动"
+ },
+ {
+  "id": "sok.lv.3-5",
+  "role": "companion",
+  "text": "并排和四方块也没救"
+ },
+ {
+  "id": "sok.lv.3-6",
+  "role": "companion",
+  "text": "复习：先让开再回来"
+ },
+ {
+  "id": "sok.lv.3-7",
+  "role": "companion",
+  "text": "每推一下都看看会不会卡",
+  "pinyin": {
+   "会不会卡": "huì bú huì qiǎ"
+  }
+ },
+ {
+  "id": "sok.lv.3-8",
+  "role": "companion",
+  "text": "两个箱子各找各的台"
+ },
+ {
+  "id": "sok.lv.4-1",
+  "role": "companion",
+  "text": "三个箱子，一个一个来"
+ },
+ {
+  "id": "sok.lv.4-2",
+  "role": "companion",
+  "text": "别让箱子挤成方块"
+ },
+ {
+  "id": "sok.lv.4-3",
+  "role": "companion",
+  "text": "最难进的台，先装它"
+ },
+ {
+  "id": "sok.lv.4-4",
+  "role": "companion",
+  "text": "先想最后一步"
+ },
+ {
+  "id": "sok.lv.4-5",
+  "role": "companion",
+  "text": "复习：别推到空墙边"
+ },
+ {
+  "id": "sok.lv.4-6",
+  "role": "companion",
+  "text": "三个箱子也要停车"
+ },
+ {
+  "id": "sok.lv.4-7",
+  "role": "companion",
+  "text": "挡路的先让开，最后再回家"
+ },
+ {
+  "id": "sok.lv.4-8",
+  "role": "companion",
+  "text": "三个箱子各找各的"
+ },
+ {
+  "id": "sok.lv.C1",
+  "role": "companion",
+  "text": "推一下就进台"
+ },
+ {
+  "id": "sok.lv.C2",
+  "role": "companion",
+  "text": "推下去，再从左边推"
+ },
+ {
+  "id": "sok.lv.C3",
+  "role": "companion",
+  "text": "两个箱子，一个一个推"
+ },
+ {
+  "id": "sok.lv.C4",
+  "role": "companion",
+  "text": "绕到上面，往下推"
+ },
+ {
+  "id": "sok.lv.C5",
+  "role": "companion",
+  "text": "先找好推箱子的位置"
+ },
+ {
+  "id": "sok.lv.C6",
+  "role": "companion",
+  "text": "三个箱子，挨个送回家"
+ },
+ {
+  "id": "sok.lv.C7",
+  "role": "companion",
+  "text": "窄路上，别推进墙角"
+ },
+ {
+  "id": "sok.lv.C8",
+  "role": "companion",
+  "text": "想好先推哪一个"
+ },
+ {
+  "id": "sok.lv.C9",
+  "role": "companion",
+  "text": "三个箱子，各走各的路"
+ },
+ {
+  "id": "sok.lv.C10",
+  "role": "companion",
+  "text": "五个箱子，先想好顺序"
+ }
+]

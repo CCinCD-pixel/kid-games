@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "note": "知识卡 (spec §5.5): one sentence ≤ 15 characters = the spoken line (sok.card.<id>) + a paper-cut illustration (site/sokoban/src/art/cards.ts). Release DoD: Dad checks each source and signs (signedBy). v2 cards are kept here with release 'v2' and are never shown in v1.",
+ "cards": [
+  { "id": "tianzhou", "release": "v1", "ch": 0, "title": "天舟货运飞船", "text": "天舟是给空间站送货的太空快递车", "line": "sok.card.tianzhou", "source": "中国载人航天工程官网 cmse.gov.cn：天舟货运飞船介绍（待爸爸核对）", "signedBy": "" },
+  { "id": "cz7", "release": "v1", "ch": 1, "title": "长征七号", "text": "发射天舟的火箭叫长征七号", "line": "sok.card.cz7", "source": "中国载人航天工程官网 cmse.gov.cn：长征七号运载火箭（待爸爸核对）", "signedBy": "" },
+  { "id": "wenchang", "release": "v1", "ch": 2, "title": "文昌发射场", "text": "文昌离赤道近，火箭更省燃料", "line": "sok.card.wenchang", "source": "中国载人航天工程官网 / 新华社：文昌航天发射场（待爸爸核对）", "signedBy": "" },
+  { "id": "strap", "release": "v1", "ch": 3, "title": "货物要绑好", "text": "太空里东西会飘，货物要绑好", "line": "sok.card.strap", "source": "中国空间站科普（天宫课堂 / 货物固定）（待爸爸核对）", "signedBy": "" },
+  { "id": "order", "release": "v1", "ch": 4, "title": "先用的放门口", "text": "装货有顺序：先用的放外面", "line": "sok.card.order", "source": "物流装载常识（爸爸确认措辞）", "signedBy": "" },
+  { "id": "fuel", "release": "v2", "ch": 5, "title": "太空加油", "text": "", "line": "", "source": "", "signedBy": "" },
+  { "id": "fruit", "release": "v2", "ch": 6, "title": "新鲜水果", "text": "", "line": "", "source": "", "signedBy": "" },
+  { "id": "mars", "release": "v2", "ch": "tower", "title": "火星补给", "text": "", "line": "", "source": "", "signedBy": "" }
+ ]
+}

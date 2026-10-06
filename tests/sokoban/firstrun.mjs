@@ -1,0 +1,40 @@
+// First-run flow in real time (dev server): start gate → opening → 0-1 (ghost hand) → taps → finale → result → 0-2.
+import { webkit, devices } from '@playwright/test';
+import os from 'node:os';
+import path from 'node:path';
+import fs from 'node:fs';
+const land = process.argv.includes('--landscape');
+const out = path.join(os.homedir(), 'kid-games-work/shots/sokoban', land ? 'landscape-1080x810' : 'portrait-810x1080');
+fs.mkdirSync(out, { recursive: true });
+const browser = await webkit.launch();
+try {
+  const ctx = await browser.newContext({ ...devices['iPad (gen 7)'], viewport: land ? { width: 1080, height: 810 } : { width: 810, height: 1080 } });
+  const page = await ctx.newPage();
+  const errors = [];
+  page.on('pageerror', (e) => errors.push('PAGEERROR ' + e.message + ' ' + (e.stack || '').slice(0, 400)));
+  page.on('console', (m) => { if (m.type() === 'error') errors.push('CONSOLE ' + m.text() + ' @' + JSON.stringify(m.location())); });
+  await page.goto('http://localhost:5301/sokoban/');
+  await page.waitForSelector('.kit-start__go');
+  await page.screenshot({ path: path.join(out, 'start-gate.png') });
+  await page.click('.kit-start__go');
+  await page.waitForTimeout(3000);
+  await page.screenshot({ path: path.join(out, 'opening.png') });
+  await page.waitForFunction(() => document.getElementById('app')?.dataset.screen === 'play', null, { timeout: 12000 });
+  await page.waitForTimeout(2300);
+  await page.screenshot({ path: path.join(out, 'level-0-1-ghost.png') });
+  const tap = async (fn) => { const p = await page.evaluate(fn); await page.touchscreen.tap(p.x, p.y); };
+  await tap(() => window.__sok.cellCenter(3 * 7 + 5));
+  await page.waitForTimeout(1200);
+  await tap(() => window.__sok.crateCenter(0));
+  await page.waitForTimeout(550);
+  await page.screenshot({ path: path.join(out, 'level-0-1-finale.png') });
+  await page.waitForSelector('.xg-modal', { timeout: 8000 });
+  await page.waitForTimeout(1800);
+  await page.screenshot({ path: path.join(out, 'result-0-1-real.png') });
+  await page.click('.xg-modal [data-act=next]');
+  await page.waitForTimeout(1600);
+  await page.screenshot({ path: path.join(out, 'level-0-2-enter.png') });
+  console.log('state', JSON.stringify(await page.evaluate(() => window.__sok.state())));
+  console.log('lines', JSON.stringify(await page.evaluate(() => window.__sok.lines())));
+  console.log('errors', errors);
+} finally { await browser.close(); }

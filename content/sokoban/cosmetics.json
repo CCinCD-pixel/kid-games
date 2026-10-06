@@ -1,0 +1,17 @@
+{
+ "version": 1,
+ "note": "机库装扮 (spec §5.5): deterministic milestones only — no randomness, no currency. Every slot can be left empty. v2 items are kept here with release 'v2' and never awarded in v1.",
+ "items": [
+  { "id": "plate", "release": "v1", "slot": "plate", "name": "小推铭牌", "line": "sok.item.plate", "unlock": { "type": "chapter", "ch": 0 } },
+  { "id": "hat", "release": "v1", "slot": "hat", "name": "黄色安全帽", "line": "sok.item.hat", "unlock": { "type": "chapter", "ch": 1 } },
+  { "id": "lamp", "release": "v1", "slot": "lamp", "name": "双肩工作灯", "line": "sok.item.lamp", "unlock": { "type": "chapter", "ch": 2 } },
+  { "id": "magnifier", "release": "v1", "slot": "badge", "name": "侦探放大镜徽章", "line": "sok.item.badge", "unlock": { "type": "chapter", "ch": 3 } },
+  { "id": "stripes", "release": "v1", "slot": "paint", "name": "三箱条纹涂装", "line": "sok.item.stripes", "unlock": { "type": "chapter", "ch": 4 } },
+  { "id": "retro", "release": "v1", "slot": "paint", "name": "复古木箱涂装", "line": "sok.item.retro", "unlock": { "type": "classicAll" } },
+  { "id": "random", "release": "v1", "slot": "badge", "name": "随机货单徽章", "line": "sok.item.random", "unlock": { "type": "random", "n": 10 } },
+  { "id": "antenna", "release": "v2", "slot": "antenna", "name": "彩色天线球", "line": "", "unlock": { "type": "chapter", "ch": 5 } },
+  { "id": "goldtool", "release": "v2", "slot": "tool", "name": "金色推铲", "line": "", "unlock": { "type": "chapter", "ch": 6 } },
+  { "id": "bluetread", "release": "v2", "slot": "tread", "name": "蓝色履带", "line": "", "unlock": { "type": "tower", "n": 6 } },
+  { "id": "starpaint", "release": "v2", "slot": "paint", "name": "星空涂装", "line": "", "unlock": { "type": "tower", "n": 12 } }
+ ]
+}

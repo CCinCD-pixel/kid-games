@@ -1,168 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>推箱子大冒险</title>
-    <!-- kit shell: back button, session log, touch guards, service worker (site/_shared/legacy-shell.ts) -->
-    <script type="module" src="/_shared/legacy-shell.ts"></script>
-    <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: linear-gradient(145deg, #1a1a2e, #16213e 50%, #0f3460); min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 12px 8px 40px; user-select: none; }
-        .wrapper { width: 100%; max-width: 680px; }
-        .header { text-align: center; color: white; margin-bottom: 10px; }
-        .header h1 { font-size: clamp(1.2em, 5.5vw, 1.8em); text-shadow: 0 2px 10px rgba(0,0,0,0.3); font-weight: 900; }
-        .stats { background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 10px 16px; display: flex; justify-content: space-between; color: white; font-size: 0.95em; font-weight: 600; margin-bottom: 10px; }
-        .stats b { color: #a8d8ff; }
-        .card { background: linear-gradient(165deg, #fff, #f8f9ff); border-radius: 24px; padding: 18px 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); min-height: 480px; display: flex; flex-direction: column; align-items: center; }
-        .board { display: inline-grid; gap: 0; margin: 8px auto 12px; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
-        .cell { --s: min(11vw, calc((100vh - 550px) / var(--rows, 8)), 68px); width: max(40px, var(--s)); height: max(40px, var(--s)); display: flex; align-items: center; justify-content: center; position: relative; }
-        .cell-floor { background: linear-gradient(135deg, #f5f0e6, #ebe5d9); }
-        .cell-floor.checker { background: linear-gradient(135deg, #e8e2d4, #ddd7c7); }
-        .cell-wall {
-            background:
-                linear-gradient(rgba(32, 35, 43, 0.1), rgba(32, 35, 43, 0.18)),
-                url("/sokoban/assets/PNG/Default size/Blocks/block_01.png") center / 94% 94% no-repeat,
-                linear-gradient(135deg, #6b7280, #374151);
-            box-shadow:
-                inset 0 3px 0 rgba(255,255,255,0.12),
-                inset 0 -3px 0 rgba(0,0,0,0.3),
-                0 4px 8px rgba(0,0,0,0.25);
-            position: relative;
-        }
-        .cell-wall::before, .cell-wall::after { display: none; }
-        .cell-void { background: transparent; }
-        .cell-target { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
-        .cell-target.checker { background: linear-gradient(135deg, #ffe0b2, #ffd494); }
-        .cell-target::before { content: ""; position: absolute; width: 78%; height: 78%; border-radius: 50%; background: radial-gradient(circle, rgba(255,213,79,0.9) 0 28%, rgba(255,152,0,0.58) 46%, rgba(255,193,7,0.18) 64%, transparent 72%); box-shadow: 0 0 18px rgba(255,193,7,0.75); animation: targetPulse 2s ease-in-out infinite; z-index: 2; }
-        .cell-target::after { content: ""; position: absolute; width: 58%; height: 58%; border-radius: 50%; border: 4px solid rgba(255,183,77,0.95); box-shadow: inset 0 0 0 3px rgba(255,245,157,0.45), 0 0 12px rgba(255,152,0,0.75); animation: targetRing 2s ease-in-out infinite; z-index: 3; }
-        @keyframes targetPulse { 0%, 100% { transform: scale(0.8); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
-        @keyframes targetRing { 0%, 100% { transform: scale(0.9); opacity: 0.5; } 50% { transform: scale(1.15); opacity: 1; } }
-        .cell-target.has-box::before { width: 92%; height: 92%; opacity: 0.7; z-index: 8; }
-        .cell-target.has-box::after { width: 86%; height: 86%; opacity: 0.95; z-index: 9; }
-        .cell .entity { position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-        .entity img { width: 85%; height: 85%; object-fit: contain; image-rendering: pixelated; }
-        .sprite-player { --player-scale-x: 1; animation: playerIdle 1.5s ease-in-out infinite; transform-origin: center; }
-        .sprite-player.facing-left { --player-scale-x: -1; }
-        .sprite-player.facing-right, .sprite-player.facing-up, .sprite-player.facing-down { --player-scale-x: 1; }
-        @keyframes playerIdle { 0%, 100% { transform: scaleX(var(--player-scale-x)) translateY(0); } 50% { transform: scaleX(var(--player-scale-x)) translateY(-3px); } }
-        .sprite-crate.on-target { filter: drop-shadow(0 0 10px rgba(255,215,0,0.85)) drop-shadow(0 4px 4px rgba(0,0,0,0.25)); animation: crateGlow 1.5s ease-in-out infinite; }
-        @keyframes crateGlow { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-        .entity.push { animation: pushBounce 0.25s ease; }
-        @keyframes pushBounce { 0% { transform: scale(1); } 30% { transform: scale(1.15); } 60% { transform: scale(0.95); } 100% { transform: scale(1); } }
-        .player.win { animation: playerWin 0.6s ease infinite; }
-        @keyframes playerWin { 0%, 100% { transform: scale(1) rotate(0deg); } 25% { transform: scale(1.1) rotate(-5deg); } 75% { transform: scale(1.1) rotate(5deg); } }
-        .controls { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; justify-content: center; }
-        .ctrl-btn { padding: 10px 18px; font-size: 0.9em; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; color: white; transition: transform 0.15s; display: flex; align-items: center; gap: 6px; }
-        .ctrl-btn:hover { transform: translateY(-2px); }
-        .btn-undo { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .btn-restart { background: linear-gradient(135deg, #f093fb, #f5576c); }
-        .btn-menu { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
-        .dpad { display: grid; grid-template-areas: ". up ." "left . right" ". down ."; gap: 6px; margin: 10px auto; padding: 12px; background: linear-gradient(145deg, #2a2a3e, #1e1e2e); border-radius: 18px; }
-        .dpad-btn { width: clamp(52px, 14vw, 68px); height: clamp(52px, 14vw, 68px); border: none; border-radius: 14px; cursor: pointer; background: linear-gradient(145deg, #4a4a6a, #3a3a5a); display: flex; align-items: center; justify-content: center; position: relative; }
-        .dpad-btn::before { content: ""; position: absolute; inset: 3px; border-radius: 10px; background: linear-gradient(145deg, #5a5a7a, #4a4a6a); }
-        .dpad-btn svg { width: 26px; height: 26px; fill: white; position: relative; z-index: 1; }
-        .dpad-btn:active { transform: scale(0.92); }
-        .dpad-up { grid-area: up; } .dpad-down { grid-area: down; } .dpad-left { grid-area: left; } .dpad-right { grid-area: right; }
-        .level-select { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; }
-        .level-subtitle { font-size: 1.4em; font-weight: 900; color: #333; margin-bottom: 20px; }
-        .level-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; max-width: 320px; }
-        .level-btn { aspect-ratio: 1; border: none; border-radius: 14px; font-size: 1.3em; font-weight: 900; cursor: pointer; color: white; transition: transform 0.15s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .level-btn:hover { transform: translateY(-3px) scale(1.05); }
-        .level-btn.unlocked { background: linear-gradient(145deg, #667eea, #764ba2); }
-        .level-btn.locked { background: linear-gradient(145deg, #9a9ab0, #8a8a9e); cursor: not-allowed; color: #ccc; }
-        .level-btn.completed { background: linear-gradient(145deg, #43e97b, #38f9d7); color: #1a5a3a; }
-        .level-btn .best-mark { font-size: 0.45em; margin-top: 2px; opacity: 0.8; }
-        .win-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 100; animation: fadeIn 0.3s; }
-        .win-card { background: linear-gradient(165deg, #fff, #f0f4ff); border-radius: 28px; padding: 32px 28px; text-align: center; max-width: 360px; width: 90%; box-shadow: 0 25px 80px rgba(0,0,0,0.4); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .win-icon { width: 80px; height: 80px; margin: 0 auto 12px; }
-        @keyframes winIconBounce { 0% { transform: scale(0) rotate(-180deg); } 60% { transform: scale(1.2) rotate(10deg); } 100% { transform: scale(1) rotate(0deg); } }
-        .win-title { font-size: 1.6em; font-weight: 900; color: #333; margin-bottom: 8px; }
-        .win-detail { color: #666; font-size: 1em; margin-bottom: 4px; line-height: 1.6; }
-        .win-record { color: #43e97b; font-weight: 700; font-size: 1.05em; margin: 10px 0; }
-        .win-stars { font-size: 2.2em; margin: 12px 0; display: flex; justify-content: center; gap: 8px; }
-        .win-stars .star { display: inline-block; animation: starPop 0.4s ease backwards; }
-        .win-stars .star:nth-child(1) { animation-delay: 0.2s; } .win-stars .star:nth-child(2) { animation-delay: 0.35s; } .win-stars .star:nth-child(3) { animation-delay: 0.5s; }
-        @keyframes starPop { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 60% { transform: scale(1.3) rotate(10deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
-        .win-btns { display: flex; gap: 10px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
-        .win-btn { padding: 12px 24px; font-size: 1em; font-weight: 800; border: none; border-radius: 50px; cursor: pointer; color: white; transition: transform 0.15s; display: flex; align-items: center; gap: 6px; }
-        .win-btn:hover { transform: translateY(-2px) scale(1.03); }
-        .win-btn.next { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #1a5a3a; }
-        .win-btn.retry { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .win-btn.back { background: linear-gradient(135deg, #f093fb, #f5576c); }
-        .level-info { font-size: 0.85em; color: #999; text-align: center; margin-top: 4px; }
-        .level-name { font-size: 1.15em; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 8px; }
-        .hint-bar { background: linear-gradient(135deg, #fff8e1, #ffecb3); border-radius: 12px; padding: 10px 14px; font-size: 0.88em; color: #795548; text-align: center; margin-bottom: 8px; line-height: 1.5; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes popIn { 0% { transform: scale(0.5) translateY(50px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
-        .confetti { position: fixed; width: 10px; height: 10px; z-index: 200; pointer-events: none; animation: confettiFall 3s ease-out forwards; }
-        @keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
-        .back-home { position: fixed; top: max(10px, env(safe-area-inset-top)); left: 10px; z-index: 999; background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 8px 14px; color: white; font-size: 0.9em; font-weight: 700; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; }
-        .back-home svg { width: 16px; height: 16px; fill: currentColor; }
-        @media (orientation: landscape) {
-            .cell { --s: min(11vw, calc((100vh - 300px) / var(--rows, 8)), 68px); }
-            .dpad { position: fixed; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); margin: 0; z-index: 50; }
-            .dpad-btn { width: 60px; height: 60px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0c1230">
+  <title>星港搬运工</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png">
+  <script type="module" src="./src/main.ts"></script>
 </head>
-<body>
-    <a href="../index.html" class="back-home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> 返回</a>
-    <div class="wrapper">
-        <div class="header"><h1>推箱子大冒险</h1></div>
-        <div class="stats" id="stats"><span>关卡 <b id="stat-level">1</b></span><span>步数 <b id="stat-steps">0</b></span><span>最佳 <b id="stat-best">-</b></span></div>
-        <div class="card" id="card"></div>
-    </div>
-    <div id="overlay"></div>
-<script>
-"use strict";
-const LEVELS=[
-    {name:"初来乍到",hint:"把箱子推到橙色圆点上就过关啦！用方向键或滑动屏幕移动小人",par:5,map:["######","#....#","#.@$.#","#..O.#","#....#","######"]},
-    {name:"小试牛刀",hint:"想一想，箱子只能推不能拉哦！",par:10,map:["######","#....#","#.@..#","#.$..#","#..O.#","#....#","######"]},
-    {name:"双箱挑战",hint:"两个箱子，两个目标，注意别把箱子推到角落里！",par:15,map:["#######","#.....#","#.$.$.#","#..@..#","#.O.O.#","#.....#","#######"]},
-    {name:"拐弯抹角",hint:"有时候要绕个路才能把箱子推到目标",par:15,map:["#######","#.....#","#.#.$.#","#.#.O.#","#.@...#","#.....#","#######"]},
-    {name:"曲径通幽",hint:"别急，先想好再走！",par:25,map:["########","#......#","#.#.##.#","#.$.@..#","#.#.##.#","#.O....#","#......#","########"]},
-    {name:"三箱初探",hint:"三个箱子了！规划好顺序很重要",par:25,map:["########","#..#...#","#.$.$.##","#...@..#","#.$.#..#","#O.O.O.#","#......#","########"]},
-    {name:"窄路勇者",hint:"走廊很窄，推错就麻烦了，想好再动！",par:25,map:["#######","#O..#O#","#.#.$.#","#.....#","#.#$#.#","#..@..#","#######"]},
-    {name:"迷宫搬运",hint:"路线有点复杂，一步一步来",par:35,map:["########","#...#..#","#.$.#O.#","#...$..#","##.#...#","#..@.O.#","#......#","########"]},
-    {name:"高手之路",hint:"这关需要动动脑筋了！",par:40,map:["########","#....#.#","#.$....#","#..#.#.#","#.$..$.#","#..#.#.#","#.O.O.O#","#..@...#","########"]},
-    {name:"大师挑战（可选）",hint:"可选的大师关：5 个箱子，先想好顺序。卡住了随时撤销或重来！",par:70,optional:true,map:["#########","#...#...#","#.$.$.$.#","#..###..#","#..$@$..#","#..#.#..#","#.O.O.O.#","#.O...O.#","#...#...#","#########"]}
-];
-const ASSETS={
-    crate:"/sokoban/assets/PNG/Default size/Crates/crate_01.png",
-    player:"/sokoban/assets/PNG/Retina/Player/player_01.png"
-};
-let currentLevel=0,grid=[],player={r:0,c:0},boxes=[],targets=[],steps=0,history=[],bestScores={},unlockedLevel=0;
-let playerFacing="down",inputLocked=false;
-try{const s=JSON.parse(localStorage.getItem("sokoban_save")||"{}");bestScores=s.best||{};unlockedLevel=s.unlocked||0;}catch(e){}
-function saveData(){localStorage.setItem("sokoban_save",JSON.stringify({best:bestScores,unlocked:unlockedLevel}));}
-function parseLevel(idx){const lvl=LEVELS[idx],rows=lvl.map,h=rows.length,w=Math.max(...rows.map(r=>r.length));grid=[];boxes=[];targets=[];player={r:0,c:0};steps=0;history=[];playerFacing="down";inputLocked=false;for(let r=0;r<h;r++){grid[r]=[];for(let c=0;c<w;c++){const ch=(rows[r]||"")[c]||" ";switch(ch){case"#":grid[r][c]="wall";break;case".":grid[r][c]="floor";break;case"@":grid[r][c]="floor";player={r,c};break;case"$":grid[r][c]="floor";boxes.push({r,c});break;case"O":grid[r][c]="target";targets.push({r,c});break;case"*":grid[r][c]="target";boxes.push({r,c});targets.push({r,c});break;case"+":grid[r][c]="target";player={r,c};targets.push({r,c});break;default:grid[r][c]="void";}}}}
-function isWall(r,c){if(r<0||r>=grid.length||c<0||c>=(grid[0]||[]).length)return true;return grid[r][c]==="wall"||grid[r][c]==="void";}
-function boxAt(r,c){return boxes.findIndex(b=>b.r===r&&b.c===c);}
-function move(dr,dc){const nr=player.r+dr,nc=player.c+dc;if(isWall(nr,nc))return false;const bi=boxAt(nr,nc);if(bi>=0){const br=nr+dr,bc=nc+dc;if(isWall(br,bc)||boxAt(br,bc)>=0)return false;history.push({player:{r:player.r,c:player.c},box:{index:bi,r:boxes[bi].r,c:boxes[bi].c}});boxes[bi].r=br;boxes[bi].c=bc;}else{history.push({player:{r:player.r,c:player.c},box:null});}player.r=nr;player.c=nc;steps++;if(dr===-1)playerFacing="up";else if(dr===1)playerFacing="down";else if(dc===-1)playerFacing="left";else if(dc===1)playerFacing="right";return true;}
-function undo(){if(history.length===0)return;const s=history.pop();player.r=s.player.r;player.c=s.player.c;if(s.box){boxes[s.box.index].r=s.box.r;boxes[s.box.index].c=s.box.c;}steps--;}
-function checkWin(){return targets.every(t=>boxAt(t.r,t.c)>=0);}
-let sharedAudioCtx=null;function getAudioCtx(){if(!sharedAudioCtx)sharedAudioCtx=new(window.AudioContext||window.webkitAudioContext)();return sharedAudioCtx;}
-["touchend","click","keydown"].forEach(ev=>document.addEventListener(ev,()=>{try{const c=getAudioCtx();if(c.state!=="running")c.resume();}catch(e){}},true));
-function playTones(notes){try{const ctx=getAudioCtx();notes.forEach(([f,t,d])=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;o.type="sine";g.gain.setValueAtTime(0.15,ctx.currentTime+t);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+d);o.start(ctx.currentTime+t);o.stop(ctx.currentTime+t+d+0.01);});}catch(e){}}
-const playMove=()=>playTones([[440,0,0.06]]);
-const playPush=()=>playTones([[330,0,0.08],[440,0.06,0.08]]);
-const playWin=()=>playTones([[523,0,0.12],[659,0.1,0.12],[784,0.2,0.12],[1047,0.32,0.18]]);
-function renderBoard(){const h=grid.length,w=grid[0].length;let html="<div class=\"board\" style=\"--rows: "+h+"; grid-template-columns: repeat("+w+", 1fr); grid-template-rows: repeat("+h+", 1fr);\">";for(let r=0;r<h;r++){for(let c=0;c<w;c++){const type=grid[r][c],isPlayer=player.r===r&&player.c===c,bi=boxAt(r,c),isTarget=type==="target",isBoxOnTarget=bi>=0&&isTarget;const isChecker=(r+c)%2===1;let cellClass="cell ";if(type==="wall")cellClass+="cell-wall";else if(type==="void")cellClass+="cell-void";else if(isTarget)cellClass+="cell-target"+(bi>=0?" has-box":"")+(isChecker?" checker":"");else cellClass+="cell-floor"+(isChecker?" checker":"");let entity="";if(isPlayer){entity='<span class="entity"><img class="sprite-player facing-'+playerFacing+'" src="'+ASSETS.player+'" alt="player"></span>';}else if(bi>=0){entity='<span class="entity"><img class="sprite-crate'+(isBoxOnTarget?" on-target":"")+'" src="'+ASSETS.crate+'" alt="crate"></span>';}html+='<div class="'+cellClass+'">'+entity+"</div>";}}html+="</div>";return html;}
-function renderGame(){const level=LEVELS[currentLevel],best=bestScores[currentLevel];document.getElementById("stat-level").textContent=currentLevel+1;document.getElementById("stat-steps").textContent=steps;document.getElementById("stat-best").textContent=best!=null?best:"-";document.getElementById("stats").style.display="flex";const card=document.getElementById("card");card.innerHTML='<div class="level-name">'+level.name+'</div><div class="hint-bar">'+level.hint+"</div>"+renderBoard()+'<div class="controls"><button class="ctrl-btn btn-undo" id="btn-undo">撤销</button><button class="ctrl-btn btn-restart" id="btn-restart">重来</button><button class="ctrl-btn btn-menu" id="btn-menu">选关</button></div><div class="dpad"><button class="dpad-btn dpad-up" data-dir="up" aria-label="上移"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14l5-5 5 5z"/></svg></button><button class="dpad-btn dpad-left" data-dir="left" aria-label="左移"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 7l-5 5 5 5z"/></svg></button><button class="dpad-btn dpad-right" data-dir="right" aria-label="右移"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7l5 5-5 5z"/></svg></button><button class="dpad-btn dpad-down" data-dir="down" aria-label="下移"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="level-info">键盘方向键 / WASD / 滑动屏幕 / 点击方向按钮</div>';document.getElementById("btn-undo").onclick=()=>{if(inputLocked)return;undo();renderGame();};document.getElementById("btn-restart").onclick=()=>{parseLevel(currentLevel);renderGame();};document.getElementById("btn-menu").onclick=showLevelSelect;document.querySelectorAll(".dpad-btn").forEach(btn=>{btn.addEventListener("click",e=>{e.preventDefault();handleDirection(btn.dataset.dir);});});}
-function handleDirection(dir){if(inputLocked)return;let dr=0,dc=0;switch(dir){case"up":dr=-1;break;case"down":dr=1;break;case"left":dc=-1;break;case"right":dc=1;break;}const hadBox=boxAt(player.r+dr,player.c+dc)>=0;if(move(dr,dc)){hadBox?playPush():playMove();renderGame();if(checkWin()){inputLocked=true;const lvAtWin=currentLevel;setTimeout(()=>{if(inputLocked&&currentLevel===lvAtWin&&!document.querySelector(".level-select"))showWin();},200);}}}
-function showWin(){playWin();spawnCelebration();const level=LEVELS[currentLevel],prevBest=bestScores[currentLevel],isNewRecord=prevBest==null||steps<prevBest;if(isNewRecord){bestScores[currentLevel]=steps;}if(currentLevel+1>unlockedLevel&&currentLevel+1<LEVELS.length){unlockedLevel=currentLevel+1;}saveData();const par=level.par;let stars=1;if(steps<=par)stars=3;else if(steps<=Math.floor(par*1.5))stars=2;const starStr='<span class="star">&#9733;</span>'.repeat(stars)+'<span class="star">&#9734;</span>'.repeat(3-stars);const hasNext=currentLevel+1<LEVELS.length;let recordHtml="";if(isNewRecord&&prevBest!=null){recordHtml='<div class="win-record">新纪录！比上次少了 '+(prevBest-steps)+' 步！</div>';}else if(isNewRecord){recordHtml='<div class="win-record">首次通关记录：'+steps+' 步</div>';}else{recordHtml='<div class="win-detail">最佳记录：'+prevBest+' 步</div>';}
-const winIconSVG='<svg class="win-icon" viewBox="0 0 24 24"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ffd700"/><stop offset="100%" style="stop-color:#ff8c00"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="url(#g1)"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">1</text></svg>';
-document.getElementById("overlay").innerHTML='<div class="win-overlay" id="win-overlay"><div class="win-card">'+winIconSVG+'<div class="win-title">恭喜过关！</div><div class="win-stars">'+starStr+'</div><div class="win-detail">本次用了 <b>'+steps+'</b> 步完成（标准 '+par+' 步）</div>'+recordHtml+'<div class="win-btns"><button class="win-btn retry" id="win-retry">重来</button>'+(hasNext?'<button class="win-btn next" id="win-next">下一关</button>':'')+'<button class="win-btn back" id="win-back">选关</button></div></div></div>';
-document.getElementById("win-retry").onclick=()=>{document.getElementById("overlay").innerHTML="";parseLevel(currentLevel);renderGame();};if(hasNext){document.getElementById("win-next").onclick=()=>{document.getElementById("overlay").innerHTML="";currentLevel++;parseLevel(currentLevel);renderGame();};}document.getElementById("win-back").onclick=()=>{document.getElementById("overlay").innerHTML="";showLevelSelect();};}
-function showLevelSelect(){document.getElementById("stats").style.display="none";const card=document.getElementById("card");let btnsHtml="";for(let i=0;i<LEVELS.length;i++){const unlocked=i<=unlockedLevel;const completed=bestScores[i]!=null;let cls="level-btn ";if(completed)cls+="completed";else if(unlocked)cls+="unlocked";else cls+="locked";const best=bestScores[i];const bestMark=best!=null?'<span class="best-mark">'+best+'步</span>':"";btnsHtml+='<button class="'+cls+'" data-level="'+i+'"'+(unlocked?"":' disabled')+">"+(i+1)+bestMark+"</button>";}
-card.innerHTML='<div class="level-select"><div class="level-subtitle">选择关卡</div><div class="level-grid">'+btnsHtml+'</div><div class="level-info" style="color:#aaa;font-size:0.85em;">绿色 = 已通关 | 紫色 = 可挑战 | 灰色 = 未解锁</div></div>';
-document.querySelectorAll(".level-btn.unlocked, .level-btn.completed").forEach(btn=>{btn.onclick=()=>{currentLevel=parseInt(btn.dataset.level);parseLevel(currentLevel);renderGame();};});}
-function spawnCelebration(){const colors=["#ff6b6b","#ffd700","#43e97b","#667eea","#f093fb","#38f9d7"];for(let i=0;i<18;i++){setTimeout(()=>{const el=document.createElement("div");el.className="confetti";el.style.left=(5+Math.random()*90)+"vw";el.style.top=(10+Math.random()*80)+"vh";el.style.background=colors[Math.floor(Math.random()*colors.length)];el.style.borderRadius=Math.random()>0.5?"50%":"0";el.style.animationDuration=(2+Math.random()*2)+"s";document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove());},i*80);}}
-document.addEventListener("keydown",e=>{if(document.querySelector(".level-select")||document.querySelector(".win-overlay"))return;let dir=null;switch(e.key){case"ArrowUp":case"w":case"W":dir="up";break;case"ArrowDown":case"s":case"S":dir="down";break;case"ArrowLeft":case"a":case"A":dir="left";break;case"ArrowRight":case"d":case"D":dir="right";break;case"z":case"Z":if(!inputLocked&&(e.ctrlKey||e.metaKey)){undo();renderGame();}break;case"u":case"U":if(!inputLocked){undo();renderGame();}break;}if(dir){e.preventDefault();handleDirection(dir);}});
-let touchStart=null;document.addEventListener("touchstart",e=>{if(e.target.closest(".dpad-btn, .ctrl-btn, .level-btn, .win-btn, button"))return;const t=e.touches[0];touchStart={x:t.clientX,y:t.clientY};},{passive:true});document.addEventListener("touchend",e=>{if(!touchStart)return;if(document.querySelector(".level-select")||document.querySelector(".win-overlay")){touchStart=null;return;}const t=e.changedTouches[0];const dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;touchStart=null;const minSwipe=30;if(Math.abs(dx)<minSwipe&&Math.abs(dy)<minSwipe)return;let dir;if(Math.abs(dx)>Math.abs(dy)){dir=dx>0?"right":"left";}else{dir=dy>0?"down":"up";}handleDirection(dir);},{passive:true});
-showLevelSelect();
-</script>
+<body data-xg-game="porter" data-xg-theme="night">
+  <div id="app"></div>
 </body>
 </html>

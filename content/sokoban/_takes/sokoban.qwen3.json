@@ -1,0 +1,513 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "sok.card.tianzhou": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "d4e4bde539b7360642bc0223f282ab80577583ee",
+   "score": 0.333,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "sok.cert.veteran": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "5589afd332f29b929b158122bcebc2a1f26c927d",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.ch.done": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f0ffec3cfda9b8be9613284153f14a7be255f464",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.ch1.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1a3c57e926d9ae145c0a9d3d1de9a8cac0ea5b51",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.finale.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "92b1d8a93fe1bdeae6e48a19b77a2cd7cf056beb",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.hangar.intro": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "1db0cfcb5e52e42d4a85fbf51356b908d9274b5f",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.hangar.skills": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "9911ae547ca93a07fd1db384d99ddca0a871a5a1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.hint.h1": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "2184ed13bc3c75282b76089b77cf025452fd35be",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.launch.tiangong": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "16e5e8de6dc42bd215ea4c02250e460e4eede5c1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.lv.0-2": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "83031c32dc8277cffa2d69650cf6b3b2ad4d8c67",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "sok.lv.0-3": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "51d44b39915fcd113b773bee88949cd8d74bae14",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.lv.0-4": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "0e9363e9dcbb3f17664e1fe8693dd1a92082a776",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.lv.2-2": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "fe00631cc42a16ae4274d77415dfd3fa209c0feb",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.lv.4-2": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "65d36c197d82b0c3b49ce8ae8589c21b8d942f01",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "sok.lv.4-4": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "adbb52d30a94399456bf6b910609d321241f5fc5",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.lv.C1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6798deacd0512209b11cff05771258f93138be7d",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.lv.C10": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "9bcb134a5a4386298e293b50b030a5eddf7904f2",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.lv.cert-1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "5b5be41de734f6dc9d6f5ed5414990b45443d308",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.praise.park": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "0602ad3822303fdbd838812f1a41709c2b015070",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.praise.plain": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d3468d6f905ea5bb8f955915f3eb0560ad87fd65",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.praise.spot": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "6bfe936d74b92e1ef4ceaba31f5a4b65bef1bc17",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "sok.quiz.alive": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "68febab7e04d5b8703ac81b1962203eea484969a",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.quiz.ask": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "27dab55b5bb23489537cb5f6052a015079a67c72",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.random.again": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "acafd3732f3eee560a454a83f2e3a1199ab0e5ad",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.random.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "4833d03daeebbe13c6702f6a89b18534d66a1470",
+   "score": 0.454,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.random.smaller": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "ca4119151bfcbdbaa960094d8b57314b7db0196e",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.rnd.order": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "64374ba500fa29420744c00739446bdbeb88081b",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.rnd.pair": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f3ef97d3b51ef008c1bab206605ee7e5381e9d28",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.rnd.park": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "da5ed666a1bd9e9c4ba3de3e531ab5e424693ee1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.rnd.plan": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a026705efe0ac6617b6e489f2e74c0c60635c4fa",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.rnd.wall": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "53effa9f4e55b8c9d44903b1a31139ee0784eafe",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.stuck.2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b2cfc44ba56b0e22cbff7c67410907fdc82daf7a",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.talk.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "db5517de7f74680cdb78a8abedaf8ebeb46295e3",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.talk.10": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "5ac7e9853db7dad6978f793250c55ae4a11120de",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "sok.talk.11": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "33bb77b9713d632eb93af8d41901d6dd5b6ff8fb",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "sok.talk.12": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "9d01c5ab94c13886203d8e5952ce888e635cbd42",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "sok.talk.5": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "97ab6877c0a3b2ba9eea1b0bfd6b93c635612c5b",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "sok.talk.6": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "dee9e8e68acadbcf9c4e02fae748c197b4913027",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.tut.push": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "42e92d54dd014ee39adbf5febabb4519783b5f13",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.tut.turn": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fbe223f3f3d6b2755855a404586279826898ad4f",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.unlock.classic": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "2d40c2608b2f07682ede4fb4a228d7fcd764916d",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.unlock.random": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1edb06e734f32348089213bff8aeea886827382f",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "sok.wrap.title": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "5c1a0d924cb006b5ff3999534f2f3dead289f241",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  }
+ }
+}

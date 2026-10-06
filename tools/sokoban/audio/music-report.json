@@ -1,0 +1,12 @@
+{
+ "file": "site/sokoban/assets/music/night-shift.m4a",
+ "bpm": 84,
+ "bars": 24,
+ "seconds": 68.57,
+ "integrated_lufs": -23.0,
+ "peak_dbfs": -9.27,
+ "loop_seam_jump_vs_median_step": 0.57,
+ "rolloff85_hz": 789,
+ "bytes": 699251,
+ "license": "CC0-1.0 (project-owned, original synthesis)"
+}

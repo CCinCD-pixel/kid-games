@@ -1,0 +1,488 @@
+{
+ "version": 1,
+ "generatedBy": "tools/sokoban/export-levels.mjs (spec v1.1 prototypes, check.mjs v1.1)",
+ "levels": [
+  {
+   "id": "C1",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "初来乍到",
+   "teaches": "推一下就进台",
+   "say": "sok.lv.C1",
+   "lesson": "plain",
+   "map": [
+    "######",
+    "#----#",
+    "#-@$-#",
+    "#--.-#",
+    "#----#",
+    "######"
+   ],
+   "opt": {
+    "pushes": 1,
+    "moves": 3
+   },
+   "star2": 3,
+   "ref": "urD",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 19.5,
+    "k1": 1,
+    "L1": 1,
+    "states": 10,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 0,
+    "first": {
+     "corner": null,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "C2",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "小试牛刀",
+   "teaches": "先推下去，再绕到左边往右推",
+   "say": "sok.lv.C2",
+   "lesson": "turn",
+   "map": [
+    "######",
+    "#----#",
+    "#-@--#",
+    "#-$--#",
+    "#--.-#",
+    "#----#",
+    "######"
+   ],
+   "opt": {
+    "pushes": 2,
+    "moves": 4
+   },
+   "star2": 4,
+   "ref": "DldR",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 19.8,
+    "k1": 1,
+    "L1": 1,
+    "states": 14,
+    "trapFirst": 1,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 1,
+    "first": {
+     "corner": null,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "C3",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "双箱挑战",
+   "teaches": "两个箱子，一个一个推",
+   "say": "sok.lv.C3",
+   "lesson": "plain",
+   "map": [
+    "#######",
+    "#-----#",
+    "#-$-$-#",
+    "#--@--#",
+    "#-.-.-#",
+    "#-----#",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 4,
+    "moves": 11
+   },
+   "star2": 6,
+   "ref": "uulDDuurrDD",
+   "twin": "flip",
+   "checks": {},
+   "metrics": {
+    "D": 31.3,
+    "k1": 0.99,
+    "L1": 1,
+    "states": 116,
+    "trapFirst": 4,
+    "firstPushes": 8,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 1,
+    "turns": 0,
+    "first": {
+     "corner": null,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "C4",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "拐弯抹角",
+   "teaches": "绕到箱子上面，往下推",
+   "say": "sok.lv.C4",
+   "lesson": "turn",
+   "map": [
+    "#######",
+    "#-----#",
+    "#-#-$-#",
+    "#-#-.-#",
+    "#-@---#",
+    "#-----#",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 1,
+    "moves": 6
+   },
+   "star2": 3,
+   "ref": "ruuurD",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 20.4,
+    "k1": 0.995,
+    "L1": 1,
+    "states": 14,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 0,
+    "first": {
+     "corner": null,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "C5",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "曲径通幽",
+   "teaches": "路很长：先找好推箱子的位置",
+   "say": "sok.lv.C5",
+   "lesson": "turn",
+   "map": [
+    "########",
+    "#------#",
+    "#-#-##-#",
+    "#-$-@--#",
+    "#-#-##-#",
+    "#-.----#",
+    "#------#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 4,
+    "moves": 25
+   },
+   "star2": 6,
+   "ref": "luullddRluurrdDDurrrddllL",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 18.7,
+    "k1": 0.9225,
+    "L1": 1,
+    "states": 15,
+    "trapFirst": 1,
+    "firstPushes": 2,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 2,
+    "first": {
+     "corner": null,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "C6",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "三箱初探",
+   "teaches": "三个箱子，挨个送回家",
+   "say": "sok.lv.C6",
+   "lesson": "plain",
+   "map": [
+    "########",
+    "#--#---#",
+    "#-$-$-##",
+    "#---@--#",
+    "#-$-#--#",
+    "#.-.-.-#",
+    "#------#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 10,
+    "moves": 20
+   },
+   "star2": 13,
+   "ref": "luLulDDDRurDuuRurDDD",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 49.1,
+    "k1": 0.49,
+    "L1": 0.8825,
+    "states": 2323,
+    "trapFirst": 2,
+    "firstPushes": 12,
+    "seqFirsts": 3,
+    "greedy": "solved",
+    "switches": 2,
+    "turns": 3,
+    "first": {
+     "corner": 1,
+     "wall": 2,
+     "pair": 3,
+     "square": 4
+    },
+    "invis": 2
+   }
+  },
+  {
+   "id": "C7",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "窄路勇者",
+   "teaches": "窄路上，别把箱子推进墙角",
+   "say": "sok.lv.C7",
+   "lesson": "trap",
+   "map": [
+    "#######",
+    "#.--#.#",
+    "#-#-$-#",
+    "#-----#",
+    "#-#$#-#",
+    "#--@--#",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 7,
+    "moves": 25
+   },
+   "star2": 9,
+   "ref": "UdrruulLLrddlluUUdrruRdrU",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 32.6,
+    "k1": 0.2925,
+    "L1": 0.93,
+    "states": 130,
+    "trapFirst": 1,
+    "firstPushes": 4,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 1,
+    "turns": 3,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 4,
+     "square": null
+    },
+    "invis": 4
+   }
+  },
+  {
+   "id": "C8",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "迷宫搬运",
+   "teaches": "只有一个箱子能先走：想好先推哪一个",
+   "say": "sok.lv.C8",
+   "lesson": "order",
+   "map": [
+    "########",
+    "#---#--#",
+    "#-$-#.-#",
+    "#---$--#",
+    "##-#---#",
+    "#--@-.-#",
+    "#------#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 26
+   },
+   "star2": 10,
+   "ref": "luuluurDDDurRdddllluRRRurU",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 42,
+    "k1": 0.09,
+    "L1": 0.9825,
+    "states": 235,
+    "trapFirst": 2,
+    "firstPushes": 6,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 3,
+    "turns": 0,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": 2
+   }
+  },
+  {
+   "id": "C9",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "高手之路",
+   "teaches": "三个箱子，各走各的路",
+   "say": "sok.lv.C9",
+   "lesson": "plain",
+   "map": [
+    "########",
+    "#----#-#",
+    "#-$----#",
+    "#--#-#-#",
+    "#-$--$-#",
+    "#--#-#-#",
+    "#-.-.-.#",
+    "#--@---#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 11,
+    "moves": 31
+   },
+   "star2": 14,
+   "ref": "ululuuuRdDDuuuRurDDDRlDuuurrdDD",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 59.2,
+    "k1": 0.535,
+    "L1": 0.995,
+    "states": 2763,
+    "trapFirst": 3,
+    "firstPushes": 10,
+    "seqFirsts": 3,
+    "greedy": "solved",
+    "switches": 5,
+    "turns": 1,
+    "first": {
+     "corner": 3,
+     "wall": 1,
+     "pair": 6,
+     "square": 3
+    },
+    "invis": 3
+   }
+  },
+  {
+   "id": "C10",
+   "release": "v1",
+   "ch": "classic",
+   "track": "classic",
+   "role": "classic",
+   "review": false,
+   "name": "推箱大师",
+   "teaches": "五个箱子：先想好顺序再动手",
+   "say": "sok.lv.C10",
+   "lesson": "order",
+   "map": [
+    "#########",
+    "#---#---#",
+    "#-$-$-$-#",
+    "#--###--#",
+    "#--$@$--#",
+    "#--#-#--#",
+    "#-.-.-.-#",
+    "#-.---.-#",
+    "#---#---#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 24,
+    "moves": 67
+   },
+   "star2": 30,
+   "ref": "LrRlddlluluurDDDuuuluurDDDDldRRdrrururuulDDDuuuruulDDDDuuulLLulDDDD",
+   "twin": "flip",
+   "checks": {},
+   "metrics": {
+    "D": 91.6,
+    "k1": null,
+    "L1": null,
+    "states": 173512,
+    "trapFirst": 8,
+    "firstPushes": 14,
+    "seqFirsts": 4,
+    "greedy": "stuck",
+    "switches": 6,
+    "turns": 2,
+    "first": {},
+    "invis": null
+   }
+  }
+ ]
+}

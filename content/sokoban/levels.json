@@ -1,0 +1,1981 @@
+{
+ "version": 1,
+ "generatedBy": "tools/sokoban/export-levels.mjs (spec v1.1 prototypes, check.mjs v1.1)",
+ "levels": [
+  {
+   "id": "0-1",
+   "was": "0-1",
+   "release": "v1",
+   "ch": 0,
+   "track": "main",
+   "role": "intro",
+   "review": false,
+   "name": "第一推",
+   "teaches": "点地面就走过去；点挨着的箱子推一格",
+   "say": "sok.lv.0-1",
+   "lesson": "plain",
+   "map": [
+    "#######",
+    "#@----#",
+    "#####-#",
+    "  #.$-#",
+    "  #####"
+   ],
+   "opt": {
+    "pushes": 1,
+    "moves": 7
+   },
+   "star2": 3,
+   "ref": "rrrrddL",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     1,
+     1
+    ],
+    "greedy": "ok"
+   },
+   "metrics": {
+    "D": 7,
+    "k1": 1,
+    "L1": 1,
+    "states": 2,
+    "trapFirst": 0,
+    "firstPushes": 1,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 0,
+    "first": {
+     "corner": null,
+     "wall": null,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "0-2",
+   "was": "0-2",
+   "release": "v1",
+   "ch": 0,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "绕到后面",
+   "teaches": "想往右推，就要站到箱子左边",
+   "say": "sok.lv.0-2",
+   "lesson": "turn",
+   "map": [
+    "########",
+    "#------#",
+    "#-####-#",
+    "#--$-.@#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 2,
+    "moves": 12
+   },
+   "star2": 4,
+   "ref": "uulllllddrRR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     2,
+     2
+    ],
+    "greedy": "ok"
+   },
+   "metrics": {
+    "D": 8,
+    "k1": 1,
+    "L1": 1,
+    "states": 5,
+    "trapFirst": 0,
+    "firstPushes": 2,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 0,
+    "first": {
+     "corner": 2,
+     "wall": null,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "0-3",
+   "was": "0-3",
+   "release": "v1",
+   "ch": 0,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "推不回来",
+   "teaches": "箱子进了墙角就推不出来；点撤销退回去",
+   "say": "sok.lv.0-3",
+   "lesson": "trap",
+   "map": [
+    "#####",
+    "#---#",
+    "#$--#",
+    "#@--#",
+    "#.--#",
+    "#####"
+   ],
+   "opt": {
+    "pushes": 2,
+    "moves": 6
+   },
+   "star2": 4,
+   "ref": "ruulDD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     2,
+     2
+    ],
+    "trap": 1,
+    "trapType": "corner",
+    "trapDepth": 1
+   },
+   "metrics": {
+    "D": 14.3,
+    "k1": 1,
+    "L1": 1,
+    "states": 4,
+    "trapFirst": 1,
+    "firstPushes": 2,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 0,
+    "first": {
+     "corner": 1,
+     "wall": null,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "0-4",
+   "was": "0-4",
+   "release": "v1",
+   "ch": 0,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "拐个弯",
+   "teaches": "先推到拐角，再绕到另一边接着推",
+   "say": "sok.lv.0-4",
+   "lesson": "turn",
+   "map": [
+    "######",
+    "#@---#",
+    "#-$--#",
+    "#--#-#",
+    "#--#.#",
+    "######"
+   ],
+   "opt": {
+    "pushes": 4,
+    "moves": 7
+   },
+   "star2": 6,
+   "ref": "dRRurDD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     4,
+     4
+    ],
+    "turnsMin": 1
+   },
+   "metrics": {
+    "D": 14.6,
+    "k1": 0.4925,
+    "L1": 1,
+    "states": 9,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 1,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "cert-1",
+   "was": "cert-1",
+   "release": "v1",
+   "ch": "cert",
+   "track": "cert",
+   "role": "cert",
+   "review": false,
+   "name": "考试一",
+   "teaches": "站位、转弯、躲开墙角",
+   "say": "sok.lv.cert-1",
+   "lesson": "turn",
+   "map": [
+    "########",
+    "#@-----#",
+    "#-$-#--#",
+    "##-----#",
+    "#-#----#",
+    "#-----.#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 7,
+    "moves": 14
+   },
+   "star2": 9,
+   "ref": "dRurDldRRRurDD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     7,
+     7
+    ],
+    "trap": 3,
+    "turnsMin": 3
+   },
+   "metrics": {
+    "D": 25.1,
+    "k1": 0.4225,
+    "L1": 0.9175,
+    "states": 24,
+    "trapFirst": 3,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 3,
+    "first": {
+     "corner": 1,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": 4
+   }
+  },
+  {
+   "id": "cert-2",
+   "was": "cert-2",
+   "release": "v1",
+   "ch": "cert",
+   "track": "cert",
+   "role": "cert",
+   "review": false,
+   "name": "考试二",
+   "teaches": "先对准再进窄道，一路转四次弯",
+   "say": "sok.lv.cert-2",
+   "lesson": "turn",
+   "map": [
+    "#########",
+    "#@--#---#",
+    "#-$---#-#",
+    "#--#----#",
+    "#-#--#-##",
+    "###---.-#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 9,
+    "moves": 28
+   },
+   "star2": 12,
+   "ref": "dRRRdrrruullDurrddlLulDDldRR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     9,
+     9
+    ],
+    "trap": 2,
+    "turnsMin": 3
+   },
+   "metrics": {
+    "D": 27.5,
+    "k1": 0.095,
+    "L1": 1,
+    "states": 19,
+    "trapFirst": 3,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 4,
+    "first": {
+     "corner": 1,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "1-1",
+   "was": "1-1",
+   "release": "v1",
+   "ch": 1,
+   "track": "main",
+   "role": "intro",
+   "review": false,
+   "name": "走另一边",
+   "teaches": "近路到不了箱子后面，就绕远路",
+   "say": "sok.lv.1-1",
+   "lesson": "turn",
+   "map": [
+    "#########",
+    "#@------#",
+    "#-#####-#",
+    "#--.--$-#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 3,
+    "moves": 11
+   },
+   "star2": 5,
+   "ref": "rrrrrrddLLL",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     3,
+     3
+    ],
+    "greedy": "ok"
+   },
+   "metrics": {
+    "D": 13.2,
+    "k1": 1,
+    "L1": 1,
+    "states": 5,
+    "trapFirst": 1,
+    "firstPushes": 2,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 0,
+    "first": {
+     "corner": 1,
+     "wall": null,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "1-2",
+   "was": "1-3",
+   "release": "v1",
+   "ch": 1,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "对准窄道",
+   "teaches": "先把箱子对准窄道口，再推进去",
+   "say": "sok.lv.1-2",
+   "lesson": "turn",
+   "map": [
+    "##########",
+    "#----#####",
+    "#-------.#",
+    "#--$-#####",
+    "#@---#",
+    "######"
+   ],
+   "opt": {
+    "pushes": 6,
+    "moves": 10
+   },
+   "star2": 8,
+   "ref": "rrUluRRRRR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     6,
+     6
+    ],
+    "trap": 1
+   },
+   "metrics": {
+    "D": 18.5,
+    "k1": 1,
+    "L1": 1,
+    "states": 18,
+    "trapFirst": 1,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 1,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "1-3",
+   "was": "1-4",
+   "release": "v1",
+   "ch": 1,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "别进墙角",
+   "teaches": "推之前看一看：路线上有没有墙角",
+   "say": "sok.lv.1-3",
+   "lesson": "trap",
+   "map": [
+    "########",
+    "#---#-.#",
+    "#---#--#",
+    "#--$---#",
+    "#@-----#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 5,
+    "moves": 9
+   },
+   "star2": 7,
+   "ref": "urRRRdrUU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     5,
+     5
+    ],
+    "trap": 1
+   },
+   "metrics": {
+    "D": 19.2,
+    "k1": 0.2625,
+    "L1": 0.9975,
+    "states": 19,
+    "trapFirst": 1,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 1,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "1-4",
+   "was": "1-5",
+   "release": "v1",
+   "ch": 1,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "弯弯路",
+   "teaches": "连着转两次弯",
+   "say": "sok.lv.1-4",
+   "lesson": "turn",
+   "map": [
+    "#########",
+    "#@--#---#",
+    "#-$-#-.-#",
+    "#-------#",
+    "#-------#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 6,
+    "moves": 11
+   },
+   "star2": 8,
+   "ref": "rDldRRRRdrU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     6,
+     6
+    ],
+    "trap": 2,
+    "turnsMin": 2
+   },
+   "metrics": {
+    "D": 25,
+    "k1": 0.845,
+    "L1": 1,
+    "states": 19,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 2,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "1-5",
+   "was": "1-6",
+   "release": "v1",
+   "ch": 1,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "贴墙走",
+   "teaches": "墙边有发射台，箱子贴着墙也能推过去",
+   "say": "sok.lv.1-5",
+   "lesson": "trap",
+   "map": [
+    "#########",
+    "#.--#---#",
+    "#---#-$-#",
+    "#-------#",
+    "#---#--@#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 16
+   },
+   "star2": 10,
+   "ref": "uuLulDrdLLLLdlUU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     8,
+     8
+    ],
+    "trap": 2,
+    "turnsMin": 2
+   },
+   "metrics": {
+    "D": 27.5,
+    "k1": 0.075,
+    "L1": 1,
+    "states": 26,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 3,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "1-6",
+   "was": "1-7",
+   "release": "v1",
+   "ch": 1,
+   "track": "main",
+   "role": "boss",
+   "review": false,
+   "name": "单箱迷宫",
+   "teaches": "长路线：每次转弯前都想好站哪",
+   "say": "sok.lv.1-6",
+   "lesson": "turn",
+   "map": [
+    "#########",
+    "#@-#----#",
+    "#-$-#---#",
+    "#------##",
+    "#-#---#-#",
+    "##----.-#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 9,
+    "moves": 20
+   },
+   "star2": 12,
+   "ref": "rDldRRRdrUruulDDDldR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     9,
+     9
+    ],
+    "trap": 2,
+    "turnsMin": 3
+   },
+   "metrics": {
+    "D": 29.1,
+    "k1": 0.0525,
+    "L1": 0.93,
+    "states": 20,
+    "trapFirst": 3,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 0,
+    "turns": 4,
+    "first": {
+     "corner": 1,
+     "wall": 1,
+     "pair": null,
+     "square": null
+    },
+    "invis": 4
+   }
+  },
+  {
+   "id": "2-1",
+   "was": "2-1",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "intro",
+   "review": false,
+   "name": "两个箱子",
+   "teaches": "一次只推一个；两个都进发射台才发射",
+   "say": "sok.lv.2-1",
+   "lesson": "plain",
+   "map": [
+    "#########",
+    "###---###",
+    "#-$---.-#",
+    "#---@---#",
+    "#-$---.-#",
+    "###---###",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 18
+   },
+   "star2": 10,
+   "ref": "llluRRRRdlllldRRRR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     8,
+     8
+    ],
+    "boxes": 2,
+    "greedy": "ok"
+   },
+   "metrics": {
+    "D": 35.9,
+    "k1": 0.9825,
+    "L1": 1,
+    "states": 259,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 1,
+    "turns": 0,
+    "first": {
+     "corner": 1,
+     "wall": 3,
+     "pair": null,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "2-2",
+   "was": "2-2",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "最里面先",
+   "teaches": "一条死胡同里有两个发射台：先装最里面的",
+   "say": "sok.lv.2-2",
+   "lesson": "deep",
+   "map": [
+    "#######",
+    "#-----#",
+    "#-$-$-#",
+    "#--@--#",
+    "###-###",
+    "###.###",
+    "###.###",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 9,
+    "moves": 21
+   },
+   "star2": 12,
+   "ref": "lluRurDDDDuurruLulDDD",
+   "twin": "flip",
+   "checks": {
+    "pushes": [
+     9,
+     9
+    ],
+    "boxes": 2,
+    "greedy": "fail",
+    "naiveMax": 0.2
+   },
+   "metrics": {
+    "D": 35.5,
+    "k1": 0.0025,
+    "L1": 0.9975,
+    "states": 85,
+    "trapFirst": 4,
+    "firstPushes": 8,
+    "seqFirsts": 2,
+    "greedy": "stuck",
+    "switches": 1,
+    "turns": 2,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 7,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "2-3",
+   "was": "2-3",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "长走廊",
+   "teaches": "走廊尽头有两个发射台：先推远的那个",
+   "say": "sok.lv.2-3",
+   "lesson": "deep",
+   "map": [
+    "#########",
+    "#---#####",
+    "#-$-----#",
+    "#---$-..#",
+    "#@--#####",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 19
+   },
+   "star2": 10,
+   "ref": "urrRRRulllulDldRRRR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     8,
+     8
+    ],
+    "boxes": 2,
+    "greedy": "fail",
+    "seqFirst": "only"
+   },
+   "metrics": {
+    "D": 33.1,
+    "k1": 0,
+    "L1": 0.9225,
+    "states": 124,
+    "trapFirst": 2,
+    "firstPushes": 6,
+    "seqFirsts": 1,
+    "greedy": "stuck",
+    "switches": 1,
+    "turns": 1,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 4,
+     "square": null
+    },
+    "invis": 5
+   }
+  },
+  {
+   "id": "2-4",
+   "was": "2-5",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "小心墙角",
+   "teaches": "两个箱子都要绕开墙角",
+   "say": "sok.lv.2-4",
+   "lesson": "trap",
+   "map": [
+    "########",
+    "#@-----#",
+    "#----#-#",
+    "#-$$---#",
+    "#.-#--.#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 23
+   },
+   "star2": 10,
+   "ref": "dddrURuLulDDrrRRluurrdD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     8,
+     8
+    ],
+    "boxes": 2,
+    "trap": 1,
+    "trapType": "corner",
+    "trapDepth": 2
+   },
+   "metrics": {
+    "D": 41.3,
+    "k1": 0.01,
+    "L1": 0.9875,
+    "states": 153,
+    "trapFirst": 1,
+    "firstPushes": 2,
+    "seqFirsts": 1,
+    "greedy": "solved",
+    "switches": 3,
+    "turns": 2,
+    "first": {
+     "corner": 1,
+     "wall": 2,
+     "pair": 4,
+     "square": null
+    },
+    "invis": 5
+   }
+  },
+  {
+   "id": "2-5",
+   "was": "2-6",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "让一让",
+   "teaches": "挡路的箱子先推到一边，等会儿再回来推它",
+   "say": "sok.lv.2-5",
+   "lesson": "park",
+   "map": [
+    "#########",
+    "#@--#---#",
+    "#--$$--.#",
+    "#---#---#",
+    "#---#--.#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 11,
+    "moves": 26
+   },
+   "star2": 14,
+   "ref": "rrDRRRllllddrUluRRRurDDldR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     11,
+     11
+    ],
+    "boxes": 2,
+    "seq": false,
+    "naiveMax": 0.35
+   },
+   "metrics": {
+    "D": 46.5,
+    "k1": 0.265,
+    "L1": 0.9075,
+    "states": 222,
+    "trapFirst": 1,
+    "firstPushes": 2,
+    "seqFirsts": 0,
+    "greedy": "stuck",
+    "switches": 2,
+    "turns": 3,
+    "first": {
+     "corner": 1,
+     "wall": 4,
+     "pair": 10,
+     "square": null
+    },
+    "invis": 4
+   }
+  },
+  {
+   "id": "2-6",
+   "was": "2-7",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "停车位",
+   "teaches": "先把一个箱子停在旁边，空出路来",
+   "say": "sok.lv.2-6",
+   "lesson": "park",
+   "map": [
+    "########",
+    "#-$@-.-#",
+    "#-#----#",
+    "#.-$-#-#",
+    "#-#----#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 7,
+    "moves": 19
+   },
+   "star2": 9,
+   "ref": "drddlUlluuRRDuRddLL",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     7,
+     7
+    ],
+    "boxes": 2,
+    "seq": false
+   },
+   "metrics": {
+    "D": 41.9,
+    "k1": 0,
+    "L1": 0.675,
+    "states": 64,
+    "trapFirst": 3,
+    "firstPushes": 4,
+    "seqFirsts": 0,
+    "greedy": "dead",
+    "switches": 4,
+    "turns": 0,
+    "first": {
+     "corner": 1,
+     "wall": 6,
+     "pair": 2,
+     "square": null
+    },
+    "invis": 1
+   }
+  },
+  {
+   "id": "2-7",
+   "was": "2-8",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "boss",
+   "review": false,
+   "name": "双箱大挑战",
+   "teaches": "停车位 + 先后顺序，一起用",
+   "say": "sok.lv.2-7",
+   "lesson": "mixed",
+   "map": [
+    "########",
+    "#@--#--#",
+    "#.#----#",
+    "#-$$-#.#",
+    "#------#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 11,
+    "moves": 36
+   },
+   "star2": 14,
+   "ref": "dddrrUdlluRRdrUllluurrDRRurDlldLLdlU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     11,
+     11
+    ],
+    "boxes": 2,
+    "seq": false,
+    "switchesMin": 3
+   },
+   "metrics": {
+    "D": 52.1,
+    "k1": 0.0025,
+    "L1": 0.4675,
+    "states": 77,
+    "trapFirst": 1,
+    "firstPushes": 2,
+    "seqFirsts": 0,
+    "greedy": "stuck",
+    "switches": 4,
+    "turns": 3,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 12,
+     "square": null
+    },
+    "invis": 2
+   }
+  },
+  {
+   "id": "2-8",
+   "was": "2-9",
+   "release": "v1",
+   "ch": 2,
+   "track": "main",
+   "role": "breather",
+   "review": false,
+   "name": "轻松装货",
+   "teaches": "喘口气：两个箱子各走各的",
+   "say": "sok.lv.2-8",
+   "lesson": "plain",
+   "map": [
+    "########",
+    "#@-----#",
+    "#-$--$-#",
+    "#------#",
+    "#-.--.-#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 4,
+    "moves": 10
+   },
+   "star2": 6,
+   "ref": "rDDuurrrDD",
+   "twin": "flip",
+   "checks": {
+    "pushes": [
+     4,
+     4
+    ],
+    "boxes": 2,
+    "greedy": "ok"
+   },
+   "metrics": {
+    "D": 32,
+    "k1": 0.9975,
+    "L1": 1,
+    "states": 164,
+    "trapFirst": 4,
+    "firstPushes": 8,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 1,
+    "turns": 0,
+    "first": {
+     "corner": 3,
+     "wall": 1,
+     "pair": 6,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "3-1",
+   "was": "3-1",
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "intro",
+   "review": false,
+   "name": "墙角",
+   "teaches": "箱子推进墙角（两面是墙）就再也推不动",
+   "say": "sok.lv.3-1",
+   "lesson": "trap",
+   "map": [
+    "#######",
+    "#@.#--#",
+    "#---$-#",
+    "#.----#",
+    "#---$-#",
+    "#-----#",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 7,
+    "moves": 20
+   },
+   "star2": 9,
+   "ref": "ddddrrrUruLLrruLLdLU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     7,
+     7
+    ],
+    "boxes": 2,
+    "trapType": "corner",
+    "trapDepth": 1,
+    "trap": 2
+   },
+   "metrics": {
+    "D": 41.7,
+    "k1": 0.8875,
+    "L1": 0.985,
+    "states": 177,
+    "trapFirst": 4,
+    "firstPushes": 8,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 3,
+    "turns": 1,
+    "first": {
+     "corner": 1,
+     "wall": 1,
+     "pair": 7,
+     "square": null
+    },
+    "invis": 6
+   }
+  },
+  {
+   "id": "3-2",
+   "was": "3-2",
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "墙边",
+   "teaches": "贴着一面没有发射台的墙，箱子就只能沿墙滑",
+   "say": "sok.lv.3-2",
+   "lesson": "trap",
+   "map": [
+    "#######",
+    "#----@#",
+    "#-$-#.#",
+    "#-----#",
+    "#-$---#",
+    "#---.-#",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 18
+   },
+   "star2": 10,
+   "ref": "lllDldRRlldRRuRDrU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     8,
+     8
+    ],
+    "boxes": 2,
+    "trapType": "wall",
+    "trapDepth": 1,
+    "trap": 2
+   },
+   "metrics": {
+    "D": 44.9,
+    "k1": 0.455,
+    "L1": 0.985,
+    "states": 188,
+    "trapFirst": 3,
+    "firstPushes": 8,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 4,
+    "turns": 1,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 5,
+     "square": null
+    },
+    "invis": 6
+   }
+  },
+  {
+   "id": "3-3",
+   "was": "3-3",
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "quiz",
+   "kind": "quiz",
+   "quiz": "quiz-a",
+   "review": false,
+   "name": "侦探题一",
+   "teaches": "找出墙角和空墙边上没救的箱子",
+   "say": "sok.lv.3-3",
+   "lesson": "trap",
+   "map": [],
+   "opt": {
+    "pushes": 0,
+    "moves": 0
+   },
+   "star2": 0,
+   "ref": "",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 0,
+    "k1": null,
+    "L1": null,
+    "states": 0,
+    "trapFirst": 0,
+    "firstPushes": 0,
+    "seqFirsts": null,
+    "greedy": "",
+    "switches": 0,
+    "turns": 0,
+    "first": {},
+    "invis": null
+   }
+  },
+  {
+   "id": "3-4",
+   "was": "3-4",
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "并排",
+   "teaches": "两个箱子并排贴着墙，谁也推不动谁",
+   "say": "sok.lv.3-4",
+   "lesson": "trap",
+   "map": [
+    "########",
+    "#.---$-#",
+    "#-#-$--#",
+    "#.---#-#",
+    "#-----@#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 17
+   },
+   "star2": 10,
+   "ref": "uuuLLrdLuLLrDrdLL",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     8,
+     8
+    ],
+    "boxes": 2,
+    "trapType": "pair",
+    "trapDepth": 2
+   },
+   "metrics": {
+    "D": 37.5,
+    "k1": 0.4875,
+    "L1": 0.8225,
+    "states": 78,
+    "trapFirst": 2,
+    "firstPushes": 6,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 3,
+    "turns": 1,
+    "first": {
+     "corner": 1,
+     "wall": 2,
+     "pair": 1,
+     "square": null
+    },
+    "invis": 2
+   }
+  },
+  {
+   "id": "3-5",
+   "was": "3-5",
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "quiz",
+   "kind": "quiz",
+   "quiz": "quiz-b",
+   "review": false,
+   "name": "侦探题二",
+   "teaches": "并排贴墙、四格挤成方块：也没救了",
+   "say": "sok.lv.3-5",
+   "lesson": "trap",
+   "map": [],
+   "opt": {
+    "pushes": 0,
+    "moves": 0
+   },
+   "star2": 0,
+   "ref": "",
+   "twin": "mirror",
+   "checks": {},
+   "metrics": {
+    "D": 0,
+    "k1": null,
+    "L1": null,
+    "states": 0,
+    "trapFirst": 0,
+    "firstPushes": 0,
+    "seqFirsts": null,
+    "greedy": "",
+    "switches": 0,
+    "turns": 0,
+    "first": {},
+    "invis": null
+   }
+  },
+  {
+   "id": "3-6",
+   "was": null,
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "review",
+   "review": true,
+   "name": "复习：停车",
+   "teaches": "复习停车位：先让开，再回来",
+   "say": "sok.lv.3-6",
+   "lesson": "park",
+   "map": [
+    "########",
+    "#.--#--#",
+    "#--.$$-#",
+    "#-#----#",
+    "#-----@#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 8,
+    "moves": 23
+   },
+   "star2": 10,
+   "ref": "uuulDLLLrrrrdLLdlUdlluU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     8,
+     8
+    ],
+    "boxes": 2,
+    "seq": false
+   },
+   "metrics": {
+    "D": 41.9,
+    "k1": 0.1125,
+    "L1": 0.99,
+    "states": 107,
+    "trapFirst": 1,
+    "firstPushes": 2,
+    "seqFirsts": 0,
+    "greedy": "stuck",
+    "switches": 3,
+    "turns": 1,
+    "first": {
+     "corner": 1,
+     "wall": 2,
+     "pair": 10,
+     "square": null
+    },
+    "invis": null
+   }
+  },
+  {
+   "id": "3-7",
+   "was": null,
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "boss",
+   "review": false,
+   "name": "死局迷宫",
+   "teaches": "一路上全是陷阱：每推一下都看看会不会卡住",
+   "say": "sok.lv.3-7",
+   "lesson": "mixed",
+   "map": [
+    "#######",
+    "#--#--#",
+    "#.----#",
+    "##-#$##",
+    "#@$---#",
+    "#.----#",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 10,
+    "moves": 23
+   },
+   "star2": 13,
+   "ref": "RuurrDDLrrdLLLUUdrruulL",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     10,
+     10
+    ],
+    "boxes": 2,
+    "seq": false,
+    "switchesMin": 4,
+    "trap": 3,
+    "invisMax": 3
+   },
+   "metrics": {
+    "D": 50.1,
+    "k1": 0,
+    "L1": 0.47,
+    "states": 93,
+    "trapFirst": 3,
+    "firstPushes": 4,
+    "seqFirsts": 0,
+    "greedy": "stuck",
+    "switches": 4,
+    "turns": 1,
+    "first": {
+     "corner": 1,
+     "wall": null,
+     "pair": 6,
+     "square": null
+    },
+    "invis": 1
+   }
+  },
+  {
+   "id": "3-8",
+   "was": "3-8",
+   "release": "v1",
+   "ch": 3,
+   "track": "main",
+   "role": "breather",
+   "review": true,
+   "name": "收工",
+   "teaches": "喘口气：两个箱子，各找各的发射台",
+   "say": "sok.lv.3-8",
+   "lesson": "plain",
+   "map": [
+    "########",
+    "#--.---#",
+    "#-$-@$-#",
+    "#----.-#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 3,
+    "moves": 11
+   },
+   "star2": 5,
+   "ref": "urDldllUluR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     3,
+     5
+    ],
+    "boxes": 2
+   },
+   "metrics": {
+    "D": 31.5,
+    "k1": 0.985,
+    "L1": 0.99,
+    "states": 125,
+    "trapFirst": 2,
+    "firstPushes": 8,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 1,
+    "turns": 1,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 4,
+     "square": null
+    },
+    "invis": 2
+   }
+  },
+  {
+   "id": "4-1",
+   "was": "4-1",
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "intro",
+   "review": false,
+   "name": "三个箱子",
+   "teaches": "三个箱子三个发射台：一个一个来",
+   "say": "sok.lv.4-1",
+   "lesson": "plain",
+   "map": [
+    "########",
+    "#.-----#",
+    "#-#--$-#",
+    "#.-$---#",
+    "#----$-#",
+    "#.----@#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 12,
+    "moves": 24
+   },
+   "star2": 15,
+   "ref": "uLLLruLrrUruLLLLrddLDrdL",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     12,
+     12
+    ],
+    "boxes": 3,
+    "greedy": "ok"
+   },
+   "metrics": {
+    "D": 56.7,
+    "k1": 0.605,
+    "L1": 0.93,
+    "states": 3177,
+    "trapFirst": 2,
+    "firstPushes": 12,
+    "seqFirsts": 3,
+    "greedy": "solved",
+    "switches": 4,
+    "turns": 2,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 4,
+     "square": 6
+    },
+    "invis": 3
+   }
+  },
+  {
+   "id": "4-2",
+   "was": "4-3",
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "四方块",
+   "teaches": "箱子和墙挤成 2×2 的方块，谁都推不动",
+   "say": "sok.lv.4-2",
+   "lesson": "square",
+   "map": [
+    "#########",
+    "#@------#",
+    "#-#-#$--#",
+    "#.----$-#",
+    "#-#-#$#-#",
+    "#--.--.-#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 12,
+    "moves": 39
+   },
+   "star2": 15,
+   "ref": "rrrrrdrdLLDuLLddrRuuruulDrdLLruulldDLrD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     12,
+     12
+    ],
+    "boxes": 3,
+    "trapType": "square",
+    "trapDepth": 1
+   },
+   "metrics": {
+    "D": 63.8,
+    "k1": 0,
+    "L1": 0.78,
+    "states": 1256,
+    "trapFirst": 4,
+    "firstPushes": 6,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 6,
+    "turns": 2,
+    "first": {
+     "corner": 3,
+     "wall": 1,
+     "pair": 5,
+     "square": 1
+    },
+    "invis": 1
+   }
+  },
+  {
+   "id": "4-3",
+   "was": "4-4",
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "先装难的",
+   "teaches": "最难推进去的发射台，先装它",
+   "say": "sok.lv.4-3",
+   "lesson": "order",
+   "map": [
+    "#########",
+    "#---#---#",
+    "#-$$----#",
+    "#.--#-.-#",
+    "#$------#",
+    "#@--#.--#",
+    "#########"
+   ],
+   "opt": {
+    "pushes": 11,
+    "moves": 31
+   },
+   "star2": 14,
+   "ref": "ruuluurDDuRdddllURRRluuRRurDldD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     11,
+     11
+    ],
+    "boxes": 3,
+    "seqFirst": "only",
+    "greedy": "fail"
+   },
+   "metrics": {
+    "D": 56.1,
+    "k1": 0.0025,
+    "L1": 0.7325,
+    "states": 1156,
+    "trapFirst": 4,
+    "firstPushes": 6,
+    "seqFirsts": 1,
+    "greedy": "dead",
+    "switches": 5,
+    "turns": 1,
+    "first": {
+     "corner": 1,
+     "wall": 1,
+     "pair": 3,
+     "square": null
+    },
+    "invis": 1
+   }
+  },
+  {
+   "id": "4-4",
+   "was": "4-5",
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "twist",
+   "review": false,
+   "name": "倒着想",
+   "teaches": "先想最后一步：哪个箱子最后进、哪个最先进",
+   "say": "sok.lv.4-4",
+   "lesson": "backward",
+   "map": [
+    "########",
+    "#@$-.--#",
+    "#---$$-#",
+    "#----#-#",
+    "#----.-#",
+    "#---#--#",
+    "#.#----#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 13,
+    "moves": 34
+   },
+   "star2": 17,
+   "ref": "drrurDurrdLLulDrDLdRulLulDDDuuuuRR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     13,
+     13
+    ],
+    "boxes": 3,
+    "seqFirst": "only",
+    "greedy": "fail",
+    "naiveMax": 0.1
+   },
+   "metrics": {
+    "D": 66.4,
+    "k1": 0,
+    "L1": 0.51,
+    "states": 1349,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 1,
+    "greedy": "dead",
+    "switches": 6,
+    "turns": 2,
+    "first": {
+     "corner": 1,
+     "wall": 2,
+     "pair": 2,
+     "square": null
+    },
+    "invis": 1
+   }
+  },
+  {
+   "id": "4-5",
+   "was": "4-6",
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "review",
+   "review": true,
+   "name": "复习：墙边",
+   "teaches": "复习：别把箱子推到空墙边",
+   "say": "sok.lv.4-5",
+   "lesson": "trap",
+   "map": [
+    "#######",
+    "#.--.-#",
+    "#---#-#",
+    "#---$-#",
+    "#-#-$-#",
+    "#----@#",
+    "#######"
+   ],
+   "opt": {
+    "pushes": 10,
+    "moves": 26
+   },
+   "star2": 13,
+   "ref": "uLdlUUdrruLLUdLrddlluUUruR",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     10,
+     10
+    ],
+    "boxes": 2,
+    "trapType": "wall",
+    "trapDepth": 2
+   },
+   "metrics": {
+    "D": 46.9,
+    "k1": 0.16,
+    "L1": 0.9975,
+    "states": 139,
+    "trapFirst": 2,
+    "firstPushes": 4,
+    "seqFirsts": 2,
+    "greedy": "solved",
+    "switches": 4,
+    "turns": 2,
+    "first": {
+     "corner": 5,
+     "wall": 1,
+     "pair": 8,
+     "square": null
+    },
+    "invis": 9
+   }
+  },
+  {
+   "id": "4-6",
+   "was": "4-7",
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "practice",
+   "review": false,
+   "name": "三箱停车",
+   "teaches": "三个箱子也会挡路：先停一个到旁边",
+   "say": "sok.lv.4-6",
+   "lesson": "park",
+   "map": [
+    "########",
+    "#-#@--.#",
+    "#--$---#",
+    "#-$----#",
+    "#-#-.--#",
+    "#-$---.#",
+    "#--#---#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 13,
+    "moves": 32
+   },
+   "star2": 17,
+   "ref": "DlldddRRuUddRRlllluuRRluRRRlDrrU",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     13,
+     13
+    ],
+    "boxes": 3,
+    "seq": false
+   },
+   "metrics": {
+    "D": 67.7,
+    "k1": 0.1525,
+    "L1": 0.9825,
+    "states": 2906,
+    "trapFirst": 4,
+    "firstPushes": 5,
+    "seqFirsts": 0,
+    "greedy": "stuck",
+    "switches": 7,
+    "turns": 0,
+    "first": {
+     "corner": 1,
+     "wall": 1,
+     "pair": 11,
+     "square": 5
+    },
+    "invis": 1
+   }
+  },
+  {
+   "id": "4-7",
+   "was": null,
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "boss",
+   "review": false,
+   "name": "三箱大挑战",
+   "teaches": "停车 + 顺序 + 倒着想：离台最近的箱子，反而最后回家",
+   "say": "sok.lv.4-7",
+   "lesson": "mixed",
+   "map": [
+    "########",
+    "#----#-#",
+    "#--#$-.#",
+    "#-$----#",
+    "#-#----#",
+    "#$-----#",
+    "#.-.--@#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 17,
+    "moves": 40
+   },
+   "star2": 22,
+   "ref": "lllllUUURRRlluurrDDRdLrrUlllDDuuluulDDDD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     17,
+     17
+    ],
+    "boxes": 3,
+    "seq": false,
+    "switchesMin": 6
+   },
+   "metrics": {
+    "D": 73.3,
+    "k1": 0,
+    "L1": 0.5025,
+    "states": 1873,
+    "trapFirst": 2,
+    "firstPushes": 3,
+    "seqFirsts": 0,
+    "greedy": "stuck",
+    "switches": 7,
+    "turns": 0,
+    "first": {
+     "corner": 1,
+     "wall": null,
+     "pair": 2,
+     "square": 5
+    },
+    "invis": 1
+   }
+  },
+  {
+   "id": "4-8",
+   "was": "4-9",
+   "release": "v1",
+   "ch": 4,
+   "track": "main",
+   "role": "breather",
+   "review": true,
+   "name": "顺手装",
+   "teaches": "喘口气：三个箱子各找各的",
+   "say": "sok.lv.4-8",
+   "lesson": "plain",
+   "map": [
+    "########",
+    "#---#--#",
+    "#-$--$-#",
+    "#----$-#",
+    "#-..-.@#",
+    "########"
+   ],
+   "opt": {
+    "pushes": 7,
+    "moves": 17
+   },
+   "star2": 9,
+   "ref": "uLruulDDLulDuulDD",
+   "twin": "mirror",
+   "checks": {
+    "pushes": [
+     7,
+     7
+    ],
+    "boxes": 3,
+    "greedy": "ok"
+   },
+   "metrics": {
+    "D": 47.7,
+    "k1": 0.92,
+    "L1": 1,
+    "states": 638,
+    "trapFirst": 4,
+    "firstPushes": 8,
+    "seqFirsts": 3,
+    "greedy": "solved",
+    "switches": 3,
+    "turns": 1,
+    "first": {
+     "corner": 2,
+     "wall": 1,
+     "pair": 4,
+     "square": null
+    },
+    "invis": 4
+   }
+  }
+ ]
+}

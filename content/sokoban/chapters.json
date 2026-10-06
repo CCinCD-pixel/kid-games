@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "note": "Track parameters (spec §3.6, §5.1, §8.3). Tune here (§9.6), then run the validators. Chapter levels come from levels.json (ch field); a chapter without levels yet shows the 新货单在路上 card.",
+ "chapters": [
+  { "id": "ch0", "ch": 0, "release": "v1", "name": "训练坞", "goal": "学会走和推", "hall": "tiangong", "dest": "tiangong", "emblem": "ch0", "introLine": "sok.ch0.intro",
+    "order": "strict", "h0Seconds": 30, "deadMarker": "instant", "stuckDelay": { "pushes": 2, "ms": 8000 }, "rewindButton": true,
+    "inputMode": "footprints", "swipeDefault": false, "graph": { "maxStates": 200000, "maxMs": 6000 }, "hintMode": "graph", "hints": true, "talk": [1, 3, 11] },
+  { "id": "ch1", "ch": 1, "release": "v1", "name": "单箱仓", "goal": "站对位置再推", "hall": "tiangong", "dest": "tiangong", "emblem": "ch1", "introLine": "sok.ch1.intro",
+    "order": "frontier2", "h0Seconds": 30, "deadMarker": "instant", "stuckDelay": { "pushes": 2, "ms": 8000 }, "rewindButton": true,
+    "inputMode": "footprints", "swipeDefault": false, "graph": { "maxStates": 200000, "maxMs": 6000 }, "hintMode": "graph", "hints": true, "talk": [1, 3, 11] },
+  { "id": "ch2", "ch": 2, "release": "v1", "name": "双箱仓", "goal": "谁先谁后", "hall": "moon", "dest": "moon", "emblem": "ch2", "introLine": "sok.ch2.intro",
+    "order": "frontier2", "h0Seconds": 30, "deadMarker": "instant", "stuckDelay": { "pushes": 2, "ms": 8000 }, "rewindButton": true,
+    "inputMode": "arrows", "swipeDefault": true, "graph": { "maxStates": 200000, "maxMs": 6000 }, "hintMode": "graph", "hints": true, "talk": [4, 5, 6] },
+  { "id": "ch3", "ch": 3, "release": "v1", "name": "死局侦探", "goal": "看出推不动的箱子", "hall": "moon", "dest": "moon", "emblem": "ch3", "introLine": "sok.ch3.intro",
+    "order": "frontier2", "h0Seconds": 30, "deadMarker": "instant", "stuckDelay": { "pushes": 2, "ms": 8000 }, "rewindButton": true,
+    "inputMode": "arrows", "swipeDefault": true, "graph": { "maxStates": 200000, "maxMs": 6000 }, "hintMode": "graph", "hints": true, "talk": [3, 9, 11] },
+  { "id": "ch4", "ch": 4, "release": "v1", "name": "三箱仓", "goal": "倒着想", "hall": "mars", "dest": "mars", "emblem": "ch4", "introLine": "sok.ch4.intro",
+    "order": "frontier2", "h0Seconds": 30, "deadMarker": "delayed", "stuckDelay": { "pushes": 3, "ms": 15000 }, "rewindButton": true,
+    "inputMode": "arrows", "swipeDefault": true, "graph": { "maxStates": 200000, "maxMs": 6000 }, "hintMode": "graph", "hints": true, "talk": [8, 6, 1] }
+ ],
+ "tracks": {
+  "cert": { "id": "cert", "name": "跳级考试", "hall": "tiangong", "dest": "tiangong", "hints": false, "rewindButton": false, "inputMode": "footprints", "swipeDefault": false,
+    "deadMarker": "instant", "stuckDelay": { "pushes": 2, "ms": 8000 }, "graph": { "maxStates": 200000, "maxMs": 6000 }, "hintMode": "graph", "talk": [1, 3, 11] },
+  "classic": { "id": "classic", "name": "经典仓库", "goal": "以前的推箱子", "hall": "classic", "dest": "tiangong", "emblem": "classic", "introLine": "sok.classic.intro", "order": "frontier2",
+    "h0Seconds": 30, "deadMarker": "afterCh4Open", "stuckDelay": { "pushes": 3, "ms": 15000 }, "rewindButton": true, "inputMode": "auto", "swipeDefault": "auto",
+    "graph": { "maxStates": 200000, "maxMs": 12000 }, "hintMode": "graph", "hints": true, "talk": [12, 2, 10] },
+  "random": { "id": "random", "name": "随机新仓库", "hall": "byTier", "dest": "byTier", "h0Seconds": 30, "deadMarker": "afterCh4Open", "stuckDelay": { "pushes": 3, "ms": 15000 },
+    "rewindButton": true, "inputMode": "auto", "swipeDefault": "auto", "graph": { "maxStates": 200000, "maxMs": 6000 }, "hintMode": "graph", "hints": true, "talk": [12, 2, 10] }
+ }
+}

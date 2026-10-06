@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "format": "m4a (AAC-LC, mono, 44.1 kHz, 64 kbps)",
+ "loudness": "short-term (100 ms, K-weighted) max = -18.0 LUFS; peak <= -1 dBFS",
+ "sounds": {
+  "sok-land": {
+   "file": "sok-land.m4a",
+   "duration": 0.118,
+   "loudness": -18.3,
+   "peak_db": -1.0,
+   "bytes": 2453,
+   "source": "Kenney Impact Sounds — impactWood_medium_002.ogg (first 120 ms, low-pass 1.4 kHz)",
+   "license": "CC0-1.0 (kenney.nl)"
+  },
+  "sok-lockchime": {
+   "file": "sok-lockchime.m4a",
+   "duration": 0.554,
+   "loudness": -18.0,
+   "peak_db": -11.9,
+   "bytes": 5868,
+   "source": "original synth: sine 2 kHz + 3 kHz partials, 400 ms decay, light reverb (tools/sokoban/audio/build_sfx.py)",
+   "license": "CC0-1.0 (project-owned)"
+  },
+  "sok-unlatch": {
+   "file": "sok-unlatch.m4a",
+   "duration": 0.211,
+   "loudness": -18.0,
+   "peak_db": -4.9,
+   "bytes": 3212,
+   "source": "Kenney Interface Sounds — switch_003.ogg (the lock-in source) reversed, high-pass 900 Hz",
+   "license": "CC0-1.0 (kenney.nl)"
+  },
+  "sok-rewind": {
+   "file": "sok-rewind.m4a",
+   "duration": 0.276,
+   "loudness": -18.0,
+   "peak_db": -8.0,
+   "bytes": 3591,
+   "source": "original synth: design-system whoosh-down (sfx_synth.py) reversed, ×1.35 pitch, 22 Hz flutter",
+   "license": "CC0-1.0 (project-owned)"
+  },
+  "sok-ignite": {
+   "file": "sok-ignite.m4a",
+   "duration": 1.261,
+   "loudness": -18.0,
+   "peak_db": -8.3,
+   "bytes": 11751,
+   "source": "original synth: noise through a falling low-pass sweep + rumble + crackle",
+   "license": "CC0-1.0 (project-owned)"
+  },
+  "sok-conveyor": {
+   "file": "sok-conveyor.m4a",
+   "duration": 1.17,
+   "loudness": -20.0,
+   "peak_db": -1.0,
+   "bytes": 10992,
+   "source": "original synth: roller pulses + gear clicks + belt hum, 1.2 s seamless loop",
+   "license": "CC0-1.0 (project-owned)"
+  }
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "noEmit": true },
+  "include": [
+    "./**/*.ts",
+    "../../kit/**/*.ts",
+    "../../engines/puzzle/**/*.ts",
+    "../../types/**/*.d.ts",
+    "../../tests/helpers/*.ts",
+    "../../tests/smoke/helpers.ts",
+    "../../tests/smoke/playwright.config.ts"
+  ]
+}

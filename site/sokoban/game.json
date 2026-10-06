@@ -1,14 +1,15 @@
 {
   "id": "sokoban",
-  "title": "推箱子",
-  "subtitle": "把箱子推到发光的圆点上",
+  "title": "星港搬运工",
+  "subtitle": "把补给箱装上火箭",
   "place": "classic",
   "order": 30,
   "status": "live",
-  "accent": "#f3a632",
+  "accent": "--xg-porter",
   "theme": "porter",
   "icon": "/icons/games/sokoban.svg",
   "domains": ["planning", "spatial"],
-  "parentNote": "经典 10 关（全部经求解器验证可解）。新版「星港搬运工」会原地替换它，旧关卡保留为「经典仓库」。",
-  "smoke": {"waitFor": ".level-select"}
+  "parentNote": "规划谜题：先想后推、看出推不动的死局；主线 34 关 + 跳级考试 + 经典 10 关 + 随机新仓库。",
+  "orientation": "any",
+  "smoke": { "waitFor": "#app[data-ready]" }
 }
