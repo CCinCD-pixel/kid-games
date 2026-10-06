@@ -1,0 +1,585 @@
+{
+ "version": 1,
+ "constellations": [
+  {
+   "id": "dipper",
+   "name": "北斗七星",
+   "gate": 15,
+   "line": "em.sky.1",
+   "stars": [
+    {
+     "key": "dubhe",
+     "name": "天枢",
+     "bayer": "α UMa",
+     "hr": 4301,
+     "ra": 11.062,
+     "dec": 61.751,
+     "mag": 1.79
+    },
+    {
+     "key": "merak",
+     "name": "天璇",
+     "bayer": "β UMa",
+     "hr": 4295,
+     "ra": 11.031,
+     "dec": 56.382,
+     "mag": 2.37
+    },
+    {
+     "key": "phecda",
+     "name": "天玑",
+     "bayer": "γ UMa",
+     "hr": 4554,
+     "ra": 11.897,
+     "dec": 53.695,
+     "mag": 2.44
+    },
+    {
+     "key": "megrez",
+     "name": "天权",
+     "bayer": "δ UMa",
+     "hr": 4660,
+     "ra": 12.257,
+     "dec": 57.033,
+     "mag": 3.31
+    },
+    {
+     "key": "alioth",
+     "name": "玉衡",
+     "bayer": "ε UMa",
+     "hr": 4905,
+     "ra": 12.9,
+     "dec": 55.96,
+     "mag": 1.77
+    },
+    {
+     "key": "mizar",
+     "name": "开阳",
+     "bayer": "ζ UMa",
+     "hr": 5054,
+     "ra": 13.399,
+     "dec": 54.925,
+     "mag": 2.27
+    },
+    {
+     "key": "alkaid",
+     "name": "摇光",
+     "bayer": "η UMa",
+     "hr": 5191,
+     "ra": 13.792,
+     "dec": 49.313,
+     "mag": 1.86
+    }
+   ],
+   "lines": [
+    [
+     "dubhe",
+     "merak"
+    ],
+    [
+     "merak",
+     "phecda"
+    ],
+    [
+     "phecda",
+     "megrez"
+    ],
+    [
+     "megrez",
+     "dubhe"
+    ],
+    [
+     "megrez",
+     "alioth"
+    ],
+    [
+     "alioth",
+     "mizar"
+    ],
+    [
+     "mizar",
+     "alkaid"
+    ]
+   ],
+   "xy": {
+    "dubhe": [
+     0.844,
+     0.314
+    ],
+    "merak": [
+     0.9,
+     0.479
+    ],
+    "phecda": [
+     0.68,
+     0.608
+    ],
+    "megrez": [
+     0.577,
+     0.507
+    ],
+    "alioth": [
+     0.406,
+     0.532
+    ],
+    "mizar": [
+     0.265,
+     0.541
+    ],
+    "alkaid": [
+     0.1,
+     0.686
+    ]
+   }
+  },
+  {
+   "id": "polaris",
+   "name": "北极星",
+   "gate": 30,
+   "line": "em.sky.2",
+   "stars": [
+    {
+     "key": "dubhe",
+     "name": "天枢",
+     "bayer": "α UMa",
+     "hr": 4301,
+     "ra": 11.062,
+     "dec": 61.751,
+     "mag": 1.79
+    },
+    {
+     "key": "merak",
+     "name": "天璇",
+     "bayer": "β UMa",
+     "hr": 4295,
+     "ra": 11.031,
+     "dec": 56.382,
+     "mag": 2.37
+    },
+    {
+     "key": "phecda",
+     "name": "天玑",
+     "bayer": "γ UMa",
+     "hr": 4554,
+     "ra": 11.897,
+     "dec": 53.695,
+     "mag": 2.44
+    },
+    {
+     "key": "megrez",
+     "name": "天权",
+     "bayer": "δ UMa",
+     "hr": 4660,
+     "ra": 12.257,
+     "dec": 57.033,
+     "mag": 3.31
+    },
+    {
+     "key": "alioth",
+     "name": "玉衡",
+     "bayer": "ε UMa",
+     "hr": 4905,
+     "ra": 12.9,
+     "dec": 55.96,
+     "mag": 1.77
+    },
+    {
+     "key": "mizar",
+     "name": "开阳",
+     "bayer": "ζ UMa",
+     "hr": 5054,
+     "ra": 13.399,
+     "dec": 54.925,
+     "mag": 2.27
+    },
+    {
+     "key": "alkaid",
+     "name": "摇光",
+     "bayer": "η UMa",
+     "hr": 5191,
+     "ra": 13.792,
+     "dec": 49.313,
+     "mag": 1.86
+    },
+    {
+     "key": "polaris",
+     "name": "勾陈一",
+     "bayer": "α UMi",
+     "hr": 424,
+     "ra": 2.53,
+     "dec": 89.264,
+     "mag": 1.98
+    }
+   ],
+   "lines": [
+    [
+     "dubhe",
+     "merak"
+    ],
+    [
+     "merak",
+     "phecda"
+    ],
+    [
+     "phecda",
+     "megrez"
+    ],
+    [
+     "megrez",
+     "dubhe"
+    ],
+    [
+     "megrez",
+     "alioth"
+    ],
+    [
+     "alioth",
+     "mizar"
+    ],
+    [
+     "mizar",
+     "alkaid"
+    ]
+   ],
+   "pointer": [
+    [
+     "merak",
+     "dubhe",
+     "polaris"
+    ]
+   ],
+   "highlight": [
+    "polaris"
+   ],
+   "xy": {
+    "dubhe": [
+     0.77,
+     0.748
+    ],
+    "merak": [
+     0.776,
+     0.857
+    ],
+    "phecda": [
+     0.621,
+     0.9
+    ],
+    "megrez": [
+     0.574,
+     0.82
+    ],
+    "alioth": [
+     0.46,
+     0.806
+    ],
+    "mizar": [
+     0.365,
+     0.786
+    ],
+    "alkaid": [
+     0.223,
+     0.85
+    ],
+    "polaris": [
+     0.777,
+     0.1
+    ]
+   }
+  },
+  {
+   "id": "cowherd",
+   "name": "牛郎织女",
+   "gate": 45,
+   "line": "em.sky.3",
+   "stars": [
+    {
+     "key": "vega",
+     "name": "织女一",
+     "bayer": "α Lyr",
+     "hr": 7001,
+     "ra": 18.616,
+     "dec": 38.784,
+     "mag": 0.03
+    },
+    {
+     "key": "altair",
+     "name": "河鼓二",
+     "bayer": "α Aql",
+     "hr": 7557,
+     "ra": 19.846,
+     "dec": 8.868,
+     "mag": 0.77
+    },
+    {
+     "key": "tarazed",
+     "name": "河鼓三",
+     "bayer": "γ Aql",
+     "hr": 7525,
+     "ra": 19.771,
+     "dec": 10.613,
+     "mag": 2.72
+    },
+    {
+     "key": "alshain",
+     "name": "河鼓一",
+     "bayer": "β Aql",
+     "hr": 7602,
+     "ra": 19.922,
+     "dec": 6.407,
+     "mag": 3.71
+    }
+   ],
+   "lines": [
+    [
+     "tarazed",
+     "altair"
+    ],
+    [
+     "altair",
+     "alshain"
+    ]
+   ],
+   "milkyWay": true,
+   "highlight": [
+    "vega",
+    "altair"
+   ],
+   "xy": {
+    "vega": [
+     0.704,
+     0.1
+    ],
+    "altair": [
+     0.324,
+     0.842
+    ],
+    "tarazed": [
+     0.351,
+     0.801
+    ],
+    "alshain": [
+     0.296,
+     0.9
+    ]
+   }
+  },
+  {
+   "id": "orion",
+   "name": "猎户座",
+   "gate": 60,
+   "line": "em.sky.4",
+   "stars": [
+    {
+     "key": "betelgeuse",
+     "name": "参宿四",
+     "bayer": "α Ori",
+     "hr": 2061,
+     "ra": 5.919,
+     "dec": 7.407,
+     "mag": 0.5
+    },
+    {
+     "key": "bellatrix",
+     "name": "参宿五",
+     "bayer": "γ Ori",
+     "hr": 1790,
+     "ra": 5.419,
+     "dec": 6.35,
+     "mag": 1.64
+    },
+    {
+     "key": "alnitak",
+     "name": "参宿一",
+     "bayer": "ζ Ori",
+     "hr": 1948,
+     "ra": 5.679,
+     "dec": -1.943,
+     "mag": 1.77
+    },
+    {
+     "key": "alnilam",
+     "name": "参宿二",
+     "bayer": "ε Ori",
+     "hr": 1903,
+     "ra": 5.604,
+     "dec": -1.202,
+     "mag": 1.69
+    },
+    {
+     "key": "mintaka",
+     "name": "参宿三",
+     "bayer": "δ Ori",
+     "hr": 1852,
+     "ra": 5.533,
+     "dec": -0.299,
+     "mag": 2.23
+    },
+    {
+     "key": "saiph",
+     "name": "参宿六",
+     "bayer": "κ Ori",
+     "hr": 2004,
+     "ra": 5.796,
+     "dec": -9.67,
+     "mag": 2.09
+    },
+    {
+     "key": "rigel",
+     "name": "参宿七",
+     "bayer": "β Ori",
+     "hr": 1713,
+     "ra": 5.242,
+     "dec": -8.202,
+     "mag": 0.13
+    }
+   ],
+   "lines": [
+    [
+     "betelgeuse",
+     "bellatrix"
+    ],
+    [
+     "betelgeuse",
+     "alnitak"
+    ],
+    [
+     "bellatrix",
+     "mintaka"
+    ],
+    [
+     "mintaka",
+     "alnilam"
+    ],
+    [
+     "alnilam",
+     "alnitak"
+    ],
+    [
+     "alnitak",
+     "saiph"
+    ],
+    [
+     "mintaka",
+     "rigel"
+    ]
+   ],
+   "highlight": [
+    "alnitak",
+    "alnilam",
+    "mintaka"
+   ],
+   "xy": {
+    "betelgeuse": [
+     0.264,
+     0.1
+    ],
+    "bellatrix": [
+     0.613,
+     0.151
+    ],
+    "alnitak": [
+     0.432,
+     0.538
+    ],
+    "alnilam": [
+     0.484,
+     0.504
+    ],
+    "mintaka": [
+     0.534,
+     0.462
+    ],
+    "saiph": [
+     0.351,
+     0.9
+    ],
+    "rigel": [
+     0.736,
+     0.832
+    ]
+   }
+  },
+  {
+   "id": "sirius",
+   "name": "天狼星",
+   "gate": 75,
+   "line": "em.sky.5",
+   "stars": [
+    {
+     "key": "alnitak",
+     "name": "参宿一",
+     "bayer": "ζ Ori",
+     "hr": 1948,
+     "ra": 5.679,
+     "dec": -1.943,
+     "mag": 1.77
+    },
+    {
+     "key": "alnilam",
+     "name": "参宿二",
+     "bayer": "ε Ori",
+     "hr": 1903,
+     "ra": 5.604,
+     "dec": -1.202,
+     "mag": 1.69
+    },
+    {
+     "key": "mintaka",
+     "name": "参宿三",
+     "bayer": "δ Ori",
+     "hr": 1852,
+     "ra": 5.533,
+     "dec": -0.299,
+     "mag": 2.23
+    },
+    {
+     "key": "sirius",
+     "name": "天狼星",
+     "bayer": "α CMa",
+     "hr": 2491,
+     "ra": 6.752,
+     "dec": -16.716,
+     "mag": -1.46
+    }
+   ],
+   "lines": [
+    [
+     "mintaka",
+     "alnilam"
+    ],
+    [
+     "alnilam",
+     "alnitak"
+    ]
+   ],
+   "pointer": [
+    [
+     "mintaka",
+     "alnitak",
+     "sirius"
+    ]
+   ],
+   "highlight": [
+    "sirius"
+   ],
+   "xy": {
+    "alnitak": [
+     0.803,
+     0.199
+    ],
+    "alnilam": [
+     0.853,
+     0.167
+    ],
+    "mintaka": [
+     0.9,
+     0.127
+    ],
+    "sirius": [
+     0.1,
+     0.873
+    ]
+   }
+  }
+ ]
+}

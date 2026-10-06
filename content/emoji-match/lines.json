@@ -1,0 +1,567 @@
+{
+ "em.start.1": {
+  "role": "companion",
+  "text": "星晶号准备起飞！",
+  "kind": "sub"
+ },
+ "em.route.1": {
+  "role": "companion",
+  "text": "点一个星球，我们出发。",
+  "kind": "sub"
+ },
+ "em.route.ep1": {
+  "role": "companion",
+  "text": "第一站：星港码头。",
+  "kind": "sub"
+ },
+ "em.route.ep2": {
+  "role": "companion",
+  "text": "下一站：月球。",
+  "kind": "sub"
+ },
+ "em.route.ep3": {
+  "role": "companion",
+  "text": "下一站：火星。",
+  "kind": "sub"
+ },
+ "em.route.ep4": {
+  "role": "companion",
+  "text": "下一站：小行星带。",
+  "kind": "sub"
+ },
+ "em.route.locked": {
+  "role": "companion",
+  "text": "这条航线还在建造。",
+  "kind": "sub"
+ },
+ "em.v1.end": {
+  "role": "companion",
+  "text": "更远的航线，正在铺路。",
+  "kind": "sub"
+ },
+ "em.intro.swap.1": {
+  "role": "companion",
+  "text": "把两颗晶石换个位置。",
+  "kind": "sub"
+ },
+ "em.intro.swap.2": {
+  "role": "companion",
+  "text": "三个一样的连成一排就消掉。",
+  "kind": "sub"
+ },
+ "em.intro.rocket.1": {
+  "role": "companion",
+  "text": "四个连一排，变成火箭！",
+  "kind": "sub"
+ },
+ "em.intro.rocket.2": {
+  "role": "companion",
+  "text": "横着连，火箭就横着飞。",
+  "kind": "sub"
+ },
+ "em.intro.tap.1": {
+  "role": "companion",
+  "text": "点一下道具，它就发射。",
+  "kind": "sub"
+ },
+ "em.intro.tap.2": {
+  "role": "companion",
+  "text": "发射也要用掉一步。",
+  "kind": "sub"
+ },
+ "em.intro.prop.1": {
+  "role": "companion",
+  "text": "四个凑成方块，变成无人机。",
+  "kind": "sub"
+ },
+ "em.intro.prop.2": {
+  "role": "companion",
+  "text": "无人机会飞去帮你做目标。",
+  "kind": "sub"
+ },
+ "em.intro.bomb.1": {
+  "role": "companion",
+  "text": "L形或T形，变成星爆弹。",
+  "kind": "sub"
+ },
+ "em.intro.bomb.2": {
+  "role": "companion",
+  "text": "星爆弹会炸开一大片。",
+  "kind": "sub"
+ },
+ "em.intro.energy.1": {
+  "role": "companion",
+  "text": "消得越多，电池越满。",
+  "kind": "sub"
+ },
+ "em.intro.orb.1": {
+  "role": "companion",
+  "text": "五个连一排，变成星核！",
+  "kind": "sub"
+ },
+ "em.intro.orb.2": {
+  "role": "companion",
+  "text": "星核和谁换，就消掉那种颜色。",
+  "kind": "sub"
+ },
+ "em.intro.comboRR.1": {
+  "role": "companion",
+  "text": "两个道具换在一起，威力更大！",
+  "kind": "sub"
+ },
+ "em.intro.comboRR.2": {
+  "role": "companion",
+  "text": "两个火箭：十字发射！",
+  "kind": "sub"
+ },
+ "em.intro.dust.1": {
+  "role": "companion",
+  "text": "灰色的是星尘。",
+  "kind": "sub"
+ },
+ "em.intro.dust.2": {
+  "role": "companion",
+  "text": "在星尘上消除，把月面擦亮。",
+  "kind": "sub"
+ },
+ "em.intro.boosterDrill.1": {
+  "role": "companion",
+  "text": "你得到了激光钻！",
+  "kind": "sub"
+ },
+ "em.intro.boosterDrill.2": {
+  "role": "companion",
+  "text": "点它，再点要打的格子。",
+  "kind": "sub"
+ },
+ "em.intro.boosterDrill.3": {
+  "role": "companion",
+  "text": "用工具不花步数。",
+  "kind": "sub"
+ },
+ "em.intro.dust2.1": {
+  "role": "companion",
+  "text": "深色的星尘要擦两遍。",
+  "kind": "sub"
+ },
+ "em.intro.comboBB.1": {
+  "role": "companion",
+  "text": "两个星爆弹：大星爆！",
+  "kind": "sub"
+ },
+ "em.intro.comboRB.1": {
+  "role": "companion",
+  "text": "火箭加星爆弹：三行三列！",
+  "kind": "sub"
+ },
+ "em.intro.crate.1": {
+  "role": "companion",
+  "text": "在货箱旁边消除，就能打开。",
+  "kind": "sub"
+ },
+ "em.intro.boosterTractor.1": {
+  "role": "companion",
+  "text": "你得到了牵引臂！",
+  "kind": "sub"
+ },
+ "em.intro.boosterTractor.2": {
+  "role": "companion",
+  "text": "把挨着的两颗换个位置。",
+  "kind": "sub"
+ },
+ "em.intro.crate2.1": {
+  "role": "companion",
+  "text": "铁箱要打两下。",
+  "kind": "sub"
+ },
+ "em.intro.comboPP.1": {
+  "role": "companion",
+  "text": "两架无人机：编队出发！",
+  "kind": "sub"
+ },
+ "em.intro.comboP.1": {
+  "role": "companion",
+  "text": "无人机会把火箭带过去。",
+  "kind": "sub"
+ },
+ "em.intro.ice.1": {
+  "role": "companion",
+  "text": "冻住的晶石不能动。",
+  "kind": "sub"
+ },
+ "em.intro.ice.2": {
+  "role": "companion",
+  "text": "但它能在原地参加消除。",
+  "kind": "sub"
+ },
+ "em.intro.boosterIon.1": {
+  "role": "companion",
+  "text": "你得到了离子炮！",
+  "kind": "sub"
+ },
+ "em.intro.boosterIon.2": {
+  "role": "companion",
+  "text": "先选横着还是竖着，再点一格。",
+  "kind": "sub"
+ },
+ "em.intro.ice2.1": {
+  "role": "companion",
+  "text": "厚冰壳要两次才能打开。",
+  "kind": "sub"
+ },
+ "em.intro.comboOR.1": {
+  "role": "companion",
+  "text": "星核加火箭：一种颜色全变火箭！",
+  "kind": "sub"
+ },
+ "em.goal.collect": {
+  "role": "companion",
+  "text": "收集这些晶石。",
+  "kind": "sub"
+ },
+ "em.goal.dust": {
+  "role": "companion",
+  "text": "把星尘都擦掉。",
+  "kind": "sub"
+ },
+ "em.goal.crate": {
+  "role": "companion",
+  "text": "打开所有货箱。",
+  "kind": "sub"
+ },
+ "em.goal.ice": {
+  "role": "companion",
+  "text": "打开所有冰壳。",
+  "kind": "sub"
+ },
+ "em.goal.energy": {
+  "role": "companion",
+  "text": "给电池充满能量。",
+  "kind": "sub"
+ },
+ "em.goal.moves": {
+  "role": "companion",
+  "text": "这是还能走的步数。",
+  "kind": "sub"
+ },
+ "em.hint.1": {
+  "role": "companion",
+  "text": "这两颗换一换试试？",
+  "kind": "sub"
+ },
+ "em.hint.2": {
+  "role": "companion",
+  "text": "看我做一次。",
+  "kind": "sub"
+ },
+ "em.coach.special": {
+  "role": "companion",
+  "text": "先做一个道具，再用它。",
+  "kind": "sub"
+ },
+ "em.coach.corner": {
+  "role": "companion",
+  "text": "角落留给火箭和星爆弹。",
+  "kind": "sub"
+ },
+ "em.coach.ice": {
+  "role": "companion",
+  "text": "让同色的晶石来找冰壳。",
+  "kind": "sub"
+ },
+ "em.coach.crate": {
+  "role": "companion",
+  "text": "在箱子旁边消除。",
+  "kind": "sub"
+ },
+ "em.coach.combo": {
+  "role": "companion",
+  "text": "把两个道具换在一起试试。",
+  "kind": "sub"
+ },
+ "em.coach.priority": {
+  "role": "companion",
+  "text": "先做还差得多的那个目标。",
+  "kind": "sub"
+ },
+ "em.coach.dust": {
+  "role": "companion",
+  "text": "星尘剩在哪里，就往哪里打。",
+  "kind": "sub"
+ },
+ "em.coach.collect": {
+  "role": "companion",
+  "text": "多做道具，一次收得更多。",
+  "kind": "sub"
+ },
+ "em.win.1": {
+  "role": "companion",
+  "text": "目标完成！",
+  "kind": "sub"
+ },
+ "em.bonus.1": {
+  "role": "companion",
+  "text": "剩下的步数变成火箭！",
+  "kind": "sub"
+ },
+ "em.win.combo": {
+  "role": "companion",
+  "text": "那个组合技用得正好！",
+  "kind": "sub"
+ },
+ "em.win.cascade": {
+  "role": "companion",
+  "text": "连锁一个接一个，你看准了。",
+  "kind": "sub"
+ },
+ "em.win.efficient": {
+  "role": "companion",
+  "text": "还剩好多步，路线很省。",
+  "kind": "sub"
+ },
+ "em.win.special": {
+  "role": "companion",
+  "text": "先做道具再用，好办法。",
+  "kind": "sub"
+ },
+ "em.win.plain": {
+  "role": "companion",
+  "text": "一步一步，做到了。",
+  "kind": "sub"
+ },
+ "em.fail.1": {
+  "role": "companion",
+  "text": "差一点！还差这些。",
+  "kind": "sub"
+ },
+ "em.fail.2": {
+  "role": "companion",
+  "text": "换个开局，再来一次？",
+  "kind": "sub"
+ },
+ "em.fail.2b": {
+  "role": "companion",
+  "text": "再来一次，换个走法？",
+  "kind": "sub"
+ },
+ "em.outofmoves": {
+  "role": "companion",
+  "text": "步数用完了。",
+  "kind": "sub"
+ },
+ "em.restart.ask": {
+  "role": "companion",
+  "text": "要重来这一关吗？",
+  "kind": "sub"
+ },
+ "em.assist.1": {
+  "role": "companion",
+  "text": "我给你装了一个火箭。",
+  "kind": "sub"
+ },
+ "em.assist.2": {
+  "role": "companion",
+  "text": "这次多带一个星爆弹。",
+  "kind": "sub"
+ },
+ "em.assist.3": {
+  "role": "companion",
+  "text": "星核也装好了，出发！",
+  "kind": "sub"
+ },
+ "em.shuffle.1": {
+  "role": "companion",
+  "text": "没有能走的了，重新排一排。",
+  "kind": "sub"
+ },
+ "em.gift.1": {
+  "role": "companion",
+  "text": "送你一个火箭。",
+  "kind": "sub"
+ },
+ "em.booster.earn": {
+  "role": "companion",
+  "text": "你得到了新工具！",
+  "kind": "sub"
+ },
+ "em.booster.none": {
+  "role": "companion",
+  "text": "到站会送来新工具。",
+  "kind": "sub"
+ },
+ "em.booster.limit": {
+  "role": "companion",
+  "text": "这一关最多用三次工具。",
+  "kind": "sub"
+ },
+ "em.window.small": {
+  "role": "companion",
+  "text": "把窗口放大一点。",
+  "kind": "sub"
+ },
+ "em.veteran": {
+  "role": "companion",
+  "text": "老朋友回来啦！送你一套工具。",
+  "kind": "sub"
+ },
+ "em.pick.1": {
+  "role": "companion",
+  "text": "选一个颜色，装到星晶号上。",
+  "kind": "sub"
+ },
+ "em.arrive.ep1": {
+  "role": "companion",
+  "text": "主推进器装好了！",
+  "kind": "sub"
+ },
+ "em.arrive.ep2": {
+  "role": "companion",
+  "text": "着陆腿装好了！",
+  "kind": "sub"
+ },
+ "em.arrive.ep3": {
+  "role": "companion",
+  "text": "机械臂装好了！",
+  "kind": "sub"
+ },
+ "em.arrive.ep4": {
+  "role": "companion",
+  "text": "防护罩装好了！",
+  "kind": "sub"
+ },
+ "em.card.starport": {
+  "role": "narrator",
+  "text": "火箭从发射场出发。中国的文昌发射场就在海边。",
+  "kind": "card"
+ },
+ "em.card.moon": {
+  "role": "narrator",
+  "text": "月球上的“海”其实是平原。嫦娥四号第一次降落在月球背面。",
+  "kind": "card"
+ },
+ "em.card.mars": {
+  "role": "narrator",
+  "text": "火星是红色的，因为土里有很多铁锈。祝融号火星车在那里工作过。",
+  "kind": "card"
+ },
+ "em.card.asteroids": {
+  "role": "narrator",
+  "text": "火星和木星之间，有很多绕着太阳转的大石头。",
+  "kind": "card"
+ },
+ "em.sky.1": {
+  "role": "narrator",
+  "text": "北斗七星：七颗星连起来像一把大勺子。",
+  "kind": "card"
+ },
+ "em.sky.2": {
+  "role": "narrator",
+  "text": "北极星：一直待在北边，可以帮我们认方向。",
+  "kind": "card"
+ },
+ "em.sky.3": {
+  "role": "narrator",
+  "text": "牛郎星和织女星：隔着银河，一年见一次的故事。",
+  "kind": "card"
+ },
+ "em.sky.4": {
+  "role": "narrator",
+  "text": "猎户座：腰上有三颗排成一排的星。",
+  "kind": "card"
+ },
+ "em.sky.5": {
+  "role": "narrator",
+  "text": "天狼星：夜空里最亮的恒星。",
+  "kind": "card"
+ },
+ "em.puzzle.par1": {
+  "role": "companion",
+  "text": "星图谜题：只能走一步。",
+  "kind": "sub"
+ },
+ "em.puzzle.par2": {
+  "role": "companion",
+  "text": "星图谜题：只能走两步。",
+  "kind": "sub"
+ },
+ "em.puzzle.nofill": {
+  "role": "companion",
+  "text": "这里不会掉新晶石下来。",
+  "kind": "sub"
+ },
+ "em.puzzle.undo": {
+  "role": "companion",
+  "text": "可以撤销，随便试。",
+  "kind": "sub"
+ },
+ "em.puzzle.h1": {
+  "role": "companion",
+  "text": "先看这里。",
+  "kind": "sub"
+ },
+ "em.puzzle.h2": {
+  "role": "companion",
+  "text": "下一步走这里。",
+  "kind": "sub"
+ },
+ "em.puzzle.h3": {
+  "role": "companion",
+  "text": "看我走一遍，然后你来。",
+  "kind": "sub"
+ },
+ "em.puzzle.offpath": {
+  "role": "companion",
+  "text": "这条路走不通了，撤销试试。",
+  "kind": "sub"
+ },
+ "em.puzzle.solved": {
+  "role": "companion",
+  "text": "星图点亮了！",
+  "kind": "sub"
+ },
+ "em.puzzle.retry": {
+  "role": "companion",
+  "text": "想想消掉以后谁会掉下来。",
+  "kind": "sub"
+ },
+ "em.free.1": {
+  "role": "companion",
+  "text": "自由星海：没有步数限制。",
+  "kind": "sub"
+ },
+ "em.free.full": {
+  "role": "companion",
+  "text": "能量满格！",
+  "kind": "sub"
+ },
+ "em.free.break": {
+  "role": "companion",
+  "text": "飞了好一会儿，休息一下吧。",
+  "kind": "sub"
+ },
+ "em.stop.1": {
+  "role": "companion",
+  "text": "星晶号到站了，休息一下。",
+  "kind": "sub"
+ },
+ "em.talk.1": {
+  "role": "narrator",
+  "text": "讲给爸爸听：你最喜欢哪个道具？为什么？",
+  "kind": "card"
+ },
+ "em.talk.2": {
+  "role": "narrator",
+  "text": "讲给爸爸听：冻住的晶石，怎么才能打开？",
+  "kind": "card"
+ },
+ "em.talk.3": {
+  "role": "narrator",
+  "text": "讲给爸爸听：哪一步让连锁停不下来？",
+  "kind": "card"
+ },
+ "em.talk.4": {
+  "role": "narrator",
+  "text": "考考爸爸：两个星核换在一起会怎样？",
+  "kind": "card"
+ }
+}

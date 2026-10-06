@@ -1,0 +1,330 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "em.arrive.ep2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e11ed05f640d7cba22db89af026caf5f178113f7",
+   "score": 235.001,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "em.assist.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "dc07ce055e53f2f8ee2fbc10e99d8dfe85388962",
+   "score": 102.1,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "em.assist.2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f05ae11ca264d739f2bd8d5d2a64847bab2de58e",
+   "score": 107.556,
+   "flags": [
+    "cer(asr-homophone)",
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "em.booster.none": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "4d8d15688b0271a9a3e68d21dc5a0f57628e37ba",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.coach.combo": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "aec1fc8da52010de75cc8dabaf6e47e89c003d93",
+   "score": 101.5,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "em.coach.corner": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "f744ee94eb69841112d8d85bbd86e2fc30c6f372",
+   "score": 233.0,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "em.free.break": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "35f5de0e970ccbadf48896fe9f3425910b9fb8ec",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.goal.dust": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "7a412877a8d284dfbcb65477942555cbe9d0c415",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "em.goal.moves": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a5565045e25e55d47df724c7f7a48c6c1ad6b83d",
+   "score": 233.75,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "em.hint.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "59a8fa20929e472f0cee9fed987ee312350c4f18",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.intro.bomb.1": {
+   "seed": 5000,
+   "base": 5000,
+   "sig": "d0ff784c2ea98d68fc1dfcb5b15ba12775122472",
+   "score": 133.636,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    5000,
+    5001,
+    5002,
+    5003
+   ]
+  },
+  "em.intro.boosterDrill.3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fd77b74e65bd9533b7e4631b0da64bcb8d243efd",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.intro.boosterTractor.1": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "690a1fab000bee1bf3a59b2cf24e513cffd1f81c",
+   "score": 100.4,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "em.intro.boosterTractor.2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "28421acb5855a812b73bcc18cf76b5e791f29a97",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.intro.comboP.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1f1cffede9b78f1e7b5ed13fbd852fe1986f7411",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.intro.comboRR.1": {
+   "seed": 3000,
+   "base": 3000,
+   "sig": "93f6a4eea4a6508b7a9406b5226691c842890ea7",
+   "score": 132.083,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    3000,
+    3001,
+    3002,
+    3003
+   ]
+  },
+  "em.intro.ice.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "265b48df9b50ee1951ff0455a899b3f332d7ca8b",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.intro.tap.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "11a00ac28d4f98c22f7ee23156dedda2051c4e37",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.intro.tap.2": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "50449019fab0c11345e55a1d9ab04ce3a94b89cf",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "em.puzzle.nofill": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "8c9027d0dbfab56b188dd3706dee34e173994cb3",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "em.route.ep3": {
+   "seed": 3003,
+   "base": 3000,
+   "sig": "4df23fda66238445f72d4212009238f9155cd439",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    3000,
+    3001,
+    3002,
+    3003
+   ]
+  },
+  "em.sky.1": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "2ddf075748ed928c34603b3744858361edfc8928",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "em.sky.2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "48b249db493c98dbd4bcb03818feb67298b45f54",
+   "score": 0.294,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "em.talk.4": {
+   "seed": 3002,
+   "base": 3000,
+   "sig": "bacc4f4763229cf87340e25fc810c54ba1f4ab4e",
+   "score": 132.001,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    3000,
+    3001,
+    3002,
+    3003,
+    3004
+   ]
+  }
+ }
+}

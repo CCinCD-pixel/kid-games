@@ -1,0 +1,98 @@
+{
+ "sampleRate": 44100,
+ "gap": 0.15,
+ "firstStart": 0.15,
+ "samples": {
+  "k-glass": {
+   "start": 0.15,
+   "dur": 0.27347,
+   "source": "kenney_interface-sounds/glass_001.ogg",
+   "semitones": 0,
+   "use": "em-select (select a gem / long-press a special)"
+  },
+  "k-scroll": {
+   "start": 0.57347,
+   "dur": 1.00007,
+   "source": "kenney_interface-sounds/scroll_002.ogg",
+   "semitones": 0,
+   "use": "em-swap"
+  },
+  "k-soft": {
+   "start": 1.72354,
+   "dur": 0.15739,
+   "source": "kenney_impact-sounds/impactSoft_medium_002.ogg",
+   "semitones": -3,
+   "use": "em-swap-bad (−3 semitones: soft, never a buzzer)"
+  },
+  "k-land": {
+   "start": 2.03093,
+   "dur": 0.20673,
+   "source": "kenney_impact-sounds/impactGlass_light_001.ogg",
+   "semitones": 0,
+   "use": "em-land (played at −12 dB, throttled 60 ms)"
+  },
+  "k-laser": {
+   "start": 2.38766,
+   "dur": 0.77816,
+   "source": "kenney_digital-audio/laser6.ogg",
+   "semitones": 0,
+   "use": "em-rocket texture (−8 dB)"
+  },
+  "k-plate": {
+   "start": 3.31583,
+   "dur": 0.49424,
+   "source": "kenney_impact-sounds/impactPlate_heavy_002.ogg",
+   "semitones": 0,
+   "use": "em-bomb"
+  },
+  "k-phase": {
+   "start": 3.96007,
+   "dur": 0.46735,
+   "source": "kenney_digital-audio/phaseJump4.ogg",
+   "semitones": 0,
+   "use": "em-drone accent (−10 dB)"
+  },
+  "k-plank": {
+   "start": 4.57741,
+   "dur": 0.44068,
+   "source": "kenney_impact-sounds/impactPlank_medium_001.ogg",
+   "semitones": 0,
+   "use": "em-crate-paper"
+  },
+  "k-metal": {
+   "start": 5.1681,
+   "dur": 0.14059,
+   "source": "kenney_impact-sounds/impactMetal_medium_001.ogg",
+   "semitones": 0,
+   "use": "em-crate-metal"
+  },
+  "k-wood": {
+   "start": 5.45868,
+   "dur": 0.31018,
+   "source": "kenney_impact-sounds/impactWood_heavy_002.ogg",
+   "semitones": 0,
+   "use": "em-crate-break"
+  },
+  "k-ice-crack": {
+   "start": 5.91887,
+   "dur": 0.5405,
+   "source": "kenney_impact-sounds/impactGlass_medium_002.ogg",
+   "semitones": 0,
+   "use": "em-ice-crack"
+  },
+  "k-ice-break": {
+   "start": 6.60937,
+   "dur": 0.42905,
+   "source": "kenney_impact-sounds/impactGlass_heavy_001.ogg",
+   "semitones": 0,
+   "use": "em-ice-break"
+  },
+  "k-scratch": {
+   "start": 7.18841,
+   "dur": 0.12347,
+   "source": "kenney_interface-sounds/scratch_003.ogg",
+   "semitones": 0,
+   "use": "em-dust (−10 dB)"
+  }
+ }
+}

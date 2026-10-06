@@ -1,13 +1,19 @@
 {
   "id": "emoji-match",
-  "title": "表情消消乐",
-  "subtitle": "三个连一排，消掉它们",
+  "title": "星晶消消乐",
+  "subtitle": "收集星晶，开着星晶号去远航",
   "place": "playground",
   "order": 20,
   "status": "live",
-  "accent": "#c057d4",
+  "accent": "--xg-match",
   "theme": "match",
   "icon": "/icons/games/emoji-match.svg",
-  "domains": ["relax"],
-  "parentNote": "休息区：放松用，不计入学习时长。"
+  "domains": [
+    "relax"
+  ],
+  "parentNote": "休息区三消：每关都经机器人仿真定难度，失败只说还差什么；每站一张太空知识卡。证据等级 D：以放松为主，不宣称提升能力。",
+  "orientation": "any",
+  "smoke": {
+    "waitFor": "#app[data-gate], #app[data-ready]"
+  }
 }

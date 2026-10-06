@@ -1,0 +1,294 @@
+{
+ "version": 2,
+ "puzzles": [
+  {
+   "id": "p1",
+   "ep": 1,
+   "par": 1,
+   "trick": "cascadeGoal",
+   "maxDepth": 1,
+   "teach": "一步：想想消掉以后谁会掉下来",
+   "colors": "ybr",
+   "grid": [
+    "_____",
+    "__y__",
+    "__b__",
+    "brb__",
+    "bbryy"
+   ],
+   "objectives": [
+    {
+     "collect": "y",
+     "n": 3
+    }
+   ],
+   "refill": false,
+   "fixedBoard": true,
+   "moves": 1,
+   "solution": [
+    {
+     "from": [
+      4,
+      1
+     ],
+     "to": [
+      4,
+      2
+     ]
+    }
+   ],
+   "lines": [
+    [
+     {
+      "from": [
+       4,
+       1
+      ],
+      "to": [
+       4,
+       2
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "ep": 2,
+   "par": 2,
+   "trick": "rocketH",
+   "maxDepth": 1,
+   "teach": "两步：先做一个横火箭，再把它换到星尘那一排",
+   "colors": "ybg",
+   "grid": [
+    "_____",
+    "_____",
+    "_____",
+    "_yg__",
+    "_gygg",
+    "bbybg"
+   ],
+   "dust": [
+    "00000",
+    "00000",
+    "00000",
+    "00000",
+    "00000",
+    "11111"
+   ],
+   "objectives": [
+    {
+     "dust": true
+    }
+   ],
+   "refill": false,
+   "fixedBoard": true,
+   "moves": 2,
+   "solution": [
+    {
+     "from": [
+      3,
+      2
+     ],
+     "to": [
+      4,
+      2
+     ]
+    },
+    {
+     "from": [
+      4,
+      2
+     ],
+     "to": [
+      5,
+      2
+     ]
+    }
+   ],
+   "lines": [
+    [
+     {
+      "from": [
+       3,
+       2
+      ],
+      "to": [
+       4,
+       2
+      ]
+     },
+     {
+      "from": [
+       4,
+       2
+      ],
+      "to": [
+       5,
+       2
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "id": "p3",
+   "ep": 3,
+   "par": 2,
+   "trick": "makeAndUse",
+   "maxDepth": 1,
+   "teach": "两步：拼一个方块做无人机，再用它开铁箱",
+   "colors": "rgb",
+   "grid": [
+    "______",
+    "______",
+    "____g_",
+    "_bgbb_",
+    "_gbbgr",
+    "br21rb"
+   ],
+   "objectives": [
+    {
+     "crate": true
+    }
+   ],
+   "refill": false,
+   "fixedBoard": true,
+   "moves": 2,
+   "solution": [
+    {
+     "from": [
+      3,
+      1
+     ],
+     "to": [
+      3,
+      2
+     ]
+    },
+    {
+     "from": [
+      4,
+      1
+     ],
+     "to": [
+      4,
+      2
+     ]
+    }
+   ],
+   "lines": [
+    [
+     {
+      "from": [
+       3,
+       1
+      ],
+      "to": [
+       3,
+       2
+      ]
+     },
+     {
+      "from": [
+       4,
+       1
+      ],
+      "to": [
+       4,
+       2
+      ]
+     }
+    ],
+    [
+     {
+      "from": [
+       3,
+       1
+      ],
+      "to": [
+       3,
+       2
+      ]
+     },
+     {
+      "tap": [
+       4,
+       2
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "id": "p4",
+   "ep": 4,
+   "par": 2,
+   "trick": "iceAllByMatch",
+   "maxDepth": 2,
+   "teach": "两步：冰壳不会动，让同色的来找它",
+   "colors": "ybp",
+   "grid": [
+    "______",
+    "___y__",
+    "y__y__",
+    "byyp_p",
+    "yPbP_p"
+   ],
+   "objectives": [
+    {
+     "ice": true
+    }
+   ],
+   "refill": false,
+   "fixedBoard": true,
+   "moves": 2,
+   "solution": [
+    {
+     "from": [
+      3,
+      2
+     ],
+     "to": [
+      3,
+      3
+     ]
+    },
+    {
+     "from": [
+      3,
+      2
+     ],
+     "to": [
+      4,
+      2
+     ]
+    }
+   ],
+   "lines": [
+    [
+     {
+      "from": [
+       3,
+       2
+      ],
+      "to": [
+       3,
+       3
+      ]
+     },
+     {
+      "from": [
+       3,
+       2
+      ],
+      "to": [
+       4,
+       2
+      ]
+     }
+    ]
+   ]
+  }
+ ]
+}

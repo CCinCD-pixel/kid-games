@@ -1,0 +1,770 @@
+{
+ "version": 2,
+ "intros": [
+  {
+   "id": "swap",
+   "grid": [
+    "gbrpg",
+    "yyryb",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "match"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "rocket",
+   "grid": [
+    "gbypg",
+    "yyryg",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      0,
+      2
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "RH"
+     ]
+    },
+    {
+     "tap": [
+      1,
+      2
+     ],
+     "expect": [
+      "fire",
+      "rowBlast"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "tap",
+   "grid": [
+    "gbypg",
+    "b>ryg",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "tap": [
+      1,
+      1
+     ],
+     "expect": [
+      "fire",
+      "rowBlast"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "prop",
+   "grid": [
+    "gbrpg",
+    "yyrpg",
+    "yrybp"
+   ],
+   "objectives": [
+    {
+     "collect": "p",
+     "n": 9
+    }
+   ],
+   "steps": [
+    {
+     "from": [
+      2,
+      2
+     ],
+     "to": [
+      2,
+      1
+     ],
+     "expect": [
+      "PROP"
+     ]
+    },
+    {
+     "tap": [
+      2,
+      1
+     ],
+     "expect": [
+      "fire",
+      "fly"
+     ]
+    }
+   ],
+   "colors": "rygbp"
+  },
+  {
+   "id": "bomb",
+   "grid": [
+    "rgrpg",
+    "pyryb",
+    "rrybg",
+    "ygrgy"
+   ],
+   "steps": [
+    {
+     "from": [
+      3,
+      2
+     ],
+     "to": [
+      2,
+      2
+     ],
+     "expect": [
+      "BOMB"
+     ]
+    },
+    {
+     "tap": [
+      2,
+      2
+     ],
+     "expect": [
+      "fire",
+      "bigBlast"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "energy",
+   "grid": [
+    "gbrpg",
+    "yyryb",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "match"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "orb",
+   "grid": [
+    "gpbyg",
+    "bbrbb",
+    "bgbyb"
+   ],
+   "steps": [
+    {
+     "from": [
+      0,
+      2
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "ORB"
+     ]
+    },
+    {
+     "from": [
+      1,
+      2
+     ],
+     "to": [
+      2,
+      2
+     ],
+     "expect": [
+      "fire",
+      "colorClear"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "comboRR",
+   "grid": [
+    "gbypg",
+    "yb>^g",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "combo"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "dust",
+   "grid": [
+    "gbrpg",
+    "yyryb",
+    "pgbgp"
+   ],
+   "dust": [
+    "00000",
+    "11111",
+    "00000"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "dust"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "boosterDrill",
+   "grid": [
+    "gbrpg",
+    "yyryb",
+    "pgbgp"
+   ],
+   "dust": [
+    "00000",
+    "00010",
+    "00000"
+   ],
+   "steps": [
+    {
+     "booster": {
+      "t": "drill",
+      "a": [
+       1,
+       3
+      ]
+     },
+     "expect": [
+      "dust",
+      "noMove"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "dust2",
+   "grid": [
+    "bybrg",
+    "gbybp",
+    "yryyp"
+   ],
+   "dust": [
+    "00000",
+    "00000",
+    "02220"
+   ],
+   "steps": [
+    {
+     "from": [
+      2,
+      0
+     ],
+     "to": [
+      2,
+      1
+     ],
+     "expect": [
+      "dust"
+     ]
+    },
+    {
+     "from": [
+      1,
+      2
+     ],
+     "to": [
+      2,
+      2
+     ],
+     "expect": [
+      "dust",
+      "dustClean"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "comboBB",
+   "grid": [
+    "gbypg",
+    "yb**g",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "combo",
+      "bigBlast"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "comboRB",
+   "grid": [
+    "gbypg",
+    "yb>*g",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "combo"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "crate",
+   "grid": [
+    "gb1pg",
+    "yyryb",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "crate"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "boosterTractor",
+   "grid": [
+    "gbrpg",
+    "yyryb",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "booster": {
+      "t": "tractor",
+      "a": [
+       1,
+       3
+      ],
+      "b": [
+       1,
+       2
+      ]
+     },
+     "expect": [
+      "ok",
+      "match",
+      "noMove"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "crate2",
+   "grid": [
+    "gybyg",
+    "pbrby",
+    "yg2gp"
+   ],
+   "steps": [
+    {
+     "from": [
+      0,
+      2
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "crateHit"
+     ]
+    },
+    {
+     "from": [
+      1,
+      1
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "crate"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "comboPP",
+   "grid": [
+    "pbypg",
+    "yg++r",
+    "pgbgp"
+   ],
+   "objectives": [
+    {
+     "collect": "p",
+     "n": 9
+    }
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "combo",
+      "fly3"
+     ]
+    }
+   ],
+   "colors": "rygbp"
+  },
+  {
+   "id": "comboP",
+   "grid": [
+    "1bypg",
+    "yb+>g",
+    "pgbgp"
+   ],
+   "objectives": [
+    {
+     "crate": true
+    }
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "combo",
+      "crate"
+     ]
+    }
+   ],
+   "colors": "rygbp"
+  },
+  {
+   "id": "ice",
+   "grid": [
+    "gbrpg",
+    "Yyryb",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      0
+     ],
+     "to": [
+      1,
+      1
+     ],
+     "expect": [
+      "refused"
+     ]
+    },
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "ice"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "boosterIon",
+   "grid": [
+    "gbrpg",
+    "yyryb",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "booster": {
+      "t": "ion",
+      "a": [
+       1,
+       2
+      ],
+      "dir": "V"
+     },
+     "expect": [
+      "colBlast",
+      "noMove"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "ice2",
+   "grid": [
+    "gyypg",
+    "yyrbp",
+    "ypyyg"
+   ],
+   "ice": [
+    "00000",
+    "20000",
+    "00000"
+   ],
+   "steps": [
+    {
+     "from": [
+      0,
+      2
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "ice"
+     ]
+    },
+    {
+     "from": [
+      2,
+      2
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "ice",
+      "iceFree"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  },
+  {
+   "id": "comboOR",
+   "grid": [
+    "gbypg",
+    "yb&>g",
+    "pgbgp"
+   ],
+   "steps": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "to": [
+      1,
+      2
+     ],
+     "expect": [
+      "combo"
+     ]
+    }
+   ],
+   "colors": "rygbp",
+   "objectives": [
+    {
+     "energy": 999
+    }
+   ]
+  }
+ ]
+}
