@@ -1,0 +1,97 @@
+{
+ "id": "1-1",
+ "vol": 1,
+ "idx": 1,
+ "name": "第一盘推演",
+ "type": "tutorial",
+ "newCard": "shooter",
+ "newEnemy": "walker",
+ "concept": "拖牒放车、点粮包",
+ "jinnang": null,
+ "loadout": [
+  "shooter"
+ ],
+ "slots": 1,
+ "star3": {
+  "minX": 4
+ },
+ "star3Text": "没有木甲兵走过第 5 格",
+ "ask": "连弩车是怎么拆掉木甲兵的？",
+ "lanes": [
+  0,
+  0,
+  1,
+  0,
+  0
+ ],
+ "env": {},
+ "sky": true,
+ "start": 150,
+ "spawns": [
+  [
+   300,
+   2,
+   "walker",
+   1
+  ],
+  [
+   600,
+   2,
+   "walker",
+   0
+  ],
+  [
+   880,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1160,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1400,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1480,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1560,
+   2,
+   "walker",
+   0
+  ]
+ ],
+ "flags": [
+  1400
+ ],
+ "skyAfterKill": true,
+ "drumOk": false,
+ "p": 2.4,
+ "known": [
+  "walker"
+ ],
+ "botJinnang": null,
+ "inn": null,
+ "repair": {
+  "art": "gate-bolt",
+  "line": "fort.repair.1-1"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-1.1",
+   "fort.lvl.1-1.2"
+  ],
+  "preview": "fort.luban.preview.1-1",
+  "ask": "fort.ask.1-1"
+ }
+}

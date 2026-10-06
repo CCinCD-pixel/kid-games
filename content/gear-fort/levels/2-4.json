@@ -1,0 +1,221 @@
+{
+ "id": "2-4",
+ "vol": 2,
+ "idx": 4,
+ "name": "烟车",
+ "type": "teach",
+ "newEnemy": "smoker",
+ "concept": "烟里连弩看不见：吹散它，或改用籍车",
+ "jinnang": "smoke",
+ "loadout": [
+  "farm",
+  "bank",
+  "shooter",
+  "lobber",
+  "gust",
+  "wall"
+ ],
+ "slots": 6,
+ "star3": {
+  "smokeCleared": 10
+ },
+ "star3Text": "风箱吹散 10 格烟",
+ "ask": "烟里看不见，籍车为什么还能打中？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 60,
+ "spawns": [
+  [
+   500,
+   2,
+   "walker",
+   0
+  ],
+  [
+   800,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1100,
+   2,
+   "smoker",
+   1
+  ],
+  [
+   1440,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1619,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1798,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   2000,
+   1,
+   "smoker",
+   0
+  ],
+  [
+   2000,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2060,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2120,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   2180,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2240,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2400,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2564,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2727,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   3037,
+   1,
+   "smoker",
+   0
+  ],
+  [
+   3319,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3600,
+   0,
+   "smoker",
+   0
+  ],
+  [
+   3600,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3600,
+   3,
+   "smoker",
+   0
+  ],
+  [
+   3647,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3693,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   3740,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3787,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3833,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3880,
+   0,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  2000,
+  3600
+ ],
+ "drumOk": false,
+ "p": 0.6,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer",
+  "smoker"
+ ],
+ "botJinnang": "adapt",
+ "inn": null,
+ "repair": {
+  "art": "chimney-smoke",
+  "line": "fort.repair.2-4"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-4.1",
+   "fort.lvl.2-4.2"
+  ],
+  "preview": "fort.luban.preview.2-4",
+  "ask": "fort.ask.2-4"
+ }
+}

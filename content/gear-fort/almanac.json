@@ -1,0 +1,610 @@
+[
+ {
+  "id": "shooter",
+  "kind": "card",
+  "stamp": "史",
+  "quote": "备临以连弩之车",
+  "source": "《墨子·备高临》",
+  "numbers": "每 1.3 秒一箭，一箭 18。木甲兵 180，要 10 箭。",
+  "name": "连弩车",
+  "tags": {
+   "role": "attack"
+  },
+  "fears": null,
+  "beats": [
+   "walker"
+  ],
+  "voice": [
+   "fort.alm.shooter.1",
+   "fort.alm.shooter.2"
+  ],
+  "word": "fort.w.连弩车"
+ },
+ {
+  "id": "farm",
+  "kind": "card",
+  "stamp": "想",
+  "quote": null,
+  "source": null,
+  "numbers": "白天每 18 秒 20 粮，夜里 10 粮。40 粮的田，白天 27 秒回本。",
+  "name": "禾田",
+  "tags": {
+   "role": "econ"
+  },
+  "fears": null,
+  "beats": [],
+  "voice": [
+   "fort.alm.farm.1",
+   "fort.alm.farm.2"
+  ],
+  "word": "fort.w.禾田"
+ },
+ {
+  "id": "wall",
+  "kind": "card",
+  "stamp": "史",
+  "quote": null,
+  "source": "守城的土木工事",
+  "numbers": "木垒能挨 2400。一个木甲兵每秒咬 30，要咬 80 秒。",
+  "name": "木垒",
+  "tags": {
+   "role": "wall"
+  },
+  "fears": null,
+  "beats": [],
+  "voice": [
+   "fort.alm.wall.1",
+   "fort.alm.wall.2"
+  ],
+  "word": "fort.w.木垒"
+ },
+ {
+  "id": "lobber",
+  "kind": "card",
+  "stamp": "史",
+  "quote": null,
+  "source": "《墨子》城守各篇（篇目待核，附录 D）；杠杆见《墨经》“衡”",
+  "numbers": "一块石头 50，越过木盾。盾甲兵的本体 180，4 块就拆掉。",
+  "name": "籍车",
+  "tags": {
+   "role": "attack"
+  },
+  "fears": null,
+  "beats": [
+   "walker",
+   "shielder",
+   "brute",
+   "smoker",
+   "drummer"
+  ],
+  "voice": [
+   "fort.alm.lobber.1",
+   "fort.alm.lobber.2"
+  ],
+  "word": "fort.w.籍车"
+ },
+ {
+  "id": "spikes",
+  "kind": "card",
+  "stamp": "史",
+  "quote": "张铁蒺藜",
+  "source": "《六韬·虎韬·军用》",
+  "numbers": "冲车跑满了撞 900；卡了蒺藜，只撞 120。",
+  "name": "铁蒺藜",
+  "tags": {
+   "role": "control"
+  },
+  "fears": null,
+  "beats": [
+   "ram"
+  ],
+  "voice": [
+   "fort.alm.spikes.1",
+   "fort.alm.spikes.2"
+  ],
+  "word": "fort.w.铁蒺藜"
+ },
+ {
+  "id": "pit",
+  "kind": "card",
+  "stamp": "史",
+  "quote": null,
+  "source": "守城挖坑",
+  "numbers": "20 粮就能收走一个木甲兵，最省粮。",
+  "name": "陷坑",
+  "tags": {
+   "role": "trap"
+  },
+  "fears": null,
+  "beats": [],
+  "voice": [
+   "fort.alm.pit.1",
+   "fort.alm.pit.2"
+  ],
+  "word": "fort.w.陷坑"
+ },
+ {
+  "id": "burner",
+  "kind": "card",
+  "stamp": "想",
+  "quote": null,
+  "source": "火攻史有记载，罐的样子是想象",
+  "numbers": "一罐 24 火；木头 ×1.5 = 36，还会再烧 24。铜：0。",
+  "name": "火油罐",
+  "tags": {
+   "role": "attack"
+  },
+  "fears": null,
+  "beats": [
+   "walker",
+   "shielder",
+   "ant"
+  ],
+  "voice": [
+   "fort.alm.burner.1",
+   "fort.alm.burner.2"
+  ],
+  "word": "fort.w.火油罐"
+ },
+ {
+  "id": "strike",
+  "kind": "card",
+  "stamp": "史",
+  "quote": null,
+  "source": "滚木礌石",
+  "numbers": "3×3 格里每个机关 900；36 秒才能再用一次。",
+  "name": "礌石",
+  "tags": {
+   "role": "instant"
+  },
+  "fears": null,
+  "beats": [
+   "drummer"
+  ],
+  "voice": [
+   "fort.alm.strike.1",
+   "fort.alm.strike.2"
+  ],
+  "word": "fort.w.礌石"
+ },
+ {
+  "id": "beam",
+  "kind": "card",
+  "stamp": "史",
+  "quote": "阳燧见日则燃而为火",
+  "source": "《淮南子·天文训》；“鉴洼”见《墨经》",
+  "numbers": "照得越久越热：每秒 10、20、30、40、50。不管铜甲。",
+  "name": "阳燧",
+  "tags": {
+   "role": "attack"
+  },
+  "fears": null,
+  "beats": [
+   "walker",
+   "shielder",
+   "brute"
+  ],
+  "voice": [
+   "fort.alm.beam.1",
+   "fort.alm.beam.2"
+  ],
+  "word": "fort.w.阳燧"
+ },
+ {
+  "id": "bank",
+  "kind": "card",
+  "stamp": "想",
+  "quote": null,
+  "source": "磨刀不误砍柴工",
+  "numbers": "100 粮建仓，每 16 秒 50 粮，42 秒回本。",
+  "name": "粮仓",
+  "tags": {
+   "role": "econ"
+  },
+  "fears": null,
+  "beats": [],
+  "voice": [
+   "fort.alm.bank.1",
+   "fort.alm.bank.2"
+  ],
+  "word": "fort.w.粮仓"
+ },
+ {
+  "id": "radial",
+  "kind": "card",
+  "stamp": "史",
+  "quote": null,
+  "source": "《墨子》城守各篇“转射机”（篇目待核）",
+  "numbers": "2.5 格的圆圈里，每 1.2 秒一箭 16，天上的也打。",
+  "name": "转射机",
+  "tags": {
+   "role": "attack"
+  },
+  "fears": null,
+  "beats": [
+   "flyer"
+  ],
+  "voice": [
+   "fort.alm.radial.1",
+   "fort.alm.radial.2"
+  ],
+  "word": "fort.w.转射机"
+ },
+ {
+  "id": "gust",
+  "kind": "card",
+  "stamp": "史",
+  "quote": null,
+  "source": "《墨子·备穴》用橐鼓风（待核）",
+  "numbers": "每 8 秒吹一次：轻的推回 1.5 格，飞的落地 6 秒。",
+  "name": "橐（风箱）",
+  "tags": {
+   "role": "control"
+  },
+  "fears": null,
+  "beats": [
+   "flyer",
+   "smoker"
+  ],
+  "voice": [
+   "fort.alm.gust.1",
+   "fort.alm.gust.2"
+  ],
+  "word": "fort.w.橐（风箱）"
+ },
+ {
+  "id": "hook",
+  "kind": "card",
+  "stamp": "史",
+  "quote": "退者钩之，进者强之",
+  "source": "《墨子·鲁问》",
+  "numbers": "每 5 秒钩一次：轻的 2 格、中的 1.5 格、重的 0.75 格。",
+  "name": "钩拒",
+  "tags": {
+   "role": "control"
+  },
+  "fears": null,
+  "beats": [
+   "ladder"
+  ],
+  "voice": [
+   "fort.alm.hook.1",
+   "fort.alm.hook.2"
+  ],
+  "word": "fort.w.钩拒"
+ },
+ {
+  "id": "walker",
+  "kind": "machine",
+  "stamp": "想",
+  "quote": null,
+  "source": "偃师造人（《列子·汤问》，传说）",
+  "numbers": "耐久 180，每秒走 0.2 格，走完 8 格要 41 秒。",
+  "name": "木甲兵",
+  "tags": {
+   "mat": "wood",
+   "wt": "medium",
+   "layer": "ground",
+   "traits": []
+  },
+  "fears": [
+   "shooter",
+   "lobber",
+   "burner",
+   "beam"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.walker.1",
+   "fort.alm.walker.2",
+   "fort.alm.walker.fear"
+  ],
+  "word": "fort.w.木甲兵"
+ },
+ {
+  "id": "shielder",
+  "kind": "machine",
+  "stamp": "想",
+  "quote": null,
+  "source": null,
+  "numbers": "木盾 360 + 本体 180。连弩车要 30 箭，籍车 4 块。",
+  "name": "盾甲兵",
+  "tags": {
+   "mat": "wood",
+   "wt": "medium",
+   "layer": "ground",
+   "traits": [
+    "shield"
+   ]
+  },
+  "fears": [
+   "lobber",
+   "burner",
+   "beam"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.shielder.1",
+   "fort.alm.shielder.2",
+   "fort.alm.shielder.fear"
+  ],
+  "word": "fort.w.盾甲兵"
+ },
+ {
+  "id": "shielder_m",
+  "kind": "machine",
+  "stamp": "想",
+  "quote": null,
+  "source": null,
+  "numbers": "铜盾 360 + 木身 180。连弩车的箭先打盾；籍车的石头越过盾，4 块就拆掉。",
+  "after": "2-10",
+  "name": "铜盾甲兵",
+  "tags": {
+   "mat": "wood",
+   "wt": "medium",
+   "layer": "ground",
+   "traits": [
+    "shield"
+   ]
+  },
+  "fears": [
+   "lobber",
+   "burner",
+   "beam"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.shielder_m.1",
+   "fort.alm.shielder_m.2",
+   "fort.alm.shielder_m.fear"
+  ],
+  "word": "fort.w.铜盾甲兵"
+ },
+ {
+  "id": "ram",
+  "kind": "machine",
+  "stamp": "史",
+  "quote": "临、钩、冲、梯……",
+  "source": "《墨子·备城门》十二攻",
+  "numbers": "跑得越远越快：每秒 0.14 → 0.32 格。撞木垒第一下 900，之后每下约 350，第 6 下撞碎。",
+  "name": "冲车",
+  "tags": {
+   "mat": "wood",
+   "wt": "heavy",
+   "layer": "ground",
+   "traits": [
+    "wheels",
+    "momentum"
+   ]
+  },
+  "fears": [
+   "spikes"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.ram.1",
+   "fort.alm.ram.2",
+   "fort.alm.ram.fear"
+  ],
+  "word": "fort.w.冲车"
+ },
+ {
+  "id": "ant",
+  "kind": "machine",
+  "stamp": "史",
+  "quote": "蚁傅",
+  "source": "《墨子·备城门》十二攻（画成小木蚁是想象）",
+  "numbers": "一群 8 只，每只 40。一罐火油烧一片。",
+  "name": "蚁傅",
+  "tags": {
+   "mat": "wood",
+   "wt": "light",
+   "layer": "ground",
+   "traits": [
+    "swarm"
+   ]
+  },
+  "fears": [
+   "burner"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.ant.1",
+   "fort.alm.ant.2",
+   "fort.alm.ant.fear"
+  ],
+  "word": "fort.w.蚁傅"
+ },
+ {
+  "id": "brute",
+  "kind": "machine",
+  "stamp": "想",
+  "quote": null,
+  "source": null,
+  "numbers": "耐久 800，铜甲 10：连弩车一箭只剩 8，要 100 箭。",
+  "name": "铜甲力士",
+  "tags": {
+   "mat": "metal",
+   "wt": "heavy",
+   "layer": "ground",
+   "traits": []
+  },
+  "fears": [
+   "beam",
+   "lobber"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.brute.1",
+   "fort.alm.brute.2",
+   "fort.alm.brute.fear"
+  ],
+  "word": "fort.w.铜甲力士"
+ },
+ {
+  "id": "flyer",
+  "kind": "machine",
+  "stamp": "传",
+  "quote": "公输子削竹木以为鹊，成而飞之，三日不下",
+  "source": "《墨子·鲁问》",
+  "numbers": "耐久 120，每秒飞 0.32 格，专找禾田和粮仓。",
+  "name": "木鹊",
+  "tags": {
+   "mat": "wood",
+   "wt": "light",
+   "layer": "air",
+   "traits": [
+    "peck"
+   ]
+  },
+  "fears": [
+   "radial",
+   "gust"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.flyer.1",
+   "fort.alm.flyer.2",
+   "fort.alm.flyer.fear"
+  ],
+  "word": "fort.w.木鹊"
+ },
+ {
+  "id": "smoker",
+  "kind": "machine",
+  "stamp": "想",
+  "quote": null,
+  "source": "对应攻守里的“熏”",
+  "numbers": "每 12 秒一团烟，盖住 3×3 格，8 秒。",
+  "name": "烟车",
+  "tags": {
+   "mat": "wood",
+   "wt": "medium",
+   "layer": "ground",
+   "traits": [
+    "smoke"
+   ]
+  },
+  "fears": [
+   "gust",
+   "lobber"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.smoker.1",
+   "fort.alm.smoker.2",
+   "fort.alm.smoker.fear"
+  ],
+  "word": "fort.w.烟车"
+ },
+ {
+  "id": "ladder",
+  "kind": "machine",
+  "stamp": "史",
+  "quote": "公输盘为楚造云梯之械",
+  "source": "《墨子·公输》",
+  "numbers": "梯子 160，火油罐烧 5 罐就断；一架起来压住 3 台。",
+  "name": "云梯车",
+  "tags": {
+   "mat": "wood",
+   "wt": "heavy",
+   "layer": "ground",
+   "traits": [
+    "wheels",
+    "ladder"
+   ]
+  },
+  "fears": [
+   "hook"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.ladder.1",
+   "fort.alm.ladder.2",
+   "fort.alm.ladder.fear"
+  ],
+  "word": "fort.w.云梯车"
+ },
+ {
+  "id": "drummer",
+  "kind": "machine",
+  "stamp": "想",
+  "quote": null,
+  "source": "古代击鼓进军",
+  "numbers": "鼓一响，旁边的机关快 1.6 倍，咬得也狠 1.6 倍。",
+  "name": "鼓车",
+  "tags": {
+   "mat": "wood",
+   "wt": "medium",
+   "layer": "ground",
+   "traits": [
+    "aura"
+   ]
+  },
+  "fears": [
+   "strike",
+   "lobber"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.drummer.1",
+   "fort.alm.drummer.2",
+   "fort.alm.drummer.fear"
+  ],
+  "word": "fort.w.鼓车"
+ },
+ {
+  "id": "rhino",
+  "kind": "boss",
+  "stamp": "想",
+  "quote": "利于人谓之巧，不利于人谓之拙",
+  "source": "《墨子·鲁问》（它最后变成了犁）",
+  "numbers": "1800 耐久；缩进壳里后只认重石和阳燧，裂壳 100 才碎。",
+  "name": "铜犀冲车",
+  "tags": {
+   "mat": "metal",
+   "wt": "heavy",
+   "layer": "ground",
+   "traits": [
+    "shell",
+    "charge"
+   ]
+  },
+  "fears": [
+   "lobber",
+   "beam"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.rhino.1",
+   "fort.alm.rhino.2"
+  ],
+  "word": "fort.w.铜犀冲车"
+ },
+ {
+  "id": "owl",
+  "kind": "boss",
+  "stamp": "想",
+  "quote": null,
+  "source": null,
+  "numbers": "1400 耐久；落地的 6 秒里，受到的打击 ×1.5。",
+  "name": "夜枭木鸢",
+  "tags": {
+   "mat": "wood",
+   "wt": "light",
+   "layer": "air",
+   "traits": [
+    "swoop"
+   ]
+  },
+  "fears": [
+   "radial"
+  ],
+  "beats": null,
+  "voice": [
+   "fort.alm.owl.1",
+   "fort.alm.owl.2"
+  ],
+  "word": "fort.w.夜枭木鸢"
+ }
+]

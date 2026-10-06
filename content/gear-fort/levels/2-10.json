@@ -1,0 +1,290 @@
+{
+ "id": "2-10",
+ "vol": 2,
+ "idx": 10,
+ "name": "天亮了",
+ "type": "test",
+ "concept": "前半夜靠粮仓，天亮后阳燧上线；新机关不告诉你怕什么：看标签自己想",
+ "jinnang": "daynight",
+ "choose": true,
+ "slots": 7,
+ "seal": [
+  "beam"
+ ],
+ "infer": "shielder_m",
+ "newEnemy": "shielder_m",
+ "prefill": [
+  "bank",
+  "shooter",
+  "wall",
+  "lobber",
+  "spikes",
+  "burner",
+  "gust"
+ ],
+ "star3": {
+  "beamAfterDawn": 20
+ },
+ "star3Text": "天亮后 20 秒内放下阳燧",
+ "ask": "铜盾甲兵是谁也没教过你的。你是怎么想出对付它的办法的？",
+ "pool": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes",
+  "pit",
+  "burner",
+  "strike",
+  "beam",
+  "bank",
+  "radial",
+  "gust",
+  "hook"
+ ],
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {
+  "night": true,
+  "dawnAt": 2400
+ },
+ "sky": true,
+ "start": 250,
+ "spawns": [
+  [
+   800,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1046,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   1291,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   1558,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1797,
+   1,
+   "smoker",
+   0
+  ],
+  [
+   2000,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2030,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   2060,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   2090,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2120,
+   4,
+   "ladder",
+   0
+  ],
+  [
+   2150,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2180,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   2210,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   2240,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2470,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2700,
+   2,
+   "shielder_m",
+   1
+  ],
+  [
+   2960,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3141,
+   3,
+   "shielder_m",
+   0
+  ],
+  [
+   3325,
+   1,
+   "brute",
+   0
+  ],
+  [
+   3513,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3700,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3723,
+   2,
+   "shielder_m",
+   0
+  ],
+  [
+   3747,
+   0,
+   "brute",
+   0
+  ],
+  [
+   3770,
+   1,
+   "drummer",
+   0
+  ],
+  [
+   3793,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3817,
+   1,
+   "shielder_m",
+   0
+  ],
+  [
+   3840,
+   2,
+   "brute",
+   0
+  ],
+  [
+   3863,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3887,
+   3,
+   "shielder_m",
+   0
+  ],
+  [
+   3910,
+   4,
+   "brute",
+   0
+  ],
+  [
+   3933,
+   2,
+   "drummer",
+   0
+  ],
+  [
+   3957,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3980,
+   0,
+   "shielder_m",
+   0
+  ]
+ ],
+ "flags": [
+  2000,
+  3700
+ ],
+ "drumOk": false,
+ "p": 1,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer",
+  "smoker",
+  "ladder",
+  "drummer",
+  "shielder_m"
+ ],
+ "botJinnang": "infer",
+ "inn": null,
+ "repair": {
+  "art": "sunrise",
+  "line": "fort.repair.2-10"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-10.1",
+   "fort.lvl.2-10.2"
+  ],
+  "preview": "fort.luban.preview.2-10",
+  "ask": "fort.ask.2-10"
+ }
+}

@@ -1,0 +1,178 @@
+[
+ {
+  "id": "econ",
+  "idiom": "兵马未动，粮草先行",
+  "concept": "经济先行",
+  "path": [
+   "1-2",
+   "1-3 1-4",
+   "2-1"
+  ],
+  "signal": "econ60: day ≥4 econ units at 60 s · night ≥2 banks",
+  "voice": "fort.jn.econ"
+ },
+ {
+  "id": "invest",
+  "idiom": "磨刀不误砍柴工",
+  "concept": "投资回本",
+  "path": [
+   "2-1",
+   "2-4",
+   "2-10"
+  ],
+  "signal": "banksBy50 ≥2 on a night level",
+  "voice": "fort.jn.invest"
+ },
+ {
+  "id": "counter",
+  "idiom": "对症下药",
+  "concept": "看机关选牒",
+  "path": [
+   "1-4",
+   "1-5 1-7 1-9",
+   "1-10"
+  ],
+  "signal": "within 10 s of a NEW-to-this-run machine kind, a card it fears is placed in its lane (radial ±1)",
+  "voice": "fort.jn.counter"
+ },
+ {
+  "id": "aoe",
+  "idiom": "一网打尽",
+  "concept": "范围对单体",
+  "path": [
+   "1-7",
+   "1-8",
+   "2-9"
+  ],
+  "signal": "one burner splash or one strike hits ≥4",
+  "voice": "fort.jn.aoe"
+ },
+ {
+  "id": "timing",
+  "idiom": "好钢用在刀刃上",
+  "concept": "留大招",
+  "path": [
+   "1-8",
+   "1-11",
+   "2-11"
+  ],
+  "signal": "mean strike hits ≥3, or a token used within a flag window / boss down-window",
+  "voice": "fort.jn.timing"
+ },
+ {
+  "id": "guard",
+  "idiom": "防止后院起火",
+  "concept": "保护经济",
+  "path": [
+   "2-2",
+   "2-3",
+   "2-5"
+  ],
+  "signal": "a level with flyers and econLost = 0",
+  "voice": "fort.jn.guard"
+ },
+ {
+  "id": "control",
+  "idiom": "以逸待劳",
+  "concept": "控制换时间",
+  "path": [
+   "1-5",
+   "2-3",
+   "2-6"
+  ],
+  "signal": "every ram impact ≤160, or gust grounds ≥2 flyers",
+  "voice": "fort.jn.control"
+ },
+ {
+  "id": "depth",
+  "idiom": "未雨绸缪",
+  "concept": "提前布置",
+  "path": [
+   "1-3",
+   "1-6",
+   "2-6"
+  ],
+  "signal": "every warned lane has a pit or wall before its flag",
+  "voice": "fort.jn.depth"
+ },
+ {
+  "id": "smoke",
+  "idiom": "拨云见日",
+  "concept": "应对遮蔽",
+  "path": [
+   "2-4",
+   "2-9",
+   "v2"
+  ],
+  "signal": "smokeCleared ≥3, or a lobber hits a machine inside smoke",
+  "voice": "fort.jn.smoke"
+ },
+ {
+  "id": "cover",
+  "idiom": "有备无患",
+  "concept": "均衡布防",
+  "path": [
+   "2-5",
+   "2-10",
+   "v2"
+  ],
+  "signal": "at the first flag every open lane has an attacker",
+  "voice": "fort.jn.cover"
+ },
+ {
+  "id": "preview",
+  "idiom": "知己知彼",
+  "concept": "看预告配卡",
+  "path": [
+   "1-10",
+   "1-11",
+   "2-10"
+  ],
+  "signal": "chosen deck covers MUST[k] for every previewed kind",
+  "voice": "fort.jn.preview"
+ },
+ {
+  "id": "daynight",
+  "idiom": "因时制宜",
+  "concept": "昼夜切换",
+  "path": [
+   "2-1",
+   "2-10"
+  ],
+  "signal": "a beam placed ≤20 s after dawn",
+  "voice": "fort.jn.daynight"
+ },
+ {
+  "id": "improvise",
+  "idiom": "随机应变",
+  "concept": "急报",
+  "path": [
+   "2-7",
+   "v2 3-6 4-4"
+  ],
+  "signal": "conveyor level won and the belt never reached 6",
+  "voice": "fort.jn.improvise"
+ },
+ {
+  "id": "priority",
+  "idiom": "擒贼先擒王",
+  "concept": "优先目标",
+  "path": [
+   "2-8",
+   "v2 4-3"
+  ],
+  "signal": "drummer (v2: tower) dismantled before it passes column 4",
+  "voice": "fort.jn.priority"
+ },
+ {
+  "id": "infer",
+  "idiom": "举一反三",
+  "concept": "看标签推出克制",
+  "path": [
+   "2-10",
+   "P2-09 P2-10"
+  ],
+  "signal": "within 15 s of the first 铜盾甲兵 (no hint, no ask, no assist) a lobber/burner/beam is placed in its lane",
+  "voice": "fort.jn.infer"
+ }
+]

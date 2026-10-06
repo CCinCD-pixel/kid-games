@@ -1,0 +1,166 @@
+{
+ "id": "2-3",
+ "vol": 2,
+ "idx": 3,
+ "name": "风箱",
+ "type": "teach",
+ "newCard": "gust",
+ "concept": "没有转射机：风把木鹊吹下来给连弩打，把蚁群吹回去",
+ "jinnang": "control",
+ "loadout": [
+  "farm",
+  "shooter",
+  "wall",
+  "lobber",
+  "burner",
+  "gust"
+ ],
+ "slots": 6,
+ "star3": {
+  "downed": 3,
+  "econLost": 0
+ },
+ "star3Text": "风箱吹落 3 只木鹊，禾田一块不丢",
+ "ask": "风箱吹不动谁？为什么？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 100,
+ "spawns": [
+  [
+   400,
+   4,
+   "walker",
+   0
+  ],
+  [
+   719,
+   0,
+   "walker",
+   0
+  ],
+  [
+   800,
+   2,
+   "flyer",
+   0
+  ],
+  [
+   1040,
+   2,
+   "flyer",
+   0
+  ],
+  [
+   1086,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1400,
+   1,
+   "flyer",
+   0
+  ],
+  [
+   1580,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1760,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   1800,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1834,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1869,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   1903,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1937,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1971,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2000,
+   1,
+   "flyer",
+   0
+  ],
+  [
+   2006,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   2040,
+   0,
+   "walker",
+   0
+  ]
+ ],
+ "flags": [
+  1800
+ ],
+ "drumOk": false,
+ "p": 0.7,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer"
+ ],
+ "botJinnang": "control",
+ "inn": 5,
+ "repair": {
+  "art": "mill-sails",
+  "line": "fort.repair.2-3"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-3.1",
+   "fort.lvl.2-3.2"
+  ],
+  "preview": "fort.luban.preview.2-3",
+  "ask": "fort.ask.2-3"
+ }
+}

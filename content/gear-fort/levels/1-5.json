@@ -1,0 +1,165 @@
+{
+ "id": "1-5",
+ "vol": 1,
+ "idx": 5,
+ "name": "冲车来了",
+ "type": "teach",
+ "newCard": "spikes",
+ "newEnemy": "ram",
+ "concept": "铁蒺藜让冲车冲不起来",
+ "jinnang": "control",
+ "loadout": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes"
+ ],
+ "slots": 5,
+ "star3": {
+  "jammed": {
+   "ram": 5
+  }
+ },
+ "star3Text": "铁蒺藜卡住 5 辆冲车",
+ "ask": "冲车为什么要先跑起来才撞得狠？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 100,
+ "spawns": [
+  [
+   400,
+   4,
+   "walker",
+   0
+  ],
+  [
+   800,
+   2,
+   "ram",
+   1
+  ],
+  [
+   1240,
+   2,
+   "ram",
+   0
+  ],
+  [
+   1325,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1360,
+   2,
+   "ram",
+   0
+  ],
+  [
+   1540,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1720,
+   0,
+   "ram",
+   0
+  ],
+  [
+   1840,
+   0,
+   "ram",
+   0
+  ],
+  [
+   2000,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2033,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2067,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2100,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2133,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2167,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2200,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2240,
+   4,
+   "ram",
+   0
+  ]
+ ],
+ "flags": [
+  2000
+ ],
+ "preplace": [
+  [
+   "wall",
+   2,
+   4
+  ]
+ ],
+ "drumOk": false,
+ "p": 0.7,
+ "known": [
+  "walker",
+  "shielder",
+  "ram"
+ ],
+ "botJinnang": "control",
+ "inn": null,
+ "repair": {
+  "art": "moat-bridge",
+  "line": "fort.repair.1-5"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-5.1",
+   "fort.lvl.1-5.2"
+  ],
+  "preview": "fort.luban.preview.1-5",
+  "ask": "fort.ask.1-5"
+ }
+}

@@ -1,0 +1,263 @@
+{
+ "id": "1-9",
+ "vol": 1,
+ "idx": 9,
+ "name": "铜甲力士",
+ "type": "teach",
+ "newCard": "beam",
+ "newEnemy": "brute",
+ "concept": "铜不怕火，怕重石和聚光",
+ "jinnang": "counter",
+ "loadout": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "burner",
+  "beam"
+ ],
+ "slots": 6,
+ "star3": {
+  "minX": 1
+ },
+ "star3Text": "没有机关走过第 2 格",
+ "ask": "火油罐为什么烧不动铜甲力士？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 70,
+ "spawns": [
+  [
+   440,
+   3,
+   "walker",
+   0
+  ],
+  [
+   601,
+   2,
+   "walker",
+   0
+  ],
+  [
+   762,
+   1,
+   "walker",
+   0
+  ],
+  [
+   981,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1200,
+   2,
+   "brute",
+   1
+  ],
+  [
+   1480,
+   2,
+   "brute",
+   0
+  ],
+  [
+   1740,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   1970,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2200,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2200,
+   4,
+   "brute",
+   0
+  ],
+  [
+   2240,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   2280,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2320,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2360,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2400,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2500,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2740,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2970,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   3241,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3471,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3736,
+   1,
+   "walker",
+   0
+  ],
+  [
+   4000,
+   1,
+   "brute",
+   0
+  ],
+  [
+   4000,
+   3,
+   "brute",
+   0
+  ],
+  [
+   4000,
+   3,
+   "walker",
+   0
+  ],
+  [
+   4035,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   4070,
+   1,
+   "walker",
+   0
+  ],
+  [
+   4105,
+   2,
+   "walker",
+   0
+  ],
+  [
+   4140,
+   4,
+   "swarm",
+   0
+  ],
+  [
+   4175,
+   3,
+   "walker",
+   0
+  ],
+  [
+   4210,
+   4,
+   "walker",
+   0
+  ],
+  [
+   4245,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   4280,
+   0,
+   "walker",
+   0
+  ]
+ ],
+ "flags": [
+  2200,
+  4000
+ ],
+ "preplace": [
+  [
+   "burner",
+   2,
+   1
+  ]
+ ],
+ "drumOk": false,
+ "p": 0.8,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute"
+ ],
+ "botJinnang": "adapt",
+ "inn": 3,
+ "repair": {
+  "art": "smithy-fire",
+  "line": "fort.repair.1-9"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-9.1",
+   "fort.lvl.1-9.2"
+  ],
+  "preview": "fort.luban.preview.1-9",
+  "ask": "fort.ask.1-9"
+ }
+}

@@ -1,0 +1,323 @@
+{
+ "id": "2-9",
+ "vol": 2,
+ "idx": 9,
+ "name": "夜里的考验",
+ "type": "practice",
+ "concept": "温故知新：烟、蚁群、冲车一起来；风箱配火油（火借风势）",
+ "jinnang": "aoe",
+ "choose": true,
+ "slots": 6,
+ "seal": [
+  "gust",
+  "counters"
+ ],
+ "prefill": [
+  "bank",
+  "shooter",
+  "wall",
+  "lobber",
+  "spikes",
+  "burner"
+ ],
+ "star3": {
+  "windBurn": 5
+ },
+ "star3Text": "风箱同一路的火油罐，一罐烧到 5 个机关",
+ "ask": "风箱和火油罐放在同一路，会发生什么？",
+ "pool": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes",
+  "pit",
+  "burner",
+  "strike",
+  "beam",
+  "bank",
+  "radial",
+  "gust",
+  "hook"
+ ],
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {
+  "night": true
+ },
+ "sky": false,
+ "start": 250,
+ "spawns": [
+  [
+   900,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1079,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1257,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   1429,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1600,
+   1,
+   "swarm",
+   0
+  ],
+  [
+   1600,
+   2,
+   "smoker",
+   0
+  ],
+  [
+   1640,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1680,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   1720,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   1760,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   1800,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1920,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2169,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   2425,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   2711,
+   1,
+   "smoker",
+   0
+  ],
+  [
+   3000,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   3034,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3069,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   3103,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   3137,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   3171,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3206,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   3240,
+   1,
+   "swarm",
+   0
+  ],
+  [
+   3240,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3504,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   3753,
+   4,
+   "swarm",
+   0
+  ],
+  [
+   4027,
+   3,
+   "walker",
+   0
+  ],
+  [
+   4300,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   4300,
+   1,
+   "ram",
+   0
+  ],
+  [
+   4300,
+   3,
+   "ram",
+   0
+  ],
+  [
+   4331,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   4362,
+   2,
+   "walker",
+   0
+  ],
+  [
+   4393,
+   4,
+   "swarm",
+   0
+  ],
+  [
+   4424,
+   1,
+   "swarm",
+   0
+  ],
+  [
+   4456,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   4487,
+   3,
+   "walker",
+   0
+  ],
+  [
+   4518,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   4549,
+   4,
+   "swarm",
+   0
+  ],
+  [
+   4580,
+   1,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  1600,
+  3000,
+  4300
+ ],
+ "drumOk": false,
+ "p": 0.78,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer",
+  "smoker",
+  "ladder",
+  "drummer"
+ ],
+ "botJinnang": "synergy",
+ "inn": 7,
+ "repair": {
+  "art": "granary-full",
+  "line": "fort.repair.2-9"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-9.1",
+   "fort.lvl.2-9.2"
+  ],
+  "preview": "fort.luban.preview.2-9",
+  "ask": "fort.ask.2-9"
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "id": "1-10",
+ "vol": 1,
+ "idx": 10,
+ "name": "鲁班的考题",
+ "type": "test",
+ "concept": "看鲁班亮的招，自己选牒",
+ "jinnang": "preview",
+ "choose": true,
+ "slots": 6,
+ "seal": "counters",
+ "prefill": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "burner",
+  "beam"
+ ],
+ "star3": {
+  "lostTo": {
+   "ram": 2
+  }
+ },
+ "star3Text": "冲车最多撞坏两台机关",
+ "ask": "你为什么带了这几张牒？",
+ "pool": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes",
+  "pit",
+  "burner",
+  "strike",
+  "beam"
+ ],
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 90,
+ "spawns": [
+  [
+   480,
+   1,
+   "walker",
+   0
+  ],
+  [
+   696,
+   2,
+   "walker",
+   0
+  ],
+  [
+   912,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1128,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1344,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   1522,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1700,
+   2,
+   "ram",
+   0
+  ],
+  [
+   1700,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   1700,
+   4,
+   "ram",
+   0
+  ],
+  [
+   1900,
+   1,
+   "swarm",
+   0
+  ],
+  [
+   2000,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   2215,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2429,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2644,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2858,
+   2,
+   "ram",
+   0
+  ],
+  [
+   3029,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3200,
+   0,
+   "ram",
+   0
+  ],
+  [
+   3200,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   3200,
+   1,
+   "ram",
+   0
+  ],
+  [
+   3200,
+   3,
+   "ram",
+   0
+  ],
+  [
+   3340,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   3480,
+   4,
+   "ram",
+   0
+  ]
+ ],
+ "flags": [
+  1700,
+  3200
+ ],
+ "warn": [
+  {
+   "t": 160,
+   "lanes": [
+    1,
+    3
+   ]
+  }
+ ],
+ "drumOk": false,
+ "p": 0.26,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute"
+ ],
+ "botJinnang": "preview",
+ "inn": null,
+ "repair": {
+  "art": "swing",
+  "line": "fort.repair.1-10"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-10.1",
+   "fort.lvl.1-10.2"
+  ],
+  "preview": "fort.luban.preview.1-10",
+  "ask": "fort.ask.1-10"
+ }
+}

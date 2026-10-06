@@ -1,0 +1,1175 @@
+{
+ "version": 4,
+ "note": "v1 锦囊谜题 rev d: 精打细算 P1-01…05 (after 1-6), 对症下药 P2-01…05 (after 1-10), 举一反三 P2-09/P2-10 (after 2-10). proto/v1/puzzles-v1.mjs rev d (P7 不教反课; P5 每题新解法类、每组每类 ≤3). P2-06…08 reserved for v2 (对症下药 补题 + 非攻).",
+ "puzzles": [
+  {
+   "id": "P1-01",
+   "group": 1,
+   "groupName": "精打细算",
+   "jinnang": "精打细算",
+   "unlock": "1-6",
+   "deck": [
+    "shooter",
+    "lobber",
+    "wall",
+    "pit",
+    "spikes"
+   ],
+   "budget": 100,
+   "par": 100,
+   "star3": 100,
+   "star2": 140,
+   "randomHold": 0.01,
+   "lanes": [
+    {
+     "lane": 2,
+     "wave": [
+      [
+       3,
+       "walker"
+      ],
+      [
+       9,
+       "walker"
+      ],
+      [
+       12,
+       "walker"
+      ],
+      [
+       18,
+       "walker"
+      ],
+      [
+       25,
+       "walker"
+      ],
+      [
+       29,
+       "walker"
+      ]
+     ],
+     "par": 100,
+     "classes": [
+      "pit+shooter"
+     ],
+     "best": [
+      {
+       "card": "shooter",
+       "col": 0
+      },
+      {
+       "card": "pit",
+       "col": 6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P1-02",
+   "group": 1,
+   "groupName": "精打细算",
+   "jinnang": "精打细算",
+   "unlock": "1-6",
+   "deck": [
+    "shooter",
+    "lobber",
+    "wall",
+    "pit",
+    "spikes"
+   ],
+   "budget": 210,
+   "par": 210,
+   "star3": 210,
+   "star2": 250,
+   "randomHold": 0,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       2,
+       "walker"
+      ],
+      [
+       9,
+       "walker"
+      ],
+      [
+       14,
+       "shielder"
+      ],
+      [
+       19,
+       "shielder"
+      ],
+      [
+       22,
+       "shielder"
+      ],
+      [
+       28,
+       "shielder"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       4,
+       "walker"
+      ],
+      [
+       9,
+       "walker"
+      ],
+      [
+       14,
+       "walker"
+      ],
+      [
+       18,
+       "walker"
+      ],
+      [
+       24,
+       "walker"
+      ],
+      [
+       31,
+       "walker"
+      ]
+     ],
+     "par": 100,
+     "classes": [
+      "pit+shooter"
+     ],
+     "best": [
+      {
+       "card": "shooter",
+       "col": 0
+      },
+      {
+       "card": "pit",
+       "col": 6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P1-03",
+   "group": 1,
+   "groupName": "精打细算",
+   "jinnang": "精打细算",
+   "unlock": "1-6",
+   "deck": [
+    "shooter",
+    "lobber",
+    "wall",
+    "pit",
+    "spikes"
+   ],
+   "budget": 340,
+   "par": 340,
+   "star3": 340,
+   "star2": 380,
+   "randomHold": 0,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       5,
+       "walker"
+      ],
+      [
+       8,
+       "shielder"
+      ],
+      [
+       11,
+       "walker"
+      ],
+      [
+       18,
+       "walker"
+      ],
+      [
+       23,
+       "walker"
+      ],
+      [
+       28,
+       "walker"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       4,
+       "ram"
+      ],
+      [
+       8,
+       "ram"
+      ],
+      [
+       12,
+       "ram"
+      ],
+      [
+       19,
+       "walker"
+      ]
+     ],
+     "par": 230,
+     "classes": [
+      "lobber+spikes+wall"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      },
+      {
+       "card": "wall",
+       "col": 3
+      },
+      {
+       "card": "spikes",
+       "col": 5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P1-04",
+   "group": 1,
+   "groupName": "精打细算",
+   "jinnang": "精打细算",
+   "unlock": "1-6",
+   "deck": [
+    "shooter",
+    "lobber",
+    "wall",
+    "pit",
+    "spikes"
+   ],
+   "budget": 570,
+   "par": 570,
+   "star3": 570,
+   "star2": 610,
+   "randomHold": 0,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       3,
+       "walker"
+      ],
+      [
+       7,
+       "ram"
+      ],
+      [
+       14,
+       "walker"
+      ],
+      [
+       17,
+       "ram"
+      ],
+      [
+       23,
+       "ram"
+      ]
+     ],
+     "par": 260,
+     "classes": [
+      "lobber+shooter+spikes"
+     ],
+     "best": [
+      {
+       "card": "shooter",
+       "col": 0
+      },
+      {
+       "card": "lobber",
+       "col": 1
+      },
+      {
+       "card": "spikes",
+       "col": 4
+      }
+     ]
+    },
+    {
+     "lane": 2,
+     "wave": [
+      [
+       2,
+       "shielder"
+      ],
+      [
+       7,
+       "shielder"
+      ],
+      [
+       11,
+       "shielder"
+      ],
+      [
+       14,
+       "shielder"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       2,
+       "walker"
+      ],
+      [
+       6,
+       "walker"
+      ],
+      [
+       10,
+       "ram"
+      ],
+      [
+       17,
+       "ram"
+      ]
+     ],
+     "par": 200,
+     "classes": [
+      "shooter+spikes+wall"
+     ],
+     "best": [
+      {
+       "card": "shooter",
+       "col": 0
+      },
+      {
+       "card": "wall",
+       "col": 3
+      },
+      {
+       "card": "spikes",
+       "col": 4
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P1-05",
+   "group": 1,
+   "groupName": "精打细算",
+   "jinnang": "精打细算",
+   "unlock": "1-6",
+   "deck": [
+    "shooter",
+    "lobber",
+    "wall",
+    "pit",
+    "spikes"
+   ],
+   "budget": 310,
+   "par": 310,
+   "star3": 310,
+   "star2": 350,
+   "randomHold": 0,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       2,
+       "ram"
+      ],
+      [
+       8,
+       "ram"
+      ],
+      [
+       13,
+       "walker"
+      ],
+      [
+       16,
+       "ram"
+      ]
+     ],
+     "par": 230,
+     "classes": [
+      "lobber+spikes+wall"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      },
+      {
+       "card": "wall",
+       "col": 3
+      },
+      {
+       "card": "spikes",
+       "col": 5
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       4,
+       "walker"
+      ],
+      [
+       11,
+       "walker"
+      ],
+      [
+       14,
+       "walker"
+      ],
+      [
+       21,
+       "walker"
+      ],
+      [
+       24,
+       "walker"
+      ]
+     ],
+     "par": 80,
+     "classes": [
+      "shooter"
+     ],
+     "best": [
+      {
+       "card": "shooter",
+       "col": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2-01",
+   "group": 2,
+   "groupName": "对症下药",
+   "jinnang": "对症下药",
+   "unlock": "1-10",
+   "deck": [
+    "shooter",
+    "lobber",
+    "burner",
+    "beam",
+    "wall",
+    "spikes"
+   ],
+   "budget": 280,
+   "par": 240,
+   "star3": 240,
+   "star2": 280,
+   "randomHold": 0.03,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       2,
+       "swarm"
+      ],
+      [
+       8,
+       "swarm"
+      ],
+      [
+       12,
+       "walker"
+      ]
+     ],
+     "par": 130,
+     "classes": [
+      "burner"
+     ],
+     "best": [
+      {
+       "card": "burner",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       4,
+       "walker"
+      ],
+      [
+       11,
+       "shielder"
+      ],
+      [
+       16,
+       "shielder"
+      ],
+      [
+       21,
+       "shielder"
+      ],
+      [
+       24,
+       "walker"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2-02",
+   "group": 2,
+   "groupName": "对症下药",
+   "jinnang": "对症下药",
+   "unlock": "1-10",
+   "deck": [
+    "shooter",
+    "lobber",
+    "burner",
+    "beam",
+    "wall",
+    "spikes"
+   ],
+   "budget": 340,
+   "par": 300,
+   "star3": 300,
+   "star2": 340,
+   "randomHold": 0,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       3,
+       "walker"
+      ],
+      [
+       9,
+       "shielder"
+      ],
+      [
+       17,
+       "walker"
+      ],
+      [
+       25,
+       "shielder"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       5,
+       "ram"
+      ],
+      [
+       10,
+       "ram"
+      ],
+      [
+       14,
+       "ram"
+      ],
+      [
+       19,
+       "walker"
+      ],
+      [
+       25,
+       "walker"
+      ]
+     ],
+     "par": 190,
+     "classes": [
+      "beam+spikes"
+     ],
+     "best": [
+      {
+       "card": "beam",
+       "col": 0
+      },
+      {
+       "card": "spikes",
+       "col": 4
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2-03",
+   "group": 2,
+   "groupName": "对症下药",
+   "jinnang": "对症下药",
+   "unlock": "1-10",
+   "deck": [
+    "shooter",
+    "lobber",
+    "burner",
+    "beam",
+    "wall",
+    "spikes"
+   ],
+   "budget": 350,
+   "par": 310,
+   "star3": 310,
+   "star2": 350,
+   "randomHold": 0.015,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       3,
+       "walker"
+      ],
+      [
+       6,
+       "ram"
+      ],
+      [
+       12,
+       "ram"
+      ],
+      [
+       16,
+       "walker"
+      ],
+      [
+       19,
+       "ram"
+      ]
+     ],
+     "par": 190,
+     "classes": [
+      "beam+spikes"
+     ],
+     "best": [
+      {
+       "card": "beam",
+       "col": 0
+      },
+      {
+       "card": "spikes",
+       "col": 4
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       2,
+       "walker"
+      ],
+      [
+       7,
+       "brute"
+      ],
+      [
+       14,
+       "walker"
+      ]
+     ],
+     "par": 120,
+     "classes": [
+      "beam"
+     ],
+     "best": [
+      {
+       "card": "beam",
+       "col": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2-04",
+   "group": 2,
+   "groupName": "对症下药",
+   "jinnang": "对症下药",
+   "unlock": "1-10",
+   "deck": [
+    "shooter",
+    "lobber",
+    "burner",
+    "beam",
+    "wall",
+    "spikes"
+   ],
+   "budget": 440,
+   "par": 380,
+   "star3": 380,
+   "star2": 420,
+   "randomHold": 0,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       5,
+       "walker"
+      ],
+      [
+       8,
+       "brute"
+      ],
+      [
+       16,
+       "walker"
+      ],
+      [
+       20,
+       "brute"
+      ]
+     ],
+     "par": 120,
+     "classes": [
+      "beam"
+     ],
+     "best": [
+      {
+       "card": "beam",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 2,
+     "wave": [
+      [
+       2,
+       "swarm"
+      ],
+      [
+       6,
+       "swarm"
+      ],
+      [
+       11,
+       "shielder"
+      ]
+     ],
+     "par": 130,
+     "classes": [
+      "burner"
+     ],
+     "best": [
+      {
+       "card": "burner",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       3,
+       "swarm"
+      ],
+      [
+       7,
+       "swarm"
+      ],
+      [
+       11,
+       "walker"
+      ],
+      [
+       14,
+       "swarm"
+      ],
+      [
+       17,
+       "swarm"
+      ]
+     ],
+     "par": 130,
+     "classes": [
+      "burner"
+     ],
+     "best": [
+      {
+       "card": "burner",
+       "col": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2-05",
+   "group": 2,
+   "groupName": "对症下药",
+   "jinnang": "对症下药",
+   "unlock": "1-10",
+   "deck": [
+    "shooter",
+    "lobber",
+    "burner",
+    "beam",
+    "wall",
+    "spikes"
+   ],
+   "budget": 230,
+   "par": 190,
+   "star3": 190,
+   "star2": 230,
+   "randomHold": 0.035,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       4,
+       "walker"
+      ],
+      [
+       7,
+       "walker"
+      ],
+      [
+       10,
+       "walker"
+      ],
+      [
+       16,
+       "walker"
+      ]
+     ],
+     "par": 80,
+     "classes": [
+      "shooter"
+     ],
+     "best": [
+      {
+       "card": "shooter",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       4,
+       "shielder"
+      ],
+      [
+       12,
+       "shielder"
+      ],
+      [
+       17,
+       "shielder"
+      ],
+      [
+       24,
+       "walker"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2-09",
+   "group": 4,
+   "groupName": "举一反三",
+   "jinnang": "举一反三",
+   "unlock": "2-10",
+   "deck": [
+    "shooter",
+    "lobber",
+    "burner",
+    "beam",
+    "wall",
+    "spikes"
+   ],
+   "budget": 230,
+   "par": 190,
+   "star3": 190,
+   "star2": 230,
+   "randomHold": 0.04,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       3,
+       "shielder_m"
+      ],
+      [
+       10,
+       "walker"
+      ],
+      [
+       13,
+       "walker"
+      ],
+      [
+       20,
+       "shielder_m"
+      ],
+      [
+       26,
+       "shielder_m"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       2,
+       "walker"
+      ],
+      [
+       5,
+       "walker"
+      ],
+      [
+       8,
+       "walker"
+      ],
+      [
+       13,
+       "walker"
+      ]
+     ],
+     "par": 80,
+     "classes": [
+      "shooter"
+     ],
+     "best": [
+      {
+       "card": "shooter",
+       "col": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2-10",
+   "group": 4,
+   "groupName": "举一反三",
+   "jinnang": "举一反三",
+   "unlock": "2-10",
+   "deck": [
+    "shooter",
+    "lobber",
+    "burner",
+    "beam",
+    "wall",
+    "spikes"
+   ],
+   "budget": 470,
+   "par": 410,
+   "star3": 410,
+   "star2": 450,
+   "randomHold": 0,
+   "lanes": [
+    {
+     "lane": 1,
+     "wave": [
+      [
+       4,
+       "shielder_m"
+      ],
+      [
+       7,
+       "walker"
+      ],
+      [
+       11,
+       "shielder_m"
+      ],
+      [
+       14,
+       "shielder"
+      ],
+      [
+       18,
+       "shielder_m"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    },
+    {
+     "lane": 2,
+     "wave": [
+      [
+       3,
+       "shielder_m"
+      ],
+      [
+       6,
+       "shielder_m"
+      ],
+      [
+       9,
+       "ram"
+      ],
+      [
+       16,
+       "ram"
+      ]
+     ],
+     "par": 190,
+     "classes": [
+      "beam+spikes"
+     ],
+     "best": [
+      {
+       "card": "beam",
+       "col": 2
+      },
+      {
+       "card": "spikes",
+       "col": 5
+      }
+     ]
+    },
+    {
+     "lane": 3,
+     "wave": [
+      [
+       4,
+       "shielder_m"
+      ],
+      [
+       8,
+       "shielder_m"
+      ],
+      [
+       12,
+       "shielder_m"
+      ],
+      [
+       16,
+       "shielder_m"
+      ]
+     ],
+     "par": 110,
+     "classes": [
+      "lobber"
+     ],
+     "best": [
+      {
+       "card": "lobber",
+       "col": 0
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

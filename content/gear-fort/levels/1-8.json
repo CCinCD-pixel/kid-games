@@ -1,0 +1,240 @@
+{
+ "id": "1-8",
+ "vol": 1,
+ "idx": 8,
+ "name": "留一手",
+ "type": "practice",
+ "newCard": "strike",
+ "concept": "礌石留给扎堆的大波；第一次自己挑牒",
+ "jinnang": "timing",
+ "choose": true,
+ "slots": 6,
+ "prefill": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "pit",
+  "burner"
+ ],
+ "seal": [
+  "strike",
+  "counters"
+ ],
+ "star3": {
+  "strikeMax": 3
+ },
+ "star3Text": "一块礌石砸中 3 个机关",
+ "ask": "礌石为什么要等它们挤在一起再砸？",
+ "pool": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes",
+  "pit",
+  "burner",
+  "strike"
+ ],
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 80,
+ "spawns": [
+  [
+   400,
+   4,
+   "walker",
+   0
+  ],
+  [
+   681,
+   3,
+   "walker",
+   0
+  ],
+  [
+   961,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1181,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1400,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1427,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   1453,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1480,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1680,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1922,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2164,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2432,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2700,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2725,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   2750,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2775,
+   4,
+   "swarm",
+   0
+  ],
+  [
+   2800,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2960,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3163,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3366,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   3683,
+   3,
+   "walker",
+   0
+  ],
+  [
+   4000,
+   1,
+   "walker",
+   0
+  ],
+  [
+   4020,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   4040,
+   1,
+   "walker",
+   0
+  ],
+  [
+   4060,
+   0,
+   "ram",
+   0
+  ],
+  [
+   4080,
+   1,
+   "walker",
+   0
+  ],
+  [
+   4100,
+   0,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  1400,
+  2700,
+  4000
+ ],
+ "drumOk": false,
+ "p": 0.5,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant"
+ ],
+ "botJinnang": "timing",
+ "inn": null,
+ "repair": {
+  "art": "wall-west",
+  "line": "fort.repair.1-8"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-8.1",
+   "fort.lvl.1-8.2"
+  ],
+  "preview": "fort.luban.preview.1-8",
+  "ask": "fort.ask.1-8"
+ }
+}

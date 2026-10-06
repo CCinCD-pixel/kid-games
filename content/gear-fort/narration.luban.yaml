@@ -1,0 +1,56 @@
+# 机关守城·九攻九距 (gear-fort) — generated from lane-defense-tools/content-src/lines.mjs by proto/v1/export-content.mjs.
+# Do not edit by hand: edit the source, re-run, and the game test lines.test.ts checks lines.json ⇔ this file.
+# 鲁班 (role luban): needs platform request K1 (new voice role, e.g. Qwen3 speaker "dylan"). Until then the game
+# shows these as bubbles with the 木偶咔嗒 sfx and never voices them with another character's voice.
+# When K1 lands: append these lines to narration.yaml (same game id → one manifest).
+game: gear-fort
+seed: 2610
+lines:
+  - {id: fort.story.0.4, role: luban, text: 墨子先生，先赢了我的机关沙盘再说！}
+  - {id: fort.story.1.end.2, role: luban, text: 好铜！做成一把犁，去翻地吧！}
+  - {id: fort.story.2.end.2, role: luban, text: 天亮了！这只木鸟，送给孩子们放吧。}
+  - {id: fort.luban.preview.1-1, role: luban, text: 我的木甲兵，会自己走路！}
+  - {id: fort.luban.preview.1-2, role: luban, text: 这回我派更多木甲兵！}
+  - {id: fort.luban.preview.1-3, role: luban, text: 这回五路都来，看你挡不挡得住！}
+  - {id: fort.luban.preview.1-4, role: luban, text: 我的盾甲兵举着大木盾！}
+  - {id: fort.luban.preview.1-5, role: luban, text: 这回我带了会冲的车！}
+  - {id: fort.luban.preview.1-6, role: luban, text: 嘿嘿，猜猜我按住哪一路？}
+  - {id: fort.luban.preview.1-7, role: luban, text: 一大群小木蚁，看你怎么办！}
+  - {id: fort.luban.preview.1-8, role: luban, text: 这回机关多，你可要留一手！}
+  - {id: fort.luban.preview.1-9, role: luban, text: 铜甲力士，火都烧不动！}
+  - {id: fort.luban.preview.1-10, role: luban, text: 这回，你自己挑牒吧！}
+  - {id: fort.luban.preview.1-11, role: luban, text: 我的铜犀冲车，天下第一硬！, pinyin: {冲车: chōng chē}}
+  - {id: fort.luban.preview.2-1, role: luban, text: 夜里没人送粮，看你怎么办！}
+  - {id: fort.luban.preview.2-2, role: luban, text: 我的木鹊，专门去啄粮！}
+  - {id: fort.luban.preview.2-3, role: luban, text: 木鹊又来了，这回没有转射机！, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.luban.preview.2-4, role: luban, text: 烟车一放烟，你就看不见！}
+  - {id: fort.luban.preview.2-5, role: luban, text: 大雾来了，猜我从哪路来！}
+  - {id: fort.luban.preview.2-6, role: luban, text: 我的云梯，一架就上城！}
+  - {id: fort.luban.preview.2-7, role: luban, text: 急报！看你的粮够不够！}
+  - {id: fort.luban.preview.2-8, role: luban, text: 咚咚咚，鼓一响，机关都快跑！}
+  - {id: fort.luban.preview.2-9, role: luban, text: 烟、蚂蚁、冲车，一起上！, pinyin: {冲车: chōng chē}}
+  - {id: fort.luban.preview.2-10, role: luban, text: 天亮之前，看你守不守得住！}
+  - {id: fort.luban.preview.2-11, role: luban, text: 我最得意的夜枭木鸢来了！}
+  - {id: fort.luban.first, role: luban, text: 嘿嘿，这个你没见过吧！}
+  - {id: fort.luban.blocked.1, role: luban, text: 好！这招也被你挡住了！}
+  - {id: fort.luban.blocked.2, role: luban, text: 哎呀，这一路守得真结实！, pinyin: {结实: jiē shi}}
+  - {id: fort.luban.blocked.3, role: luban, text: 妙！我得再想一招。, pinyin: {得: děi}}
+  - {id: fort.luban.flag.1, role: luban, text: 大波来啦！}
+  - {id: fort.luban.flag.2, role: luban, text: 这一波，看你接不接得住！}
+  - {id: fort.luban.log, role: luban, text: 哈，檑木一滚，又挡回来了！, pinyin: {檑木: léi mù}}
+  - {id: fort.luban.ding, role: luban, text: 叮！铜的，不怕火！}
+  - {id: fort.luban.lose, role: luban, text: 好！这招差点挡住了！, pinyin: {差点: chà diǎn}}
+  - {id: fort.luban.win, role: luban, text: 这一招，被你挡住了！我还有别的招！}
+  - {id: fort.luban.rhino, role: luban, text: 铜犀冲车，出发！, pinyin: {冲车: chōng chē}}
+  - {id: fort.luban.rhino.shell, role: luban, text: 缩进铜壳里，看你怎么打！}
+  - {id: fort.luban.rhino.crack, role: luban, text: 壳裂了？你真会想办法！}
+  - {id: fort.luban.owl, role: luban, text: 夜枭木鸢，起飞！, pinyin: {夜枭木鸢: yè xiāo mù yuān}}
+  - {id: fort.luban.owl.down, role: luban, text: 哎呀，被风吹下来了！}
+  - {id: fort.luban.dawn, role: luban, text: 天亮了？木鸢停不住啦！}
+  - {id: fort.inn.1-3.2, role: luban, text: 下一回，我带盾牌来！}
+  - {id: fort.inn.1-6.2, role: luban, text: 下一回，我派一大群！}
+  - {id: fort.inn.1-9.2, role: luban, text: 我的铜犀冲车，可没这么好拆！, pinyin: {冲车: chōng chē}}
+  - {id: fort.inn.2-3.2, role: luban, text: 下回我放烟，看你怎么吹！}
+  - {id: fort.inn.2-6.2, role: luban, text: 钩拒还是我发明的呢！}
+  - {id: fort.inn.2-9.2, role: luban, text: 天亮前，我还有最后一招！}
+  - {id: fort.story.0.b2, role: luban, text: 看我的大波！}

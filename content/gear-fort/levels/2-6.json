@@ -1,0 +1,217 @@
+{
+ "id": "2-6",
+ "vol": 2,
+ "idx": 6,
+ "name": "云梯车",
+ "type": "teach",
+ "newCard": "hook",
+ "newEnemy": "ladder",
+ "concept": "云梯会压住木垒后面那几台：钩拒把梯子拉倒",
+ "jinnang": "control",
+ "loadout": [
+  "farm",
+  "bank",
+  "shooter",
+  "wall",
+  "lobber",
+  "hook"
+ ],
+ "slots": 6,
+ "star3": {
+  "wallsLost": 0
+ },
+ "star3Text": "没有一座木垒被推倒",
+ "ask": "云梯压住的是哪一台？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 90,
+ "spawns": [
+  [
+   560,
+   3,
+   "walker",
+   0
+  ],
+  [
+   760,
+   3,
+   "walker",
+   0
+  ],
+  [
+   959,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1160,
+   2,
+   "ladder",
+   1
+  ],
+  [
+   1440,
+   3,
+   "ladder",
+   0
+  ],
+  [
+   1707,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   1800,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1800,
+   3,
+   "ladder",
+   0
+  ],
+  [
+   1860,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1920,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   1980,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2040,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2240,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2491,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   2768,
+   2,
+   "ladder",
+   0
+  ],
+  [
+   2986,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3300,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3300,
+   1,
+   "ladder",
+   0
+  ],
+  [
+   3300,
+   4,
+   "ladder",
+   0
+  ],
+  [
+   3347,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3393,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   3440,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3487,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3533,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3580,
+   1,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  1800,
+  3300
+ ],
+ "drumOk": false,
+ "p": 0.8,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer",
+  "smoker",
+  "ladder"
+ ],
+ "botJinnang": "control",
+ "inn": 6,
+ "repair": {
+  "art": "battlements",
+  "line": "fort.repair.2-6"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-6.1",
+   "fort.lvl.2-6.2"
+  ],
+  "preview": "fort.luban.preview.2-6",
+  "ask": "fort.ask.2-6"
+ }
+}

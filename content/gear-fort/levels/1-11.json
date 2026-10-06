@@ -1,0 +1,164 @@
+{
+ "id": "1-11",
+ "vol": 1,
+ "idx": 11,
+ "name": "铜犀冲车",
+ "type": "boss",
+ "concept": "组合：重石破甲、蒺藜挡冲、火油收蚁",
+ "jinnang": "counter",
+ "choose": true,
+ "slots": 6,
+ "boss": {
+  "type": "rhino"
+ },
+ "star3": {
+  "minX": 2
+ },
+ "star3Text": "没有机关走过第 3 格",
+ "ask": "铜犀缩进壳里时，什么能把壳敲裂？",
+ "pool": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes",
+  "pit",
+  "burner",
+  "strike",
+  "beam"
+ ],
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 100,
+ "spawns": [
+  [
+   400,
+   0,
+   "walker",
+   0
+  ],
+  [
+   586,
+   4,
+   "walker",
+   0
+  ],
+  [
+   772,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1000,
+   2,
+   "boss:rhino",
+   0
+  ],
+  [
+   1200,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1503,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1805,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2095,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2385,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2400,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2500,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   2600,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2827,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3054,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3363,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3671,
+   4,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  2400
+ ],
+ "drumOk": false,
+ "p": 0.58,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute"
+ ],
+ "botJinnang": "counter",
+ "inn": 4,
+ "repair": {
+  "art": "field-3-plough",
+  "line": "fort.repair.1-11"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-11.1",
+   "fort.lvl.1-11.2"
+  ],
+  "preview": "fort.luban.preview.1-11",
+  "ask": "fort.ask.1-11"
+ }
+}

@@ -1,0 +1,216 @@
+{
+ "id": "2-5",
+ "vol": 2,
+ "idx": 5,
+ "name": "大雾",
+ "type": "practice",
+ "concept": "看不见从哪路来，就每路都守；阳燧照得透雾",
+ "jinnang": "cover",
+ "choose": true,
+ "slots": 6,
+ "seal": [
+  "counters"
+ ],
+ "prefill": [
+  "farm",
+  "bank",
+  "shooter",
+  "lobber",
+  "gust",
+  "wall"
+ ],
+ "star3": {
+  "econLost": 1
+ },
+ "star3Text": "雾里最多只有 1 块禾田被咬坏",
+ "ask": "雾里看不见，你怎么知道每路都要守？",
+ "pool": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes",
+  "pit",
+  "burner",
+  "strike",
+  "beam",
+  "bank",
+  "radial",
+  "gust"
+ ],
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {
+  "fogCol": 5
+ },
+ "sky": true,
+ "start": 95,
+ "spawns": [
+  [
+   440,
+   4,
+   "walker",
+   0
+  ],
+  [
+   688,
+   4,
+   "walker",
+   0
+  ],
+  [
+   935,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   1165,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1395,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   1648,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1900,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1980,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   2060,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   2140,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2240,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2411,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2582,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   2750,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2918,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   3179,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3440,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3496,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   3552,
+   0,
+   "swarm",
+   0
+  ],
+  [
+   3608,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3664,
+   4,
+   "ram",
+   0
+  ],
+  [
+   3720,
+   1,
+   "walker",
+   0
+  ]
+ ],
+ "flags": [
+  1900,
+  3440
+ ],
+ "drumOk": false,
+ "p": 0.48,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer",
+  "smoker"
+ ],
+ "botJinnang": "preview",
+ "inn": null,
+ "repair": {
+  "art": "wind-chime",
+  "line": "fort.repair.2-5"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-5.1",
+   "fort.lvl.2-5.2"
+  ],
+  "preview": "fort.luban.preview.2-5",
+  "ask": "fort.ask.2-5"
+ }
+}

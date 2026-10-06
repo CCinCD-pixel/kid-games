@@ -1,0 +1,388 @@
+{
+ "walker": {
+  "mat": "wood",
+  "wt": "medium",
+  "layer": "ground",
+  "hp": 180,
+  "speed": 100,
+  "bite": 30,
+  "threat": 10,
+  "traits": [],
+  "name": "木甲兵",
+  "v1": true,
+  "intro": "1-1",
+  "stamp": "想",
+  "fears": [
+   "shooter",
+   "lobber",
+   "burner",
+   "beam"
+  ],
+  "must": [
+   "shooter",
+   "lobber",
+   "beam",
+   "burner"
+  ]
+ },
+ "shielder": {
+  "mat": "wood",
+  "wt": "medium",
+  "layer": "ground",
+  "hp": 180,
+  "shield": 360,
+  "speed": 95,
+  "bite": 30,
+  "threat": 20,
+  "traits": [
+   "shield"
+  ],
+  "name": "盾甲兵",
+  "v1": true,
+  "intro": "1-4",
+  "stamp": "想",
+  "fears": [
+   "lobber",
+   "burner",
+   "beam"
+  ],
+  "must": [
+   "lobber",
+   "burner"
+  ]
+ },
+ "ram": {
+  "mat": "wood",
+  "wt": "heavy",
+  "layer": "ground",
+  "hp": 520,
+  "speed": 70,
+  "speedMax": 160,
+  "runFull": 20000,
+  "impactMin": 120,
+  "impactMax": 900,
+  "recoil": 6000,
+  "recoilTicks": 12,
+  "threat": 30,
+  "traits": [
+   "wheels",
+   "momentum"
+  ],
+  "name": "冲车",
+  "v1": true,
+  "intro": "1-5",
+  "stamp": "史",
+  "fears": [
+   "spikes"
+  ],
+  "must": [
+   "spikes"
+  ]
+ },
+ "ant": {
+  "mat": "wood",
+  "wt": "light",
+  "layer": "ground",
+  "hp": 40,
+  "speed": 200,
+  "bite": 8,
+  "threat": 4,
+  "traits": [
+   "swarm"
+  ],
+  "name": "蚁傅",
+  "v1": true,
+  "intro": "1-7",
+  "stamp": "史",
+  "fears": [
+   "burner"
+  ],
+  "must": [
+   "burner"
+  ]
+ },
+ "brute": {
+  "mat": "metal",
+  "wt": "heavy",
+  "layer": "ground",
+  "hp": 800,
+  "armor": 10,
+  "speed": 75,
+  "bite": 50,
+  "threat": 40,
+  "traits": [],
+  "name": "铜甲力士",
+  "v1": true,
+  "intro": "1-9",
+  "stamp": "想",
+  "fears": [
+   "beam",
+   "lobber"
+  ],
+  "must": [
+   "lobber",
+   "beam"
+  ]
+ },
+ "flyer": {
+  "mat": "wood",
+  "wt": "light",
+  "layer": "air",
+  "hp": 120,
+  "speed": 160,
+  "peck": 20,
+  "threat": 15,
+  "traits": [
+   "peck"
+  ],
+  "name": "木鹊",
+  "v1": true,
+  "intro": "2-2",
+  "stamp": "传",
+  "fears": [
+   "radial",
+   "gust"
+  ],
+  "must": [
+   "radial",
+   "gust"
+  ]
+ },
+ "smoker": {
+  "mat": "wood",
+  "wt": "medium",
+  "layer": "ground",
+  "hp": 380,
+  "speed": 85,
+  "bite": 30,
+  "cloudEvery": 240,
+  "cloudFirst": 40,
+  "cloudDur": 160,
+  "threat": 30,
+  "traits": [
+   "smoke"
+  ],
+  "name": "烟车",
+  "v1": true,
+  "intro": "2-4",
+  "stamp": "想",
+  "fears": [
+   "gust",
+   "lobber"
+  ],
+  "must": [
+   "gust",
+   "lobber"
+  ]
+ },
+ "ladder": {
+  "mat": "wood",
+  "wt": "heavy",
+  "layer": "ground",
+  "hp": 450,
+  "ladderHp": 160,
+  "speed": 110,
+  "bite": 20,
+  "raise": 40,
+  "pinMax": 3,
+  "threat": 25,
+  "traits": [
+   "wheels",
+   "ladder"
+  ],
+  "name": "云梯车",
+  "v1": true,
+  "intro": "2-6",
+  "stamp": "史",
+  "fears": [
+   "hook"
+  ],
+  "must": [
+   "hook"
+  ]
+ },
+ "drummer": {
+  "mat": "wood",
+  "wt": "medium",
+  "layer": "ground",
+  "hp": 520,
+  "speed": 85,
+  "bite": 30,
+  "auraPct": 160,
+  "auraDef": 70,
+  "auraDx": 20000,
+  "follow": 10000,
+  "threat": 35,
+  "traits": [
+   "aura"
+  ],
+  "name": "鼓车",
+  "v1": true,
+  "intro": "2-8",
+  "stamp": "想",
+  "fears": [
+   "strike",
+   "lobber"
+  ],
+  "must": [
+   "strike",
+   "lobber"
+  ]
+ },
+ "boat": {
+  "mat": "wood",
+  "wt": "medium",
+  "layer": "water",
+  "hp": 300,
+  "speed": 120,
+  "hookTicks": 100,
+  "threat": 20,
+  "traits": [
+   "hookraft"
+  ],
+  "name": "钩舟",
+  "v1": false,
+  "intro": "3-2",
+  "stamp": null,
+  "fears": [
+   "hook",
+   "lobber"
+  ],
+  "must": [
+   "hook",
+   "lobber"
+  ]
+ },
+ "carrier": {
+  "mat": "metal",
+  "wt": "heavy",
+  "layer": "ground",
+  "hp": 1000,
+  "armor": 12,
+  "speed": 60,
+  "bite": 60,
+  "carry": 3,
+  "threat": 60,
+  "traits": [
+   "wheels",
+   "carry"
+  ],
+  "name": "铜龟车",
+  "v1": false,
+  "intro": "3-4",
+  "stamp": null,
+  "fears": [
+   "lobber",
+   "beam"
+  ],
+  "must": [
+   "lobber",
+   "beam"
+  ]
+ },
+ "tunneler": {
+  "mat": "wood",
+  "wt": "medium",
+  "layer": "under",
+  "hp": 300,
+  "speed": 150,
+  "speedUp": 100,
+  "bite": 30,
+  "dig": 120,
+  "threat": 25,
+  "traits": [
+   "tunnel"
+  ],
+  "name": "穴师",
+  "v1": false,
+  "intro": "4-2",
+  "stamp": null,
+  "fears": [
+   "listener"
+  ],
+  "must": [
+   "listener"
+  ]
+ },
+ "tower": {
+  "mat": "wood",
+  "wt": "heavy",
+  "layer": "ground",
+  "hp": 2000,
+  "speed": 35,
+  "bite": 60,
+  "summonEvery": 200,
+  "summonMax": 6,
+  "threat": 80,
+  "traits": [
+   "wheels",
+   "summon"
+  ],
+  "name": "望楼车",
+  "v1": false,
+  "intro": "4-3",
+  "stamp": null,
+  "fears": [
+   "lobber",
+   "beam"
+  ],
+  "must": [
+   "lobber",
+   "beam"
+  ]
+ },
+ "shielder_m": {
+  "mat": "wood",
+  "wt": "medium",
+  "layer": "ground",
+  "hp": 180,
+  "shield": 360,
+  "shieldMat": "metal",
+  "shieldArmor": 8,
+  "speed": 95,
+  "bite": 30,
+  "threat": 25,
+  "traits": [
+   "shield"
+  ],
+  "name": "铜盾甲兵",
+  "v1": false,
+  "intro": "2-10",
+  "stamp": "想",
+  "fears": [
+   "lobber",
+   "burner",
+   "beam"
+  ],
+  "must": [
+   "lobber",
+   "burner",
+   "beam"
+  ]
+ },
+ "flyer_m": {
+  "mat": "metal",
+  "wt": "light",
+  "layer": "air",
+  "hp": 200,
+  "armor": 6,
+  "speed": 160,
+  "peck": 20,
+  "threat": 25,
+  "traits": [
+   "peck"
+  ],
+  "name": "铜鹊",
+  "v1": false,
+  "intro": "4-6",
+  "stamp": null,
+  "fears": [
+   "radial",
+   "gust"
+  ],
+  "must": [
+   "radial",
+   "gust"
+  ]
+ }
+}

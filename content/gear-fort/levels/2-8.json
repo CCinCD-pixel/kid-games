@@ -1,0 +1,189 @@
+{
+ "id": "2-8",
+ "vol": 2,
+ "idx": 8,
+ "name": "鼓车",
+ "type": "practice",
+ "newEnemy": "drummer",
+ "concept": "认识鼓车：鼓一响，旁边的机关又快又硬（点一下可以标记它）",
+ "jinnang": "priority",
+ "loadout": [
+  "farm",
+  "shooter",
+  "wall",
+  "lobber",
+  "spikes",
+  "strike"
+ ],
+ "slots": 6,
+ "star3": {
+  "minXOf": {
+   "drummer": 3
+  }
+ },
+ "star3Text": "鼓车没有走过第 4 格",
+ "ask": "为什么先拆鼓车？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 60,
+ "spawns": [
+  [
+   480,
+   0,
+   "walker",
+   0
+  ],
+  [
+   660,
+   0,
+   "walker",
+   0
+  ],
+  [
+   840,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1200,
+   2,
+   "drummer",
+   1
+  ],
+  [
+   1500,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1750,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2000,
+   1,
+   "ram",
+   0
+  ],
+  [
+   2000,
+   1,
+   "drummer",
+   0
+  ],
+  [
+   2000,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2220,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2440,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2730,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3020,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3310,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3600,
+   0,
+   "ram",
+   0
+  ],
+  [
+   3600,
+   0,
+   "drummer",
+   0
+  ],
+  [
+   3600,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3600,
+   3,
+   "ram",
+   0
+  ],
+  [
+   3600,
+   3,
+   "drummer",
+   0
+  ],
+  [
+   3880,
+   4,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  2000,
+  3600
+ ],
+ "drumOk": false,
+ "p": 0.15,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer",
+  "smoker",
+  "ladder",
+  "drummer"
+ ],
+ "botJinnang": "mark",
+ "inn": null,
+ "repair": {
+  "art": "time-drum",
+  "line": "fort.repair.2-8"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-8.1",
+   "fort.lvl.2-8.2"
+  ],
+  "preview": "fort.luban.preview.2-8",
+  "ask": "fort.ask.2-8"
+ }
+}

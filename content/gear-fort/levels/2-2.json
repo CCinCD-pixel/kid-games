@@ -1,0 +1,209 @@
+{
+ "id": "2-2",
+ "vol": 2,
+ "idx": 2,
+ "name": "木鹊偷粮",
+ "type": "teach",
+ "newCard": "radial",
+ "newEnemy": "flyer",
+ "concept": "转射机守住后院的禾田",
+ "jinnang": "guard",
+ "loadout": [
+  "farm",
+  "shooter",
+  "wall",
+  "lobber",
+  "burner",
+  "radial"
+ ],
+ "slots": 6,
+ "star3": {
+  "econLost": 0
+ },
+ "star3Text": "没有一块禾田被啄坏",
+ "ask": "木鹊飞过了连弩车，为什么转射机打得到它？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 70,
+ "spawns": [
+  [
+   440,
+   2,
+   "walker",
+   0
+  ],
+  [
+   720,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1000,
+   1,
+   "flyer",
+   1
+  ],
+  [
+   1280,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1600,
+   3,
+   "flyer",
+   0
+  ],
+  [
+   1700,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1748,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1796,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   1844,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1892,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1940,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2100,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2279,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2457,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2636,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2814,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   3007,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3200,
+   0,
+   "flyer",
+   0
+  ],
+  [
+   3200,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3200,
+   4,
+   "flyer",
+   0
+  ],
+  [
+   3270,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   3340,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3410,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3480,
+   3,
+   "swarm",
+   0
+  ]
+ ],
+ "flags": [
+  1700,
+  3200
+ ],
+ "drumOk": false,
+ "p": 0.25,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer"
+ ],
+ "botJinnang": "priority",
+ "inn": null,
+ "repair": {
+  "art": "scarecrow",
+  "line": "fort.repair.2-2"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-2.1",
+   "fort.lvl.2-2.2"
+  ],
+  "preview": "fort.luban.preview.2-2",
+  "ask": "fort.ask.2-2"
+ }
+}

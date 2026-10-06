@@ -1,0 +1,257 @@
+{
+ "id": "2-1",
+ "vol": 2,
+ "idx": 1,
+ "name": "夜路",
+ "type": "breather",
+ "newCard": "bank",
+ "concept": "夜里没有送粮：先建粮仓",
+ "jinnang": "invest",
+ "loadout": [
+  "farm",
+  "bank",
+  "shooter",
+  "wall",
+  "lobber",
+  "burner"
+ ],
+ "slots": 6,
+ "star3": {
+  "minX": 3
+ },
+ "star3Text": "没有机关走过第 4 格",
+ "ask": "粮仓要等一会儿才出粮，为什么还值得先建？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {
+  "night": true
+ },
+ "sky": false,
+ "start": 250,
+ "spawns": [
+  [
+   900,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1172,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   1439,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1712,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1900,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1930,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   1960,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1990,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2020,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2050,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2080,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2110,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   2140,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2300,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2492,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   2665,
+   4,
+   "swarm",
+   0
+  ],
+  [
+   2854,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3060,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3230,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3400,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3423,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   3447,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3470,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3493,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   3517,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3540,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3563,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   3587,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3610,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3633,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   3657,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3680,
+   4,
+   "walker",
+   0
+  ]
+ ],
+ "flags": [
+  1900,
+  3400
+ ],
+ "drumOk": false,
+ "p": 1.1,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute"
+ ],
+ "botJinnang": "invest",
+ "inn": null,
+ "repair": {
+  "art": "lantern",
+  "line": "fort.repair.2-1"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-1.1",
+   "fort.lvl.2-1.2"
+  ],
+  "preview": "fort.luban.preview.2-1",
+  "ask": "fort.ask.2-1"
+ }
+}

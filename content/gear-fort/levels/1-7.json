@@ -1,0 +1,213 @@
+{
+ "id": "1-7",
+ "vol": 1,
+ "idx": 7,
+ "name": "蚁傅",
+ "type": "teach",
+ "newCard": "burner",
+ "newEnemy": "ant",
+ "concept": "成群的用火油罐一网打尽",
+ "jinnang": "aoe",
+ "loadout": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "pit",
+  "burner"
+ ],
+ "slots": 6,
+ "star3": {
+  "bestBurn": 8
+ },
+ "star3Text": "一罐火油烧到一整群（8 只）蚁傅",
+ "ask": "一箭只能拆一只蚂蚁，一罐火油呢？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 80,
+ "spawns": [
+  [
+   440,
+   0,
+   "walker",
+   0
+  ],
+  [
+   724,
+   2,
+   "walker",
+   0
+  ],
+  [
+   982,
+   0,
+   "walker",
+   0
+  ],
+  [
+   1240,
+   2,
+   "swarm",
+   1
+  ],
+  [
+   1480,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1749,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1900,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   1900,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   1900,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   1900,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1980,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2060,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2240,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2549,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2794,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   3047,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3300,
+   1,
+   "swarm",
+   0
+  ],
+  [
+   3300,
+   2,
+   "swarm",
+   0
+  ],
+  [
+   3300,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3300,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   3300,
+   3,
+   "swarm",
+   0
+  ],
+  [
+   3360,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   3420,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3480,
+   2,
+   "walker",
+   0
+  ],
+  [
+   3540,
+   4,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  1900,
+  3300
+ ],
+ "drumOk": false,
+ "p": 0.85,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant"
+ ],
+ "botJinnang": "aoe",
+ "inn": null,
+ "repair": {
+  "art": "field-2-tall",
+  "line": "fort.repair.1-7"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-7.1",
+   "fort.lvl.1-7.2"
+  ],
+  "preview": "fort.luban.preview.1-7",
+  "ask": "fort.ask.1-7"
+ }
+}

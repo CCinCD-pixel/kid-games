@@ -1,0 +1,318 @@
+{
+ "shooter": {
+  "beh": "shooter",
+  "role": "attack",
+  "cost": 80,
+  "cd": 120,
+  "hp": 240,
+  "period": 26,
+  "dmg": 18,
+  "dtype": "pierce",
+  "boltSpeed": 5000,
+  "name": "连弩车",
+  "v1": true,
+  "unlock": "1-1",
+  "stamp": "史",
+  "ult": {
+   "name": "千矢",
+   "text": "3 秒穿透连射"
+  }
+ },
+ "farm": {
+  "beh": "farm",
+  "role": "econ",
+  "cost": 40,
+  "cd": 120,
+  "hp": 240,
+  "first": 180,
+  "period": 360,
+  "amt": 20,
+  "amtNight": 10,
+  "name": "禾田",
+  "v1": true,
+  "unlock": "1-2",
+  "stamp": "想",
+  "ult": {
+   "name": "丰收",
+   "text": "立刻 +60 粮"
+  }
+ },
+ "wall": {
+  "beh": "wall",
+  "role": "wall",
+  "cost": 50,
+  "cd": 400,
+  "hp": 2400,
+  "startCd": 160,
+  "name": "木垒",
+  "v1": true,
+  "unlock": "1-3",
+  "stamp": "史",
+  "ult": {
+   "name": "加固",
+   "text": "回满，12 秒减伤一半"
+  }
+ },
+ "lobber": {
+  "beh": "lobber",
+  "role": "attack",
+  "cost": 110,
+  "cd": 120,
+  "hp": 240,
+  "period": 52,
+  "dmg": 50,
+  "dtype": "blunt",
+  "flight": 14,
+  "name": "籍车",
+  "v1": true,
+  "unlock": "1-4",
+  "stamp": "史",
+  "ult": {
+   "name": "巨石",
+   "text": "1.5 格内 400"
+  }
+ },
+ "spikes": {
+  "beh": "spikes",
+  "role": "control",
+  "cost": 70,
+  "cd": 160,
+  "hp": 0,
+  "wear": 4,
+  "slowPct": 50,
+  "jam": 15000,
+  "flat": true,
+  "name": "铁蒺藜",
+  "v1": true,
+  "unlock": "1-5",
+  "stamp": "史",
+  "ult": {
+   "name": "满地蒺藜",
+   "text": "向前再铺 2 格，15 秒"
+  }
+ },
+ "pit": {
+  "beh": "pit",
+  "role": "trap",
+  "cost": 20,
+  "cd": 400,
+  "hp": 0,
+  "arm": 160,
+  "stuck": 100,
+  "flat": true,
+  "name": "陷坑",
+  "v1": true,
+  "unlock": "1-6",
+  "stamp": "史",
+  "ult": {
+   "name": "秒挖好",
+   "text": "坑立刻挖好"
+  }
+ },
+ "burner": {
+  "beh": "burner",
+  "role": "attack",
+  "cost": 130,
+  "cd": 120,
+  "hp": 240,
+  "period": 68,
+  "dmg": 24,
+  "dtype": "fire",
+  "radius": 8000,
+  "flight": 16,
+  "name": "火油罐",
+  "v1": true,
+  "unlock": "1-7",
+  "stamp": "想",
+  "ult": {
+   "name": "火墙",
+   "text": "3 格火墙 6 秒"
+  }
+ },
+ "strike": {
+  "beh": "strike",
+  "role": "instant",
+  "cost": 140,
+  "cd": 720,
+  "hp": 0,
+  "delay": 12,
+  "dmg": 900,
+  "startCd": 400,
+  "name": "礌石",
+  "v1": true,
+  "unlock": "1-8",
+  "stamp": "史",
+  "ult": null
+ },
+ "beam": {
+  "beh": "beam",
+  "role": "attack",
+  "cost": 120,
+  "cd": 240,
+  "hp": 240,
+  "range": 50000,
+  "ramp": [
+   5,
+   10,
+   15,
+   20,
+   25
+  ],
+  "name": "阳燧",
+  "v1": true,
+  "unlock": "1-9",
+  "stamp": "史",
+  "ult": {
+   "name": "烈日",
+   "text": "整路 5 秒，夜里也能用"
+  }
+ },
+ "bank": {
+  "beh": "bank",
+  "role": "econ",
+  "cost": 100,
+  "cd": 200,
+  "hp": 480,
+  "build": 200,
+  "period": 320,
+  "amt": 50,
+  "name": "粮仓",
+  "v1": true,
+  "unlock": "2-1",
+  "stamp": "想",
+  "ult": {
+   "name": "开仓",
+   "text": "立刻 +100 粮"
+  }
+ },
+ "radial": {
+  "beh": "radial",
+  "role": "attack",
+  "cost": 150,
+  "cd": 120,
+  "hp": 240,
+  "period": 24,
+  "dmg": 16,
+  "dtype": "pierce",
+  "radius": 25000,
+  "travel": 4,
+  "name": "转射机",
+  "v1": true,
+  "unlock": "2-2",
+  "stamp": "史",
+  "ult": {
+   "name": "旋风",
+   "text": "3 格齐射 30"
+  }
+ },
+ "gust": {
+  "beh": "gust",
+  "role": "control",
+  "cost": 60,
+  "cd": 240,
+  "hp": 240,
+  "first": 40,
+  "period": 160,
+  "push": 15000,
+  "down": 120,
+  "fireMulPct": 160,
+  "name": "橐（风箱）",
+  "v1": true,
+  "unlock": "2-3",
+  "stamp": "史",
+  "ult": {
+   "name": "大风",
+   "text": "三路整路大风"
+  }
+ },
+ "hook": {
+  "beh": "hook",
+  "role": "control",
+  "cost": 90,
+  "cd": 240,
+  "hp": 320,
+  "period": 100,
+  "reach": 16000,
+  "push": {
+   "light": 20000,
+   "medium": 15000,
+   "heavy": 7500,
+   "water": 30000
+  },
+  "name": "钩拒",
+  "v1": true,
+  "unlock": "2-6",
+  "stamp": "史",
+  "ult": {
+   "name": "横扫",
+   "text": "三路推回 2 格"
+  }
+ },
+ "repair": {
+  "beh": "repair",
+  "role": "support",
+  "cost": 70,
+  "cd": 240,
+  "hp": 200,
+  "heal": 6,
+  "fortPct": 25,
+  "name": "墨匠",
+  "v1": false,
+  "unlock": "3-4",
+  "stamp": null,
+  "ult": {
+   "name": "大修",
+   "text": "3×3 回满"
+  }
+ },
+ "raft": {
+  "beh": "raft",
+  "role": "platform",
+  "cost": 20,
+  "cd": 120,
+  "hp": 120,
+  "name": "竹筏",
+  "v1": false,
+  "unlock": "3-1",
+  "stamp": null,
+  "ult": null
+ },
+ "listener": {
+  "beh": "listener",
+  "role": "detect",
+  "cost": 40,
+  "cd": 200,
+  "hp": 0,
+  "flat": true,
+  "name": "瓮听",
+  "v1": false,
+  "unlock": "4-2",
+  "stamp": null,
+  "ult": {
+   "name": "全城听",
+   "text": "全场穴师出土"
+  }
+ },
+ "salvage": {
+  "beh": "salvage",
+  "role": "econ",
+  "cost": 60,
+  "cd": 240,
+  "hp": 240,
+  "reach": 40000,
+  "pay": {
+   "light": 5,
+   "medium": 10,
+   "heavy": 25,
+   "boss": 40
+  },
+  "name": "拆解场",
+  "v1": false,
+  "unlock": "3-7",
+  "stamp": null,
+  "ult": {
+   "name": "拆仓",
+   "text": "立刻 +50 粮"
+  }
+ }
+}

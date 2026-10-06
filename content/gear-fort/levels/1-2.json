@@ -1,0 +1,162 @@
+{
+ "id": "1-2",
+ "vol": 1,
+ "idx": 2,
+ "name": "粮草先行",
+ "type": "tutorial",
+ "newCard": "farm",
+ "concept": "先种禾田再布防",
+ "jinnang": "econ",
+ "loadout": [
+  "shooter",
+  "farm"
+ ],
+ "slots": 2,
+ "star3": {
+  "econAt60": 4
+ },
+ "star3Text": "第 60 秒时有 4 块禾田",
+ "ask": "为什么先种禾田？",
+ "lanes": [
+  0,
+  1,
+  1,
+  1,
+  0
+ ],
+ "env": {},
+ "sky": true,
+ "start": 60,
+ "spawns": [
+  [
+   700,
+   2,
+   "walker",
+   1
+  ],
+  [
+   1000,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1094,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1219,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1330,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1428,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1550,
+   2,
+   "walker",
+   0
+  ],
+  [
+   1672,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1780,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1883,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2200,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2240,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2280,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2320,
+   1,
+   "walker",
+   0
+  ],
+  [
+   2360,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2400,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2440,
+   3,
+   "walker",
+   0
+  ],
+  [
+   2480,
+   1,
+   "walker",
+   0
+  ]
+ ],
+ "flags": [
+  2200
+ ],
+ "drumOk": false,
+ "p": 2.4,
+ "known": [
+  "walker"
+ ],
+ "botJinnang": "econ",
+ "inn": null,
+ "repair": {
+  "art": "field-1-sprout",
+  "line": "fort.repair.1-2"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-2.1",
+   "fort.lvl.1-2.2"
+  ],
+  "preview": "fort.luban.preview.1-2",
+  "ask": "fort.ask.1-2"
+ }
+}

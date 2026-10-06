@@ -1,0 +1,217 @@
+{
+ "id": "1-4",
+ "vol": 1,
+ "idx": 4,
+ "name": "盾甲兵",
+ "type": "teach",
+ "newCard": "lobber",
+ "newEnemy": "shielder",
+ "concept": "籍车把石头抛过盾牌",
+ "jinnang": "counter",
+ "loadout": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber"
+ ],
+ "slots": 4,
+ "star3": {
+  "minXOf": {
+   "shielder": 2
+  }
+ },
+ "star3Text": "盾甲兵没有走过第 3 格",
+ "ask": "盾挡住了箭，挡得住从天上落下的石头吗？",
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {},
+ "sky": true,
+ "start": 60,
+ "spawns": [
+  [
+   440,
+   0,
+   "walker",
+   0
+  ],
+  [
+   720,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1000,
+   2,
+   "shielder",
+   1
+  ],
+  [
+   1280,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1492,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1703,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   2000,
+   0,
+   "shielder",
+   0
+  ],
+  [
+   2000,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2000,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   2067,
+   4,
+   "walker",
+   0
+  ],
+  [
+   2133,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   2200,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   2300,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   2567,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2837,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   3140,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   3420,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3700,
+   1,
+   "shielder",
+   0
+  ],
+  [
+   3700,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   3700,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   3747,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3793,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   3840,
+   4,
+   "shielder",
+   0
+  ],
+  [
+   3887,
+   3,
+   "shielder",
+   0
+  ],
+  [
+   3933,
+   0,
+   "walker",
+   0
+  ],
+  [
+   3980,
+   2,
+   "shielder",
+   0
+  ]
+ ],
+ "flags": [
+  2000,
+  3700
+ ],
+ "drumOk": false,
+ "p": 0.7,
+ "known": [
+  "walker",
+  "shielder"
+ ],
+ "botJinnang": "counter",
+ "inn": null,
+ "repair": {
+  "art": "tower-ladder",
+  "line": "fort.repair.1-4"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.1-4.1",
+   "fort.lvl.1-4.2"
+  ],
+  "preview": "fort.luban.preview.1-4",
+  "ask": "fort.ask.1-4"
+ }
+}

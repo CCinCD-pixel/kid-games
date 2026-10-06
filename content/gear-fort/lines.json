@@ -1,0 +1,2358 @@
+{
+ "fort.dock.1": {
+  "role": "companion",
+  "kind": "talk",
+  "text": "两千多年前，有一位叫墨子的科学家。"
+ },
+ "fort.dock.2": {
+  "role": "companion",
+  "kind": "talk",
+  "text": "2016年，中国把量子卫星叫作墨子号。",
+  "norm": "二零一六年，中国把量子卫星叫作墨子号。"
+ },
+ "fort.dock.3": {
+  "role": "companion",
+  "kind": "talk",
+  "text": "走，我们去见见墨子！"
+ },
+ "fort.dock.v1": {
+  "role": "companion",
+  "kind": "talk",
+  "text": "墨子号卫星，就是用他的名字命名的。"
+ },
+ "fort.dock.v2": {
+  "role": "companion",
+  "kind": "talk",
+  "text": "第二卷推演完成！你守住了十天十夜。"
+ },
+ "fort.story.0.1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "很久以前，楚王想去攻打小小的宋国。"
+ },
+ "fort.story.0.2": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班为楚王造好了高高的云梯。"
+ },
+ "fort.story.0.3": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "墨子带着最小的弟子小步步，出发去劝楚王。"
+ },
+ "fort.story.0.3.plain": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "墨子带着最小的弟子，出发去劝楚王。",
+  "plain": true
+ },
+ "fort.story.0.4": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "墨子先生，先赢了我的机关沙盘再说！"
+ },
+ "fort.story.0.5": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "好。沙盘上分出胜负，真仗就不用打了。"
+ },
+ "fort.story.1.end.1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "铜犀冲车被拆开了。"
+ },
+ "fort.story.1.end.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "好铜！做成一把犁，去翻地吧！"
+ },
+ "fort.story.1.end.3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "宋城外的粟田，又犁开了一块。"
+ },
+ "fort.story.2.open.1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "墨子赶路去楚国，走了十天十夜。"
+ },
+ "fort.story.2.open.2": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "夜里没人送粮。点起篝火，接着推演。"
+ },
+ "fort.story.2.end.1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "夜枭木鸢收起翅膀，折成了一只风筝。"
+ },
+ "fort.story.2.end.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "天亮了！这只木鸟，送给孩子们放吧。"
+ },
+ "fort.story.2.end.3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "远处，楚国郢都的城墙出现了。"
+ },
+ "fort.lvl.1-1.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班的木甲兵要来了。"
+ },
+ "fort.lvl.1-1.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "把连弩车拖到第3路。",
+  "norm": "把连弩车拖到第三路。"
+ },
+ "fort.lvl.1-2.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先种禾田，粮会越来越多。"
+ },
+ "fort.lvl.1-2.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "再放连弩车守住来的路。"
+ },
+ "fort.lvl.1-3.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木垒放在连弩车前面。"
+ },
+ "fort.lvl.1-3.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木垒挡着，连弩车慢慢打。"
+ },
+ "fort.lvl.1-4.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "盾甲兵的木盾，箭打不穿。"
+ },
+ "fort.lvl.1-4.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "试试籍车，石头从天上落。"
+ },
+ "fort.lvl.1-5.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车跑起来，撞得最狠。"
+ },
+ "fort.lvl.1-5.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木垒前面铺上铁蒺藜。"
+ },
+ "fort.lvl.1-6.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看鲁班的手按住哪一路。"
+ },
+ "fort.lvl.1-6.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "提前在那一路挖好陷坑。"
+ },
+ "fort.lvl.1-7.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁傅一来就是一大群。"
+ },
+ "fort.lvl.1-7.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "火油罐，一罐烧一片。"
+ },
+ "fort.lvl.1-8.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "礌石很重，要留着用。"
+ },
+ "fort.lvl.1-8.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "等机关挤在一起再砸。"
+ },
+ "fort.lvl.1-9.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜甲力士不怕火。"
+ },
+ "fort.lvl.1-9.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "阳燧把阳光聚起来照它。"
+ },
+ "fort.lvl.1-10.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这回你自己选牒。"
+ },
+ "fort.lvl.1-10.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先看看鲁班亮了什么招。"
+ },
+ "fort.lvl.1-11.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜犀冲车来了！"
+ },
+ "fort.lvl.1-11.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "想想，什么敲得开铜壳？"
+ },
+ "fort.lvl.2-1.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "夜里没有人送粮。"
+ },
+ "fort.lvl.2-1.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先建粮仓，粮会自己来。"
+ },
+ "fort.lvl.2-2.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊会飞去啄禾田。"
+ },
+ "fort.lvl.2-2.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "转射机打得到天上的。"
+ },
+ "fort.lvl.2-3.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这回没有转射机。"
+ },
+ "fort.lvl.2-3.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "风箱能把木鹊吹下来。"
+ },
+ "fort.lvl.2-4.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "烟车会放烟。"
+ },
+ "fort.lvl.2-4.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "烟里的连弩车看不见。"
+ },
+ "fort.lvl.2-5.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "起大雾了，右边看不清。"
+ },
+ "fort.lvl.2-5.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "每一路都先放一台。"
+ },
+ "fort.lvl.2-6.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "云梯车会架梯子。"
+ },
+ "fort.lvl.2-6.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "钩拒能把梯子拉倒。"
+ },
+ "fort.lvl.2-7.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "急报！这回没有粮。"
+ },
+ "fort.lvl.2-7.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "牒片会自己送过来。"
+ },
+ "fort.lvl.2-8.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鼓车一敲，机关都变快。"
+ },
+ "fort.lvl.2-8.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先拆鼓车！"
+ },
+ "fort.lvl.2-9.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "烟、蚁群、冲车一起来。"
+ },
+ "fort.lvl.2-9.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "风箱和火油罐放一路。"
+ },
+ "fort.lvl.2-10.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "天快亮了，先守住夜里。"
+ },
+ "fort.lvl.2-10.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "天亮以后，阳燧就能用。"
+ },
+ "fort.lvl.2-11.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "夜枭木鸢飞得很高。"
+ },
+ "fort.lvl.2-11.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看影子，它要俯冲了。"
+ },
+ "fort.lvl.1-1.collect": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "点一下粮包，粮就进粮斗。"
+ },
+ "fort.lvl.1-1.more": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "粮够了，再放一台连弩车。"
+ },
+ "fort.lvl.1-1.again": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看我的手，跟着拖一拖。"
+ },
+ "fort.lvl.1-2.farm": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "禾田种在最左边的格子。"
+ },
+ "fort.luban.preview.1-1": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "我的木甲兵，会自己走路！"
+ },
+ "fort.luban.preview.1-2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "这回我派更多木甲兵！"
+ },
+ "fort.luban.preview.1-3": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "这回五路都来，看你挡不挡得住！"
+ },
+ "fort.luban.preview.1-4": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "我的盾甲兵举着大木盾！"
+ },
+ "fort.luban.preview.1-5": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "这回我带了会冲的车！"
+ },
+ "fort.luban.preview.1-6": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "嘿嘿，猜猜我按住哪一路？"
+ },
+ "fort.luban.preview.1-7": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "一大群小木蚁，看你怎么办！"
+ },
+ "fort.luban.preview.1-8": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "这回机关多，你可要留一手！"
+ },
+ "fort.luban.preview.1-9": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "铜甲力士，火都烧不动！"
+ },
+ "fort.luban.preview.1-10": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "这回，你自己挑牒吧！"
+ },
+ "fort.luban.preview.1-11": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "我的铜犀冲车，天下第一硬！"
+ },
+ "fort.luban.preview.2-1": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "夜里没人送粮，看你怎么办！"
+ },
+ "fort.luban.preview.2-2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "我的木鹊，专门去啄粮！"
+ },
+ "fort.luban.preview.2-3": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "木鹊又来了，这回没有转射机！"
+ },
+ "fort.luban.preview.2-4": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "烟车一放烟，你就看不见！"
+ },
+ "fort.luban.preview.2-5": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "大雾来了，猜我从哪路来！"
+ },
+ "fort.luban.preview.2-6": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "我的云梯，一架就上城！"
+ },
+ "fort.luban.preview.2-7": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "急报！看你的粮够不够！"
+ },
+ "fort.luban.preview.2-8": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "咚咚咚，鼓一响，机关都快跑！"
+ },
+ "fort.luban.preview.2-9": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "烟、蚂蚁、冲车，一起上！"
+ },
+ "fort.luban.preview.2-10": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "天亮之前，看你守不守得住！"
+ },
+ "fort.luban.preview.2-11": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "我最得意的夜枭木鸢来了！"
+ },
+ "fort.luban.first": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "嘿嘿，这个你没见过吧！"
+ },
+ "fort.luban.blocked.1": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "好！这招也被你挡住了！"
+ },
+ "fort.luban.blocked.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "哎呀，这一路守得真结实！"
+ },
+ "fort.luban.blocked.3": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "妙！我得再想一招。"
+ },
+ "fort.luban.flag.1": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "大波来啦！"
+ },
+ "fort.luban.flag.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "这一波，看你接不接得住！"
+ },
+ "fort.luban.log": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "哈，檑木一滚，又挡回来了！"
+ },
+ "fort.luban.ding": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "叮！铜的，不怕火！"
+ },
+ "fort.luban.lose": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "好！这招差点挡住了！"
+ },
+ "fort.luban.win": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "这一招，被你挡住了！我还有别的招！"
+ },
+ "fort.luban.rhino": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "铜犀冲车，出发！"
+ },
+ "fort.luban.rhino.shell": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "缩进铜壳里，看你怎么打！"
+ },
+ "fort.luban.rhino.crack": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "壳裂了？你真会想办法！"
+ },
+ "fort.luban.owl": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "夜枭木鸢，起飞！"
+ },
+ "fort.luban.owl.down": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "哎呀，被风吹下来了！"
+ },
+ "fort.luban.dawn": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "天亮了？木鸢停不住啦！"
+ },
+ "fort.coach.lane.shooter": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这一路还空着，放一台连弩车！"
+ },
+ "fort.coach.lane.lobber": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这一路还空着，放一台籍车！"
+ },
+ "fort.coach.lane.burner": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这一路还空着，放一台火油罐！"
+ },
+ "fort.coach.lane.beam": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这一路还空着，放一台阳燧！"
+ },
+ "fort.coach.lane.radial": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这一路还空着，放一台转射机！"
+ },
+ "fort.coach.counter.walker": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木甲兵，连弩车就拆得动。"
+ },
+ "fort.coach.counter.shielder": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "盾挡箭，挡不住籍车的石头。"
+ },
+ "fort.coach.counter.ram": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车怕铁蒺藜。"
+ },
+ "fort.coach.counter.ant": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁群怕火油罐。"
+ },
+ "fort.coach.counter.brute": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜甲力士怕阳燧和籍车。"
+ },
+ "fort.coach.counter.flyer": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊怕转射机，也怕风箱。"
+ },
+ "fort.coach.counter.smoker": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "烟车怕风箱，也怕籍车。"
+ },
+ "fort.coach.counter.ladder": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "云梯车怕钩拒。"
+ },
+ "fort.coach.counter.drummer": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鼓车怕礌石和籍车。"
+ },
+ "fort.coach.flag": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "大波要来了，这路还空着。"
+ },
+ "fort.coach.econ": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先种禾田，粮会越来越多。"
+ },
+ "fort.coach.night": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "夜里禾田出粮少，建座粮仓。"
+ },
+ "fort.coach.boss.shell": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜壳只怕重石和阳燧。"
+ },
+ "fort.coach.boss.swap": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铲掉一台连弩车，换上籍车。"
+ },
+ "fort.coach.boss.charge": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铁蒺藜能扎住它的冲锋。"
+ },
+ "fort.coach.boss.owlhigh": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "转射机放前面，打高空的。"
+ },
+ "fort.coach.boss.owlswoop": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "它要俯冲了，风箱吹它！"
+ },
+ "fort.coach.boss.owldown": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "它落地了，现在最好打！"
+ },
+ "fort.coach.token": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "机关令！拖到一台机关上。"
+ },
+ "fort.coach.drum": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "准备好了，可以敲鼓迎战。"
+ },
+ "fort.coach.newcard": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这是新的牒，试试看。"
+ },
+ "fort.coach.newmachine": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "新机关来了，看仔细。"
+ },
+ "fort.fail.emptyLane.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "机关进第1路时，那里没人守。",
+  "norm": "机关进第一路时，那里没人守。"
+ },
+ "fort.fail.noAntiAir.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊从第1路飞过去了。",
+  "norm": "木鹊从第一路飞过去了。"
+ },
+ "fort.fail.ramRunUp.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第1路跑起来了。",
+  "norm": "冲车在第一路跑起来了。"
+ },
+ "fort.fail.outgunned.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第1路的机关太多了。",
+  "norm": "第一路的机关太多了。"
+ },
+ "fort.fail.emptyLane.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "机关进第2路时，那里没人守。",
+  "norm": "机关进第二路时，那里没人守。"
+ },
+ "fort.fail.noAntiAir.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊从第2路飞过去了。",
+  "norm": "木鹊从第二路飞过去了。"
+ },
+ "fort.fail.ramRunUp.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第2路跑起来了。",
+  "norm": "冲车在第二路跑起来了。"
+ },
+ "fort.fail.outgunned.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第2路的机关太多了。",
+  "norm": "第二路的机关太多了。"
+ },
+ "fort.fail.emptyLane.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "机关进第3路时，那里没人守。",
+  "norm": "机关进第三路时，那里没人守。"
+ },
+ "fort.fail.noAntiAir.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊从第3路飞过去了。",
+  "norm": "木鹊从第三路飞过去了。"
+ },
+ "fort.fail.ramRunUp.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第3路跑起来了。",
+  "norm": "冲车在第三路跑起来了。"
+ },
+ "fort.fail.outgunned.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第3路的机关太多了。",
+  "norm": "第三路的机关太多了。"
+ },
+ "fort.fail.emptyLane.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "机关进第4路时，那里没人守。",
+  "norm": "机关进第四路时，那里没人守。"
+ },
+ "fort.fail.noAntiAir.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊从第4路飞过去了。",
+  "norm": "木鹊从第四路飞过去了。"
+ },
+ "fort.fail.ramRunUp.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第4路跑起来了。",
+  "norm": "冲车在第四路跑起来了。"
+ },
+ "fort.fail.outgunned.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第4路的机关太多了。",
+  "norm": "第四路的机关太多了。"
+ },
+ "fort.fail.emptyLane.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "机关进第5路时，那里没人守。",
+  "norm": "机关进第五路时，那里没人守。"
+ },
+ "fort.fail.noAntiAir.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊从第5路飞过去了。",
+  "norm": "木鹊从第五路飞过去了。"
+ },
+ "fort.fail.ramRunUp.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第5路跑起来了。",
+  "norm": "冲车在第五路跑起来了。"
+ },
+ "fort.fail.outgunned.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第5路的机关太多了。",
+  "norm": "第五路的机关太多了。"
+ },
+ "fort.fail.ladderPins": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "云梯压住了木垒后面的机关。"
+ },
+ "fort.fail.owlWalked": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鸢落地后，走到了城门。"
+ },
+ "fort.tip.owlWalked": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "它落地了，什么都打得到。"
+ },
+ "fort.fail.counterMissing.shielder": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木盾挡住了你的连弩车。"
+ },
+ "fort.fail.counterMissing.ram": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车一路冲到了城门。"
+ },
+ "fort.fail.counterMissing.ant": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁群太多，一箭只拆一只。"
+ },
+ "fort.fail.counterMissing.brute": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜甲挡住了你的牒。"
+ },
+ "fort.fail.counterMissing.flyer": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊飞得高，够不着。"
+ },
+ "fort.fail.counterMissing.smoker": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "烟里的连弩车看不见。"
+ },
+ "fort.fail.counterMissing.ladder": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "云梯一架，后面都被压住。"
+ },
+ "fort.fail.counterMissing.drummer": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鼓一响，机关都变快了。"
+ },
+ "fort.fail.counterMissing.rhino": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜犀的铜壳太硬了。"
+ },
+ "fort.fail.counterMissing.owl": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鸢飞得太高了。"
+ },
+ "fort.fail.counterUnused.lobber": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "籍车带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.lobber": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上籍车。"
+ },
+ "fort.tip.counterUnused.lobber": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放籍车。"
+ },
+ "fort.fail.counterUnused.burner": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "火油罐带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.burner": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上火油罐。"
+ },
+ "fort.tip.counterUnused.burner": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放火油罐。"
+ },
+ "fort.fail.counterUnused.spikes": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铁蒺藜带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.spikes": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上铁蒺藜。"
+ },
+ "fort.tip.counterUnused.spikes": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放铁蒺藜。"
+ },
+ "fort.fail.counterUnused.beam": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "阳燧带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.beam": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上阳燧。"
+ },
+ "fort.tip.counterUnused.beam": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放阳燧。"
+ },
+ "fort.fail.counterUnused.radial": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "转射机带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.radial": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上转射机。"
+ },
+ "fort.tip.counterUnused.radial": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放转射机。"
+ },
+ "fort.fail.counterUnused.gust": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "风箱带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.gust": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上风箱。"
+ },
+ "fort.tip.counterUnused.gust": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放风箱。"
+ },
+ "fort.fail.counterUnused.hook": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "钩拒带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.hook": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上钩拒。"
+ },
+ "fort.tip.counterUnused.hook": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放钩拒。"
+ },
+ "fort.fail.counterUnused.strike": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "礌石带了，却没放在那一路。"
+ },
+ "fort.tip.counterMissing.strike": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "下次带上礌石。"
+ },
+ "fort.tip.counterUnused.strike": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到它来，那一路放礌石。"
+ },
+ "fort.fail.nightFarms": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "夜里禾田只出一半粮。"
+ },
+ "fort.fail.lateEconomy": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "到第60秒只种了{n}块禾田。",
+  "norm": "到第六十秒，禾田种得太少。"
+ },
+ "fort.fail.hoard": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "粮最多攒了{n}没花。",
+  "norm": "攒了好多粮，没有花。"
+ },
+ "fort.fail.strikeEarly": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "礌石在大波之前就用掉了。"
+ },
+ "fort.fail.generic": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "再推演一次看看。"
+ },
+ "fort.tip.emptyLane": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "机关进哪路，哪路先放一台。"
+ },
+ "fort.tip.noAntiAir": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "转射机打得到飞的。"
+ },
+ "fort.tip.noAntiAir.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "风箱能把它吹下来。"
+ },
+ "fort.tip.ladderPins": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "钩拒能把梯子拉倒。"
+ },
+ "fort.tip.ramRunUp": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木垒前一格铺铁蒺藜。"
+ },
+ "fort.tip.nightFarms": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "夜里先建粮仓。"
+ },
+ "fort.tip.lateEconomy": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "开局先种4块禾田。",
+  "norm": "开局先种四块禾田。"
+ },
+ "fort.tip.hoard": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "粮够了就放，别让它睡觉。"
+ },
+ "fort.tip.strikeEarly": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "礌石留给扎堆的大波。"
+ },
+ "fort.tip.outgunned": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "大波前给这一路多放一台。"
+ },
+ "fort.good.econ": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你第{t}秒就种了{n}块田。",
+  "norm": "你很早就种好了田。"
+ },
+ "fort.good.econ.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "所以大波来时多出{g}粮。",
+  "norm": "所以大波来的时候，粮更多。"
+ },
+ "fort.good.counter.shooter": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你用连弩车拆掉了{n}个机关。",
+  "norm": "你用连弩车拆掉了好多机关。"
+ },
+ "fort.good.counter.lobber": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你用籍车拆掉了{n}个机关。",
+  "norm": "你用籍车拆掉了好多机关。"
+ },
+ "fort.good.counter.burner": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你用火油罐拆掉了{n}个机关。",
+  "norm": "你用火油罐拆掉了好多机关。"
+ },
+ "fort.good.counter.beam": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你用阳燧拆掉了{n}个机关。",
+  "norm": "你用阳燧拆掉了好多机关。"
+ },
+ "fort.good.counter.radial": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你用转射机拆掉了{n}个机关。",
+  "norm": "你用转射机拆掉了好多机关。"
+ },
+ "fort.good.counter.spikes": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铁蒺藜让冲车冲不起来{n}次。",
+  "norm": "铁蒺藜让冲车冲不起来好几次。"
+ },
+ "fort.good.counter.pit": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "陷坑收走了{n}个机关。",
+  "norm": "陷坑收走了好几个机关。"
+ },
+ "fort.good.counter.strike": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你用礌石拆掉了{n}个机关。",
+  "norm": "你用礌石拆掉了好多机关。"
+ },
+ "fort.good.counter.gust": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "风箱吹落了{n}只木鹊。",
+  "norm": "风箱吹落了好几只木鹊。"
+ },
+ "fort.good.counter.hook": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "钩拒拉倒了{n}架云梯。",
+  "norm": "钩拒拉倒了好几架云梯。"
+ },
+ "fort.good.log": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "檑木帮你挡住了一次。"
+ },
+ "fort.good.hold": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "你守住了{k}面大波。",
+  "norm": "你守住了好几面大波。"
+ },
+ "fort.good.learned": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "今天又学会了一招！"
+ },
+ "fort.ghost.start": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看我怎么开局。"
+ },
+ "fort.ghost.farm": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先种田。"
+ },
+ "fort.ghost.bank": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "夜里先建粮仓。"
+ },
+ "fort.ghost.lane": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这一路先放一台。"
+ },
+ "fort.ghost.wall": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木垒挡在前面。"
+ },
+ "fort.ghost.counter": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看它怕什么，就放什么。"
+ },
+ "fort.ghost.collect": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "粮包点一下就收。"
+ },
+ "fort.ghost.try": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看清楚了吗？你来试试！"
+ },
+ "fort.result.win": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这一招，挡住了！"
+ },
+ "fort.result.lose": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "推演没守住，我们复盘看看。"
+ },
+ "fort.result.flag": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "从第{n}面战鼓重来？",
+  "norm": "从刚才那面战鼓重来？"
+ },
+ "fort.result.assist": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "要不要我帮你一把？"
+ },
+ "fort.result.ghost": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看看我怎么守这一段？"
+ },
+ "fort.result.star3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班的附加题，也做到了！"
+ },
+ "fort.ui.home": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "回大厅？这一局会存好。"
+ },
+ "fort.ui.seal": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "带上它。"
+ },
+ "fort.ui.recommend": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "我帮你挑好了，你还能改。"
+ },
+ "fort.ui.choose": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "选好牒，按开始推演。"
+ },
+ "fort.ui.unknown": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "多遇见几次，就知道了。"
+ },
+ "fort.ui.star3rule": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班出了一道附加题。"
+ },
+ "fort.env.night": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "天黑了，没有人送粮了。"
+ },
+ "fort.env.fog": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "起雾了，右边看不清。"
+ },
+ "fort.env.dawn": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "天亮了！阳燧能用了。"
+ },
+ "fort.belt.full": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "传送带堆满了。"
+ },
+ "fort.pz.intro": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先摆好，再按开始推演。"
+ },
+ "fort.pz.budget": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这道题有{n}粮。",
+  "norm": "看看这道题有多少粮。"
+ },
+ "fort.pz.notyet": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "还没守住，改一改再推。"
+ },
+ "fort.pz.held": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "守住了！"
+ },
+ "fort.pz.par": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "正好够，一粒粮都没浪费！"
+ },
+ "fort.pz.g1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "精打细算：粮正好够用。"
+ },
+ "fort.pz.g2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "对症下药：看清再选牒。"
+ },
+ "fort.pz.fei.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这道题，一台射的都没有。"
+ },
+ "fort.pz.fei.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "挡住、推回、收走，也能守。"
+ },
+ "fort.fam.intro.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "爸爸当鲁班，你来守城。"
+ },
+ "fort.fam.intro.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鼓响的时候，爸爸才能出牌。"
+ },
+ "fort.fam.rotate": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "转过来，和爸爸面对面玩。"
+ },
+ "fort.fam.win": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "守住了！鲁班的招用完了。"
+ },
+ "fort.fam.lose": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "爸爸这招厉害！再来一局？"
+ },
+ "fort.fam.more": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "给爸爸多一点木料吗？"
+ },
+ "fort.fam.less": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "给爸爸少一点木料吗？"
+ },
+ "fort.inn.1-3.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "今天学会了先挡后打。"
+ },
+ "fort.inn.1-3.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "下一回，我带盾牌来！"
+ },
+ "fort.inn.1-6.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "鲁班按哪路，就先防哪路。"
+ },
+ "fort.inn.1-6.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "下一回，我派一大群！"
+ },
+ "fort.inn.1-9.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "铜不怕火，可怕聚起来的阳光。"
+ },
+ "fort.inn.1-9.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "我的铜犀冲车，可没这么好拆！"
+ },
+ "fort.inn.1-11.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "第一卷推演完了！"
+ },
+ "fort.inn.1-11.2": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "宋城修好了一大半。"
+ },
+ "fort.inn.2-3.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "风能帮我们，也能帮火。"
+ },
+ "fort.inn.2-3.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "下回我放烟，看你怎么吹！"
+ },
+ "fort.inn.2-6.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "云梯再高，钩拒一拉就倒。"
+ },
+ "fort.inn.2-6.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "钩拒还是我发明的呢！"
+ },
+ "fort.inn.2-9.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "夜里的考验，你都守住了。"
+ },
+ "fort.inn.2-9.2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "天亮前，我还有最后一招！"
+ },
+ "fort.inn.2-11.1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "天亮了，郢都就在前面。"
+ },
+ "fort.inn.2-11.2": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "回家讲给爸爸听吧。"
+ },
+ "fort.inn.stop": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "今天就到这里，好不好？"
+ },
+ "fort.ask.1-1": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：连弩车是怎么拆掉木甲兵的？"
+ },
+ "fort.ask.1-2": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：为什么先种禾田？"
+ },
+ "fort.ask.1-3": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：木垒为什么要放在连弩车前面？"
+ },
+ "fort.ask.1-4": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：盾挡住了箭，挡得住从天上落下的石头吗？"
+ },
+ "fort.ask.1-5": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：冲车为什么要先跑起来才撞得狠？"
+ },
+ "fort.ask.1-6": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：鲁班的手按住了哪两路？你提前做了什么？"
+ },
+ "fort.ask.1-7": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：一箭只能拆一只蚂蚁，一罐火油呢？"
+ },
+ "fort.ask.1-8": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：礌石为什么要等它们挤在一起再砸？"
+ },
+ "fort.ask.1-9": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：火油罐为什么烧不动铜甲力士？"
+ },
+ "fort.ask.1-10": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：你为什么带了这几张牒？"
+ },
+ "fort.ask.1-11": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：铜犀缩进壳里时，什么能把壳敲裂？"
+ },
+ "fort.ask.2-1": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：粮仓要等一会儿才出粮，为什么还值得先建？"
+ },
+ "fort.ask.2-2": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：木鹊飞过了连弩车，为什么转射机打得到它？"
+ },
+ "fort.ask.2-3": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：风箱吹不动谁？为什么？"
+ },
+ "fort.ask.2-4": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：烟里看不见，籍车为什么还能打中？"
+ },
+ "fort.ask.2-5": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：雾里看不见，你怎么知道每路都要守？"
+ },
+ "fort.ask.2-6": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：云梯压住的是哪一台？"
+ },
+ "fort.ask.2-7": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：牒片送来时，你是怎么决定放哪儿的？"
+ },
+ "fort.ask.2-8": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：为什么先拆鼓车？"
+ },
+ "fort.ask.2-9": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：风箱和火油罐放在同一路，会发生什么？"
+ },
+ "fort.ask.2-10": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：天亮前和天亮后，你的打法有什么不一样？"
+ },
+ "fort.ask.2-11": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：木鸢什么时候最好打？"
+ },
+ "fort.ask.x.1": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：陆战棋里，有没有“擒贼先擒王”？"
+ },
+ "fort.ask.x.2": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：推箱子的时候，你会不会先想好再推？"
+ },
+ "fort.ask.x.3": {
+  "role": "dad",
+  "kind": "card",
+  "text": "讲给爸爸听：下棋时你先保护什么？像不像保护粮仓？"
+ },
+ "fort.repair.1-1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "城门换上了新门闩。"
+ },
+ "fort.repair.1-2": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "第一块粟田发芽了。"
+ },
+ "fort.repair.1-3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "东边的城墙补好了一段。"
+ },
+ "fort.repair.1-4": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "城楼的木梯修好了。"
+ },
+ "fort.repair.1-5": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "护城的小桥铺上了木板。"
+ },
+ "fort.repair.1-6": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "水井装上了辘轳。"
+ },
+ "fort.repair.1-7": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "第二块粟田长高了。"
+ },
+ "fort.repair.1-8": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "西边的城墙补齐了。"
+ },
+ "fort.repair.1-9": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "铁匠铺的炉子点着了。"
+ },
+ "fort.repair.1-10": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "孩子们有了秋千。"
+ },
+ "fort.repair.1-11": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "铜犀折成的犁，犁开了第三块田。"
+ },
+ "fort.repair.2-1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "城里点起了第一盏灯笼。"
+ },
+ "fort.repair.2-2": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "粟田边立起了稻草人。"
+ },
+ "fort.repair.2-3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "磨坊装上了风车。"
+ },
+ "fort.repair.2-4": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "烟囱冒出了炊烟。"
+ },
+ "fort.repair.2-5": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "雾散了，城头挂起了风铃。"
+ },
+ "fort.repair.2-6": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "城墙加了一层垛口。"
+ },
+ "fort.repair.2-7": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "驿站的马车修好了。"
+ },
+ "fort.repair.2-8": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "城楼挂上了报时的大鼓。"
+ },
+ "fort.repair.2-9": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "粮仓装满了。"
+ },
+ "fort.repair.2-10": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "太阳从城后升起来了。"
+ },
+ "fort.repair.2-11": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "木鸢折成的风筝，挂在城楼上。"
+ },
+ "fort.alm.shooter.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "连弩车：一次能装好多支箭的大弩车。"
+ },
+ "fort.alm.shooter.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "弓弦拉得越紧，箭飞得越远。"
+ },
+ "fort.alm.farm.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "禾田：种下粟，就会长出粮。"
+ },
+ "fort.alm.farm.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "庄稼要晒太阳，夜里长得慢。"
+ },
+ "fort.alm.wall.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "木垒：用木头和土垒起来的墙。"
+ },
+ "fort.alm.wall.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "先挡住，后面的车才能慢慢打。"
+ },
+ "fort.alm.lobber.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "籍车：把石头抛过城墙的投石车。"
+ },
+ "fort.alm.lobber.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "杠杆：短的一头一压，长的一头就甩出去。"
+ },
+ "fort.alm.spikes.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "铁蒺藜：撒在地上的四角铁刺。"
+ },
+ "fort.alm.spikes.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "四个尖角，怎么扔都有一个尖朝上。"
+ },
+ "fort.alm.pit.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "陷坑：提前挖好、盖上草的坑。"
+ },
+ "fort.alm.pit.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "机关一踩就掉下去，被收走了。"
+ },
+ "fort.alm.burner.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "火油罐：装着火油的陶罐。"
+ },
+ "fort.alm.burner.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "木头会烧，青铜不会烧。同一把火，要看材料。"
+ },
+ "fort.alm.strike.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "礌石：守城时从城上推下的大石头。"
+ },
+ "fort.alm.strike.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "石头越重，砸下来越有力。"
+ },
+ "fort.alm.beam.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "阳燧：青铜做的凹面镜。"
+ },
+ "fort.alm.beam.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "凹面镜把阳光聚到一点，那一点会变得很热。"
+ },
+ "fort.alm.bank.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "粮仓：存粮的大仓库。"
+ },
+ "fort.alm.bank.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "先花粮建仓，以后一大包一大包地来。"
+ },
+ "fort.alm.radial.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "转射机：能转圈的弩机。"
+ },
+ "fort.alm.radial.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "前后左右、天上飞的，都打得到。"
+ },
+ "fort.alm.gust.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "橐，就是风箱：一拉一推，风就吹出去。"
+ },
+ "fort.alm.gust.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "风能吹走烟，也能让火烧得更旺。"
+ },
+ "fort.alm.hook.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "钩拒：一头是钩子，一头是推杆。"
+ },
+ "fort.alm.hook.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "鲁班为楚国船战做了钩拒；墨子说：我的钩拒是爱和尊敬，比它还厉害。"
+ },
+ "fort.alm.walker.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "木甲兵：会走路的木头人。"
+ },
+ "fort.alm.walker.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "会走路的木头人，是古人的想象。"
+ },
+ "fort.alm.shielder.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "盾甲兵：举着大木盾的木甲兵。"
+ },
+ "fort.alm.shielder.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "盾挡得住正面，挡不住头顶。"
+ },
+ "fort.alm.ram.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "冲车：用来撞城门的车。"
+ },
+ "fort.alm.ram.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "跑得越久，撞得越狠，这叫动量。"
+ },
+ "fort.alm.ant.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "蚁傅：像蚂蚁一样一拥而上。"
+ },
+ "fort.alm.ant.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "古书里真有这一招，画成小木蚁是游戏的想象。"
+ },
+ "fort.alm.brute.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "铜甲力士：穿着青铜甲的大力士。"
+ },
+ "fort.alm.brute.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "铜不怕火；重的东西，风吹不动。"
+ },
+ "fort.alm.flyer.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "木鹊：传说鲁班做过会飞的木鸟。"
+ },
+ "fort.alm.flyer.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "传说它飞上天，三天都没有落下来。"
+ },
+ "fort.alm.smoker.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "烟车：会放烟的车。"
+ },
+ "fort.alm.smoker.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "烟挡住眼睛，可挡不住从天上落下的石头。"
+ },
+ "fort.alm.ladder.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "云梯车：架上城墙的高梯子。"
+ },
+ "fort.alm.ladder.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "鲁班为楚王造过云梯，这是古书里写的。"
+ },
+ "fort.alm.drummer.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "鼓车：载着大鼓的车。"
+ },
+ "fort.alm.drummer.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "古时候打仗击鼓前进，鼓声让人跟着节奏走。"
+ },
+ "fort.alm.rhino.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "铜犀冲车：外壳是青铜的大冲车。"
+ },
+ "fort.alm.rhino.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "它后来变成了一把犁，帮宋城翻地。"
+ },
+ "fort.alm.owl.1": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "夜枭木鸢：夜里飞的大木鸟。"
+ },
+ "fort.alm.owl.2": {
+  "role": "narrator",
+  "kind": "card",
+  "text": "天一亮它就停不住了，后来变成了一只风筝。"
+ },
+ "fort.alm.walker.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "木甲兵谁都怕，连弩车最省粮。"
+ },
+ "fort.alm.shielder.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "盾挡得住箭，挡不住从天上落下的石头。"
+ },
+ "fort.alm.ram.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "冲车要跑起来才撞得狠，蒺藜让它跑不起来。"
+ },
+ "fort.alm.ant.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "一箭一只太慢了，一罐火油一大片。"
+ },
+ "fort.alm.brute.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "铜不怕火。重石和聚起来的阳光才对付得了它。"
+ },
+ "fort.alm.flyer.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "飞在天上的，转射机打得到；风箱能把它吹下来。"
+ },
+ "fort.alm.smoker.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "烟里看不见。吹散它，或者用不用看的籍车。"
+ },
+ "fort.alm.ladder.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "梯子一架起来，后面三台都被压住。钩拒把梯子拉倒。"
+ },
+ "fort.alm.drummer.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "鼓一响，旁边的机关都变快。先拆鼓车。"
+ },
+ "fort.jn.econ": {
+  "role": "dad",
+  "kind": "card",
+  "text": "兵马未动，粮草先行：先把粮准备好。"
+ },
+ "fort.jn.invest": {
+  "role": "dad",
+  "kind": "card",
+  "text": "磨刀不误砍柴工：先花一点，以后得更多。"
+ },
+ "fort.jn.counter": {
+  "role": "dad",
+  "kind": "card",
+  "text": "对症下药：看清它怕什么，再选牒。"
+ },
+ "fort.jn.aoe": {
+  "role": "dad",
+  "kind": "card",
+  "text": "一网打尽：成群的，用一罐火一大片。"
+ },
+ "fort.jn.timing": {
+  "role": "dad",
+  "kind": "card",
+  "text": "好钢用在刀刃上：大招留到最要紧的时候。"
+ },
+ "fort.jn.guard": {
+  "role": "dad",
+  "kind": "card",
+  "text": "防止后院起火：先护住自己的粮田。"
+ },
+ "fort.jn.control": {
+  "role": "dad",
+  "kind": "card",
+  "text": "以逸待劳：先布好阵歇一歇，等它跑累了再收拾它。"
+ },
+ "fort.jn.depth": {
+  "role": "dad",
+  "kind": "card",
+  "text": "未雨绸缪：没下雨，先把伞准备好。"
+ },
+ "fort.jn.smoke": {
+  "role": "dad",
+  "kind": "card",
+  "text": "拨云见日：吹开烟，就看得见了。"
+ },
+ "fort.jn.cover": {
+  "role": "dad",
+  "kind": "card",
+  "text": "有备无患：每一路都准备好，就不怕。"
+ },
+ "fort.jn.preview": {
+  "role": "dad",
+  "kind": "card",
+  "text": "知己知彼：先看鲁班出什么招，再选牒。"
+ },
+ "fort.jn.daynight": {
+  "role": "dad",
+  "kind": "card",
+  "text": "因时制宜：白天黑夜，打法不一样。"
+ },
+ "fort.jn.improvise": {
+  "role": "dad",
+  "kind": "card",
+  "text": "随机应变：来什么，就用什么。"
+ },
+ "fort.jn.priority": {
+  "role": "dad",
+  "kind": "card",
+  "text": "擒贼先擒王：先拆最要紧的那一个。"
+ },
+ "fort.fail.ramNoSpikes.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第1路跑起来了。",
+  "norm": "冲车在第一路跑起来了。"
+ },
+ "fort.fail.swarmNoFire.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁傅从第1路涌过去了。",
+  "norm": "蚁傅从第一路涌过去了。"
+ },
+ "fort.fail.smokeBlind.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第1路被烟罩住，连弩看不见。",
+  "norm": "第一路被烟罩住，连弩看不见。"
+ },
+ "fort.fail.lostAttackers.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第1路的牒被咬光了。",
+  "norm": "第一路的牒被咬光了。"
+ },
+ "fort.fail.warnIgnored.1": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班按住第1路，那里没准备。",
+  "norm": "鲁班按住第一路，那里没准备。"
+ },
+ "fort.fail.ramNoSpikes.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第2路跑起来了。",
+  "norm": "冲车在第二路跑起来了。"
+ },
+ "fort.fail.swarmNoFire.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁傅从第2路涌过去了。",
+  "norm": "蚁傅从第二路涌过去了。"
+ },
+ "fort.fail.smokeBlind.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第2路被烟罩住，连弩看不见。",
+  "norm": "第二路被烟罩住，连弩看不见。"
+ },
+ "fort.fail.lostAttackers.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第2路的牒被咬光了。",
+  "norm": "第二路的牒被咬光了。"
+ },
+ "fort.fail.warnIgnored.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班按住第2路，那里没准备。",
+  "norm": "鲁班按住第二路，那里没准备。"
+ },
+ "fort.fail.ramNoSpikes.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第3路跑起来了。",
+  "norm": "冲车在第三路跑起来了。"
+ },
+ "fort.fail.swarmNoFire.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁傅从第3路涌过去了。",
+  "norm": "蚁傅从第三路涌过去了。"
+ },
+ "fort.fail.smokeBlind.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第3路被烟罩住，连弩看不见。",
+  "norm": "第三路被烟罩住，连弩看不见。"
+ },
+ "fort.fail.lostAttackers.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第3路的牒被咬光了。",
+  "norm": "第三路的牒被咬光了。"
+ },
+ "fort.fail.warnIgnored.3": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班按住第3路，那里没准备。",
+  "norm": "鲁班按住第三路，那里没准备。"
+ },
+ "fort.fail.ramNoSpikes.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第4路跑起来了。",
+  "norm": "冲车在第四路跑起来了。"
+ },
+ "fort.fail.swarmNoFire.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁傅从第4路涌过去了。",
+  "norm": "蚁傅从第四路涌过去了。"
+ },
+ "fort.fail.smokeBlind.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第4路被烟罩住，连弩看不见。",
+  "norm": "第四路被烟罩住，连弩看不见。"
+ },
+ "fort.fail.lostAttackers.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第4路的牒被咬光了。",
+  "norm": "第四路的牒被咬光了。"
+ },
+ "fort.fail.warnIgnored.4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班按住第4路，那里没准备。",
+  "norm": "鲁班按住第四路，那里没准备。"
+ },
+ "fort.fail.ramNoSpikes.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "冲车在第5路跑起来了。",
+  "norm": "冲车在第五路跑起来了。"
+ },
+ "fort.fail.swarmNoFire.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "蚁傅从第5路涌过去了。",
+  "norm": "蚁傅从第五路涌过去了。"
+ },
+ "fort.fail.smokeBlind.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第5路被烟罩住，连弩看不见。",
+  "norm": "第五路被烟罩住，连弩看不见。"
+ },
+ "fort.fail.lostAttackers.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "第5路的牒被咬光了。",
+  "norm": "第五路的牒被咬光了。"
+ },
+ "fort.fail.warnIgnored.5": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鲁班按住第5路，那里没准备。",
+  "norm": "鲁班按住第五路，那里没准备。"
+ },
+ "fort.fail.drummerAlive": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "鼓车让旁边的机关又快又硬。"
+ },
+ "fort.fail.noWall": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "连弩车被咬坏了，前面没有木垒。"
+ },
+ "fort.fail.strikeUnused": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "礌石带了，大波来时没用上。"
+ },
+ "fort.tip.alt.ram": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "趁冲车还没跑起来，先拆它。"
+ },
+ "fort.tip.alt.ladder": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "火油罐能烧断梯子。"
+ },
+ "fort.tip.alt.ant": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "风箱把蚁傅吹回去。"
+ },
+ "fort.tip.alt.walker": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "每一路先放一台连弩车。"
+ },
+ "fort.tip.alt.shielder": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "盾甲兵前面放木垒，多打一会儿。"
+ },
+ "fort.tip.alt.shielder_m": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜盾挡箭，从上面打它。"
+ },
+ "fort.tip.alt.brute": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "力士前面放木垒，再多放两台。"
+ },
+ "fort.tip.alt.flyer": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鹊落下来时，再打它。"
+ },
+ "fort.tip.alt.smoker": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先拆烟车，烟就散了。"
+ },
+ "fort.tip.alt.drummer": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先拆鼓车，旁边的就慢了。"
+ },
+ "fort.tip.alt.rhino": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "铜壳只怕重石和阳燧。"
+ },
+ "fort.tip.alt.owl": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "等它落地，什么都打得到。"
+ },
+ "fort.tip.swarmNoFire": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "成群的，用火油罐。"
+ },
+ "fort.tip.smokeBlind": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "风箱吹散烟。"
+ },
+ "fort.tip.smokeBlind.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "籍车不怕烟。"
+ },
+ "fort.tip.drummerAlive": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先拆鼓车，再拆别的。"
+ },
+ "fort.tip.drummerAlive.strike": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先用礌石砸鼓车。"
+ },
+ "fort.tip.drummerAlive.lobber": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "先用籍车拆鼓车。"
+ },
+ "fort.tip.noWall": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木垒放在连弩车前面。"
+ },
+ "fort.tip.wallLate": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木垒要在它们走到之前放好。"
+ },
+ "fort.tip.lostAttackers": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "大波前给这一路多放两台。"
+ },
+ "fort.tip.warnIgnored": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到鲁班的手，先在那一路挖坑。"
+ },
+ "fort.tip.warnIgnored.2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看到鲁班的手，那一路多放牒。"
+ },
+ "fort.tip.strikeUnused": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "大波扎堆时，用礌石砸。"
+ },
+ "fort.story.0.b1": {
+  "role": "dad",
+  "kind": "talk",
+  "text": "这是鲁班做的沙盘，我们在沙盘上替宋城守一守。"
+ },
+ "fort.story.0.b2": {
+  "role": "luban",
+  "kind": "talk",
+  "text": "看我的大波！"
+ },
+ "fort.lvl.2-10.infer": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "看它的标签，想想谁对付得了它。"
+ },
+ "fort.result.assist2": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "要不要我陪你一起摆？"
+ },
+ "fort.ui.assist2.tap": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "点一下，就放在这里。"
+ },
+ "fort.ui.bonusLost": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "这次附加题没做到，没关系。"
+ },
+ "fort.ui.resume": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "接着上次的推演吗？"
+ },
+ "fort.coach.boss.owlRage": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "木鸢发怒了，多放转射机！"
+ },
+ "fort.alm.shielder_m.1": {
+  "role": "dad",
+  "kind": "card",
+  "text": "铜盾甲兵：木头身子，举着一面铜盾。"
+ },
+ "fort.alm.shielder_m.2": {
+  "role": "dad",
+  "kind": "card",
+  "text": "铜盾挡箭也不怕火，可它的木身子挡不住从天上落下来的东西。"
+ },
+ "fort.alm.shielder_m.fear": {
+  "role": "dad",
+  "kind": "card",
+  "text": "铜盾挡得住箭，挡不住从天上落下的石头和火。"
+ },
+ "fort.jn.infer": {
+  "role": "dad",
+  "kind": "card",
+  "text": "举一反三：看它的标签，就知道谁对付得了它。"
+ }
+}

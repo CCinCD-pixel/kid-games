@@ -1,0 +1,45 @@
+{
+ "TPS": 20,
+ "T": 10000,
+ "COLS": 8,
+ "LANES": 5,
+ "BOARD_X": 80000,
+ "SPAWN_X": 83000,
+ "FACE": 8000,
+ "PASS": 2000,
+ "BODY": 5000,
+ "FEET": 1500,
+ "AUTO_COLLECT": 140,
+ "BITE_EVERY": 10,
+ "GRACE": 800,
+ "PARTS_PER_TOKEN": 20,
+ "TOKEN_MAX": 3,
+ "PARTS": {
+  "light": 1,
+  "medium": 2,
+  "heavy": 5,
+  "boss": 10
+ },
+ "SKY": {
+  "amt": 20,
+  "first": 60,
+  "period": 160,
+  "jitter": 20
+ },
+ "FIRE": {
+  "woodNum": 3,
+  "woodDen": 2,
+  "shieldMul": 2,
+  "burnPerHalfSec": 4,
+  "burnTicks": 60
+ },
+ "LOG": {
+  "bossDmg": 1200,
+  "bossPush": 20000
+ },
+ "ASSIST": {
+  "startGrain": 150,
+  "speedPct": 75
+ },
+ "SWARM_N": 8
+}

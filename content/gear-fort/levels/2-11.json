@@ -1,0 +1,188 @@
+{
+ "id": "2-11",
+ "vol": 2,
+ "idx": 11,
+ "name": "夜枭木鸢",
+ "type": "boss",
+ "concept": "对空；看影子预警；俯冲时用风箱和礌石；它掉一半血就更凶",
+ "jinnang": "timing",
+ "choose": true,
+ "slots": 7,
+ "boss": {
+  "type": "owl"
+ },
+ "star3": {
+  "owlDown": 1
+ },
+ "star3Text": "风箱把木鸢打落一次",
+ "ask": "木鸢什么时候最好打？",
+ "pool": [
+  "shooter",
+  "farm",
+  "wall",
+  "lobber",
+  "spikes",
+  "pit",
+  "burner",
+  "strike",
+  "beam",
+  "bank",
+  "radial",
+  "gust",
+  "hook"
+ ],
+ "lanes": [
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "env": {
+  "night": true
+ },
+ "sky": false,
+ "start": 420,
+ "spawns": [
+  [
+   500,
+   4,
+   "walker",
+   0
+  ],
+  [
+   800,
+   2,
+   "boss:owl",
+   0
+  ],
+  [
+   1036,
+   1,
+   "walker",
+   0
+  ],
+  [
+   1272,
+   3,
+   "walker",
+   0
+  ],
+  [
+   1508,
+   4,
+   "walker",
+   0
+  ],
+  [
+   1744,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   2000,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2240,
+   0,
+   "flyer",
+   0
+  ],
+  [
+   2482,
+   0,
+   "walker",
+   0
+  ],
+  [
+   2723,
+   2,
+   "walker",
+   0
+  ],
+  [
+   2964,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3205,
+   1,
+   "walker",
+   0
+  ],
+  [
+   3503,
+   4,
+   "walker",
+   0
+  ],
+  [
+   3800,
+   0,
+   "drummer",
+   0
+  ],
+  [
+   3800,
+   0,
+   "ram",
+   0
+  ],
+  [
+   3800,
+   3,
+   "walker",
+   0
+  ],
+  [
+   3940,
+   2,
+   "shielder",
+   0
+  ],
+  [
+   4080,
+   4,
+   "ram",
+   0
+  ]
+ ],
+ "flags": [
+  2000,
+  3800
+ ],
+ "drumOk": false,
+ "p": 0.4,
+ "known": [
+  "walker",
+  "shielder",
+  "ram",
+  "ant",
+  "brute",
+  "flyer",
+  "smoker",
+  "ladder",
+  "drummer",
+  "shielder_m"
+ ],
+ "botJinnang": "timing",
+ "inn": 8,
+ "repair": {
+  "art": "kite",
+  "line": "fort.repair.2-11"
+ },
+ "voice": {
+  "intro": [
+   "fort.lvl.2-11.1",
+   "fort.lvl.2-11.2"
+  ],
+  "preview": "fort.luban.preview.2-11",
+  "ask": "fort.ask.2-11"
+ }
+}

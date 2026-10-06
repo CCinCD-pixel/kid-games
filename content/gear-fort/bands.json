@@ -1,0 +1,532 @@
+{
+ "TYPE": {
+  "tutorial": {
+   "R": [
+    60,
+    100
+   ],
+   "K": [
+    95,
+    100
+   ],
+   "kpMin": 95,
+   "C": 100,
+   "O": 100,
+   "P3": 100
+  },
+  "teach": {
+   "R": [
+    0,
+    50
+   ],
+   "K": [
+    70,
+    92
+   ],
+   "kpMin": 70,
+   "C": 95,
+   "O": 100,
+   "P3": 97,
+   "K2": 85,
+   "two": 40
+  },
+  "breather": {
+   "R": [
+    0,
+    60
+   ],
+   "K": [
+    75,
+    95
+   ],
+   "kpMin": 80,
+   "C": 95,
+   "O": 100,
+   "P3": 98,
+   "K2": 85,
+   "two": 40
+  },
+  "practice": {
+   "R": [
+    0,
+    25
+   ],
+   "K": [
+    45,
+    78
+   ],
+   "kpMin": 50,
+   "C": 95,
+   "O": 100,
+   "P3": 93,
+   "K2": 80,
+   "two": 40
+  },
+  "conveyor": {
+   "R": [
+    0,
+    30
+   ],
+   "K": [
+    50,
+    88
+   ],
+   "kpMin": 50,
+   "C": 95,
+   "O": 100,
+   "P3": 93,
+   "K2": 80,
+   "two": 40
+  },
+  "test": {
+   "R": [
+    0,
+    15
+   ],
+   "K": [
+    30,
+    62
+   ],
+   "kpMin": 40,
+   "C": 92,
+   "O": 100,
+   "P3": 85,
+   "K2": 75,
+   "two": 25
+  },
+  "boss": {
+   "R": [
+    0,
+    5
+   ],
+   "K": [
+    25,
+    60
+   ],
+   "kpMin": 30,
+   "C": 95,
+   "O": 100,
+   "P3": 85,
+   "K2": 75,
+   "two": 25
+  }
+ },
+ "OVERRIDE": {
+  "1-3": {
+   "K": [
+    85,
+    100
+   ],
+   "why": "第 3 关：前 3 关不看字也要能过（DoD 4）；教学关的 K 上限放宽"
+  },
+  "1-9": {
+   "two": 30,
+   "why": "铜甲力士首登场：K+（跟着教练的第一次）2★ 34 %——第一次见力士的孩子多半要掉一根檑木才看懂\"它只怕阳燧/籍车\"；学会了的孩子 K2 稳 71、3★ 57，课由 L2 证明（K2 去掉阳燧 稳 71→0）。p 0.6–0.7 都试过：2★ 能到 41–53，但 K 首试冲出带顶（94 > 92）、K2 稳跌破 70、败因事实复核跌到 92–94 —— 保留 p 0.8，放宽这一关的 2★ 门槛（rev d）"
+  },
+  "1-10": {
+   "O": 97,
+   "why": "检验关：O 与 C 都在约 2 % 的种子上输（O 98、C 98）；K 首试 61 已在带顶（p 0.24 时一档辅助 Ka 跌到 85，p 0.22 时 K 79 出带），P4 = 100、重来换种子。不为这 2 % 把检验关调软；TS 端 V8 把输掉的种子写进报告备查（rev d）"
+  },
+  "2-3": {
+   "star3K2": [
+    30,
+    80
+   ],
+   "lessonAlign": 30,
+   "why": "两部分的附加题（风箱吹落 3 只木鹊 + 禾田一块不丢）就是风箱这一课本身，学会了的孩子 3★ 约 78 %；再加条件会超过孩子在战斗里能同时盯住的两件事。败因对齐 36 % < 40：K 输掉的局里 62 % 是真的空路（emptyLane 113 / noAntiAir 65，事实复核 100 %），先说空路是对的；这一关的对齐门槛放到 30（rev d）"
+  },
+  "2-4": {
+   "L0exemptK": true,
+   "why": "烟车课的两种答案（风箱吹散 / 改用籍车）对学会的孩子是决定性的：K2 去掉风箱+籍车 稳 79→26，C 同样（L2）；但被强制带上这两张牒、仍按自己习惯摆的 K，2★ 64 vs 不带的 71（L0 差 7）。课不改、K 的 L0 豁免；教练在烟起时点名那一路（§5.2），本关\"这关教什么\"本来就写明两种答案：\"烟里连弩看不见：吹散它，或改用籍车\"（rev d）"
+  },
+  "2-6": {
+   "K2h": [
+    60,
+    100
+   ],
+   "learnVia": "campaign",
+   "why": "钩拒关：一半学会的孩子靠 1-3 的木垒也能赢（K2h 胜率高），难度体现在\"守得稳\"（K2h 稳 71、K 稳 29）；钩拒的课由 L4 证明（K2 的木垒被推倒 0.91→0.58、C 1.08→0.01）。战斗里\"学会 云梯↔钩拒\"只有约 6 成：这一对的学会按全程累计兜底：云梯在 2-6…2-11 六关都出场，\"学会\"按存档里的 counters 累计 2 次计（rev d：「非攻」谜题移到 v2，见 §11）"
+  },
+  "2-7": {
+   "K2h": [
+    55,
+    100
+   ],
+   "why": "急报关：牒片是送来的、不考经济，一半学会的孩子按\"对症\"摆就很稳；它考的是 PvZ 老手\"先放最喜欢的\"习惯（K 62），是节奏放松的特别关"
+  },
+  "2-11": {
+   "K": [
+    20,
+    75
+   ],
+   "why": "终章 Boss：K 的满屏连弩能把木鸢拖到天亮落地（K 首试偏高），读预警的优势体现在\"守得稳\"与星级（K2 稳 82、3★ 50；K 3★ 0）；更高的压力会让辅助失效（p 0.45：Ka 79、Kb 93）"
+  }
+ },
+ "LESSONS": {
+  "1-2": {
+   "ablate": [
+    {
+     "who": "C",
+     "what": "farm"
+    },
+    {
+     "who": "K2",
+     "what": "farm"
+    }
+   ]
+  },
+  "1-3": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "wall"
+    },
+    {
+     "who": "K2",
+     "what": "wall"
+    }
+   ],
+   "metric": "attackersLost",
+   "star3IsMetric": true
+  },
+  "1-4": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "lobber"
+    },
+    {
+     "who": "K2",
+     "what": "lobber"
+    },
+    {
+     "who": "C",
+     "what": "lobber"
+    }
+   ]
+  },
+  "1-5": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "spikes"
+    },
+    {
+     "who": "K2",
+     "what": "spikes"
+    },
+    {
+     "who": "C",
+     "what": "spikes"
+    }
+   ],
+   "metric": "lostByRam",
+   "star3IsMetric": true
+  },
+  "1-6": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "pit"
+    },
+    {
+     "who": "K2",
+     "what": "pit"
+    },
+    {
+     "who": "C",
+     "what": "pit"
+    }
+   ],
+   "metric": "captured",
+   "lowerIsBetter": false,
+   "star3IsMetric": true
+  },
+  "1-7": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "burner"
+    },
+    {
+     "who": "K2",
+     "what": "burner"
+    },
+    {
+     "who": "C",
+     "what": "burner"
+    }
+   ]
+  },
+  "1-8": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "strike"
+    },
+    {
+     "who": "K2",
+     "what": "strike"
+    },
+    {
+     "who": "C",
+     "what": "timing"
+    }
+   ]
+  },
+  "1-9": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "beam"
+    },
+    {
+     "who": "K2",
+     "what": "beam"
+    },
+    {
+     "who": "C",
+     "what": "beam"
+    }
+   ]
+  },
+  "1-10": {
+   "ablate": [
+    {
+     "who": "C",
+     "what": "spikes"
+    },
+    {
+     "who": "K2",
+     "what": "spikes"
+    },
+    {
+     "who": "C",
+     "what": "kDeck"
+    }
+   ],
+   "metric": "lostByRam",
+   "star3IsMetric": true
+  },
+  "2-1": {
+   "ablate": [
+    {
+     "who": "C",
+     "what": "bank"
+    },
+    {
+     "who": "K2",
+     "what": "bank"
+    }
+   ]
+  },
+  "2-2": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "radial"
+    },
+    {
+     "who": "K2",
+     "what": "radial"
+    },
+    {
+     "who": "C",
+     "what": "radial"
+    }
+   ],
+   "metric": "econLost",
+   "star3IsMetric": true
+  },
+  "2-3": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "gust"
+    },
+    {
+     "who": "K2",
+     "what": "gust"
+    },
+    {
+     "who": "C",
+     "what": "gust"
+    }
+   ]
+  },
+  "2-4": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "gust+lobber"
+    },
+    {
+     "who": "K2",
+     "what": "gust+lobber"
+    },
+    {
+     "who": "C",
+     "what": "gust+lobber"
+    }
+   ],
+   "metric": "blindSec"
+  },
+  "2-5": {
+   "ablate": [
+    {
+     "who": "C",
+     "what": "noCover"
+    },
+    {
+     "who": "K2",
+     "what": "noCover"
+    }
+   ]
+  },
+  "2-6": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "hook"
+    },
+    {
+     "who": "K2",
+     "what": "hook"
+    },
+    {
+     "who": "C",
+     "what": "hook"
+    }
+   ],
+   "metric": "wallsLost",
+   "star3IsMetric": true
+  },
+  "2-8": {
+   "ablate": [
+    {
+     "who": "K",
+     "what": "strike"
+    },
+    {
+     "who": "K2",
+     "what": "mark"
+    },
+    {
+     "who": "C",
+     "what": "mark"
+    }
+   ],
+   "metric": "auraSec"
+  },
+  "2-9": {
+   "ablate": [
+    {
+     "who": "K2",
+     "what": "gust"
+    },
+    {
+     "who": "C",
+     "what": "gust"
+    }
+   ],
+   "metric": "star3",
+   "lowerIsBetter": false
+  },
+  "2-10": {
+   "ablate": [
+    {
+     "who": "C",
+     "what": "kDeck"
+    },
+    {
+     "who": "K2",
+     "what": "lobber+burner"
+    },
+    {
+     "who": "C",
+     "what": "lobber+burner"
+    },
+    {
+     "who": "K2",
+     "what": "beam"
+    }
+   ]
+  }
+ },
+ "GLOBAL": {
+  "L1": 15,
+  "L2": 30,
+  "L3": 1.15,
+  "L3test": 1.25,
+  "L4": 0.3,
+  "demoMax": 2,
+  "L0drop": 2,
+  "flagFloor": {
+   "1": [
+    50,
+    80
+   ],
+   "2": [
+    70,
+    100
+   ]
+  },
+  "dStepHard": 1.4,
+  "dStepBoss": 1.5,
+  "dStep": 1.3,
+  "adjDropK": 20,
+  "adjDropK2h": 20,
+  "adjDropTest": 30,
+  "volMeanK": {
+   "1": [
+    65,
+    82
+   ]
+  },
+  "volMeanK2h": {
+   "2": [
+    58,
+    80
+   ]
+  },
+  "window": {
+   "1": 6,
+   "2": 5
+  },
+  "windowFast": 5,
+  "idleP90": 25,
+  "peak": {
+   "1": 12,
+   "2": 16
+  },
+  "float": 150,
+  "steadyK2": 70,
+  "star3K2": [
+   30,
+   75
+  ],
+  "star3CMin": 20,
+  "star3K": [
+   0,
+   30
+  ],
+  "kFastDrop": 10,
+  "Ka": 90,
+  "KaBoss": 85,
+  "Kb": 97,
+  "P4": 98,
+  "factsOk": 95,
+  "lessonAlign": 40,
+  "outgunnedMax": 25,
+  "causeIdsPerVol": 4,
+  "learn": 90,
+  "flagStars": {
+   "1": 27,
+   "2": 27
+  }
+ },
+ "mstarSeeds": [
+  201,
+  240
+ ]
+}
