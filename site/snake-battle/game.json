@@ -1,14 +1,20 @@
 {
   "id": "snake-battle",
   "title": "贪吃蛇大作战",
-  "subtitle": "吃彩球，变成最长的蛇",
+  "subtitle": "在星际竞技场里长成最长的蛇",
   "place": "playground",
   "order": 10,
   "status": "live",
-  "accent": "#9cc63b",
+  "accent": "--xg-snake",
   "theme": "snake",
   "icon": "/icons/games/snake-battle.svg",
-  "domains": ["reflex", "relax"],
-  "parentNote": "休息区：放松用，不计入学习时长。",
-  "orientation": "any"
+  "domains": [
+    "relax",
+    "strategy"
+  ],
+  "parentNote": "休息区：放松用，不计入学习时长；可能练到预判与手眼协调（证据 D）。AI 不作弊、不针对孩子，难度只在局与局之间微调。",
+  "orientation": "any",
+  "smoke": {
+    "waitFor": "#app[data-ready]"
+  }
 }

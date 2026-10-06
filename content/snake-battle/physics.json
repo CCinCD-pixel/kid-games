@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "phys": {
+  "baseSpeed": 170,
+  "boostMul": 1.9,
+  "speedPuMul": 1.6,
+  "turnMax": 4.4,
+  "turnMin": 2.8,
+  "boostTurnMul": 0.8,
+  "startMass": 10,
+  "boostMinMass": 20,
+  "boostStopMass": 15,
+  "boostCostMin": 2.5,
+  "boostCostRate": 0.018,
+  "boostDropFrac": 0.7,
+  "boostDropEvery": 0.25,
+  "pathStep": 5,
+  "pickupBonus": 10,
+  "deathDropFrac": 0.55,
+  "deathDropMaxOrbs": 80,
+  "deathDropMinOrbs": 6,
+  "headOnTie": 0.05,
+  "spawnProtect": 2.5,
+  "shieldGrace": 0.5,
+  "magnetR": 220,
+  "magnetSpeed": 420,
+  "hitLenience": 2,
+  "dropLife": 60,
+  "meteorValue": 15,
+  "meteorSpeed": 120
+ },
+ "puDuration": {
+  "magnet": 8,
+  "shield": 8,
+  "speed": 5
+ },
+ "formulas": {
+  "radius": "min(32, 9 + 0.9*sqrt(m))",
+  "bodyLen": "40 + 20*m^0.78",
+  "turnRate": "turnMax - (turnMax-turnMin)*clamp(log10(max(m,10)/10)/2, 0, 1)",
+  "sampleSpacing": "0.6*r",
+  "renderSpacing": "0.45*r",
+  "viewScale": "1 + 0.9*(1 - exp(-m/600))"
+ }
+}

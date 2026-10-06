@@ -1,0 +1,451 @@
+{
+ "version": 1,
+ "matchSec": 180,
+ "food": {
+  "areaPerOrb": 9000,
+  "mix": [
+   [
+    1,
+    0.85,
+    "orb"
+   ],
+   [
+    2,
+    0.13,
+    "orb2"
+   ],
+   [
+    5,
+    0.02,
+    "big"
+   ]
+  ],
+  "respawnDelay": [
+   1,
+   3
+  ],
+  "capTotal": 2600,
+  "wallMargin": 40
+ },
+ "powerups": {
+  "wallMargin": 150,
+  "minHeadDist": 300,
+  "kinds": [
+   "magnet",
+   "shield",
+   "speed"
+  ],
+  "pick": "least-present"
+ },
+ "respawn": {
+  "timed": {
+   "delay": 3,
+   "keep": 0.25,
+   "min": 10
+  },
+  "endlessAi": {
+   "delay": 2,
+   "keep": 0,
+   "min": [
+    10,
+    90
+   ]
+  },
+  "missionKeep": {
+   "delay": 2,
+   "keep": 1
+  },
+  "missionRace": {
+   "delay": 3,
+   "keep": 0.25,
+   "min": 10
+  },
+  "missionAi": {
+   "delay": 3,
+   "keep": 0,
+   "min": "initial"
+  },
+  "sleeperTarget": {
+   "delay": 2
+  }
+ },
+ "venues": {
+  "moon": {
+   "id": "moon",
+   "name": "月球场",
+   "tier": "T1",
+   "R": 1600,
+   "startMass": 20,
+   "ai": {
+    "forager": 3,
+    "skittish": 2,
+    "scavenger": 1
+   },
+   "world": {
+    "R": 1600,
+    "foodCount": 894,
+    "pu": {
+     "max": 3,
+     "delay": [
+      8,
+      12
+     ]
+    },
+    "meteors": {
+     "max": 2,
+     "delay": [
+      10,
+      16
+     ]
+    }
+   }
+  },
+  "mars": {
+   "id": "mars",
+   "name": "火星场",
+   "tier": "T2",
+   "R": 1900,
+   "startMass": 20,
+   "ai": {
+    "forager": 5,
+    "scavenger": 2,
+    "skittish": 3,
+    "hunter": 2,
+    "daredevil": 1
+   },
+   "world": {
+    "R": 1900,
+    "foodCount": 1260,
+    "pu": {
+     "max": 4,
+     "delay": [
+      8,
+      12
+     ]
+    },
+    "meteors": {
+     "max": 2,
+     "delay": [
+      10,
+      16
+     ]
+    }
+   }
+  },
+  "jupiter": {
+   "id": "jupiter",
+   "name": "木星场",
+   "tier": "T3",
+   "R": 2150,
+   "startMass": 20,
+   "ai": {
+    "forager": 6,
+    "scavenger": 2,
+    "skittish": 2,
+    "hunter": 4,
+    "coiler": 2,
+    "daredevil": 3
+   },
+   "world": {
+    "R": 2150,
+    "foodCount": 1614,
+    "pu": {
+     "max": 4,
+     "delay": [
+      8,
+      12
+     ]
+    },
+    "meteors": {
+     "max": 2,
+     "delay": [
+      10,
+      16
+     ]
+    }
+   }
+  },
+  "blackhole": {
+   "id": "blackhole",
+   "name": "黑洞场",
+   "tier": "T4",
+   "R": 2300,
+   "startMass": 20,
+   "ai": {
+    "forager": 6,
+    "scavenger": 2,
+    "hunter": 7,
+    "coiler": 3,
+    "daredevil": 3
+   },
+   "world": {
+    "R": 2300,
+    "foodCount": 1847,
+    "pu": {
+     "max": 4,
+     "delay": [
+      8,
+      12
+     ]
+    },
+    "meteors": {
+     "max": 2,
+     "delay": [
+      10,
+      16
+     ]
+    }
+   }
+  }
+ },
+ "endless": {
+  "venues": [
+   "moon",
+   "mars",
+   "jupiter",
+   "blackhole"
+  ],
+  "playerStart": 20,
+  "aiStart": [
+   20,
+   200
+  ],
+  "nudgeMin": 10
+ },
+ "heat": {
+  "min": -2,
+  "max": 2,
+  "window": 3,
+  "upIf": "all ranks <= 2",
+  "downIf": "all ranks > 3",
+  "lerpDownPerStep": 0.5,
+  "lerpUpPerStep": 0.25,
+  "lerpExclude": [
+   "lapse"
+  ],
+  "roster": {
+   "swapOrder": [
+    "hunter",
+    "daredevil",
+    "coiler"
+   ],
+   "into": "skittish",
+   "swaps": {
+    "-1": 2,
+    "-2": 4
+   },
+   "removeShare": {
+    "-1": 0.1,
+    "-2": 0.25
+   },
+   "removeOrder": [
+    "forager",
+    "scavenger",
+    "skittish"
+   ],
+   "keepOneOfEachKind": true,
+   "minAI": 5
+  }
+ },
+ "trophies": {
+  "moon": [
+   {
+    "id": "podium",
+    "name": "月球领奖台",
+    "icon": "podium",
+    "cond": {
+     "rankLE": 3
+    }
+   },
+   {
+    "id": "hunter",
+    "name": "月球截击手",
+    "icon": "cut",
+    "cond": {
+     "killsGE": 2,
+     "cutGE": 1
+    }
+   },
+   {
+    "id": "long",
+    "name": "月球长龙",
+    "icon": "length",
+    "cond": {
+     "peakGE": 600
+    }
+   }
+  ],
+  "mars": [
+   {
+    "id": "podium",
+    "name": "火星领奖台",
+    "icon": "podium",
+    "cond": {
+     "rankLE": 3
+    }
+   },
+   {
+    "id": "hunter",
+    "name": "火星截击手",
+    "icon": "cut",
+    "cond": {
+     "killsGE": 2,
+     "cutGE": 1
+    }
+   },
+   {
+    "id": "long",
+    "name": "火星长龙",
+    "icon": "length",
+    "cond": {
+     "peakGE": 500
+    }
+   }
+  ],
+  "jupiter": [
+   {
+    "id": "podium",
+    "name": "木星领奖台",
+    "icon": "podium",
+    "cond": {
+     "rankLE": 3
+    }
+   },
+   {
+    "id": "hunter",
+    "name": "木星截击手",
+    "icon": "cut",
+    "cond": {
+     "killsGE": 3,
+     "cutGE": 1
+    }
+   },
+   {
+    "id": "long",
+    "name": "木星长龙",
+    "icon": "length",
+    "cond": {
+     "peakGE": 400
+    }
+   }
+  ],
+  "blackhole": [
+   {
+    "id": "podium",
+    "name": "黑洞领奖台",
+    "icon": "podium",
+    "cond": {
+     "rankLE": 3
+    }
+   },
+   {
+    "id": "hunter",
+    "name": "黑洞截击手",
+    "icon": "cut",
+    "cond": {
+     "killsGE": 3,
+     "cutGE": 1
+    }
+   },
+   {
+    "id": "long",
+    "name": "黑洞长龙",
+    "icon": "length",
+    "cond": {
+     "peakGE": 400
+    }
+   }
+  ]
+ },
+ "aiNames": {
+  "colors": [
+   "红",
+   "橙",
+   "绿",
+   "青",
+   "蓝",
+   "紫",
+   "粉",
+   "白",
+   "灰",
+   "棕",
+   "银",
+   "黄"
+  ],
+  "persona": {
+   "forager": "贪吃",
+   "hunter": "猎手",
+   "coiler": "圈圈",
+   "scavenger": "捡捡",
+   "skittish": "胆小",
+   "daredevil": "冲冲",
+   "king": "蛇王",
+   "patrol": "巡逻"
+  },
+  "palette": {
+   "红": "#ff5d5d",
+   "橙": "#ff9a3c",
+   "绿": "#49d873",
+   "青": "#2fd9d0",
+   "蓝": "#4f8cff",
+   "紫": "#a46bff",
+   "粉": "#ff86c8",
+   "白": "#f6f1e4",
+   "灰": "#8d97ad",
+   "棕": "#b97a4a",
+   "银": "#b9cde6",
+   "黄": "#f5d742"
+  }
+ },
+ "floors": {
+  "moon": [
+   "#2a2f3f",
+   "#3b4256",
+   "#59617a"
+  ],
+  "mars": [
+   "#3b1f1a",
+   "#6b3324",
+   "#9a5236"
+  ],
+  "jupiter": [
+   "#3a2a22",
+   "#724c32",
+   "#80633f"
+  ],
+  "saturn": [
+   "#3b3424",
+   "#675838",
+   "#72674a"
+  ],
+  "blackhole": [
+   "#120e24",
+   "#2a1f4f",
+   "#6b4fd0"
+  ]
+ },
+ "unlock": {
+  "moon": null,
+  "mars": {
+   "mission": "c1m7",
+   "orPodiums": {
+    "venue": "moon",
+    "n": 2
+   }
+  },
+  "jupiter": {
+   "mission": "c2m7",
+   "orPodiums": {
+    "venue": "mars",
+    "n": 2
+   }
+  },
+  "blackhole": {
+   "mission": "c3m7",
+   "orPodiums": {
+    "venue": "jupiter",
+    "n": 2
+   }
+  }
+ }
+}

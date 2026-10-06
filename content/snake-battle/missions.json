@@ -1,0 +1,4084 @@
+{
+ "version": 1,
+ "missions": [
+  {
+   "id": "c1m1",
+   "ch": 1,
+   "role": "start",
+   "title": "跟着星环",
+   "teaches": "按住屏幕，蛇头朝手指方向游",
+   "newElement": "steer",
+   "firstTouch": true,
+   "arena": {
+    "R": 900,
+    "food": 140
+   },
+   "player": {
+    "mass": 20,
+    "at": [
+     0,
+     620,
+     -1.571
+    ]
+   },
+   "ai": [],
+   "objective": {
+    "type": "rings",
+    "points": [
+     [
+      200,
+      380
+     ],
+     [
+      200,
+      150
+     ],
+     [
+      0,
+      -80
+     ],
+     [
+      -220,
+      -280
+     ],
+     [
+      0,
+      -480
+     ],
+     [
+      260,
+      -560
+     ]
+    ],
+    "radius": 90
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "clear"
+    },
+    {
+     "type": "clear"
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m1.brief",
+    "h1": "snake.m.c1m1.h1"
+   }
+  },
+  {
+   "id": "c1m2",
+   "ch": 1,
+   "role": "build",
+   "title": "吃星尘",
+   "teaches": "吃星尘会变长；大星珠一颗顶五颗",
+   "newElement": "eat",
+   "arena": {
+    "R": 900,
+    "food": 240,
+    "big": 14
+   },
+   "player": {
+    "mass": 20
+   },
+   "ai": [],
+   "objective": {
+    "type": "length",
+    "n": 60
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "clear"
+    },
+    {
+     "type": "clear"
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m2.brief",
+    "h1": "snake.m.c1m2.h1"
+   }
+  },
+  {
+   "id": "c1m3",
+   "playerRespawn": "keep",
+   "ch": 1,
+   "role": "turn",
+   "title": "别撞身体",
+   "teaches": "蛇头碰到别的蛇身体就出局；墙不会",
+   "newElement": "bodies",
+   "arena": {
+    "R": 1000,
+    "food": 360,
+    "big": 8
+   },
+   "player": {
+    "mass": 20,
+    "at": [
+     0,
+     0,
+     -1.571
+    ]
+   },
+   "ai": [
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 92,
+     "path": [
+      [
+       294,
+       150
+      ],
+      [
+       279,
+       176
+      ],
+      [
+       262,
+       201
+      ],
+      [
+       242,
+       224
+      ],
+      [
+       221,
+       245
+      ],
+      [
+       197,
+       264
+      ],
+      [
+       172,
+       281
+      ],
+      [
+       146,
+       296
+      ],
+      [
+       118,
+       308
+      ],
+      [
+       90,
+       318
+      ],
+      [
+       60,
+       324
+      ],
+      [
+       30,
+       329
+      ],
+      [
+       0,
+       330
+      ],
+      [
+       -30,
+       329
+      ],
+      [
+       -60,
+       324
+      ],
+      [
+       -90,
+       318
+      ],
+      [
+       -118,
+       308
+      ],
+      [
+       -146,
+       296
+      ],
+      [
+       -172,
+       281
+      ],
+      [
+       -197,
+       264
+      ],
+      [
+       -221,
+       245
+      ],
+      [
+       -242,
+       224
+      ],
+      [
+       -262,
+       201
+      ],
+      [
+       -279,
+       176
+      ],
+      [
+       -294,
+       150
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 92,
+     "path": [
+      [
+       -294,
+       -150
+      ],
+      [
+       -279,
+       -176
+      ],
+      [
+       -262,
+       -201
+      ],
+      [
+       -242,
+       -224
+      ],
+      [
+       -221,
+       -245
+      ],
+      [
+       -197,
+       -264
+      ],
+      [
+       -172,
+       -281
+      ],
+      [
+       -146,
+       -296
+      ],
+      [
+       -118,
+       -308
+      ],
+      [
+       -90,
+       -318
+      ],
+      [
+       -60,
+       -324
+      ],
+      [
+       -30,
+       -329
+      ],
+      [
+       0,
+       -330
+      ],
+      [
+       30,
+       -329
+      ],
+      [
+       60,
+       -324
+      ],
+      [
+       90,
+       -318
+      ],
+      [
+       118,
+       -308
+      ],
+      [
+       146,
+       -296
+      ],
+      [
+       172,
+       -281
+      ],
+      [
+       197,
+       -264
+      ],
+      [
+       221,
+       -245
+      ],
+      [
+       242,
+       -224
+      ],
+      [
+       262,
+       -201
+      ],
+      [
+       279,
+       -176
+      ],
+      [
+       294,
+       -150
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 268,
+     "path": [
+      [
+       -198,
+       609
+      ],
+      [
+       -260,
+       585
+      ],
+      [
+       -320,
+       554
+      ],
+      [
+       -376,
+       518
+      ],
+      [
+       -428,
+       476
+      ],
+      [
+       -476,
+       428
+      ],
+      [
+       -518,
+       376
+      ],
+      [
+       -554,
+       320
+      ],
+      [
+       -585,
+       260
+      ],
+      [
+       -609,
+       198
+      ],
+      [
+       -626,
+       133
+      ],
+      [
+       -636,
+       67
+      ],
+      [
+       -640,
+       0
+      ],
+      [
+       -636,
+       -67
+      ],
+      [
+       -626,
+       -133
+      ],
+      [
+       -609,
+       -198
+      ],
+      [
+       -585,
+       -260
+      ],
+      [
+       -554,
+       -320
+      ],
+      [
+       -518,
+       -376
+      ],
+      [
+       -476,
+       -428
+      ],
+      [
+       -428,
+       -476
+      ],
+      [
+       -376,
+       -518
+      ],
+      [
+       -320,
+       -554
+      ],
+      [
+       -260,
+       -585
+      ],
+      [
+       -198,
+       -609
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 268,
+     "path": [
+      [
+       198,
+       -609
+      ],
+      [
+       260,
+       -585
+      ],
+      [
+       320,
+       -554
+      ],
+      [
+       376,
+       -518
+      ],
+      [
+       428,
+       -476
+      ],
+      [
+       476,
+       -428
+      ],
+      [
+       518,
+       -376
+      ],
+      [
+       554,
+       -320
+      ],
+      [
+       585,
+       -260
+      ],
+      [
+       609,
+       -198
+      ],
+      [
+       626,
+       -133
+      ],
+      [
+       636,
+       -67
+      ],
+      [
+       640,
+       0
+      ],
+      [
+       636,
+       67
+      ],
+      [
+       626,
+       133
+      ],
+      [
+       609,
+       198
+      ],
+      [
+       585,
+       260
+      ],
+      [
+       554,
+       320
+      ],
+      [
+       518,
+       376
+      ],
+      [
+       476,
+       428
+      ],
+      [
+       428,
+       476
+      ],
+      [
+       376,
+       518
+      ],
+      [
+       320,
+       554
+      ],
+      [
+       260,
+       585
+      ],
+      [
+       198,
+       609
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "type": "eat",
+    "kind": "any",
+    "n": 45
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 0
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 4
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m3.brief",
+    "h1": "snake.m.c1m3.h1"
+   }
+  },
+  {
+   "id": "c1m4",
+   "ch": 1,
+   "role": "build",
+   "title": "急转弯",
+   "teaches": "提前转弯；陨石和围栏只会挡路",
+   "newElement": "obstacle",
+   "arena": {
+    "R": 1000,
+    "food": 160,
+    "obstacles": [
+     {
+      "x": 0,
+      "y": 250,
+      "r": 90
+     },
+     {
+      "x": -180,
+      "y": -50,
+      "r": 80
+     },
+     {
+      "x": 200,
+      "y": -120,
+      "r": 80
+     },
+     {
+      "x": 0,
+      "y": -380,
+      "r": 90
+     }
+    ]
+   },
+   "player": {
+    "mass": 20,
+    "at": [
+     0,
+     700,
+     -1.571
+    ]
+   },
+   "ai": [],
+   "objective": {
+    "type": "rings",
+    "points": [
+     [
+      -170,
+      420
+     ],
+     [
+      210,
+      215
+     ],
+     [
+      -30,
+      60
+     ],
+     [
+      -330,
+      -170
+     ],
+     [
+      20,
+      -175
+     ],
+     [
+      330,
+      -330
+     ],
+     [
+      160,
+      -560
+     ],
+     [
+      -180,
+      -560
+     ]
+    ],
+    "radius": 85
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "bumpsLE",
+     "n": 0
+    },
+    {
+     "type": "timeLE",
+     "sec": 16
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m4.brief",
+    "h1": "snake.m.c1m4.h1"
+   }
+  },
+  {
+   "id": "c1m5",
+   "ch": 1,
+   "role": "turn",
+   "title": "冲刺",
+   "teaches": "按住加速键追流星糖；加速会变短",
+   "newElement": "boost",
+   "arena": {
+    "R": 1000,
+    "food": 160,
+    "meteors": {
+     "max": 1,
+     "delay": [
+      0.5,
+      1
+     ],
+     "speed": 205
+    }
+   },
+   "player": {
+    "mass": 70
+   },
+   "ai": [],
+   "objective": {
+    "type": "eat",
+    "kind": "meteor",
+    "n": 3
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 115
+    },
+    {
+     "type": "timeLE",
+     "sec": 21
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m5.brief",
+    "h1": "snake.m.c1m5.h1"
+   }
+  },
+  {
+   "id": "c1m6",
+   "ch": 1,
+   "role": "build",
+   "title": "吸铁石",
+   "teaches": "磁铁把附近的星尘吸过来",
+   "newElement": "magnet",
+   "arena": {
+    "R": 1000,
+    "food": 520,
+    "pu": {
+     "max": 2,
+     "delay": [
+      3,
+      5
+     ],
+     "kinds": [
+      "magnet"
+     ]
+    }
+   },
+   "player": {
+    "mass": 20
+   },
+   "ai": [],
+   "objective": {
+    "type": "eat",
+    "kind": "any",
+    "n": 90
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 3
+    },
+    {
+     "type": "timeLE",
+     "sec": 17
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m6.brief",
+    "h1": "snake.m.c1m6.h1"
+   }
+  },
+  {
+   "id": "c1m7",
+   "ch": 1,
+   "role": "boss",
+   "title": "第一场比赛",
+   "teaches": "比赛结束时比谁长；出局了会复活",
+   "newElement": "race",
+   "arena": {
+    "R": 1200,
+    "food": 500,
+    "pu": {
+     "max": 2,
+     "delay": [
+      6,
+      9
+     ]
+    }
+   },
+   "player": {
+    "mass": 20
+   },
+   "playerRespawn": true,
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 20,
+     "n": 3
+    },
+    {
+     "persona": "skittish",
+     "tier": "T1",
+     "mass": 20,
+     "n": 2
+    },
+    {
+     "persona": "scavenger",
+     "tier": "T1",
+     "mass": 20
+    }
+   ],
+   "objective": {
+    "type": "race",
+    "sec": 90,
+    "rankLE": 3
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "rankLE",
+     "n": 1
+    },
+    {
+     "type": "massGE",
+     "n": 315
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m7.brief",
+    "h1": "snake.m.c1m7.h1"
+   }
+  },
+  {
+   "id": "c1m8",
+   "ch": 1,
+   "role": "breather",
+   "title": "星尘派对",
+   "teaches": "放松吃个够",
+   "newElement": null,
+   "arena": {
+    "R": 1000,
+    "food": 900,
+    "pu": {
+     "max": 2,
+     "delay": [
+      4,
+      6
+     ],
+     "kinds": [
+      "magnet"
+     ]
+    }
+   },
+   "player": {
+    "mass": 20
+   },
+   "ai": [],
+   "objective": {
+    "type": "eat",
+    "kind": "any",
+    "n": 120
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 4
+    },
+    {
+     "type": "puGE",
+     "kind": "magnet",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c1m8.brief",
+    "h1": "snake.m.c1m8.h1"
+   }
+  },
+  {
+   "id": "c2m1",
+   "ch": 2,
+   "role": "start",
+   "title": "认识猎手",
+   "teaches": "猎手会抢到你前面；往它身后拐",
+   "newElement": "hunter",
+   "arena": {
+    "R": 1000,
+    "food": 320
+   },
+   "player": {
+    "mass": 40
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 80
+    }
+   ],
+   "objective": {
+    "type": "survive",
+    "sec": 30
+   },
+   "capSec": 30,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 95
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 3
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m1.brief",
+    "h1": "snake.m.c2m1.h1"
+   }
+  },
+  {
+   "id": "c2m2",
+   "ch": 2,
+   "role": "start",
+   "title": "护盾",
+   "teaches": "护盾能挡一次碰撞",
+   "newElement": "shield",
+   "arena": {
+    "R": 1000,
+    "food": 320,
+    "pu": {
+     "max": 2,
+     "delay": [
+      3,
+      5
+     ],
+     "kinds": [
+      "shield"
+     ]
+    }
+   },
+   "player": {
+    "mass": 40
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 70
+    },
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 80,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "pu",
+    "kind": "shield",
+    "n": 3
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 70
+    },
+    {
+     "type": "timeLE",
+     "sec": 23
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m2.brief",
+    "h1": "snake.m.c2m2.h1"
+   }
+  },
+  {
+   "id": "c2m3",
+   "ch": 2,
+   "role": "build",
+   "title": "绕圈圈",
+   "teaches": "长蛇绕圈，把头藏在圈里",
+   "newElement": null,
+   "hook": "defend",
+   "arena": {
+    "R": 1100,
+    "food": 300
+   },
+   "player": {
+    "mass": 260
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 80,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "survive",
+    "sec": 35
+   },
+   "capSec": 35,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 310
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 3
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m3.brief",
+    "h1": "snake.m.c2m3.h1"
+   }
+  },
+  {
+   "id": "c2m4",
+   "ch": 2,
+   "role": "build",
+   "title": "去空地",
+   "teaches": "往没有蛇的地方游",
+   "newElement": null,
+   "arena": {
+    "R": 1400,
+    "food": 480
+   },
+   "player": {
+    "mass": 40,
+    "at": [
+     -1000,
+     0,
+     0
+    ]
+   },
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 120,
+     "n": 3
+    },
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 100
+    }
+   ],
+   "objective": {
+    "type": "rings",
+    "points": [
+     [
+      -500,
+      -380
+     ],
+     [
+      100,
+      -700
+     ],
+     [
+      600,
+      -150
+     ],
+     [
+      760,
+      480
+     ]
+    ],
+    "radius": 170
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "timeLE",
+     "sec": 17
+    },
+    {
+     "type": "massGE",
+     "n": 55
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m4.brief",
+    "h1": "snake.m.c2m4.h1"
+   }
+  },
+  {
+   "id": "c2m5",
+   "ch": 2,
+   "role": "turn",
+   "title": "穿缝隙",
+   "teaches": "从两条蛇中间的空隙穿过去",
+   "newElement": null,
+   "arena": {
+    "R": 1000,
+    "food": 260,
+    "bigAt": [
+     [
+      190,
+      -420
+     ],
+     [
+      -250,
+      -60
+     ],
+     [
+      230,
+      300
+     ]
+    ]
+   },
+   "player": {
+    "mass": 30,
+    "at": [
+     -150,
+     -760,
+     1.571
+    ]
+   },
+   "ai": [
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 135,
+     "path": [
+      [
+       -867.524,
+       -420
+      ],
+      [
+       92,
+       -420
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 78,
+     "path": [
+      [
+       867.524,
+       -420
+      ],
+      [
+       228,
+       -420
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 83,
+     "path": [
+      [
+       -958.198,
+       -60
+      ],
+      [
+       -288,
+       -60
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 164,
+     "path": [
+      [
+       958.198,
+       -60
+      ],
+      [
+       -152,
+       -60
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 151,
+     "path": [
+      [
+       -913.939,
+       300
+      ],
+      [
+       132,
+       300
+      ]
+     ]
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 79,
+     "path": [
+      [
+       913.939,
+       300
+      ],
+      [
+       268,
+       300
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "type": "rings",
+    "points": [
+     [
+      160,
+      -420
+     ],
+     [
+      -220,
+      -60
+     ],
+     [
+      200,
+      300
+     ],
+     [
+      0,
+      640
+     ]
+    ],
+    "radius": 40
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 2
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 3
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m5.brief",
+    "h1": "snake.m.c2m5.h1"
+   }
+  },
+  {
+   "id": "c2m6",
+   "ch": 2,
+   "role": "turn",
+   "title": "快逃",
+   "teaches": "大猎手追来，加速拐开",
+   "newElement": null,
+   "arena": {
+    "R": 1100,
+    "food": 320,
+    "pu": {
+     "max": 1,
+     "delay": [
+      5,
+      8
+     ],
+     "kinds": [
+      "speed"
+     ]
+    }
+   },
+   "player": {
+    "mass": 80,
+    "at": [
+     -650,
+     550,
+     0
+    ]
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 400,
+     "at": [
+      300,
+      -300,
+      2.356
+     ]
+    }
+   ],
+   "objective": {
+    "type": "rings",
+    "points": [
+     [
+      350,
+      650
+     ],
+     [
+      -700,
+      100
+     ],
+     [
+      250,
+      -650
+     ]
+    ],
+    "radius": 180
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 100
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m6.brief",
+    "h1": "snake.m.c2m6.h1"
+   }
+  },
+  {
+   "id": "c2m7",
+   "ch": 2,
+   "role": "boss",
+   "title": "猎手围场",
+   "teaches": "躲开猎手，还要长大",
+   "newElement": null,
+   "arena": {
+    "R": 1300,
+    "food": 560,
+    "pu": {
+     "max": 2,
+     "delay": [
+      6,
+      9
+     ],
+     "kinds": [
+      "shield",
+      "magnet"
+     ]
+    }
+   },
+   "player": {
+    "mass": 40
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 70,
+     "n": 2
+    },
+    {
+     "persona": "daredevil",
+     "tier": "T1",
+     "mass": 90
+    },
+    {
+     "persona": "forager",
+     "tier": "T2",
+     "mass": 80,
+     "n": 4
+    }
+   ],
+   "objective": {
+    "type": "survive",
+    "sec": 50,
+    "minMass": 70
+   },
+   "capSec": 50,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 140
+    },
+    {
+     "type": "massGE",
+     "n": 190
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m7.brief",
+    "h1": "snake.m.c2m7.h1"
+   }
+  },
+  {
+   "id": "c2m8",
+   "ch": 2,
+   "role": "breather",
+   "title": "磁铁雨",
+   "teaches": "放松：吸铁石大丰收",
+   "newElement": null,
+   "arena": {
+    "R": 1000,
+    "food": 800,
+    "big": 10,
+    "pu": {
+     "max": 3,
+     "delay": [
+      3,
+      5
+     ],
+     "kinds": [
+      "magnet"
+     ]
+    }
+   },
+   "player": {
+    "mass": 60
+   },
+   "ai": [],
+   "objective": {
+    "type": "length",
+    "n": 200
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 5
+    },
+    {
+     "type": "puGE",
+     "kind": "magnet",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c2m8.brief",
+    "h1": "snake.m.c2m8.h1"
+   }
+  },
+  {
+   "id": "c3m1",
+   "playerRespawn": "keep",
+   "ch": 3,
+   "role": "start",
+   "title": "第一次截击",
+   "teaches": "游到它前面，让它撞上你的身体",
+   "newElement": "cut",
+   "hook": "hunt",
+   "arena": {
+    "R": 1000,
+    "food": 260
+   },
+   "player": {
+    "mass": 80,
+    "at": [
+     -500,
+     300,
+     0
+    ]
+   },
+   "ai": [
+    {
+     "persona": "patrol",
+     "tier": "T0",
+     "mass": 60,
+     "target": true,
+     "speedMul": 0.7,
+     "route": [
+      [
+       -650,
+       -250
+      ],
+      [
+       650,
+       -250
+      ]
+     ],
+     "at": [
+      -650,
+      -250,
+      0
+     ]
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "target": "tagged",
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "timeLE",
+     "sec": 17
+    },
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m1.brief",
+    "h1": "snake.m.c3m1.h1"
+   }
+  },
+  {
+   "id": "c3m2",
+   "playerRespawn": "keep",
+   "ch": 3,
+   "role": "start",
+   "title": "抢在前面",
+   "teaches": "看准它要去哪，先到那里",
+   "newElement": null,
+   "hook": "hunt",
+   "arena": {
+    "R": 1000,
+    "food": 260,
+    "big": 12,
+    "bigCluster": 220
+   },
+   "player": {
+    "mass": 90
+   },
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T0",
+     "mass": 50,
+     "n": 2,
+     "target": true
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "target": "tagged",
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 0
+    },
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m2.brief",
+    "h1": "snake.m.c3m2.h1"
+   }
+  },
+  {
+   "id": "c3m3",
+   "playerRespawn": "keep",
+   "ch": 3,
+   "role": "build",
+   "title": "加速截击",
+   "teaches": "加速冲到前面再拐",
+   "newElement": null,
+   "hook": "hunt",
+   "arena": {
+    "R": 1100,
+    "food": 300
+   },
+   "player": {
+    "mass": 120
+   },
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 70,
+     "n": 3,
+     "target": true
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 2,
+    "target": "tagged",
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 210,
+   "stars": [
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 2
+    },
+    {
+     "type": "deathsLE",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m3.brief",
+    "h1": "snake.m.c3m3.h1"
+   }
+  },
+  {
+   "id": "c3m4",
+   "playerRespawn": "keep",
+   "ch": 3,
+   "role": "build",
+   "title": "守株待兔",
+   "teaches": "在星尘堆旁边等它们来",
+   "newElement": null,
+   "hook": "hunt",
+   "arena": {
+    "R": 1000,
+    "food": 260,
+    "big": 30,
+    "bigCluster": 260
+   },
+   "player": {
+    "mass": 150
+   },
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 60,
+     "n": 4,
+     "target": true
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 3,
+    "target": "tagged",
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 240,
+   "stars": [
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 2
+    },
+    {
+     "type": "deathsLE",
+     "n": 2
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m4.brief",
+    "h1": "snake.m.c3m4.h1"
+   }
+  },
+  {
+   "id": "c3m5",
+   "playerRespawn": "keep",
+   "ch": 3,
+   "role": "build",
+   "title": "抢食",
+   "teaches": "蛇出局会留下一大串能量",
+   "newElement": null,
+   "arena": {
+    "R": 1200,
+    "food": 380
+   },
+   "player": {
+    "mass": 60
+   },
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T2",
+     "mass": 120,
+     "n": 4
+    },
+    {
+     "persona": "daredevil",
+     "tier": "T1",
+     "mass": 100,
+     "n": 2
+    },
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 120
+    }
+   ],
+   "objective": {
+    "type": "eat",
+    "kind": "drop",
+    "n": 55
+   },
+   "capSec": 180,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 295
+    },
+    {
+     "type": "deathsLE",
+     "n": 0
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m5.brief",
+    "h1": "snake.m.c3m5.h1"
+   }
+  },
+  {
+   "id": "c3m6",
+   "playerRespawn": "keep",
+   "ch": 3,
+   "role": "turn",
+   "title": "反击猎手",
+   "teaches": "猎手冲过来时，反过来截住它",
+   "newElement": null,
+   "hook": "hunt",
+   "arena": {
+    "R": 1100,
+    "food": 320
+   },
+   "player": {
+    "mass": 140
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 100,
+     "target": true
+    },
+    {
+     "persona": "forager",
+     "tier": "T0",
+     "mass": 50,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "target": "tagged",
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 1
+    },
+    {
+     "type": "timeLE",
+     "sec": 39
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m6.brief",
+    "h1": "snake.m.c3m6.h1"
+   }
+  },
+  {
+   "id": "c3m7",
+   "ch": 3,
+   "role": "boss",
+   "title": "截击大赛",
+   "teaches": "比赛里用截击",
+   "newElement": null,
+   "hook": "race-hunt",
+   "arena": {
+    "R": 1400,
+    "food": 620,
+    "pu": {
+     "max": 3,
+     "delay": [
+      6,
+      9
+     ]
+    }
+   },
+   "player": {
+    "mass": 20
+   },
+   "playerRespawn": true,
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 20,
+     "n": 3
+    },
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 20
+    },
+    {
+     "persona": "scavenger",
+     "tier": "T1",
+     "mass": 20,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "race",
+    "sec": 150,
+    "rankLE": 4,
+    "killsGE": 1,
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 1
+    },
+    {
+     "type": "rankLE",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m7.brief",
+    "h1": "snake.m.c3m7.h1"
+   }
+  },
+  {
+   "id": "c3m8",
+   "ch": 3,
+   "role": "breather",
+   "title": "流星雨",
+   "teaches": "放松：追流星糖",
+   "newElement": null,
+   "arena": {
+    "R": 1100,
+    "food": 300,
+    "meteors": {
+     "max": 3,
+     "delay": [
+      1,
+      2
+     ],
+     "speed": 150
+    }
+   },
+   "player": {
+    "mass": 60
+   },
+   "ai": [],
+   "objective": {
+    "type": "eat",
+    "kind": "meteor",
+    "n": 6
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 160
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 2
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c3m8.brief",
+    "h1": "snake.m.c3m8.h1"
+   }
+  },
+  {
+   "id": "c4m1",
+   "ch": 4,
+   "role": "start",
+   "title": "画个圈",
+   "teaches": "绕一圈，头碰到身体就围住了",
+   "newElement": "loop",
+   "hook": "loop",
+   "arena": {
+    "R": 1000,
+    "food": 200,
+    "big": 8,
+    "markers": [
+     [
+      -300,
+      -150
+     ],
+     [
+      300,
+      150
+     ]
+    ]
+   },
+   "player": {
+    "mass": 150,
+    "at": [
+     0,
+     450,
+     0
+    ]
+   },
+   "ai": [],
+   "objective": {
+    "type": "loop",
+    "n": 2
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 1
+    },
+    {
+     "type": "timeLE",
+     "sec": 16
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m1.brief",
+    "h1": "snake.m.c4m1.h1"
+   }
+  },
+  {
+   "id": "c4m2",
+   "playerRespawn": "keep",
+   "ch": 4,
+   "role": "start",
+   "title": "围住贪睡蛇",
+   "teaches": "先围住，它醒了也逃不掉",
+   "newElement": "wake",
+   "hook": "coil",
+   "arena": {
+    "R": 1000,
+    "food": 220
+   },
+   "player": {
+    "mass": 220,
+    "at": [
+     0,
+     450,
+     0
+    ]
+   },
+   "ai": [
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 24,
+     "path": [
+      [
+       60,
+       0
+      ],
+      [
+       58,
+       16
+      ],
+      [
+       52,
+       30
+      ],
+      [
+       42,
+       42
+      ],
+      [
+       30,
+       52
+      ],
+      [
+       16,
+       58
+      ],
+      [
+       0,
+       60
+      ],
+      [
+       -16,
+       58
+      ],
+      [
+       -30,
+       52
+      ],
+      [
+       -42,
+       42
+      ],
+      [
+       -52,
+       30
+      ],
+      [
+       -58,
+       16
+      ],
+      [
+       -60,
+       0
+      ],
+      [
+       -58,
+       -16
+      ],
+      [
+       -52,
+       -30
+      ],
+      [
+       -42,
+       -42
+      ],
+      [
+       -30,
+       -52
+      ],
+      [
+       -16,
+       -58
+      ],
+      [
+       0,
+       -60
+      ]
+     ],
+     "target": true,
+     "wake": 60
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "target": "tagged",
+    "tag": "encircle"
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 230
+    },
+    {
+     "type": "timeLE",
+     "sec": 14
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m2.brief",
+    "h1": "snake.m.c4m2.h1"
+   }
+  },
+  {
+   "id": "c4m3",
+   "playerRespawn": "keep",
+   "ch": 4,
+   "role": "build",
+   "title": "一网两条",
+   "teaches": "一个大圈围住两条",
+   "newElement": null,
+   "hook": "coil",
+   "arena": {
+    "R": 1100,
+    "food": 240
+   },
+   "player": {
+    "mass": 360,
+    "at": [
+     0,
+     520,
+     0
+    ]
+   },
+   "ai": [
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 21,
+     "path": [
+      [
+       -65,
+       0
+      ],
+      [
+       -67,
+       14
+      ],
+      [
+       -72,
+       27
+      ],
+      [
+       -81,
+       39
+      ],
+      [
+       -92,
+       48
+      ],
+      [
+       -106,
+       53
+      ],
+      [
+       -120,
+       55
+      ],
+      [
+       -134,
+       53
+      ],
+      [
+       -147,
+       48
+      ],
+      [
+       -159,
+       39
+      ],
+      [
+       -168,
+       28
+      ],
+      [
+       -173,
+       14
+      ],
+      [
+       -175,
+       0
+      ],
+      [
+       -173,
+       -14
+      ],
+      [
+       -168,
+       -28
+      ],
+      [
+       -159,
+       -39
+      ],
+      [
+       -148,
+       -48
+      ],
+      [
+       -134,
+       -53
+      ],
+      [
+       -120,
+       -55
+      ]
+     ],
+     "target": true,
+     "wake": 60
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 21,
+     "path": [
+      [
+       65,
+       0
+      ],
+      [
+       67,
+       -14
+      ],
+      [
+       72,
+       -27
+      ],
+      [
+       81,
+       -39
+      ],
+      [
+       92,
+       -48
+      ],
+      [
+       106,
+       -53
+      ],
+      [
+       120,
+       -55
+      ],
+      [
+       134,
+       -53
+      ],
+      [
+       147,
+       -48
+      ],
+      [
+       159,
+       -39
+      ],
+      [
+       168,
+       -28
+      ],
+      [
+       173,
+       -14
+      ],
+      [
+       175,
+       0
+      ],
+      [
+       173,
+       14
+      ],
+      [
+       168,
+       28
+      ],
+      [
+       159,
+       39
+      ],
+      [
+       148,
+       48
+      ],
+      [
+       134,
+       53
+      ],
+      [
+       120,
+       55
+      ]
+     ],
+     "target": true,
+     "wake": 60
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 2,
+    "target": "tagged",
+    "tag": "encircle"
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 0
+    },
+    {
+     "type": "timeLE",
+     "sec": 22
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m3.brief",
+    "h1": "snake.m.c4m3.h1"
+   }
+  },
+  {
+   "id": "c4m4",
+   "playerRespawn": "keep",
+   "ch": 4,
+   "role": "build",
+   "title": "收紧",
+   "teaches": "它在游，圈要追着它合上",
+   "newElement": null,
+   "hook": "coil",
+   "arena": {
+    "R": 1000,
+    "food": 220
+   },
+   "player": {
+    "mass": 300,
+    "at": [
+     0,
+     450,
+     0
+    ]
+   },
+   "ai": [
+    {
+     "persona": "skittish",
+     "tier": "T0",
+     "mass": 30,
+     "target": true,
+     "speedMul": 0.75,
+     "at": [
+      0,
+      -100,
+      0
+     ]
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "target": "tagged",
+    "tag": "encircle"
+   },
+   "capSec": 270,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 340
+    },
+    {
+     "type": "timeLE",
+     "sec": 52
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m4.brief",
+    "h1": "snake.m.c4m4.h1"
+   }
+  },
+  {
+   "id": "c4m5",
+   "playerRespawn": "keep",
+   "ch": 4,
+   "role": "turn",
+   "title": "小心外面",
+   "teaches": "围猎时也要看外面的猎手",
+   "newElement": null,
+   "hook": "coil",
+   "arena": {
+    "R": 1100,
+    "food": 260
+   },
+   "player": {
+    "mass": 320,
+    "at": [
+     0,
+     500,
+     0
+    ]
+   },
+   "ai": [
+    {
+     "persona": "skittish",
+     "tier": "T0",
+     "mass": 30,
+     "target": true,
+     "speedMul": 0.75,
+     "at": [
+      0,
+      -100,
+      0
+     ]
+    },
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 80,
+     "at": [
+      -800,
+      -300,
+      0
+     ]
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "target": "tagged",
+    "tag": "encircle"
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 0
+    },
+    {
+     "type": "massGE",
+     "n": 355
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m5.brief",
+    "h1": "snake.m.c4m5.h1"
+   }
+  },
+  {
+   "id": "c4m6",
+   "ch": 4,
+   "role": "turn",
+   "title": "大蛇的防守",
+   "teaches": "变大以后护住头",
+   "newElement": null,
+   "hook": "defend",
+   "arena": {
+    "R": 1200,
+    "food": 360
+   },
+   "player": {
+    "mass": 420
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 120,
+     "n": 3
+    }
+   ],
+   "objective": {
+    "type": "survive",
+    "sec": 45,
+    "minMass": 300
+   },
+   "capSec": 45,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 495
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 4
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m6.brief",
+    "h1": "snake.m.c4m6.h1"
+   }
+  },
+  {
+   "id": "c4m7",
+   "ch": 4,
+   "role": "boss",
+   "title": "围猎王",
+   "teaches": "比赛里先长大再围猎",
+   "newElement": null,
+   "hook": "race-coil",
+   "arena": {
+    "R": 1400,
+    "food": 680,
+    "pu": {
+     "max": 3,
+     "delay": [
+      6,
+      9
+     ]
+    }
+   },
+   "player": {
+    "mass": 20
+   },
+   "playerRespawn": true,
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 20,
+     "n": 3
+    },
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 20
+    },
+    {
+     "persona": "coiler",
+     "tier": "T2",
+     "mass": 20
+    },
+    {
+     "persona": "scavenger",
+     "tier": "T1",
+     "mass": 20,
+     "n": 2
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 18,
+     "path": [
+      [
+       -550,
+       300
+      ],
+      [
+       -552,
+       313
+      ],
+      [
+       -557,
+       325
+      ],
+      [
+       -565,
+       335
+      ],
+      [
+       -575,
+       343
+      ],
+      [
+       -587,
+       348
+      ],
+      [
+       -600,
+       350
+      ],
+      [
+       -613,
+       348
+      ],
+      [
+       -625,
+       343
+      ],
+      [
+       -635,
+       335
+      ],
+      [
+       -643,
+       325
+      ],
+      [
+       -648,
+       313
+      ],
+      [
+       -650,
+       300
+      ],
+      [
+       -648,
+       287
+      ],
+      [
+       -643,
+       275
+      ],
+      [
+       -635,
+       265
+      ],
+      [
+       -625,
+       257
+      ],
+      [
+       -613,
+       252
+      ],
+      [
+       -600,
+       250
+      ]
+     ],
+     "wake": 60
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 18,
+     "path": [
+      [
+       550,
+       300
+      ],
+      [
+       552,
+       287
+      ],
+      [
+       557,
+       275
+      ],
+      [
+       565,
+       265
+      ],
+      [
+       575,
+       257
+      ],
+      [
+       587,
+       252
+      ],
+      [
+       600,
+       250
+      ],
+      [
+       613,
+       252
+      ],
+      [
+       625,
+       257
+      ],
+      [
+       635,
+       265
+      ],
+      [
+       643,
+       275
+      ],
+      [
+       648,
+       287
+      ],
+      [
+       650,
+       300
+      ],
+      [
+       648,
+       313
+      ],
+      [
+       643,
+       325
+      ],
+      [
+       635,
+       335
+      ],
+      [
+       625,
+       343
+      ],
+      [
+       613,
+       348
+      ],
+      [
+       600,
+       350
+      ]
+     ],
+     "wake": 60
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 18,
+     "path": [
+      [
+       0,
+       -600
+      ],
+      [
+       -13,
+       -602
+      ],
+      [
+       -25,
+       -607
+      ],
+      [
+       -35,
+       -615
+      ],
+      [
+       -43,
+       -625
+      ],
+      [
+       -48,
+       -637
+      ],
+      [
+       -50,
+       -650
+      ],
+      [
+       -48,
+       -663
+      ],
+      [
+       -43,
+       -675
+      ],
+      [
+       -35,
+       -685
+      ],
+      [
+       -25,
+       -693
+      ],
+      [
+       -13,
+       -698
+      ],
+      [
+       0,
+       -700
+      ],
+      [
+       13,
+       -698
+      ],
+      [
+       25,
+       -693
+      ],
+      [
+       35,
+       -685
+      ],
+      [
+       43,
+       -675
+      ],
+      [
+       48,
+       -663
+      ],
+      [
+       50,
+       -650
+      ]
+     ],
+     "wake": 60
+    }
+   ],
+   "objective": {
+    "type": "race",
+    "sec": 150,
+    "rankLE": 5,
+    "killsGE": 1,
+    "tags": [
+     "encircle"
+    ]
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "killTagGE",
+     "tag": "encircle",
+     "n": 2
+    },
+    {
+     "type": "rankLE",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m7.brief",
+    "h1": "snake.m.c4m7.h1"
+   }
+  },
+  {
+   "id": "c4m8",
+   "ch": 4,
+   "role": "breather",
+   "title": "长龙星环",
+   "teaches": "放松：大蛇转大弯",
+   "newElement": null,
+   "arena": {
+    "R": 1300,
+    "food": 300,
+    "big": 16
+   },
+   "player": {
+    "mass": 400,
+    "at": [
+     0,
+     900,
+     -1.571
+    ]
+   },
+   "ai": [],
+   "objective": {
+    "type": "rings",
+    "points": [
+     [
+      0,
+      550
+     ],
+     [
+      400,
+      250
+     ],
+     [
+      450,
+      -250
+     ],
+     [
+      0,
+      -600
+     ],
+     [
+      -450,
+      -250
+     ],
+     [
+      -400,
+      250
+     ],
+     [
+      0,
+      600
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "radius": 110
+   },
+   "capSec": 120,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 425
+    },
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 3
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c4m8.brief",
+    "h1": "snake.m.c4m8.h1"
+   }
+  },
+  {
+   "id": "c5m1",
+   "playerRespawn": "keep",
+   "ch": 5,
+   "role": "start",
+   "title": "以小博大",
+   "teaches": "小蛇也能让大蛇撞上来",
+   "newElement": "king",
+   "hook": "hunt-big",
+   "arena": {
+    "R": 1300,
+    "food": 300
+   },
+   "player": {
+    "mass": 40
+   },
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T0",
+     "mass": 300,
+     "n": 6
+    },
+    {
+     "persona": "sleeper",
+     "tier": "T0",
+     "mass": 896,
+     "path": [
+      [
+       -435,
+       -435
+      ],
+      [
+       -452,
+       -421
+      ],
+      [
+       -469,
+       -407
+      ],
+      [
+       -488,
+       -396
+      ],
+      [
+       -507,
+       -386
+      ],
+      [
+       -527,
+       -377
+      ],
+      [
+       -548,
+       -370
+      ],
+      [
+       -569,
+       -364
+      ],
+      [
+       -591,
+       -360
+      ],
+      [
+       -613,
+       -358
+      ],
+      [
+       -635,
+       -358
+      ],
+      [
+       -657,
+       -359
+      ],
+      [
+       -679,
+       -362
+      ],
+      [
+       -700,
+       -366
+      ],
+      [
+       -721,
+       -373
+      ],
+      [
+       -742,
+       -380
+      ],
+      [
+       -762,
+       -390
+      ],
+      [
+       -781,
+       -401
+      ],
+      [
+       -799,
+       -414
+      ],
+      [
+       -816,
+       -428
+      ],
+      [
+       -831,
+       -443
+      ],
+      [
+       -846,
+       -459
+      ],
+      [
+       -859,
+       -477
+      ],
+      [
+       -871,
+       -495
+      ],
+      [
+       -881,
+       -515
+      ],
+      [
+       -890,
+       -535
+      ],
+      [
+       -897,
+       -556
+      ],
+      [
+       -902,
+       -577
+      ],
+      [
+       -905,
+       -599
+      ],
+      [
+       -907,
+       -621
+      ],
+      [
+       -907,
+       -643
+      ],
+      [
+       -905,
+       -665
+      ],
+      [
+       -901,
+       -686
+      ],
+      [
+       -896,
+       -708
+      ],
+      [
+       -889,
+       -728
+      ],
+      [
+       -880,
+       -748
+      ],
+      [
+       -869,
+       -768
+      ],
+      [
+       -857,
+       -786
+      ],
+      [
+       -843,
+       -803
+      ],
+      [
+       -828,
+       -819
+      ],
+      [
+       -812,
+       -834
+      ],
+      [
+       -794,
+       -847
+      ],
+      [
+       -775,
+       -859
+      ],
+      [
+       -756,
+       -869
+      ],
+      [
+       -736,
+       -877
+      ],
+      [
+       -715,
+       -884
+      ],
+      [
+       -693,
+       -888
+      ],
+      [
+       -671,
+       -891
+      ],
+      [
+       -649,
+       -892
+      ],
+      [
+       -627,
+       -891
+      ],
+      [
+       -606,
+       -888
+      ],
+      [
+       -584,
+       -883
+      ],
+      [
+       -563,
+       -877
+      ],
+      [
+       -543,
+       -868
+      ],
+      [
+       -524,
+       -858
+      ],
+      [
+       -505,
+       -846
+      ],
+      [
+       -488,
+       -832
+      ],
+      [
+       -472,
+       -817
+      ],
+      [
+       -457,
+       -801
+      ],
+      [
+       -444,
+       -783
+      ],
+      [
+       -433,
+       -765
+      ],
+      [
+       -423,
+       -745
+      ],
+      [
+       -415,
+       -724
+      ],
+      [
+       -409,
+       -703
+      ],
+      [
+       -405,
+       -681
+      ],
+      [
+       -403,
+       -660
+      ],
+      [
+       -404,
+       -638
+      ],
+      [
+       -406,
+       -616
+      ],
+      [
+       -410,
+       -594
+      ],
+      [
+       -416,
+       -573
+      ],
+      [
+       -424,
+       -553
+      ],
+      [
+       -434,
+       -533
+      ],
+      [
+       -446,
+       -515
+      ],
+      [
+       -460,
+       -497
+      ],
+      [
+       -475,
+       -481
+      ],
+      [
+       -491,
+       -467
+      ],
+      [
+       -509,
+       -454
+      ],
+      [
+       -528,
+       -443
+      ],
+      [
+       -548,
+       -434
+      ],
+      [
+       -569,
+       -427
+      ],
+      [
+       -590,
+       -422
+      ],
+      [
+       -612,
+       -419
+      ],
+      [
+       -634,
+       -419
+      ],
+      [
+       -656,
+       -420
+      ],
+      [
+       -678,
+       -424
+      ],
+      [
+       -699,
+       -429
+      ],
+      [
+       -719,
+       -437
+      ],
+      [
+       -739,
+       -447
+      ],
+      [
+       -757,
+       -459
+      ],
+      [
+       -775,
+       -473
+      ],
+      [
+       -790,
+       -488
+      ],
+      [
+       -804,
+       -505
+      ],
+      [
+       -817,
+       -523
+      ],
+      [
+       -827,
+       -543
+      ],
+      [
+       -835,
+       -563
+      ],
+      [
+       -841,
+       -584
+      ],
+      [
+       -845,
+       -606
+      ],
+      [
+       -846,
+       -628
+      ],
+      [
+       -845,
+       -650
+      ],
+      [
+       -842,
+       -671
+      ],
+      [
+       -836,
+       -693
+      ],
+      [
+       -829,
+       -713
+      ],
+      [
+       -819,
+       -733
+      ],
+      [
+       -807,
+       -751
+      ],
+      [
+       -793,
+       -768
+      ],
+      [
+       -777,
+       -783
+      ],
+      [
+       -759,
+       -797
+      ],
+      [
+       -741,
+       -808
+      ],
+      [
+       -721,
+       -817
+      ],
+      [
+       -700,
+       -824
+      ],
+      [
+       -678,
+       -829
+      ],
+      [
+       -657,
+       -831
+      ],
+      [
+       -635,
+       -830
+      ],
+      [
+       -613,
+       -827
+      ],
+      [
+       -592,
+       -822
+      ],
+      [
+       -571,
+       -814
+      ],
+      [
+       -552,
+       -804
+      ],
+      [
+       -534,
+       -791
+      ],
+      [
+       -517,
+       -777
+      ],
+      [
+       -503,
+       -760
+      ],
+      [
+       -490,
+       -742
+      ],
+      [
+       -480,
+       -723
+      ],
+      [
+       -472,
+       -702
+      ],
+      [
+       -467,
+       -681
+      ],
+      [
+       -465,
+       -659
+      ],
+      [
+       -465,
+       -637
+      ],
+      [
+       -468,
+       -615
+      ],
+      [
+       -473,
+       -594
+      ],
+      [
+       -482,
+       -574
+      ],
+      [
+       -493,
+       -555
+      ],
+      [
+       -506,
+       -537
+      ],
+      [
+       -521,
+       -522
+      ],
+      [
+       -538,
+       -508
+      ],
+      [
+       -557,
+       -497
+      ],
+      [
+       -578,
+       -488
+      ],
+      [
+       -599,
+       -483
+      ],
+      [
+       -620,
+       -480
+      ],
+      [
+       -642,
+       -480
+      ],
+      [
+       -664,
+       -483
+      ],
+      [
+       -685,
+       -489
+      ],
+      [
+       -705,
+       -498
+      ],
+      [
+       -724,
+       -510
+      ],
+      [
+       -740,
+       -524
+      ],
+      [
+       -755,
+       -541
+      ],
+      [
+       -767,
+       -559
+      ],
+      [
+       -776,
+       -579
+      ],
+      [
+       -782,
+       -600
+      ],
+      [
+       -785,
+       -622
+      ],
+      [
+       -785,
+       -644
+      ],
+      [
+       -781,
+       -665
+      ],
+      [
+       -774,
+       -686
+      ],
+      [
+       -764,
+       -706
+      ],
+      [
+       -751,
+       -723
+      ],
+      [
+       -735,
+       -739
+      ],
+      [
+       -717,
+       -751
+      ],
+      [
+       -698,
+       -761
+      ],
+      [
+       -677,
+       -767
+      ],
+      [
+       -655,
+       -770
+      ],
+      [
+       -633,
+       -769
+      ],
+      [
+       -612,
+       -764
+      ],
+      [
+       -591,
+       -756
+      ],
+      [
+       -573,
+       -744
+      ],
+      [
+       -557,
+       -730
+      ],
+      [
+       -543,
+       -712
+      ],
+      [
+       -534,
+       -693
+      ],
+      [
+       -527,
+       -672
+      ],
+      [
+       -525,
+       -650
+      ],
+      [
+       -527,
+       -628
+      ],
+      [
+       -534,
+       -607
+      ],
+      [
+       -544,
+       -588
+      ],
+      [
+       -558,
+       -571
+      ],
+      [
+       -575,
+       -557
+      ],
+      [
+       -594,
+       -547
+      ],
+      [
+       -615,
+       -542
+      ],
+      [
+       -637,
+       -541
+      ],
+      [
+       -658,
+       -545
+      ],
+      [
+       -679,
+       -553
+      ],
+      [
+       -696,
+       -566
+      ],
+      [
+       -710,
+       -583
+      ],
+      [
+       -720,
+       -602
+      ],
+      [
+       -724,
+       -624
+      ],
+      [
+       -723,
+       -645
+      ],
+      [
+       -716,
+       -666
+      ],
+      [
+       -704,
+       -684
+      ],
+      [
+       -687,
+       -698
+      ],
+      [
+       -668,
+       -707
+      ]
+     ],
+     "king": true
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "minRatio": 2
+   },
+   "capSec": 240,
+   "stars": [
+    {
+     "type": "killRatioGE",
+     "n": 5
+    },
+    {
+     "type": "deathsLE",
+     "n": 0
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m1.brief",
+    "h1": "snake.m.c5m1.h1"
+   }
+  },
+  {
+   "id": "c5m2",
+   "ch": 5,
+   "role": "build",
+   "title": "翻盘",
+   "teaches": "落后也别急，捡掉落追上去",
+   "newElement": null,
+   "arena": {
+    "R": 1300,
+    "food": 600,
+    "pu": {
+     "max": 3,
+     "delay": [
+      6,
+      9
+     ]
+    }
+   },
+   "player": {
+    "mass": 20
+   },
+   "playerRespawn": true,
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T1",
+     "mass": 40,
+     "n": 4
+    },
+    {
+     "persona": "scavenger",
+     "tier": "T2",
+     "mass": 40,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "race",
+    "sec": 90,
+    "rankLE": 4
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 0
+    },
+    {
+     "type": "rankLE",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m2.brief",
+    "h1": "snake.m.c5m2.h1"
+   }
+  },
+  {
+   "id": "c5m3",
+   "playerRespawn": "keep",
+   "ch": 5,
+   "role": "build",
+   "title": "连杀三条",
+   "teaches": "一条命里连续截住三条",
+   "newElement": null,
+   "hook": "hunt",
+   "arena": {
+    "R": 1100,
+    "food": 360
+   },
+   "player": {
+    "mass": 180
+   },
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T0",
+     "mass": 60,
+     "n": 6
+    },
+    {
+     "persona": "daredevil",
+     "tier": "T1",
+     "mass": 70,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "streak",
+    "n": 3,
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 270,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 2
+    },
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 2
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m3.brief",
+    "h1": "snake.m.c5m3.h1"
+   }
+  },
+  {
+   "id": "c5m4",
+   "ch": 5,
+   "role": "turn",
+   "title": "抢流星",
+   "teaches": "和别的蛇抢流星糖",
+   "newElement": null,
+   "arena": {
+    "R": 1200,
+    "food": 360,
+    "meteors": {
+     "max": 4,
+     "delay": [
+      2.5,
+      4.5
+     ],
+     "speed": 160
+    }
+   },
+   "player": {
+    "mass": 80
+   },
+   "ai": [
+    {
+     "persona": "scavenger",
+     "tier": "T2",
+     "mass": 80,
+     "n": 3
+    }
+   ],
+   "objective": {
+    "type": "eat",
+    "kind": "meteor",
+    "n": 5
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "massGE",
+     "n": 165
+    },
+    {
+     "type": "aiMeteorsLE",
+     "n": 2
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m4.brief",
+    "h1": "snake.m.c5m4.h1"
+   }
+  },
+  {
+   "id": "c5m5",
+   "ch": 5,
+   "role": "turn",
+   "title": "守住第一",
+   "teaches": "领先时少冒险",
+   "newElement": null,
+   "hook": "race-lead",
+   "arena": {
+    "R": 1400,
+    "food": 640,
+    "pu": {
+     "max": 3,
+     "delay": [
+      6,
+      9
+     ]
+    }
+   },
+   "player": {
+    "mass": 700
+   },
+   "playerRespawn": true,
+   "ai": [
+    {
+     "persona": "forager",
+     "tier": "T2",
+     "mass": 140,
+     "n": 4
+    },
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 150
+    },
+    {
+     "persona": "scavenger",
+     "tier": "T2",
+     "mass": 100,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "race",
+    "sec": 90,
+    "rankLE": 1
+   },
+   "capSec": 90,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 1
+    },
+    {
+     "type": "massGE",
+     "n": 1135
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m5.brief",
+    "h1": "snake.m.c5m5.h1"
+   }
+  },
+  {
+   "id": "c5m6",
+   "playerRespawn": "keep",
+   "ch": 5,
+   "role": "build",
+   "title": "猎杀猎手",
+   "teaches": "猎手也会被截住",
+   "newElement": null,
+   "hook": "hunt-hunters",
+   "arena": {
+    "R": 1200,
+    "food": 480
+   },
+   "player": {
+    "mass": 200
+   },
+   "ai": [
+    {
+     "persona": "hunter",
+     "tier": "T2",
+     "mass": 100,
+     "n": 3,
+     "target": true
+    },
+    {
+     "persona": "forager",
+     "tier": "T2",
+     "mass": 100,
+     "n": 3
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 3,
+    "target": "tagged",
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 300,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 5
+    },
+    {
+     "type": "killTagGE",
+     "tag": "cut",
+     "n": 3
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m6.brief",
+    "h1": "snake.m.c5m6.h1"
+   }
+  },
+  {
+   "id": "c5m7",
+   "playerRespawn": "keep",
+   "ch": 5,
+   "role": "boss",
+   "title": "蛇王",
+   "teaches": "蛇王冲过来时，横在它前面",
+   "newElement": null,
+   "hook": "hunt-king",
+   "kingCharge": {
+    "first": 6,
+    "wind": 0.8,
+    "run": 1.6,
+    "cd": [
+     10,
+     13
+    ],
+    "cd3": [
+     6.5,
+     8.5
+    ],
+    "aim": "intercept",
+    "leadMul": 0.8
+   },
+   "arena": {
+    "R": 1300,
+    "food": 700,
+    "pu": {
+     "max": 3,
+     "delay": [
+      6,
+      9
+     ]
+    }
+   },
+   "player": {
+    "mass": 160
+   },
+   "ai": [
+    {
+     "persona": "king",
+     "tier": "T4",
+     "mass": 1200,
+     "king": true,
+     "target": true,
+     "crown": 3
+    },
+    {
+     "persona": "forager",
+     "tier": "T2",
+     "mass": 150,
+     "n": 4
+    },
+    {
+     "persona": "scavenger",
+     "tier": "T2",
+     "mass": 120,
+     "n": 2
+    }
+   ],
+   "objective": {
+    "type": "kill",
+    "n": 1,
+    "target": "tagged",
+    "tags": [
+     "cut",
+     "body",
+     "encircle"
+    ]
+   },
+   "capSec": 185,
+   "stars": [
+    {
+     "type": "deathsLE",
+     "n": 3
+    },
+    {
+     "type": "deathsLE",
+     "n": 1
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m7.brief",
+    "h1": "snake.m.c5m7.h1"
+   }
+  },
+  {
+   "id": "c5m8",
+   "ch": 5,
+   "role": "breather",
+   "title": "戴上王冠",
+   "teaches": "放松：戴上王冠游一圈",
+   "newElement": null,
+   "arena": {
+    "R": 1200,
+    "food": 700,
+    "pu": {
+     "max": 2,
+     "delay": [
+      4,
+      6
+     ],
+     "kinds": [
+      "magnet"
+     ]
+    }
+   },
+   "player": {
+    "mass": 100
+   },
+   "ai": [],
+   "objective": {
+    "type": "length",
+    "n": 300
+   },
+   "capSec": 150,
+   "stars": [
+    {
+     "type": "eatGE",
+     "kind": "big",
+     "n": 5
+    },
+    {
+     "type": "puGE",
+     "kind": "magnet",
+     "n": 2
+    }
+   ],
+   "lines": {
+    "brief": "snake.m.c5m8.brief",
+    "h1": "snake.m.c5m8.h1"
+   }
+  }
+ ]
+}

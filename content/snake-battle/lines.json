@@ -1,0 +1,1218 @@
+[
+ {
+  "id": "snake.intro.1",
+  "role": "companion",
+  "text": "欢迎来到星际竞技场！"
+ },
+ {
+  "id": "snake.intro.2",
+  "role": "companion",
+  "text": "按住屏幕，小蛇跟着手指游。"
+ },
+ {
+  "id": "snake.intro.3",
+  "role": "companion",
+  "text": "穿过星环！"
+ },
+ {
+  "id": "snake.intro.4",
+  "role": "companion",
+  "text": "吃星尘，变长！"
+ },
+ {
+  "id": "snake.intro.5",
+  "role": "companion",
+  "text": "大星珠一颗顶五颗。"
+ },
+ {
+  "id": "snake.intro.done",
+  "role": "companion",
+  "text": "准备好了，去比赛吧！"
+ },
+ {
+  "id": "snake.lobby.hello.1",
+  "role": "companion",
+  "text": "今天去哪个星球比赛？"
+ },
+ {
+  "id": "snake.lobby.hello.2",
+  "role": "companion",
+  "text": "选一个赛场吧。"
+ },
+ {
+  "id": "snake.lobby.hello.3",
+  "role": "companion",
+  "text": "换个皮肤再出发？"
+ },
+ {
+  "id": "snake.lobby.hello.4",
+  "role": "companion",
+  "text": "挑战关有新关卡。"
+ },
+ {
+  "id": "snake.lobby.rest",
+  "role": "companion",
+  "text": "玩了好几局，看看远处吧。"
+ },
+ {
+  "id": "snake.lobby.suggest",
+  "role": "companion",
+  "text": "下一个赛场在等你。"
+ },
+ {
+  "id": "snake.mode.timed",
+  "role": "companion",
+  "text": "限时赛：三分钟，比谁最长。"
+ },
+ {
+  "id": "snake.mode.endless",
+  "role": "companion",
+  "text": "无尽模式：看你能长多长。",
+  "pinyin": {
+   "长多长": "zhǎng duō cháng"
+  }
+ },
+ {
+  "id": "snake.mode.mission",
+  "role": "companion",
+  "text": "挑战关：学一招新本领。"
+ },
+ {
+  "id": "snake.venue.moon",
+  "role": "narrator",
+  "text": "月球场：适合热身。"
+ },
+ {
+  "id": "snake.venue.mars",
+  "role": "narrator",
+  "text": "火星场：猎手出没。"
+ },
+ {
+  "id": "snake.venue.jupiter",
+  "role": "narrator",
+  "text": "木星场：高手很多。"
+ },
+ {
+  "id": "snake.venue.blackhole",
+  "role": "narrator",
+  "text": "黑洞场：最强的对手。"
+ },
+ {
+  "id": "snake.venue.locked.mars",
+  "role": "companion",
+  "text": "打过第一章大关就开放。"
+ },
+ {
+  "id": "snake.venue.locked.jupiter",
+  "role": "companion",
+  "text": "打过第二章大关就开放。"
+ },
+ {
+  "id": "snake.venue.locked.blackhole",
+  "role": "companion",
+  "text": "打过第三章大关就开放。"
+ },
+ {
+  "id": "snake.venue.locked.or",
+  "role": "companion",
+  "text": "在上个赛场进两次前三也行。"
+ },
+ {
+  "id": "snake.match.go",
+  "role": "companion",
+  "text": "三，二，一，出发！"
+ },
+ {
+  "id": "snake.match.last10",
+  "role": "companion",
+  "text": "最后十秒！"
+ },
+ {
+  "id": "snake.match.end",
+  "role": "companion",
+  "text": "比赛结束！"
+ },
+ {
+  "id": "snake.match.rank1",
+  "role": "companion",
+  "text": "你现在是第一名！"
+ },
+ {
+  "id": "snake.match.boost",
+  "role": "companion",
+  "text": "按住闪电键，加速冲！"
+ },
+ {
+  "id": "snake.match.idle",
+  "role": "companion",
+  "text": "按住屏幕就能转弯。"
+ },
+ {
+  "id": "snake.match.wall",
+  "role": "companion",
+  "text": "围栏会挡住你，不会出局。"
+ },
+ {
+  "id": "snake.match.resume",
+  "role": "companion",
+  "text": "准备，继续！"
+ },
+ {
+  "id": "snake.ann.kill",
+  "role": "companion",
+  "text": "击败！"
+ },
+ {
+  "id": "snake.ann.cut",
+  "role": "companion",
+  "text": "截住了！"
+ },
+ {
+  "id": "snake.ann.encircle",
+  "role": "companion",
+  "text": "围住了！"
+ },
+ {
+  "id": "snake.ann.double",
+  "role": "companion",
+  "text": "两连击！"
+ },
+ {
+  "id": "snake.ann.triple",
+  "role": "companion",
+  "text": "三连击！"
+ },
+ {
+  "id": "snake.ann.quad",
+  "role": "companion",
+  "text": "四连击！"
+ },
+ {
+  "id": "snake.ann.penta",
+  "role": "companion",
+  "text": "五连击！"
+ },
+ {
+  "id": "snake.ann.streak3",
+  "role": "companion",
+  "text": "一条命击败三条！"
+ },
+ {
+  "id": "snake.ann.shutdown",
+  "role": "companion",
+  "text": "打断了它的连击！"
+ },
+ {
+  "id": "snake.len.100",
+  "role": "companion",
+  "text": "长度一百！"
+ },
+ {
+  "id": "snake.len.200",
+  "role": "companion",
+  "text": "长度两百！"
+ },
+ {
+  "id": "snake.len.300",
+  "role": "companion",
+  "text": "长度三百！"
+ },
+ {
+  "id": "snake.len.500",
+  "role": "companion",
+  "text": "长度五百！"
+ },
+ {
+  "id": "snake.len.800",
+  "role": "companion",
+  "text": "长度八百！"
+ },
+ {
+  "id": "snake.len.1000",
+  "role": "companion",
+  "text": "长度一千！"
+ },
+ {
+  "id": "snake.len.1500",
+  "role": "companion",
+  "text": "长度一千五！"
+ },
+ {
+  "id": "snake.len.2000",
+  "role": "companion",
+  "text": "长度两千！"
+ },
+ {
+  "id": "snake.pu.magnet",
+  "role": "companion",
+  "text": "吸铁石！"
+ },
+ {
+  "id": "snake.pu.shield",
+  "role": "companion",
+  "text": "护盾！"
+ },
+ {
+  "id": "snake.pu.speed",
+  "role": "companion",
+  "text": "闪电加速！"
+ },
+ {
+  "id": "snake.pu.saved",
+  "role": "companion",
+  "text": "护盾挡住了！"
+ },
+ {
+  "id": "snake.meteor",
+  "role": "companion",
+  "text": "流星糖！"
+ },
+ {
+  "id": "snake.near.1",
+  "role": "companion",
+  "text": "好险！"
+ },
+ {
+  "id": "snake.near.2",
+  "role": "companion",
+  "text": "擦身而过！"
+ },
+ {
+  "id": "snake.near.3",
+  "role": "companion",
+  "text": "躲开了！"
+ },
+ {
+  "id": "snake.death.body",
+  "role": "companion",
+  "text": "撞到了{name}的身体。",
+  "norm": "撞到别的蛇的身体啦。"
+ },
+ {
+  "id": "snake.death.cut",
+  "role": "companion",
+  "text": "{name}抢到了你前面。",
+  "norm": "它抢到你前面啦。"
+ },
+ {
+  "id": "snake.death.headon",
+  "role": "companion",
+  "text": "头碰头，{name}更长。",
+  "norm": "头碰头，长的赢。"
+ },
+ {
+  "id": "snake.death.encircle",
+  "role": "companion",
+  "text": "被{name}围住了。",
+  "norm": "被围住啦。"
+ },
+ {
+  "id": "snake.tip.body.1",
+  "role": "companion",
+  "text": "多看看前面，绕开身体。"
+ },
+ {
+  "id": "snake.tip.body.2",
+  "role": "companion",
+  "text": "别追着星尘撞上身体。"
+ },
+ {
+  "id": "snake.tip.cut.1",
+  "role": "companion",
+  "text": "看到猎手，往它身后拐。"
+ },
+ {
+  "id": "snake.tip.cut.2",
+  "role": "companion",
+  "text": "别和猎手并排游。"
+ },
+ {
+  "id": "snake.tip.headon.1",
+  "role": "companion",
+  "text": "比它短，就别迎头碰。"
+ },
+ {
+  "id": "snake.tip.encircle.1",
+  "role": "companion",
+  "text": "趁圈还没合上，从缺口出去。"
+ },
+ {
+  "id": "snake.tip.boost.1",
+  "role": "companion",
+  "text": "加速会变短，追东西时再用。"
+ },
+ {
+  "id": "snake.respawn",
+  "role": "companion",
+  "text": "复活啦，再来！"
+ },
+ {
+  "id": "snake.respawn.keep",
+  "role": "companion",
+  "text": "长度保住了，继续！"
+ },
+ {
+  "id": "snake.podium.1",
+  "role": "companion",
+  "text": "冠军！你是最长的蛇！"
+ },
+ {
+  "id": "snake.podium.2",
+  "role": "companion",
+  "text": "第二名，上领奖台啦！"
+ },
+ {
+  "id": "snake.podium.3",
+  "role": "companion",
+  "text": "第三名，上领奖台啦！"
+ },
+ {
+  "id": "snake.podium.best",
+  "role": "companion",
+  "text": "比这个赛场的纪录还长！"
+ },
+ {
+  "id": "snake.podium.grow",
+  "role": "companion",
+  "text": "这局你长到了{n}！",
+  "norm": "这局你长得很长！",
+  "pinyin": {
+   "长到": "zhǎng dào",
+   "长得": "zhǎng de"
+  }
+ },
+ {
+  "id": "snake.podium.kills",
+  "role": "companion",
+  "text": "这局你击败了{n}条！",
+  "norm": "这局你击败了好几条！"
+ },
+ {
+  "id": "snake.podium.other",
+  "role": "companion",
+  "text": "下局再来！"
+ },
+ {
+  "id": "snake.trophy",
+  "role": "companion",
+  "text": "赢得一座奖杯！"
+ },
+ {
+  "id": "snake.record.len",
+  "role": "companion",
+  "text": "最长纪录刷新了！"
+ },
+ {
+  "id": "snake.record.life",
+  "role": "companion",
+  "text": "这是活得最久的一次！"
+ },
+ {
+  "id": "snake.endless.bank",
+  "role": "companion",
+  "text": "收工！纪录保存好了。"
+ },
+ {
+  "id": "snake.endless.nudge",
+  "role": "companion",
+  "text": "想收工的话，暂停里有收工。"
+ },
+ {
+  "id": "snake.king.appear",
+  "role": "companion",
+  "text": "蛇王来了！"
+ },
+ {
+  "id": "snake.king.sleep",
+  "role": "companion",
+  "text": "轻一点，蛇王在睡觉。"
+ },
+ {
+  "id": "snake.king.down",
+  "role": "companion",
+  "text": "蛇王被打败了！"
+ },
+ {
+  "id": "snake.king.charge",
+  "role": "companion",
+  "text": "蛇王要冲过来了！"
+ },
+ {
+  "id": "snake.king.gem",
+  "role": "companion",
+  "text": "王冠宝石碎了一颗！"
+ },
+ {
+  "id": "snake.king.guards",
+  "role": "companion",
+  "text": "蛇王叫来了帮手！"
+ },
+ {
+  "id": "snake.king.angry",
+  "role": "companion",
+  "text": "蛇王生气了，更快了！"
+ },
+ {
+  "id": "snake.story.c1",
+  "role": "narrator",
+  "text": "星际竞技场开张了，出发！"
+ },
+ {
+  "id": "snake.story.c2",
+  "role": "narrator",
+  "text": "火星上住着猎手蛇。"
+ },
+ {
+  "id": "snake.story.c3",
+  "role": "narrator",
+  "text": "木星的高手会截击。"
+ },
+ {
+  "id": "snake.story.c4",
+  "role": "narrator",
+  "text": "土星环里，学会围住它。"
+ },
+ {
+  "id": "snake.story.c5",
+  "role": "narrator",
+  "text": "黑洞深处，蛇王醒了！"
+ },
+ {
+  "id": "snake.story.end",
+  "role": "narrator",
+  "text": "蛇王守着的烛龙灯，归你了！"
+ },
+ {
+  "id": "snake.wake",
+  "role": "companion",
+  "text": "贪睡蛇醒啦！"
+ },
+ {
+  "id": "snake.unlock.skin",
+  "role": "companion",
+  "text": "新皮肤：{name}！",
+  "norm": "解锁了一个新皮肤！"
+ },
+ {
+  "id": "snake.unlock.trail",
+  "role": "companion",
+  "text": "新的加速尾迹！"
+ },
+ {
+  "id": "snake.unlock.venue",
+  "role": "companion",
+  "text": "新赛场开放了！"
+ },
+ {
+  "id": "snake.unlock.chapter",
+  "role": "companion",
+  "text": "新的一章开放了！"
+ },
+ {
+  "id": "snake.unlock.badge",
+  "role": "companion",
+  "text": "新徽章！"
+ },
+ {
+  "id": "snake.hint.offer2",
+  "role": "companion",
+  "text": "要不要看一招？"
+ },
+ {
+  "id": "snake.hint.offer3",
+  "role": "companion",
+  "text": "让领航员示范一次？"
+ },
+ {
+  "id": "snake.hint.skip",
+  "role": "companion",
+  "text": "也可以先玩下一关。"
+ },
+ {
+  "id": "snake.hint.twin.ai",
+  "role": "companion",
+  "text": "换你来，这次的蛇慢一点。"
+ },
+ {
+  "id": "snake.hint.twin.rings",
+  "role": "companion",
+  "text": "换你来，这次星环大一点。"
+ },
+ {
+  "id": "snake.hint.twin.meteor",
+  "role": "companion",
+  "text": "换你来，流星糖慢一点。"
+ },
+ {
+  "id": "snake.hint.twin.count",
+  "role": "companion",
+  "text": "换你来，这次少吃一点。"
+ },
+ {
+  "id": "snake.hint.twin.survive",
+  "role": "companion",
+  "text": "换你来，这次短一点。"
+ },
+ {
+  "id": "snake.hint.twin.king",
+  "role": "companion",
+  "text": "换你来，王冠只有两颗。"
+ },
+ {
+  "id": "snake.hint.twin.race",
+  "role": "companion",
+  "text": "换你来，这次名次放宽一名。"
+ },
+ {
+  "id": "snake.hint.twin.racekill",
+  "role": "companion",
+  "text": "换你来，这次不比名次了。"
+ },
+ {
+  "id": "snake.hint.twin.shield",
+  "role": "companion",
+  "text": "换你来，这次送你一个护盾。"
+ },
+ {
+  "id": "snake.hint.twin.respawn",
+  "role": "companion",
+  "text": "换你来，这次撞了也能接着游。"
+ },
+ {
+  "id": "snake.m.headon",
+  "role": "companion",
+  "text": "头碰头不算，让它撞你的身体。"
+ },
+ {
+  "id": "snake.m.grown",
+  "role": "companion",
+  "text": "你长大了，找更大的蛇。"
+ },
+ {
+  "id": "snake.m.bigcome",
+  "role": "companion",
+  "text": "更大的蛇来了！"
+ },
+ {
+  "id": "snake.retry.cap.kill",
+  "role": "companion",
+  "text": "目标还在，换个办法再来！"
+ },
+ {
+  "id": "snake.retry.cap.king",
+  "role": "companion",
+  "text": "蛇王回宫了，下次打败它！"
+ },
+ {
+  "id": "snake.retry.cap.other",
+  "role": "companion",
+  "text": "这次没走完，再来一次！"
+ },
+ {
+  "id": "snake.retry.1",
+  "role": "companion",
+  "text": "差一点，再来一次！"
+ },
+ {
+  "id": "snake.retry.2",
+  "role": "companion",
+  "text": "这次学到了，再试试。"
+ },
+ {
+  "id": "snake.retry.3",
+  "role": "companion",
+  "text": "换个方向试试看。"
+ },
+ {
+  "id": "snake.retry.4",
+  "role": "companion",
+  "text": "慢慢来，再来一次。"
+ },
+ {
+  "id": "snake.praise.c1.1",
+  "role": "companion",
+  "text": "转弯很稳！"
+ },
+ {
+  "id": "snake.praise.c1.2",
+  "role": "companion",
+  "text": "你提前看路了。"
+ },
+ {
+  "id": "snake.praise.c2.1",
+  "role": "companion",
+  "text": "你一直在看周围。"
+ },
+ {
+  "id": "snake.praise.c2.2",
+  "role": "companion",
+  "text": "你找到了空地。"
+ },
+ {
+  "id": "snake.praise.c3.1",
+  "role": "companion",
+  "text": "你先算好了它去哪。"
+ },
+ {
+  "id": "snake.praise.c3.2",
+  "role": "companion",
+  "text": "你抢到了它前面。"
+ },
+ {
+  "id": "snake.praise.c4.1",
+  "role": "companion",
+  "text": "圈收得很耐心。"
+ },
+ {
+  "id": "snake.praise.c4.2",
+  "role": "companion",
+  "text": "你先围住再收紧。"
+ },
+ {
+  "id": "snake.praise.c5.1",
+  "role": "companion",
+  "text": "学过的招都用上了。"
+ },
+ {
+  "id": "snake.praise.c5.2",
+  "role": "companion",
+  "text": "领先时你很冷静。"
+ },
+ {
+  "id": "snake.m.c1m1.brief",
+  "role": "companion",
+  "text": "穿过所有星环！"
+ },
+ {
+  "id": "snake.m.c1m1.h1",
+  "role": "companion",
+  "text": "手指按在星环那边。"
+ },
+ {
+  "id": "snake.m.c1m2.brief",
+  "role": "companion",
+  "text": "吃星尘，长到六十！",
+  "pinyin": {
+   "长到": "zhǎng dào"
+  }
+ },
+ {
+  "id": "snake.m.c1m2.h1",
+  "role": "companion",
+  "text": "大星珠一颗顶五颗。"
+ },
+ {
+  "id": "snake.m.c1m3.brief",
+  "role": "companion",
+  "text": "别撞蛇身，吃四十五颗。"
+ },
+ {
+  "id": "snake.m.c1m3.h1",
+  "role": "companion",
+  "text": "贪睡蛇的身体也会挡路。"
+ },
+ {
+  "id": "snake.m.c1m4.brief",
+  "role": "companion",
+  "text": "绕过陨石，穿过星环。"
+ },
+ {
+  "id": "snake.m.c1m4.h1",
+  "role": "companion",
+  "text": "早一点转弯。"
+ },
+ {
+  "id": "snake.m.c1m5.brief",
+  "role": "companion",
+  "text": "追上三颗流星糖！"
+ },
+ {
+  "id": "snake.m.c1m5.h1",
+  "role": "companion",
+  "text": "按住闪电键加速。"
+ },
+ {
+  "id": "snake.m.c1m6.brief",
+  "role": "companion",
+  "text": "吃九十颗星尘！"
+ },
+ {
+  "id": "snake.m.c1m6.h1",
+  "role": "companion",
+  "text": "先去拿吸铁石。"
+ },
+ {
+  "id": "snake.m.c1m7.brief",
+  "role": "companion",
+  "text": "比赛结束前进前三！"
+ },
+ {
+  "id": "snake.m.c1m7.h1",
+  "role": "companion",
+  "text": "多吃星尘，别撞身体。"
+ },
+ {
+  "id": "snake.m.c1m8.brief",
+  "role": "companion",
+  "text": "吃一百二十颗星尘！"
+ },
+ {
+  "id": "snake.m.c1m8.h1",
+  "role": "companion",
+  "text": "慢慢吃，不着急。"
+ },
+ {
+  "id": "snake.m.c2m1.brief",
+  "role": "companion",
+  "text": "躲开猎手三十秒！"
+ },
+ {
+  "id": "snake.m.c2m1.h1",
+  "role": "companion",
+  "text": "猎手靠近时，往它身后拐。"
+ },
+ {
+  "id": "snake.m.c2m2.brief",
+  "role": "companion",
+  "text": "拿到三个护盾！"
+ },
+ {
+  "id": "snake.m.c2m2.h1",
+  "role": "companion",
+  "text": "护盾能挡住一次碰撞。"
+ },
+ {
+  "id": "snake.m.c2m3.brief",
+  "role": "companion",
+  "text": "绕圈保护蛇头！"
+ },
+ {
+  "id": "snake.m.c2m3.h1",
+  "role": "companion",
+  "text": "一直往一个方向转圈。"
+ },
+ {
+  "id": "snake.m.c2m4.brief",
+  "role": "companion",
+  "text": "按顺序到达四个信标。"
+ },
+ {
+  "id": "snake.m.c2m4.h1",
+  "role": "companion",
+  "text": "往没有蛇的地方游。"
+ },
+ {
+  "id": "snake.m.c2m5.brief",
+  "role": "companion",
+  "text": "从缝隙里穿过去！"
+ },
+ {
+  "id": "snake.m.c2m5.h1",
+  "role": "companion",
+  "text": "对准缝隙中间再进去。"
+ },
+ {
+  "id": "snake.m.c2m6.brief",
+  "role": "companion",
+  "text": "逃到三个信标！"
+ },
+ {
+  "id": "snake.m.c2m6.h1",
+  "role": "companion",
+  "text": "加速拐开，别直线跑。"
+ },
+ {
+  "id": "snake.m.c2m7.brief",
+  "role": "companion",
+  "text": "躲开猎手，长到七十！",
+  "pinyin": {
+   "长到": "zhǎng dào"
+  }
+ },
+ {
+  "id": "snake.m.c2m7.h1",
+  "role": "companion",
+  "text": "看小地图，找空地。"
+ },
+ {
+  "id": "snake.m.c2m8.brief",
+  "role": "companion",
+  "text": "长到两百！",
+  "pinyin": {
+   "长到": "zhǎng dào"
+  }
+ },
+ {
+  "id": "snake.m.c2m8.h1",
+  "role": "companion",
+  "text": "吸铁石越多越快。"
+ },
+ {
+  "id": "snake.m.c3m1.brief",
+  "role": "companion",
+  "text": "让巡逻蛇撞上你！"
+ },
+ {
+  "id": "snake.m.c3m1.h1",
+  "role": "companion",
+  "text": "游到它前面，横过去。"
+ },
+ {
+  "id": "snake.m.c3m2.brief",
+  "role": "companion",
+  "text": "截住一条贪吃蛇！"
+ },
+ {
+  "id": "snake.m.c3m2.h1",
+  "role": "companion",
+  "text": "它要去吃星珠，你先到。"
+ },
+ {
+  "id": "snake.m.c3m3.brief",
+  "role": "companion",
+  "text": "截住两条蛇！"
+ },
+ {
+  "id": "snake.m.c3m3.h1",
+  "role": "companion",
+  "text": "加速超过它，再拐过去。"
+ },
+ {
+  "id": "snake.m.c3m4.brief",
+  "role": "companion",
+  "text": "在星珠旁截住三条！"
+ },
+ {
+  "id": "snake.m.c3m4.h1",
+  "role": "companion",
+  "text": "守在星珠旁边等它来。"
+ },
+ {
+  "id": "snake.m.c3m5.brief",
+  "role": "companion",
+  "text": "吃五十五颗掉落能量！"
+ },
+ {
+  "id": "snake.m.c3m5.h1",
+  "role": "companion",
+  "text": "哪里有蛇出局，就去哪里。"
+ },
+ {
+  "id": "snake.m.c3m6.brief",
+  "role": "companion",
+  "text": "打败猎手！"
+ },
+ {
+  "id": "snake.m.c3m6.h1",
+  "role": "companion",
+  "text": "它冲过来时，你横在它前面。"
+ },
+ {
+  "id": "snake.m.c3m7.brief",
+  "role": "companion",
+  "text": "进前四，截住一条！"
+ },
+ {
+  "id": "snake.m.c3m7.h1",
+  "role": "companion",
+  "text": "截住比你小的蛇。"
+ },
+ {
+  "id": "snake.m.c3m8.brief",
+  "role": "companion",
+  "text": "吃到六颗流星糖！"
+ },
+ {
+  "id": "snake.m.c3m8.h1",
+  "role": "companion",
+  "text": "迎着流星糖游过去。"
+ },
+ {
+  "id": "snake.m.c4m1.brief",
+  "role": "companion",
+  "text": "绕着星核画两个圈！"
+ },
+ {
+  "id": "snake.m.c4m1.h1",
+  "role": "companion",
+  "text": "一直转弯，头碰到身体。"
+ },
+ {
+  "id": "snake.m.c4m2.brief",
+  "role": "companion",
+  "text": "围住贪睡蛇！"
+ },
+ {
+  "id": "snake.m.c4m2.h1",
+  "role": "companion",
+  "text": "先绕一圈，再收紧。"
+ },
+ {
+  "id": "snake.m.c4m3.brief",
+  "role": "companion",
+  "text": "两条贪睡蛇都围住！"
+ },
+ {
+  "id": "snake.m.c4m3.h1",
+  "role": "companion",
+  "text": "画一个大圈。"
+ },
+ {
+  "id": "snake.m.c4m4.brief",
+  "role": "companion",
+  "text": "围住会跑的小蛇！"
+ },
+ {
+  "id": "snake.m.c4m4.h1",
+  "role": "companion",
+  "text": "圈要跟着它走。"
+ },
+ {
+  "id": "snake.m.c4m5.brief",
+  "role": "companion",
+  "text": "围住小蛇，躲开猎手！"
+ },
+ {
+  "id": "snake.m.c4m5.h1",
+  "role": "companion",
+  "text": "围圈时也看看外面。"
+ },
+ {
+  "id": "snake.m.c4m6.brief",
+  "role": "companion",
+  "text": "守住长度三百！"
+ },
+ {
+  "id": "snake.m.c4m6.h1",
+  "role": "companion",
+  "text": "绕圈把头藏起来。"
+ },
+ {
+  "id": "snake.m.c4m7.brief",
+  "role": "companion",
+  "text": "进前五，围住一条！"
+ },
+ {
+  "id": "snake.m.c4m7.h1",
+  "role": "companion",
+  "text": "先长大，再围贪睡蛇。"
+ },
+ {
+  "id": "snake.m.c4m8.brief",
+  "role": "companion",
+  "text": "大蛇也能穿过星环！"
+ },
+ {
+  "id": "snake.m.c4m8.h1",
+  "role": "companion",
+  "text": "大蛇转弯慢，早点转。"
+ },
+ {
+  "id": "snake.m.c5m1.brief",
+  "role": "companion",
+  "text": "让大两倍的蛇撞上你！"
+ },
+ {
+  "id": "snake.m.c5m1.h1",
+  "role": "companion",
+  "text": "横在大蛇前面。"
+ },
+ {
+  "id": "snake.m.c5m2.brief",
+  "role": "companion",
+  "text": "从最小追到前四！"
+ },
+ {
+  "id": "snake.m.c5m2.h1",
+  "role": "companion",
+  "text": "去捡掉落的能量。"
+ },
+ {
+  "id": "snake.m.c5m3.brief",
+  "role": "companion",
+  "text": "一条命里击败三条！"
+ },
+ {
+  "id": "snake.m.c5m3.h1",
+  "role": "companion",
+  "text": "先截小的，再截下一条。"
+ },
+ {
+  "id": "snake.m.c5m4.brief",
+  "role": "companion",
+  "text": "抢到五颗流星糖！"
+ },
+ {
+  "id": "snake.m.c5m4.h1",
+  "role": "companion",
+  "text": "算好流星糖往哪儿飞。"
+ },
+ {
+  "id": "snake.m.c5m5.brief",
+  "role": "companion",
+  "text": "保持第一到最后！"
+ },
+ {
+  "id": "snake.m.c5m5.h1",
+  "role": "companion",
+  "text": "领先时别去冒险。"
+ },
+ {
+  "id": "snake.m.c5m6.brief",
+  "role": "companion",
+  "text": "击败三条猎手！"
+ },
+ {
+  "id": "snake.m.c5m6.h1",
+  "role": "companion",
+  "text": "等猎手冲过来再截它。"
+ },
+ {
+  "id": "snake.m.c5m7.brief",
+  "role": "companion",
+  "text": "打败蛇王！"
+ },
+ {
+  "id": "snake.m.c5m7.h1",
+  "role": "companion",
+  "text": "蛇王冲过来时，横在它前面。"
+ },
+ {
+  "id": "snake.m.c5m8.brief",
+  "role": "companion",
+  "text": "戴着王冠长到三百！",
+  "pinyin": {
+   "长到": "zhǎng dào"
+  }
+ },
+ {
+  "id": "snake.m.c5m8.h1",
+  "role": "companion",
+  "text": "这一关慢慢享受。"
+ },
+ {
+  "id": "snake.fact.venus",
+  "role": "narrator",
+  "text": "金星是太阳系里最热的行星，比水星还热。"
+ },
+ {
+  "id": "snake.fact.moonlight",
+  "role": "narrator",
+  "text": "月亮自己不会发光，我们看到的是它反射的太阳光。"
+ },
+ {
+  "id": "snake.fact.comet",
+  "role": "narrator",
+  "text": "彗星的尾巴总是背对着太阳。"
+ },
+ {
+  "id": "snake.fact.saturn",
+  "role": "narrator",
+  "text": "土星的光环主要是冰块和石头。"
+ },
+ {
+  "id": "snake.fact.dipper",
+  "role": "narrator",
+  "text": "北斗七星连起来像一把勺子。"
+ },
+ {
+  "id": "snake.fact.blackhole",
+  "role": "narrator",
+  "text": "黑洞的引力特别大，连光都跑不出来。"
+ },
+ {
+  "id": "snake.fact.loco",
+  "role": "narrator",
+  "text": "蒸汽火车烧煤把水变成蒸汽，推着车轮转。"
+ },
+ {
+  "id": "snake.fact.rocket",
+  "role": "narrator",
+  "text": "长征五号火箭很粗壮，大家叫它“胖五”。"
+ },
+ {
+  "id": "snake.fact.mecha",
+  "role": "narrator",
+  "text": "机器人的关节里有电机，电机一转，手臂就动了。"
+ },
+ {
+  "id": "snake.fact.digger",
+  "role": "narrator",
+  "text": "挖掘机的长臂是靠液压油推动的。"
+ },
+ {
+  "id": "snake.fact.maglev",
+  "role": "narrator",
+  "text": "磁悬浮列车靠磁力浮起来，开起来不碰铁轨。"
+ },
+ {
+  "id": "snake.fact.tiangong",
+  "role": "narrator",
+  "text": "中国空间站的名字叫“天宫”。"
+ },
+ {
+  "id": "snake.fact.azure",
+  "role": "narrator",
+  "text": "青龙是守护东方的神兽。"
+ },
+ {
+  "id": "snake.fact.yinglong",
+  "role": "narrator",
+  "text": "传说应龙帮大禹治水，用尾巴划出了河道。"
+ },
+ {
+  "id": "snake.fact.zhulong",
+  "role": "narrator",
+  "text": "《山海经》里说，烛龙睁开眼是白天，闭上眼是黑夜。"
+ },
+ {
+  "id": "snake.fact.tengshe",
+  "role": "narrator",
+  "text": "古书里说，腾蛇没有脚，却能腾云飞行。"
+ },
+ {
+  "id": "snake.fact.greatwall",
+  "role": "narrator",
+  "text": "长城已经有两千多年的历史了。"
+ },
+ {
+  "id": "snake.fact.basnake",
+  "role": "narrator",
+  "text": "古书里说，巴蛇能吞下一头大象。"
+ },
+ {
+  "id": "snake.fact.crown",
+  "role": "narrator",
+  "text": "古代皇帝的礼帽前后挂着一串串小玉珠。"
+ },
+ {
+  "id": "snake.fact.trail.stardust",
+  "role": "narrator",
+  "text": "宇宙里飘着很多很细很细的尘埃。"
+ },
+ {
+  "id": "snake.fact.trail.flame",
+  "role": "narrator",
+  "text": "火箭向下喷火，火箭就向上飞。"
+ },
+ {
+  "id": "snake.fact.trail.aurora",
+  "role": "narrator",
+  "text": "木星上也有极光，比地球的还大。"
+ },
+ {
+  "id": "snake.fact.trail.meteor",
+  "role": "narrator",
+  "text": "流星是小石头冲进空气里烧出的光。"
+ },
+ {
+  "id": "snake.fact.trail.cloud",
+  "role": "narrator",
+  "text": "祥云是古人画在衣服和房子上的图案。"
+ },
+ {
+  "id": "snake.fact.trail.lightning",
+  "role": "narrator",
+  "text": "光比声音快，所以先看到闪电再听到雷。"
+ }
+]

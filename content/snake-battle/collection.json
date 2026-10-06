@@ -1,0 +1,469 @@
+{
+ "version": 1,
+ "skins": [
+  {
+   "id": "venus",
+   "name": "金星蛇",
+   "family": "space",
+   "base": "#ffc93c",
+   "accent": "#ff8f1f",
+   "pattern": "stripe3",
+   "head": "round",
+   "eyes": "cute",
+   "unlock": {
+    "kind": "default"
+   },
+   "fact": "金星是太阳系里最热的行星，比水星还热。"
+  },
+  {
+   "id": "moonlight",
+   "name": "月光蛇",
+   "family": "space",
+   "base": "#dfe7ff",
+   "accent": "#9fb4ff",
+   "pattern": "ring6",
+   "head": "round",
+   "eyes": "cute",
+   "unlock": {
+    "kind": "timedPlayed",
+    "n": 1
+   },
+   "fact": "月亮自己不会发光，我们看到的是它反射的太阳光。"
+  },
+  {
+   "id": "comet",
+   "name": "彗星蛇",
+   "family": "space",
+   "base": "#7fe8ff",
+   "accent": "#ffffff",
+   "pattern": "fade",
+   "head": "comet",
+   "eyes": "cute",
+   "unlock": {
+    "kind": "meteors",
+    "n": 20
+   },
+   "fact": "彗星的尾巴总是背对着太阳。"
+  },
+  {
+   "id": "saturn",
+   "name": "土星环蛇",
+   "family": "space",
+   "base": "#f2d49b",
+   "accent": "#c99a52",
+   "pattern": "ring4",
+   "head": "ringed",
+   "eyes": "cute",
+   "unlock": {
+    "kind": "chapter",
+    "ch": 4
+   },
+   "fact": "土星的光环主要是冰块和石头。"
+  },
+  {
+   "id": "dipper",
+   "name": "北斗蛇",
+   "family": "space",
+   "base": "#24306b",
+   "accent": "#ffe27a",
+   "pattern": "stars",
+   "head": "round",
+   "eyes": "visor",
+   "unlock": {
+    "kind": "kills",
+    "n": 30
+   },
+   "fact": "北斗七星连起来像一把勺子。"
+  },
+  {
+   "id": "blackhole",
+   "name": "黑洞蛇",
+   "family": "space",
+   "base": "#1a1530",
+   "accent": "#b28cff",
+   "pattern": "swirl",
+   "head": "round",
+   "eyes": "glow",
+   "unlock": {
+    "kind": "podium",
+    "venue": "blackhole",
+    "n": 1
+   },
+   "fact": "黑洞的引力特别大，连光都跑不出来。"
+  },
+  {
+   "id": "loco",
+   "name": "火车头蛇",
+   "family": "machine",
+   "base": "#e8452c",
+   "accent": "#2b2f3a",
+   "pattern": "cars6",
+   "head": "loco",
+   "eyes": "cute",
+   "unlock": {
+    "kind": "length",
+    "n": 600
+   },
+   "fact": "蒸汽火车烧煤把水变成蒸汽，推着车轮转。"
+  },
+  {
+   "id": "rocket",
+   "name": "火箭蛇",
+   "family": "machine",
+   "base": "#f4f6fb",
+   "accent": "#e8452c",
+   "pattern": "ring5",
+   "head": "rocket",
+   "eyes": "visor",
+   "unlock": {
+    "kind": "chapter",
+    "ch": 1
+   },
+   "fact": "长征五号火箭很粗壮，大家叫它“胖五”。"
+  },
+  {
+   "id": "mecha",
+   "name": "机甲蛇",
+   "family": "machine",
+   "base": "#7d8aa3",
+   "accent": "#ffd23f",
+   "pattern": "panels",
+   "head": "mecha",
+   "eyes": "visor",
+   "unlock": {
+    "kind": "kills",
+    "n": 10
+   },
+   "fact": "机器人的关节里有电机，电机一转，手臂就动了。"
+  },
+  {
+   "id": "digger",
+   "name": "挖掘机蛇",
+   "family": "machine",
+   "base": "#ffb000",
+   "accent": "#3a3a3a",
+   "pattern": "tracks",
+   "head": "digger",
+   "eyes": "cute",
+   "unlock": {
+    "kind": "endlessLife",
+    "sec": 120
+   },
+   "fact": "挖掘机的长臂是靠液压油推动的。"
+  },
+  {
+   "id": "maglev",
+   "name": "磁悬浮蛇",
+   "family": "machine",
+   "base": "#e9f1ff",
+   "accent": "#2f7bff",
+   "pattern": "stripe2",
+   "head": "maglev",
+   "eyes": "visor",
+   "unlock": {
+    "kind": "endlessLength",
+    "n": 800
+   },
+   "fact": "磁悬浮列车靠磁力浮起来，开起来不碰铁轨。"
+  },
+  {
+   "id": "tiangong",
+   "name": "天宫蛇",
+   "family": "machine",
+   "base": "#d9dde6",
+   "accent": "#2e6bd6",
+   "pattern": "modules",
+   "head": "station",
+   "eyes": "visor",
+   "unlock": {
+    "kind": "stars",
+    "n": 60
+   },
+   "fact": "中国空间站的名字叫“天宫”。"
+  },
+  {
+   "id": "azure",
+   "name": "青龙蛇",
+   "family": "myth",
+   "base": "#2fbf8f",
+   "accent": "#bff5dc",
+   "pattern": "scales",
+   "head": "dragon",
+   "eyes": "dragon",
+   "unlock": {
+    "kind": "chapter",
+    "ch": 3
+   },
+   "fact": "青龙是守护东方的神兽。"
+  },
+  {
+   "id": "yinglong",
+   "name": "应龙蛇",
+   "family": "myth",
+   "base": "#ffb347",
+   "accent": "#fff1c1",
+   "pattern": "scales",
+   "head": "dragon",
+   "eyes": "dragon",
+   "unlock": {
+    "kind": "multi",
+    "n": 2
+   },
+   "fact": "传说应龙帮大禹治水，用尾巴划出了河道。"
+  },
+  {
+   "id": "zhulong",
+   "name": "烛龙蛇",
+   "family": "myth",
+   "base": "#c8202f",
+   "accent": "#ffcf4a",
+   "pattern": "scales",
+   "head": "zhulong",
+   "eyes": "dragon",
+   "unlock": {
+    "kind": "mission",
+    "id": "c5m7"
+   },
+   "fact": "《山海经》里说，烛龙睁开眼是白天，闭上眼是黑夜。"
+  },
+  {
+   "id": "tengshe",
+   "name": "腾蛇",
+   "family": "myth",
+   "base": "#8b6cff",
+   "accent": "#e4dcff",
+   "pattern": "clouds",
+   "head": "round",
+   "eyes": "dragon",
+   "unlock": {
+    "kind": "cutKills",
+    "n": 20
+   },
+   "fact": "古书里说，腾蛇没有脚，却能腾云飞行。"
+  },
+  {
+   "id": "greatwall",
+   "name": "长城蛇",
+   "family": "machine",
+   "base": "#b98a5e",
+   "accent": "#7a5534",
+   "pattern": "bricks",
+   "head": "tower",
+   "eyes": "cute",
+   "unlock": {
+    "kind": "podiums",
+    "n": 10
+   },
+   "fact": "长城已经有两千多年的历史了。"
+  },
+  {
+   "id": "basnake",
+   "name": "巴蛇",
+   "family": "myth",
+   "base": "#2b2d3a",
+   "accent": "#3fbf6f",
+   "pattern": "scales",
+   "head": "round",
+   "eyes": "dragon",
+   "unlock": {
+    "kind": "missionsDone",
+    "n": 8
+   },
+   "fact": "古书里说，巴蛇能吞下一头大象。"
+  }
+ ],
+ "crown": {
+  "id": "crown",
+  "name": "蛇王冠",
+  "unlock": {
+   "kind": "mission",
+   "id": "c5m8"
+  },
+  "fact": "古代皇帝的礼帽前后挂着一串串小玉珠。"
+ },
+ "trails": [
+  {
+   "id": "stardust",
+   "name": "星尘尾迹",
+   "unlock": {
+    "kind": "default"
+   },
+   "fact": "宇宙里飘着很多很细很细的尘埃。"
+  },
+  {
+   "id": "flame",
+   "name": "火焰尾迹",
+   "unlock": {
+    "kind": "boostSec",
+    "sec": 60
+   },
+   "fact": "火箭向下喷火，火箭就向上飞。"
+  },
+  {
+   "id": "aurora",
+   "name": "极光尾迹",
+   "unlock": {
+    "kind": "venueUnlocked",
+    "venue": "jupiter"
+   },
+   "fact": "木星上也有极光，比地球的还大。"
+  },
+  {
+   "id": "meteor",
+   "name": "流星尾迹",
+   "unlock": {
+    "kind": "meteors",
+    "n": 50
+   },
+   "fact": "流星是小石头冲进空气里烧出的光。"
+  },
+  {
+   "id": "cloud",
+   "name": "祥云尾迹",
+   "unlock": {
+    "kind": "encircleKills",
+    "n": 5
+   },
+   "fact": "祥云是古人画在衣服和房子上的图案。"
+  },
+  {
+   "id": "lightning",
+   "name": "闪电尾迹",
+   "unlock": {
+    "kind": "pu",
+    "kind2": "speed",
+    "n": 15
+   },
+   "fact": "光比声音快，所以先看到闪电再听到雷。"
+  }
+ ],
+ "badges": [
+  {
+   "id": "first-kill",
+   "name": "第一次击败",
+   "cond": {
+    "kind": "kills",
+    "n": 1
+   }
+  },
+  {
+   "id": "first-cut",
+   "name": "第一次截击",
+   "cond": {
+    "kind": "cutKills",
+    "n": 1
+   }
+  },
+  {
+   "id": "first-circle",
+   "name": "第一次围猎",
+   "cond": {
+    "kind": "encircleKills",
+    "n": 1
+   }
+  },
+  {
+   "id": "len-100",
+   "name": "长度一百",
+   "cond": {
+    "kind": "length",
+    "n": 100
+   }
+  },
+  {
+   "id": "len-500",
+   "name": "长度五百",
+   "cond": {
+    "kind": "length",
+    "n": 500
+   }
+  },
+  {
+   "id": "len-1500",
+   "name": "长度一千五",
+   "cond": {
+    "kind": "endlessLength",
+    "n": 1500
+   }
+  },
+  {
+   "id": "first-win",
+   "name": "第一次夺冠",
+   "cond": {
+    "kind": "wins",
+    "n": 1
+   }
+  },
+  {
+   "id": "mars-podium",
+   "name": "火星领奖台",
+   "cond": {
+    "kind": "podium",
+    "venue": "mars",
+    "n": 1
+   }
+  },
+  {
+   "id": "jupiter-podium",
+   "name": "木星领奖台",
+   "cond": {
+    "kind": "podium",
+    "venue": "jupiter",
+    "n": 1
+   }
+  },
+  {
+   "id": "streak-3",
+   "name": "连续击败三条",
+   "cond": {
+    "kind": "streak",
+    "n": 3
+   }
+  },
+  {
+   "id": "shield-save",
+   "name": "护盾救命",
+   "cond": {
+    "kind": "shieldSaves",
+    "n": 1
+   }
+  },
+  {
+   "id": "near-10",
+   "name": "擦身而过十次",
+   "cond": {
+    "kind": "nearMiss",
+    "n": 10
+   }
+  },
+  {
+   "id": "king-slayer",
+   "name": "打败蛇王",
+   "cond": {
+    "kind": "mission",
+    "id": "c5m7"
+   }
+  },
+  {
+   "id": "stars-80",
+   "name": "八十颗星",
+   "cond": {
+    "kind": "stars",
+    "n": 80
+   }
+  }
+ ],
+ "rules": {
+  "lengthCountsIn": [
+   "timed",
+   "endless"
+  ],
+  "countersIn": [
+   "timed",
+   "endless",
+   "mission until its first clear"
+  ],
+  "chapter": "boss (cNm7) cleared",
+  "podium": "timed rank <= 3"
+ }
+}
