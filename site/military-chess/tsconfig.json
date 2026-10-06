@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "./**/*.ts",
+    "../../kit/**/*.ts",
+    "../../types/**/*.d.ts",
+    "../../tests/helpers/*.ts",
+    "../../tests/smoke/helpers.ts",
+    "../../tests/smoke/playwright.config.ts",
+    "../../tools/military-chess/**/*.ts",
+    "../../tests/military-chess/**/*.ts"
+  ]
+}

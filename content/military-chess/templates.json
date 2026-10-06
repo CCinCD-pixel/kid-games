@@ -1,0 +1,44 @@
+[
+ {
+  "id": "balanced",
+  "name": "平衡阵",
+  "blurb": "军旗在左边大本营，三颗地雷围着它；司令军长守两边铁路。",
+  "kid": true,
+  "layout": "527369B841371652M41BMFM32"
+ },
+ {
+  "id": "fortress",
+  "name": "铁桶阵",
+  "blurb": "军旗在右边，炸弹守在中间，大官在后面等着。",
+  "kid": true,
+  "layout": "234216571B835B9146M723MFM"
+ },
+ {
+  "id": "lightning",
+  "name": "闪电阵",
+  "blurb": "司令军长站在第一排铁路上，一开局就能冲。",
+  "kid": true,
+  "layout": "835291B176473B61M452MFM32"
+ },
+ {
+  "id": "decoy",
+  "name": "迷魂阵",
+  "blurb": "左边大本营也围上地雷，让对方猜不出军旗在哪。",
+  "kid": false,
+  "layout": "352467182B3945BM1M6732MF1"
+ },
+ {
+  "id": "left-hook",
+  "name": "左勾拳",
+  "blurb": "大官都放在左路，从左边铁路突破。",
+  "kid": false,
+  "layout": "924348137B256B175M2MMF316"
+ },
+ {
+  "id": "center",
+  "name": "中路阵",
+  "blurb": "中路有炸弹和师长，两边各一个工兵。",
+  "kid": false,
+  "layout": "437341B296815762BM5M1F3M2"
+ }
+]

@@ -1,0 +1,1163 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "mc.card.flag": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "20d2b7baee66b5a73e312dbe76298b9954a44a39",
+   "score": 0.333,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.card.mine": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3c529838bebb7e7bf8a082792980e30bd0f992fc",
+   "score": 0.312,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.card.plan": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "5b8357c989246321e911a5923970bb62efe84b72",
+   "score": 0.357,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.card.rail": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fef76831f08c35b4b33505565c012021ee9563af",
+   "score": 102.5,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.coach.fan.camp": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "4e65b682abbe80a7c6ac4383631ffddbcd4b345d",
+   "score": 1.25,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.dep.back": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "35c8ddccb9467bf2e978dc6dc43b9d5a2e58fe60",
+   "score": 132.083,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "mc.dep.ready": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "0375bfcd14f29ebc93a5bae89264c056ab37a795",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.end.again": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d65147ad1455f90d964cc63d6787829c66a74835",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.end.handicap.2": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "ae3a2faeaf282a2b5e2e23bb3ca21c26f50395ae",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.end.levelup": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3f5e024b6966227ec40d7e6752e6963a198cfc82",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.end.promote.0": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "ac41789cae30d24e3e738d68ea4eb1c8d8a15f5c",
+   "score": 103.5,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.end.promote.4": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6a3b174a2994b902c30958ef19d7eb434c87cf67",
+   "score": 233.333,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.end.promote.7": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "acb7b8dcd7557a279d792c1421e27fc1eb987b4c",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.end.report": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "5a20139b8fc65fe511294f9bb322444547186191",
+   "score": 104.7,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.end.reveal": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "1cfe6a91eb8294d15f16321ea78e58d392fd47df",
+   "score": 132.5,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.end.stop": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "52aa74a54ade326b553f906ce05904b836cf2987",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.end.win": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f7a341b24d6ff5606f4e95f2d146ca6ff4856819",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.f1.done": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "8938df930c8c3e25b2526ccecc8774c8a876fe7a",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.f1.take": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "b5cd049f1297fae14dc5c398afc764c52660c622",
+   "score": 234.287,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.f3.flip": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6514aabfe50d351e819f6aa0eec688d1b8336551",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.f3.lost": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c7b017bd750bda943b3073bb27819ecc4994e685",
+   "score": 264.545,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.fam.end": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "cc3bf0b20524b70497373d5488769d95f8da14e0",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.fam.facetoface": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c47feab893e3ebdd167d1052003fa377163546b2",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.fam.handicap": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "a8da72ef9f94431a198c9d2ba09b9f5fd787d80d",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.ft.2": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "a09c7e4f98c80a68af452137e5ab10e4f94f9743",
+   "score": 235.001,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.ft.bigger": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "97bf4ad252cd80c3a477caee11daa2cab18a93c9",
+   "score": 232.727,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.hint.again": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f02dcc4e7376afd55dd877bf84695f64a36b084c",
+   "score": 0.2,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.home.puzzle": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a6b41bf8e1fc1dfdf1cbeeccccd0eff0f566db2f",
+   "score": 1.875,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.home.rules": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "9fd54a379c2d45d4566e6cd4150ee9bb2f77241c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.home.today": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "bd2894f9d16589995e6f61d22e5e155ad7acbdbd",
+   "score": 100.9,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.F-3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b581f45994a026a980b0c5169f195e5dbcbbdbb1",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L1-2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c6ed0bd3e6448bf01ceddd71698cdf2c4abfb6f8",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L2-1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1ea38b61a0b91c3a950efdb8bc49cde528ef8d36",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L2-2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b0c6ccb2cd227a0cf4a8c32496759a74031ddd73",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L2-6": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e044333dcbe92c57e85b8073ca19f356cde66304",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L2-7": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "f7ca535f9572b1bb079d506dd7186bea465a4d02",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.L3-7": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "331806e33f1a59e1523511b67e1632e8d2d165ca",
+   "score": 100.0,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.L3-9": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "f8ebfa4db74d3ef5b4b74439ba0b9b0af5830437",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.L4-3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f7e407f293b01f3b59ab681f462731458aa37ee1",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L4-7": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3bc06b430547496c4a3a09056d892b919db7145a",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L4-8": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "4957c89d7bb79b7876e3d32784b5ca0862c8cf30",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.L6-1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "260800d426619ea8397155bd465df4833ae49a71",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L6-3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "89627f9a6152712b80e1cf851e00aff5f5adcf51",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L6-4": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "b99309a7ee947dc058fb477c29fc2ce99578daac",
+   "score": 103.611,
+   "flags": [
+    "cer(asr-homophone)",
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.L7-1": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "33c734dcca5a624c0ef53c336bce9df3c4ecd0a4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.L7-3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "9f8111b018bf0c9e8348a3ac9ef6e65e0a8cdc39",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.i.L7-4": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "57fa07822b300dbf07dfd3ba3b7871b40e5f25aa",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.i.L7-5": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e283eb3752e6ff743eff5275e51c04c2ded0f691",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.intel.fan.count": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "2bc2c8cc72fbf8835b037f57f787267d155efbb3",
+   "score": 132.5,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "mc.intel.fan.tools": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "84d4f26956e52f2a2b6f22b1c22806aa7da87569",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.l5.intro": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "0c2727e9397578899ce8b65b99b032f0b0258ef4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.l7.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "5aa56a418615a48e5d6bd2e30e1746c2ebaa7ca5",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.l8.intro": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "95d54230bd1aefb878645a6d6430b887d001ea9a",
+   "score": 132.5,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.note.bigger.eng": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "824f9b991bd62addac3d6839c39ea00f1ae3f264",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.note.equal": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "5db1d48c282cae26268a7706026647dcaaf81a85",
+   "score": 0.769,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.note.flag": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "02f94983d86ef5d2a083202b7a257e6dc40b42fb",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.note.smaller": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "251e669d9d977d21fa4871b7329455683eb89269",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.ok.1": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "a94ccb940d71a40fefaf2e81477d7793e7267e56",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.ok.5": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "7c65a14f4ba8aea59b8e2d14e4eb40ccbdaf0b57",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.ok.6": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d5ea852cba2d9e7f48c69608a1260af42342708f",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.phy.handoff": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d80e6ee7eda678c8867587af3cb8e37a4505ba17",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.phy.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "99ed2253268ec37a487c336d715a9c326d4e905b",
+   "score": 0.454,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.ref.camp": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f6ecc2c8bab6f60480262681fee81f85d9296734",
+   "score": 1.25,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.ref.hidden.lose.eng": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "824f9b991bd62addac3d6839c39ea00f1ae3f264",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.ref.marshal.blue": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "c6aa5a0e32256befd19fb907b9cfed30e734309a",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.ref.mine": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "3f894fa31ab70de6424f661f47cfd86f95ea53cb",
+   "score": 0.08,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.ref.mine.clear": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "46063a47c842f46b4f3bd50db673d50baefe1d5b",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.ref.nomoves.lose": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "2bd7f93eb999feeda97eadca7d664b7da7564e9f",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.ref.nomoves.win": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "177f9874aa5ef06c0a77bd13bf6637c94f24b641",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.rep.bigwin": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "ab2952f3571165305588fd17a5ec74ca5e059506",
+   "score": 0.454,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.rep.bomb.kid": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "4c4bbeaea9216d9c89e7fa14640924e410897280",
+   "score": 0.416,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.rep.final": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "e3fd2571d2758c84ed1a3ed46741fc1b5073e98f",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.rep.guess": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "f34437669f3ed819afbb792533805b278f9afac8",
+   "score": 103.3,
+   "flags": [
+    "cer(asr-homophone)",
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.rule.3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "8276e3799d0ce3d4dd9f122ad7c88a58f780d5a7",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.rule.5": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fd4898359607d97f2ccd6c40065dc80f71a3f7b1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.rule.8": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c04d232a1bc4f702499d78615a6351a91b0681f0",
+   "score": 0.333,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.w.团长": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c42e93257ef6231cd7f0827eaee7fba6d52494b4",
+   "score": 242.5,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.w.山界": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "eedcd4ac47d62f695142971fed2e6d1d90b9d259",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.w.行营": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "9dc294b563ac7c438b0eb1e6d7957463b6d3eb4d",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.why.budget": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b9cf54f095fc901806820bbe3ab0d081b789ebd2",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.why.camp.safe": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "4e65b682abbe80a7c6ac4383631ffddbcd4b345d",
+   "score": 1.25,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.why.crossing": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3d915a4d380fd655f80719091c4b3b8c893fce32",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.why.deploy.bomb": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "e4828655057d4de4db4553662da487679f46dafa",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mc.why.deploy.flag": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "cf060921756d94528e8f673e5f5a9728528cb4f9",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.why.flaglock": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "787bc8cb792f9c044d186edeb17e891a3187e2c9",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.why.target": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "e1fd8e7657511079e40cfb3df7629a1552af7171",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mc.wrap.L5": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3efbd5145794df35ad2fa0761e618df2badbf6c8",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mc.wrap.L7": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c7e6ca86769ec13a8b740c034aa0d905121ade57",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  }
+ }
+}

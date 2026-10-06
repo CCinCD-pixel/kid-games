@@ -1,0 +1,752 @@
+{
+ "version": 2,
+ "stamp": "5658036afea36f9c",
+ "tiers": {
+  "1": "新兵残局",
+  "2": "攻守残局"
+ },
+ "puzzles": [
+  {
+   "id": "E1-01",
+   "tier": 1,
+   "title": "挖开大门",
+   "teaches": "军旗被三颗地雷围住：派工兵挖开一颗，再扛旗",
+   "idea": "dig",
+   "src": "pool 1-mixed #376",
+   "red": {
+    "b10": "1",
+    "b6": "2"
+   },
+   "blue": {
+    "b12": "F",
+    "a12": "M",
+    "c12": "M",
+    "b11": "M",
+    "b7": "4"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 2,
+   "first": [
+    "b10xb11"
+   ],
+   "legalFirst": 13,
+   "line": [
+    "b10xb11",
+    "b7-b8",
+    "b11xb12"
+   ],
+   "feats": [
+    "dig"
+   ],
+   "book": "books/E1-01.json",
+   "bookStats": {
+    "entries": 108,
+    "nodes": 54,
+    "memo": 6727,
+    "bytes": 5223
+   }
+  },
+  {
+   "id": "E1-02",
+   "tier": 1,
+   "title": "赶走守门的",
+   "teaches": "守门的子比你的小：吃掉它，再扛旗",
+   "idea": "capture",
+   "src": "pool 1-guard #844",
+   "red": {
+    "e8": "7",
+    "d10": "5"
+   },
+   "blue": {
+    "d12": "F",
+    "c12": "M",
+    "d11": "4",
+    "c8": "7"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 2,
+   "first": [
+    "d10xd11"
+   ],
+   "legalFirst": 18,
+   "line": [
+    "d10xd11",
+    "c8-c9",
+    "d11xd12"
+   ],
+   "feats": [
+    "capture"
+   ],
+   "book": "books/E1-02.json",
+   "bookStats": {
+    "entries": 96,
+    "nodes": 51,
+    "memo": 10194,
+    "bytes": 4375
+   }
+  },
+  {
+   "id": "E1-03",
+   "tier": 1,
+   "title": "工兵坐火车",
+   "teaches": "工兵沿铁路拐两个弯，一步到旗前",
+   "idea": "eng-run",
+   "src": "pool 1-mixed #48",
+   "red": {
+    "d7": "1",
+    "e8": "3"
+   },
+   "blue": {
+    "b12": "F",
+    "a12": "M",
+    "b8": "6"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 2,
+   "first": [
+    "d7-b11"
+   ],
+   "legalFirst": 41,
+   "line": [
+    "d7-b11",
+    "b8-a9",
+    "b11xb12"
+   ],
+   "feats": [
+    "eng-run",
+    "quiet",
+    "engineer-turn"
+   ],
+   "book": "books/E1-03.json",
+   "bookStats": {
+    "entries": 102,
+    "nodes": 40,
+    "memo": 18906,
+    "bytes": 3402
+   }
+  },
+  {
+   "id": "E1-04",
+   "tier": 1,
+   "title": "绕一大圈去挖雷",
+   "teaches": "左边的铁路被挡住了，工兵从右边绕一大圈去挖雷",
+   "idea": "dig-turn",
+   "src": "pool 1-mixed #241",
+   "red": {
+    "a4": "1",
+    "c4": "B"
+   },
+   "blue": {
+    "b12": "F",
+    "b11": "M",
+    "c12": "M",
+    "a12": "M",
+    "a10": "2"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 2,
+   "first": [
+    "a4xb11"
+   ],
+   "legalFirst": 41,
+   "line": [
+    "a4xb11",
+    "a10-a11",
+    "b11xb12"
+   ],
+   "feats": [
+    "dig",
+    "dig-turn",
+    "eng-run",
+    "engineer-turn"
+   ],
+   "book": "books/E1-04.json",
+   "bookStats": {
+    "entries": 84,
+    "nodes": 4,
+    "memo": 20476,
+    "bytes": 2032
+   }
+  },
+  {
+   "id": "E1-05",
+   "tier": 1,
+   "title": "让它没路走",
+   "teaches": "堵住它的路，逼它出来；吃掉最后一个能走的子，它就没棋可走了",
+   "idea": "nomoves",
+   "src": "pool 1-mixed #1209",
+   "red": {
+    "a6": "3",
+    "d9": "9"
+   },
+   "blue": {
+    "b12": "F",
+    "b11": "M",
+    "c12": "5"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 2,
+   "first": [
+    "d9-d10"
+   ],
+   "legalFirst": 18,
+   "line": [
+    "d9-d10",
+    "c12-c11",
+    "d10xc11"
+   ],
+   "feats": [
+    "camp",
+    "quiet",
+    "capture",
+    "nomoves"
+   ],
+   "book": "books/E1-05.json",
+   "bookStats": {
+    "entries": 63,
+    "nodes": 25,
+    "memo": 6025,
+    "bytes": 2784
+   }
+  },
+  {
+   "id": "E1-06",
+   "tier": 1,
+   "title": "炸弹开路",
+   "teaches": "炸弹和地雷一起下场，大门就开了",
+   "idea": "bomb-mine",
+   "src": "hand",
+   "red": {
+    "b10": "B",
+    "a11": "3"
+   },
+   "blue": {
+    "b12": "F",
+    "a12": "M",
+    "c12": "M",
+    "b11": "M",
+    "e8": "2"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "b10xb11"
+   ],
+   "legalFirst": 18,
+   "line": [
+    "b10xb11",
+    "e8-d8",
+    "a11-b11",
+    "d8-c9",
+    "b11xb12"
+   ],
+   "feats": [
+    "bomb-mine",
+    "quiet"
+   ],
+   "book": "books/E1-06.json",
+   "bookStats": {
+    "entries": 94,
+    "nodes": 44,
+    "memo": 36616,
+    "bytes": 9073
+   }
+  },
+  {
+   "id": "E1-07",
+   "tier": 1,
+   "title": "行营跳格子",
+   "teaches": "行营里谁也打不到：从一个行营跳到另一个，再冲到旗前",
+   "idea": "camp",
+   "src": "pool 1b-mixed #13043",
+   "red": {
+    "c6": "2",
+    "c9": "5"
+   },
+   "blue": {
+    "b12": "F",
+    "a12": "M",
+    "b9": "6",
+    "b7": "3"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "c9-b10"
+   ],
+   "legalFirst": 16,
+   "line": [
+    "c9-b10",
+    "b7-b8",
+    "b10-b11",
+    "b9-b10",
+    "b11xb12"
+   ],
+   "feats": [
+    "camp",
+    "quiet"
+   ],
+   "book": "books/E1-07.json",
+   "bookStats": {
+    "entries": 63,
+    "nodes": 21,
+    "memo": 42838,
+    "bytes": 1945
+   }
+  },
+  {
+   "id": "E1-08",
+   "tier": 1,
+   "title": "炸掉拦路的司令",
+   "teaches": "司令守着铁路：用炸弹换掉它，工兵再冲进去",
+   "idea": "bomb-guard",
+   "src": "pool 1b-mixed",
+   "red": {
+    "a4": "1",
+    "e9": "B"
+   },
+   "blue": {
+    "d12": "F",
+    "c12": "M",
+    "e12": "M",
+    "b7": "6",
+    "e11": "9"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "e9xe11"
+   ],
+   "legalFirst": 44,
+   "line": [
+    "e9xe11",
+    "b7-c7",
+    "a4-d11",
+    "c7-d8",
+    "d11xd12"
+   ],
+   "feats": [
+    "bomb-guard",
+    "eng-run",
+    "quiet",
+    "engineer-turn"
+   ],
+   "book": "books/E1-08.json",
+   "bookStats": {
+    "entries": 181,
+    "nodes": 69,
+    "memo": 167225,
+    "bytes": 7570
+   }
+  },
+  {
+   "id": "E2-01",
+   "tier": 2,
+   "title": "先守家",
+   "teaches": "敌人站到军旗旁边：先赶走它，再去扛旗",
+   "idea": "defend",
+   "src": "pool 2-defend",
+   "red": {
+    "d10": "2",
+    "d5": "B",
+    "d1": "F",
+    "c2": "8",
+    "d2": "M"
+   },
+   "blue": {
+    "d12": "F",
+    "c12": "M",
+    "e12": "M",
+    "c8": "7",
+    "c1": "7"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "c2xc1"
+   ],
+   "legalFirst": 22,
+   "line": [
+    "c2xc1",
+    "c8-c9",
+    "d10-d11",
+    "c9-d10",
+    "d11xd12"
+   ],
+   "feats": [
+    "defend",
+    "capture",
+    "quiet"
+   ],
+   "book": "books/E2-01.json",
+   "bookStats": {
+    "entries": 74,
+    "nodes": 23,
+    "memo": 120145,
+    "bytes": 2240
+   }
+  },
+  {
+   "id": "E2-02",
+   "tier": 2,
+   "title": "先上铁路",
+   "teaches": "工兵先走到铁路上，再沿铁路拐弯去挖雷",
+   "idea": "dig-turn",
+   "src": "pool 2-mixed #40503",
+   "red": {
+    "d9": "1",
+    "a5": "2",
+    "c6": "8",
+    "d1": "F"
+   },
+   "blue": {
+    "b12": "F",
+    "b11": "M",
+    "c12": "M",
+    "a12": "M",
+    "d7": "6"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "d9-e9"
+   ],
+   "legalFirst": 22,
+   "line": [
+    "d9-e9",
+    "d7-d8",
+    "e9xb11",
+    "d8-c9",
+    "b11xb12"
+   ],
+   "feats": [
+    "quiet",
+    "dig",
+    "dig-turn",
+    "eng-run",
+    "engineer-turn"
+   ],
+   "book": "books/E2-02.json",
+   "bookStats": {
+    "entries": 213,
+    "nodes": 87,
+    "memo": 235110,
+    "bytes": 7782
+   }
+  },
+  {
+   "id": "E2-03",
+   "tier": 2,
+   "title": "冲过去吃掉守卫",
+   "teaches": "军长沿铁路冲到旗边，吃掉守门的连长",
+   "idea": "capture",
+   "src": "pool 2-guard #60214",
+   "red": {
+    "a5": "1",
+    "a6": "8",
+    "b1": "F"
+   },
+   "blue": {
+    "b12": "F",
+    "c12": "M",
+    "b11": "3",
+    "b8": "7"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "a6-a11"
+   ],
+   "legalFirst": 41,
+   "line": [
+    "a6-a11",
+    "b8-a9",
+    "a11xb11",
+    "a9xa5",
+    "b11xb12"
+   ],
+   "feats": [
+    "rail",
+    "quiet",
+    "capture"
+   ],
+   "book": "books/E2-03.json",
+   "bookStats": {
+    "entries": 501,
+    "nodes": 255,
+    "memo": 162703,
+    "bytes": 24754
+   }
+  },
+  {
+   "id": "E2-04",
+   "tier": 2,
+   "title": "两段铁路",
+   "teaches": "先坐一段铁路，再换一条铁路，冲到旗前",
+   "idea": "rail",
+   "src": "pool 2-mixed #40613",
+   "red": {
+    "b4": "7",
+    "a5": "7",
+    "b1": "F"
+   },
+   "blue": {
+    "d12": "F",
+    "c12": "M",
+    "b7": "4"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "a5-a11"
+   ],
+   "legalFirst": 14,
+   "line": [
+    "a5-a11",
+    "b7-b8",
+    "a11-d11",
+    "b8-c9",
+    "d11xd12"
+   ],
+   "feats": [
+    "rail",
+    "quiet"
+   ],
+   "book": "books/E2-04.json",
+   "bookStats": {
+    "entries": 100,
+    "nodes": 54,
+    "memo": 10489,
+    "bytes": 6361
+   }
+  },
+  {
+   "id": "E2-05",
+   "tier": 2,
+   "title": "躲开司令去挖雷",
+   "teaches": "司令守着铁路：工兵先到角上，从旁边挖开一颗雷",
+   "idea": "dig",
+   "src": "pool 2-guard #60463",
+   "red": {
+    "a8": "1",
+    "c8": "4",
+    "b1": "F"
+   },
+   "blue": {
+    "b12": "F",
+    "a12": "M",
+    "c12": "M",
+    "b11": "M",
+    "e11": "9"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "a8-a11"
+   ],
+   "legalFirst": 34,
+   "line": [
+    "a8-a11",
+    "e11-c11",
+    "a11xa12",
+    "c11-b10",
+    "a12xb12"
+   ],
+   "feats": [
+    "rail",
+    "quiet",
+    "dig"
+   ],
+   "book": "books/E2-05.json",
+   "bookStats": {
+    "entries": 111,
+    "nodes": 37,
+    "memo": 18221,
+    "bytes": 5592
+   }
+  },
+  {
+   "id": "E2-06",
+   "tier": 2,
+   "title": "工兵快跑",
+   "teaches": "工兵一步跑到旗边，赶在司令前面扛旗",
+   "idea": "eng-run",
+   "src": "pool 2-guard #60652",
+   "red": {
+    "a6": "1",
+    "e4": "B",
+    "d1": "F"
+   },
+   "blue": {
+    "d12": "F",
+    "d11": "M",
+    "e12": "5",
+    "e11": "9"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "a6-c11"
+   ],
+   "legalFirst": 43,
+   "line": [
+    "a6-c11",
+    "e11-d10",
+    "c11-c12",
+    "d10-c11",
+    "c12xd12"
+   ],
+   "feats": [
+    "eng-run",
+    "quiet",
+    "engineer-turn"
+   ],
+   "book": "books/E2-06.json",
+   "bookStats": {
+    "entries": 106,
+    "nodes": 6,
+    "memo": 47975,
+    "bytes": 2603
+   }
+  },
+  {
+   "id": "E2-07",
+   "tier": 2,
+   "title": "小排长借道行营",
+   "teaches": "大官挡在前面：最小的排长从行营里溜过去",
+   "idea": "camp",
+   "src": "pool 1b-mixed #13291 + RED flag",
+   "red": {
+    "d8": "6",
+    "a9": "2",
+    "a7": "5",
+    "d1": "F"
+   },
+   "blue": {
+    "b12": "F",
+    "a12": "M",
+    "c12": "M",
+    "b9": "6",
+    "c9": "8"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "a9-b10"
+   ],
+   "legalFirst": 24,
+   "line": [
+    "a9-b10",
+    "b9-a9",
+    "b10-b11",
+    "a9xa7",
+    "b11xb12"
+   ],
+   "feats": [
+    "camp",
+    "quiet"
+   ],
+   "book": "books/E2-07.json",
+   "bookStats": {
+    "entries": 70,
+    "nodes": 10,
+    "memo": 325058,
+    "bytes": 1757
+   }
+  },
+  {
+   "id": "E2-08",
+   "tier": 2,
+   "title": "抢在军长前面",
+   "teaches": "对方军长离你家不远：一步也别浪费，炸开地雷马上扛旗",
+   "idea": "bomb-mine",
+   "src": "hand",
+   "red": {
+    "d10": "B",
+    "e11": "4",
+    "b1": "F",
+    "a1": "M",
+    "c1": "M"
+   },
+   "blue": {
+    "d12": "F",
+    "c12": "M",
+    "e12": "M",
+    "d11": "M",
+    "b4": "8"
+   },
+   "goal": {
+    "kind": "flag"
+   },
+   "blue_moves": "best",
+   "par": 3,
+   "first": [
+    "d10xd11"
+   ],
+   "legalFirst": 18,
+   "line": [
+    "d10xd11",
+    "b4-b5",
+    "e11-d11",
+    "b5-c6",
+    "d11xd12"
+   ],
+   "feats": [
+    "bomb-mine",
+    "quiet"
+   ],
+   "book": "books/E2-08.json",
+   "bookStats": {
+    "entries": 50,
+    "nodes": 14,
+    "memo": 18770,
+    "bytes": 1810
+   }
+  }
+ ]
+}

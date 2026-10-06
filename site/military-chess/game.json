@@ -1,13 +1,14 @@
 {
   "id": "military-chess",
-  "title": "军棋",
-  "subtitle": "翻翻棋，比比谁大",
-  "place": "classic",
-  "order": 50,
+  "title": "陆战棋",
+  "subtitle": "摆好阵地，扛回军旗",
+  "place": "base",
+  "order": 75,
   "status": "live",
-  "accent": "#7d8f34",
+  "accent": "--xg-army",
   "theme": "army",
   "icon": "/icons/games/military-chess.svg",
-  "domains": ["strategy"],
-  "parentNote": "旧版简化翻棋。会按标准陆战棋规则重写（人机 + 和爸爸同屏对战）。"
+  "domains": ["strategy", "planning", "social"],
+  "parentNote": "标准陆战棋（和家里实体棋同规则）：学堂、残局、人机天梯、和爸爸同屏或用实体棋 + iPad 裁判；练规则、路线和看不见时的推理。",
+  "smoke": { "waitFor": "#app[data-ready]" }
 }

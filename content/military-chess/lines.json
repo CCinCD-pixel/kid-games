@@ -1,0 +1,1712 @@
+[
+ {
+  "id": "mc.home.hello",
+  "role": "narrator",
+  "text": "欢迎来到陆战棋营地！"
+ },
+ {
+  "id": "mc.home.pick",
+  "role": "narrator",
+  "text": "今天想下哪一种？"
+ },
+ {
+  "id": "mc.home.resume",
+  "role": "companion",
+  "text": "上一局还没下完，接着下吗？"
+ },
+ {
+  "id": "mc.home.academy",
+  "role": "narrator",
+  "text": "学堂：一课一课学规则"
+ },
+ {
+  "id": "mc.home.battle",
+  "role": "narrator",
+  "text": "对战：和机器人比一比"
+ },
+ {
+  "id": "mc.home.family",
+  "role": "narrator",
+  "text": "和爸爸下：一起下一盘"
+ },
+ {
+  "id": "mc.home.puzzle",
+  "role": "narrator",
+  "text": "残局：几步扛到军旗"
+ },
+ {
+  "id": "mc.home.medals",
+  "role": "narrator",
+  "text": "你的勋章都在这里"
+ },
+ {
+  "id": "mc.home.rules",
+  "role": "narrator",
+  "text": "规则卡：忘了就来看看"
+ },
+ {
+  "id": "mc.home.today",
+  "role": "companion",
+  "text": "今天试试这个？"
+ },
+ {
+  "id": "mc.ft.1",
+  "role": "narrator",
+  "text": "数字越大，官越大"
+ },
+ {
+  "id": "mc.ft.2",
+  "role": "companion",
+  "text": "点团长，再点营长"
+ },
+ {
+  "id": "mc.ft.bigger",
+  "role": "companion",
+  "text": "它比团长大，派个更大的去"
+ },
+ {
+  "id": "mc.ft.ok",
+  "role": "companion",
+  "text": "大吃小，拿下了！"
+ },
+ {
+  "id": "mc.ft.choose",
+  "role": "companion",
+  "text": "哪个子比师长大？"
+ },
+ {
+  "id": "mc.ref.start",
+  "role": "companion",
+  "text": "演习开始！"
+ },
+ {
+  "id": "mc.ref.attack.win",
+  "role": "companion",
+  "text": "进攻的赢了！"
+ },
+ {
+  "id": "mc.ref.attack.lose",
+  "role": "companion",
+  "text": "防守的赢了！"
+ },
+ {
+  "id": "mc.ref.both",
+  "role": "companion",
+  "text": "一起下场！"
+ },
+ {
+  "id": "mc.ref.flag",
+  "role": "companion",
+  "text": "扛到军旗了！"
+ },
+ {
+  "id": "mc.ref.mine",
+  "role": "companion",
+  "text": "轰！碰到地雷了"
+ },
+ {
+  "id": "mc.ref.mine.clear",
+  "role": "companion",
+  "text": "工兵把地雷挖掉了！"
+ },
+ {
+  "id": "mc.ref.bomb",
+  "role": "companion",
+  "text": "炸弹响了，两个都下场"
+ },
+ {
+  "id": "mc.ref.marshal.red",
+  "role": "companion",
+  "text": "红方司令下场，亮出军旗！"
+ },
+ {
+  "id": "mc.ref.marshal.blue",
+  "role": "companion",
+  "text": "蓝方司令下场，亮出军旗！"
+ },
+ {
+  "id": "mc.ref.nomoves.win",
+  "role": "companion",
+  "text": "对方没有能走的棋了！"
+ },
+ {
+  "id": "mc.ref.nomoves.lose",
+  "role": "companion",
+  "text": "我们没有能走的棋了"
+ },
+ {
+  "id": "mc.ref.draw.quiet",
+  "role": "companion",
+  "text": "好久没有交手，这局和棋"
+ },
+ {
+  "id": "mc.ref.draw.both",
+  "role": "companion",
+  "text": "两边都不能走了，和棋"
+ },
+ {
+  "id": "mc.ref.quiet.draw",
+  "role": "companion",
+  "text": "再走十步不交手，就和棋啦"
+ },
+ {
+  "id": "mc.ref.quiet.count",
+  "role": "companion",
+  "text": "再走十步不交手，就清点兵力"
+ },
+ {
+  "id": "mc.ref.count.start",
+  "role": "companion",
+  "text": "好久没交手，我们来清点兵力"
+ },
+ {
+  "id": "mc.ref.camp",
+  "role": "companion",
+  "text": "行营里的子不能打"
+ },
+ {
+  "id": "mc.ref.hq",
+  "role": "companion",
+  "text": "大本营里的子不能动"
+ },
+ {
+  "id": "mc.ref.immobile",
+  "role": "companion",
+  "text": "地雷和军旗不会动"
+ },
+ {
+  "id": "mc.ref.rail.turn",
+  "role": "companion",
+  "text": "只有工兵能在铁路上拐弯"
+ },
+ {
+  "id": "mc.ref.mountain",
+  "role": "companion",
+  "text": "这里是山界，过不去"
+ },
+ {
+  "id": "mc.ref.shuttle",
+  "role": "companion",
+  "text": "来回走太多次了，换一步吧"
+ },
+ {
+  "id": "mc.ref.flaglock",
+  "role": "companion",
+  "text": "先挖光它的地雷，才能扛旗"
+ },
+ {
+  "id": "mc.ref.facedown",
+  "role": "companion",
+  "text": "暗子还没翻开，不能打"
+ },
+ {
+  "id": "mc.ref.turn.you",
+  "role": "companion",
+  "text": "轮到你了"
+ },
+ {
+  "id": "mc.ref.turn.ai",
+  "role": "companion",
+  "text": "机器人在想……"
+ },
+ {
+  "id": "mc.ref.youare.red",
+  "role": "companion",
+  "text": "你是红方"
+ },
+ {
+  "id": "mc.ref.youare.blue",
+  "role": "companion",
+  "text": "你是蓝方"
+ },
+ {
+  "id": "mc.ref.first.flip",
+  "role": "companion",
+  "text": "第一个翻开的是谁的颜色，你就是哪一方"
+ },
+ {
+  "id": "mc.ref.hidden.win",
+  "role": "companion",
+  "text": "你赢了！它比你的小"
+ },
+ {
+  "id": "mc.ref.hidden.lose",
+  "role": "companion",
+  "text": "它比你的大，或者是地雷"
+ },
+ {
+  "id": "mc.ref.hidden.lose.eng",
+  "role": "companion",
+  "text": "它比你的工兵大"
+ },
+ {
+  "id": "mc.ref.hidden.both",
+  "role": "companion",
+  "text": "一样大，或者有炸弹"
+ },
+ {
+  "id": "mc.ref.lastmove",
+  "role": "companion",
+  "text": "看，机器人刚才走了这一步"
+ },
+ {
+  "id": "mc.ref.enterhq",
+  "role": "companion",
+  "text": "进了大本营就出不来了，还走吗？"
+ },
+ {
+  "id": "mc.coach.fan.rail",
+  "role": "companion",
+  "text": "铁路上能一口气开很远"
+ },
+ {
+  "id": "mc.coach.fan.camp",
+  "role": "companion",
+  "text": "行营里的子打不到"
+ },
+ {
+  "id": "mc.coach.fan.mine",
+  "role": "companion",
+  "text": "翻到地雷了：它不会动"
+ },
+ {
+  "id": "mc.coach.fan.bomb",
+  "role": "companion",
+  "text": "翻到炸弹了：碰谁都一起下场"
+ },
+ {
+  "id": "mc.coach.fan.flag",
+  "role": "companion",
+  "text": "这是军旗：挖光地雷才能扛"
+ },
+ {
+  "id": "mc.coach.flag",
+  "role": "companion",
+  "text": "小心！军旗下一步会被扛走"
+ },
+ {
+  "id": "mc.coach.hang",
+  "role": "companion",
+  "text": "这个子会被对方的大子吃掉"
+ },
+ {
+  "id": "mc.coach.mine",
+  "role": "companion",
+  "text": "那里可能是地雷，换工兵试试？"
+ },
+ {
+  "id": "mc.coach.flip",
+  "role": "companion",
+  "text": "翻开它，旁边可能藏着大敌人"
+ },
+ {
+  "id": "mc.coach.guard",
+  "role": "companion",
+  "text": "军旗旁边空着，留个子守着吧"
+ },
+ {
+  "id": "mc.coach.go",
+  "role": "narrator",
+  "text": "还是走这步"
+ },
+ {
+  "id": "mc.coach.think",
+  "role": "narrator",
+  "text": "再想想"
+ },
+ {
+  "id": "mc.coach.ok",
+  "role": "companion",
+  "text": "好，按你的想法走"
+ },
+ {
+  "id": "mc.note.moved",
+  "role": "companion",
+  "text": "它走过：不是地雷，也不是军旗"
+ },
+ {
+  "id": "mc.note.eng",
+  "role": "companion",
+  "text": "它拐过弯：是工兵"
+ },
+ {
+  "id": "mc.note.bigger",
+  "role": "companion",
+  "text": "它比你那个子大，也可能是地雷"
+ },
+ {
+  "id": "mc.note.bigger.eng",
+  "role": "companion",
+  "text": "它比你的工兵大"
+ },
+ {
+  "id": "mc.note.smaller",
+  "role": "companion",
+  "text": "它比你那个子小"
+ },
+ {
+  "id": "mc.note.equal",
+  "role": "companion",
+  "text": "和你那个子一样大，或者是炸弹"
+ },
+ {
+  "id": "mc.note.mine",
+  "role": "companion",
+  "text": "它是地雷"
+ },
+ {
+  "id": "mc.note.flag",
+  "role": "companion",
+  "text": "这是它的军旗"
+ },
+ {
+  "id": "mc.note.unmoved",
+  "role": "companion",
+  "text": "后两排没动过的子，可能是地雷"
+ },
+ {
+  "id": "mc.intel.fan.mines",
+  "role": "companion",
+  "text": "这是对方还剩的地雷"
+ },
+ {
+  "id": "mc.intel.fan.tools",
+  "role": "companion",
+  "text": "这是你能挖雷的工兵和炸弹"
+ },
+ {
+  "id": "mc.intel.fan.count",
+  "role": "companion",
+  "text": "这是对方还没翻开的子"
+ },
+ {
+  "id": "mc.intel.an",
+  "role": "companion",
+  "text": "划掉的，是确定下场的子"
+ },
+ {
+  "id": "mc.intel.ming",
+  "role": "companion",
+  "text": "这些子已经下场了"
+ },
+ {
+  "id": "mc.hint.piece",
+  "role": "companion",
+  "text": "试试这个子"
+ },
+ {
+  "id": "mc.hint.where",
+  "role": "companion",
+  "text": "往这里走"
+ },
+ {
+  "id": "mc.hint.show",
+  "role": "companion",
+  "text": "看我走一遍"
+ },
+ {
+  "id": "mc.hint.twin",
+  "role": "companion",
+  "text": "换一道差不多的，你来"
+ },
+ {
+  "id": "mc.hint.again",
+  "role": "companion",
+  "text": "再试一次，换个子"
+ },
+ {
+  "id": "mc.hint.undo",
+  "role": "companion",
+  "text": "退一步，再想想"
+ },
+ {
+  "id": "mc.hint.back",
+  "role": "companion",
+  "text": "我们退回去，从这里再想想"
+ },
+ {
+  "id": "mc.hint.escaped",
+  "role": "companion",
+  "text": "它躲开了，我们重新摆好"
+ },
+ {
+  "id": "mc.l1.intro",
+  "role": "narrator",
+  "text": "数字越大，官越大"
+ },
+ {
+  "id": "mc.l1.rule",
+  "role": "companion",
+  "text": "大吃小，一样大一起下场"
+ },
+ {
+  "id": "mc.l2.intro",
+  "role": "narrator",
+  "text": "这几个子很特别"
+ },
+ {
+  "id": "mc.l2.rule",
+  "role": "companion",
+  "text": "炸弹碰谁都一起下场，地雷只怕工兵"
+ },
+ {
+  "id": "mc.lF.intro",
+  "role": "narrator",
+  "text": "翻翻棋：翻开棋子再打"
+ },
+ {
+  "id": "mc.lF.rule",
+  "role": "companion",
+  "text": "挖光它的地雷，才能扛旗"
+ },
+ {
+  "id": "mc.l3.intro",
+  "role": "narrator",
+  "text": "公路上一次走一格"
+ },
+ {
+  "id": "mc.l3.rule",
+  "role": "companion",
+  "text": "行营里的子，谁也打不了"
+ },
+ {
+  "id": "mc.l4.intro",
+  "role": "narrator",
+  "text": "铁路上能一口气开很远"
+ },
+ {
+  "id": "mc.l4.rule",
+  "role": "companion",
+  "text": "火车只走直线，不能跳过别人"
+ },
+ {
+  "id": "mc.l5.intro",
+  "role": "narrator",
+  "text": "工兵在铁路上会拐弯"
+ },
+ {
+  "id": "mc.l5.rule",
+  "role": "companion",
+  "text": "工兵沿着铁路去挖雷"
+ },
+ {
+  "id": "mc.l6.intro",
+  "role": "narrator",
+  "text": "守住军旗，才能赢"
+ },
+ {
+  "id": "mc.l6.rule",
+  "role": "companion",
+  "text": "对方没棋可走，也算赢"
+ },
+ {
+  "id": "mc.l7.intro",
+  "role": "narrator",
+  "text": "下棋前先摆好阵"
+ },
+ {
+  "id": "mc.l7.rule",
+  "role": "companion",
+  "text": "军旗进大本营，地雷放最后两排"
+ },
+ {
+  "id": "mc.l8.intro",
+  "role": "narrator",
+  "text": "看不见的子，也能猜出来"
+ },
+ {
+  "id": "mc.l8.rule",
+  "role": "companion",
+  "text": "裁判只说谁赢，不说是谁"
+ },
+ {
+  "id": "mc.f1.flip",
+  "role": "companion",
+  "text": "点亮的暗子，翻开它"
+ },
+ {
+  "id": "mc.f1.ai",
+  "role": "companion",
+  "text": "机器人翻到蓝子，它是蓝方"
+ },
+ {
+  "id": "mc.f1.take",
+  "role": "companion",
+  "text": "用团长吃掉营长"
+ },
+ {
+  "id": "mc.f1.done",
+  "role": "companion",
+  "text": "翻翻棋就是这样下的"
+ },
+ {
+  "id": "mc.f2.cant",
+  "role": "companion",
+  "text": "暗子还没翻开，不能打"
+ },
+ {
+  "id": "mc.f2.flip",
+  "role": "companion",
+  "text": "先把它翻开"
+ },
+ {
+  "id": "mc.f2.take",
+  "role": "companion",
+  "text": "翻开了，现在能打了"
+ },
+ {
+  "id": "mc.f3.flip",
+  "role": "companion",
+  "text": "翻开团长旁边的暗子"
+ },
+ {
+  "id": "mc.f3.lost",
+  "role": "companion",
+  "text": "是蓝方的师长，团长下场了"
+ },
+ {
+  "id": "mc.f3.tip",
+  "role": "companion",
+  "text": "大官旁边的暗子要小心"
+ },
+ {
+  "id": "mc.f3.far",
+  "role": "companion",
+  "text": "这次翻远一点的"
+ },
+ {
+  "id": "mc.btn.A",
+  "role": "word",
+  "text": "进攻的赢"
+ },
+ {
+  "id": "mc.btn.D",
+  "role": "word",
+  "text": "防守的赢"
+ },
+ {
+  "id": "mc.btn.B",
+  "role": "word",
+  "text": "一起下场"
+ },
+ {
+  "id": "mc.btn.F",
+  "role": "word",
+  "text": "扛到军旗"
+ },
+ {
+  "id": "mc.btn.intro",
+  "role": "companion",
+  "text": "选一个：谁会赢？"
+ },
+ {
+  "id": "mc.i.L1-1",
+  "role": "narrator",
+  "text": "九个军衔，从小到大排"
+ },
+ {
+  "id": "mc.i.L1-2",
+  "role": "narrator",
+  "text": "猜一猜：谁会赢？"
+ },
+ {
+  "id": "mc.i.L1-3",
+  "role": "narrator",
+  "text": "把两个蓝子都吃掉"
+ },
+ {
+  "id": "mc.i.L1-4",
+  "role": "narrator",
+  "text": "派谁去吃营长？"
+ },
+ {
+  "id": "mc.i.L1-5",
+  "role": "narrator",
+  "text": "把两个蓝子都拿下"
+ },
+ {
+  "id": "mc.i.L1-6",
+  "role": "narrator",
+  "text": "三个蓝子，派对的子去"
+ },
+ {
+  "id": "mc.i.L2-1",
+  "role": "narrator",
+  "text": "特别的子，谁会赢？"
+ },
+ {
+  "id": "mc.i.L2-2",
+  "role": "narrator",
+  "text": "用炸弹换掉司令"
+ },
+ {
+  "id": "mc.i.L2-3",
+  "role": "narrator",
+  "text": "谁去换掉军长？"
+ },
+ {
+  "id": "mc.i.L2-4",
+  "role": "narrator",
+  "text": "挖掉地雷，扛走军旗"
+ },
+ {
+  "id": "mc.i.L2-5",
+  "role": "narrator",
+  "text": "派谁去碰地雷？"
+ },
+ {
+  "id": "mc.i.L2-6",
+  "role": "narrator",
+  "text": "扛走军旗！"
+ },
+ {
+  "id": "mc.i.L2-7",
+  "role": "narrator",
+  "text": "派最近的子去扛旗"
+ },
+ {
+  "id": "mc.i.L2-8",
+  "role": "narrator",
+  "text": "炸开大门，扛走军旗"
+ },
+ {
+  "id": "mc.i.F-1",
+  "role": "narrator",
+  "text": "翻开一个暗子"
+ },
+ {
+  "id": "mc.i.F-2",
+  "role": "narrator",
+  "text": "去吃掉那个蓝子"
+ },
+ {
+  "id": "mc.i.F-3",
+  "role": "narrator",
+  "text": "翻开团长旁边的暗子"
+ },
+ {
+  "id": "mc.i.F-4",
+  "role": "narrator",
+  "text": "先挖雷，再扛旗"
+ },
+ {
+  "id": "mc.i.F-5",
+  "role": "narrator",
+  "text": "打开锁，扛走军旗"
+ },
+ {
+  "id": "mc.i.F-6",
+  "role": "narrator",
+  "text": "挖光地雷，扛走军旗"
+ },
+ {
+  "id": "mc.i.L3-1",
+  "role": "narrator",
+  "text": "走到星星那里"
+ },
+ {
+  "id": "mc.i.L3-2",
+  "role": "narrator",
+  "text": "过山界，到星星那里"
+ },
+ {
+  "id": "mc.i.L3-3",
+  "role": "narrator",
+  "text": "绕过山，到星星那里"
+ },
+ {
+  "id": "mc.i.L3-4",
+  "role": "narrator",
+  "text": "两步走到中间的行营"
+ },
+ {
+  "id": "mc.i.L3-5",
+  "role": "narrator",
+  "text": "军长要来了，快躲开"
+ },
+ {
+  "id": "mc.i.L3-6",
+  "role": "narrator",
+  "text": "司令来了，快躲开"
+ },
+ {
+  "id": "mc.i.L3-7",
+  "role": "narrator",
+  "text": "把闯进来的排长赶走"
+ },
+ {
+  "id": "mc.i.L3-8",
+  "role": "narrator",
+  "text": "去吃掉角落的排长"
+ },
+ {
+  "id": "mc.i.L3-9",
+  "role": "narrator",
+  "text": "三步走到星星那里"
+ },
+ {
+  "id": "mc.i.L4-1",
+  "role": "narrator",
+  "text": "坐火车开到星星"
+ },
+ {
+  "id": "mc.i.L4-2",
+  "role": "narrator",
+  "text": "谁能一步到星星？"
+ },
+ {
+  "id": "mc.i.L4-3",
+  "role": "narrator",
+  "text": "一步冲过去吃掉它"
+ },
+ {
+  "id": "mc.i.L4-4",
+  "role": "narrator",
+  "text": "前面有人挡，开到星星"
+ },
+ {
+  "id": "mc.i.L4-5",
+  "role": "narrator",
+  "text": "两个蓝子都吃掉"
+ },
+ {
+  "id": "mc.i.L4-6",
+  "role": "narrator",
+  "text": "换条铁路，开到星星"
+ },
+ {
+  "id": "mc.i.L4-7",
+  "role": "narrator",
+  "text": "开到星星，要拐弯哦"
+ },
+ {
+  "id": "mc.i.L4-8",
+  "role": "narrator",
+  "text": "开到星星，拐一次弯"
+ },
+ {
+  "id": "mc.i.L4-9",
+  "role": "narrator",
+  "text": "两个蓝子都吃掉"
+ },
+ {
+  "id": "mc.i.L5-1",
+  "role": "narrator",
+  "text": "工兵一步到星星"
+ },
+ {
+  "id": "mc.i.L5-2",
+  "role": "narrator",
+  "text": "谁能一步到星星？"
+ },
+ {
+  "id": "mc.i.L5-3",
+  "role": "narrator",
+  "text": "工兵绕过去，到星星"
+ },
+ {
+  "id": "mc.i.L5-4",
+  "role": "narrator",
+  "text": "挖掉地雷，扛走军旗"
+ },
+ {
+  "id": "mc.i.L5-5",
+  "role": "narrator",
+  "text": "绕过司令，扛走军旗"
+ },
+ {
+  "id": "mc.i.L5-6",
+  "role": "narrator",
+  "text": "绕过军长，扛走军旗"
+ },
+ {
+  "id": "mc.i.L5-7",
+  "role": "narrator",
+  "text": "炸开路，挖地雷，扛旗"
+ },
+ {
+  "id": "mc.i.L6-1",
+  "role": "narrator",
+  "text": "军旗危险！守住它"
+ },
+ {
+  "id": "mc.i.L6-2",
+  "role": "narrator",
+  "text": "打不过它？守住军旗"
+ },
+ {
+  "id": "mc.i.L6-3",
+  "role": "narrator",
+  "text": "军旗危险！快回来救"
+ },
+ {
+  "id": "mc.i.L6-4",
+  "role": "narrator",
+  "text": "让蓝方一步也走不了"
+ },
+ {
+  "id": "mc.i.L6-5",
+  "role": "narrator",
+  "text": "让蓝方没棋可走"
+ },
+ {
+  "id": "mc.i.L6-6",
+  "role": "narrator",
+  "text": "两个都吃掉，让它没棋走"
+ },
+ {
+  "id": "mc.i.L6-7",
+  "role": "narrator",
+  "text": "先守住，再扛旗"
+ },
+ {
+  "id": "mc.i.L7-1",
+  "role": "narrator",
+  "text": "把军旗放回家"
+ },
+ {
+  "id": "mc.i.L7-2",
+  "role": "narrator",
+  "text": "把地雷埋好"
+ },
+ {
+  "id": "mc.i.L7-3",
+  "role": "narrator",
+  "text": "把炸弹放进阵里"
+ },
+ {
+  "id": "mc.i.L7-4",
+  "role": "narrator",
+  "text": "把空的地方补好"
+ },
+ {
+  "id": "mc.i.L7-5",
+  "role": "narrator",
+  "text": "摆一个你自己的阵"
+ },
+ {
+  "id": "mc.i.L8-8",
+  "role": "narrator",
+  "text": "军旗亮了，去扛它"
+ },
+ {
+  "id": "mc.i.can",
+  "role": "narrator",
+  "text": "它可能是谁？"
+ },
+ {
+  "id": "mc.i.cannot",
+  "role": "narrator",
+  "text": "它不可能是谁？"
+ },
+ {
+  "id": "mc.i.endgame.2",
+  "role": "narrator",
+  "text": "两步之内扛走军旗"
+ },
+ {
+  "id": "mc.i.endgame.3",
+  "role": "narrator",
+  "text": "三步之内扛走军旗"
+ },
+ {
+  "id": "mc.i.endgame.4",
+  "role": "narrator",
+  "text": "四步之内扛走军旗"
+ },
+ {
+  "id": "mc.why.bigger",
+  "role": "companion",
+  "text": "它比你大，你的子下场了"
+ },
+ {
+  "id": "mc.why.equal",
+  "role": "companion",
+  "text": "一样大，一起下场"
+ },
+ {
+  "id": "mc.why.mine.die",
+  "role": "companion",
+  "text": "碰到地雷，只有工兵不下场"
+ },
+ {
+  "id": "mc.why.bomb",
+  "role": "companion",
+  "text": "炸弹碰谁都一起下场"
+ },
+ {
+  "id": "mc.why.rail.block",
+  "role": "companion",
+  "text": "铁路上不能跳过别的子"
+ },
+ {
+  "id": "mc.why.rail.turn",
+  "role": "companion",
+  "text": "拐弯要分两步走"
+ },
+ {
+  "id": "mc.why.camp.safe",
+  "role": "companion",
+  "text": "行营里的子打不到"
+ },
+ {
+  "id": "mc.why.hq",
+  "role": "companion",
+  "text": "大本营里的子不能动了"
+ },
+ {
+  "id": "mc.why.order",
+  "role": "companion",
+  "text": "数字小的排前面"
+ },
+ {
+  "id": "mc.why.flag.any",
+  "role": "companion",
+  "text": "谁都能扛军旗"
+ },
+ {
+  "id": "mc.why.flaglock",
+  "role": "companion",
+  "text": "它还有地雷，军旗锁着呢"
+ },
+ {
+  "id": "mc.why.deploy.flag",
+  "role": "companion",
+  "text": "军旗只能放在大本营"
+ },
+ {
+  "id": "mc.why.deploy.mine",
+  "role": "companion",
+  "text": "地雷只能放在最后两排"
+ },
+ {
+  "id": "mc.why.deploy.bomb",
+  "role": "companion",
+  "text": "炸弹不能放在第一排"
+ },
+ {
+  "id": "mc.why.deploy.camp",
+  "role": "companion",
+  "text": "行营开局要空着"
+ },
+ {
+  "id": "mc.why.deploy.keep",
+  "role": "companion",
+  "text": "这里要留给别的子"
+ },
+ {
+  "id": "mc.why.infer.win",
+  "role": "companion",
+  "text": "你赢了，所以它比你小"
+ },
+ {
+  "id": "mc.why.infer.lose",
+  "role": "companion",
+  "text": "它没动过，又赢了你，可能是地雷"
+ },
+ {
+  "id": "mc.why.infer.moved",
+  "role": "companion",
+  "text": "会走的子，不是地雷也不是军旗"
+ },
+ {
+  "id": "mc.why.infer.eng",
+  "role": "companion",
+  "text": "能拐弯的，只有工兵"
+ },
+ {
+  "id": "mc.why.infer.both",
+  "role": "companion",
+  "text": "一起下场：一样大，或者是炸弹"
+ },
+ {
+  "id": "mc.why.infer.reveal",
+  "role": "companion",
+  "text": "它的军旗亮了，下场的是司令"
+ },
+ {
+  "id": "mc.why.crossing",
+  "role": "companion",
+  "text": "只有三个路口能过山界"
+ },
+ {
+  "id": "mc.why.target",
+  "role": "companion",
+  "text": "它要先走到星星上才算"
+ },
+ {
+  "id": "mc.why.held",
+  "role": "companion",
+  "text": "这样蓝方能守住，退一步再想想"
+ },
+ {
+  "id": "mc.why.budget",
+  "role": "companion",
+  "text": "步数用完了，我们从头再来"
+ },
+ {
+  "id": "mc.why.flaglost",
+  "role": "companion",
+  "text": "我们的军旗被扛走了，退回去守住它"
+ },
+ {
+  "id": "mc.wrap.L1",
+  "role": "narrator",
+  "text": "告诉爸爸：数字大的官大，一样大一起下场"
+ },
+ {
+  "id": "mc.wrap.L2",
+  "role": "narrator",
+  "text": "考考爸爸：炸弹碰到司令会怎样？"
+ },
+ {
+  "id": "mc.wrap.F",
+  "role": "narrator",
+  "text": "告诉爸爸：翻翻棋要先挖光地雷，才能扛旗"
+ },
+ {
+  "id": "mc.wrap.L3",
+  "role": "narrator",
+  "text": "告诉爸爸：行营里的子谁也打不到"
+ },
+ {
+  "id": "mc.wrap.L4",
+  "role": "narrator",
+  "text": "告诉爸爸：火车只走直线，拐弯要分两步"
+ },
+ {
+  "id": "mc.wrap.L5",
+  "role": "narrator",
+  "text": "问问爸爸：哪个子能在铁路上拐弯？"
+ },
+ {
+  "id": "mc.wrap.L6",
+  "role": "narrator",
+  "text": "告诉爸爸：军旗旁边有敌人，先赶走它"
+ },
+ {
+  "id": "mc.wrap.L7",
+  "role": "narrator",
+  "text": "和爸爸比一比：谁的阵摆得好"
+ },
+ {
+  "id": "mc.wrap.L8",
+  "role": "narrator",
+  "text": "考考爸爸：一步拐了弯的是谁？"
+ },
+ {
+  "id": "mc.ok.1",
+  "role": "companion",
+  "text": "这步想得很周全"
+ },
+ {
+  "id": "mc.ok.2",
+  "role": "companion",
+  "text": "你先看了铁路，再出发"
+ },
+ {
+  "id": "mc.ok.3",
+  "role": "companion",
+  "text": "用对了子！"
+ },
+ {
+  "id": "mc.ok.4",
+  "role": "companion",
+  "text": "一步都没浪费"
+ },
+ {
+  "id": "mc.ok.5",
+  "role": "companion",
+  "text": "你守住了军旗"
+ },
+ {
+  "id": "mc.ok.6",
+  "role": "companion",
+  "text": "你从结果里猜出来了"
+ },
+ {
+  "id": "mc.ok.7",
+  "role": "companion",
+  "text": "摆好了，规矩都对"
+ },
+ {
+  "id": "mc.ok.8",
+  "role": "companion",
+  "text": "换了个办法，成了"
+ },
+ {
+  "id": "mc.end.win",
+  "role": "narrator",
+  "text": "演习胜利！你扛到了军旗"
+ },
+ {
+  "id": "mc.end.win.nomoves",
+  "role": "narrator",
+  "text": "演习胜利！对方没棋可走了"
+ },
+ {
+  "id": "mc.end.lose",
+  "role": "narrator",
+  "text": "这局对方扛到了军旗"
+ },
+ {
+  "id": "mc.end.lose.nomoves",
+  "role": "narrator",
+  "text": "这局我们没棋可走了"
+ },
+ {
+  "id": "mc.end.draw",
+  "role": "narrator",
+  "text": "和棋！谁也没扛到旗"
+ },
+ {
+  "id": "mc.end.count.win",
+  "role": "narrator",
+  "text": "清点兵力：你的兵力多，你赢了"
+ },
+ {
+  "id": "mc.end.count.lose",
+  "role": "narrator",
+  "text": "清点兵力：机器人多一点"
+ },
+ {
+  "id": "mc.end.count.draw",
+  "role": "narrator",
+  "text": "兵力一样多，和棋"
+ },
+ {
+  "id": "mc.end.report",
+  "role": "companion",
+  "text": "来看看这局的三个关键时刻"
+ },
+ {
+  "id": "mc.end.again",
+  "role": "narrator",
+  "text": "再来一局？"
+ },
+ {
+  "id": "mc.end.handicap",
+  "role": "companion",
+  "text": "要不要让机器人少一个军长？"
+ },
+ {
+  "id": "mc.end.handicap.2",
+  "role": "companion",
+  "text": "要不要让机器人少一个军长和一个师长？"
+ },
+ {
+  "id": "mc.end.levelup",
+  "role": "narrator",
+  "text": "下一个对手来了！"
+ },
+ {
+  "id": "mc.end.promote.0",
+  "role": "narrator",
+  "text": "你现在是工兵啦！"
+ },
+ {
+  "id": "mc.end.promote.1",
+  "role": "narrator",
+  "text": "晋升啦！你现在是排长"
+ },
+ {
+  "id": "mc.end.promote.2",
+  "role": "narrator",
+  "text": "晋升啦！你现在是连长"
+ },
+ {
+  "id": "mc.end.promote.3",
+  "role": "narrator",
+  "text": "晋升啦！你现在是营长"
+ },
+ {
+  "id": "mc.end.promote.4",
+  "role": "narrator",
+  "text": "晋升啦！你现在是团长"
+ },
+ {
+  "id": "mc.end.promote.5",
+  "role": "narrator",
+  "text": "晋升啦！你现在是旅长"
+ },
+ {
+  "id": "mc.end.promote.6",
+  "role": "narrator",
+  "text": "晋升啦！你现在是师长"
+ },
+ {
+  "id": "mc.end.promote.7",
+  "role": "narrator",
+  "text": "晋升啦！你现在是军长"
+ },
+ {
+  "id": "mc.end.promote.8",
+  "role": "narrator",
+  "text": "晋升啦！你现在是司令"
+ },
+ {
+  "id": "mc.end.reveal",
+  "role": "companion",
+  "text": "翻开看看，对方都摆在哪"
+ },
+ {
+  "id": "mc.end.stop",
+  "role": "companion",
+  "text": "今天的演习结束啦"
+ },
+ {
+  "id": "mc.rep.mine",
+  "role": "companion",
+  "text": "后两排没动过的子，可能是地雷"
+ },
+ {
+  "id": "mc.rep.bomb",
+  "role": "companion",
+  "text": "对方用炸弹换掉了你的大官"
+ },
+ {
+  "id": "mc.rep.bomb.kid",
+  "role": "companion",
+  "text": "你用炸弹换掉了对方的大官"
+ },
+ {
+  "id": "mc.rep.flagopen",
+  "role": "companion",
+  "text": "军旗旁边空了，被钻了空子"
+ },
+ {
+  "id": "mc.rep.rail",
+  "role": "companion",
+  "text": "对方从铁路一口气冲过来"
+ },
+ {
+  "id": "mc.rep.bigwin",
+  "role": "companion",
+  "text": "这一步吃掉了对方的大官"
+ },
+ {
+  "id": "mc.rep.trade",
+  "role": "companion",
+  "text": "一样大，一起下场了"
+ },
+ {
+  "id": "mc.rep.engineer",
+  "role": "companion",
+  "text": "工兵挖开了地雷"
+ },
+ {
+  "id": "mc.rep.camp",
+  "role": "companion",
+  "text": "躲进行营，保住了它"
+ },
+ {
+  "id": "mc.rep.lostbig",
+  "role": "companion",
+  "text": "你的大官在这里下场了"
+ },
+ {
+  "id": "mc.rep.final",
+  "role": "companion",
+  "text": "最后一步在这里"
+ },
+ {
+  "id": "mc.rep.guess",
+  "role": "companion",
+  "text": "看看你猜对了几个暗子"
+ },
+ {
+  "id": "mc.dep.intro",
+  "role": "narrator",
+  "text": "摆好你的阵"
+ },
+ {
+  "id": "mc.dep.template",
+  "role": "narrator",
+  "text": "选一个阵型"
+ },
+ {
+  "id": "mc.dep.swap",
+  "role": "narrator",
+  "text": "点两个子，它们换位置"
+ },
+ {
+  "id": "mc.dep.back",
+  "role": "companion",
+  "text": "点一下放好的子，可以拿回来"
+ },
+ {
+  "id": "mc.dep.ready",
+  "role": "narrator",
+  "text": "摆好了，开始！"
+ },
+ {
+  "id": "mc.dep.saved",
+  "role": "companion",
+  "text": "存好了"
+ },
+ {
+  "id": "mc.dep.random",
+  "role": "narrator",
+  "text": "随便摆一个"
+ },
+ {
+  "id": "mc.dep.t.balanced",
+  "role": "narrator",
+  "text": "平衡阵"
+ },
+ {
+  "id": "mc.dep.t.fortress",
+  "role": "narrator",
+  "text": "铁桶阵"
+ },
+ {
+  "id": "mc.dep.t.lightning",
+  "role": "narrator",
+  "text": "闪电阵"
+ },
+ {
+  "id": "mc.dep.t.mine",
+  "role": "narrator",
+  "text": "我的阵"
+ },
+ {
+  "id": "mc.fam.intro",
+  "role": "narrator",
+  "text": "和爸爸一起下"
+ },
+ {
+  "id": "mc.fam.mode",
+  "role": "narrator",
+  "text": "明棋、翻翻棋，还是用真棋下暗棋？"
+ },
+ {
+  "id": "mc.fam.first.kid",
+  "role": "narrator",
+  "text": "小步步先走"
+ },
+ {
+  "id": "mc.fam.first.kid.plain",
+  "role": "narrator",
+  "text": "小朋友先走"
+ },
+ {
+  "id": "mc.fam.first.dad",
+  "role": "narrator",
+  "text": "爸爸先走"
+ },
+ {
+  "id": "mc.fam.handicap",
+  "role": "narrator",
+  "text": "爸爸要让几个子？"
+ },
+ {
+  "id": "mc.fam.draw.offer",
+  "role": "companion",
+  "text": "要和棋吗？两个人都同意才算"
+ },
+ {
+  "id": "mc.fam.facetoface",
+  "role": "companion",
+  "text": "把平板平放在你们中间"
+ },
+ {
+  "id": "mc.fam.end",
+  "role": "companion",
+  "text": "这局结束啦，握握手吧"
+ },
+ {
+  "id": "mc.phy.intro",
+  "role": "companion",
+  "text": "我来当裁判，你们用真棋下"
+ },
+ {
+  "id": "mc.phy.att",
+  "role": "companion",
+  "text": "进攻的一方，悄悄点你的子"
+ },
+ {
+  "id": "mc.phy.handoff",
+  "role": "companion",
+  "text": "把平板交给防守的一方"
+ },
+ {
+  "id": "mc.phy.ready",
+  "role": "companion",
+  "text": "准备好了就按住按钮"
+ },
+ {
+  "id": "mc.phy.def",
+  "role": "companion",
+  "text": "防守的一方，悄悄点你的子"
+ },
+ {
+  "id": "mc.phy.res.att",
+  "role": "companion",
+  "text": "把防守方的子拿下来"
+ },
+ {
+  "id": "mc.phy.res.def",
+  "role": "companion",
+  "text": "把进攻方的子拿下来"
+ },
+ {
+  "id": "mc.phy.res.both",
+  "role": "companion",
+  "text": "两个子都拿下来"
+ },
+ {
+  "id": "mc.phy.res.flag",
+  "role": "companion",
+  "text": "扛到军旗了，进攻方赢！"
+ },
+ {
+  "id": "mc.phy.marshal",
+  "role": "companion",
+  "text": "司令下场了，亮出军旗吧"
+ },
+ {
+  "id": "mc.lad.pick",
+  "role": "narrator",
+  "text": "选一个对手"
+ },
+ {
+  "id": "mc.lad.fan",
+  "role": "narrator",
+  "text": "翻翻棋：翻开棋子再打"
+ },
+ {
+  "id": "mc.lad.ming",
+  "role": "narrator",
+  "text": "明棋：所有棋子都看得见"
+ },
+ {
+  "id": "mc.lad.an",
+  "role": "narrator",
+  "text": "暗棋：只看得见自己的子"
+ },
+ {
+  "id": "mc.lad.locked",
+  "role": "companion",
+  "text": "先赢下前一个对手"
+ },
+ {
+  "id": "mc.lad.lockedmode",
+  "role": "companion",
+  "text": "学完这一课，就能下这一种"
+ },
+ {
+  "id": "mc.eg.locked1",
+  "role": "companion",
+  "text": "学完工兵课，残局就开放了"
+ },
+ {
+  "id": "mc.eg.locked2",
+  "role": "companion",
+  "text": "新兵残局多过几关，这一档就开了"
+ },
+ {
+  "id": "mc.opp.1",
+  "role": "companion",
+  "text": "这是豆豆，它刚学会下棋"
+ },
+ {
+  "id": "mc.opp.2",
+  "role": "companion",
+  "text": "这是铁蛋，最爱坐铁路快车"
+ },
+ {
+  "id": "mc.opp.3",
+  "role": "companion",
+  "text": "这是雷达，最会找你的工兵"
+ },
+ {
+  "id": "mc.opp.4",
+  "role": "companion",
+  "text": "这是老将，会守旗也会换子"
+ },
+ {
+  "id": "mc.rule.1",
+  "role": "narrator",
+  "text": "数字大的官大，大吃小"
+ },
+ {
+  "id": "mc.rule.2",
+  "role": "narrator",
+  "text": "炸弹一起下场，地雷只怕工兵"
+ },
+ {
+  "id": "mc.rule.3",
+  "role": "narrator",
+  "text": "公路一次一格，三个路口过山界"
+ },
+ {
+  "id": "mc.rule.4",
+  "role": "narrator",
+  "text": "行营里打不到，大本营里不能动"
+ },
+ {
+  "id": "mc.rule.5",
+  "role": "narrator",
+  "text": "铁路直着开，工兵能拐弯"
+ },
+ {
+  "id": "mc.rule.6",
+  "role": "narrator",
+  "text": "扛到军旗就赢，司令下场亮军旗"
+ },
+ {
+  "id": "mc.rule.7",
+  "role": "narrator",
+  "text": "军旗进大本营，地雷放后两排"
+ },
+ {
+  "id": "mc.rule.8",
+  "role": "narrator",
+  "text": "翻翻棋：翻开定颜色，挖光地雷才扛旗"
+ },
+ {
+  "id": "mc.card.rail",
+  "role": "narrator",
+  "text": "真正的高铁一小时能跑三百多公里。"
+ },
+ {
+  "id": "mc.card.engineer",
+  "role": "narrator",
+  "text": "工兵会修桥、修路，帮大家清除危险。"
+ },
+ {
+  "id": "mc.card.flag",
+  "role": "narrator",
+  "text": "军旗代表一支队伍，大家一起守护它。"
+ },
+ {
+  "id": "mc.card.camp",
+  "role": "narrator",
+  "text": "行营是休整的地方，在棋里谁也打不到。"
+ },
+ {
+  "id": "mc.card.hq",
+  "role": "narrator",
+  "text": "大本营是指挥部，最重要的东西放在这里。"
+ },
+ {
+  "id": "mc.card.plan",
+  "role": "narrator",
+  "text": "下棋前摆阵，就像出发前先做计划。"
+ },
+ {
+  "id": "mc.card.referee",
+  "role": "narrator",
+  "text": "暗棋要有裁判：裁判只说结果，不说秘密。"
+ },
+ {
+  "id": "mc.card.mountain",
+  "role": "narrator",
+  "text": "山界只有三个路口，就像大山里只有几条路。"
+ },
+ {
+  "id": "mc.card.bomb",
+  "role": "narrator",
+  "text": "棋里的炸弹是棋子。生活里看到奇怪的东西，要告诉大人。"
+ },
+ {
+  "id": "mc.card.mine",
+  "role": "narrator",
+  "text": "地雷在棋里守着军旗，只有工兵能挖开。"
+ },
+ {
+  "id": "mc.card.family",
+  "role": "narrator",
+  "text": "陆战棋是很多中国家庭都会下的棋。"
+ },
+ {
+  "id": "mc.card.fair",
+  "role": "narrator",
+  "text": "下棋守规矩：不偷看，输赢都握握手。"
+ },
+ {
+  "id": "mc.w.工兵",
+  "role": "word",
+  "text": "工兵"
+ },
+ {
+  "id": "mc.w.排长",
+  "role": "word",
+  "text": "排长"
+ },
+ {
+  "id": "mc.w.连长",
+  "role": "word",
+  "text": "连长"
+ },
+ {
+  "id": "mc.w.营长",
+  "role": "word",
+  "text": "营长"
+ },
+ {
+  "id": "mc.w.团长",
+  "role": "word",
+  "text": "团长"
+ },
+ {
+  "id": "mc.w.旅长",
+  "role": "word",
+  "text": "旅长"
+ },
+ {
+  "id": "mc.w.师长",
+  "role": "word",
+  "text": "师长"
+ },
+ {
+  "id": "mc.w.军长",
+  "role": "word",
+  "text": "军长"
+ },
+ {
+  "id": "mc.w.司令",
+  "role": "word",
+  "text": "司令"
+ },
+ {
+  "id": "mc.w.炸弹",
+  "role": "word",
+  "text": "炸弹"
+ },
+ {
+  "id": "mc.w.地雷",
+  "role": "word",
+  "text": "地雷"
+ },
+ {
+  "id": "mc.w.军旗",
+  "role": "word",
+  "text": "军旗"
+ },
+ {
+  "id": "mc.w.行营",
+  "role": "word",
+  "text": "行营"
+ },
+ {
+  "id": "mc.w.大本营",
+  "role": "word",
+  "text": "大本营"
+ },
+ {
+  "id": "mc.w.铁路",
+  "role": "word",
+  "text": "铁路"
+ },
+ {
+  "id": "mc.w.公路",
+  "role": "word",
+  "text": "公路"
+ },
+ {
+  "id": "mc.w.山界",
+  "role": "word",
+  "text": "山界"
+ }
+]

@@ -1,0 +1,14 @@
+[
+ { "id": "mine", "title": "地雷", "line": "mc.card.mine", "art": "mine", "unlock": { "kind": "lesson", "id": "L2" } },
+ { "id": "mountain", "title": "山界", "line": "mc.card.mountain", "art": "mountain", "unlock": { "kind": "lesson", "id": "L3" } },
+ { "id": "rail", "title": "铁路", "line": "mc.card.rail", "art": "rail", "unlock": { "kind": "lesson", "id": "L4" } },
+ { "id": "engineer", "title": "工兵", "line": "mc.card.engineer", "art": "engineer", "unlock": { "kind": "lesson", "id": "L5" } },
+ { "id": "flag", "title": "军旗", "line": "mc.card.flag", "art": "flag", "unlock": { "kind": "lesson", "id": "L6" } },
+ { "id": "plan", "title": "摆阵", "line": "mc.card.plan", "art": "plan", "unlock": { "kind": "lesson", "id": "L7" } },
+ { "id": "bomb", "title": "炸弹", "line": "mc.card.bomb", "art": "bomb", "unlock": { "kind": "event", "id": "bomb-trade" } },
+ { "id": "camp", "title": "行营", "line": "mc.card.camp", "art": "camp", "unlock": { "kind": "event", "id": "camp-save" } },
+ { "id": "hq", "title": "大本营", "line": "mc.card.hq", "art": "hq", "unlock": { "kind": "event", "id": "flag-capture" } },
+ { "id": "referee", "title": "裁判", "line": "mc.card.referee", "art": "referee", "unlock": { "kind": "event", "id": "ladder-an" } },
+ { "id": "family", "title": "一家人", "line": "mc.card.family", "art": "family", "unlock": { "kind": "event", "id": "family" } },
+ { "id": "fair", "title": "守规矩", "line": "mc.card.fair", "art": "fair", "unlock": { "kind": "event", "id": "physical-game" } }
+]

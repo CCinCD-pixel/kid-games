@@ -1,0 +1,3290 @@
+{
+ "version": 2,
+ "stamp": "6f064606f834d6ba",
+ "lessons": [
+  {
+   "id": "L1",
+   "stepsFirst": true,
+   "title": "认军衔",
+   "icon": "rank",
+   "wrap": "告诉爸爸：数字大的官大，一样大一起下场",
+   "teaches": "九个军衔谁大谁小；大吃小，一样大一起下场",
+   "items": [
+    {
+     "id": "L1-1",
+     "type": "order",
+     "concept": "rank",
+     "role": "intro",
+     "title": "九个军衔排排队",
+     "teaches": "工兵最小，司令最大，看数字排",
+     "cards": [
+      "5",
+      "1",
+      "9",
+      "3",
+      "7",
+      "2",
+      "8",
+      "4",
+      "6"
+     ],
+     "dir": "asc",
+     "ghost": true,
+     "answer": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+     ]
+    },
+    {
+     "id": "L1-2",
+     "type": "compare",
+     "concept": "rank",
+     "role": "practice",
+     "title": "谁会赢",
+     "teaches": "大吃小；一样大一起下场",
+     "pairs": [
+      [
+       "8",
+       "6"
+      ],
+      [
+       "2",
+       "4"
+      ],
+      [
+       "5",
+       "5"
+      ],
+      [
+       "9",
+       "7"
+      ],
+      [
+       "1",
+       "3"
+      ],
+      [
+       "7",
+       "7"
+      ]
+     ],
+     "answers": [
+      "A",
+      "D",
+      "B",
+      "A",
+      "D",
+      "B"
+     ],
+     "buttons": [
+      "A",
+      "D",
+      "B"
+     ]
+    },
+    {
+     "id": "L1-3",
+     "type": "board",
+     "concept": "combat",
+     "also": [
+      "rank"
+     ],
+     "role": "intro",
+     "title": "派大的去",
+     "teaches": "用比它大的子去吃",
+     "red": {
+      "c6": "5",
+      "a6": "2"
+     },
+     "blue": {
+      "c7": "4",
+      "b7": "3",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "c7",
+       "b7"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "c6xc7"
+     ],
+     "legalFirst": 18,
+     "uniqueFirst": true,
+     "line": [
+      "c6xc7",
+      "…",
+      "c7xb7"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "c6xc7"
+      ],
+      "m": {
+       "c6xc7": {
+        "d": 1,
+        "b": [
+         "c7xb7"
+        ],
+        "m": {
+         "c7xb7": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L1-4",
+     "type": "board",
+     "concept": "combat",
+     "also": [
+      "rank"
+     ],
+     "role": "practice",
+     "title": "谁能吃掉它",
+     "teaches": "三个子都挨着它，只有团长比它大",
+     "red": {
+      "b5": "2",
+      "d5": "5",
+      "c6": "3"
+     },
+     "blue": {
+      "c5": "4",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "c5"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "first": [
+      "d5xc5"
+     ],
+     "legalFirst": 20,
+     "uniqueFirst": true,
+     "line": [
+      "d5xc5"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "d5xc5"
+      ],
+      "m": {
+       "d5xc5": "W"
+      }
+     }
+    },
+    {
+     "id": "L1-5",
+     "type": "board",
+     "concept": "combat",
+     "role": "practice",
+     "title": "一样大，一起下场",
+     "teaches": "一样大的两个子碰在一起，都下场",
+     "red": {
+      "a6": "6",
+      "c6": "5"
+     },
+     "blue": {
+      "a7": "6",
+      "c7": "4",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "a7",
+       "c7"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "a6xa7",
+      "c6xc7"
+     ],
+     "legalFirst": 14,
+     "uniqueFirst": false,
+     "line": [
+      "a6xa7",
+      "…",
+      "c6xc7"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "a6xa7",
+       "c6xc7"
+      ],
+      "m": {
+       "a6xa7": {
+        "d": 1,
+        "b": [
+         "c6xc7"
+        ],
+        "m": {
+         "c6xc7": "W"
+        }
+       },
+       "c6xc7": {
+        "d": 1,
+        "b": [
+         "a6xa7"
+        ],
+        "m": {
+         "a6xa7": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L1-6",
+     "type": "board",
+     "concept": "combat",
+     "role": "review",
+     "title": "看准了再派",
+     "teaches": "每个敌人都派一个比它大的去",
+     "red": {
+      "c6": "7",
+      "a6": "5",
+      "e6": "4"
+     },
+     "blue": {
+      "c7": "6",
+      "a7": "3",
+      "d7": "5",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "c7",
+       "a7",
+       "d7"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "c6xc7",
+      "a6xa7"
+     ],
+     "legalFirst": 24,
+     "uniqueFirst": false,
+     "line": [
+      "c6xc7",
+      "…",
+      "c7xd7",
+      "…",
+      "a6xa7"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "c6xc7",
+       "a6xa7"
+      ],
+      "m": {
+       "c6xc7": {
+        "d": 2,
+        "b": [
+         "c7xd7",
+         "a6xa7",
+         "c7xa7"
+        ],
+        "m": {
+         "c7xd7": {
+          "d": 1,
+          "b": [
+           "a6xa7",
+           "d7xa7"
+          ],
+          "m": {
+           "a6xa7": "W",
+           "d7xa7": "W"
+          }
+         },
+         "a6xa7": {
+          "d": 1,
+          "b": [
+           "c7xd7"
+          ],
+          "m": {
+           "c7xd7": "W"
+          }
+         },
+         "c7xa7": {
+          "d": 1,
+          "b": [
+           "a7xd7"
+          ],
+          "m": {
+           "a7xd7": "W"
+          }
+         }
+        }
+       },
+       "a6xa7": {
+        "d": 2,
+        "b": [
+         "c6xc7"
+        ],
+        "m": {
+         "c6xc7": {
+          "d": 1,
+          "b": [
+           "c7xd7"
+          ],
+          "m": {
+           "c7xd7": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "L2",
+   "stepsFirst": true,
+   "title": "炸弹、地雷和军旗",
+   "icon": "bomb",
+   "wrap": "考考爸爸：炸弹碰到司令会怎样？",
+   "teaches": "炸弹碰谁都一起下场；地雷只有工兵能挖；谁都能扛军旗",
+   "items": [
+    {
+     "id": "L2-1",
+     "type": "compare",
+     "concept": "bomb",
+     "also": [
+      "mine",
+      "flag"
+     ],
+     "role": "intro",
+     "title": "特别的子",
+     "teaches": "炸弹、地雷、军旗的规矩",
+     "pairs": [
+      [
+       "B",
+       "9"
+      ],
+      [
+       "9",
+       "M"
+      ],
+      [
+       "1",
+       "M"
+      ],
+      [
+       "B",
+       "M"
+      ],
+      [
+       "2",
+       "F"
+      ],
+      [
+       "5",
+       "M"
+      ]
+     ],
+     "ghost": true,
+     "answers": [
+      "B",
+      "D",
+      "A",
+      "B",
+      "F",
+      "D"
+     ],
+     "buttons": [
+      "A",
+      "D",
+      "B",
+      "F"
+     ]
+    },
+    {
+     "id": "L2-2",
+     "type": "board",
+     "concept": "bomb",
+     "role": "practice",
+     "title": "炸弹换司令",
+     "teaches": "炸弹碰到司令，一起下场",
+     "red": {
+      "c6": "B",
+      "a6": "3"
+     },
+     "blue": {
+      "c7": "9",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "c7"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "first": [
+      "c6xc7"
+     ],
+     "legalFirst": 18,
+     "uniqueFirst": true,
+     "line": [
+      "c6xc7"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "c6xc7"
+      ],
+      "m": {
+       "c6xc7": "W"
+      }
+     }
+    },
+    {
+     "id": "L2-3",
+     "type": "board",
+     "concept": "bomb",
+     "role": "practice",
+     "title": "谁去换军长",
+     "teaches": "对方大官闯进来，用炸弹换掉它",
+     "red": {
+      "b5": "B",
+      "d5": "5",
+      "c6": "2"
+     },
+     "blue": {
+      "c5": "8",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "c5"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "first": [
+      "b5xc5"
+     ],
+     "legalFirst": 20,
+     "uniqueFirst": true,
+     "line": [
+      "b5xc5"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "b5xc5"
+      ],
+      "m": {
+       "b5xc5": "W"
+      }
+     }
+    },
+    {
+     "id": "L2-4",
+     "type": "board",
+     "concept": "mine",
+     "role": "intro",
+     "title": "工兵挖地雷",
+     "teaches": "工兵碰地雷，地雷没了，工兵还在",
+     "red": {
+      "c11": "1",
+      "e11": "7"
+     },
+     "blue": {
+      "d12": "F",
+      "c12": "M",
+      "e12": "M",
+      "d11": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "c11xc12",
+      "c11xd11"
+     ],
+     "legalFirst": 46,
+     "uniqueFirst": false,
+     "line": [
+      "c11xc12",
+      "…",
+      "c12xd12"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "c11xc12",
+       "c11xd11"
+      ],
+      "m": {
+       "c11xc12": {
+        "d": 1,
+        "b": [
+         "c12xd12"
+        ],
+        "m": {
+         "c12xd12": "W"
+        }
+       },
+       "c11xd11": {
+        "d": 1,
+        "b": [
+         "d11xd12"
+        ],
+        "m": {
+         "d11xd12": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L2-5",
+     "type": "board",
+     "concept": "mine",
+     "role": "practice",
+     "title": "谁去碰地雷",
+     "teaches": "别的子碰地雷会下场，派工兵去",
+     "red": {
+      "a11": "8",
+      "c11": "1"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M",
+      "c12": "M",
+      "b11": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "c11xc12",
+      "c11xb11"
+     ],
+     "legalFirst": 46,
+     "uniqueFirst": false,
+     "line": [
+      "c11xc12",
+      "…",
+      "c12xb12"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "c11xc12",
+       "c11xb11"
+      ],
+      "m": {
+       "c11xc12": {
+        "d": 1,
+        "b": [
+         "c12xb12"
+        ],
+        "m": {
+         "c12xb12": "W"
+        }
+       },
+       "c11xb11": {
+        "d": 1,
+        "b": [
+         "b11xb12"
+        ],
+        "m": {
+         "b11xb12": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L2-6",
+     "type": "board",
+     "concept": "flag",
+     "role": "intro",
+     "title": "谁都能扛旗",
+     "teaches": "最小的子也能扛走军旗",
+     "red": {
+      "d11": "2"
+     },
+     "blue": {
+      "d12": "F",
+      "c12": "M",
+      "e12": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "ghost": true,
+     "first": [
+      "d11xd12"
+     ],
+     "legalFirst": 6,
+     "uniqueFirst": true,
+     "line": [
+      "d11xd12"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "d11xd12"
+      ],
+      "m": {
+       "d11xd12": "W"
+      }
+     }
+    },
+    {
+     "id": "L2-7",
+     "type": "board",
+     "concept": "flag",
+     "role": "practice",
+     "title": "近的先去",
+     "teaches": "离军旗近的子去扛，不一定派大的",
+     "red": {
+      "b10": "1",
+      "e8": "9"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M",
+      "c12": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "b10-b11"
+     ],
+     "legalFirst": 18,
+     "uniqueFirst": true,
+     "line": [
+      "b10-b11",
+      "…",
+      "b11xb12"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "b10-b11"
+      ],
+      "m": {
+       "b10-b11": {
+        "d": 1,
+        "b": [
+         "b11xb12"
+        ],
+        "m": {
+         "b11xb12": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L2-8",
+     "type": "board",
+     "concept": "bomb",
+     "also": [
+      "flag",
+      "mine"
+     ],
+     "role": "review",
+     "title": "炸弹开路",
+     "teaches": "炸弹换掉守门的司令，再扛旗",
+     "red": {
+      "d10": "B",
+      "c11": "8"
+     },
+     "blue": {
+      "d12": "F",
+      "c12": "M",
+      "e12": "M",
+      "d11": "9"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "d10xd11"
+     ],
+     "legalFirst": 13,
+     "uniqueFirst": true,
+     "line": [
+      "d10xd11",
+      "…",
+      "c11-d11",
+      "…",
+      "d11xd12"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "d10xd11"
+      ],
+      "m": {
+       "d10xd11": {
+        "d": 2,
+        "b": [
+         "c11-d11"
+        ],
+        "m": {
+         "c11-d11": {
+          "d": 1,
+          "b": [
+           "d11xd12"
+          ],
+          "m": {
+           "d11xd12": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "F",
+   "stepsFirst": true,
+   "title": "翻翻棋入门",
+   "icon": "flip",
+   "wrap": "告诉爸爸：翻翻棋要先挖光地雷，才能扛旗",
+   "teaches": "第一个翻开的颜色就是你；暗子不能打；挖光地雷才能扛旗",
+   "unlocks": "ladder:fan",
+   "items": [
+    {
+     "id": "F-1",
+     "type": "scene",
+     "concept": "fanflip",
+     "role": "intro",
+     "title": "翻开定颜色",
+     "teaches": "第一个翻开的子是什么颜色，你就是哪一方",
+     "setup": {
+      "down": {
+       "c6": "R5",
+       "c7": "B4",
+       "b6": "R2",
+       "d7": "B3",
+       "a7": "B1",
+       "e6": "R3"
+      }
+     },
+     "steps": [
+      {
+       "who": "kid",
+       "act": "flip c6",
+       "say": "mc.f1.flip"
+      },
+      {
+       "who": "ref",
+       "say": "mc.ref.youare.red"
+      },
+      {
+       "who": "ai",
+       "act": "flip c7",
+       "say": "mc.f1.ai"
+      },
+      {
+       "who": "kid",
+       "act": "c6xc7",
+       "say": "mc.f1.take",
+       "expect": "A"
+      },
+      {
+       "who": "ref",
+       "say": "mc.f1.done"
+      }
+     ],
+     "ghost": true,
+     "trace": [
+      "flip c6=R5",
+      "flip c7=B4",
+      "c6xc7:A"
+     ]
+    },
+    {
+     "id": "F-2",
+     "type": "scene",
+     "concept": "fanflip",
+     "role": "practice",
+     "title": "暗子不能打",
+     "teaches": "没翻开的子不能打，翻开以后才能打",
+     "setup": {
+      "up": {
+       "a3": "R7"
+      },
+      "down": {
+       "a4": "B2",
+       "d9": "B1",
+       "c10": "R4"
+      },
+      "kid": "red"
+     },
+     "steps": [
+      {
+       "who": "kid",
+       "act": "select a3",
+       "reject": "a4",
+       "say": "mc.f2.cant"
+      },
+      {
+       "who": "kid",
+       "act": "flip a4",
+       "say": "mc.f2.flip"
+      },
+      {
+       "who": "ai",
+       "act": "flip d9"
+      },
+      {
+       "who": "kid",
+       "act": "a3xa4",
+       "say": "mc.f2.take",
+       "expect": "A"
+      }
+     ],
+     "trace": [
+      "flip a4=B2",
+      "flip d9=B1",
+      "a3xa4:A"
+     ]
+    },
+    {
+     "id": "F-3",
+     "type": "scene",
+     "concept": "fanflip",
+     "role": "practice",
+     "title": "翻开要小心",
+     "teaches": "大官旁边的暗子可能是更大的敌人，先翻远一点的",
+     "setup": {
+      "up": {
+       "c6": "R5"
+      },
+      "down": {
+       "c7": "B7",
+       "a9": "R2",
+       "e10": "B3"
+      },
+      "kid": "red"
+     },
+     "steps": [
+      {
+       "who": "kid",
+       "act": "flip c7",
+       "say": "mc.f3.flip"
+      },
+      {
+       "who": "ai",
+       "act": "c7xc6",
+       "say": "mc.f3.lost",
+       "expect": "A"
+      },
+      {
+       "who": "ref",
+       "say": "mc.f3.tip"
+      },
+      {
+       "who": "kid",
+       "act": "flip a9",
+       "say": "mc.f3.far"
+      }
+     ],
+     "trace": [
+      "flip c7=B7",
+      "c7xc6:A",
+      "flip a9=R2"
+     ]
+    },
+    {
+     "id": "F-4",
+     "type": "board",
+     "mode": "fan",
+     "concept": "fanlock",
+     "role": "intro",
+     "title": "先挖地雷再扛旗",
+     "teaches": "翻翻棋里，对方的地雷挖光了，军旗才能扛",
+     "red": {
+      "b11": "1"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "ghost": true,
+     "first": [
+      "b11-a11"
+     ],
+     "legalFirst": 32,
+     "uniqueFirst": true,
+     "line": [
+      "b11-a11",
+      "…",
+      "a11xa12",
+      "…",
+      "a12xb12"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "b11-a11"
+      ],
+      "m": {
+       "b11-a11": {
+        "d": 2,
+        "b": [
+         "a11xa12"
+        ],
+        "m": {
+         "a11xa12": {
+          "d": 1,
+          "b": [
+           "a12xb12"
+          ],
+          "m": {
+           "a12xb12": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "F-5",
+     "type": "board",
+     "mode": "fan",
+     "concept": "fanlock",
+     "role": "practice",
+     "title": "炸弹也能开锁",
+     "teaches": "炸弹和地雷一起下场，锁也开了",
+     "red": {
+      "c11": "B",
+      "b11": "3"
+     },
+     "blue": {
+      "b12": "F",
+      "c12": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "c11xc12"
+     ],
+     "legalFirst": 8,
+     "uniqueFirst": true,
+     "line": [
+      "c11xc12",
+      "…",
+      "b11xb12"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "c11xc12"
+      ],
+      "m": {
+       "c11xc12": {
+        "d": 1,
+        "b": [
+         "b11xb12"
+        ],
+        "m": {
+         "b11xb12": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "F-6",
+     "type": "board",
+     "mode": "fan",
+     "concept": "fanlock",
+     "role": "review",
+     "title": "两颗雷都挖掉",
+     "teaches": "工兵挖一颗，炸弹换一颗，再扛旗",
+     "red": {
+      "a11": "1",
+      "c11": "B"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M",
+      "c12": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "a11xa12",
+      "c11xc12"
+     ],
+     "legalFirst": 39,
+     "uniqueFirst": false,
+     "line": [
+      "a11xa12",
+      "…",
+      "c11xc12",
+      "…",
+      "a12xb12"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "a11xa12",
+       "c11xc12"
+      ],
+      "m": {
+       "a11xa12": {
+        "d": 2,
+        "b": [
+         "c11xc12"
+        ],
+        "m": {
+         "c11xc12": {
+          "d": 1,
+          "b": [
+           "a12xb12"
+          ],
+          "m": {
+           "a12xb12": "W"
+          }
+         }
+        }
+       },
+       "c11xc12": {
+        "d": 2,
+        "b": [
+         "a11xa12"
+        ],
+        "m": {
+         "a11xa12": {
+          "d": 1,
+          "b": [
+           "a12xb12"
+          ],
+          "m": {
+           "a12xb12": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "L3",
+   "stepsFirst": true,
+   "title": "公路和行营",
+   "icon": "road",
+   "wrap": "告诉爸爸：行营里的子谁也打不到",
+   "teaches": "公路一次一步；只有三个路口过山界；行营斜着进出、里面打不到；大本营进去就不能动",
+   "items": [
+    {
+     "id": "L3-1",
+     "type": "board",
+     "concept": "road",
+     "role": "intro",
+     "title": "一步一步走",
+     "teaches": "公路上每次只走一格",
+     "red": {
+      "c3": "3"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "c5"
+      ],
+      "piece": "c3"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "c3-c4"
+     ],
+     "legalFirst": 4,
+     "uniqueFirst": true,
+     "line": [
+      "c3-c4",
+      "…",
+      "c4-c5"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "c3-c4"
+      ],
+      "m": {
+       "c3-c4": {
+        "d": 1,
+        "b": [
+         "c4-c5"
+        ],
+        "m": {
+         "c4-c5": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L3-2",
+     "type": "board",
+     "concept": "road",
+     "role": "practice",
+     "title": "过山界",
+     "teaches": "只有左、中、右三个路口能过山界",
+     "red": {
+      "b6": "3"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "b7"
+      ],
+      "piece": "b6"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "b6-a6",
+      "b6-c6",
+      "b6-e6"
+     ],
+     "legalFirst": 5,
+     "uniqueFirst": false,
+     "line": [
+      "b6-a6",
+      "…",
+      "a6-a7",
+      "…",
+      "a7-b7"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "b6-a6",
+       "b6-c6",
+       "b6-e6"
+      ],
+      "m": {
+       "b6-a6": {
+        "d": 2,
+        "b": [
+         "a6-a7"
+        ],
+        "m": {
+         "a6-a7": {
+          "d": 1,
+          "b": [
+           "a7-b7"
+          ],
+          "m": {
+           "a7-b7": "W"
+          }
+         }
+        }
+       },
+       "b6-c6": {
+        "d": 2,
+        "b": [
+         "c6-c7"
+        ],
+        "m": {
+         "c6-c7": {
+          "d": 1,
+          "b": [
+           "c7-b7"
+          ],
+          "m": {
+           "c7-b7": "W"
+          }
+         }
+        }
+       },
+       "b6-e6": {
+        "d": 2,
+        "b": [
+         "e6-e7"
+        ],
+        "m": {
+         "e6-e7": {
+          "d": 1,
+          "b": [
+           "e7-b7"
+          ],
+          "m": {
+           "e7-b7": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L3-3",
+     "type": "board",
+     "concept": "road",
+     "role": "practice",
+     "title": "绕到对面",
+     "teaches": "山挡住了，走旁边的路口",
+     "red": {
+      "d6": "2"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "d7"
+      ],
+      "piece": "d6"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "d6-c6",
+      "d6-e6",
+      "d6-a6"
+     ],
+     "legalFirst": 5,
+     "uniqueFirst": false,
+     "line": [
+      "d6-c6",
+      "…",
+      "c6-c7",
+      "…",
+      "c7-d7"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "d6-c6",
+       "d6-e6",
+       "d6-a6"
+      ],
+      "m": {
+       "d6-c6": {
+        "d": 2,
+        "b": [
+         "c6-c7"
+        ],
+        "m": {
+         "c6-c7": {
+          "d": 1,
+          "b": [
+           "c7-d7"
+          ],
+          "m": {
+           "c7-d7": "W"
+          }
+         }
+        }
+       },
+       "d6-e6": {
+        "d": 2,
+        "b": [
+         "e6-e7"
+        ],
+        "m": {
+         "e6-e7": {
+          "d": 1,
+          "b": [
+           "e7-d7"
+          ],
+          "m": {
+           "e7-d7": "W"
+          }
+         }
+        }
+       },
+       "d6-a6": {
+        "d": 2,
+        "b": [
+         "a6-a7"
+        ],
+        "m": {
+         "a6-a7": {
+          "d": 1,
+          "b": [
+           "a7-d7"
+          ],
+          "m": {
+           "a7-d7": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L3-4",
+     "type": "board",
+     "concept": "camp",
+     "role": "intro",
+     "title": "斜着走近路",
+     "teaches": "行营有斜线，可以斜着进出",
+     "red": {
+      "a6": "3"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "c4"
+      ],
+      "piece": "a6"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "a6-b5"
+     ],
+     "legalFirst": 14,
+     "uniqueFirst": true,
+     "line": [
+      "a6-b5",
+      "…",
+      "b5-c4"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "a6-b5"
+      ],
+      "m": {
+       "a6-b5": {
+        "d": 1,
+        "b": [
+         "b5-c4"
+        ],
+        "m": {
+         "b5-c4": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L3-5",
+     "type": "board",
+     "concept": "camp",
+     "role": "practice",
+     "title": "快躲进行营",
+     "teaches": "行营里的子不能被打；铁路上跑不掉",
+     "red": {
+      "b6": "2",
+      "d1": "F"
+     },
+     "blue": {
+      "a6": "8",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "survive",
+      "guard": "b6"
+     },
+     "blue_moves": "best",
+     "par": 1,
+     "first": [
+      "b6-b5"
+     ],
+     "legalFirst": 5,
+     "uniqueFirst": true,
+     "line": [
+      "b6-b5",
+      "a6-c6"
+     ]
+    },
+    {
+     "id": "L3-6",
+     "type": "board",
+     "concept": "camp",
+     "role": "practice",
+     "title": "司令来了",
+     "teaches": "躲进行营，大官也打不到你",
+     "red": {
+      "e4": "6",
+      "d4": "2",
+      "b1": "F"
+     },
+     "blue": {
+      "e2": "9",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "survive",
+      "guard": "e4"
+     },
+     "blue_moves": "best",
+     "par": 1,
+     "first": [
+      "e4-d5",
+      "e4-d3"
+     ],
+     "legalFirst": 14,
+     "uniqueFirst": false,
+     "line": [
+      "e4-d5",
+      "e2-e6"
+     ]
+    },
+    {
+     "id": "L3-7",
+     "type": "board",
+     "concept": "hq",
+     "role": "intro",
+     "title": "大本营不能动",
+     "teaches": "进了大本营的子再也不能动",
+     "red": {
+      "b1": "7",
+      "c3": "3"
+     },
+     "blue": {
+      "c1": "2",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "c1"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "c3-c2"
+     ],
+     "legalFirst": 4,
+     "uniqueFirst": true,
+     "line": [
+      "c3-c2",
+      "…",
+      "c2xc1"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "c3-c2"
+      ],
+      "m": {
+       "c3-c2": {
+        "d": 1,
+        "b": [
+         "c2xc1"
+        ],
+        "m": {
+         "c2xc1": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L3-8",
+     "type": "board",
+     "concept": "hq",
+     "role": "practice",
+     "title": "别进大本营",
+     "teaches": "走进大本营就出不来了，绕过去",
+     "red": {
+      "b2": "3"
+     },
+     "blue": {
+      "a1": "2",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "a1"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "b2-a2"
+     ],
+     "legalFirst": 6,
+     "uniqueFirst": true,
+     "line": [
+      "b2-a2",
+      "…",
+      "a2xa1"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "b2-a2"
+      ],
+      "m": {
+       "b2-a2": {
+        "d": 1,
+        "b": [
+         "a2xa1"
+        ],
+        "m": {
+         "a2xa1": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L3-9",
+     "type": "board",
+     "concept": "camp",
+     "role": "review",
+     "title": "借道行营",
+     "teaches": "斜线、路口一起用，找最近的路",
+     "red": {
+      "b4": "4"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "c7"
+      ],
+      "piece": "b4"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "b4-b5",
+      "b4-a4"
+     ],
+     "legalFirst": 4,
+     "uniqueFirst": false,
+     "line": [
+      "b4-b5",
+      "…",
+      "b5-c6",
+      "…",
+      "c6-c7"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "b4-b5",
+       "b4-a4"
+      ],
+      "m": {
+       "b4-b5": {
+        "d": 2,
+        "b": [
+         "b5-c6"
+        ],
+        "m": {
+         "b5-c6": {
+          "d": 1,
+          "b": [
+           "c6-c7"
+          ],
+          "m": {
+           "c6-c7": "W"
+          }
+         }
+        }
+       },
+       "b4-a4": {
+        "d": 2,
+        "b": [
+         "a4-a7"
+        ],
+        "m": {
+         "a4-a7": {
+          "d": 1,
+          "b": [
+           "a7-c7"
+          ],
+          "m": {
+           "a7-c7": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "L4",
+   "title": "坐火车",
+   "icon": "rail",
+   "wrap": "告诉爸爸：火车只走直线，拐弯要分两步",
+   "teaches": "铁路上直着开，格数不限；不能跳过别的子；不能拐弯",
+   "items": [
+    {
+     "id": "L4-1",
+     "type": "board",
+     "concept": "rail",
+     "role": "intro",
+     "title": "一口气开到头",
+     "teaches": "铁路上直着走，想走多远走多远",
+     "red": {
+      "a2": "7"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "a11"
+      ],
+      "piece": "a2"
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "ghost": true,
+     "first": [
+      "a2-a11"
+     ],
+     "legalFirst": 15,
+     "uniqueFirst": true,
+     "line": [
+      "a2-a11"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "a2-a11"
+      ],
+      "m": {
+       "a2-a11": "W"
+      }
+     }
+    },
+    {
+     "id": "L4-2",
+     "type": "board",
+     "concept": "rail",
+     "role": "practice",
+     "title": "派谁坐火车",
+     "teaches": "站在铁路上的子才能坐火车",
+     "red": {
+      "c3": "7",
+      "a2": "6"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "a10"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "first": [
+      "a2-a10"
+     ],
+     "legalFirst": 19,
+     "uniqueFirst": true,
+     "line": [
+      "a2-a10"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "a2-a10"
+      ],
+      "m": {
+       "a2-a10": "W"
+      }
+     }
+    },
+    {
+     "id": "L4-3",
+     "type": "board",
+     "concept": "rail",
+     "role": "practice",
+     "title": "开过山界",
+     "teaches": "铁路能穿过山界，一步冲到对面",
+     "red": {
+      "a3": "8"
+     },
+     "blue": {
+      "a10": "6",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "a10"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "first": [
+      "a3xa10"
+     ],
+     "legalFirst": 9,
+     "uniqueFirst": true,
+     "line": [
+      "a3xa10"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "a3xa10"
+      ],
+      "m": {
+       "a3xa10": "W"
+      }
+     }
+    },
+    {
+     "id": "L4-4",
+     "type": "board",
+     "concept": "railblock",
+     "role": "intro",
+     "title": "前面有人",
+     "teaches": "铁路上不能跳过别的子",
+     "red": {
+      "a2": "7",
+      "a5": "3"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "a10"
+      ],
+      "piece": "a2"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "a5-a11",
+      "a5-b5"
+     ],
+     "legalFirst": 17,
+     "uniqueFirst": false,
+     "line": [
+      "a5-a11",
+      "…",
+      "a2-a10"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "a5-a11",
+       "a5-b5"
+      ],
+      "m": {
+       "a5-a11": {
+        "d": 1,
+        "b": [
+         "a2-a10"
+        ],
+        "m": {
+         "a2-a10": "W"
+        }
+       },
+       "a5-b5": {
+        "d": 1,
+        "b": [
+         "a2-a10"
+        ],
+        "m": {
+         "a2-a10": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L4-5",
+     "type": "board",
+     "concept": "railblock",
+     "role": "practice",
+     "title": "先碰到谁",
+     "teaches": "铁路上冲过去，只能碰到第一个",
+     "red": {
+      "e2": "8"
+     },
+     "blue": {
+      "e8": "2",
+      "e9": "4",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "e8",
+       "e9"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "e2xe8"
+     ],
+     "legalFirst": 12,
+     "uniqueFirst": true,
+     "line": [
+      "e2xe8",
+      "…",
+      "e8xe9"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "e2xe8"
+      ],
+      "m": {
+       "e2xe8": {
+        "d": 1,
+        "b": [
+         "e8xe9"
+        ],
+        "m": {
+         "e8xe9": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L4-6",
+     "type": "board",
+     "concept": "railblock",
+     "role": "practice",
+     "title": "换一条铁路",
+     "teaches": "这条铁路被挡住了，换一条走",
+     "red": {
+      "a2": "6",
+      "a6": "3"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "e11"
+      ],
+      "piece": "a2"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "a2-e2"
+     ],
+     "legalFirst": 22,
+     "uniqueFirst": true,
+     "line": [
+      "a2-e2",
+      "…",
+      "e2-e11"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "a2-e2"
+      ],
+      "m": {
+       "a2-e2": {
+        "d": 1,
+        "b": [
+         "e2-e11"
+        ],
+        "m": {
+         "e2-e11": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L4-7",
+     "type": "board",
+     "concept": "railturn",
+     "role": "intro",
+     "title": "火车不拐弯",
+     "teaches": "一步只能走一条直线，拐弯要分两步",
+     "red": {
+      "a2": "6"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "e7"
+      ],
+      "piece": "a2"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "a2-a7",
+      "a2-e2"
+     ],
+     "legalFirst": 15,
+     "uniqueFirst": false,
+     "line": [
+      "a2-a7",
+      "…",
+      "a7-e7"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "a2-a7",
+       "a2-e2"
+      ],
+      "m": {
+       "a2-a7": {
+        "d": 1,
+        "b": [
+         "a7-e7"
+        ],
+        "m": {
+         "a7-e7": "W"
+        }
+       },
+       "a2-e2": {
+        "d": 1,
+        "b": [
+         "e2-e7"
+        ],
+        "m": {
+         "e2-e7": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L4-8",
+     "type": "board",
+     "concept": "railturn",
+     "role": "practice",
+     "title": "拐一次弯",
+     "teaches": "先直走，再换一条线",
+     "red": {
+      "e11": "5"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "a6"
+      ],
+      "piece": "e11"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "e11-a11",
+      "e11-e6"
+     ],
+     "legalFirst": 15,
+     "uniqueFirst": false,
+     "line": [
+      "e11-a11",
+      "…",
+      "a11-a6"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "e11-a11",
+       "e11-e6"
+      ],
+      "m": {
+       "e11-a11": {
+        "d": 1,
+        "b": [
+         "a11-a6"
+        ],
+        "m": {
+         "a11-a6": "W"
+        }
+       },
+       "e11-e6": {
+        "d": 1,
+        "b": [
+         "e6-a6"
+        ],
+        "m": {
+         "e6-a6": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L4-9",
+     "type": "board",
+     "concept": "railturn",
+     "role": "review",
+     "title": "铁路大追击",
+     "teaches": "想好先走哪条线、先吃哪一个",
+     "red": {
+      "a2": "8",
+      "e3": "5"
+     },
+     "blue": {
+      "c7": "7",
+      "e9": "4",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "capture",
+      "targets": [
+       "c7",
+       "e9"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "e3xe9",
+      "a2-a7"
+     ],
+     "legalFirst": 23,
+     "uniqueFirst": false,
+     "line": [
+      "e3xe9",
+      "…",
+      "a2-a7",
+      "…",
+      "a7xc7"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "e3xe9",
+       "a2-a7"
+      ],
+      "m": {
+       "e3xe9": {
+        "d": 2,
+        "b": [
+         "a2-a7"
+        ],
+        "m": {
+         "a2-a7": {
+          "d": 1,
+          "b": [
+           "a7xc7"
+          ],
+          "m": {
+           "a7xc7": "W"
+          }
+         }
+        }
+       },
+       "a2-a7": {
+        "d": 2,
+        "b": [
+         "a7xc7",
+         "e3xe9"
+        ],
+        "m": {
+         "a7xc7": {
+          "d": 1,
+          "b": [
+           "e3xe9"
+          ],
+          "m": {
+           "e3xe9": "W"
+          }
+         },
+         "e3xe9": {
+          "d": 1,
+          "b": [
+           "a7xc7"
+          ],
+          "m": {
+           "a7xc7": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "L5",
+   "title": "工兵",
+   "icon": "shovel",
+   "wrap": "问问爸爸：哪个子能在铁路上拐弯？",
+   "teaches": "工兵在铁路上能拐弯；工兵沿铁路去挖雷",
+   "items": [
+    {
+     "id": "L5-1",
+     "type": "board",
+     "concept": "engturn",
+     "role": "intro",
+     "title": "会拐弯的工兵",
+     "teaches": "工兵在铁路上能拐弯，一步到",
+     "red": {
+      "a2": "1"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "e7"
+      ],
+      "piece": "a2"
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "ghost": true,
+     "first": [
+      "a2-e7"
+     ],
+     "legalFirst": 33,
+     "uniqueFirst": true,
+     "line": [
+      "a2-e7"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "a2-e7"
+      ],
+      "m": {
+       "a2-e7": "W"
+      }
+     }
+    },
+    {
+     "id": "L5-2",
+     "type": "board",
+     "concept": "engturn",
+     "role": "practice",
+     "title": "谁先到",
+     "teaches": "远路要拐弯，派工兵最快",
+     "red": {
+      "a6": "1",
+      "c2": "7"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "e11"
+      ]
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "first": [
+      "a6-e11"
+     ],
+     "legalFirst": 39,
+     "uniqueFirst": true,
+     "line": [
+      "a6-e11"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "a6-e11"
+      ],
+      "m": {
+       "a6-e11": "W"
+      }
+     }
+    },
+    {
+     "id": "L5-3",
+     "type": "board",
+     "concept": "engturn",
+     "role": "practice",
+     "title": "绕过去",
+     "teaches": "路被挡住，工兵换一条铁路绕",
+     "red": {
+      "e2": "1",
+      "e5": "3"
+     },
+     "blue": {
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "reach",
+      "targets": [
+       "a11"
+      ],
+      "piece": "e2"
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "first": [
+      "e2-a11"
+     ],
+     "legalFirst": 41,
+     "uniqueFirst": true,
+     "line": [
+      "e2-a11"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "e2-a11"
+      ],
+      "m": {
+       "e2-a11": "W"
+      }
+     }
+    },
+    {
+     "id": "L5-4",
+     "type": "board",
+     "concept": "engdig",
+     "role": "intro",
+     "title": "坐火车去挖雷",
+     "teaches": "工兵沿铁路拐弯，直接去挖地雷",
+     "red": {
+      "a7": "1",
+      "e2": "7"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M",
+      "c12": "M",
+      "b11": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "ghost": true,
+     "first": [
+      "a7xb11"
+     ],
+     "legalFirst": 46,
+     "uniqueFirst": true,
+     "line": [
+      "a7xb11",
+      "…",
+      "b11xb12"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "a7xb11"
+      ],
+      "m": {
+       "a7xb11": {
+        "d": 1,
+        "b": [
+         "b11xb12"
+        ],
+        "m": {
+         "b11xb12": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L5-5",
+     "type": "board",
+     "concept": "engdig",
+     "role": "practice",
+     "title": "绕远路挖雷",
+     "teaches": "近路被挡住，工兵沿铁路绕一大圈",
+     "red": {
+      "e2": "1",
+      "c3": "7"
+     },
+     "blue": {
+      "d12": "F",
+      "c12": "M",
+      "e12": "M",
+      "d11": "M",
+      "e9": "9"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "e2xd11"
+     ],
+     "legalFirst": 35,
+     "uniqueFirst": true,
+     "line": [
+      "e2xd11",
+      "…",
+      "d11xd12"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "e2xd11"
+      ],
+      "m": {
+       "e2xd11": {
+        "d": 1,
+        "b": [
+         "d11xd12"
+        ],
+        "m": {
+         "d11xd12": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L5-6",
+     "type": "board",
+     "concept": "engdig",
+     "role": "practice",
+     "title": "工兵开门",
+     "teaches": "左边被挡住，从右边绕过去挖",
+     "red": {
+      "e5": "1"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M",
+      "c12": "M",
+      "b11": "M",
+      "a9": "8"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "e5xb11"
+     ],
+     "legalFirst": 30,
+     "uniqueFirst": true,
+     "line": [
+      "e5xb11",
+      "…",
+      "b11xb12"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "e5xb11"
+      ],
+      "m": {
+       "e5xb11": {
+        "d": 1,
+        "b": [
+         "b11xb12"
+        ],
+        "m": {
+         "b11xb12": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L5-7",
+     "type": "board",
+     "concept": "engdig",
+     "role": "review",
+     "title": "炸开一条路",
+     "teaches": "炸弹开路，工兵挖雷，再扛旗",
+     "red": {
+      "a6": "B",
+      "b6": "1"
+     },
+     "blue": {
+      "a9": "4",
+      "e9": "4",
+      "b12": "F",
+      "a12": "M",
+      "c12": "M",
+      "b11": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "a6xa9"
+     ],
+     "legalFirst": 32,
+     "uniqueFirst": true,
+     "line": [
+      "a6xa9",
+      "…",
+      "b6xb11",
+      "…",
+      "b11xb12"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "a6xa9"
+      ],
+      "m": {
+       "a6xa9": {
+        "d": 2,
+        "b": [
+         "b6xb11"
+        ],
+        "m": {
+         "b6xb11": {
+          "d": 1,
+          "b": [
+           "b11xb12"
+          ],
+          "m": {
+           "b11xb12": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "L6",
+   "title": "保护军旗",
+   "icon": "flag",
+   "wrap": "告诉爸爸：军旗旁边有敌人，先赶走它",
+   "teaches": "敌人挨着军旗要马上赶走；对方没棋可走也算赢",
+   "items": [
+    {
+     "id": "L6-1",
+     "type": "board",
+     "concept": "defend",
+     "role": "intro",
+     "title": "守住军旗",
+     "teaches": "敌人站到军旗旁边，马上赶走它",
+     "red": {
+      "b1": "F",
+      "a1": "M",
+      "c1": "M",
+      "c2": "3",
+      "a2": "7",
+      "e2": "B"
+     },
+     "blue": {
+      "b2": "5",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "survive",
+      "guard": "flag"
+     },
+     "blue_moves": "best",
+     "par": 1,
+     "ghost": true,
+     "first": [
+      "a2xb2"
+     ],
+     "legalFirst": 28,
+     "uniqueFirst": true,
+     "line": [
+      "a2xb2",
+      "…"
+     ]
+    },
+    {
+     "id": "L6-2",
+     "type": "board",
+     "concept": "defend",
+     "role": "practice",
+     "title": "炸弹守家",
+     "teaches": "打不过它，就用炸弹换掉它",
+     "red": {
+      "b1": "F",
+      "a1": "M",
+      "c1": "M",
+      "c2": "B",
+      "a2": "7"
+     },
+     "blue": {
+      "b2": "8",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "survive",
+      "guard": "flag"
+     },
+     "blue_moves": "best",
+     "par": 1,
+     "first": [
+      "c2xb2"
+     ],
+     "legalFirst": 17,
+     "uniqueFirst": true,
+     "line": [
+      "c2xb2",
+      "…"
+     ]
+    },
+    {
+     "id": "L6-3",
+     "type": "board",
+     "concept": "defend",
+     "role": "practice",
+     "title": "火车回家",
+     "teaches": "大官坐铁路回来救军旗",
+     "red": {
+      "d1": "F",
+      "c1": "M",
+      "e1": "M",
+      "a2": "9",
+      "e3": "3"
+     },
+     "blue": {
+      "d2": "6",
+      "b12": "F"
+     },
+     "goal": {
+      "kind": "survive",
+      "guard": "flag"
+     },
+     "blue_moves": "best",
+     "par": 1,
+     "first": [
+      "a2xd2"
+     ],
+     "legalFirst": 24,
+     "uniqueFirst": true,
+     "line": [
+      "a2xd2",
+      "…"
+     ]
+    },
+    {
+     "id": "L6-4",
+     "type": "board",
+     "concept": "nomoves",
+     "role": "intro",
+     "title": "没棋可走",
+     "teaches": "对方剩下的子都不能动，你就赢了",
+     "red": {
+      "e6": "5"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M",
+      "c12": "M",
+      "b11": "M",
+      "e9": "2"
+     },
+     "goal": {
+      "kind": "nomoves"
+     },
+     "blue_moves": "static",
+     "par": 1,
+     "ghost": true,
+     "first": [
+      "e6xe9"
+     ],
+     "legalFirst": 12,
+     "uniqueFirst": true,
+     "line": [
+      "e6xe9"
+     ],
+     "opt": {
+      "d": 1,
+      "b": [
+       "e6xe9"
+      ],
+      "m": {
+       "e6xe9": "W"
+      }
+     }
+    },
+    {
+     "id": "L6-5",
+     "type": "board",
+     "concept": "nomoves",
+     "also": [
+      "hq"
+     ],
+     "role": "practice",
+     "title": "大本营里的不算",
+     "teaches": "大本营里的子不能动，不算能走的子",
+     "red": {
+      "c6": "3"
+     },
+     "blue": {
+      "b12": "F",
+      "a12": "M",
+      "c12": "M",
+      "b11": "M",
+      "d12": "4",
+      "c8": "2"
+     },
+     "goal": {
+      "kind": "nomoves"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "c6-c7"
+     ],
+     "legalFirst": 8,
+     "uniqueFirst": true,
+     "line": [
+      "c6-c7",
+      "…",
+      "c7xc8"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "c6-c7"
+      ],
+      "m": {
+       "c6-c7": {
+        "d": 1,
+        "b": [
+         "c7xc8"
+        ],
+        "m": {
+         "c7xc8": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L6-6",
+     "type": "board",
+     "concept": "nomoves",
+     "role": "practice",
+     "title": "两个都吃掉",
+     "teaches": "把能动的子都吃掉，对方就没棋了",
+     "red": {
+      "a6": "6",
+      "e6": "5"
+     },
+     "blue": {
+      "d12": "F",
+      "c12": "M",
+      "e12": "M",
+      "d11": "M",
+      "a8": "2",
+      "e8": "3"
+     },
+     "goal": {
+      "kind": "nomoves"
+     },
+     "blue_moves": "static",
+     "par": 2,
+     "first": [
+      "e6xe8",
+      "a6xa8"
+     ],
+     "legalFirst": 20,
+     "uniqueFirst": false,
+     "line": [
+      "e6xe8",
+      "…",
+      "a6xa8"
+     ],
+     "opt": {
+      "d": 2,
+      "b": [
+       "e6xe8",
+       "a6xa8"
+      ],
+      "m": {
+       "e6xe8": {
+        "d": 1,
+        "b": [
+         "a6xa8"
+        ],
+        "m": {
+         "a6xa8": "W"
+        }
+       },
+       "a6xa8": {
+        "d": 1,
+        "b": [
+         "e6xe8"
+        ],
+        "m": {
+         "e6xe8": "W"
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L6-7",
+     "type": "board",
+     "concept": "defend",
+     "role": "review",
+     "title": "先守后攻",
+     "teaches": "先赶走军旗旁边的敌人，再去扛旗",
+     "red": {
+      "b1": "F",
+      "a1": "M",
+      "c1": "M",
+      "a2": "7",
+      "e7": "1"
+     },
+     "blue": {
+      "b2": "5",
+      "b8": "2",
+      "d12": "F",
+      "c12": "M",
+      "e12": "M",
+      "d11": "M"
+     },
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "best",
+     "par": 3,
+     "first": [
+      "a2xb2"
+     ],
+     "legalFirst": 42,
+     "uniqueFirst": true,
+     "line": [
+      "a2xb2",
+      "b8-c9",
+      "e7xd11",
+      "c9-d10",
+      "d11xd12"
+     ],
+     "book": "books/L6-7.json"
+    }
+   ]
+  },
+  {
+   "id": "L7",
+   "title": "布阵",
+   "icon": "deploy",
+   "wrap": "和爸爸比一比：谁的阵摆得好",
+   "teaches": "军旗在大本营；地雷在最后两排；炸弹不在第一排；行营空着",
+   "unlocks": "ladder:ming",
+   "items": [
+    {
+     "id": "L7-1",
+     "type": "deploy",
+     "concept": "deploy",
+     "role": "intro",
+     "title": "军旗回家",
+     "teaches": "军旗只能放在大本营",
+     "template": "balanced",
+     "blanks": [
+      [
+       6,
+       2
+      ],
+      [
+       6,
+       4
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     "place": [
+      "F",
+      "3",
+      "1"
+     ],
+     "ghost": true,
+     "legalFillings": 4,
+     "illegalFillings": 2,
+     "walkStates": 25,
+     "completabilityRejects": 9
+    },
+    {
+     "id": "L7-2",
+     "type": "deploy",
+     "concept": "deploy",
+     "role": "practice",
+     "title": "埋地雷",
+     "teaches": "地雷只能放在最后两排",
+     "template": "balanced",
+     "blanks": [
+      [
+       5,
+       2
+      ],
+      [
+       6,
+       1
+      ],
+      [
+       6,
+       3
+      ],
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       1
+      ]
+     ],
+     "place": [
+      "M",
+      "M",
+      "M",
+      "7",
+      "B",
+      "4"
+     ],
+     "legalFillings": 24,
+     "illegalFillings": 696,
+     "walkStates": 200,
+     "completabilityRejects": 661
+    },
+    {
+     "id": "L7-3",
+     "type": "deploy",
+     "concept": "deploy",
+     "role": "practice",
+     "title": "炸弹放哪里",
+     "teaches": "炸弹不能放在第一排",
+     "template": "balanced",
+     "blanks": [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       5,
+       5
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     "place": [
+      "B",
+      "B",
+      "2",
+      "1"
+     ],
+     "legalFillings": 12,
+     "illegalFillings": 12,
+     "walkStates": 69,
+     "completabilityRejects": 46
+    },
+    {
+     "id": "L7-4",
+     "type": "deploy",
+     "concept": "deploy",
+     "role": "practice",
+     "title": "补全阵地",
+     "teaches": "军旗、地雷、炸弹各有各的地方",
+     "template": "fortress",
+     "blanks": [
+      [
+       6,
+       4
+      ],
+      [
+       6,
+       3
+      ],
+      [
+       5,
+       4
+      ],
+      [
+       3,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "place": [
+      "F",
+      "M",
+      "M",
+      "B",
+      "2"
+     ],
+     "legalFillings": 2,
+     "illegalFillings": 118,
+     "walkStates": 32,
+     "completabilityRejects": 132
+    },
+    {
+     "id": "L7-5",
+     "type": "deploy-full",
+     "concept": "deploy",
+     "role": "review",
+     "title": "我的第一个阵",
+     "teaches": "选一个阵型，换一换，存起来",
+     "minSwaps": 1
+    }
+   ]
+  },
+  {
+   "id": "L8",
+   "title": "猜暗子",
+   "icon": "eye",
+   "wrap": "考考爸爸：一步拐了弯的是谁？",
+   "teaches": "看不见的子，也能从裁判的结果里猜出来",
+   "unlocks": "ladder:an",
+   "items": [
+    {
+     "id": "L8-1",
+     "type": "infer",
+     "concept": "infer",
+     "role": "intro",
+     "title": "你赢了它",
+     "teaches": "你赢了，它比你小",
+     "events": [
+      {
+       "my": "5",
+       "act": "attack",
+       "outcome": "A"
+      }
+     ],
+     "ask": "can",
+     "options": [
+      "2",
+      "7",
+      "M"
+     ],
+     "ghost": true,
+     "answer": "2"
+    },
+    {
+     "id": "L8-2",
+     "type": "infer",
+     "concept": "infer",
+     "role": "practice",
+     "title": "一起下场",
+     "teaches": "一起下场：一样大，或者是炸弹",
+     "events": [
+      {
+       "my": "6",
+       "act": "attack",
+       "outcome": "B"
+      }
+     ],
+     "ask": "can",
+     "options": [
+      "6|B",
+      "8",
+      "M"
+     ],
+     "answer": "6|B"
+    },
+    {
+     "id": "L8-3",
+     "type": "infer",
+     "concept": "infer",
+     "role": "practice",
+     "title": "撞上了什么",
+     "teaches": "它从来没动，你的大官撞上它下场了",
+     "events": [
+      {
+       "unmoved": true,
+       "backRow": true
+      },
+      {
+       "my": "7",
+       "act": "attack",
+       "outcome": "D"
+      }
+     ],
+     "ask": "can",
+     "options": [
+      "M",
+      "1",
+      "3"
+     ],
+     "answer": "M"
+    },
+    {
+     "id": "L8-4",
+     "type": "infer",
+     "concept": "infer",
+     "role": "practice",
+     "title": "它走过",
+     "teaches": "会走的子不是地雷也不是军旗",
+     "events": [
+      {
+       "moved": true
+      }
+     ],
+     "ask": "cannot",
+     "options": [
+      "M",
+      "4",
+      "1"
+     ],
+     "answer": "M"
+    },
+    {
+     "id": "L8-5",
+     "type": "infer",
+     "concept": "infer",
+     "role": "practice",
+     "title": "拐弯的火车",
+     "teaches": "在铁路上拐弯的一定是工兵",
+     "events": [
+      {
+       "moved": true,
+       "from": "a7",
+       "to": "e11"
+      }
+     ],
+     "ask": "can",
+     "options": [
+      "1",
+      "9",
+      "B"
+     ],
+     "answer": "1"
+    },
+    {
+     "id": "L8-6",
+     "type": "infer",
+     "concept": "reveal",
+     "role": "intro",
+     "title": "军旗亮了",
+     "teaches": "对方的军旗亮出来，说明它的司令下场了",
+     "events": [
+      {
+       "my": "B",
+       "act": "attack",
+       "outcome": "B",
+       "flagShown": true
+      }
+     ],
+     "ask": "can",
+     "options": [
+      "9",
+      "M",
+      "1"
+     ],
+     "ghost": true,
+     "answer": "9"
+    },
+    {
+     "id": "L8-7",
+     "type": "infer",
+     "concept": "reveal",
+     "role": "practice",
+     "title": "是司令还是炸弹",
+     "teaches": "一起下场后对方军旗亮了：它是司令",
+     "events": [
+      {
+       "my": "9",
+       "act": "attack",
+       "outcome": "B",
+       "flagShown": true
+      }
+     ],
+     "ask": "can",
+     "options": [
+      "9",
+      "B",
+      "M"
+     ],
+     "answer": "9"
+    },
+    {
+     "id": "L8-8",
+     "type": "board",
+     "mode": "an",
+     "concept": "reveal",
+     "role": "practice",
+     "title": "去扛亮出来的军旗",
+     "teaches": "军旗亮了就去扛，别碰没动过的暗子",
+     "red": {
+      "a6": "6"
+     },
+     "blue": {
+      "d12": "F",
+      "c12": "M",
+      "e12": "M",
+      "b12": "M"
+     },
+     "hidden": [
+      "c12",
+      "e12",
+      "b12"
+     ],
+     "flagShown": true,
+     "goal": {
+      "kind": "flag"
+     },
+     "blue_moves": "static",
+     "par": 3,
+     "first": [
+      "a6-a11"
+     ],
+     "legalFirst": 14,
+     "uniqueFirst": true,
+     "line": [
+      "a6-a11",
+      "…",
+      "a11-d11",
+      "…",
+      "d11xd12"
+     ],
+     "opt": {
+      "d": 3,
+      "b": [
+       "a6-a11"
+      ],
+      "m": {
+       "a6-a11": {
+        "d": 2,
+        "b": [
+         "a11-d11"
+        ],
+        "m": {
+         "a11-d11": {
+          "d": 1,
+          "b": [
+           "d11xd12"
+          ],
+          "m": {
+           "d11xd12": "W"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "id": "L8-9",
+     "type": "infer",
+     "concept": "infer",
+     "role": "review",
+     "title": "两条线索",
+     "teaches": "把两条线索放在一起想",
+     "events": [
+      {
+       "moved": true
+      },
+      {
+       "my": "3",
+       "act": "attack",
+       "outcome": "D"
+      }
+     ],
+     "ask": "can",
+     "options": [
+      "4",
+      "2",
+      "M"
+     ],
+     "answer": "4"
+    }
+   ]
+  }
+ ]
+}
