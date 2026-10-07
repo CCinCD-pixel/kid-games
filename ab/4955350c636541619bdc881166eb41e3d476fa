@@ -1,0 +1,66 @@
+site/snake-battle/validate/v3-lead.test.ts
+  s_0eb5d4e8842e10::t_c92ead9e38bade 1-48
+site/snake-battle/src/app.ts
+  s_0eb5d4e8842e10::t_23c2ade0c0a46c 248
+  s_0eb5d4e8842e10::t_82f7d856807e6c 33-38,485,492,562,814,816
+  s_0eb5d4e8842e10::t_5b6bd2f1c66efc 358-359,667-668,671-678
+  s_0eb5d4e8842e10::t_ec4565edd222d9 511,513,519,525
+  s_0eb5d4e8842e10::t_c7b9317be54948 181
+  s_0eb5d4e8842e10::t_d9b8731cb4b229 319-320,325,329
+  s_0eb5d4e8842e10::t_2a1cc9db8d8863 168,189
+  s_0eb5d4e8842e10::t_82076744aa840b 42-43
+site/snake-battle/src/render/view.ts
+  s_0eb5d4e8842e10::t_c328bcc9cf128c 277-283,321
+  s_0eb5d4e8842e10::t_aa8fb9f1f276c8 10,83
+site/snake-battle/src/hud.ts
+  s_0eb5d4e8842e10::t_8cf0e3959b7f3d 158,160-161,165-166,176-187
+  s_0eb5d4e8842e10::t_a569ed6f6b3161 118-120,150,159,162-164
+site/snake-battle/src/screens.ts
+  s_0eb5d4e8842e10::t_afce84f6ce5f01 9,175-181
+  s_0eb5d4e8842e10::t_a973a2674f9d7a 101,155
+site/snake-battle/tests/perf.spec.ts
+  s_0eb5d4e8842e10::t_a973a2674f9d7a 59-61
+site/snake-battle/validate/save-migrate.test.ts
+  s_0eb5d4e8842e10::t_8ca64632786cdf 59-101
+site/snake-battle/tests/play.spec.ts
+  s_0eb5d4e8842e10::t_f59c5057705aa0 282-298
+site/snake-battle/src/match.ts
+  s_0eb5d4e8842e10::t_ec4565edd222d9 256-258
+  s_0eb5d4e8842e10::t_5b6bd2f1c66efc 72,136,148-149
+site/snake-battle/src/screens2.ts
+  s_0eb5d4e8842e10::t_82076744aa840b 72-82,187,193,197,203-204,209-215
+site/snake-battle/src/save.ts
+  s_0eb5d4e8842e10::t_4f724449a5b351 37-39,123-129,181-182,186,189-200,202-206
+  s_0eb5d4e8842e10::t_424c79568cfc50 170-172
+site/snake-battle/validate/budget.test.ts
+  s_0eb5d4e8842e10::t_b958f34a764e9a 56-84
+site/snake-battle/src/styles.css
+  s_0eb5d4e8842e10::t_159e363e300042 567-568
+  s_0eb5d4e8842e10::t_fec453bb19cb19 571-576
+  s_0eb5d4e8842e10::t_c7b9317be54948 534-547
+  s_0eb5d4e8842e10::t_e496bb44b570db 379,421
+  s_0eb5d4e8842e10::t_82076744aa840b 548-551
+  s_0eb5d4e8842e10::t_afce84f6ce5f01 552-566,569-570
+site/snake-battle/src/render/art.ts
+  s_0eb5d4e8842e10::t_aa8fb9f1f276c8 49-50,54-63
+tools/snake-battle/shots-r5.mjs
+  s_0eb5d4e8842e10::t_b1fffe1ed7173f 35
+site/snake-battle/tests/shots.spec.ts
+  s_0eb5d4e8842e10::t_2a1cc9db8d8863 17-18,85,89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "ab4955350c636541619bdc881166eb41e3d476fa",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
