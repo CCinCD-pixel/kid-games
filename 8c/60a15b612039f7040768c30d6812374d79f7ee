@@ -1,0 +1,21 @@
+content/military-chess/stamp.json
+  s_0eb5d4e8842e10::t_b90b3f340821c4 4
+site/military-chess/tests/military-chess.spec.ts
+  s_0eb5d4e8842e10::t_5b176dbb89bf57 343-344
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "8c60a15b612039f7040768c30d6812374d79f7ee",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
