@@ -57,7 +57,9 @@ export async function shot(page: Page, info: TestInfo, name: string): Promise<vo
 /** console errors / page errors collector (asserted empty at the end of a test) */
 export function watchErrors(page: Page): string[] {
   const errors: string[] = [];
-  page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
+  // WebKit reports a fetch that a reload cancels while it goes through the service worker (production build) as an
+  // "access control checks" page error; the game catches it (audio.ts loadSprite().catch) and the player never sees it
+  page.on('pageerror', (e) => { if (!/due to access control checks/.test(e.message)) errors.push(`pageerror: ${e.message}`); });
   page.on('console', (m) => { if (m.type() === 'error') errors.push(`console: ${m.text().slice(0, 300)}`); });
   return errors;
 }
@@ -67,6 +69,7 @@ export async function boot(page: Page, o: { save?: Record<string, unknown>; scal
   await page.goto('/emoji-match/?test=1');
   await page.waitForSelector('#app[data-ready]', { timeout: 20000 });
   if (!o.keep) {
+    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});   // let the sfx sprite fetch finish first
     await page.evaluate(() => { localStorage.removeItem('kg:v1:emoji-match'); });
     await page.reload();
     await page.waitForSelector('#app[data-ready]', { timeout: 20000 });
