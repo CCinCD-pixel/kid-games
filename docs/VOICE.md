@@ -79,10 +79,36 @@ pipeline is built so that cannot happen again; keep it that way:
 
 | engine | model | licence | role |
 |---|---|---|---|
-| `qwen3` (default) | Qwen3-TTS-12Hz 0.6B CustomVoice, mlx-community 8-bit | Apache-2.0 | product voice: narrator = Serena, companion = Vivian + robot fx (comb echo, light bit-crush, +3 % pitch) |
+| `qwen3` (default) | Qwen3-TTS-12Hz 0.6B CustomVoice, mlx-community 8-bit | Apache-2.0 | product voice: narrator = Serena, companion = Vivian + robot fx (comb echo, light bit-crush, +3 % pitch), dad = Uncle_Fu, luban = Dylan (see below) |
 | `kokoro` | Kokoro-82M v1.1-zh int8 (sherpa-onnx, CPU) | Apache-2.0 | light fallback, sentences only (fails on 1–2 syllable words) |
 | `say` | macOS Tingting | Apple system voice | previews only, not a product voice |
 | `cloud` | stub with SSML phoneme locks | — | the seam for a paid voice |
+
+### Roles
+
+`role:` on a line picks the voice preset (`tools/voice/voice/config.py` `ROLES`; every engine has a preset per role):
+
+| role | who | qwen3 preset |
+|---|---|---|
+| `narrator` | story narrator, tap-to-read sentences | Serena, tempo 0.9 |
+| `companion` | the robot companion | Vivian + `ROBOT` fx, pitch 1.03, tempo 0.97 |
+| `word` | tap-to-read words | Serena, tempo 0.9 |
+| `dad` | 墨子 / Dad's lines until his recordings exist (`overrides/`) | Uncle_Fu (older, low, mellow) |
+| `luban` | 鲁班, gear-fort's respected rival master-craftsman | Dylan, pitch 0.96 + `WARM` fx (150 Hz chest warmth +2.5 dB, 2.5 kHz presence +1.5 dB) |
+
+`luban` was chosen on 2026-10-08 by an ASR + pace audition of the four male speakers on 鲁班 lines (Uncle_Fu as
+reference): Dylan in his own Beijing codec read 8/9 lines with no wrong syllable (the ninth = the 铜犀 ASR bias in Known limits); Dylan forced to 普通话, Eric (Sichuan,
+forced to 普通话) and Ryan (English native, accent: 沙盘→傻胖) each misread or babbled at least one. Dylan is a young,
+confident voice; −4 % pitch and the warm EQ make him a mature, cheerful master, clearly not 墨子. A preset may set
+`"dialect": False` (qwen3 only) to keep a dialect speaker's timbre but ask the model for standard Mandarin.
+His Beijing flavour stays light on these lines (no added 儿 in any ASR transcript of the 48 clips), so `luban` keeps it.
+
+Part files: `<game>.<part>.yaml` next to `<game>.yaml` (same `game:`) are merged into that game's build and manifest —
+gear-fort keeps 鲁班 in `content/gear-fort/narration.luban.yaml`, staged as `narration/gear-fort.luban.yaml` beside
+`gear-fort.yaml` (gear-fort's content lives in its own folder; its build uses a staging dir of symlinks:
+`~/kid-games-work/voice-stage/gear-fort/narration/{gear-fort.yaml,gear-fort.luban.yaml,_takes,_lexicon.yaml,overrides}`
+→ `voice.sh build --game gear-fort --content ~/kid-games-work/voice-stage/gear-fort --out <repo> --prune`).
+`build-repo.sh` skips part files when it lists games.
 
 Swap = one class in `tools/voice/voice/engines/` (`load`, `synth(text, role, seed)`, voice presets,
 version) + `--engine <name>`. File names are content-addressed (text, role, engine, version,
@@ -104,6 +130,11 @@ estimated from pauses and syllable counts (the bundled ASR returns no timestamps
 
 - Qwen3 0.6B samples: ~1 line in 4 needs a re-roll (mumbled lead-in, repeated word, 星港 heard
   as 香港). QC catches these; still listen to new lines once.
+- Rare characters: the 0.6B model may misread a rare character; give the line a `norm:` with a same-sound common
+  character (gear-fort: 檑木 → 雷木, 铜犀 → 铜溪/铜锡); the subtitle keeps the real text.
+- ASR language-model bias can flag a correct take: 「我的铜犀冲车……」 is always heard as 「我的同期……」 (a common
+  word), yet the same audio cut after 我的 is heard 同西 — checked by segment ASR on 2026-10-08. Such a line stays
+  hard-flagged in the report with its best take shipped; check it by ear once.
 - The ASR cannot confirm which reading a polyphone got when it writes the same character back;
   lock tricky words in `_lexicon.yaml` or with `pinyin:` on the line.
 - Lines containing the child's name use the default 小步步. Content that addresses the child by

@@ -21,6 +21,7 @@ class MacOSSay(Engine):
         "companion": {"synth": {"voice": "Tingting", "rate": 185}, "post": {"pitch": 1.05, "fx": ROBOT}},
         "word": {"synth": {"voice": "Tingting", "rate": 150}, "post": {}},
         "dad": {"synth": {"voice": "Tingting", "rate": 170}, "post": {"pitch": 0.85}},
+        "luban": {"synth": {"voice": "Tingting", "rate": 180}, "post": {"pitch": 0.8}},
     }
 
     def __init__(self):

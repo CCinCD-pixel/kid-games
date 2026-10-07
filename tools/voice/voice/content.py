@@ -4,7 +4,7 @@ game: hub
 seed: 1234                       # optional, default seed for every line of this file
 lines:
   - id: hub.greet.morning        # unique, no whitespace
-    role: companion              # narrator | companion | word | dad
+    role: companion              # narrator | companion | word | dad | luban
     text: 早上好，小步步！         # subtitle text (spoken unless norm/speakText is given)
     norm: ...                    # optional: what the engine reads (alias: speakText)
     pinyin: {还书: huán shū}      # optional polyphone locks (alias: polyphoneLocks); site-wide: _lexicon.yaml
@@ -14,6 +14,9 @@ lines:
 words:                           # tap-to-read words -> ids "<game>.w.<word>", role word
   - 长大
   - {text: 行, pinyin: háng, id: story.w.hang}
+
+Part files <game>.<part>.yaml next to it (same `game:`) are merged into the same game and manifest,
+e.g. gear-fort.luban.yaml keeps one character's lines in their own file.
 """
 from __future__ import annotations
 import re
@@ -97,8 +100,15 @@ def load(game: str, content_dir: Path | None = None) -> tuple[dict, list[Item]]:
     doc = yaml.safe_load(path.read_text("utf-8")) or {}
     if doc.get("game", game) != game:
         raise SystemExit(f"{path}: game: {doc.get('game')} != {game}")
+    # part files <game>.<part>.yaml (e.g. gear-fort.luban.yaml: one character's lines kept in their own file)
+    # merge into the same game -> one manifest; each part may set its own seed / role default.
+    docs = [doc]
+    for part in sorted(path.parent.glob(f"{game}.*.yaml")):
+        pd = yaml.safe_load(part.read_text("utf-8")) or {}
+        if pd.get("game", game) != game:
+            raise SystemExit(f"{part}: game: {pd.get('game')} != {game}")
+        docs.append(pd)
     lex = _lexicon(content_dir)
-    base_seed = int(doc.get("seed", 1234))
     overrides_dir = content_dir / "narration" / "overrides"
     items, errors, seen = [], [], set()
 
@@ -120,7 +130,10 @@ def load(game: str, content_dir: Path | None = None) -> tuple[dict, list[Item]]:
                 break
         items.append(it)
 
-    for ln in doc.get("lines") or []:
+    lines = [(ln, d) for d in docs for ln in (d.get("lines") or [])]
+    words = [(w, d) for d in docs for w in (d.get("words") or [])]
+    for ln, d in lines:
+        base_seed = int(d.get("seed", doc.get("seed", 1234)))
         lid, text = str(ln.get("id", "")), str(ln.get("text", "")).strip()
         if not lid or not text:
             errors.append(f"line without id/text: {ln}")
@@ -138,11 +151,12 @@ def load(game: str, content_dir: Path | None = None) -> tuple[dict, list[Item]]:
         except ValueError as e:
             errors.append(f"{lid}: {e}")
             own, ov = {}, {}
-        add(Item(id=lid, role=str(ln.get("role", doc.get("role", "narrator"))), text=text, spoken=sp,
+        add(Item(id=lid, role=str(ln.get("role", d.get("role", doc.get("role", "narrator")))), text=text, spoken=sp,
                  overrides=ov, forced=frozenset(own), seed=int(ln.get("seed", base_seed)),
                  speed=float(ln.get("speed", 1.0)), notes=ln.get("notes"), templated=templated))
 
-    for w in doc.get("words") or []:
+    for w, d in words:
+        base_seed = int(d.get("seed", doc.get("seed", 1234)))
         if isinstance(w, str):
             w = {"text": w}
         text = str(w["text"]).strip()

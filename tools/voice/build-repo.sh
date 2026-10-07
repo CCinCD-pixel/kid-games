@@ -16,7 +16,7 @@ games=("$@")
 if [ ${#games[@]} -eq 0 ]; then
   for f in "$ROOT"/content/narration/*.yaml; do
     g="$(basename "$f" .yaml)"
-    case "$g" in _*|numbers*) continue;; esac
+    case "$g" in _*|numbers*|*.*) continue;; esac   # *.* = part files (<game>.<part>.yaml), merged by their game
     games+=("$g")
   done
 fi

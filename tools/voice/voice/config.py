@@ -39,7 +39,7 @@ CODEC = {"encoder": "aac_at", "fallback": "aac", "bitrate": "40k", "channels": 1
 LEAD_MS = 50              # silence added before speech after trimming
 TAIL_MS = 200             # silence added after speech after trimming
 
-ROLES = ("narrator", "companion", "word", "dad")
+ROLES = ("narrator", "companion", "word", "dad", "luban")
 
 # --- QC ----------------------------------------------------------------------------------------
 ASR_DIR = MODELS / "paraformer-zh"          # sherpa-onnx paraformer-zh 2024-03-09 int8 (~227 MB)
@@ -49,7 +49,8 @@ CER_FLAG = 0.08
 # punctuation explains, <= 0.7 s per mark) under min_art -> babble, mumbling, stalls; too fast =
 # overall chars/s (pauses included) over max_cps. Calibrated on 112 clean takes (3 engines, 2026-10-05).
 PACE = {"narrator": {"min_art": 2.6, "max_cps": 4.6}, "companion": {"min_art": 2.8, "max_cps": 5.2},
-        "dad": {"min_art": 2.6, "max_cps": 5.0}, "word": {"min_art": 1.0, "max_cps": 4.5}}
+        "dad": {"min_art": 2.6, "max_cps": 5.0}, "luban": {"min_art": 2.6, "max_cps": 5.2},
+        "word": {"min_art": 1.0, "max_cps": 4.5}}
 PAUSE_PER_BREAK = 0.7
 SHORT_SYL = 6                 # lines with fewer syllables (and all words) use the duration rule instead of pace
 SHORT_SEC_PER_SYL = (0.12, 0.5)  # short items: speech must last 0.12*n .. 0.5*n + SLACK seconds

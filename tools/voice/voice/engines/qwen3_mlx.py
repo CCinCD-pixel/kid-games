@@ -15,7 +15,7 @@ import numpy as np
 
 from .base import Engine
 from .. import config
-from ..fx import ROBOT
+from ..fx import ROBOT, WARM
 
 REPO = "mlx-community/Qwen3-TTS-12Hz-0.6B-CustomVoice-8bit"
 REVISION = "049ef77fe8816b536193c0c25f9a214d17921282"
@@ -36,6 +36,10 @@ class Qwen3MLX(Engine):
         "word": {"synth": {"speaker": "serena"}, "post": {"tempo": 0.9}},
         # placeholder until dad's own recordings (content/narration/overrides/<id>.m4a) exist
         "dad": {"synth": {"speaker": "uncle_fu"}, "post": {}},
+        # 鲁班 (gear-fort's rival craftsman, 2026-10-08 audition): Dylan = clear, confident young Beijing male; kept
+        # in his Beijing-dialect codec (cleanest ASR of 4 male candidates; 普通话 is Beijing-based), lowered 4 % and
+        # warmed so he sounds a mature, cheerful master — clearly not 墨子 (Uncle_Fu: older, low, mellow).
+        "luban": {"synth": {"speaker": "dylan"}, "post": {"pitch": 0.96, "fx": WARM}},
     }
 
     def __init__(self):
@@ -69,13 +73,23 @@ class Qwen3MLX(Engine):
 
     def synth(self, text, role, seed):
         mx = self.mx
-        spk = self.preset(role)["synth"]["speaker"]
+        syn = self.preset(role)["synth"]
+        spk = syn["speaker"]
         n = sum(1 for c in text if not c.isspace())
         mx.random.seed(int(seed))
-        res = self.model.generate_custom_voice(
-            text=text, speaker=spk, language="chinese", max_tokens=min(4096, 25 + 8 * n),
-            stream=True, streaming_interval=1.0, **GEN)
-        parts = [np.array(r.audio, dtype=np.float32).reshape(-1) for r in res]
+        # Dylan (Beijing) / Eric (Sichuan) are dialect speakers: mlx-audio switches language="chinese" to their
+        # dialect codec id. "dialect": False keeps the speaker's timbre but asks for standard Mandarin (普通话).
+        tc = self.model.config.talker_config
+        orig = tc.spk_is_dialect
+        if syn.get("dialect") is False and (orig or {}).get(spk):
+            tc.spk_is_dialect = {**orig, spk: False}
+        try:
+            res = self.model.generate_custom_voice(
+                text=text, speaker=spk, language="chinese", max_tokens=min(4096, 25 + 8 * n),
+                stream=True, streaming_interval=1.0, **GEN)
+            parts = [np.array(r.audio, dtype=np.float32).reshape(-1) for r in res]
+        finally:
+            tc.spk_is_dialect = orig
         audio = np.concatenate(parts) if parts else np.zeros(0, np.float32)
         self._peak = max(self._peak, mx.get_peak_memory() / 1e9)
         return audio, self.sample_rate

@@ -16,7 +16,7 @@ import numpy as np
 
 from .base import Engine
 from .. import config
-from ..fx import ROBOT
+from ..fx import ROBOT, WARM
 
 DIR = config.MODELS / "kokoro-int8-multi-lang-v1_1"
 
@@ -34,6 +34,8 @@ class SherpaKokoro(Engine):
         "companion": {"synth": {"sid": 11, "speed": 1.0}, "post": {"pitch": 1.02, "fx": ROBOT}},
         "word": {"synth": {"sid": 17, "speed": 1.0}, "post": {"tempo": 0.9}},
         "dad": {"synth": {"sid": 60, "speed": 1.0}, "post": {}},
+        # 鲁班: same male sid as dad, lowered + warmed (fallback engine only; no second screened male voice yet)
+        "luban": {"synth": {"sid": 60, "speed": 1.0}, "post": {"pitch": 0.94, "fx": WARM}},
     }
 
     def render(self, item) -> str:

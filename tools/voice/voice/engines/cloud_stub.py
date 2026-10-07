@@ -24,6 +24,7 @@ class CloudStub(Engine):
         "companion": {"synth": {"voice": "zh-CN-XiaoyiNeural", "style": "cheerful"}, "post": {}},
         "word": {"synth": {"voice": "zh-CN-XiaoxiaoNeural", "rate": "-15%"}, "post": {}},
         "dad": {"synth": {"voice": "zh-CN-YunxiNeural"}, "post": {}},
+        "luban": {"synth": {"voice": "zh-CN-YunjianNeural", "style": "cheerful"}, "post": {}},
     }
 
     def available(self):
