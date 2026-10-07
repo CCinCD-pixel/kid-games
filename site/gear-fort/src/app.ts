@@ -102,7 +102,10 @@ export function startApp(root: HTMLElement, app: AppCtx): { layout(l: LayoutInfo
       level: lv, loadout: deck, seed, resume: resume?.snap ?? null, restore: resume?.restore, startPaused: !!resume?.paused, checkpoint: resume?.checkpoint ?? null, assist,
       onSnap: (snap, kind, flag, now) => {
         const p = putSnap({ key: kind, level: id, kind, seed, loadout: deck, snap, h: snap.h, kernelVersion: KERNEL_VERSION, restored: snap.restored || 0, assist, flag, at: new Date().toISOString() }, now);
-        app.save.resume = { level: id, kind, key: kind, at: new Date().toISOString() }; app.persist(); // always the newest snapshot
+        app.save.resume = { level: id, kind, key: kind, at: new Date().toISOString() }; // always the newest snapshot
+        // §8.8: never serialise the whole save on the 战鼓 tick — a checkpoint's save is written with its snapshot, on
+        // idle; a suspend (pause / hidden / 🏠) still writes at once (QA r4 tech)
+        if (now || kind !== 'checkpoint') app.persist(); else void p.then(() => app.persist());
         return p;
       },
       onAbandon: (log) => logGame(id, deck, assist, 'abandon', 0, log), // the pause snapshot stays: the map still offers 接着推演
@@ -188,8 +191,10 @@ export function startApp(root: HTMLElement, app: AppCtx): { layout(l: LayoutInfo
   async function afterWin(id: string, a: string): Promise<void> {
     const s = app.save;
     if (a === 'again') { void preview(id); return; }
-    if (id === '1-1' && !s.story.includes('prologue')) { await story('prologue'); await story('dock'); }
     let dest = a;
+    // the first-run chain 序幕 → 码头 → 旅途地图 (spec §2.1): the child's first look at the journey map, with its 3-s
+    // first-visit guide, whichever button he pressed on the 1-1 result (QA r5)
+    if (id === '1-1' && !s.story.includes('prologue')) { await story('prologue'); await story('dock'); dest = 'map'; }
     if (CAMPAIGN.inns[id] && !s.story.includes('inn.' + id)) dest = (await inn(id)) === 'more' ? 'next' : 'map';
     const V = CAMPAIGN.volumes[volOf(id) - 1]; const end: StoryId = volOf(id) === 1 ? 'v1end' : 'v2end';
     if (V.levels[V.levels.length - 1] === id && !s.story.includes(end)) await story(end);
@@ -222,7 +227,7 @@ export function startApp(root: HTMLElement, app: AppCtx): { layout(l: LayoutInfo
     app.mark('gf-ghost', { level: id });
   }
   // test/dev only: mount a battle on an arbitrary level (the art "zoo" scene of tests/gear-fort/shoot.mjs)
-  if (app.test) (window as unknown as { __gfApp?: unknown }).__gfApp = { battle: (lv: Level, deck: string[]) => { stopMusic(0); swap(mountBattle(root, app, { level: lv, loadout: deck, seed: 1 }, () => void map())); }, level: (id: string) => LEVELS[id], story: (id: StoryId) => story(id).then(() => void map()), inn: (id: string) => void inn(id).then(() => void map()), win: (id: string, stars = 3) => { const S = { stats: { logsUsed: 0 }, ev: [], L: LEVELS[id], loadout: [], flags: [], result: 'win' } as unknown as BattleEnd['S']; ended(id, [], { result: 'win', S, stars, checkpoint: null, checkpointFlag: 0, asked: 0, hints: [] }, 0); }, metrics: () => parentMetrics(app.save), voice: app.voice, play: (id: string, deck: string[], assist: 0 | 1 | 2 = 0) => battle(id, deck, undefined, assist) };
+  if (app.test) (window as unknown as { __gfApp?: unknown }).__gfApp = { battle: (lv: Level, deck: string[]) => { stopMusic(0); swap(mountBattle(root, app, { level: lv, loadout: deck, seed: 1 }, () => void map())); }, level: (id: string) => LEVELS[id], story: (id: StoryId) => story(id).then(() => void map()), inn: (id: string) => void inn(id).then(() => void map()), win: (id: string, stars = 3) => { const S = { stats: { logsUsed: 0 }, ev: [], L: LEVELS[id], loadout: [], flags: [], result: 'win' } as unknown as BattleEnd['S']; ended(id, [], { result: 'win', S, stars, checkpoint: null, checkpointFlag: 0, asked: 0, hints: [] }, 0); }, metrics: () => parentMetrics(app.save), voice: app.voice, play: (id: string, deck: string[], assist: 0 | 1 | 2 = 0) => battle(id, deck, undefined, assist), preview: (id: string) => void preview(id) };
   // ?dev=perf — the V19 stress scene with its overlay (spec §9.8; dev only, dynamic import)
   async function devPerf(): Promise<void> {
     const P = await import('./dev/perf'); stopMusic(0); const off = P.perfOverlay(root);

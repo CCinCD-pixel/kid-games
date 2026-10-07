@@ -1,8 +1,9 @@
 # 机关守城·九攻九距 (gear-fort) — generated from lane-defense-tools/content-src/lines.mjs by proto/v1/export-content.mjs.
 # Do not edit by hand: edit the source, re-run, and the game test lines.test.ts checks lines.json ⇔ this file.
-# 鲁班 (role luban): needs platform request K1 (new voice role, e.g. Qwen3 speaker "dylan"). Until then the game
-# shows these as bubbles with the 木偶咔嗒 sfx and never voices them with another character's voice.
-# When K1 lands: append these lines to narration.yaml (same game id → one manifest).
+# 鲁班 (role luban, K1 landed 2026-10-08): his own voice = Qwen3 speaker Dylan, pitch 0.96 + warm EQ (docs/VOICE.md).
+# The voice pipeline merges this part file into the gear-fort build (staged as narration/gear-fort.luban.yaml next to
+# gear-fort.yaml) → one manifest. `norm:` = spoken form for rare characters the 0.6B model misreads (犀→溪/锡, 檑→雷);
+# the subtitle keeps the real characters. The game plays these clips; without a clip it falls back to the bubble.
 game: gear-fort
 seed: 2610
 lines:
@@ -19,7 +20,7 @@ lines:
   - {id: fort.luban.preview.1-8, role: luban, text: 这回机关多，你可要留一手！}
   - {id: fort.luban.preview.1-9, role: luban, text: 铜甲力士，火都烧不动！}
   - {id: fort.luban.preview.1-10, role: luban, text: 这回，你自己挑牒吧！}
-  - {id: fort.luban.preview.1-11, role: luban, text: 我的铜犀冲车，天下第一硬！, pinyin: {冲车: chōng chē}}
+  - {id: fort.luban.preview.1-11, role: luban, text: 我的铜犀冲车，天下第一硬！, norm: 我的铜溪冲车，天下第一硬！, pinyin: {冲车: chōng chē}}
   - {id: fort.luban.preview.2-1, role: luban, text: 夜里没人送粮，看你怎么办！}
   - {id: fort.luban.preview.2-2, role: luban, text: 我的木鹊，专门去啄粮！}
   - {id: fort.luban.preview.2-3, role: luban, text: 木鹊又来了，这回没有转射机！, pinyin: {转射机: zhuàn shè jī}}
@@ -37,7 +38,7 @@ lines:
   - {id: fort.luban.blocked.3, role: luban, text: 妙！我得再想一招。, pinyin: {得: děi}}
   - {id: fort.luban.flag.1, role: luban, text: 大波来啦！}
   - {id: fort.luban.flag.2, role: luban, text: 这一波，看你接不接得住！}
-  - {id: fort.luban.log, role: luban, text: 哈，檑木一滚，又挡回来了！, pinyin: {檑木: léi mù}}
+  - {id: fort.luban.log, role: luban, text: 哈，檑木一滚，又挡回来了！, norm: 哈，雷木一滚，又挡回来了！}
   - {id: fort.luban.ding, role: luban, text: 叮！铜的，不怕火！}
   - {id: fort.luban.lose, role: luban, text: 好！这招差点挡住了！, pinyin: {差点: chà diǎn}}
   - {id: fort.luban.win, role: luban, text: 这一招，被你挡住了！我还有别的招！}
@@ -49,7 +50,7 @@ lines:
   - {id: fort.luban.dawn, role: luban, text: 天亮了？木鸢停不住啦！}
   - {id: fort.inn.1-3.2, role: luban, text: 下一回，我带盾牌来！}
   - {id: fort.inn.1-6.2, role: luban, text: 下一回，我派一大群！}
-  - {id: fort.inn.1-9.2, role: luban, text: 我的铜犀冲车，可没这么好拆！, pinyin: {冲车: chōng chē}}
+  - {id: fort.inn.1-9.2, role: luban, text: 我的铜犀冲车，可没这么好拆！, norm: 我的铜锡冲车，可没这么好拆！, pinyin: {冲车: chōng chē}}
   - {id: fort.inn.2-3.2, role: luban, text: 下回我放烟，看你怎么吹！}
   - {id: fort.inn.2-6.2, role: luban, text: 钩拒还是我发明的呢！}
   - {id: fort.inn.2-9.2, role: luban, text: 天亮前，我还有最后一招！}

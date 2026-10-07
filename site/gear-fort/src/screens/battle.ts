@@ -1,11 +1,11 @@
 // 沙盘战斗 (spec §2.2, §2.5, §2.7, §8.4): fixed-step kernel (20 Hz) + interpolated Canvas2D stage + DOM HUD.
 // Input → actions queued for the next tick; the HUD updates only when its numbers change.
 // Modes: normal · assist tier 1/2 (§3.20) · ghost replay of the lesson window (「看看墨子怎么守」, §5.4).
-import { effSpeed as speedOf, held, SLOWMO_TICKS, PHASE_TICKS, type SpeedHold } from './timing';
+import { effSpeed as speedOf, held, slowmoStart, slowmoGone, PHASE_TICKS, type SpeedHold } from './timing';
 import { sayCard } from '../pointread';
 import { createSim, step, act, snapshot, restore as restoreSnap, resume as resumeSnap, canPlace, hash, type Snapshot } from '../lane/sim';
 import { puzzleStars, costOf, type Puzzle } from '../lane/puzzle';
-import { coachLine, makeCoachMemory, followed, askLine, type CoachLine, type CoachMemory } from '../lane/coach';
+import { coachLine, makeCoachMemory, followed, askLine, conceptLineId, type CoachLine, type CoachMemory } from '../lane/coach';
 import { starsOf } from '../lane/stars';
 import { UNITS } from '../lane/tables';
 import { TPS, T as TILE, ASSIST, ASSIST2 } from '../lane/rules';
@@ -42,7 +42,7 @@ export interface BattleOpts {
   /** 回地图 from the pause menu: the game's action log so far (calibration replays, spec §8.8) */
   onAbandon?: (log: { actions: [number, Action[]][]; from: number; tick: number; seed: number }) => void;
   /** ?dev=perf stress scene (src/dev/perf.ts): fills the board before tick 0 and tops it up after every kernel step */
-  dev?: { setup?(S: SimState, stage: Stage): void; tick?(S: SimState, stage: Stage): void; degrade?: number } | null;
+  dev?: { setup?(S: SimState, stage: Stage): void; tick?(S: SimState, stage: Stage): void; frame?(S: SimState, stage: Stage): void; degrade?: number } | null;
 }
 export interface Placed { card: string; lane: number; col: number }
 export interface PuzzleRun { p: Puzzle; placed: Placed[] }
@@ -102,6 +102,8 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   // drill pieces: 开始推演 button, the budget plate and 鲁班's queue of machines per lane (the whole script laid out, §3.18)
   const goB = pz ? h('button', 'xg-btn xg-btn--primary xg-btn--lg gf-pzgo', `${icon('play')}开始推演`) : null;
   const pzQ = pz ? h('div', 'gf-pzq') : null;
+  /** a drill's scroll runs to a few seconds after its last machine (its endTick keeps 90 s of slack for the kernel) */
+  const pzEnd = pz ? Math.max(1, (Math.max(...pz.p.lanes.flatMap((ln) => ln.wave.map(([t]) => t))) + 6) * TPS) : 1;
   if (goB && pzQ) { hud.append(goB, pzQ); box.style.display = 'none'; star3.style.display = 'none'; }
   const SPEEDS = [0.75, 1, 1.5];
   const fastOK = ((o.level.vol ?? 1) > 1 || (o.level.idx ?? 1) >= 4) && o.level.env?.fogCol == null; // 雾关 (2-5) has no 1.5× (§3.15)
@@ -165,16 +167,19 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       const right = W - 8; px(pauseB, right - 64, Ts + 24, 64, 64); px(box, right - 64 - 6 - 88, Ts + 8, 88, 96); px(shovel, right - 64 - 6 - 88 - 6 - 64, Ts + 24, 64, 64);
       px(scroll, 84, Ts + 108, W - 84 - 8, 32);
       const yb = g.by + g.bh + 14; const hb = Math.max(72, Math.min(92, H - yb - 8));
-      const spW = 3 * 64, s3W = 168; const bubW = Math.max(240, Math.min(440, W - (12 + hb + 8) - (6 + 52) - (14 + spW) - (12 + s3W) - (14 + hb + 12)));
+      const spW = 3 * 64, s3W = 168; const bubW = Math.max(240, Math.min(400, W - (12 + hb + 8) - (6 + 52) - (14 + s3W) - (12 + spW) - (14 + hb + 12)));
       px(moziA, 12, yb, hb, hb); px(moziB, 12 + hb + 8, yb + 4, bubW, hb - 8); const rx = 12 + hb + 8 + bubW + 6; px(replay, rx, yb + (hb - 52) / 2, 52, 52);
-      px(speed, rx + 52 + 14, yb + (hb - 60) / 2, spW, 60); px(star3, rx + 52 + 14 + spW + 12, yb + (hb - 76) / 2, s3W, 76);
+      // 墨子 · 附加题竹简 · speed · 鲁班: the bonus slip sits next to 墨子's side, so 鲁班's bubble (which opens beside his own
+      // portrait, over the speed control for its few seconds — it takes no taps) never hides the live bonus progress (QA r5)
+      const s3x = rx + 52 + 14, spx = s3x + s3W + 12;
+      px(star3, s3x, yb + (hb - 76) / 2, s3W, 76); px(speed, spx, yb + (hb - 60) / 2, spW, 60);
       px(lubanA, W - 12 - hb, yb, hb, hb);
-      // 鲁班's bubble: inside the bottom bar, never over lane 5, and never over the speed control — it may cover the 附加题 chip for its few seconds (QA r2)
-      const lx = rx + 52 + 14 + spW + 6; px(lubanB, lx, yb + 4, Math.max(150, W - 12 - hb - 8 - lx), hb - 8);
+      // never over lane 5; a long line grows the bubble downwards into the free strip under the bar
+      const lx = spx - 4; px(lubanB, lx, yb + 4, Math.max(150, W - 12 - hb - 8 - lx), hb - 8); lubanB.style.height = ''; lubanB.style.minHeight = hb - 8 + 'px';
       if (ghostBar) px(ghostBar, Math.round(W / 2 - 150), Ts + 104, 300, 40);
     } else {
       px(bin, 84, Ts + 8, 128, 72); px(scroll, 220, Ts + 24, W - 220 - 80, 40); px(pauseB, W - 8 - 64, Ts + 12, 64, 64);
-      px(box, 12, Ts + 92, 120, 60); px(star3, 144, Ts + 88, Math.min(320, W - 144 - 140), 64); px(lubanA, W - 12 - 56, Ts + 94, 56, 56); px(lubanB, W - 12 - 56 - 8 - 220, Ts + 96, 220, 52);
+      px(box, 12, Ts + 92, 120, 60); px(star3, 144, Ts + 88, Math.min(320, W - 144 - 140), 64); px(lubanA, W - 12 - 56, Ts + 94, 56, 56); px(lubanB, W - 12 - 56 - 8 - 220, Ts + 96, 220, 52); lubanB.style.minHeight = '';
       // tray band T+586..T+854 (spec §2.2): a one-row tray sits mid-band with the tools beside it, and 墨子's row stays at
       // T+878 whatever the card count (on 1-1..1-4 it used to ride up under the speed stack)
       const ty = g.by + g.bh + 24; const cw = 120, chh = 128, gap = 12; const cols = L.belt ? 3 : Math.min(4, Math.max(n, 1)); const rows = n > cols ? 2 : 1;
@@ -227,6 +232,16 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       ln.wave.forEach(([t, k]) => { const i = h('i', 'gf-pzq__m'); i.dataset.t = String(t); i.style.width = i.style.height = sz + 'px'; i.append(rigIcon(atlas, k === 'swarm' ? 'ant' : k, Math.round(sz * 0.92), g.dpr)); box2.appendChild(i); });
       pzQ.appendChild(box2);
     }
+    // the whole drill's timeline across the top scroll (spec §2.2/§3.18): every machine at the second it comes out, so
+    // the child sees WHEN as well as which lane (the exit-strip queues above) — QA r5
+    scroll.querySelectorAll('.gf-scroll__m').forEach((x) => x.remove());
+    const all = pz.p.lanes.flatMap((ln) => ln.wave.map(([t, k]) => ({ t, k, lane: ln.lane }))).sort((a, b) => a.t - b.t);
+    const seen: number[] = [];
+    for (const m of all) {
+      const i = h('i', 'gf-scroll__m'); const f = Math.min(1, (m.t * TPS) / pzEnd); const stack = seen.filter((t) => Math.abs(t - f) < 0.035).length; seen.push(f);
+      i.style.left = `calc(${f * 100}% - 14px)`; i.style.top = `${-6 + Math.min(stack, 2) * 7}px`; i.dataset.t = String(m.t * TPS);
+      i.append(rigIcon(atlas, m.k === 'swarm' ? 'ant' : m.k, 28, g.dpr)); scroll.appendChild(i);
+    }
   }
   paintBoard(); placeHud();
 
@@ -258,22 +273,32 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     void app.voice.say(id, { interrupt, vars }).finally(() => { if (tok !== bubbleTok || destroyed) return; clearTimeout(bubbleTimer); bubbleTimer = window.setTimeout(hideMozi, 6000); });
   }
   let lubanTimer = 0;
-  /** 鲁班 has no voice yet (K1): his bubble types out with a wooden click per syllable; Boss lines are also read by the
-   *  narrator ("鲁班说：……", the spec §7.3 fallback) because they mark the fight's turning points */
+  /** 鲁班 speaks in his own voice (role luban clips): turning-point lines (`narrate`: Boss, phases) always queue; a bark
+   *  while someone is already talking stays a bubble, so he never talks over 墨子. Without a clip (manifest not loaded
+   *  yet) his bubble types out with a wooden click per syllable and turning points are read by the narrator
+   *  ("鲁班说：……", the spec §7.3 fallback). The bubble's typewriter follows the length of his clip. */
   function luban(id: string, narrate = false): void {
     const txt = app.voice.text(id); if (!txt) return; const t = lubanB.querySelector('.t')!; t.textContent = ''; lubanB.classList.add('is-on'); lubanA.classList.add('is-talking');
-    const nar = 'fort.nar.' + id.slice(5); if (narrate && !ghost && app.voice.text(nar)) void app.voice.say(nar);
-    if (app.voice.text(nar)) lubanB.dataset.line = nar; else delete lubanB.dataset.line;
-    let i = 0; clearInterval(lubanTimer); sfx.babble(Math.min(6, Math.ceil(txt.length / 3)));
-    lubanTimer = window.setInterval(() => { t.textContent = txt.slice(0, ++i); if (i >= txt.length) { clearInterval(lubanTimer); setTimeout(() => { lubanB.classList.remove('is-on'); lubanA.classList.remove('is-talking'); }, 2600); } }, 55);
+    const nar = 'fort.nar.' + id.slice(5);
+    const own = !ghost && app.voice.hasClip(id) && (narrate || !app.voice.narrator.speaking);
+    if (own) { void app.voice.say(id); lubanB.dataset.line = id; }
+    else {
+      if (narrate && !ghost && app.voice.text(nar)) void app.voice.say(nar);
+      if (app.voice.hasClip(id)) lubanB.dataset.line = id; else if (app.voice.text(nar)) lubanB.dataset.line = nar; else delete lubanB.dataset.line;
+      sfx.babble(Math.min(6, Math.ceil(txt.length / 3)));
+    }
+    const per = own ? Math.max(55, Math.min(240, (app.voice.clipMs(id) - 300) / txt.length)) : 55;
+    let i = 0; clearInterval(lubanTimer);
+    lubanTimer = window.setInterval(() => { t.textContent = txt.slice(0, ++i); if (i >= txt.length) { clearInterval(lubanTimer); setTimeout(() => { lubanB.classList.remove('is-on'); lubanA.classList.remove('is-talking'); }, own ? 1800 : 2600); } }, per);
   }
   replay.addEventListener('click', () => { app.voice.narrator.replay(); });
   moziA.addEventListener('click', () => { // 「墨子，怎么办？」
     if (ghost) return;
     const l = askLine(S, mem); asked++; hintTicks.push(S.tick); if (!l) return;
-    if (l.type === 'concept') { moziB.querySelector('.t')!.textContent = o.level.concept || ''; moziB.classList.add('is-on'); clearTimeout(bubbleTimer); bubbleTok++; bubbleTimer = window.setTimeout(hideMozi, 9000); void app.voice.say(o.level.voice?.intro?.[1] || 'fort.ui.choose'); }
+    // concept fallback: subtitle = the voiced line itself (QA r4 major). No per-tap session mark: `asked` rides on
+    // gf-level, and a mark per tap would rewrite the whole session log and could fill its 200-event cap (QA r4 tech).
+    if (l.type === 'concept') mozi(conceptLineId(o.level), true);
     else { mozi(coachLineId(l), true); showHint(l); }
-    app.mark('gf-ask', { level: o.level.id, tick: S.tick });
   });
   // tap the 附加题 chip → this level's condition, read aloud (fort.bonus.<关>); the chip itself is the subtitle
   star3.addEventListener('click', () => {
@@ -325,6 +350,14 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     const c = Math.floor((x - geo.x0) / geo.w), l = Math.floor((y - geo.by) / geo.h);
     return c >= 0 && c < 8 && l >= 0 && l < 5 ? { lane: l, col: c } : null;
   };
+  /** placement forgiveness (QA r5): a card put down on a CLOSED lane next to an open one goes to that open lane, same
+   *  column — in 1-1 (one open lane) a finger a little high or low in lane 3 must not end in a red ✕ on the boards */
+  const openCellAt = (x: number, y: number): { lane: number; col: number } | null => {
+    const c = cellAt(x, y); if (!c || L.lanes[c.lane]) return c;
+    const fy = (y - geo.by) / geo.h - 0.5; let best = -1, bd = 1.01;
+    for (let l = 0; l < 5; l++) if (L.lanes[l] && Math.abs(l - fy) < bd) { bd = Math.abs(l - fy); best = l; }
+    return best < 0 ? c : { lane: best, col: c.col };
+  };
   const why = (card: string, lane: number, col: number): string | null => canPlace(S, card, lane, col);
   function tryPlace(card: string, lane: number, col: number, quiet = false): boolean {
     if (ghost) return false;
@@ -372,7 +405,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     app.ui('ui-pick', 0.5);
   }
   const local = (ev: PointerEvent): { x: number; y: number } => { const r = el.getBoundingClientRect(); return { x: ev.clientX - r.left, y: ev.clientY - r.top }; };
-  function dropCell(ev: PointerEvent): { lane: number; col: number } | null { const p = local(ev); return cellAt(p.x, p.y - geo.h * 0.6); }
+  function dropCell(ev: PointerEvent, forgive = false): { lane: number; col: number } | null { const p = local(ev); return (forgive ? openCellAt : cellAt)(p.x, p.y - geo.h * 0.6); }
   const unitAt = (c: { lane: number; col: number } | null): boolean => !!c && S.units.some((u) => u.lane === c.lane && u.col === c.col && !u.dead);
   function onMove(ev: PointerEvent): void {
     if (press && ev.pointerId === press.pid && Math.hypot(ev.clientX - press.x, ev.clientY - press.y) > 14) { clearTimeout(press.timer); press = null; }
@@ -380,7 +413,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     if (!drag || ev.pointerId !== drag.pid) return; const p = local(ev);
     if (Math.hypot(ev.clientX - drag.x0, ev.clientY - drag.y0) > 10) drag.moved = true;
     drag.ghost.style.transform = `translate(${p.x - geo.w * 0.47}px, ${p.y - geo.h * 0.6 - geo.w * 0.8}px)`;
-    const c = drag.moved ? dropCell(ev) : null; const ok = !c || why(drag.card, c.lane, c.col) === null; stage.hover = c ? { ...c, ok } : restHover();
+    const c = drag.moved ? dropCell(ev, true) : null; const ok = !c || why(drag.card, c.lane, c.col) === null; stage.hover = c ? { ...c, ok } : restHover();
     if (drag.bad === ok) { drag.bad = !ok; drag.ghost.classList.toggle('is-bad', !ok); } // the ghost covers the cell: it shows the ✕ too
   }
   function onUp(ev: PointerEvent): void {
@@ -392,7 +425,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       if (autoHint && autoHint.card === d.card && performance.now() < autoHint.until) { tryPlace(d.card, autoHint.lane, autoHint.col); return; }
       select(selected === d.card ? null : d.card); app.ui('ui-tap', 0.5); return;
     }
-    const c = dropCell(ev); if (c) tryPlace(d.card, c.lane, c.col); else app.ui('bump', 0.4);
+    const c = dropCell(ev, true); if (c) tryPlace(d.card, c.lane, c.col); else app.ui('bump', 0.4);
   }
   /** a cancelled gesture (system edge swipe, Control Center, a notification) places nothing, spends nothing, opens nothing */
   function onCancel(ev: PointerEvent): void {
@@ -418,7 +451,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     // (spec §2.7 rule ①); a tap on a bag never just fails with 还差 N粮 (QA r3)
     const bag = S.drops.map((d) => ({ d, p: stage.dropXY(S, d, performance.now()) })).find(({ p }) => Math.abs(p.x - x) < 34 && Math.abs(p.y - y) < 34);
     if (bag) collect(bag.d.id, bag.p.x, bag.p.y);
-    if (selected && cell) { if (tryPlace(selected, cell.lane, cell.col, !!bag)) select(null); return; }
+    if (selected && cell) { const oc = openCellAt(x, y) ?? cell; if (tryPlace(selected, oc.lane, oc.col, !!bag)) select(null); return; }
     if (bag) return;
     if (shovelMode && cell) { const u = S.units.find((q) => q.lane === cell.lane && q.col === cell.col); if (u) { queue.push({ t: 'shovel', lane: cell.lane, col: cell.col }); void 0; } setShovel(false); return; }
     // a machine → its card on release; holding 0.5 s marks it (spec §3.12.1: a tap never marks)
@@ -510,7 +543,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.add('is-on'))); setTimeout(() => veil.remove(), 3600);
     if (!ghost) { mozi('fort.env.dawn'); sfx.play('dawn'); }
   }
-  function resetHud(): void { lastHud = ''; hold.slowUntil = 0; hold.phaseUntil = 0; s3ok = false; s3lost = false; star3.classList.remove('is-ok', 'is-lost'); beltSeen = S.beltI; beltFullSeen = S.stats.beltFull; warn.clear(); buildTray(); delete scroll.dataset.drums; scroll.querySelectorAll('.gf-scroll__drum').forEach((d) => d.remove()); }
+  function resetHud(): void { lastHud = ''; hold.slowUntil = 0; hold.phaseUntil = 0; hold.slowId = undefined; s3ok = false; s3lost = false; star3.classList.remove('is-ok', 'is-lost'); beltSeen = S.beltI; beltFullSeen = S.stats.beltFull; warn.clear(); buildTray(); delete scroll.dataset.drums; scroll.querySelectorAll('.gf-scroll__drum').forEach((d) => d.remove()); }
 
   // ── kernel events → sound, voice, 鲁班 ──
   let owlQuietUntil = 0; let lastBolts = 0, lastLobs = 0, lastRefunds = 0, lastTokens = 0; let fireLobs: SimState['lobs'] = []; const knocked = new Set<number>();
@@ -525,9 +558,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     switch (e.type) {
       case 'spawn': if (e.k && !seenKinds.has(e.k)) {
         seenKinds.add(e.k);
-        if (!ghost && (e.k === o.level.newEnemy || (o.level.newEnemy === 'swarm' && e.k === 'ant'))) { hold.slowUntil = S.tick + SLOWMO_TICKS; namePlate(hud, geo, e.lane ?? 2, nameOf(e.k)); stinger('newMachine'); setTimeout(() => luban(tut ? 'fort.story.0.4' : 'fort.luban.first'), 600); } // 1-1: 鲁班 introduces himself with the first 木甲兵 (spec §2.4)
+        if (!ghost && (e.k === o.level.newEnemy || (o.level.newEnemy === 'swarm' && e.k === 'ant'))) { slowmoStart(hold, S.tick, e.id); namePlate(hud, geo, e.lane ?? 2, nameOf(e.k)); stinger('newMachine'); setTimeout(() => luban(tut ? 'fort.story.0.4' : 'fort.luban.first'), 600); } // 1-1: 鲁班 introduces himself with the first 木甲兵 (spec §2.4)
       } break;
-      case 'gone': if (e.log) sfx.play('log.crush', { lane: e.lane }); if (!e.log) { kills++; if (!e.captured) { sfx.play('machine.break', { lane: e.lane }); sfx.parts(e.k === 'ant' ? 1 : e.k === 'brute' || e.k === 'ram' ? 3 : 2); } if (!ghost && kills % 7 === 0 && performance.now() > lubanQuietUntil) { luban(`fort.luban.blocked.${1 + ((kills / 7) % 3)}`); lubanQuietUntil = performance.now() + 15000; } if (tut && !tut.firstGone) { tut.firstGone = true; setTimeout(() => mozi('fort.story.0.b1'), 900); } } break;
+      case 'gone': slowmoGone(hold, S.tick, e.id); if (e.log) sfx.play('log.crush', { lane: e.lane }); if (!e.log) { kills++; if (!e.captured) { sfx.play('machine.break', { lane: e.lane }); sfx.parts(e.k === 'ant' ? 1 : e.k === 'brute' || e.k === 'ram' ? 3 : 2); } if (!ghost && kills % 7 === 0 && performance.now() > lubanQuietUntil) { luban(`fort.luban.blocked.${1 + ((kills / 7) % 3)}`); lubanQuietUntil = performance.now() + 15000; } if (tut && !tut.firstGone) { tut.firstGone = true; setTimeout(() => mozi('fort.story.0.b1'), 900); } } break;
       case 'impact': sfx.play('ram.hit', { lane: e.lane, vol: Math.min(1, 0.55 + (e.run || 0) / 60000) }); break;
       case 'strike': sfx.play('strike.whistle', { lane: e.lane }); break;
       case 'strikeLand': sfx.play('strike.land', { lane: e.lane }); break;
@@ -650,8 +683,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     box.classList.toggle('is-ready', S.tokens > 0); box.classList.toggle('is-full', S.tokens >= 3);
     (box.querySelector('.gf-box__tokens') as HTMLElement).innerHTML = Array.from({ length: 3 }, (_, i) => `<i class="${i < S.tokens ? 'on' : ''}">令</i>`).join('');
     // bamboo scroll: script time with drums
-    const end = Math.max(1, S.endTick); const fill = scroll.firstElementChild as HTMLElement; fill.style.width = `${Math.min(100, (S.tick / end) * 100)}%`;
+    const end = pz ? pzEnd : Math.max(1, S.endTick); const fill = scroll.firstElementChild as HTMLElement; fill.style.width = `${Math.min(100, (S.tick / end) * 100)}%`;
     (scroll.querySelector('.gf-scroll__hand') as HTMLElement).style.left = `calc(${Math.min(100, (S.tick / end) * 100)}% - 14px)`;
+    if (pz) for (const m of scroll.querySelectorAll<HTMLElement>('.gf-scroll__m')) m.classList.toggle('is-past', S.tick >= +m.dataset.t!);
     if (!scroll.dataset.drums) { scroll.dataset.drums = '1'; for (const f of S.flags) { const d = h('div', 'gf-scroll__drum'); d.style.left = `calc(${(f / end) * 100}% - 15px)`; d.dataset.t = String(f); scroll.appendChild(d); } }
     for (const d of scroll.querySelectorAll<HTMLElement>('.gf-scroll__drum')) { const ft = +d.dataset.t!; d.classList.toggle('is-near', S.tick >= ft - 5 * TPS && S.tick < ft); d.classList.toggle('is-past', S.tick >= ft); }
     for (const b of speed.querySelectorAll<HTMLElement>('button')) { b.classList.toggle('is-on', +b.dataset.s! === speedSel); b.classList.toggle('is-held', isHeld && +b.dataset.s! === 1.5); }
@@ -684,7 +718,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     }
     if (destroyed) return;
     const r0 = performance.now(); drawStats.px = 0;
+    o.dev?.frame?.(S, stage); // V19 stress: particles topped up around every frame, so the peak holds 200 between ticks
     stage.render(S, paused || ended ? 1 : Math.min(1, acc / 50), now, dt);
+    o.dev?.frame?.(S, stage);
     updateHud();
     if (boardNight !== nightNow()) { if (boardNight) dawn(); else paintBoard(); }
     const t1 = performance.now();

@@ -36,7 +36,7 @@ export function perfLevel(base: Level): Level {
     env: { night: true, fogCol: 6 }, start: 9000, jitter: 0, spawns: [], noEnd: true, star3Text: '' } as Level;
 }
 
-export function stressHooks(): { setup(S: SimState, stage: Stage): void; tick(S: SimState, stage: Stage): void; degrade: number } {
+export function stressHooks(): { setup(S: SimState, stage: Stage): void; tick(S: SimState, stage: Stage): void; frame(S: SimState, stage: Stage): void; degrade: number } {
   const slots = roster();
   const degrade = Number((location.search.match(/[?&]degrade=(\d)/) || [])[1] || 0);
   function cards(S: SimState): void {
@@ -66,6 +66,7 @@ export function stressHooks(): { setup(S: SimState, stage: Stage): void; tick(S:
     degrade,
     setup(S, stage) { S.grain = 9000; cards(S); machines(S, true); bolts(S); smoke(S); beams(S); stage.fillParticles(200); },
     tick(S, stage) { cards(S); machines(S, false); bolts(S); smoke(S); beams(S); S.logs = S.logs.map(() => 1); stage.fillParticles(200); },
+    frame(_S, stage) { stage.fillParticles(200); },
   };
 }
 

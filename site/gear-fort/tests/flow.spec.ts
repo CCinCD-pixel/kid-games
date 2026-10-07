@@ -152,7 +152,7 @@ test('input: a 2nd finger or a cancelled gesture places nothing (spec §2.7)', a
   expect(errors).toEqual([]);
 });
 
-test('图谱: 牒/机关/Boss/锦囊 tabs, every tile on screen, tabs ≥ 48 px', async ({ page }) => {
+test('图谱: 牒/机关/首领/锦囊 tabs, every tile on screen, tabs ≥ 48 px', async ({ page }) => {
   const all = [...V1, '1-11', '2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7', '2-8', '2-9', '2-10', '2-11'];
   const errors = await open(page, won(all, { current: '2-11' }));
   await page.locator('.gf-bigcard--alm').click();
@@ -330,5 +330,108 @@ test('r3: no idle 60 fps loop — pause layer and 驿站 stop drawing', async ({
   await page.waitForSelector('.gf-inn', { timeout: 10_000 });
   expect(await rate(1000)).toBeLessThanOrEqual(20); // the campfire flickers at ≤ 15 fps (inn's own timer; rAF only for a resize)
   await expect.poll(() => rate(2000), { timeout: 60_000, intervals: [2000] }).toBeLessThanOrEqual(1);
+  expect(errors).toEqual([]);
+});
+
+test('r4: page hidden (visibilitychange) → reload → 接着推演 restores the exact state', async ({ page }) => {
+  test.setTimeout(60_000);
+  const errors = await open(page, won(['1-1', '1-2'], { current: '1-3' }));
+  await page.locator('.xg-node').nth(2).click(); await page.locator('.gf-pv__go').click();
+  await page.waitForFunction(() => (window as any).__gf?.S.tick > 60, null, { timeout: 15_000 });
+  // iOS: the app goes to the background — the shell pauses, the battle writes its suspend snapshot at once
+  await page.evaluate(() => { Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' }); document.dispatchEvent(new Event('visibilitychange')); });
+  await expect(page.locator('.gf-pausel.is-on')).toBeVisible();
+  const before = await page.evaluate(() => { const g = (window as any).__gf; return { tick: g.S.tick, grain: g.S.grain, units: g.S.units.length, enemies: g.S.enemies.length }; });
+  await page.waitForTimeout(300); // the IndexedDB write completes (it was started with now = true)
+  await page.reload({ waitUntil: 'load' });
+  await page.getByRole('button', { name: /开始/ }).first().click({ timeout: 8000 }).catch(() => {});
+  await page.locator('.gf-resume [data-a="yes"]').click({ timeout: 10_000 });
+  await page.waitForFunction(() => (window as any).__gf?.S, null, { timeout: 10_000 });
+  await expect(page.locator('.gf-pausel.is-on')).toBeVisible();
+  const after = await page.evaluate(() => { const g = (window as any).__gf; return { tick: g.S.tick, grain: g.S.grain, units: g.S.units.length, enemies: g.S.enemies.length }; });
+  expect(after).toEqual(before);
+  expect(errors).toEqual([]);
+});
+
+test('r4: 「墨子，怎么办？」 with nothing urgent → the bubble shows exactly the line that is spoken (≤15 字)', async ({ page }) => {
+  const errors = await open(page, won(V1.slice(0, 2), { current: '1-3' }));
+  await page.locator('.xg-node').nth(2).click(); await page.locator('.gf-pv__go').click();
+  await page.waitForFunction(() => (window as any).__gf?.S.tick > 5, null, { timeout: 15_000 });
+  await page.locator('.gf-avatar.gf-mozi').click();
+  const b = page.locator('.gf-bubble--mozi');
+  await expect(b).toHaveAttribute('data-line', 'fort.lvl.1-3.2');
+  const txt = (await b.locator('.t').textContent()) || '';
+  expect(txt).toBe('木垒挡着，连弩车慢慢打。'); expect([...txt.replace(/[，。！？]/g, '')].length).toBeLessThanOrEqual(15);
+  expect(errors).toEqual([]);
+});
+
+test('r4: 2-11 Boss bar after the owl is down — all three dots, no 高空 cloud, 已破', async ({ page }) => {
+  const errors = await open(page, won([...V1, '1-11', '2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7', '2-8', '2-9', '2-10'], { current: '2-11' }));
+  await page.evaluate(() => { const A = (window as any).__gfApp; const L = A.level('2-11'); A.play('2-11', (L.loadout || L.pool).slice(0, L.slots || 7)); });
+  await page.waitForFunction(() => (window as any).__gf?.S.tick > 5, null, { timeout: 15_000 });
+  await expect(page.locator('.gf-boss__cloud')).not.toHaveClass(/is-on/); // waiting: not in the sky yet
+  await page.evaluate(() => { const g = (window as any).__gf; g.S.boss = { ...(g.S.boss || {}), done: true }; g.S.enemies = g.S.enemies.filter((e: any) => !e.boss); });
+  await expect(page.locator('.gf-boss')).toHaveClass(/is-done/);
+  await expect(page.locator('.gf-boss__cloud')).not.toHaveClass(/is-on/);
+  await expect(page.locator('.gf-boss__dots i.is-on')).toHaveCount(3);
+  await expect(page.locator('.gf-boss__won')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+// ───── QA r5 fixes ─────
+test('r5: 1-1 — a drop whose point lands on the boarded-up lane goes to the open lane, same column', async ({ page }) => {
+  test.setTimeout(60_000);
+  const errors = await open(page, null);
+  await page.waitForFunction(() => (window as any).__gf, null, { timeout: 8000 }); await page.evaluate(() => (window as any).__gf.skipHook());
+  await page.waitForFunction(() => { const h = document.querySelector<HTMLElement>('.gf-hand'); return !!h && getComputedStyle(h).display === 'block' && !!h.dataset.tip; }, null, { timeout: 20_000 });
+  const g = await page.evaluate(() => { const hud = document.querySelector('.gf-hud')!.getBoundingClientRect(); const [x, y] = document.querySelector<HTMLElement>('.gf-hand')!.dataset.tip!.split(',').map(Number); const c = document.querySelector('.gf-card[data-card="shooter"]')!.getBoundingClientRect();
+    return { tip: { x: hud.left + x, y: hud.top + y - 50 }, card: { x: c.left + c.width / 2, y: c.top + c.height / 2 } }; }); // 50 px high: lane 2 (closed)
+  await page.mouse.move(g.card.x, g.card.y); await page.mouse.down();
+  for (let i = 1; i <= 10; i++) await page.mouse.move(g.card.x + ((g.tip.x - g.card.x) * i) / 10, g.card.y + ((g.tip.y - g.card.y) * i) / 10);
+  await expect(page.locator('.gf-cellhint.is-ok')).toHaveAttribute('data-cell', '2,1,1');
+  await page.mouse.up();
+  await page.waitForFunction(() => (window as any).__gf.S.units.some((u: any) => u.k === 'shooter' && u.lane === 2 && u.col === 1), null, { timeout: 3000 });
+  expect(errors).toEqual([]);
+});
+
+test('r5: first 1-1 win → 下一关 → 序幕 → 码头 → the journey map (not the 1-2 preview)', async ({ page }) => {
+  const errors = await open(page, won([]));
+  await page.waitForTimeout(800);
+  await page.evaluate(() => (window as unknown as { __gfApp: { win(id: string, s: number): void } }).__gfApp.win('1-1', 2));
+  await page.getByRole('button', { name: '下一关' }).click();
+  await expect(page.locator('.gf-story--prologue')).toBeVisible(); await page.locator('.gf-skip').click();
+  await expect(page.locator('.gf-story--dock')).toBeVisible(); await page.locator('.gf-skip').click();
+  await expect(page.locator('.gf-map')).toBeVisible(); await expect(page.locator('.gf-pv__table')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('r5: 鲁班\'s bubble never covers the 附加题 slip; 2-10\'s eight machines stand apart on the 亮招 table', async ({ page }) => {
+  const all = [...V1, '1-11', '2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7', '2-8', '2-9'];
+  const errors = await open(page, won(all, { current: '2-10' }));
+  await page.evaluate(() => (window as any).__gfApp.preview('2-10')); await page.waitForTimeout(3200);
+  const pv = await page.evaluate(() => { const t = document.querySelector('.gf-pv__table')!.getBoundingClientRect(); const ms = [...document.querySelectorAll('.gf-pv__m')].map((m) => m.getBoundingClientRect());
+    return { n: ms.length, out: ms.filter((m) => m.left < t.left - 1 || m.right > t.right + 1).length, overlap: ms.filter((m, i) => i && m.left < ms[i - 1].right - 1 && m.top < ms[i - 1].bottom - 1 && m.bottom > ms[i - 1].top + 1).length }; });
+  expect(pv.n).toBe(8); expect(pv.out).toBe(0); expect(pv.overlap).toBe(0);
+  await page.evaluate(() => { const A = (window as any).__gfApp; A.play('2-10', A.level('2-10').pool.slice(0, A.level('2-10').slots)); });
+  await page.waitForFunction(() => (window as any).__gf?.S.tick > 5, null, { timeout: 15_000 });
+  const ov = await page.evaluate(() => { const a = document.querySelector('.gf-bubble--luban')!.getBoundingClientRect(), b = document.querySelector('.gf-star3')!.getBoundingClientRect(); return Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top)); });
+  expect(ov).toBe(0);
+  await noOverflow(page);
+  expect(errors).toEqual([]);
+});
+
+test('r5: 图谱 says 首领 (no Latin), each listen button keeps its whole 48 px area; narration stays ≤ 20 s decoded', async ({ page }) => {
+  const all = [...V1, '1-11', '2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7', '2-8', '2-9', '2-10', '2-11'];
+  const errors = await open(page, won(all, { current: '2-11' }));
+  await page.locator('.gf-bigcard--alm').click();
+  await expect(page.locator('.gf-alm__tab[data-tab="boss"]')).toHaveText(/首领/);
+  await page.locator('.gf-alm__tab[data-tab="machine"]').click(); await page.locator('.gf-alm__tile:not(.is-locked)').first().click(); await page.waitForTimeout(600);
+  const hits = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.gf-say')].filter((b) => b.offsetWidth).map((b) => { const r = b.getBoundingClientRect(); const cx = r.left + r.width / 2, cy = r.top + r.height / 2; let ok = 0;
+    for (const dx of [-23.5, 0, 23.5]) for (const dy of [-23.5, 0, 23.5]) { if (!dx && !dy) continue; if (document.elementFromPoint(cx + dx, cy + dy)?.closest('.gf-say') === b) ok++; } return ok; }));
+  expect(hits.length).toBeGreaterThan(1); expect(hits.every((n) => n === 8)).toBe(true);
+  // QA r5 major: play 30 clips back to back — the decoded window stays bounded (spec §8.6 ≤ 6 MB of audio)
+  const v = await page.evaluate(async () => { const V = (window as any).__gfApp.voice; const ids = Object.keys(V.narrator.manifest).filter((k: string) => V.hasClip(k)).slice(0, 30); let ms = 0;
+    for (const id of ids) { void V.say(id, { interrupt: true }); await new Promise((r) => setTimeout(r, 200)); ms = Math.max(ms, V.retained().ms); } V.stop(); return { ms, n: V.retained().n, ids: ids.length }; });
+  expect(v.ids).toBe(30); expect(v.ms).toBeLessThanOrEqual(20000 + 8000); expect(v.n).toBeLessThan(15);
   expect(errors).toEqual([]);
 });

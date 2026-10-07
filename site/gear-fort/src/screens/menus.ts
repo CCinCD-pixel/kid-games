@@ -110,9 +110,9 @@ export function openSongView(app: AppCtx): void {
 }
 
 // ───────────── 鲁班亮招 + 选牒 ─────────────
-// Left: 鲁班's table, his machines marching on the spot (sized to how many there are). 鲁班 has no voice yet (K1): his
-// line types out with a wooden click per character, then the narrator reads it ("鲁班说：……") while it lights up
-// character by character (spec §7.3 fallback). Right: the 卡槽 row (empty slots = wooden frames) + the 牒池 (chosen cards
+// Left: 鲁班's table, his machines marching on the spot (sized to how many there are). 鲁班 says his line in his own voice
+// while it types out in step; before his clips have loaded it types with a wooden click per character and the narrator
+// reads it ("鲁班说：……") while it lights up character by character (spec §7.3 fallback). Right: the 卡槽 row (empty slots = wooden frames) + the 牒池 (chosen cards
 // carry a ✓, nothing fades), or the fixed deck + the new card / machine with its one-line effect; the 附加题 is read too.
 export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart: (loadout: string[]) => void, onBack: () => void, assist = 0): { destroy(): void; layout(): void } {
   const el = h('div', 'gf-menu gf-preview xg-root' + (lv.choose ? ' is-choose' : '')); el.dataset.xgTheme = 'night'; root.appendChild(el);
@@ -129,34 +129,45 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
   // the one new thing of this level, with its almanac line (card first, else the new machine)
   const featK = lv.newCard && UNIT_INFO[lv.newCard] ? lv.newCard : lv.newEnemy ? (lv.newEnemy === 'swarm' ? 'ant' : lv.newEnemy) : null;
   const featId = featK && lineText(`fort.alm.${featK}.1`) ? `fort.alm.${featK}.1` : null;
-  const featText = featId ? lineText(featId).replace(/^[^：]{1,6}：/, '') : '';
   const bonusId = lineText(`fort.bonus.${lv.id}`) ? `fort.bonus.${lv.id}` : null;
+  // 自选关 without a new thing: the card fills the band above 开始推演 with the last-picked 牒's page (QA r4: dead band)
+  const almLine = (k: string): string | null => (lineText(`fort.alm.${k}.1`) ? `fort.alm.${k}.1` : null);
+  let featCur: string | null = featId ? featK : choose ? [...deck, ...pool].find((k) => !!almLine(k)) ?? null : null;
+  const featTag = (k: string): string => (k === featK ? (lv.newCard && UNIT_INFO[lv.newCard] ? '新牒' : '新机关') : '牒');
+  const featHtml = (k: string): string => `<span class="gf-pv__featart"></span><span class="gf-pv__feattext"><b><i>${featTag(k)}</i>${nameOf(k)}</b><span>${lineText(almLine(k)!).replace(/^[^：]{1,6}：/, '')}</span></span><span class="gf-pv__ear">${icon('listen')}</span>`;
   el.innerHTML = `<section class="gf-pv__table"><div class="gf-pv__luban"></div><div class="gf-pv__say"></div><div class="gf-pv__machines"></div></section>
     <section class="gf-pv__deck"><div class="gf-pv__lv"><span class="gf-pv__no">${lv.id}</span><b>${lv.name}</b></div>
       <div class="gf-pv__label">${choose ? '卡槽' : lv.belt ? '驿马会送来这些牒' : '这一关的牒'}${choose ? '<small class="gf-pv__count"></small>' : ''}</div>
       <div class="gf-pv__slots${choose ? ' is-choose' : ''}"></div>
       ${choose ? '<div class="gf-pv__label">牒池<small>点一下，放进卡槽</small></div><div class="gf-pv__pool"></div>' : ''}
-      ${!choose && featId ? `<button class="gf-pv__feat" type="button"><span class="gf-pv__featart"></span><span class="gf-pv__feattext"><b><i>${lv.newCard && UNIT_INFO[lv.newCard] ? '新牒' : '新机关'}</i>${nameOf(featK!)}</b><span>${featText}</span></span><span class="gf-pv__ear">${icon('listen')}</span></button>` : ''}
+      ${featCur ? `<button class="gf-pv__feat" type="button">${featHtml(featCur)}</button>` : ''}
       <button class="gf-pv__bonus" type="button"><span class="gf-star3__seal">附</span><span class="gf-pv__bonust"><small>鲁班的附加题</small>${lv.star3Text || ''}</span><span class="gf-pv__ear">${icon('listen')}</span></button>
       <button class="xg-btn xg-btn--primary xg-btn--lg gf-pv__go">${icon('play')}开始推演</button></section>
     <div class="gf-info"></div>`;
   const port = (): boolean => app.layout.height > app.layout.width;
   (el.querySelector('.gf-pv__luban') as HTMLElement).append(portrait('luban', 96, app.dpr, 'laugh'));
-  // 鲁班's line: typewriter + wooden clicks, then the narrator reads it while the characters light up
+  // 鲁班's line in his own voice, the characters typing in step with the clip; before his clips have loaded: typewriter +
+  // wooden clicks, then the narrator reads 「鲁班说：……」 while the characters light up
   const pvId = lv.voice?.preview || ''; const pvText = lineText(pvId);
-  const say = el.querySelector('.gf-pv__say') as HTMLElement; if (lineText('fort.nar.' + pvId.slice(5))) say.dataset.line = 'fort.nar.' + pvId.slice(5); say.innerHTML = [...pvText].map((ch) => `<span>${ch}</span>`).join('');
+  const say = el.querySelector('.gf-pv__say') as HTMLElement; if (pvId && app.voice.hasClip(pvId)) say.dataset.line = pvId; else if (lineText('fort.nar.' + pvId.slice(5))) say.dataset.line = 'fort.nar.' + pvId.slice(5); say.innerHTML = [...pvText].map((ch) => `<span>${ch}</span>`).join('');
   const chars = [...say.querySelectorAll('span')]; let typer = 0, sweep = 0; let live = true;
   const wait = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
   async function intro(): Promise<void> {
     await wait(450); if (!live) return;
-    let i = 0;
-    await new Promise<void>((res) => { typer = window.setInterval(() => { if (!live || i >= chars.length) { clearInterval(typer); res(); return; } chars[i].classList.add('is-in'); if (!/[，。！？、：…—]/.test(chars[i].textContent || '')) sfx.play('syll', { step: Math.floor(Math.random() * 6), rate: 0.9 + Math.random() * 0.2, vol: 0.8 }); i++; }, 85); });
-    if (!live) return;
-    const nar = 'fort.nar.' + pvId.slice(5);
-    if (pvText && lineText(nar)) {
-      let j = 0; const lead = 900, per = 230; // "鲁班说：" first, then ≈ 4.3 characters a second
-      setTimeout(() => { if (!live) return; sweep = window.setInterval(() => { while (j < chars.length && /[，。！？、：；…—“”‘’（）《》,.!?:;]/.test(chars[j].textContent || '')) j++; if (!live || j >= chars.length) { clearInterval(sweep); return; } chars.forEach((c, k) => c.classList.toggle('is-hi', k === j)); j++; }, per); }, lead);
-      const r0 = await app.voice.say(nar); clearInterval(sweep); chars.forEach((c) => c.classList.remove('is-hi')); if (!live || r0 === 'interrupted') return; // the child tapped something: stop the intro
+    if (pvText && app.voice.hasClip(pvId)) {
+      say.dataset.line = pvId; let k = 0; const per = Math.max(60, Math.min(260, (app.voice.clipMs(pvId) - 300) / chars.length));
+      typer = window.setInterval(() => { if (!live || k >= chars.length) { clearInterval(typer); return; } chars[k++].classList.add('is-in'); }, per);
+      const r0 = await app.voice.say(pvId); clearInterval(typer); chars.forEach((c) => c.classList.add('is-in')); if (!live || r0 === 'interrupted') return;
+    } else {
+      let i = 0;
+      await new Promise<void>((res) => { typer = window.setInterval(() => { if (!live || i >= chars.length) { clearInterval(typer); res(); return; } chars[i].classList.add('is-in'); if (!/[，。！？、：…—]/.test(chars[i].textContent || '')) sfx.play('syll', { step: Math.floor(Math.random() * 6), rate: 0.9 + Math.random() * 0.2, vol: 0.8 }); i++; }, 85); });
+      if (!live) return;
+      const nar = 'fort.nar.' + pvId.slice(5);
+      if (pvText && lineText(nar)) {
+        let j = 0; const lead = 900, per = 230; // "鲁班说：" first, then ≈ 4.3 characters a second
+        setTimeout(() => { if (!live) return; sweep = window.setInterval(() => { while (j < chars.length && /[，。！？、：；…—“”‘’（）《》,.!?:;]/.test(chars[j].textContent || '')) j++; if (!live || j >= chars.length) { clearInterval(sweep); return; } chars.forEach((c, k) => c.classList.toggle('is-hi', k === j)); j++; }, per); }, lead);
+        const r0 = await app.voice.say(nar); clearInterval(sweep); chars.forEach((c) => c.classList.remove('is-hi')); if (!live || r0 === 'interrupted') return; // the child tapped something: stop the intro
+      }
     }
     if (choose) { if ((await app.voice.say(assist ? 'fort.ui.recommend' : 'fort.ui.choose')) === 'interrupted' || !live) return; }
     if (featId) { if ((await app.voice.say(featId)) === 'interrupted' || !live) return; }
@@ -165,9 +176,13 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
   const mEl = el.querySelector('.gf-pv__machines') as HTMLElement; mEl.dataset.n = String(kinds.length);
   function drawMachines(): void {
     mEl.replaceChildren(); const n = kinds.length; const P = port();
-    const ms = P ? (n <= 1 ? 200 : n === 2 ? 168 : n <= 4 ? 136 : 96) : (n <= 1 ? 250 : n === 2 ? 200 : n <= 4 ? 168 : 128); // portrait: one row
+    // portrait: one row; with 7–8 kinds (2-10) each column is exactly one figure wide with a compact name plate, so
+    // neighbours never overlap (QA r5); a lone machine stands big on the table
+    const dense = P && n > 6;
+    const ms = P ? (n <= 1 ? 236 : n === 2 ? 184 : n <= 4 ? 136 : n <= 6 ? 96 : 86) : (n <= 1 ? 280 : n === 2 ? 216 : n <= 4 ? 168 : 128);
+    mEl.dataset.dense = dense ? '1' : '';
     kinds.forEach((k, i) => {
-      const b = h('button', 'gf-pv__m'); b.dataset.word = nameOf(k); b.style.animationDelay = `${0.15 + i * 0.3}s`; b.style.width = ms + 16 + 'px';
+      const b = h('button', 'gf-pv__m'); b.dataset.word = nameOf(k); b.style.animationDelay = `${0.15 + i * 0.3}s`; b.style.width = ms + (dense ? 6 : 16) + 'px';
       b.append(rigIcon(atlas, k, ms, app.dpr, { walk: i * 7 }));
       b.insertAdjacentHTML('beforeend', `<span>${nameOf(k)}</span>${k === lv.newEnemy || (lv.newEnemy === 'swarm' && k === 'ant') ? '<i class="gf-new">新</i>' : ''}`);
       b.addEventListener('click', () => info(k)); mEl.appendChild(b);
@@ -218,15 +233,21 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
         const inDeck = deck.includes(c);
         const b = h('button', 'gf-poolcard' + (inDeck ? ' is-in' : '')); b.type = 'button'; b.dataset.word = nameOf(c); b.append(rigIcon(atlas, c, Math.round(pw * 0.74), app.dpr));
         b.insertAdjacentHTML('beforeend', `<span class="gf-card__cost">${UNIT_INFO[c].cost}</span>${inDeck ? `<i class="gf-poolcard__ok">${icon('check')}</i>` : ''}${missing().includes(c) ? '<i class="gf-seal">墨</i>' : ''}`);
-        b.addEventListener('click', () => { if (deck.includes(c)) deck = deck.filter((x) => x !== c); else if (deck.length < (lv.slots || 6)) deck.push(c); else deck[deck.length - 1] = c; app.ui('ui-pick', 0.4); render(); });
+        b.addEventListener('click', () => { if (deck.includes(c)) deck = deck.filter((x) => x !== c); else if (deck.length < (lv.slots || 6)) deck.push(c); else deck[deck.length - 1] = c; app.ui('ui-pick', 0.4); if (!featId && almLine(c)) setFeat(c); render(); });
         poolEl.appendChild(b);
       }
     }
   }
   const feat = el.querySelector('.gf-pv__feat') as HTMLElement | null;
-  if (feat && featK) { (feat.querySelector('.gf-pv__featart') as HTMLElement).append(rigIcon(atlas, featK, port() ? 120 : 116, app.dpr)); feat.addEventListener('click', () => { app.ui('ui-tap', 0.4); void app.voice.say(featId!, { interrupt: true }); }); }
+  function setFeat(k: string): void {
+    if (!feat) return; featCur = k; feat.innerHTML = featHtml(k); feat.dataset.k = k;
+    (feat.querySelector('.gf-pv__featart') as HTMLElement).append(rigIcon(atlas, k, port() ? 120 : 116, app.dpr)); fitFeat();
+  }
+  /** the card only shows when it fits whole between the deck and 开始推演 (never squeezed, never pushing the button off) */
+  function fitFeat(): void { if (!feat) return; feat.hidden = false; if (pane.scrollHeight > pane.clientHeight + 1) feat.hidden = true; }
+  if (feat && featCur) { setFeat(featCur); feat.addEventListener('click', () => { app.ui('ui-tap', 0.4); const id = featCur && almLine(featCur); if (id) void app.voice.say(id, { interrupt: true }); }); }
   (el.querySelector('.gf-pv__bonus') as HTMLElement).addEventListener('click', () => { app.ui('ui-tap', 0.4); if (bonusId) void app.voice.say(bonusId, { interrupt: true }); });
-  sizeCards(); drawMachines(); render();
+  sizeCards(); drawMachines(); render(); requestAnimationFrame(fitFeat);
   (el.querySelector('.gf-pv__go') as HTMLElement).addEventListener('click', () => { if (!deck.length && !beltCards) return; if (choose) { app.save.decks[lv.id] = deck.slice(); app.persist(); } app.ui('ui-confirm', 0.6); onStart(beltCards ? [] : deck.slice()); });
   const back = h('button', 'gf-back xg-btn xg-btn--ghost', icon('back')); back.addEventListener('click', onBack); el.appendChild(back);
   bindPress(el);
@@ -234,7 +255,7 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
   void intro();
   return {
     destroy: () => { live = false; clearInterval(typer); clearInterval(sweep); app.voice.stop(); el.remove(); },
-    layout: () => { sizeCards(); drawMachines(); render(); },
+    layout: () => { sizeCards(); drawMachines(); render(); fitFeat(); },
   };
 }
 

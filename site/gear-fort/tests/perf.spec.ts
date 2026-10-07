@@ -48,6 +48,8 @@ test('V19: stress scene stays inside the frame, draw-call and fill budgets', asy
   expect(errors).toEqual([]);
   expect(r.minEnemies).toBeGreaterThanOrEqual(44); // 48 kept up; a few may be mid-respawn in a sample
   expect(r.minUnits).toBeGreaterThanOrEqual(25);
+  expect(r.minParticles).toBeGreaterThanOrEqual(200); // spec §9.8: the stress peak is 200 particles (QA r4: was 187)
+  expect(r.minBolts).toBeGreaterThanOrEqual(60);
   // V19 hard limit 700; the fixed-slot pose cache (§8.5) is not built in v1 (deviation, see LICENSES/notes), so keep a
   // regression guard below the limit: any new per-frame draw cost must show up here before it eats the last headroom
   expect(r.maxCalls).toBeLessThanOrEqual(680);

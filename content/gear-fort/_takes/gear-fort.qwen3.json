@@ -53,7 +53,10 @@
     2611,
     2612,
     2613,
-    2614
+    2614,
+    2615,
+    2616,
+    2617
    ]
   },
   "fort.alm.ram.1": {
@@ -257,19 +260,20 @@
    ]
   },
   "fort.bonus.1-5": {
-   "seed": 2610,
+   "seed": 2615,
    "base": 2610,
    "sig": "319009594828838a7af8d190aeaa01548c1c9855",
-   "score": 232.499,
+   "score": 0.833,
    "flags": [
-    "cer",
-    "polyphone"
+    "cer(asr-homophone)"
    ],
    "tried": [
     2610,
     2611,
     2612,
-    2613
+    2613,
+    2614,
+    2615
    ]
   },
   "fort.coach.boss.owlRage": {
@@ -912,6 +916,24 @@
     2611
    ]
   },
+  "fort.inn.1-9.2": {
+   "seed": 2610,
+   "base": 2610,
+   "sig": "39810a727490511630c3f41636b6035bef3d0803",
+   "score": 132.499,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    2610,
+    2611,
+    2612,
+    2613,
+    2614,
+    2615,
+    2616
+   ]
+  },
   "fort.inn.2-11.1": {
    "seed": 2611,
    "base": 2610,
@@ -947,6 +969,30 @@
     2611
    ]
   },
+  "fort.inn.2-6.2": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "7f6a1c47155121538de6e794863a7c63063bae5f",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.inn.2-9.2": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "a7fce7f3a22b401ed748f52dfb68864789d820a7",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
   "fort.jn.aoe": {
    "seed": 2611,
    "base": 2610,
@@ -963,6 +1009,188 @@
    "base": 2610,
    "sig": "316b56c8e7e9487c88b2077c3541f4c43b3a70d9",
    "score": 0.965,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611,
+    2612
+   ]
+  },
+  "fort.luban.blocked.2": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "8b4e74f92229ab1eacc0667d81f950fb97b02f75",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.dawn": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "8ee191726dcb9dcde923c915be9052094ba186f7",
+   "score": 1.666,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.flag.2": {
+   "seed": 2613,
+   "base": 2610,
+   "sig": "9c092d3f7ceed45bf86a42f1838e2c27dff3f3c5",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2610,
+    2611,
+    2612,
+    2613
+   ]
+  },
+  "fort.luban.log": {
+   "seed": 2613,
+   "base": 2610,
+   "sig": "4e2f8a3a861c8fb62b9200acc770dcc43bf7c2b6",
+   "score": 232.6,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    2610,
+    2611,
+    2612,
+    2613
+   ]
+  },
+  "fort.luban.owl.down": {
+   "seed": 2613,
+   "base": 2610,
+   "sig": "086e381829faf517d806c21824afb50f2eb7b934",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2610,
+    2611,
+    2612,
+    2613
+   ]
+  },
+  "fort.luban.preview.1-11": {
+   "seed": 2612,
+   "base": 2610,
+   "sig": "22cd002c759a15907cacfeaf23aea2929944ba0e",
+   "score": 1.363,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611,
+    2612
+   ]
+  },
+  "fort.luban.preview.1-7": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "850ba6a54df1caacb33fc670897a3fceb1fbd739",
+   "score": 0.454,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.preview.1-9": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "3aee0a7aa88a97f64897bc9e122d0f8d6a0b5dfd",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.preview.2-1": {
+   "seed": 2612,
+   "base": 2610,
+   "sig": "dadee66fa185cdd0879184ac6828dcc1881d3201",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2610,
+    2611,
+    2612
+   ]
+  },
+  "fort.luban.preview.2-10": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "a932efaf6ea7345f6b152f8791704db120098470",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.preview.2-11": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "9c53cdc8b467a4507e6824f56d8172cf4997a8d8",
+   "score": 1.363,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.preview.2-9": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "25082b04cf579b63a02f23275a402d1718f7773c",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.rhino": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "1214a437e0e4927869f425242d0e5b988554ecaf",
+   "score": 1.666,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
+  "fort.luban.rhino.shell": {
+   "seed": 2612,
+   "base": 2610,
+   "sig": "ca7cc5019d5144007953eec0a442b123bef7c2bf",
+   "score": 0.5,
    "flags": [
     "cer(asr-homophone)"
    ],
@@ -1134,7 +1362,10 @@
     2610,
     2611,
     2612,
-    2613
+    2613,
+    2614,
+    2615,
+    2616
    ]
   },
   "fort.nar.luban.preview.2-11": {
@@ -1309,6 +1540,19 @@
     2611,
     2612,
     2613
+   ]
+  },
+  "fort.story.1.end.2": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "7d14e86a3851465ff23dbe14469be7637b14e8c9",
+   "score": 0.909,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
    ]
   },
   "fort.tip.alt.brute": {

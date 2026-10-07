@@ -2,7 +2,7 @@
 // ~/kid-games-work/audio-review/gear-fort/ with an index.html, for dad to audition on headphones (asynchronously).
 // NEVER played on this Mac. Gated: GF_AUDIO=1 npx vitest run site/gear-fort/tools/render-audio.test.ts
 import { describe, expect, it } from 'vitest';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { RECIPES, renderSfx, renderNotes, SR, type Inst } from '../src/audio/synth';
@@ -25,7 +25,8 @@ describe.skipIf(!process.env.GF_AUDIO)('render audio for review', () => {
     }
     writeFileSync(join(dir, 'metrics.json'), JSON.stringify(rows, null, 1));
     writeFileSync(join(dir, 'index.html'), `<!doctype html><meta charset="utf-8"><title>机关守城 · 声音试听</title><style>body{font:15px system-ui;margin:24px;max-width:900px}td{padding:4px 10px;border-bottom:1px solid #ddd}audio{height:28px}</style>
-<h1>机关守城 · 声音试听（${rows.length} 条）</h1><p>全部由 site/gear-fort/src/audio/synth.ts 本机合成（确定性）。音效峰值 −3 dBFS；主题按页面音量（0.35）渲染，目标 −24 LUFS。循环音（loop）重复 3 次。请戴耳机、小音量试听。</p>
+<h1>机关守城 · 声音试听（${rows.length} 条）</h1>
+${existsSync(join(dir, 'narration.html')) ? '<p><a href="narration.html">旁白试听单（narration.html）：ASR 标记的旁白，请戴耳机、小音量听一遍</a></p>\n' : ''}<p>全部由 site/gear-fort/src/audio/synth.ts 本机合成（确定性）。音效峰值 −3 dBFS；主题按页面音量（0.35）渲染，目标 −24 LUFS。循环音（loop）重复 3 次。请戴耳机、小音量试听。</p>
 <table>${rows.map((r) => `<tr><td>${r.file}</td><td>${r.sec.toFixed(2)} s</td><td>${r.peak} dBFS</td><td>${r.lufs != null ? r.lufs + ' LUFS' : (r.centroid + ' Hz' + (r.loop ? ' · loop' : ''))}</td><td><audio controls preload="none" src="${r.file}"></audio></td></tr>`).join('')}</table>`);
     expect(rows.length).toBeGreaterThan(45);
     console.log(rows.filter((r) => r.kind === 'music').map((r) => `${r.file} ${r.lufs} LUFS peak ${r.peak}`).join('\n'));

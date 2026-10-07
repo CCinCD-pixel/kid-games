@@ -1,4 +1,4 @@
 {
  "clips": true,
- "note": "voice step done 2026-10-07 (+ fix r1): public/audio/gear-fort/ = 507 clips (dad 327, narrator 130 incl. the 鲁班说 fallback and the voiced 附加题, word 45, companion 5), Qwen3 0.6B 8-bit; 鲁班 (narration.luban.yaml) still waits for K1"
+ "note": "voice step done 2026-10-07 (+ fix r1) and voice2 2026-10-08: public/audio/gear-fort/ = 555 clips (dad 327, narrator 130 incl. the 鲁班说 fallback and the voiced 附加题, luban 48, word 45, companion 5), Qwen3 0.6B 8-bit; 鲁班 speaks in his own voice (role luban = Dylan, docs/VOICE.md) from narration.luban.yaml"
 }

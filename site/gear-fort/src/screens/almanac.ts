@@ -32,7 +32,7 @@ const JINNANG = JN_RAW as unknown as Jn[];
 /** a page is "新" until the almanac has once been shown with it open (then 'shown'), or until it is opened ('seen') */
 export const isNewPage = (app: AppCtx, p: Page): boolean => { const v = app.save.almanac[p.id]; return pageOpen(app, p) && (v == null || v === 'unseen'); };
 type Tab = 'card' | 'machine' | 'boss' | 'jn';
-const TABS: [Tab, string][] = [['card', '牒'], ['machine', '机关'], ['boss', 'Boss'], ['jn', '锦囊']];
+const TABS: [Tab, string][] = [['card', '牒'], ['machine', '机关'], ['boss', '首领'], ['jn', '锦囊']];
 let lastTab: Tab = 'card';
 export function mountAlmanac(root: HTMLElement, app: AppCtx, onBack: () => void): { destroy(): void } {
   const el = h('div', 'gf-menu gf-alm xg-root'); el.dataset.xgTheme = 'night'; root.appendChild(el);
@@ -62,7 +62,8 @@ export function mountAlmanac(root: HTMLElement, app: AppCtx, onBack: () => void)
     if (tab !== 'jn') for (const p of ofTab(tab)) {
       const open = pageOpen(app, p); const t = h('button', 'gf-alm__tile' + (open ? '' : ' is-locked') + (p.kind === 'boss' ? ' is-boss' : ''));
       if (open) t.append(rigIcon(atlas, p.id, p.kind === 'boss' ? 150 : 76, app.dpr)); else t.insertAdjacentHTML('beforeend', '<b class="gf-alm__q">？</b>');
-      t.insertAdjacentHTML('beforeend', `<span>${open ? p.name : ''}</span>${open && fresh.has(p.id) && app.save.almanac[p.id] !== 'seen' ? '<i class="gf-new">新</i>' : ''}`);
+      // a locked page says where it opens, so the '？' reads as a level still ahead, not as missing content (QA r4)
+      t.insertAdjacentHTML('beforeend', `<span>${open ? p.name : `<em class="gf-alm__when">第 ${pageLevel(p)} 关</em>`}</span>${open && fresh.has(p.id) && app.save.almanac[p.id] !== 'seen' ? '<i class="gf-new">新</i>' : ''}`);
       t.addEventListener('click', () => { if (open) show(p); else app.ui('ui-locked', 0.5); });
       grid.appendChild(t);
     }

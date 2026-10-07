@@ -81,7 +81,13 @@ export function buildVol2Parts(P: Record<string, PartDef>, part: PartFn): void {
   P.dmStick = part(5, 24, 'woodDark', (p) => { rr(p, 1, 3, 3, 21, 1.5); circ(p, 2.5, 3, 2.5); });
 
   // ── 铜盾甲兵: the same shield, cast in bronze (arrows and fire do nothing; a falling stone or pot does) ──
-  P.sdShieldM = part(15, 47, 'bronze', (p, m) => { rr(p, 0, 0, 15, 47, 5); line(m, 7.5, 4, 7.5, 43); circ(m, 7.5, 23.5, 4); circ(m, 7.5, 23.5, 1.5); line(m, 2, 11, 13, 11); line(m, 2, 36, 13, 36); }, { markW: 1.5, markColor: '#7a5a1f' });
+  // 铜盾甲兵 reads "made of bronze" at 32–60 px (QA r5): a round-topped, wider bronze shield with a big boss and studs,
+  // a spiked bronze helmet instead of the gold crest, a bronze scale breastplate and bronze greaves — the
+  // 盾甲兵 (all red lacquer, flat-topped wooden shield) and this one no longer share a silhouette
+  P.sdShieldM = part(20, 50, 'bronze', (p, m) => { p.moveTo(0, 10); p.quadraticCurveTo(0, 0, 10, 0); p.quadraticCurveTo(20, 0, 20, 10); p.lineTo(20, 42); p.quadraticCurveTo(10, 52, 0, 42); p.closePath(); circ(m, 10, 24, 5.5); circ(m, 10, 24, 2); for (const [x, y] of [[4, 8], [16, 8], [4, 40], [16, 40]]) circ(m, x, y, 1.3); m.moveTo(3.5, 14); m.quadraticCurveTo(3, 24, 4.5, 33); }, { markW: 1.6, markColor: '#6a4a14' });
+  P.smHelm = part(28, 22, 'bronze', (p, m) => { p.moveTo(0, 22); p.lineTo(1, 13); p.quadraticCurveTo(2, 5, 14, 5); p.quadraticCurveTo(26, 5, 27, 13); p.lineTo(28, 22); p.lineTo(24, 18); p.lineTo(4, 18); p.closePath(); poly(p, [11, 6, 14, 0, 17, 6]); line(m, 2, 14, 26, 14); circ(m, 14, 10, 1.4); }, { markW: 1.4, markColor: '#6a4a14' });
+  P.smBody = part(26, 26, 'bronze', (p, m) => { p.moveTo(3, 0); p.lineTo(23, 0); p.quadraticCurveTo(27, 13, 24, 26); p.lineTo(2, 26); p.quadraticCurveTo(-1, 13, 3, 0); p.closePath(); for (const y of [7, 13, 19]) { m.moveTo(4, y); m.quadraticCurveTo(13, y + 3, 22, y); } }, { markW: 1.4, markColor: '#6a4a14' });
+  P.smLeg = part(9, 20, 'bronze', (p, m) => { rr(p, 0, 0, 9, 17, 3); rr(p, -3, 15, 12, 5, 2); line(m, 1.5, 6, 7.5, 6); line(m, 1.5, 11, 7.5, 11); }, { markW: 1.2, markColor: '#6a4a14' });
   P.sdShieldMHalf = part(15, 24, 'bronze', (p) => { poly(p, [0, 4, 6, 0, 15, 3, 13, 24, 1, 22]); });
 
   // ── 夜枭木鸢 owl: a great night kite-owl of black lacquer and dark wood, gold eyes (red when it rages) ──

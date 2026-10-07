@@ -1,5 +1,5 @@
 // V4 — the TS kernel reproduces the prototype bit for bit: 22 design solutions (every flag hash + final hash),
-// 22 ghost windows (hash at both window ends) and 8 synthetic scripts (shovel/mark/token/strike/hook/pit/
+// 22 ghost windows (hash at both window ends) and 9 synthetic scripts (shovel/mark/token/strike/hook/pit/assisted 
 // checkpoint restore/suspend-resume). Fixtures: content/gear-fort/{dscripts,ghost,synthetic}/ (spec §8.9, §9.1).
 import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
@@ -56,6 +56,7 @@ describe('V4 synthetic scripts (shovel, mark, token, strike, hook, snapshots)', 
         const acts = sy.actions[i][1]; const p = acts[0]?.t;
         if (p === '#snapshot') snap = snapshot(S);
         else if (p === '#restore') S = restore(snap!, lv, { events: true })!;
+        else if (p === '#restore-assist') S = restore(snap!, lv, { events: true, assist: 1 })!; // 从第 N 面战鼓重来 with tier-one assist (GF-E1)
         else if (p === '#suspend-resume') S = resume(snapshot(S), lv, { events: true })!;
         else a = (a || ([] as Action[])).concat(acts as Action[]);
         i++;

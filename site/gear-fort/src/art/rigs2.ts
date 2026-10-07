@@ -104,14 +104,14 @@ export const RIGS2: Record<string, Rig> = {
     { p: 'dmStick', b: 'stick', x: 18, y: -46, px: 2.5, py: 22 },
     ...wheels(),
   ] },
-  shielder_m: { shadow: 28, height: 72, parts: [
+  shielder_m: { shadow: 30, height: 76, parts: [ // same 7 draws as 盾甲兵 (V19 budget), bronze everywhere but the face
     { p: 'wkArm', b: 'armB', x: 6, y: -44, px: 3.5, py: 3 },
-    { p: 'wkLeg', b: 'legB', x: 4, y: -20, px: 4, py: 1 },
-    { p: 'wkBody', b: 'body', x: -13, y: -44 },
+    { p: 'smLeg', b: 'legB', x: 4, y: -20, px: 4.5, py: 1 },
+    { p: 'smBody', b: 'body', x: -13, y: -44 },
     { p: 'wkHead', b: 'head', x: -12, y: -66 },
-    { p: 'wkCrest', b: 'head', x: -6, y: -73 },
-    { p: 'wkLeg', b: 'legF', x: -10, y: -20, px: 4, py: 1 },
-    { p: 'sdShieldM', b: 'shield', x: -27, y: -59 },
+    { p: 'smHelm', b: 'head', x: -15, y: -76 },
+    { p: 'smLeg', b: 'legF', x: -10, y: -20, px: 4.5, py: 1 },
+    { p: 'sdShieldM', b: 'shield', x: -31, y: -61 },
   ] },
   owl: { shadow: 52, height: 132, parts: [
     { p: 'owWing', b: 'wingB', x: 12, y: -98, px: 6, py: 14, sx: 0.9, sy: 0.9 },

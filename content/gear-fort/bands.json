@@ -522,8 +522,10 @@
   "learn": 90,
   "flagStars": {
    "1": 27,
-   "2": 27
-  }
+   "2": 26
+  },
+  "flagStarsTol": 0.5,
+  "flagStarsWhy": "spec D1: threshold = K2 first-try expected stars. Volume 1 K2 28.3 → 27 (spec §5.6). Volume 2 K2 25.7 → 26, not the spec's 27: 27 would make a child who learned every lesson replay levels just for the flag. The gate allows ±0.5 (one expected star rounds to the nearest whole star the child can see); FLAG_STARS in src/render/songcity.ts must equal this table. Pending dad / spec-owner sign-off (game.json notes, QA r4/r5)."
  },
  "mstarSeeds": [
   201,

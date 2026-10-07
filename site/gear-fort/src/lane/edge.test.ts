@@ -108,6 +108,8 @@ describe('V2 §3.21 boundary cases', () => {
     const L = { ...LEVELS['1-11'], spawns: LEVELS['1-11'].spawns.filter((x) => String(x[2]).startsWith('boss:')) }; const S = createSim(L, 1); let n = 0; while (!S.enemies.some((e) => e.boss) && n++ < 4000) step(S);
     const snap = snapshot(S); const R = restore(snap, L, { assist: 2 });
     expect(R.grain).toBe(snap.grain + ASSIST.startGrain);
+    // game-local errata GF-E1: a checkpoint that already carries assist does not get it again (no +150 per retry)
+    const R2 = restore(snapshot(R), L, { assist: 1 }); expect(R2.grain).toBe(R.grain); expect(R2.restored).toBe(2);
     const b0 = S.enemies.find((e) => e.boss), b1 = R.enemies.find((e) => e.boss); expect(b1.max).toBe(b0.max); expect(b1.hp).toBe(b0.hp);
   });
   it('15 shovel refund: same tick place+shovel refunds all; after acting nothing comes back', () => {

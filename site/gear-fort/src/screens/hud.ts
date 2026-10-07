@@ -23,7 +23,7 @@ export class BossBar {
     this.el.innerHTML = `<div class="gf-boss__face"></div><div class="gf-boss__dots"><i></i><i></i><i></i></div>
       <div class="gf-boss__bar"><div class="gf-boss__fill"></div><div class="gf-boss__hoop"></div>
       <div class="gf-boss__plate"><svg viewBox="0 0 160 60" preserveAspectRatio="none">${CRACKS.map((d) => `<path d="${d}"/>`).join('')}</svg></div>
-      <div class="gf-boss__cloud">高空 ×½</div></div><div class="gf-boss__only">只有<span data-c="lobber"></span><span data-c="beam"></span></div>`;
+      <div class="gf-boss__cloud">高空 ×½</div><b class="gf-boss__won">已破</b></div><div class="gf-boss__only">只有<span data-c="lobber"></span><span data-c="beam"></span></div>`;
     (this.el.querySelector('.gf-boss__face') as HTMLElement).append(rigIcon(atlas, kind, 54, dpr));
     for (const s of this.el.querySelectorAll<HTMLElement>('.gf-boss__only span')) s.append(rigIcon(atlas, s.dataset.c!, 30, dpr));
     this.dots = [...this.el.querySelectorAll<HTMLElement>('.gf-boss__dots i')];
@@ -43,10 +43,13 @@ export class BossBar {
       const shell = ph === 2; this.plate.classList.toggle('is-on', shell); this.only.classList.toggle('is-on', shell);
       if (shell && e) { const c = Math.min(4, Math.floor(((B?.crack ?? 0) / Math.max(1, e.crackMax ?? 1)) * 5)); if (c !== this.crack) { this.crack = c; this.plate.querySelectorAll('path').forEach((p, i) => p.classList.toggle('on', i < c)); this.plate.classList.remove('is-hit'); void this.plate.offsetWidth; this.plate.classList.add('is-hit'); } }
     } else if (this.kind === 'owl') {
-      const st = B?.state ?? 'high'; ph = S.dawnAt != null && S.tick >= S.dawnAt ? 3 : e && e.hp * 2 < e.max ? 2 : 1;
-      this.cloud.classList.toggle('is-on', st === 'high' || st === 'swoopTele'); this.el.classList.toggle('is-down', st === 'down' || st === 'landed');
+      // done → all three dots, no altitude cloud; waiting (not yet in the sky) → no cloud either (QA r4: the bar used to
+      // rewind to phase 1 + '高空 ×½' after the kill)
+      const st = e ? B?.state ?? 'high' : ''; ph = S.boss?.done ? 3 : S.dawnAt != null && S.tick >= S.dawnAt ? 3 : e && e.hp * 2 < e.max ? 2 : 1;
+      this.cloud.classList.toggle('is-on', !!e && (st === 'high' || st === 'swoopTele')); this.el.classList.toggle('is-down', st === 'down' || st === 'landed');
       this.hoop.style.display = 'none';
     }
+    this.el.classList.toggle('is-done', !!S.boss?.done);
     if (ph !== this.phase) { this.phase = ph; this.dots.forEach((d, i) => { d.classList.toggle('is-on', i < ph); d.classList.toggle('is-now', i === ph - 1); }); }
     const dn = e?.dings ?? 0;
     if (dn > this.dings && e) { const d = h('span', 'gf-boss__ding', '叮'); d.style.left = `${20 + Math.random() * 60}%`; this.el.querySelector('.gf-boss__bar')!.appendChild(d); setTimeout(() => d.remove(), 900); }

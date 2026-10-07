@@ -84,6 +84,6 @@ export function parts(n: number, delay = 0.6): void {
   const now = performance.now(); if (now - partAt > 1500) partStep = 0; partAt = now;
   for (let i = 0; i < n; i++) play('parts.fly', { step: Math.min(7, partStep++), delay: delay + i * 0.09 });
 }
-/** 鲁班's wooden "puppet talk" (no voice yet, kit request K1): pentatonic woodblock syllables */
+/** 鲁班's wooden "puppet talk" (when his voice clip is not available / he must not talk over someone): pentatonic woodblock syllables */
 export function babble(n = 4): void { for (let i = 0; i < n; i++) play('syll', { step: Math.floor(Math.random() * 6), delay: i * 0.085, rate: 0.9 + Math.random() * 0.2 }); }
 export function resetSfx(): void { live = []; recent.clear(); colStep = 0; partStep = 0; stopLoops(); }

@@ -2,11 +2,13 @@
 // number sentences recomputed from the kernel tables (errata E1: the numbers a child reasons with must be true).
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { describe, it, expect } from 'vitest';
 import { LEVELS, ORDER, CAMPAIGN, LINES } from './content';
 import { UNITS, ENEMIES, CARD_UNLOCK, BOSS_CFG } from './lane/tables';
 import { FEARS, MUST } from './lane/tags';
 import { SPAWN_X, TPS } from './lane/rules';
+import { conceptLineId } from './lane/coach';
 import JINNANG from '../../../content/gear-fort/jinnang.json';
 import ALMANAC from '../../../content/gear-fort/almanac.json';
 
@@ -27,6 +29,16 @@ describe('V5 content', () => {
   it('every level teaches something: non-empty concept; jinnang is one of the 15', () => {
     const J = (JINNANG as unknown as { id: string }[]).map((j) => j.id); expect(J.length).toBe(15);
     for (const id of ORDER) { expect((lv(id).concept || '').length, id).toBeGreaterThan(1); if (lv(id).jinnang) expect(J, id).toContain(lv(id).jinnang); }
+  });
+  it('「墨子，怎么办？」 concept fallback: a voiced child line ≤15 字, and the bubble shows exactly that line (QA r4 major)', () => {
+    for (const id of ORDER) {
+      const lid = conceptLineId(LEVELS[id]); const rec = LINES[lid];
+      expect(rec?.text, `${id}: ${lid}`).toBeTruthy();
+      expect([...rec.text.replace(/[，。！？、：；“”‘’…—\s]/g, '')].length, `${id}: ${rec.text}`).toBeLessThanOrEqual(15);
+      expect(rec.text).not.toBe(LEVELS[id].concept);
+    }
+    const BATTLE = fs.readFileSync(path.resolve(__dirname, 'screens/battle.ts'), 'utf8');
+    expect(BATTLE).not.toMatch(/level\.concept/); // the designer's summary never reaches the child
   });
   it('every star3 condition key is implemented in stars.ts', () => {
     for (const id of ORDER) for (const k of Object.keys(lv(id).star3 || {})) expect(STARS_SRC.includes(`case '${k}'`), `${id}: ${k}`).toBe(true);
@@ -81,9 +93,30 @@ describe('V5 content', () => {
 // DoD 13 (spec §9.11): the exported content is byte-identical to the prototype's frozen manifest — except the files this
 // repo maintains by hand on purpose (listed, so a re-export that would overwrite them is a deliberate act): voice.json (the
 // voice step's state), lines.json + narration.yaml (+53 narrator lines: 鲁班说 fallback, voiced 附加题 — fix r1) and
-// almanac.json (point-read id fort.w.橐). Port those edits back to export-content.mjs before the next re-export.
+// almanac.json (point-read id fort.w.橐), narration.luban.yaml (鲁班's own voice, 2026-10-08: header + spoken-form `norm:`
+// for 犀/檑). Port those edits back to export-content.mjs before the next re-export.
 describe('DoD 13: content provenance', () => {
-  const HAND = new Set(['voice.json', 'lines.json', 'narration.yaml', 'almanac.json']);
+  // the hand edits are pinned (content.hand.json): a re-export that would silently revert them fails here (QA r4 tech)
+  it('hand-maintained edits are all present: +53 lines, the changed line, every spoken-form norm, the 橐 point-read id', () => {
+    const PIN = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'content.hand.json'), 'utf8')) as { linesAdded: string[]; linesChanged: string[]; linesNorm: string[]; almanacWords: Record<string, string> };
+    expect(PIN.linesAdded.length).toBe(53);
+    for (const id of [...PIN.linesAdded, ...PIN.linesChanged]) expect(LINES[id], id).toBeTruthy();
+    for (const id of PIN.linesNorm) expect((LINES[id] as { norm?: string }).norm, id).toBeTruthy();
+    const pages = ALMANAC as unknown as { id: string; word?: string }[];
+    for (const [pg, w] of Object.entries(PIN.almanacWords)) expect(pages.find((p) => p.id === pg)?.word).toBe(w);
+    // bands.json GLOBAL: the 墨家旗 table + tolerance + the reason (QA r5)
+    const BG = (JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../content/gear-fort/bands.json'), 'utf8')) as { GLOBAL: Record<string, unknown> }).GLOBAL;
+    const pinB = (PIN as unknown as { bandsGlobal: Record<string, unknown> }).bandsGlobal;
+    expect(BG.flagStars).toEqual(pinB.flagStars); expect(BG.flagStarsTol).toBe(pinB.flagStarsTol); expect(String(BG.flagStarsWhy)).toMatch(/D1/);
+    // with the prototype export on this machine, the diff must be exactly the pinned list (no unrecorded hand edit)
+    const PROTO = path.join(os.homedir(), 'kid-games-work/specs/lane-defense-tools/content/lines.json');
+    if (fs.existsSync(PROTO)) {
+      const P = JSON.parse(fs.readFileSync(PROTO, 'utf8')) as Record<string, unknown>;
+      expect(Object.keys(LINES).filter((k) => !(k in P)).sort()).toEqual(PIN.linesAdded);
+      expect(Object.keys(LINES).filter((k) => k in P && JSON.stringify(LINES[k]) !== JSON.stringify(P[k])).sort()).toEqual(PIN.linesChanged);
+    }
+  });
+  const HAND = new Set(['voice.json', 'lines.json', 'narration.yaml', 'narration.luban.yaml', 'almanac.json', 'bands.json']); // bands.json: GLOBAL.flagStars* only (content.hand.json bandsGlobal)
   const C = path.resolve(__dirname, '../../../content/gear-fort');
   const man = JSON.parse(fs.readFileSync(path.join(C, 'manifest.json'), 'utf8')) as { sha1: Record<string, string> };
   it('every exported file matches its sha1, except the hand-maintained list', async () => {

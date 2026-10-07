@@ -10,8 +10,10 @@ import { shift } from '../art/shade';
 import type { SaveV1 } from '../save';
 
 export const SONG_W = 240, SONG_H = 180;
-/** stars per volume for the 墨家旗 (33 per volume). Volume 2's K2 expectation is 25.7 — Dad decides 27 vs 26 (report). */
-export const FLAG_STARS = [27, 27];
+/** stars per volume for the 墨家旗 (33 per volume), by spec D1's rule "threshold = K2 first-try expected stars":
+ *  volume 1 → 27, volume 2 → 26 (K2 25.7; 27 would make a child who learned the lessons replay for it — QA r4).
+ *  bands.json GLOBAL.flagStars / flagStarsTol / flagStarsWhy hold the same table + the reason; V8 checks they agree. */
+export const FLAG_STARS = [27, 26];
 const TAU = Math.PI * 2;
 const O = { outline: 1.3 } as const;
 const O2 = { outline: 1 } as const;

@@ -6,6 +6,7 @@
 //   GF_FULL=1 [GF_ONLY=1-1,1-2] npx vitest run site/gear-fort/tools/bands.rest.test.ts   (~5 min for all 11 levels)
 //   partial results → ~/kid-games-work/reports/gear-fort/rest/<id>.json; GF_GLOBAL=1 runs only the volume checks on them.
 import { TYPE2 as TYPE2_ } from './bands-v2';
+import { FLAG_STARS } from '../src/render/songcity';
 import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -149,10 +150,13 @@ describe.runIf(!!process.env.GF_GLOBAL)(`V8 volume-${VOL} global checks (on the 
     const causeIds = new Set<string>(); for (const id of IDS) for (const k of Object.keys(rep[id].causesK as object)) causeIds.add(k.split(':')[0]); if (causeIds.size < G.causeIdsPerVol) bad.push(`causeIds ${causeIds.size}`);
     const s = (id: string, k: string, b: string): number => (rep[id][k] as Record<string, number>)[b];
     const expK2 = IDS.reduce((a, id) => a + (3 * s(id, 'star3', 'K2') + 2 * Math.max(0, s(id, 'steady', 'K2') - s(id, 'star3', 'K2')) + 2 * Math.max(0, (rep[id].K2 as number) - s(id, 'steady', 'K2')) * 0.5) / 100, 0);
-    // 墨家旗 gate (spec §9.3: K2 first-try expected stars >= 27/33). Volume 2 is published by the spec itself at ≈26/33
-    // (prototype-exact here, 25.7): a learned child needs ~1 replay for the flag — reported as a decision for Dad, not tuned away.
-    const FLAG_KNOWN: Record<number, number> = { 2: 26 };
-    if (Math.round(expK2) < G.flagStars[v]) (FLAG_KNOWN[v] === Math.round(expK2) ? g : bad).push(`K2 stars ${expK2.toFixed(1)} < 墨家旗 ${G.flagStars[v]}`);
+    // 墨家旗 gate (spec §9.3: K2 first-try expected stars >= the flag threshold). The threshold is the game's own
+    // FLAG_STARS (render/songcity.ts), set by spec D1's rule "threshold = K2 first-try expected stars": volume 1 → 27,
+    // volume 2 → 26 (K2 25.7; reason in bands.json GLOBAL.flagStarsWhy, QA r4/r5). No hard-coded exemption any more.
+    // the game's table and the frozen data agree; the documented tolerance is bands.json GLOBAL.flagStarsTol (±0.5, QA r5)
+    if (G.flagStars[String(v)] !== FLAG_STARS[v - 1]) bad.push(`FLAG_STARS ${FLAG_STARS[v - 1]} ≠ bands.json flagStars ${G.flagStars[String(v)]}`);
+    if (expK2 + G.flagStarsTol < FLAG_STARS[v - 1]) bad.push(`K2 stars ${expK2.toFixed(1)} < 墨家旗 ${FLAG_STARS[v - 1]} − ${G.flagStarsTol}`);
+    else g.push(`墨家旗 ${FLAG_STARS[v - 1]} ≤ K2 stars ${expK2.toFixed(1)}`);
     let prev: string | null = null, prevM: string | null = null, prevM2: string | null = null;
     for (const id of IDS) {
       const x = rep[id]; const type = x.type as string;

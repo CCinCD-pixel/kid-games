@@ -49,13 +49,13 @@ test('V4 in WebKit: design solutions + ghost windows hash exactly like Node', as
   fs.writeFileSync(path.join(out, 'determinism-webkit.txt'), `WebKit ${new Date().toISOString()}\n${report.join('\n')}\n`);
 });
 
-test('V4 in WebKit: the 8 synthetic scripts (shovel, mark, token, strike, hook, pit, checkpoint restore, suspend/resume) hash like Node', async ({ page }, info) => {
+test('V4 in WebKit: the 9 synthetic scripts (shovel, mark, token, strike, hook, pit, checkpoint restore + assisted restore, suspend/resume) hash like Node', async ({ page }, info) => {
   test.skip(!info.project.name.startsWith('portrait'), 'kernel only — one orientation');
   test.setTimeout(120_000);
   await page.goto('/gear-fort/?dev=replay&test=1');
   await page.waitForFunction(() => !!(window as any).__gfKernel, null, { timeout: 15_000 });
   const files = fs.readdirSync(path.join(C, 'synthetic')).filter((f) => f.endsWith('.json')).sort(); const report: string[] = [];
-  expect(files.length).toBe(8);
+  expect(files.length).toBe(9);
   // the scripts' levels are resolved exactly like the Node fixture test (bots/run.levelFor, 'C' deck) — on the Node side,
   // through Vite's SSR loader (TS + JSON imports); the page itself never ships bot code (V17)
   const { createServer } = await import('vite');
@@ -72,6 +72,7 @@ test('V4 in WebKit: the 8 synthetic scripts (shovel, mark, token, strike, hook, 
           const acts = sy.actions[i][1]; const p = acts[0]?.t;
           if (p === '#snapshot') snap = K.snapshot(S);
           else if (p === '#restore') S = K.restore(snap, lv, { events: true });
+          else if (p === '#restore-assist') S = K.restore(snap, lv, { events: true, assist: 1 });
           else if (p === '#suspend-resume') S = K.resume(K.snapshot(S), lv, { events: true });
           else a = (a || []).concat(acts);
           i++;

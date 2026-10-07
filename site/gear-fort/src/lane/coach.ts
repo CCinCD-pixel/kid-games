@@ -163,6 +163,11 @@ function bossLine(S: SimState, mem: CoachMemory): CoachLine | null {
   return null;
 }
 
+/** The line 墨子 answers 「墨子，怎么办？」 with when the board has no concrete problem: the level's second voiced intro
+ *  line (child copy, ≤15 字). The bubble always shows the text of the line that is spoken — never level.concept, which
+ *  is the designer's summary (QA r4 major). */
+export function conceptLineId(L: { voice?: { intro?: string[] } }): string { return L.voice?.intro?.[1] || 'fort.ui.choose'; }
+
 /** 「墨子，怎么办？」: the best suggestion even below the trigger thresholds, else the level's concept line. */
 export function askLine(S: SimState, mem: CoachMemory): CoachLine | null {
   if (S.L.noHints || S.result) return null;
