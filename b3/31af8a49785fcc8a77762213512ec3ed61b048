@@ -1,0 +1,31 @@
+content/military-chess/display-text.txt
+  s_0eb5d4e8842e10::t_c73101e9332957 1-2
+docs/ACCEPTANCE-batch1.md
+  ai_agent 62-65
+content/military-chess/dad-acceptance-notes.md
+  ai_agent 3-4,14,20
+site/military-chess/src/ctrl/ladder.ts
+  s_0eb5d4e8842e10::t_ba664a107a956c 55-59
+site/military-chess/src/screens/parent.ts
+  s_0eb5d4e8842e10::t_ba664a107a956c 85
+site/military-chess/validate/match.test.ts
+  s_0eb5d4e8842e10::t_ba664a107a956c 239-240,244,246-250
+docs/specs/military-chess.md
+  ai_agent 1450
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "b331af8a49785fcc8a77762213512ec3ed61b048",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
