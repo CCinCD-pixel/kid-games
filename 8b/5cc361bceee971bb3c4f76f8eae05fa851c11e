@@ -1,0 +1,49 @@
+site/emoji-match/validate/fuzz.test.ts
+  s_0eb5d4e8842e10::t_0b009fe70ab5b2 76-77,79
+site/emoji-match/validate/engine-timing.test.ts
+  s_0eb5d4e8842e10::t_0b009fe70ab5b2 4-7,11,15-16,21,32-40,42,47,62
+site/emoji-match/validate/art.test.ts
+  s_0eb5d4e8842e10::t_1aa44d96d3e362 7-9
+site/emoji-match/src/dev/test-hook.ts
+  s_0eb5d4e8842e10::t_1f926d27c3eced 28
+  s_0eb5d4e8842e10::t_93bbd6f6680ecb 58,65,100-112,115
+site/emoji-match/src/screens/play.ts
+  s_0eb5d4e8842e10::t_1f926d27c3eced 1163-1174
+site/emoji-match/src/screens/route.ts
+  s_0eb5d4e8842e10::t_b2596e2171539d 18,105,108
+site/emoji-match/tests/em.ts
+  s_0eb5d4e8842e10::t_93bbd6f6680ecb 42-44
+site/emoji-match/src/styles.css
+  s_0eb5d4e8842e10::t_2a7dff0be49ec5 547-548
+site/emoji-match/src/screens/arrival.ts
+  s_0eb5d4e8842e10::t_b71f5efc541da2 23,189-191,196,198-199
+  s_0eb5d4e8842e10::t_09a7ddecb9ce46 192
+site/emoji-match/src/view/phrase-wrap.ts
+  s_0eb5d4e8842e10::t_2a7dff0be49ec5 1-36
+site/emoji-match/src/view/route-geom.ts
+  s_0eb5d4e8842e10::t_b2596e2171539d 1-33
+tools/emoji-match/perf.mjs
+  s_0eb5d4e8842e10::t_1c4bfa5336bf24 6-7,52-65,73-75,83
+site/emoji-match/tests/play.spec.ts
+  s_0eb5d4e8842e10::t_d7e43408a16b9c 223-241,244-250,331-362,364-365,474-478
+  s_0eb5d4e8842e10::t_9f6da986539f8b 242-243
+  s_0eb5d4e8842e10::t_4fad2c450d5e50 363
+site/emoji-match/src/main.ts
+  s_0eb5d4e8842e10::t_2a7dff0be49ec5 8,48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "8b5cc361bceee971bb3c4f76f8eae05fa851c11e",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "unknown"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
