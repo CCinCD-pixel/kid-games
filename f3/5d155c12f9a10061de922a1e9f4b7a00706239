@@ -1,0 +1,51 @@
+site/sokoban/src/screens/random.ts
+  s_0eb5d4e8842e10::t_867439dfdbcee4 64-72,101
+site/sokoban/src/app/visit.ts
+  s_0eb5d4e8842e10::t_e816c31f1147e6 71-89
+site/sokoban/app.test.ts
+  s_0eb5d4e8842e10::t_04ed7629eb97f6 15,304-325
+site/sokoban/ladder.test.ts
+  s_0eb5d4e8842e10::t_d067400278e5d3 1-9,11-69
+  s_0eb5d4e8842e10::t_7851f0c50ed0ee 10
+site/sokoban/src/hints/ladder.ts
+  s_0eb5d4e8842e10::t_7ec5535686c7d2 51-52,244,254,264
+site/sokoban/src/screens/opening.ts
+  s_0eb5d4e8842e10::t_7488a07e664118 86-87
+site/sokoban/src/screens/play.ts
+  s_0eb5d4e8842e10::t_3561f9dafb7c21 138-140,1172
+  s_0eb5d4e8842e10::t_bc2cee07303736 55,1146
+  s_0eb5d4e8842e10::t_e816c31f1147e6 24,57,337-339
+  s_0eb5d4e8842e10::t_7ec5535686c7d2 1176-1178
+  s_0eb5d4e8842e10::t_f077f0f6e0c578 53-54,1147-1150,1160-1161
+site/sokoban/src/styles.css
+  s_0eb5d4e8842e10::t_867439dfdbcee4 369-372
+  s_0eb5d4e8842e10::t_49ce7c01beb947 299
+site/sokoban/src/app/boot.ts
+  s_0eb5d4e8842e10::t_e816c31f1147e6 30,39-42,61,108,112
+tests/sokoban/fix-r3-shots.mjs
+  s_0eb5d4e8842e10::t_20f4f464d17068 1-124
+site/sokoban/src/screens/overlays.ts
+  s_0eb5d4e8842e10::t_49ce7c01beb947 81,83
+site/sokoban/tools/graph-bench.full.test.ts
+  s_0eb5d4e8842e10::t_eed0aa1fe028c9 5-9,25-39,43,50
+site/sokoban/src/app/context.ts
+  s_0eb5d4e8842e10::t_e816c31f1147e6 25-26
+site/sokoban/src/screens/quiz.ts
+  s_0eb5d4e8842e10::t_e816c31f1147e6 25,40,178-184
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "f35d155c12f9a10061de922a1e9f4b7a00706239",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "unknown"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
