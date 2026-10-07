@@ -4,7 +4,7 @@
   "subtitle": "打开发光的木匣，帮精卫衔石",
   "place": "base",
   "order": 40,
-  "status": "wip",
+  "status": "hidden",
   "accent": "--xg-story",
   "theme": "story",
   "icon": "/icons/games/story-box.svg",

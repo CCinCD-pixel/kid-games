@@ -4,7 +4,7 @@
   "subtitle": "在月球南极搭一座基地",
   "place": "base",
   "order": 20,
-  "status": "wip",
+  "status": "hidden",
   "accent": "--xg-moon",
   "theme": "moon",
   "icon": "/icons/games/moon-builder.svg",

@@ -4,7 +4,7 @@
   "subtitle": "给祝融基地装货、建造",
   "place": "base",
   "order": 10,
-  "status": "wip",
+  "status": "hidden",
   "accent": "--xg-mars",
   "theme": "mars",
   "icon": "/icons/games/mars-base.svg",

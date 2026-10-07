@@ -4,7 +4,7 @@
   "subtitle": "帮古人做实验，给天宫接新舱",
   "place": "base",
   "order": 50,
-  "status": "wip",
+  "status": "hidden",
   "accent": "--xg-lab",
   "theme": "lab",
   "icon": "/icons/games/tiangong-lab.svg",
