@@ -4,6 +4,7 @@
  * mount point yet — kit request #4). Plus the caption strip that shows narration word by word with a
  * 再听一遍 button (spec §2.1: no kit subtitle bar).
  */
+import { phraseChunks } from './phrase';
 import { mount, type Companion, type Mood } from '@kit/companion';
 import { icon } from '@kit/ui';
 import { play } from '../audio/sound';
@@ -93,12 +94,19 @@ export class Caption implements CaptionTarget {
   show(text: string): void {
     clearTimeout(this.hideTimer);
     this.textEl.replaceChildren();
-    this.spans = [...text].map((ch) => {
-      const s = document.createElement('span');
-      s.textContent = ch;
-      this.textEl.appendChild(s);
-      return s;
-    });
+    // per-character spans (karaoke progress) grouped into unbreakable phrases (QA r2: no "…了 / 了" splits)
+    this.spans = [];
+    for (const chunk of phraseChunks(text)) {
+      const nb = document.createElement('span');
+      nb.className = 'mc-nb';
+      for (const ch of chunk) {
+        const s = document.createElement('span');
+        s.textContent = ch;
+        nb.appendChild(s);
+        this.spans.push(s);
+      }
+      this.textEl.appendChild(nb);
+    }
     this.el.classList.add('is-on');
     this.el.dataset.text = text;
     this.onShow?.();

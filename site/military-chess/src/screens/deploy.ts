@@ -123,7 +123,7 @@ export class DeployScreen extends BaseScreen {
       goal.dataset.testid = 'goal-bar';
       goal.innerHTML = goalBarHtml(this.app, { cur: this.next.lesson.id, ico: 'shield', text: this.app.voice.text('mc.i.L7-5'), sub: `<span class="mc-steps" data-testid="swaps">${mcIcon('swap')} ${Math.min(this.swaps, 9)}</span>` });
       goal.addEventListener('click', () => void this.say('mc.i.L7-5'));
-      abs(goal, portrait ? { x: 84, y: st + 6, w: 642, h: 64 } : { x: 720, y: st + 6, w: 348, h: 56 });
+      abs(goal, portrait ? { x: 84, y: st + 6, w: 642, h: 84 } : { x: 720, y: st + 6, w: 348, h: 86 });
       if (!portrait) goal.classList.add('is-compact');
       root.appendChild(goal);
       this.goalEl = goal;
@@ -135,17 +135,20 @@ export class DeployScreen extends BaseScreen {
 
     // formation bar
     const bar = div('mc-formations');
-    const forms: Array<{ id: string; label: string; ico: string; layout: string | null; line: string }> = [
+    // one row (QA r2: 7 chips wrapped into 2 cramped rows over the goal bar): 3 named formations,
+    // one 我的阵 chip that opens the saved slots, 随机
+    const mine = this.app.save.deployments.filter((d) => d);
+    const forms: Array<{ id: string; label: string; ico: string; layout: string | null; line: string; act?: () => void }> = [
       ...KID_TEMPLATES.map((t) => ({ id: t.id, label: t.name, ico: mcIcon('flag'), layout: t.layout, line: `mc.dep.t.${t.id}` })),
-      ...this.app.save.deployments.map((d, k) => ({ id: `my${k}`, label: d?.name ?? `我的阵 ${k + 1}`, ico: icon('star'), layout: d?.layout ?? null, line: 'mc.dep.t.mine' })),
+      { id: 'mine', label: '我的阵', ico: icon('star'), layout: mine.length ? 'mine' : null, line: 'mc.dep.t.mine', act: () => this.openMine() },
       { id: 'random', label: '随机', ico: mcIcon('dice'), layout: 'random', line: 'mc.dep.random' },
     ];
     for (const fm of forms) {
-      const b = button(`mc-form${fm.layout ? '' : ' is-empty'}`, `${fm.ico}<span>${fm.label}</span>`, () => this.pickFormation(fm.layout, fm.line), `form-${fm.id}`);
+      const b = button(`mc-form${fm.layout ? '' : ' is-empty'}`, `${fm.ico}<span>${fm.label}</span>`, () => (fm.act ? fm.act() : void this.pickFormation(fm.layout, fm.line)), `form-${fm.id}`);
       if (!fm.layout) b.disabled = true;
       bar.appendChild(b);
     }
-    abs(bar, portrait ? { x: 14, y: st + 70, w: 782, h: 100 } : { x: 720, y: st + 66, w: 348, h: 236 });
+    abs(bar, portrait ? { x: 14, y: st + 98, w: 782, h: 64 } : { x: 720, y: st + (this.next.lesson ? 100 : 66), w: 348, h: this.next.lesson ? 190 : 236 });
     root.appendChild(bar);
 
     // board
@@ -393,6 +396,33 @@ export class DeployScreen extends BaseScreen {
     t.el.style.zIndex = '';
   }
 
+  /** 我的阵: the saved slots as thumbnails (empty slots are not offered) */
+  private openMine(): void {
+    this.app.play('ui-open');
+    const scrim = div('mc-scrim');
+    const sheet = div('mc-sheet mc-pick-slot');
+    sheet.dataset.testid = 'mine-sheet';
+    sheet.innerHTML = '<h2>我的阵</h2>';
+    const row = div('mc-row');
+    this.app.save.deployments.forEach((x, k) => {
+      if (!x) return;
+      row.appendChild(button('mc-slot-thumb', `${miniLayout(x.layout)}<span>${x.name ?? `我的阵 ${k + 1}`}</span>`, () => {
+        drop();
+        void this.pickFormation(x.layout, 'mc.dep.t.mine');
+      }, `form-my${k}`));
+    });
+    sheet.appendChild(row);
+    sheet.appendChild(button('xg-btn xg-btn--ghost', '<span>算了</span>', () => {
+      this.app.play('ui-close');
+      drop();
+    }));
+    scrim.addEventListener('click', (e) => {
+      if (e.target === scrim) drop();
+    });
+    scrim.appendChild(sheet);
+    const drop = this.keepOverlay(scrim, () => abs(sheet, this.o === 'portrait' ? { x: 60, y: 300, w: 690, h: 360 } : { x: 195, y: 200, w: 690, h: 360 }));
+  }
+
   private async pickFormation(layout: string | null, line: string): Promise<void> {
     if (!layout || this.busy) return;
     let next = layout === 'random' ? randomLayout(createRng().next) : layout;
@@ -447,18 +477,17 @@ export class DeployScreen extends BaseScreen {
     const row = div('mc-row');
     d.forEach((x, k) => {
       row.appendChild(button('mc-slot-thumb', `${miniLayout(x!.layout)}<span>${x!.name}</span>`, () => {
-        scrim.remove();
+        drop();
         store(k);
       }, `slot-${k}`));
     });
     sheet.appendChild(row);
     sheet.appendChild(button('xg-btn xg-btn--ghost', '<span>算了</span>', () => {
       this.app.play('ui-close');
-      scrim.remove();
+      drop();
     }));
     scrim.appendChild(sheet);
-    abs(sheet, this.o === 'portrait' ? { x: 60, y: 300, w: 690, h: 360 } : { x: 195, y: 200, w: 690, h: 360 });
-    this.el.appendChild(scrim);
+    const drop = this.keepOverlay(scrim, () => abs(sheet, this.o === 'portrait' ? { x: 60, y: 300, w: 690, h: 360 } : { x: 195, y: 200, w: 690, h: 360 }));
   }
 
   private finish(): void {

@@ -68,6 +68,23 @@ test.describe('陆战棋 · 学堂与首次上手', () => {
     expect(await page.evaluate(() => (window as any).__mc.save().rank)).toBe(0);
   });
 
+  test('ft: a tap during the demo takes over at once; 团长→师长 right after the question gets mc.ft.bigger', async ({ page }) => {
+    test.setTimeout(90_000);
+    await open(page);
+    await go(page, { name: 'ft' });
+    // the referee's first line starts the demo; tap the 团长 while it plays
+    await page.waitForFunction(() => (window as any).__mc.said().includes('mc.ft.1'), null, { timeout: 20_000 });
+    await tap(page, 'c6');
+    await page.waitForFunction(() => (window as any).__mc.dbg()?.step() === 'first', null, { timeout: 2_000 });
+    // the takeover touch picked the 团长 up: one more tap on the 营长 commits
+    await tap(page, 'c7');
+    await page.waitForFunction(() => (window as any).__mc.dbg()?.step() === 'second', null, { timeout: 20_000 });
+    await page.waitForFunction(() => (window as any).__mc.dbg()?.busy() === 0, null, { timeout: 3_000 });
+    await tap(page, 'c7');
+    await tap(page, 'b7');
+    await page.waitForFunction(() => (window as any).__mc.said().includes('mc.ft.bigger'), null, { timeout: 15_000 });
+  });
+
   test('lesson: L1-3 with the best moves → 3★, no modal; [下一题] appears', async ({ page }, info) => {
     await open(page);
     await go(page, { name: 'item', id: 'L1-3' });
@@ -137,6 +154,15 @@ test.describe('陆战棋 · 学堂与首次上手', () => {
     await tap(page, 'c6');
     await expect(page.locator('[data-testid="youare-0"]')).toBeVisible({ timeout: 10_000 });
     await expect(page.locator('[data-testid="youare-0"]')).toContainText('红方');
+    // QA r2: the badge has its own slot — it never covers the goal icon or the instruction
+    const hit = await page.evaluate(() => {
+      const a = document.querySelector('[data-testid="youare-0"]')!.getBoundingClientRect();
+      return ['.mc-goal__text', '.mc-goal__ico'].some((sel) => {
+        const b = document.querySelector(sel)!.getBoundingClientRect();
+        return a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+      });
+    });
+    expect(hit).toBe(false);
 
     await go(page, { name: 'item', id: 'F-2' });
     await page.waitForFunction(() => (window as any).__mc.screen() === 'puzzle' && (window as any).__mc.dbg()?.sceneWaiting(), null, { timeout: 15_000 });

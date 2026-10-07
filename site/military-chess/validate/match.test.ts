@@ -235,3 +235,50 @@ describe('save', () => {
   });
   test('BLUE constant sanity', () => expect(BLUE).toBe(1));
 });
+
+describe('家规 fanFlagRule reaches ladder 翻翻棋 (QA r2 tech minor, §8.7 / §9.8 item 3)', () => {
+  test('easy → the ladder match stores fanFlagLock=false and its rules follow; standard keeps the lock', async () => {
+    const { newLadderMatch } = await import('../src/ctrl/ladder');
+    const { startState } = await import('../src/ctrl/setup');
+    const save = defaultSave();
+    save.settings.fanFlagRule = 'easy';
+    const easy = newLadderMatch(save, 'fan', 3);
+    expect(easy.house?.fanFlagLock).toBe(false);
+    expect(startState(easy).rules.fanFlagLock).toBe(false);
+    const easy1 = newLadderMatch(save, 'fan', 1);
+    expect(startState(easy1).rules.fanFlagLock).toBe(false);
+    expect(newLadderMatch(save, 'ming', 1).house?.fanFlagLock ?? true).toBe(true);
+    save.settings.fanFlagRule = 'standard';
+    expect(startState(newLadderMatch(save, 'fan', 3)).rules.fanFlagLock).toBe(true);
+    expect(startState(newLadderMatch(save, 'fan', 1)).rules.fanFlagLock).toBe(true);
+  });
+});
+
+describe('save robustness: malformed fields never brick boot (QA r3)', () => {
+  test('wrong-typed fields fall back to their defaults', () => {
+    const d = defaultSave();
+    const n = normalizeSave({
+      items: null, cards: null, rank: 'x', family: 7, ladder: { fan: { wins: 'no', unlocked: '3' } },
+      settings: { music: 'loud', shuttleMax: NaN }, deployments: [1, 2], resume: { id: 'r' }, puzzleResume: 5, tagStats: [],
+    });
+    expect(n.items).toEqual({});
+    expect(n.cards).toEqual([]);
+    expect(n.rank).toBe(-1);
+    expect(n.family).toEqual(d.family);
+    expect(n.ladder.fan.wins).toEqual([0, 0, 0, 0]);
+    expect(n.ladder.fan.unlocked).toBe(1);
+    expect(n.settings.music).toBe(true);
+    expect(n.settings.shuttleMax).toBe(d.settings.shuttleMax);
+    expect(n.deployments).toEqual([null, null, null]);
+    expect(n.resume).toBeNull();
+    expect(n.puzzleResume).toBeNull();
+    expect(n.tagStats).toEqual(d.tagStats);
+  });
+  test('valid values and record entries survive; bad entries are dropped', () => {
+    const n = normalizeSave({ items: { 'L1-1': { stars: 3 }, bad: null }, cards: ['c1', 4], ladder: { ming: { wins: [1, 2, 0, 0] } }, settings: { music: false } });
+    expect(Object.keys(n.items)).toEqual(['L1-1']);
+    expect(n.cards).toEqual(['c1']);
+    expect(n.ladder.ming.wins).toEqual([1, 2, 0, 0]);
+    expect(n.settings.music).toBe(false);
+  });
+});

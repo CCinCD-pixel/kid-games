@@ -21,6 +21,20 @@ const ICON_LABELS: Record<string, string> = {
   'review-prev': '上一步', 'review-next': '下一步', 'rule-prev': '上一页', 'rule-next': '下一页',
 };
 
+/**
+ * Where the last real touch/press went down. A tap that starts on something else (the kit start gate,
+ * a sheet that closes on pointerup, a scrim) must not activate a button that only appears under the
+ * finger afterwards: WebKit hit-tests the synthesized click after touchend (r3: the start-gate tap
+ * fell through to the camp's 残局 card).
+ */
+let lastDown: EventTarget | null = null;
+if (typeof window !== 'undefined') window.addEventListener('pointerdown', (e) => { lastDown = e.target; }, true);
+/** true when a trusted pointer click did not start on `el` */
+export function strayClick(e: MouseEvent, el: Element): boolean {
+  if (!e.isTrusted || e.detail === 0) return false; // keyboard / programmatic activation
+  return !(lastDown instanceof Node) || !el.contains(lastDown);
+}
+
 export function button(cls: string, html: string, onClick: () => void, testid?: string): HTMLButtonElement {
   const b = document.createElement('button');
   b.className = cls;
@@ -33,6 +47,7 @@ export function button(cls: string, html: string, onClick: () => void, testid?: 
   if (label && !b.textContent?.replace(/\s/g, '')) b.setAttribute('aria-label', label);
   b.addEventListener('click', (e) => {
     e.preventDefault();
+    if (strayClick(e, b)) return;
     onClick();
   });
   return b;
@@ -62,6 +77,9 @@ export class Bag {
     for (const o of this.offs.splice(0)) o();
   }
 }
+
+/** ?test=1: performance entries for the §8.6 regression gates (rotation rebuild, per-move dispatch) */
+export const PERF_MARKS = typeof location !== 'undefined' && /[?&]test=1(&|$)/.test(location.search);
 
 export abstract class BaseScreen implements Screen {
   abstract readonly name: string;
@@ -99,7 +117,28 @@ export abstract class BaseScreen implements Screen {
   layout(o: Orientation, safeTop: number): void {
     this.o = o;
     this.safeTop = safeTop;
+    const t0 = PERF_MARKS ? performance.now() : 0;
     this.render();
+    // QA r2 major: render() empties this.el, so a sheet / menu open during a rotation used to vanish
+    // while its promise / input lock stayed pending (soft lock). Open modals survive the rebuild.
+    for (const [scrim, place] of this.overlays) {
+      this.el.appendChild(scrim);
+      place();
+    }
+    if (PERF_MARKS) performance.measure('mc:layout', { start: t0, end: performance.now() });
+  }
+
+  private overlays = new Map<HTMLElement, () => void>();
+  /** mount a modal scrim that survives orientation rebuilds; `place` (re)positions it for `this.o`.
+   *  Returns the close function (removes it for good). */
+  protected keepOverlay(scrim: HTMLElement, place: () => void): () => void {
+    this.overlays.set(scrim, place);
+    place();
+    this.el.appendChild(scrim);
+    return () => {
+      this.overlays.delete(scrim);
+      scrim.remove();
+    };
   }
 
   protected abstract render(): void;

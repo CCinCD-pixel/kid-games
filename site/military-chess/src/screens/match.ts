@@ -6,6 +6,7 @@
  * the 💡 two-level hint, 暗棋 参谋笔记 badges + 侦察便签 tags + the certain-loss intel list, the five
  * 翻翻棋 first-game teaching points, knowledge-card events.
  */
+import { isMuted, setMuted } from '@kit/audio';
 import { icon } from '@kit/ui';
 import type { App } from '../app';
 import { BLUE, RED, adj, isCamp, isHQ, isRail, isRailEdge, type Side } from '../core/board';
@@ -36,7 +37,7 @@ import { Intel } from '../view/intel';
 import { boardGeom, seatRotation, stageGeom, type Rect } from '../view/layout';
 import { badgeHtml, tagHtml, TAGS, tagCorrect, type TagKind } from '../view/notes';
 import { refereeReveal } from '../view/referee';
-import { BaseScreen, abs, button, div } from './base';
+import { BaseScreen, PERF_MARKS, abs, button, div } from './base';
 import type { ResultData } from './result';
 
 const RANK_HTML = (s: GameState, pid: number): string => {
@@ -64,7 +65,13 @@ export class MatchScreen extends BaseScreen {
   private quietWarned = false;
   private turnsSpoken = 0;
   private ended = false;
+  /** the booked result of a finished game (set before the end animation starts) */
+  private resultData: ResultData | null = null;
+  private wentToResult = false;
+  /** perf: when the tap that may lead to a commit was dispatched */
+  private tapT0 = 0;
   private menuOpen: HTMLElement | null = null;
+  private fanOwn = false;
   private aiTimer = 0;
   private hidden = false;
   private pendingAi: (() => void) | null = null;
@@ -126,6 +133,8 @@ export class MatchScreen extends BaseScreen {
     app.save.stats.matches += route.resume ? 0 : 1;
     this.bag.timeout(() => {
       if (!route.resume && m.mode === 'fan') void this.say('mc.ref.first.flip');
+      // family games are not a ladder "演习" (QA r2): announce who moves first instead
+      else if (!route.resume && m.opponent.kind === 'family') void this.say(m.setup.firstMover === m.kidSide ? 'mc.fam.first.kid' : 'mc.fam.first.dad');
       else if (!route.resume) void this.say('mc.ref.start');
       else void this.say('mc.home.resume');
     }, 250);
@@ -173,6 +182,8 @@ export class MatchScreen extends BaseScreen {
   }
 
   private leave(): void {
+    // the game is over and already booked: 🏠 during the end animation skips straight to the result
+    if (this.ended && this.resultData) return this.toResult();
     this.saveResume();
     this.ai?.reset();
     if (this.m.opponent.kind === 'family' || this.m.free) this.app.go({ name: 'family' });
@@ -219,6 +230,11 @@ export class MatchScreen extends BaseScreen {
     this.bars = [];
     const near = new TurnBar('turn');
     this.bars.push(near);
+    // 翻翻棋: tapping the turn capsule says which side the child is (the 你是红方 pill retires after the opening)
+    near.el.addEventListener('click', () => {
+      const c = this.ctx.state.colorOf[0];
+      if (this.m.mode === 'fan' && c !== -1) void this.say(c === 0 ? 'mc.ref.youare.red' : 'mc.ref.youare.blue');
+    });
     let intelRect: Rect, guideRect: Rect, capRect: Rect, menuRect: Rect, hintRect: Rect | null = null;
     let dock = false;
     if (o === 'portrait') {
@@ -232,14 +248,15 @@ export class MatchScreen extends BaseScreen {
         far.el.classList.add('is-far');
         this.bars.push(far);
         this.el.appendChild(far.el);
-        abs(near.el, { x: 225, y: 1068 - 52, w: 360, h: 52 });
+        // QA r2: the near seat's bar and the caption share the bottom row; the intel panel keeps its rows
+        abs(near.el, { x: 810 - 12 - 232, y: 1068 - 52, w: 232, h: 52 });
         intelRect = { x: g.intel.x, y: panelY, w: g.intel.w, h: panelH - 60 };
       } else {
         abs(near.el, g.turnBar);
         intelRect = { x: g.intel.x, y: panelY, w: g.intel.w, h: panelH };
       }
-      capRect = { x: intelRect.x, y: intelRect.y, w: intelRect.w, h: 64 };
-      abs(this.quiet.el, { x: 225, y: (face ? 1068 - 52 : g.turnBar.y + 52) + (face ? -14 : 3), w: 360, h: 12 });
+      capRect = face ? { x: g.intel.x, y: 1068 - 54, w: g.intel.w - 232 - 10, h: 54 } : { x: intelRect.x, y: intelRect.y, w: intelRect.w, h: 64 };
+      abs(this.quiet.el, face ? { x: 810 - 12 - 232, y: 1068 - 52 - 14, w: 232, h: 12 } : { x: 225, y: g.turnBar.y + 55, w: 360, h: 12 });
     } else if (!face) {
       abs(near.el, g.turnBar);
       intelRect = g.intel;
@@ -285,6 +302,7 @@ export class MatchScreen extends BaseScreen {
     abs(this.caption.el, capRect);
     this.caption.el.classList.toggle('is-tall', o === 'landscape');
     this.caption.el.classList.toggle('is-dock', dock);
+    this.caption.el.classList.toggle('is-slim', o === 'portrait' && face);
     this.el.appendChild(this.caption.el);
     const menu = button('xg-iconbtn mc-menu-btn', icon('grid'), () => this.openMenu(), 'menu');
     menu.setAttribute('aria-label', '菜单');
@@ -302,10 +320,6 @@ export class MatchScreen extends BaseScreen {
     this.board.render(this.ctx.state, true);
     this.refreshNotes();
     this.refreshHud();
-    if (this.menuOpen) {
-      this.menuOpen.remove();
-      this.menuOpen = null;
-    }
   }
 
   // ------------------------------------------------------------------ HUD
@@ -328,7 +342,8 @@ export class MatchScreen extends BaseScreen {
     if (s.mode === 'fan') {
       const me: number = p >= 0 && s.colorOf[p as 0 | 1] !== -1 ? s.colorOf[p as 0 | 1] : RED;
       const kid = this.level ? (s.colorOf[0] === -1 ? RED : s.colorOf[0]) : me;
-      this.intel.renderFan(s, 1 - kid, kid, { cols: this.o === 'portrait' ? 7 : 2, compact: this.o === 'landscape' || this.seating() === 'face' });
+      if (this.fanOwn) this.intel.renderFan(s, kid, 1 - kid, { cols: this.o === 'portrait' ? 7 : 2, compact: this.o === 'landscape' || this.seating() === 'face' });
+      else this.intel.renderFan(s, 1 - kid, kid, { cols: this.o === 'portrait' ? 7 : 2, compact: this.o === 'landscape' || this.seating() === 'face' });
       this.showYouAre();
     } else if (s.mode === 'an' && this.know) {
       const kid = this.m.kidSide;
@@ -381,6 +396,9 @@ export class MatchScreen extends BaseScreen {
       return;
     }
     if (!family) {
+      // QA r3: next to the coloured turn capsule the pill is redundant once the child has the hang of it —
+      // it shows for the opening plies only (the capsule keeps the colour; tapping it says the side)
+      if (s.ply > 6) return;
       chip(0, `你是${colourName(0)}`, this.o === 'portrait' ? { x: 76, y: st + 16, w: 140, h: 44 } : { x: 832, y: 810 - 12 - 56 - 56, w: 160, h: 44 }, 0);
       return;
     }
@@ -412,9 +430,12 @@ export class MatchScreen extends BaseScreen {
   // ------------------------------------------------------------------ reducer plumbing
   private dispatch(ev: MatchEvent): void {
     if (this.ended && ev.type !== 'animDone') return;
+    const t0 = PERF_MARKS ? performance.now() : 0;
+    if (PERF_MARKS && ev.type === 'tap') this.tapT0 = t0;
     const step = transition(this.ctx, ev);
     this.ctx = step.ctx;
     for (const e of step.effects) this.queue = this.queue.then(() => this.run(e)).catch((err) => console.error(err));
+    if (PERF_MARKS) performance.measure(`mc:dispatch:${ev.type}`, { start: t0, end: performance.now() });
   }
 
   private async run(e: Effect): Promise<void> {
@@ -446,9 +467,17 @@ export class MatchScreen extends BaseScreen {
         return;
       case 'think':
         return this.think(e.id, e.state);
-      case 'commit':
+      case 'commit': {
         this.observeCommit(e.event, e.before, e.player);
-        return this.animateCommit(e.event, e.before, e.after);
+        const anim = this.animateCommit(e.event, e.before, e.after);
+        // §8.6 COMMIT + 渲染: from the tap to the end of the commit's synchronous part plus a forced layout
+        if (PERF_MARKS && this.tapT0) {
+          void this.board.el.offsetHeight;
+          performance.measure('mc:commit', { start: this.tapT0, end: performance.now() });
+          this.tapT0 = 0;
+        }
+        return anim;
+      }
       case 'coach':
         return this.showCoach(e.alert);
       case 'save':
@@ -571,38 +600,53 @@ export class MatchScreen extends BaseScreen {
     if (this.hint.ply !== s.ply) this.hint = { ply: s.ply, stage: 0, note: null, busy: false };
     const me = s.turn as Side;
     this.app.play('hint');
-    this.m.hints++;
-    this.app.mark('hint', { level: this.hint.stage + 1, ply: s.ply });
     const k = this.know ? this.know[me] : null;
+    const count = (): void => {
+      this.m.hints++;
+      this.app.mark('hint', { level: this.hint.stage, ply: s.ply });
+    };
     if (this.hint.stage === 0) {
-      this.hint.stage = 1;
       const danger = flagDangerNow(s, me, k);
       if (danger.length) {
+        this.hint.stage = 1;
+        count();
         this.board.pulse(danger, 3);
         void this.say('mc.coach.flag', 'thinking');
         return;
       }
       const sure = this.sureWin(s, me);
       if (sure >= 0) {
+        this.hint.stage = 1;
+        count();
         this.board.pulse([sure], 3);
         void this.say('mc.hint.piece', 'thinking');
         return;
       }
-      const note = await this.hintMove();
-      const a = note ? parseNote(this.ctx.state, note) : null;
-      if (a && isMove(a) && this.ctx.state.ply === s.ply) {
-        this.board.pulse([a.from], 3);
-        void this.say('mc.hint.piece', 'thinking');
-      }
-      return;
     }
     const note = await this.hintMove();
+    if (this.ctx.state.ply !== s.ply || this.ended) return;
     const a = note ? parseNote(this.ctx.state, note) : null;
-    if (!a || this.ctx.state.ply !== s.ply) return;
-    if (isMove(a)) {
-      this.board.showHintArrow(a.path);
-      this.board.pulse([a.from], 2);
-    } else if (isFlip(a)) this.board.pulse([a.flip], 3);
+    if (!a || (!isMove(a) && !isFlip(a))) {
+      // nothing sensible to suggest: say so, do not count it as a hint
+      void this.say('mc.coach.ok', 'thinking');
+      return;
+    }
+    const first = this.hint.stage === 0;
+    this.hint.stage = Math.min(2, this.hint.stage + 1);
+    count();
+    if (isFlip(a)) {
+      // 翻翻棋: the best action is a flip — light that tile up above the pieces and say "flip it"
+      this.board.pulseTop([a.flip], first ? 3 : 4);
+      void this.say('mc.f1.flip', 'thinking');
+      return;
+    }
+    if (first) {
+      this.board.pulse([a.from], 3);
+      void this.say('mc.hint.piece', 'thinking');
+      return;
+    }
+    this.board.showHintArrow(a.path);
+    this.board.pulse([a.from], 2);
     void this.say('mc.hint.where', 'thinking');
   }
 
@@ -981,23 +1025,11 @@ export class MatchScreen extends BaseScreen {
     this.ai?.reset();
     this.refreshHud();
     const s = this.ctx.state;
-    if (r.reason === 'count' || r.reason === 'count-draw') {
-      void this.say('mc.ref.count.start', 'thinking');
-      await this.countAnimation(s, r);
-    } else if (r.reason === 'no-moves') {
-      void this.say(this.m.opponent.kind === 'family' ? 'mc.ref.nomoves.win' : this.playerOf(r.winner) === 0 ? 'mc.ref.nomoves.win' : 'mc.ref.nomoves.lose');
-      await this.wait(d(900));
-    } else if (r.reason === 'quiet' || r.reason === 'ply-cap' || r.reason === 'agreed') {
-      if (r.reason !== 'agreed') void this.say('mc.ref.draw.quiet');
-      await this.wait(d(700));
-    } else if (r.reason === 'both-immobile') {
-      void this.say('mc.ref.draw.both');
-      await this.wait(d(900));
-    } else await this.wait(d(500));
-    let guesses: { right: number; total: number } | null = null;
-    if (this.m.mode === 'an') guesses = await this.revealAll(s);
+    // book the result FIRST (r3): the end animation only presents a result that is already saved,
+    // so 🏠 / app switch during 清点兵力 or the reveal wave can never lose it
+    const guesses = this.m.mode === 'an' ? this.tagGuesses(s) : null;
     const book = this.recordEnd(r, guesses);
-    const data: ResultData = {
+    this.resultData = {
       result: r,
       mode: this.m.mode,
       family: this.m.opponent.kind === 'family',
@@ -1011,22 +1043,48 @@ export class MatchScreen extends BaseScreen {
       ...book,
       guesses,
     };
-    this.app.go({ name: 'result', data });
+    if (r.reason === 'count' || r.reason === 'count-draw') {
+      void this.say('mc.ref.count.start', 'thinking');
+      await this.countAnimation(s, r);
+    } else if (r.reason === 'no-moves') {
+      void this.say(this.m.opponent.kind === 'family' ? 'mc.ref.nomoves.win' : this.playerOf(r.winner) === 0 ? 'mc.ref.nomoves.win' : 'mc.ref.nomoves.lose');
+      await this.wait(d(900));
+    } else if (r.reason === 'quiet' || r.reason === 'ply-cap' || r.reason === 'agreed') {
+      if (r.reason !== 'agreed') void this.say('mc.ref.draw.quiet');
+      await this.wait(d(700));
+    } else if (r.reason === 'both-immobile') {
+      void this.say('mc.ref.draw.both');
+      await this.wait(d(900));
+    } else await this.wait(d(500));
+    if (this.m.mode === 'an') await this.revealAll(s);
+    this.toResult();
+  }
+
+  /** go to the (already booked) result screen once; also the target of 🏠 during the end animation */
+  private toResult(): void {
+    if (!this.resultData || this.wentToResult) return;
+    this.wentToResult = true;
+    this.app.go({ name: 'result', data: this.resultData });
+  }
+
+  /** how many of the child's 暗棋 guess-tags were right (public at game end) */
+  private tagGuesses(s: GameState): { right: number; total: number } | null {
+    let right = 0, total = 0;
+    for (const [pid, t] of this.tags) {
+      total++;
+      if (tagCorrect(t, s.ptype[pid])) right++;
+    }
+    return total ? { right, total } : null;
   }
 
   /** 暗棋: every hidden piece turns over in a 40 ms wave; tags are marked ✓/✗ */
-  private async revealAll(s: GameState): Promise<{ right: number; total: number } | null> {
+  private async revealAll(s: GameState): Promise<void> {
     void this.say('mc.end.reveal', 'happy');
     const kid = this.m.kidSide;
     const downs: number[] = [];
     for (let p = 0; p < s.np; p++) if (s.palive[p] && s.pside[p] !== kid && this.board.faceOf(s, p) === 'back') downs.push(p);
     this.board.clearBadges();
     this.board.setOpts({ viewer: -1 });
-    let right = 0, total = 0;
-    for (const [pid, t] of this.tags) {
-      total++;
-      if (tagCorrect(t, s.ptype[pid])) right++;
-    }
     for (let i = 0; i < downs.length; i++) {
       const p = downs[i];
       if (i % 4 === 0) this.app.play('flip');
@@ -1039,7 +1097,6 @@ export class MatchScreen extends BaseScreen {
       await this.wait(d(40));
     }
     await this.wait(d(900));
-    return total ? { right, total } : null;
   }
 
   private recordEnd(r: GameResult, guesses: { right: number; total: number } | null): Pick<ResultData, 'promotions' | 'newCards' | 'unlocked' | 'offer'> {
@@ -1155,13 +1212,15 @@ export class MatchScreen extends BaseScreen {
       { label: '规则卡', ico: icon('book'), act: () => this.openRules(), testid: 'menu-rules', show: true },
       { label: this.notesOn ? '参谋笔记：开' : '参谋笔记：关', ico: mcIcon('eye'), act: () => this.toggleNotes(), testid: 'menu-notes', show: an },
       { label: this.coachOn ? '参谋提醒：开' : '参谋提醒：关', ico: icon('info'), act: () => this.toggleCoach(), testid: 'menu-coach', show: !family && !this.m.free },
+      { label: this.fanOwn ? '看我自己的：开' : '看我自己的：关', ico: mcIcon('flipcard'), act: () => this.toggleFanOwn(), testid: 'menu-fanown', show: this.m.mode === 'fan' },
+      { label: isMuted() ? '声音：关' : '声音：开', ico: icon(isMuted() ? 'sound-off' : 'sound-on'), act: () => this.toggleSound(), testid: 'menu-sound', show: true },
       { label: '悔一步', ico: icon('undo'), act: () => this.askUndo(), testid: 'menu-undo', show: this.m.mode === 'ming' && this.ctx.history.length > 0 },
       { label: '求和', ico: mcIcon('hands'), act: () => this.askDraw(), testid: 'menu-draw', show: family },
       { label: '重新开始', ico: icon('restart'), act: () => this.askRestart(), testid: 'menu-restart', show: true },
       { label: '先离开（会存好）', ico: icon('home'), act: () => this.leave(), testid: 'menu-leave', show: true },
     ];
     const close = () => {
-      scrim.remove();
+      drop();
       this.menuOpen = null;
       this.dispatch({ type: 'unlock' });
     };
@@ -1183,10 +1242,11 @@ export class MatchScreen extends BaseScreen {
     scrim.addEventListener('click', (e) => {
       if (e.target === scrim) close();
     });
-    abs(sheet, this.o === 'portrait' ? { x: 205, y: 200, w: 400, h: 0 } : { x: 340, y: 60, w: 400, h: 0 });
-    sheet.style.height = 'auto';
     scrim.appendChild(sheet);
-    this.el.appendChild(scrim);
+    const drop = this.keepOverlay(scrim, () => {
+      abs(sheet, this.o === 'portrait' ? { x: 205, y: 200, w: 400, h: 0 } : { x: 340, y: 60, w: 400, h: 0 });
+      sheet.style.height = 'auto';
+    });
     this.menuOpen = scrim;
   }
 
@@ -1201,6 +1261,15 @@ export class MatchScreen extends BaseScreen {
     this.app.persist();
     this.refreshNotes();
   }
+  /** 翻翻棋 intel board: "看我自己的" switches the 12 cells to the child's own face-down pieces (§2.3) */
+  private toggleFanOwn(): void {
+    this.fanOwn = !this.fanOwn;
+    this.refreshHud();
+  }
+  private toggleSound(): void {
+    setMuted(!isMuted());
+    if (!isMuted()) this.app.play('ui-pop');
+  }
   private toggleCoach(): void {
     this.coachOn = !this.coachOn;
     this.app.save.settings.coachAlerts = this.coachOn ? 'on' : 'off';
@@ -1208,7 +1277,7 @@ export class MatchScreen extends BaseScreen {
     void this.say(this.coachOn ? 'mc.coach.ok' : 'mc.home.pick');
   }
 
-  private sheet(text: string, actions: Array<{ label: string; kind: 'primary' | 'secondary'; act: () => void }>, rot = 0): Promise<void> {
+  private sheet(text: string, actions: Array<{ label: string; kind: 'primary' | 'secondary'; act: () => void }>, rot: () => number = () => 0): Promise<void> {
     return new Promise((resolveP) => {
       const scrim = div('mc-scrim');
       const sheet = div('mc-sheet');
@@ -1218,17 +1287,19 @@ export class MatchScreen extends BaseScreen {
       for (const a of actions) {
         row.appendChild(button(`xg-btn xg-btn--${a.kind} xg-btn--lg`, `<span>${a.label}</span>`, () => {
           this.app.play('ui-tap');
-          scrim.remove();
+          drop();
           a.act();
           resolveP();
         }, `sheet-${a.kind}`));
       }
       sheet.appendChild(row);
-      abs(sheet, this.o === 'portrait' ? { x: 105, y: 380, w: 600, h: 0 } : { x: 240, y: 260, w: 600, h: 0 });
-      sheet.style.height = 'auto';
-      if (rot) sheet.style.transform = `rotate(${rot}deg)`;
       scrim.appendChild(sheet);
-      this.el.appendChild(scrim);
+      const drop = this.keepOverlay(scrim, () => {
+        abs(sheet, this.o === 'portrait' ? { x: 105, y: 380, w: 600, h: 0 } : { x: 240, y: 260, w: 600, h: 0 });
+        sheet.style.height = 'auto';
+        const r = rot();
+        sheet.style.transform = r ? `rotate(${r}deg)` : '';
+      });
     });
   }
 
@@ -1259,7 +1330,7 @@ export class MatchScreen extends BaseScreen {
         this.dispatch({ type: 'unlock' });
         this.dispatch({ type: 'undo', player: lastMover as 0 | 1 });
       } },
-    ], seatRotation(this.o, this.seating(), other === 0 ? 'near' : 'far'));
+    ], () => seatRotation(this.o, this.seating(), other === 0 ? 'near' : 'far'));
   }
 
   private askDraw(): void {
@@ -1271,7 +1342,7 @@ export class MatchScreen extends BaseScreen {
         this.dispatch({ type: 'unlock' });
         this.dispatch({ type: 'agreeDraw' });
       } },
-    ], this.otherSeatRot());
+    ], () => this.otherSeatRot());
   }
 
   private askRestart(): void {

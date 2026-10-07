@@ -101,7 +101,7 @@ export class HomeScreen extends BaseScreen {
     let cardRects: Rect[];
     if (portrait) {
       abs(head, { x: 90, y: st + 16, w: 470, h: 110 });
-      const w = 360, h = 300, gap = 18, x0 = (810 - 2 * w - gap) / 2, y0 = st + 150;
+      const w = 360, h = 340, gap = 18, x0 = (810 - 2 * w - gap) / 2, y0 = st + 150; // QA r2: cards fill the old empty band
       cardRects = [0, 1, 2, 3].map((k) => ({ x: x0 + (k % 2) * (w + gap), y: y0 + Math.floor(k / 2) * (h + gap), w, h }));
     } else {
       abs(head, { x: 16, y: st + 70, w: 200, h: 170 });
@@ -125,7 +125,7 @@ export class HomeScreen extends BaseScreen {
       const pr = this.progress(c.id);
       const bar = pr.value >= 0 ? `<span class="mc-cardbar"><i style="width:${Math.round(Math.min(1, pr.value) * 100)}%"></i></span><span class="mc-cardbar__t">${pr.label}</span>` : pr.label ? `<span class="mc-cardbar__t is-solo">${mcIcon('hands')}${pr.label}</span>` : '';
       const b = button(`xg-card mc-camp-card${this.today === c.id ? ' is-today' : ''}`, `
-        <span class="mc-camp-card__art">${art(c.art, portrait ? 136 : 120)}</span>
+        <span class="mc-camp-card__art">${art(c.art, portrait ? 160 : 120)}</span>
         <span class="mc-camp-card__title">${c.title}</span>
         <span class="mc-camp-card__sub">${c.sub}</span>
         <span class="mc-camp-card__bar">${bar}</span>`, () => this.pick(c), `card-${c.id}`);
@@ -140,7 +140,9 @@ export class HomeScreen extends BaseScreen {
       abs(this.caption.el, { x: 170, y: 1080 - 16 - 100, w: 624, h: 84 });
     } else {
       abs(guideHost, { x: 56, y: 810 - 16 - 150, w: 120, h: 150 });
-      abs(this.caption.el, { x: 16, y: st + 260, w: 200, h: 200 });
+      // QA r2: the bubble fits its text and sits right above the robot (bottom-anchored)
+      abs(this.caption.el, { x: 16, y: 0, w: 220, h: 0 });
+      Object.assign(this.caption.el.style, { top: 'auto', bottom: `${16 + 150 + 10}px`, height: 'auto', maxHeight: '230px' });
       this.caption.el.classList.add('is-tall');
     }
     this.el.append(guideHost, this.caption.el);

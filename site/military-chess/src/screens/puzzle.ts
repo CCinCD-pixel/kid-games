@@ -578,17 +578,18 @@ export class PuzzleScreen extends BaseScreen {
     sheet.innerHTML = `<p class="mc-ask">${this.app.voice.text('mc.hint.show')}？</p>`;
     const row = div('mc-row');
     const go = button('xg-btn xg-btn--primary xg-btn--lg', '<span>好，看一遍</span>', () => {
-      scrim.remove();
+      drop();
       this.hintLevel = 2;
       void this.onHint();
     }, 'show-yes');
-    const no = button('xg-btn xg-btn--secondary xg-btn--lg', '<span>我自己来</span>', () => scrim.remove(), 'show-no');
+    const no = button('xg-btn xg-btn--secondary xg-btn--lg', '<span>我自己来</span>', () => drop(), 'show-no');
     row.append(no, go);
     sheet.appendChild(row);
-    abs(sheet, this.o === 'portrait' ? { x: 105, y: 400, w: 600, h: 0 } : { x: 240, y: 280, w: 600, h: 0 });
-    sheet.style.height = 'auto';
     scrim.appendChild(sheet);
-    this.el.appendChild(scrim);
+    const drop = this.keepOverlay(scrim, () => {
+      abs(sheet, this.o === 'portrait' ? { x: 105, y: 400, w: 600, h: 0 } : { x: 240, y: 280, w: 600, h: 0 });
+      sheet.style.height = 'auto';
+    });
     void this.say('mc.hint.show', 'happy');
   }
 
@@ -883,7 +884,8 @@ export class PuzzleScreen extends BaseScreen {
       e.stopPropagation();
       void this.say(c === 0 ? 'mc.ref.youare.red' : 'mc.ref.youare.blue');
     });
-    this.goalEl.querySelector('.mc-goal__row')?.appendChild(el);
+    // QA r2 major: its own slot in the sub-row (beside the step dots), never over the instruction
+    (this.goalEl.querySelector('.mc-goal__row.is-sub') ?? this.goalEl).appendChild(el);
   }
 
   private sceneHint(): void {

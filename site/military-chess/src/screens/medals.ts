@@ -48,20 +48,21 @@ export class MedalsScreen extends BaseScreen {
     rail.dataset.testid = 'ranks';
     RANK_NAMES.forEach((n, r) => {
       const st2 = r < rank ? 'is-done' : r === rank ? 'is-cur' : 'is-next';
-      const b = button(`mc-rankcell ${st2}`, `${insignia(r, portrait ? 74 : 70)}<span>${r <= rank ? n : ''}</span>`, () => {
+      const b = button(`mc-rankcell ${st2}`, `${insignia(r, portrait ? 118 : 92)}<span>${r <= rank ? n : ''}</span>`, () => {
         this.app.play(r <= rank ? 'ui-tap' : 'ui-locked');
         if (r <= rank) void this.say(`mc.w.${n}`);
       }, `rank-${r}`);
       rail.appendChild(b);
     });
-    abs(rail, portrait ? { x: 22, y: st + 80, w: 766, h: 120 } : { x: 18, y: st + 72, w: 156, h: 810 - st - 72 - 124 });
+    // QA r2: shoulder boards readable (≥ 64 px): 2 rows in portrait, a wider column in landscape
+    abs(rail, portrait ? { x: 22, y: st + 76, w: 766, h: 186 } : { x: 18, y: st + 72, w: 206, h: 810 - st - 72 - 124 });
     this.el.appendChild(rail);
 
     // knowledge cards
     const grid = div('mc-kcards');
     grid.dataset.testid = 'cards';
     const cols = portrait ? 3 : 4;
-    const box = portrait ? { x: 28, y: st + 210, w: 754, h: 1080 - st - 210 - 146 } : { x: 186, y: st + 76, w: 870, h: 810 - st - 76 - 124 };
+    const box = portrait ? { x: 28, y: st + 272, w: 754, h: 1080 - st - 272 - 146 } : { x: 236, y: st + 76, w: 820, h: 810 - st - 76 - 124 };
     const gap = 14;
     const cw = (box.w - (cols - 1) * gap) / cols;
     const rows = Math.ceil(CARDS.length / cols);

@@ -12,7 +12,7 @@ import { mcIcon, type McIcon } from '../view/icons';
 import { BaseScreen, abs, button, div } from './base';
 
 const LESSON_ICON: Record<string, McIcon> = { rank: 'star', bomb: 'bomb', flip: 'flipcard', road: 'mountain', rail: 'train', shovel: 'shovel', flag: 'flag', deploy: 'dice', eye: 'eye' };
-const TYPE_ICON: Record<LessonItem['type'], McIcon> = { board: 'flag', scene: 'flipcard', order: 'star', compare: 'swords', infer: 'eye', deploy: 'dice', 'deploy-full': 'dice' };
+const TYPE_ICON: Record<LessonItem['type'], McIcon> = { board: 'flag', scene: 'flipcard', order: 'star', compare: 'scale', infer: 'eye', deploy: 'dice', 'deploy-full': 'dice' };
 
 /** board items show their goal (capture / reach / flag / survive / no moves); other items their type */
 function itemIcon(it: LessonItem): McIcon {

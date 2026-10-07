@@ -24,6 +24,7 @@ import { boardGeom, stationLocal } from '../view/layout';
 import { cardArt } from '../view/knowledge-art';
 import { opponentBadge, OPPONENTS } from '../view/hats';
 import { promotionCeremony } from '../view/promo';
+import { phraseWrap } from '../view/phrase';
 import { BaseScreen, abs, button, div } from './base';
 
 export interface ResultData {
@@ -92,7 +93,8 @@ export class ResultScreen extends BaseScreen {
       this.bag.timeout(() => void this.say(data.offer === 2 ? 'mc.end.handicap.2' : 'mc.end.handicap', 'encouraging'), t);
       t += 2400;
     }
-    if (this.moments.length) this.bag.timeout(() => void this.say('mc.end.report'), t);
+    // QA r2: "三个关键时刻" only when there really are three (a quick game shows one or two cards silently)
+    if (this.moments.length === 3) this.bag.timeout(() => void this.say('mc.end.report'), t);
     // promotion ceremony first (milestone: confetti allowed)
     if (data.promotions?.length) this.bag.timeout(() => void this.ceremony(data.promotions!), 900);
     else this.ceremonyDone = true;
@@ -133,7 +135,14 @@ export class ResultScreen extends BaseScreen {
       : '';
     const opp = dt.level ? `<span class="mc-result__opp">${opponentBadge(dt.level as 1 | 2 | 3 | 4, 44)}<b>${OPPONENTS[dt.level - 1].name}</b></span>` : '';
     const rankNow = this.ceremonyDone && dt.promotions?.length ? `<div class="mc-result__rank">${insignia(this.app.save.rank, 92)}<b>${RANK_NAMES[this.app.save.rank]}</b></div>` : '';
-    head.innerHTML = `<div class="mc-result__emblem">${emblem}</div><h1 class="mc-h1" data-testid="result-title">${title}</h1><p class="mc-sub">${MODE_NAME[dt.mode]}${opp ? ' · ' : ''}${opp}${sub ? ' · ' + sub : ''}</p>${names}${rankNow}`;
+    // ladder win: the robot's win dots (●●○ → next robot), the new one pops in (QA r1/r2 minor)
+    let dotsRow = '';
+    if (dt.level && !dt.family && !dt.match.free && dt.winnerPlayer === 0) {
+      const wins = this.app.save.ladder[dt.mode].wins[dt.level - 1];
+      const dots = [0, 1].map((i) => `<i class="mc-dot${i < Math.min(wins, 2) ? ' is-on' : ''}${i === Math.min(wins, 2) - 1 ? ' is-new' : ''}"></i>`).join('');
+      dotsRow = `<div class="mc-dots mc-result__dots" data-testid="result-dots">${dots}${wins > 2 ? `<span class="mc-dot-more">+${wins - 2}</span>` : ''}</div>`;
+    }
+    head.innerHTML = `<div class="mc-result__emblem">${emblem}</div><h1 class="mc-h1" data-testid="result-title">${title}</h1><p class="mc-sub">${phraseWrap(MODE_NAME[dt.mode])}${opp ? ' · ' : ''}${opp}${sub ? ' · ' + phraseWrap(sub) : ''}</p>${dotsRow}${names}${rankNow}`;
     abs(head, portrait ? { x: 60, y: st + 24, w: 690, h: 290 } : { x: 16, y: st + 40, w: 260, h: 520 });
     if (!portrait) head.classList.add('is-col');
     this.el.appendChild(head);
@@ -146,7 +155,7 @@ export class ResultScreen extends BaseScreen {
     const x0 = portrait ? (810 - n * tw - (n - 1) * gap) / 2 : 300 + (764 - n * tw - (n - 1) * gap) / 2;
     const y0 = portrait ? st + 322 : st + 40;
     this.moments.forEach((m, k) => {
-      const card = button('mc-moment', `${miniBoard(m, tw - 16)}<span class="mc-moment__cap">${this.app.voice.text(m.line)}</span>`, () => {
+      const card = button('mc-moment', `${miniBoard(m, tw - 16)}<span class="mc-moment__cap">${phraseWrap(this.app.voice.text(m.line))}</span>`, () => {
         this.app.play('ui-open');
         void this.say(m.line);
         this.app.go({ name: 'review', data: this.data, ply: m.ply });
@@ -163,7 +172,7 @@ export class ResultScreen extends BaseScreen {
     if (dt.guesses) chips.push(`<span class="mc-chip-info" data-testid="guesses">${mcIcon('flag')}<b>${dt.guesses.right}</b><i>/</i><b>${dt.guesses.total}</b>${icon('check')}</span>`);
     for (const id of dt.newCards ?? []) {
       const c = CARDS.find((x) => x.id === id);
-      if (c) chips.push(`<span class="mc-chip-info is-card" data-card="${id}">${cardArt(c.art, 54)}<b>${c.title}</b></span>`);
+      if (c) chips.push(`<span class="mc-chip-info is-card" data-card="${id}" role="button" aria-label="新卡片：${c.title}"><em class="mc-chip-info__k">新卡片</em>${cardArt(c.art, 54)}<b>${c.title}</b></span>`);
     }
     if (dt.unlocked && dt.unlocked <= 4) chips.push(`<span class="mc-chip-info is-unlock">${icon('unlock')}${opponentBadge(dt.unlocked as 1 | 2 | 3 | 4, 40)}<b>${OPPONENTS[dt.unlocked - 1].name}</b></span>`);
     info.innerHTML = chips.join('');

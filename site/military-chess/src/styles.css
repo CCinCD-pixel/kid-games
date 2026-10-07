@@ -301,6 +301,10 @@ html[data-orientation="landscape"] body { background-image: url("@kit/textures/s
 .mc-youare { box-sizing: border-box; justify-content: center; }
 .mc-youare i { background: #fff; opacity: .9; }
 .mc-youare[data-c="1"] i { border-radius: 50%; }
+.mc-youare.is-inline { position: static; flex: none; padding: 3px 12px 3px 4px; font-size: 17px; height: 30px; box-shadow: 0 2px 0 rgba(0, 0, 0, .22); cursor: pointer; }
+.mc-goal.is-col .mc-pdots { flex-wrap: nowrap; gap: 4px; }
+.mc-goal.is-col .mc-pdot { width: 19px; height: 19px; }
+.mc-goal.is-col .mc-pdot .mc-icon { width: 13px; height: 13px; }
 .mc-caption.is-tall { align-items: flex-start; font-size: 22px; }
 .mc-match__guide { display: flex; align-items: center; justify-content: center; }
 .mc-count { position: absolute; display: flex; align-items: center; justify-content: center; background: rgba(16, 22, 51, .45); border-radius: 18px; }
@@ -812,13 +816,45 @@ html[data-orientation="landscape"] body { background-image: url("@kit/textures/s
 .mc-tray__empty .mc-icon { width: 44px; height: 44px; }
 .mc-intel__cell .mc-cap { height: 28px; padding: 0 7px; font-size: 18px; }
 .mc-intel-panel.is-compact .mc-intel__cell { justify-content: space-evenly; }
-.mc-caption.is-dock { font-size: 20px; line-height: 1.28; padding: 8px 8px 8px 14px; gap: 6px; }
-.mc-caption.is-dock .xg-iconbtn { --size: 40px; width: 40px; height: 40px; }
+.mc-caption.is-dock { font-size: 20px; line-height: 1.28; padding: 8px 6px 8px 12px; gap: 4px; }
+/* 再听一遍 stays a full 48 px touch target (spec §6.9 / DoD #5, QA r3) */
+.mc-caption.is-dock .xg-iconbtn { --size: 48px; width: 48px; height: 48px; }
 .mc-tray.is-empty .mc-tray__empty { right: auto; bottom: auto; left: 50%; top: 50%; width: 64px; height: 64px; transform: translate(-50%, -38%); opacity: .4; }
 .mc-tray.is-empty .mc-tray__empty .mc-icon { width: 64px; height: 64px; }
 /* S9: a shut mode shows a lock card naming the lesson that opens it; its opponents rest dimmed */
-.mc-opp-card.is-modeshut { opacity: .62; filter: saturate(.55); }
+/* (QA r3) the card stays opaque so the camp art never shows through; only the robot and the text grey out */
+.mc-opp-card.is-modeshut { opacity: 1; filter: none; background: #e4ddcd !important; }
+.mc-opp-card.is-modeshut .mc-opp-card__head { filter: grayscale(.85) brightness(.9); }
+.mc-opp-card.is-modeshut .mc-opp-card__txt { opacity: .72; }
 .mc-modelock { display: flex; align-items: center; justify-content: center; gap: 12px; border: 0; border-radius: 22px; box-sizing: border-box;
   background: rgba(255, 249, 236, .94); color: var(--xg-ink-700); font: 700 24px/1.2 var(--xg-font-ui); box-shadow: 0 4px 0 rgba(94, 58, 28, .35); }
 .mc-modelock__ico { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--xg-ink-200, #e6ddd2); color: var(--xg-ink-600, #6e6257); font-size: 26px; flex: none; }
 .mc-modelock__t b { color: var(--xg-army, #4a6b2f); margin: 0 4px; }
+
+/* ---- QA r2: phrase-aware wrapping, result win dots */
+.mc-nb { white-space: nowrap; }
+.mc-result__dots { justify-content: center; margin-top: 4px; }
+.mc-result__head.is-col .mc-result__dots { justify-content: flex-start; }
+.mc-dot.is-new { animation: mc-dot-new 700ms 900ms cubic-bezier(.34, 1.56, .64, 1) both; }
+@keyframes mc-dot-new { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 16px rgba(246, 185, 52, .9); } 100% { transform: none; } }
+.mc-tray.is-dense { gap: 3px; padding: 5px 8px; align-content: center; }
+.mc-tray.is-dense .mc-tray__label { width: auto; margin-right: 4px; font-size: 14px; }
+.mc-tray.is-dense .mc-cap { height: 26px; padding: 0 6px; font-size: 16px; }
+.mc-tray.is-dense .mc-cap b { font-size: 15px; }
+.mc-caption.is-slim { font-size: 19px; line-height: 1.15; padding: 4px 6px 4px 12px; }
+.mc-caption.is-slim { overflow: visible; }
+.mc-caption.is-slim .xg-iconbtn { --size: 48px; width: 48px; height: 48px; margin: -6px -2px -2px 0; }
+.mc-formations { flex-wrap: wrap; }
+.mc-deploy .mc-goal .mc-steps { font-size: 22px; padding: 5px 14px; }
+.mc-deploy .mc-goal .mc-steps .mc-icon { width: 24px; height: 24px; }
+.mc-ranks:not(.is-col) { flex-wrap: wrap; justify-content: center; align-content: center; gap: 4px 8px; }
+.mc-ranks:not(.is-col) .mc-rankcell { width: 140px; padding: 6px 4px; font-size: 18px; }
+.mc-ranks.is-col .mc-rankcell { padding: 2px 6px; font-size: 18px; }
+
+/* ---- QA r3: result chip names what it is (a new knowledge card, tap to hear it) */
+.mc-chip-info.is-card { cursor: pointer; box-shadow: 0 4px 0 var(--xg-army-700, #3a5424), 0 0 0 3px var(--xg-army, #4a6b2f); }
+.mc-chip-info__k { font: 800 16px/1 var(--xg-font-ui) !important; color: #fff !important; background: var(--xg-army, #4a6b2f); padding: 6px 8px; border-radius: 12px; white-space: nowrap; }
+/* QA r3: the 你是红方 pill sits inside the goal bar padding (portrait F-scenes: bar is 80 px tall) */
+.mc-goal:has(.mc-youare.is-inline) { padding-top: 6px; padding-bottom: 6px; gap: 4px; }
+.mc-goal__row.is-sub .mc-youare.is-inline { height: 24px; font-size: 15px; padding: 1px 10px 1px 4px; }
+.mc-goal__row.is-sub .mc-youare.is-inline i { width: 13px; height: 13px; }

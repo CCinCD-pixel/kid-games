@@ -164,9 +164,25 @@ export function boot(root: HTMLElement): App {
     app.voice.setTarget(null);
     stage.replaceChildren();
     root.dataset.screen = r.name;
-    screen = makeScreen(app, r);
-    stage.appendChild(screen.el);
-    screen.layout(app.o, app.safeTop);
+    try {
+      screen = makeScreen(app, r);
+      stage.appendChild(screen.el);
+      screen.layout(app.o, app.safeTop);
+    } catch (err) {
+      // a resume that no longer rebuilds (corrupted storage / a future format change) must never leave a
+      // blank stage: drop it, persist, and land on the camp (QA r3)
+      console.error('[military-chess] screen failed', r.name, err);
+      try { screen?.destroy(); } catch { /* already broken */ }
+      stage.replaceChildren();
+      if (r.name === 'match' && r.resume) save.resume = null;
+      if (r.name === 'item' && r.resume) save.puzzleResume = null;
+      app.persist();
+      if (r.name === 'home') throw err;
+      root.dataset.screen = 'home';
+      screen = makeScreen(app, { name: 'home', skipFt: true });
+      stage.appendChild(screen.el);
+      screen.layout(app.o, app.safeTop);
+    }
     backBtn.style.display = r.name === 'style' ? 'none' : '';
     music();
   }

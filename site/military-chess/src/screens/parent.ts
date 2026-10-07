@@ -82,7 +82,7 @@ export class ParentScreen extends BaseScreen {
     row('棋子数字角标', '关掉更像家里的实体棋', seg('set-numbers', [[1, '开'], [0, '关']], s.numberBadges ? 1 : 0, (v) => this.set('numberBadges', v === 1)));
     row('参谋提醒', '自动 = 1–2 档对手开', seg('set-coach', [['auto', '自动'], ['on', '开'], ['off', '关']], s.coachAlerts, (v) => this.set('coachAlerts', v)));
     row('暗棋参谋笔记', '对方子上的推理角标', seg('set-notes', [[1, '开'], [0, '关']], s.coachNotes ? 1 : 0, (v) => this.set('coachNotes', v === 1)));
-    row('家规：翻翻棋扛旗', '标准 = 先挖光地雷', seg('set-fanflag', [['standard', '标准'], ['easy', '随时能扛']], s.fanFlagRule, (v) => this.set('fanFlagRule', v)));
+    row('家规：翻翻棋扛旗', '标准 = 先挖光地雷（对战和家庭局都用）', seg('set-fanflag', [['standard', '标准'], ['easy', '随时能扛']], s.fanFlagRule, (v) => this.set('fanFlagRule', v)));
     row('家规：不碰子判和', '明棋家庭局', seg('set-quiet', [[40, '40 步'], [80, '80 步'], [120, '120 步']], s.familyQuiet, (v) => this.set('familyQuiet', v)));
     row('家规：来回走最多', '同一个子', seg('set-shuttle', [[3, '3 次'], [4, '4 次'], [5, '5 次']], s.shuttleMax, (v) => this.set('shuttleMax', v)));
     row('机器人强度', '覆盖天梯对手的档位', seg('set-ai', [[0, '不覆盖'], [1, '1'], [2, '2'], [3, '3'], [4, '4']], s.aiOverride ?? 0, (v) => this.set('aiOverride', v === 0 ? null : (v as 1 | 2 | 3 | 4))));

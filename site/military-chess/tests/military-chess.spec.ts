@@ -103,6 +103,49 @@ test.describe('陆战棋', () => {
     await expect(page.locator('.xg-confetti')).toHaveCount(0);
   });
 
+  test('QA r3: 🏠 during the 清点兵力 animation goes to the already-booked result (never a stale resume)', async ({ page }) => {
+    await open(page);
+    await position(page, { a6: 'r9^', e7: 'b5^', c11: 'r4', d10: 'b7', b1: 'rF^', b12: 'bF^', a12: 'bM' }, { mode: 'fan', ladder: true, quiet: 39, family: false });
+    await tap(page, 'a6');
+    await tap(page, 'a5');
+    await expect(page.locator('[data-testid="count"]')).toBeVisible();
+    await page.locator('[data-testid="back"]').click();
+    await page.waitForFunction(() => (window as any).__mc.screen() === 'result', null, { timeout: 5_000 });
+    await expect(page.locator('[data-testid="result-title"]')).toHaveText('演习胜利');
+    expect(await page.evaluate(() => (window as any).__mc.save().resume)).toBeNull();
+  });
+
+  test('QA r3: the start-gate tap never falls through to a camp card', async ({ page }) => {
+    await page.goto(URL + '&gate=1');
+    const go = page.locator('.kit-start__go');
+    await go.waitFor();
+    const b = (await go.boundingBox())!;
+    await page.touchscreen.tap(b.x + b.width / 2, b.y + b.height / 2);
+    await page.waitForSelector('#app[data-ready]');
+    await page.waitForTimeout(900);
+    expect(await page.evaluate(() => (window as any).__mc.screen())).toBe('home');
+    // the cards still work on a real tap
+    await page.locator('[data-testid="card-family"]').tap();
+    await page.waitForFunction(() => (window as any).__mc.screen() === 'family');
+  });
+
+  test('QA r3: 💡 in 翻翻棋 when the best action is a flip lights the tile and says to flip it; 再听一遍 ≥ 48 px', async ({ page }, info) => {
+    await open(page);
+    // red (the child) has no movable face-up piece: every legal action is a flip
+    await position(page, { b1: 'rF^', c6: 'r5', d10: 'b7', e7: 'b4', a12: 'bF^', c3: 'r3', b9: 'b9' }, { mode: 'fan', ladder: true, family: false });
+    await page.locator('[data-testid="hint"]').tap();
+    await expect(page.locator('[data-testid="hint-glow"]')).toHaveCount(1, { timeout: 8_000 });
+    await page.waitForFunction(() => (window as any).__mc.said().includes('mc.f1.flip'));
+    const hints = await page.evaluate(() => (window as any).__mc.ctx() && (window as any).__mc.app.screen().m.hints);
+    expect(hints).toBe(1);
+    await shot(page, info.project.name, 'military-chess-hint-flip');
+    const btn = page.locator('.mc-caption .xg-iconbtn').first();
+    if (await btn.isVisible()) {
+      const bb = (await btn.boundingBox())!;
+      expect(Math.min(bb.width, bb.height)).toBeGreaterThanOrEqual(48);
+    }
+  });
+
   test('暗棋 no-leak: hidden enemy tiles carry no identity; hidden bombs show generic smoke only', async ({ page }) => {
     await open(page, '&opp=dev');
     await position(page, { c6: 'r7', c7: 'bB', b1: 'rF', d12: 'bF', a6: 'r4', e8: 'b6', a12: 'bM' }, { mode: 'an', family: false });
@@ -284,5 +327,89 @@ test.describe('陆战棋', () => {
     await page.getByRole('button', { name: '同意和棋' }).click();
     await page.waitForFunction(() => (window as any).__mc.screen() === 'result');
     await expect(page.locator('[data-testid="result-title"]')).toHaveText('和棋');
+  });
+
+  test('rotation with a sheet or the menu open: it stays, answers, and nothing soft-locks', async ({ page }) => {
+    await open(page);
+    // 参谋提醒 (E4): a 旅长 walking into its own 大本营 asks first
+    await position(page, { b1: 'rF', d2: 'r5', b12: 'bF', a12: 'b2' });
+    await tap(page, 'd2');
+    await tap(page, 'd1');
+    const sheet = page.locator('[data-testid="sheet"]');
+    await expect(sheet).toBeVisible();
+    const vp = page.viewportSize()!;
+    await page.setViewportSize({ width: vp.height, height: vp.width });
+    await expect(sheet).toBeVisible();
+    const inStage = await sheet.evaluate((el) => { const r = el.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth + 1 && r.top >= 0 && r.bottom <= innerHeight + 1; });
+    expect(inStage).toBe(true);
+    await page.getByRole('button', { name: '再想想' }).click();
+    await page.waitForFunction(() => (window as any).__mc.phase() === 'idle' && (window as any).__mc.ctx().lock === 0);
+    // pause menu open across a rotation
+    await page.click('[data-testid="menu"]');
+    await page.setViewportSize(vp);
+    await expect(page.locator('[data-testid="menu-sheet"]')).toBeVisible();
+    await page.click('[data-testid="menu-close"]');
+    await page.waitForFunction(() => (window as any).__mc.ctx().lock === 0);
+    // and the next move commits
+    await tap(page, 'd2');
+    await tap(page, 'd3');
+    await page.waitForFunction(() => (window as any).__mc.ctx().notes.includes('d2-d3'));
+  });
+
+  test('rotation with a family sheet open (悔一步 / 求和): still answerable, the next move commits', async ({ page }) => {
+    await open(page);
+    await startMatch(page, family('ming', 'face'));
+    await tap(page, 'a6');
+    await tap(page, 'b5');
+    await settle(page);
+    await page.click('[data-testid="menu"]');
+    await page.click('[data-testid="menu-undo"]');
+    const vp = page.viewportSize()!;
+    await page.setViewportSize({ width: vp.height, height: vp.width });
+    await expect(page.locator('[data-testid="sheet"]')).toBeVisible();
+    await page.getByRole('button', { name: '不同意' }).click();
+    await page.waitForFunction(() => (window as any).__mc.ctx().lock === 0);
+    await page.click('[data-testid="menu"]');
+    await page.click('[data-testid="menu-draw"]');
+    await page.setViewportSize(vp);
+    await expect(page.locator('[data-testid="sheet"]')).toBeVisible();
+    await page.getByRole('button', { name: '接着下' }).click();
+    await page.waitForFunction(() => (window as any).__mc.ctx().lock === 0);
+    const n = (await notes(page)).length;
+    await tap(page, 'a7');
+    await tap(page, 'a6');
+    await page.waitForFunction((k) => (window as any).__mc.ctx().notes.length === k + 1, n);
+  });
+
+  test('perf gates (§8.6 Mac proxy): per-move dispatch ≤ 2 ms median, rotation rebuild ≤ 20 ms median', async ({ page }) => {
+    await open(page);
+    await startMatch(page, family('ming'));
+    for (const [a, b] of [['a6', 'b5'], ['a7', 'a6'], ['b5', 'c4'], ['a6', 'b5']] as const) {
+      await tap(page, a);
+      await tap(page, b);
+      await settle(page);
+    }
+    const vp = page.viewportSize()!;
+    for (let k = 0; k < 6; k++) {
+      await page.setViewportSize(k % 2 ? vp : { width: vp.height, height: vp.width });
+      await page.waitForTimeout(120);
+    }
+    const m = await page.evaluate(() => {
+      const med = (xs: number[]) => xs.sort((x, y) => x - y)[Math.floor(xs.length / 2)] ?? 0;
+      const d = performance.getEntriesByType('measure').filter((e) => e.name.startsWith('mc:dispatch')).map((e) => e.duration);
+      const l = performance.getEntriesByType('measure').filter((e) => e.name === 'mc:layout').map((e) => e.duration);
+      const c = performance.getEntriesByType('measure').filter((e) => e.name === 'mc:commit').map((e) => e.duration);
+      return { dn: d.length, dMed: med([...d]), dMax: Math.max(...d), ln: l.length, lMed: med([...l]), lMax: Math.max(...l), cn: c.length, cMed: med([...c]), cMax: Math.max(...c) };
+    });
+    console.log('[perf]', JSON.stringify(m));
+    expect(m.dn).toBeGreaterThan(8);
+    expect(m.ln).toBeGreaterThanOrEqual(6);
+    expect(m.dMed).toBeLessThanOrEqual(2);
+    expect(m.dMax).toBeLessThan(16);
+    // tap → commit effect (sync part) + forced layout: the real §8.6 COMMIT + 渲染 cost (QA r3)
+    expect(m.cn).toBeGreaterThan(3);
+    expect(m.cMed).toBeLessThanOrEqual(4);
+    expect(m.cMax).toBeLessThan(16);
+    expect(m.lMed).toBeLessThanOrEqual(20);
   });
 });

@@ -37,7 +37,9 @@ export class Intel {
         return `<span class="mc-cap" data-side="${side}">${NAMES[t]}${n > 1 ? `<b>×${n}</b>` : ''}</span>`;
       }).join('');
       const empty = lost.length ? '' : `<span class="mc-tray__empty">${mcIcon('shield')}</span>`;
-      rows.push(`<div class="mc-tray${lost.length ? '' : ' is-empty'}" data-side="${side}"><span class="mc-tray__label"><i style="background:${side ? '#2d5ba3' : '#b8342a'}"></i>${names[side]}下场 ${lost.length}</span>${chips}${empty}</div>`);
+      // many kinds down (QA r2: the 3rd row was clipped): the label joins the chip flow, chips shrink
+      const dense = kinds.length > 6 ? ' is-dense' : '';
+      rows.push(`<div class="mc-tray${lost.length ? '' : ' is-empty'}${dense}" data-side="${side}"><span class="mc-tray__label"><i style="background:${side ? '#2d5ba3' : '#b8342a'}"></i>${names[side]}下场 ${lost.length}</span>${chips}${empty}</div>`);
     }
     this.el.innerHTML = rows.join('');
     this.el.style.setProperty('--cols', String(cols));

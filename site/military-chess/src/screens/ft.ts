@@ -20,7 +20,7 @@ import { BoardView } from '../view/board-view';
 import * as fx from '../view/fx';
 import { boardGeom, stageGeom } from '../view/layout';
 import { animateMove } from '../view/move-anim';
-import { BaseScreen, abs, div } from './base';
+import { BaseScreen, IntroSkip, abs, div } from './base';
 
 type Step = 'intro' | 'first' | 'second' | 'end';
 
@@ -69,10 +69,12 @@ export class FtScreen extends BaseScreen {
     if (o === 'portrait') {
       abs(gh, { x: 12, y: g.intel.y, w: 150, h: g.intel.h });
       abs(this.caption.el, { x: 182, y: g.intel.y + 30, w: 616, h: 84 });
+      this.caption.el.classList.remove('is-tall', 'is-dock');
     } else {
       abs(gh, { x: 832, y: st + 300, w: 236, h: 200 });
-      abs(this.caption.el, { x: 832, y: st + 520, w: 236, h: 200 });
-      this.caption.el.classList.add('is-tall');
+      // the bubble fits its text (same docked bubble as puzzles / matches, QA r3)
+      abs(this.caption.el, { x: 832, y: st + 520, w: 236, h: 0 });
+      this.caption.el.classList.add('is-tall', 'is-dock');
     }
     this.el.append(gh, this.caption.el);
     this.placeGuide(gh, o === 'portrait' ? 120 : 150, { mood: 'happy' });
@@ -98,17 +100,36 @@ export class FtScreen extends BaseScreen {
       gh.animate([{ transform: 'translate(60px, 80px) scale(.6)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: d(420), easing: EASE.back });
     }
     this.guide?.react('hop');
-    await this.say('mc.ft.1', 'happy');
-    // the ghost: 团长 → 营长 (shown, not played)
-    await this.ghostAt('c6');
-    this.board.setLifted(this.state.board[parseSq('c6')], true);
-    this.board.showMoves(pieceMoves(this.state, this.state.board[parseSq('c6')]));
-    await this.ghostAt('c7');
-    this.board.setLifted(this.state.board[parseSq('c6')], false);
+    // QA r2 major: the demo used to swallow the child's taps for ~7 s. Now the first touch takes over
+    // (like the items' IntroSkip): the demo stops and the 团长 is lifted, ready for "点团长，再点营长".
+    const c6 = this.state.board[parseSq('c6')];
+    const gate = new IntroSkip(this.el, () => {
+      this.app.voice.stop();
+      this.app.play('ui-pick');
+    });
+    try {
+      // the ghost: 团长 → 营长 (shown, not played)
+      if (await gate.step(this.say('mc.ft.1', 'happy'))) {
+        if (await gate.step(this.ghostAt('c6'))) {
+          this.board.setLifted(c6, true);
+          this.board.showMoves(pieceMoves(this.state, c6));
+          await gate.step(this.ghostAt('c7'));
+        }
+      }
+    } finally {
+      gate.end();
+    }
+    this.board.setLifted(c6, false);
     this.board.clearHighlights();
     this.busy--;
     this.step = 'first';
     this.t0 = performance.now();
+    if (gate.skipped) {
+      // the touch that ended the demo picks the 团长 up: instant, visible feedback
+      this.selected = c6;
+      this.board.setLifted(c6, true);
+      this.board.showMoves(pieceMoves(this.state, c6));
+    }
     void this.say('mc.ft.2', 'happy');
     this.armIdle();
   }
@@ -150,7 +171,15 @@ export class FtScreen extends BaseScreen {
   }
 
   private tap(at: number): void {
-    if (this.busy || (this.step !== 'first' && this.step !== 'second')) return;
+    if (this.busy || (this.step !== 'first' && this.step !== 'second')) {
+      // never silent (kit ≤100 ms feedback rule): a tap while pieces move / the guide talks still answers
+      if (this.step === 'end') return;
+      this.deadTaps++;
+      this.app.play('ui-tap');
+      const occ = this.state.board[at];
+      if (occ >= 0) this.board.pulse([at], 1);
+      return;
+    }
     const s = this.state;
     const occ = s.board[at];
     if (occ >= 0 && s.pside[occ] === RED) {
@@ -177,7 +206,11 @@ export class FtScreen extends BaseScreen {
   }
 
   private drop(pid: number, at: number): void {
-    if (this.busy) return;
+    if (this.busy) {
+      this.deadTaps++;
+      void this.board.springBack(pid);
+      return;
+    }
     const m = pieceMoves(this.state, pid).find((x) => x.to === at);
     if (m && this.state.board[at] >= 0) {
       this.selected = pid;
@@ -206,13 +239,17 @@ export class FtScreen extends BaseScreen {
       await this.say('mc.ft.ok', 'celebrating');
       this.state = { ...state, turn: RED };
       await this.second();
+      // QA r2 major: input opens as soon as the new pieces have landed; the question plays over it
       this.busy--;
+      void this.say('mc.ft.choose', 'happy');
+      this.armIdle();
       return;
     }
     if (event.outcome === 'D') {
       // the 团长 bounced: put everything back and ask again
       this.app.play('try-again');
-      await this.say('mc.ft.bigger', 'encouraging');
+      void this.say('mc.ft.bigger', 'encouraging');
+      await this.bag.wait(d(500));
       this.state = { ...before };
       this.board.render(this.state, true);
       for (let p = 0; p < this.state.np; p++) this.board.pieceEl(p)?.animate([{ opacity: 0.3 }, { opacity: 1 }], { duration: d(300) });
@@ -241,8 +278,6 @@ export class FtScreen extends BaseScreen {
     if (pr) pr.animate([{ transform: `${pr.style.transform} scale(.4)`, opacity: 0 }, { transform: pr.style.transform, opacity: 1 }], { duration: d(320), easing: EASE.back });
     this.app.play('ui-pop');
     this.step = 'second';
-    await this.say('mc.ft.choose', 'happy');
-    this.armIdle();
   }
 
   private async finish(): Promise<void> {

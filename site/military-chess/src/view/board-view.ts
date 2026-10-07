@@ -420,6 +420,34 @@ export class BoardView {
     }
   }
 
+  /** strong gold glow ABOVE the pieces (a face-down tile the hint says to flip) + a little hop of the tile */
+  pulseTop(stations: number[], times = 3): void {
+    const grp = document.createElementNS(SVGNS, 'g');
+    grp.dataset.testid = 'hint-glow';
+    this.hlTop.appendChild(grp);
+    const t = this.g.tile;
+    for (const i of stations) {
+      const c = this.local(i);
+      const w = t.w + 10, h = t.h + 10;
+      const r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('x', f(c.x - w / 2));
+      r.setAttribute('y', f(c.y - h / 2));
+      r.setAttribute('width', f(w));
+      r.setAttribute('height', f(h));
+      r.setAttribute('rx', '9');
+      r.setAttribute('fill', 'rgba(255,214,90,.28)');
+      r.setAttribute('stroke', '#ffc93a');
+      r.setAttribute('stroke-width', '5');
+      grp.appendChild(r);
+      const pid = this.state ? this.state.board[i] : -1;
+      const el = pid >= 0 ? this.pieceEl(pid) : null;
+      if (el) {
+        el.animate([{ translate: '0 0' }, { translate: '0 -6px' }, { translate: '0 0' }], { duration: d(600), iterations: times, easing: 'ease-in-out' });
+      }
+    }
+    grp.animate([{ opacity: 0.35 }, { opacity: 1 }, { opacity: 0.35 }], { duration: d(1200), iterations: times }).onfinish = () => grp.remove();
+  }
+
   // ------------------------------------------------------------------ animations
   private track(a: Animation): Animation {
     this.anims.add(a);

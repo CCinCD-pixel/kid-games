@@ -183,7 +183,7 @@ export class CardScreen extends BaseScreen {
   }
 
   private renderGoal(): void {
-    const ico: McIcon = this.item.type === 'order' ? 'star' : this.item.type === 'compare' ? 'swords' : 'eye';
+    const ico: McIcon = this.item.type === 'order' ? 'star' : this.item.type === 'compare' ? 'scale' : 'eye';
     let sub = '';
     if (this.item.type === 'compare') {
       const n = this.item.pairs.length;
