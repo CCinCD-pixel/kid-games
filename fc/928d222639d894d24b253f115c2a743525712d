@@ -1,0 +1,83 @@
+site/gear-fort/src/audio/sfx.ts
+  ai_agent 87
+site/gear-fort/src/lane/fixtures.test.ts
+  ai_agent 2,59
+site/gear-fort/src/lane/sim.ts
+  ai_agent 859
+site/gear-fort/src/screens/hud.ts
+  ai_agent 26,46-49,52
+site/gear-fort/tests/perf.spec.ts
+  ai_agent 51-52
+site/gear-fort/src/screens/timing.ts
+  ai_agent 5-7,10-16
+site/gear-fort/src/render/songcity.ts
+  ai_agent 13-16
+site/gear-fort/src/content.hand.json
+  ai_agent 1-153
+tests/gear-fort/fix-r4.mjs
+  ai_agent 1-103
+site/gear-fort/src/lane/edge.test.ts
+  ai_agent 111-112
+tests/gear-fort/luban-voice.mjs
+  ai_agent 1-47
+site/gear-fort/tools/render-audio.test.ts
+  ai_agent 5,28-29
+tests/gear-fort/fix-r5.mjs
+  ai_agent 1-132
+site/gear-fort/src/lane/coach.ts
+  ai_agent 166-170
+content/gear-fort/voice.json
+  ai_agent 3
+site/gear-fort/src/voice.ts
+  ai_agent 3-6,8,26-29,32-56,60-76,84-85,88
+site/gear-fort/tests/flow.spec.ts
+  ai_agent 155,335-435
+site/gear-fort/tools/bands.rest.test.ts
+  ai_agent 9,153-159
+site/gear-fort/src/screens/menus.ts
+  ai_agent 113-115,133-137,143,149-150,152,157-170,179-183,185,236,242-248,250,258
+site/gear-fort/src/screens/story.ts
+  ai_agent 4,31-34,39-57,71-72,86-94,96,103,117-122,136-139,157,161-163,169,175,207,219,225,232-234,244,249,252,255,263,268
+content/gear-fort/bands.json
+  ai_agent 525-528
+site/gear-fort/src/screens/almanac.ts
+  ai_agent 35,65-66
+content/gear-fort/narration.luban.yaml
+  ai_agent 3-6,23,41,53
+site/gear-fort/src/art/rigs2.ts
+  ai_agent 107,109-110,112-114
+content/gear-fort/_takes/gear-fort.qwen3.json
+  ai_agent 56-59,263,266,268,274-276,919-936,972-995,1021-1202,1365-1368,1545-1555
+site/gear-fort/src/content.test.ts
+  ai_agent 5,11,33-42,96-97,99-119
+site/gear-fort/src/app.ts
+  ai_agent 105-108,195-197,230
+site/gear-fort/src/screens/timing.test.ts
+  ai_agent 3,21-28
+site/gear-fort/tests/determinism.spec.ts
+  ai_agent 52,58,75
+public/audio/gear-fort/audio-manifest.json
+  ai_agent 31046,31048,31054,31058-31059,31063-31064,31068-31069,31073-31074,31078-31079,31083-31084,31088-31089,31093-31094,31098-31099,31103-31104,31108-31109,31113-31114,31118-31119,32618-35778
+content/gear-fort/synthetic/checkpoint-restore-assisted.json
+  ai_agent 1
+site/gear-fort/src/voice.test.ts
+  ai_agent 1-55
+site/gear-fort/src/screens/battle.ts
+  ai_agent 4,8,45,105-106,170,172-175,177-178,182,235-244,276-279,282-292,298-300,353-360,408,416,428,454,546,561,563,686,688,721,723
+site/gear-fort/src/styles.css
+  ai_agent 65-67,218-223,276,289-291,337-339,567-569,728-729
+site/gear-fort/LICENSES.part.md
+  ai_agent 8
+site/gear-fort/src/dev/perf.ts
+  ai_agent 39,69
+site/gear-fort/game.json
+  ai_agent 21
+site/gear-fort/src/art/parts2.ts
+  ai_agent 84-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "fc928d222639d894d24b253f115c2a743525712d",
+  "prompts": {}
+}
