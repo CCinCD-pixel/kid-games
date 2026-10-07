@@ -25,6 +25,7 @@ export function installTestHook(ctx: AppCtx, app: () => App | null): void {
     play: (mv: Move) => play()?.play(mv) ?? Promise.resolve(false),
     tool: (use: BoosterUse) => play()?.tool(use) ?? Promise.resolve(false),
     bar: (id: string) => play()?.barPress(id),
+    plant: (list: [number, number][]) => play()?.plant(list) ?? [],
     aiming: () => play()?.aiming ?? false,
     toolUses: () => play()?.uses ?? 0,
     /** spec §8.10: fast-forward the main-line play clock (15-minute stop bubble) */
@@ -54,14 +55,14 @@ export function installTestHook(ctx: AppCtx, app: () => App | null): void {
     art: async () => {
       const { buildAtlas } = await import('../view/atlas');
       const size = 152, atlas = await buildAtlas(size);
-      const masks: Uint8Array[] = [];
+      const masks: Uint8Array[] = [], pixels: Uint8ClampedArray[] = [];
       for (let g = 0; g < 6; g += 1) {
         const cv = document.createElement('canvas'); cv.width = cv.height = size;
         const c = cv.getContext('2d')!;
         atlas.draw(c, `gem${g}`, size / 2, size / 2, size);
         const d = c.getImageData(0, 0, size, size).data, m = new Uint8Array(size * size);
         for (let k = 0; k < m.length; k += 1) m[k] = d[k * 4 + 3] > 127 ? 1 : 0;
-        masks.push(m); cv.width = cv.height = 0;
+        masks.push(m); pixels.push(d); cv.width = cv.height = 0;
       }
       // V12 strokes ≥ 2 css px at cell 76: erode each mask by 1 device px; no part (component) may vanish
       const comps = (m: Uint8Array) => {
@@ -96,9 +97,22 @@ export function installTestHook(ctx: AppCtx, app: () => App | null): void {
         ice.push(row);
       }
       atlas.dispose();
+      // V12c (spec §6.3, §9.2): the rendered sprite's outermost 2 device px ring (every visible pixel not
+      // in the twice-eroded mask), alpha-weighted mean colour → WCAG contrast against both tile colours
+      const { BOARD } = await import('../view/art/palette');
+      const lum = (r: number, g: number, b: number) => { const f = (v: number) => { const x = v / 255; return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+      const hexLum = (h: string) => lum(parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16));
+      const tiles = [BOARD.tileA, BOARD.tileB].map(hexLum);
+      const rim = masks.map((m, g) => {
+        const inner = erode(erode(m)), d = pixels[g];
+        let r = 0, gg = 0, b = 0, w = 0;
+        for (let k = 0; k < m.length; k += 1) { const a = d[k * 4 + 3]; if (!a || inner[k]) continue; r += d[k * 4] * a; gg += d[k * 4 + 1] * a; b += d[k * 4 + 2] * a; w += a; }
+        const L = lum(r / w, gg / w, b / w);
+        return tiles.map((t) => +((Math.max(L, t) + 0.05) / (Math.min(L, t) + 0.05)).toFixed(2));
+      });
       const iou: number[][] = [];
       for (let a = 0; a < 6; a += 1) { iou.push([]); for (let b = 0; b < 6; b += 1) { let i = 0, u = 0; for (let k = 0; k < masks[a].length; k += 1) { i += masks[a][k] & masks[b][k]; u += masks[a][k] | masks[b][k]; } iou[a].push(u ? i / u : 0); } }
-      return { iou, area: masks.map((m) => m.reduce((x, y) => x + y, 0) / m.length), ice, strokes };
+      return { iou, area: masks.map((m) => m.reduce((x, y) => x + y, 0) / m.length), ice, strokes, rim };
     },
   };
 }

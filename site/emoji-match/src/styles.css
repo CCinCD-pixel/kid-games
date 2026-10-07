@@ -438,7 +438,7 @@ body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { bottom: calc(ma
 .em-ending { position: absolute; z-index: 4; inset: 0; overflow: hidden; background: radial-gradient(90% 75% at var(--ox) var(--oy), rgba(22, 26, 70, .55), rgba(7, 11, 31, .94)); opacity: 0; transition: opacity 1s; }
 .em-ending.is-on { opacity: 1; }
 /* camera: starts close on the asteroid belt, pulls back over the whole route */
-.em-ending__cam { position: absolute; inset: calc(env(safe-area-inset-top, 0px) + 96px) 56px calc(env(safe-area-inset-bottom, 0px) + var(--lane-h, 0px) + 40px); transform-origin: var(--ox) var(--oy); transform: scale(2.1); transition: transform 3.2s cubic-bezier(.25, .7, .2, 1) .3s; }
+.em-ending__cam { position: absolute; inset: 0; /* px geometry = the S1 route (view/route-geom.ts) */ transform-origin: var(--ox) var(--oy); transform: scale(2.1); transition: transform 3.2s cubic-bezier(.25, .7, .2, 1) .3s; }
 .em-ending.is-on .em-ending__cam { transform: scale(1); }
 .em-ending__road { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .em-ending__road path { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
@@ -544,8 +544,8 @@ body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { bottom: calc(ma
 .em-result-bubble { container-type: inline-size; }
 .em-result-bubble .xg-bot-bubble { max-width: min(340px, calc(100cqw - 116px)) !important; }
 /* QA r2: subtitles break at punctuation (phrase boundaries), never inside a word like 没 / 有; a phrase
-   longer than the lane still wraps (overflow-wrap) instead of overflowing */
-.em-subbar .kit-subtitle__text, .em-sub-lane .kit-subtitle__text { word-break: keep-all; overflow-wrap: anywhere; }
+   longer than the lane still wraps inside itself instead of overflowing */
+.kit-subtitle__text .em-ph { display: inline-block; max-width: 100%; } /* view/phrase-wrap.ts */
 /* QA r2: restart confirm shows the fresh start (full goals + full moves) instead of an empty card */
 .em-restart { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 6px 0 10px; flex-wrap: wrap; }
 .em-restart__goals { display: flex; gap: 12px; }

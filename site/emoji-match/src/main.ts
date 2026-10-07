@@ -5,6 +5,7 @@
  */
 import { initShell, currentLayout, type Shell } from '@kit/shell';
 import { createSubtitleBar } from '@kit/ui';
+import { installPhraseWrap } from './view/phrase-wrap';
 import { requestPersistence } from '@kit/progress';
 import { App } from './app';
 import type { AppCtx } from './ctx';
@@ -44,6 +45,7 @@ export async function startGame(): Promise<void> {
   const test = params.get('test') === '1';
   const save = openSave();
   const subBar = createSubtitleBar(document.body);
+  installPhraseWrap(subBar.el);
   subBar.el.classList.add('em-subbar');
   // menu screens (route, map, hangar, level card) have no subtitle lane: there the bar floats at the
   // bottom and fades 2.6 s after the line ends; in a lane (play, intro card, arrival) it stays for 再听一遍

@@ -20,6 +20,7 @@ import type { SceneKey } from '../view/art/sky';
 import { backdrop } from '../view/backdrop';
 import { toolSvg, type ToolId } from '../view/art/tools';
 import { installed } from './route';
+import { routeGeom } from '../view/route-geom';
 
 
 export function totalStars(app: AppCtx): number { return LEVELS.reduce((a, d) => a + (app.save.data.levels[d.id]?.stars ?? 0), 0); }
@@ -185,22 +186,17 @@ export class ArrivalScreen {
     if (!this.alive) return;
     const li = this.app.layout();
     const land = li.width > li.height;
-    const n = ROUTE.length;
-    // the S1 route curve in % of the overlay
-    const at = (k: number) => {
-      const t = k / (n - 1);
-      return land ? { x: 9 + t * 82, y: 52 + Math.sin(t * Math.PI * 2) * 20 } : { x: 50 + Math.sin(t * Math.PI * 2) * 27, y: 86 - t * 70 };
-    };
-    const pts = ROUTE.map((_, k) => at(k));
+    // the S1 route itself (same serpentine as the route screen), in px of the full overlay; the camera
+    // starts close on the parked ship and pulls back over the whole route (QA r2: big, not a diagram)
+    const W = li.width, H = li.height;
+    const { pts, path } = routeGeom(W, H, li.safe.top, li.safe.bottom, land, { bottom: land ? 300 : 210, top: land ? 170 : 200 });
     const here = Math.max(0, ROUTE.findIndex((r) => r.ep === 4));
-    const road = pts.map((p, k) => `${k ? 'L' : 'M'}${p.x} ${p.y}`).join('');
-    const doneRoad = pts.slice(0, here + 1).map((p, k) => `${k ? 'L' : 'M'}${p.x} ${p.y}`).join('');
     const strip = document.createElement('div');
     strip.className = 'em-ending';
-    strip.style.setProperty('--ox', `${pts[here].x}%`); strip.style.setProperty('--oy', `${pts[here].y}%`);
+    strip.style.setProperty('--ox', `${pts[here].x}px`); strip.style.setProperty('--oy', `${pts[here].y}px`);
     strip.innerHTML = `<div class="em-ending__cam">
-      <svg class="em-ending__road" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="${road}" class="is-all"/><path d="${doneRoad}" class="is-done"/></svg>
-      ${ROUTE.map((r, k) => `<div class="em-ending__stop${r.ep > 4 ? ' is-future' : ' is-done'}" style="left:${pts[k].x}%;top:${pts[k].y}%;--i:${k}">
+      <svg class="em-ending__road" viewBox="0 0 ${W} ${H}"><path d="${path()}" class="is-all"/><path d="${path(here + 1)}" class="is-done"/></svg>
+      ${ROUTE.map((r, k) => `<div class="em-ending__stop${r.ep > 4 ? ' is-future' : ' is-done'}" style="left:${pts[k].x}px;top:${pts[k].y}px;--i:${k}">
         ${r.ep <= 4 ? '<span class="em-ending__glow"></span>' : ''}${planetSvg(r.planet as PlanetKey, r.ep > 4)}<span class="em-ending__name">${r.name}</span>${r.ep > 4 ? '<i>建造中</i>' : ''}
         ${r.ep === 4 ? `<span class="em-ending__here">${shipSvg(installed(this.app))}</span>` : ''}</div>`).join('')}
       </div>`;

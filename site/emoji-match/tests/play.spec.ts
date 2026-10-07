@@ -220,6 +220,34 @@ test.describe('tools, puzzles, free mode', () => {
     await press(page, '.em-tool[data-id="end"]');
     await page.waitForSelector('.xg-modal', { timeout: 5000 });
   });
+
+  test('puzzle H3 (QA r2): the board is locked for the whole demo; a move made as it starts is refused', async ({ page }) => {
+    await boot(page, { save: { levels: Object.fromEntries(['1-01', '1-02', '1-03', '1-04', '1-05'].map((id) => [id, { stars: 3, bestLeft: 3, attempts: 1, wins: 1, failStreak: 0 }])) } });
+    await goPlay(page, 'p1', { mode: 'puzzle' });
+    const board0 = await page.evaluate(() => window.__em.board());
+    const sol = (await page.evaluate(() => window.__em.solution()))!;
+    const wrong = await page.evaluate((x) => window.__em.legal().find((m) => !(m.a === x[0].a && m.b === x[0].b)) ?? x[0], sol);
+    const took = await page.evaluate(async (m) => { for (let k = 0; k < 3; k += 1) window.__em.bar('hint'); return window.__em.play(m); }, wrong);
+    expect(took, 'a board move during the H3 demo').toBe(false);
+    expect(await page.evaluate(() => window.__em.state()!.ready)).toBe(false);
+    await page.waitForFunction(() => window.__em.state()?.ready === true, null, { timeout: 20000 });
+    expect(await page.evaluate(() => [window.__em.board(), window.__em.state()!.movesUsed] as const)).toEqual([board0, 0]);
+    expect(await page.evaluate(() => window.__em.save().puzzles.p1?.maxHint)).toBe(3);
+  });
+
+  test('free mode (QA r2): leaving by 航线 without 结束 still opens a new board next time', async ({ page }) => {
+    await boot(page, { save: { levels: { '1-10': { stars: 2, bestLeft: 1, attempts: 1, wins: 1, failStreak: 0 } }, arrivals: [1] } });
+    await goPlay(page, 'free', { mode: 'free' });
+    const a = await page.evaluate(() => [window.__em.board(), window.__em.state()!.seed] as const);
+    // subtitles break only at phrase ends (QA r2: no 没 / 有 split, no lone 。 row)
+    await expect.poll(() => page.evaluate(() => [...document.querySelectorAll('.kit-subtitle__text .em-ph')].map((e) => e.textContent)), { timeout: 5000 }).toEqual(['自由星海：', '没有步数限制。']);
+    await page.evaluate(() => window.__em.goto({ s: 'route' }));
+    await page.waitForTimeout(300);
+    await goPlay(page, 'free', { mode: 'free' });
+    const b = await page.evaluate(() => [window.__em.board(), window.__em.state()!.seed] as const);
+    expect(b[1]).toBeGreaterThan(a[1]);
+    expect(b[0]).not.toBe(a[0]);
+  });
 });
 
 test.describe('save, resume, rotation, idle', () => {
@@ -298,6 +326,41 @@ test.describe('save, resume, rotation, idle', () => {
     await page.waitForSelector('#app[data-ready]');
     expect((await page.evaluate(() => window.__em.save())).boosters).toEqual({ drill: 1, tractor: 1, ion: 1 });
     await page.evaluate(() => { localStorage.removeItem('kid_games_emoji_match_v1'); localStorage.removeItem('kg:v1:emoji-match'); });
+  });
+
+  test('veteran on the REAL first-run path (QA r2): cutscene → 1-01 → em.veteran on the result card, once', async ({ page }) => {
+    test.setTimeout(60000);
+    await page.goto('/emoji-match/?test=1');
+    await page.waitForSelector('#app[data-ready]');
+    await page.evaluate(() => { localStorage.removeItem('kg:v1:emoji-match'); localStorage.setItem('kid_games_emoji_match_v1', JSON.stringify({ ladders: { fruit: { unlocked: 4, solved: { 1: { stars: 3 } } } } })); });
+    await page.goto('/emoji-match/?test=1&firstrun=1');
+    await page.waitForSelector('#app[data-ready]', { timeout: 20000 });
+    await page.waitForFunction(() => window.__em.state()?.id === '1-01' && window.__em.state()?.ready === true, null, { timeout: 15000 });
+    await page.evaluate(() => window.__em.timeScale(4));
+    expect(await page.evaluate(() => window.__em.save().veteranToast)).toBe(true);
+    for (let k = 0; k < 20; k += 1) {
+      const st = await page.evaluate(() => window.__em.state());
+      if (!st || st.done) break;
+      await page.evaluate(async () => { const m = window.__em.lessonMove() ?? window.__em.bestMove(); if (m) await window.__em.play(m); });
+      await page.waitForFunction(() => { const x = window.__em.state(); return !!x && (x.ready || x.done); }, null, { timeout: 20000 });
+    }
+    await page.waitForSelector('.xg-modal', { timeout: 15000 });
+    await expect.poll(() => page.evaluate(() => window.__em.voiceLog().includes('em.veteran')), { timeout: 8000 }).toBe(true);
+    await expect(page.locator('.xg-modal .em-result-bubble')).toContainText('老朋友回来啦');
+    const s = await page.evaluate(() => window.__em.save());
+    expect(s.veteranToast).toBeFalsy();
+    expect(s.grants).toEqual(['veteran']);
+    await page.evaluate(() => { localStorage.removeItem('kid_games_emoji_match_v1'); localStorage.removeItem('kg:v1:emoji-match'); });
+  });
+
+  test('constellation gate crossed after the last v1 arrival (QA r2): the route reveals the card + line', async ({ page }) => {
+    const ids = ['1', '2', '3', '4'].flatMap((e) => Array.from({ length: 10 }, (_, k) => `${e}-${String(k + 1).padStart(2, '0')}`));
+    await boot(page, { save: { firstRunDone: true, arrivals: [1, 2, 3, 4], sky: ['dipper', 'polaris', 'cowherd', 'orion'], levels: Object.fromEntries(ids.map((id) => [id, { stars: 2, bestLeft: 1, attempts: 1, wins: 1, failStreak: 0 }])) } });
+    await page.evaluate(() => window.__em.goto({ s: 'route' }));
+    await page.waitForSelector('.xg-modal .em-sky__card', { timeout: 8000 });
+    expect(await page.locator('.xg-modal .xg-ribbon').textContent()).toContain('天狼星');
+    expect(await page.evaluate(() => window.__em.save().sky)).toContain('sirius');
+    await expect.poll(() => page.evaluate(() => window.__em.voiceLog().includes('em.sky.5')), { timeout: 4000 }).toBe(true);
   });
 
   test('narration clips ship: the manifest loads, every clip resolves, ids = lines.json', async ({ page, request }) => {
@@ -406,6 +469,13 @@ test.describe('screens and art', () => {
     await boot(page);
     const { strokes } = await page.evaluate(() => window.__em.art());
     strokes.forEach((s, g) => expect(s.after, `gem ${g}`).toBeGreaterThanOrEqual(s.before));
+  });
+
+  test('V12c rim: the rendered sprite\'s outer 2-device-px ring has ≥ 3:1 contrast against both tile colours', async ({ page }) => {
+    await boot(page);
+    const { rim } = await page.evaluate(() => window.__em.art());
+    expect(rim.length).toBe(6);
+    rim.forEach((pair, g) => pair.forEach((c) => expect(c, `gem ${g}`).toBeGreaterThanOrEqual(3)));
   });
 
   test('ice keeps the gem colour readable: hue shift of every gem under 1 or 2 ice layers ≤ 8°', async ({ page }) => {

@@ -4,7 +4,9 @@
  * simulation (Machado et al. 2009, severity 1.0, ≥ 12); every gem's light rim (base + 45 % white) has
  * ≥ 3:1 contrast against BOTH board tile colours. The silhouette half of V12 (pairwise IoU ≤ 0.80 of
  * the real rasterised sprites, thinnest stroke ≥ 2 px at cell 76) needs a canvas: it runs in the
- * browser (site/emoji-match/tests/play.spec.ts → __em.art()).
+ * browser (site/emoji-match/tests/play.spec.ts → __em.art()), and so does V12c on the RENDERED sprites
+ * (QA r2: alpha-weighted mean colour of each atlas sprite's outermost 2 device px ring vs both tiles, ≥ 3:1);
+ * the palette check here stays as the fast design-time guard.
  * Maths: the design system's checker (~/kid-games-work/design-system/_src/check_palette.py), ported.
  */
 import { describe, expect, it } from 'vitest';

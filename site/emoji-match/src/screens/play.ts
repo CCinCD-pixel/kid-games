@@ -842,6 +842,7 @@ export class PlayScreen {
     // QA r1: the robot sits at the card's left edge and the bubble is capped to the card's inner width
     const inner = Math.max(200, (row.clientWidth || panel.clientWidth - 48) - 84 - 36);
     const c = mountCompanion(row, { size: 84, bubble: 'right', bubbleMax: Math.min(420, inner), mood: 'happy', sfx: (n: string) => sfx(n, { gain: 0.5 }) });
+    this.app.voice.log.push(id); // same trail as voice.say (tests, QA)
     void sayLine(c, this.app.voice.narrator, id, { mood: 'happy', hold: 0 });
   }
 
@@ -1159,6 +1160,18 @@ export class PlayScreen {
     return this.runOp({ b: use });
   }
   barPress(id: string): void { this.onBar(id); }
+  /** perf/QA only (?test=1): put specials on plain uncovered pieces, e.g. two adjacent orbs for the OO
+   *  scene of perf.mjs (spec §8.9 heaviest scene). Returns the cells actually planted. */
+  plant(list: [number, number][]): number[] {
+    if (this.phase !== 'READY') return [];
+    const done: number[] = [];
+    for (const [c, k] of list) {
+      if (c < 0 || c >= this.st.N || this.st.kind[c] !== PIECE || this.st.ice[c] || !isSpecial(k)) continue;
+      this.st.kind[c] = k; this.st.color[c] = -1; done.push(c);
+    }
+    this.scene.syncFrom(this.st); this.draw();
+    return done;
+  }
   bestMove(): Move | null { return bestMove(this.st); }
   legal(): Move[] { return listMoves(this.st); }
   /** the pending lesson move (teaching levels), else null */

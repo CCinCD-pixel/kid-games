@@ -39,7 +39,9 @@ export interface EmHook {
   ghost(): boolean;
   hintCells(): number[] | null;
   goals(): string[];
-  art(): Promise<{ iou: number[][]; area: number[]; ice: number[][]; strokes: { before: number; after: number }[] }>;
+  art(): Promise<{ iou: number[][]; area: number[]; ice: number[][]; strokes: { before: number; after: number }[]; rim: number[][] }>;
+  bar(id: string): void;
+  plant(list: [number, number][]): number[];
   cutscene(): Promise<void>;
 }
 declare global { interface Window { __em: EmHook } }

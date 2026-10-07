@@ -15,6 +15,7 @@ import { play as sfx } from '../audio';
 import { pendingArrival, totalStars } from './arrival';
 import { constellationSvg, litBy } from '../view/art/skycard';
 import { openParent } from './parent';
+import { routeGeom } from '../view/route-geom';
 
 export function nextPlayable(app: AppCtx): string {
   const s = app.save.data;
@@ -101,29 +102,10 @@ export class RouteScreen {
       <button class="xg-btn xg-btn--secondary em-route__free${free ? '' : ' is-locked'}" data-sfx="${free ? 'ui-open' : 'ui-locked'}">${free ? icon('star') : icon('lock')}<span>自由星海</span></button></div>
       <button class="xg-btn xg-btn--primary xg-btn--lg em-continue" data-sfx="ui-press">${icon('play')}<span>继续 <b class="xg-num">${next}</b></span></button>`;
     const W = li.width, H = li.height, T = li.safe.top, B = li.safe.bottom;
-    // serpentine rows (stops never overlap; stop = 112×136 incl. label): portrait 3×3 bottom → top,
-    // landscape 5 + 4; rows alternate direction, the middle of each row lifts a little (an arc)
-    const rows = land ? [5, 4] : [3, 3, 3];
-    const yBot = H - B - (land ? 236 : W < 600 ? 306 : 270), yTop = T + (land ? 290 : 230); // narrow: 继续 sits above 机库/自由星海
-    const pts: { x: number; y: number; row: number }[] = [];
-    rows.forEach((n, r) => {
-      const y = rows.length === 1 ? yBot : yBot - (r * (yBot - yTop)) / (rows.length - 1);
-      for (let j = 0; j < n; j += 1) {
-        const f = land ? (j + (r % 2 ? 0.5 : 0)) / 4 : j / (n - 1);
-        const fx = r % 2 ? 1 - f : f;
-        const x = land ? W * 0.1 + fx * W * 0.8 : W * 0.19 + fx * W * 0.62;
-        const lift = Math.sin(((j + (r % 2 && land ? 0.5 : 0)) / Math.max(1, n - 1)) * Math.PI) * (land ? 26 : 34);
-        pts.push({ x, y: y - lift, row: r });
-      }
-    });
+    const { pts, rows, path: road } = routeGeom(W, H, T, B, land);
     const path = this.el.querySelector<SVGSVGElement>('.em-route__path')!;
     path.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    let d = `M${pts[0].x} ${pts[0].y}`;
-    for (let k = 1; k < pts.length; k += 1) {
-      const a = pts[k - 1], b = pts[k];
-      if (a.row === b.row) d += `C${(a.x + b.x) / 2} ${a.y} ${(a.x + b.x) / 2} ${b.y} ${b.x} ${b.y}`;
-      else { const out = a.x > W / 2 ? 110 : -110; d += `C${a.x + out} ${a.y} ${b.x + out} ${b.y} ${b.x} ${b.y}`; }
-    }
+    const d = road();
     const doneIdx = Math.max(0, curEp - 1);
     path.innerHTML = `<path d="${d}" fill="none" stroke="rgba(207,216,255,.28)" stroke-width="5" stroke-dasharray="2 14" stroke-linecap="round"/>`;
     const stops = this.el.querySelector<HTMLElement>('.em-route__stops')!;
