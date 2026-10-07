@@ -186,7 +186,8 @@ export class MissionRun {
   private hd: [number, number, number, string, number][] = []; private orbitRun = 0; orbitMax = 0;
   private noHook: boolean; private seed: number | string;
   /** presentation hooks (page only): mission-level events the sim does not emit itself */
-  onNote: (n: { kind: 'headonTarget' | 'phase2' | 'phase3' | 'bigSwimIn' | 'ring' | 'marker' | 'targetBack'; id?: number; n?: number }) => void = () => {};
+  onNote: (n: { kind: 'headonTarget' | 'phase2' | 'phase3' | 'bigSwimIn' | 'ring' | 'marker' | 'targetBack' | 'grown'; id?: number; n?: number }) => void = () => {};
+  private grownSaid = false;
 
   constructor(m0: Mission, seed: number | string, o: RunOpts = {}) {
     let m = m0; if (o.twin) m = twinOf(m);
@@ -246,6 +247,7 @@ export class MissionRun {
     if (o.minRatio && i % 30 === 0 && me.alive) {
       const q = w.snakes.some((x) => x !== me && x.alive && !x.sleep && !x.king && x.mass >= o.minRatio! * me.mass);
       this.st8 = q ? 0 : this.st8 + 0.5;
+      if (!q && !this.grownSaid) { this.grownSaid = true; this.onNote({ kind: 'grown' }); }   // presentation only (spec §3.27)
       if (this.st8 >= 8 && this.bigSpawns < 3) {
         this.st8 = 0; this.bigSpawns++;
         const s = w.addSnake({ persona: 'forager', tier: 'T0', respawn: null, name: `big${this.bigSpawns}`, color: this.bigColors?.[this.bigSpawns - 1] }, Math.min(2000, Math.round(1.5 * o.minRatio * me.mass)));

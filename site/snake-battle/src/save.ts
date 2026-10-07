@@ -10,6 +10,10 @@ import { nextHeat, TROPHIES, VENUE_IDS, UNLOCK, type VenueId } from './sim/venue
 import { zeroCounters, type MatchCounters, type MatchResult, type Mode } from './match';
 import { MISSIONS, MISSION_BY_ID } from './sim/mission';
 import { evalUnlocks } from './collection';
+import collectionJson from '../../../content/snake-battle/collection.json';
+
+const SKIN_IDS = new Set((collectionJson as unknown as { skins: { id: string }[] }).skins.map((x) => x.id));
+const TRAIL_IDS = new Set((collectionJson as unknown as { trails: { id: string }[] }).trails.map((x) => x.id));
 
 export type Counters = MatchCounters;
 export interface VenueRec {
@@ -33,10 +37,13 @@ export interface SbSaveV1 {
   inProgress?: { matchId: string; mode: Mode | 'mission'; venue?: VenueId; missionId?: string; startedAt: number; committed: Counters; countable?: boolean };
   /** twin progression per level (spec §5.1: each further twin miss loosens one more step) */
   twinLevel?: Record<string, number>;
+  /** the last S9 praise line id, so the next clear never repeats it (QA r4) */
+  lastPraise?: string;
   attemptSeq: number;
   session: { day: string; matchesInRow: number; lastEndAt: number };
 }
 
+const missionRec = (): SbSaveV1['missions'][string] => ({ stars: 0, attempts: 0, failStreak: 0, clears: 0, bestT: null, hintMax: 0, skipped: false, why: {} });
 const venueRec = (): VenueRec => ({ played: 0, podiums: 0, wins: 0, bestRank: null, bestPeak: 0, bestKills: 0, recentRanks: [], heat: 0, endless: { runs: 0, bestPeak: 0, bestLife: 0 } });
 export const defaults = (): SbSaveV1 => ({
   firstRunDone: false,
@@ -62,17 +69,61 @@ export function commitDelta(save: SbSaveV1, now: Counters, committed: Counters):
   return { ...now };
 }
 
+/** deep-merge a loaded save over the defaults (spec §8.9): every nested default (settings, life counters, tipDay,
+ * session, venue records, …) is filled in, so a later build that adds a counter or setting never sees undefined/NaN.
+ * Arrays and scalars from the save win; plain objects merge key by key. */
+export function fillDefaults<T>(def: T, raw: unknown): T {
+  if (raw === undefined || raw === null) return def;
+  // arrays only accept arrays (QA r3: {owned:{}} crashed the boot), numbers only finite numbers
+  if (Array.isArray(def)) return (Array.isArray(raw) ? raw : def) as T;
+  if (typeof def === 'number') return (typeof raw === 'number' && Number.isFinite(raw) ? raw : def) as T;
+  if (typeof def !== 'object' || def === null) return (typeof raw === typeof def || def === null ? raw : def) as T;
+  if (typeof raw !== 'object' || Array.isArray(raw)) return def;
+  const out: Record<string, unknown> = { ...(raw as Record<string, unknown>) };
+  for (const [k, dv] of Object.entries(def as Record<string, unknown>)) out[k] = fillDefaults(dv, (raw as Record<string, unknown>)[k]);
+  return out as T;
+}
+export const SAVE_VERSION = 1;
+/** version migrations (spec §8.9). v1 is the first save of this game; a v2 build adds `if (from < 2) …` steps here and
+ * bumps SAVE_VERSION; fillDefaults then completes any new fields. validate/save-migrate.test.ts covers the path. */
+export function migrateSave(raw: unknown, from: number): SbSaveV1 {
+  const d = (raw && typeof raw === 'object' ? { ...(raw as Record<string, unknown>) } : {}) as Record<string, unknown>;
+  void from;   // no structural changes yet (v1 → v1)
+  return fillDefaults(defaults(), d);
+}
+
 export class SaveCtl {
   store: Store<SbSaveV1>;
   data: SbSaveV1;
   constructor(storage?: Storage) {
-    this.store = createStore<SbSaveV1>('snake-battle', { version: 1, defaults, storage });
-    this.data = { ...defaults(), ...this.store.load() };
-    for (const v of VENUE_IDS) this.data.venues[v] = { ...venueRec(), ...(this.data.venues[v] ?? {}) };
+    this.store = createStore<SbSaveV1>('snake-battle', { version: SAVE_VERSION, defaults, storage, migrate: migrateSave });
+    // a save written by a newer build (deploy rollback / stale cache): play on a best-effort read of it and never
+    // write over it (QA r3; the kit store would load defaults and the first save would replace his progress)
+    let newer: unknown = null;
+    try { const env = JSON.parse((storage ?? localStorage).getItem(this.store.key) ?? 'null') as { v?: unknown; data?: unknown } | null; if (env && typeof env.v === 'number' && env.v > SAVE_VERSION) newer = env.data ?? {}; } catch { /* ignore */ }
+    this.readOnly = newer !== null;
+    try {
+      this.data = fillDefaults(defaults(), newer ?? this.store.load());
+      // record maps (QA r4: {missions:{c1m1:null}} crashed the boot): every entry an object, filled with defaults
+      const ms: SbSaveV1['missions'] = {};
+      for (const [id, rec] of Object.entries(this.data.missions ?? {})) if (rec && typeof rec === 'object' && !Array.isArray(rec)) ms[id] = fillDefaults(missionRec(), rec);
+      this.data.missions = ms;
+      if (this.data.twinLevel && (typeof this.data.twinLevel !== 'object' || Array.isArray(this.data.twinLevel))) delete this.data.twinLevel;
+    } catch (e) {
+      // last resort: keep a copy of the raw save next to it and start from defaults
+      console.error('[snake-battle] save unreadable, starting fresh', e);
+      try { const st = storage ?? localStorage, raw = st.getItem(this.store.key); if (raw) st.setItem(`${this.store.key}.bak`, raw); } catch { /* ignore */ }
+      this.data = defaults();
+    }
+    if (!SKIN_IDS.has(this.data.equipped.skin)) this.data.equipped.skin = 'venus';
+    if (!TRAIL_IDS.has(this.data.equipped.trail)) this.data.equipped.trail = 'stardust';
+    for (const v of VENUE_IDS) this.data.venues[v] = fillDefaults(venueRec(), this.data.venues[v]);
     // leftover inProgress (killed in the background): close it as "left" — increments already committed
     if (this.data.inProgress) { delete this.data.inProgress; this.save(); }
   }
-  save() { this.store.save(this.data); }
+  /** true when the stored save comes from a newer build: it is never overwritten */
+  readonly readOnly: boolean;
+  save() { if (!this.readOnly) this.store.save(this.data); }
 
   startMatch(mode: Mode, venue: VenueId) {
     this.data.inProgress = { matchId: `${Date.now().toString(36)}`, mode, venue, startedAt: Date.now(), committed: zeroCounters() };
@@ -85,7 +136,7 @@ export class SaveCtl {
     this.save();
   }
   mission(id: string) {
-    return (this.data.missions[id] ??= { stars: 0, attempts: 0, failStreak: 0, clears: 0, bestT: null, hintMax: 0, skipped: false, why: {} });
+    return (this.data.missions[id] ??= missionRec());
   }
   /** mission end → stars, unlocks; returns what is new */
   endMission(id: string, r: { ok: boolean; stars: number; t: number; why?: string }, counters: Counters, o: { twin?: boolean } = {}) {
@@ -116,7 +167,7 @@ export class SaveCtl {
   chapterOpen(ch: number) { return this.missionOpen(`c${ch}m1`); }
   /** the level the map points at: first open level without a clear */
   currentMission(): string { return MISSIONS.find((m) => this.missionOpen(m.id) && !(this.data.missions[m.id]?.clears > 0))?.id ?? 'c5m8'; }
-  canSkip(id: string) { const m = MISSION_BY_ID[id]; const rec = this.data.missions[id]; return m.role !== 'boss' && !!rec && rec.clears === 0 && rec.failStreak >= 3 && rec.hintMax >= 3; }
+  canSkip(id: string) { const m = MISSION_BY_ID[id]; const rec = this.data.missions[id]; return m.role !== 'boss' && !!rec && rec.clears === 0 && rec.failStreak >= 3; }   // spec §5.1: 3 misses in a row on a non-boss level (QA r4: not gated on the H3 card)
   skip(id: string) { this.mission(id).skipped = true; this.save(); }
   /** background / leave: commit the increment so far */
   commitProgress(now: Counters) {
@@ -135,13 +186,13 @@ export class SaveCtl {
   }
 
   /** match end: commit, records, heat, trophies → list of new things (cards) */
-  endMatch(r: MatchResult): { newRecord: boolean; trophies: string[]; unlocked: VenueId[]; items: string[]; heat: { from: number; to: number } } {
+  endMatch(r: MatchResult): { newRecord: boolean; lifeRecord: boolean; trophies: string[]; unlocked: VenueId[]; items: string[]; heat: { from: number; to: number } } {
     const d = this.data, ip = d.inProgress;
     commitDelta(d, r.counters, ip?.committed ?? zeroCounters());
     delete d.inProgress;
     const v = d.venues[r.venue];
     const before = VENUE_IDS.filter((id) => this.venueOpen(id));
-    let newRecord = false; const trophies: string[] = []; const heatFrom = v.heat;
+    let newRecord = false, lifeRecord = false; const trophies: string[] = []; const heatFrom = v.heat;
     if (r.mode === 'timed') {
       newRecord = r.peak > v.bestPeak && v.played > 0;
       v.played++; d.life.timedPlayed++;
@@ -158,6 +209,7 @@ export class SaveCtl {
       }
     } else {
       newRecord = r.peak > v.endless.bestPeak && v.endless.runs > 0;
+      lifeRecord = r.lifeSec > v.endless.bestLife && v.endless.runs > 0 && r.lifeSec >= 60;
       v.endless.runs++; v.endless.bestPeak = Math.max(v.endless.bestPeak, r.peak); v.endless.bestLife = Math.max(v.endless.bestLife, r.lifeSec);
     }
     const day = today();
@@ -167,7 +219,7 @@ export class SaveCtl {
     for (const u of unlocked) d.cardQueue.push(`venue:${u}`);
     const items = evalUnlocks(d, (id) => this.venueOpen(id));
     this.save();
-    return { newRecord, trophies, unlocked, items, heat: { from: heatFrom, to: v.heat } };
+    return { newRecord, lifeRecord, trophies, unlocked, items, heat: { from: heatFrom, to: v.heat } };
   }
 
   /** venue unlock (spec §4.8): chapter boss cleared, or 2 podiums in the previous venue */

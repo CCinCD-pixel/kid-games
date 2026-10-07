@@ -34,6 +34,8 @@ export class Hud {
   pointUntil = 0;
   private point: HTMLElement | null = null;
 
+  /** settings changed mid-match (pause → 设置): move the boost key + minimap to the new side (QA r4) */
+  setBoostSide(side: 'left' | 'right') { this.root.classList.toggle('sb-boost-left', side === 'left'); this.root.classList.toggle('sb-boost-right', side === 'right'); }
   constructor(parent: HTMLElement, private m: Match, private view: WorldView, boostSide: 'left' | 'right') {
     const timed = m.mode === 'timed' || (m.mode === 'mission' && m.isRace);
     this.overlay = h('div', { class: 'sb-overlay' });
@@ -129,21 +131,70 @@ export class Hud {
       el.style.transform = `translate3d(${(ex - 22).toFixed(0)}px, ${(ey - 22).toFixed(0)}px, 0) rotate(${ang.toFixed(2)}rad)`;
     }
     for (; ai < this.arrows.length; ai++) if (!this.arrows[ai].hidden) this.arrows[ai].hidden = true;
-    // H0/H1 pointing arrow from his head toward the goal (3 s)
-    const showPt = (w.t < this.pointUntil) && m.me.alive && pts.length > 0;
+    this.pts = pts;
+    // H0/H1 pointing arrow from his head toward the goal (3 s); objectives without a marker point at the
+    // nearest big orb / richest stardust / open water (QA r3)
+    const ptT = w.t < this.pointUntil && m.me.alive ? this.hintTarget() : null;
     if (!this.point) { this.point = h('div', { class: 'sb-point', hidden: true }); this.point.innerHTML = '<svg viewBox="0 0 120 40" aria-hidden="true"><path d="M4 20h86" stroke="#ffd23f" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 13"/><path d="M84 6l30 14-30 14z" fill="#ffd23f" stroke="#7a4a00" stroke-width="3" stroke-linejoin="round"/></svg>'; this.root.append(this.point); }
-    if (showPt) {
-      let best = pts[0], bd = 1e18; for (const q of pts) { const dd = (q[0] - m.me.x) ** 2 + (q[1] - m.me.y) ** 2; if (dd < bd) { bd = dd; best = q; } }
-      const [hx, hy] = v.worldToScreen(m.me.x, m.me.y); const ang = Math.atan2(best[1] - m.me.y, best[0] - m.me.x);
+    if (ptT) {
+      const [hx, hy] = v.worldToScreen(m.me.x, m.me.y); const ang = Math.atan2(ptT[1] - m.me.y, ptT[0] - m.me.x);
       this.point.hidden = false; this.point.style.transform = `translate3d(${(hx + Math.cos(ang) * 40).toFixed(0)}px, ${(hy + Math.sin(ang) * 40 - 20).toFixed(0)}px, 0) rotate(${ang.toFixed(2)}rad)`;
     } else if (!this.point.hidden) this.point.hidden = true;
   }
 
   dispose() { this.root.remove(); }
 
+  private pts: [number, number, string][] = [];
+  /** H0/H1 target (spec §5.1): the nearest marker (ring, beacon, 星核, target snake, meteor); objectives without a
+   * marker get one too (QA r3) — eat/length/race/kill → the nearest big orb, else the richest stardust cell near
+   * him; pu → the nearest power-up; survive → open water away from the nearest awake snake */
+  hintTarget(): [number, number] | null {
+    const m = this.m, w = m.world, me = m.me, o = m.run?.m.objective;
+    if (!me.alive) return null;
+    const d2 = (x: number, y: number) => (x - me.x) ** 2 + (y - me.y) ** 2;
+    if (this.pts.length) { let best = this.pts[0], bd = 1e18; for (const q of this.pts) { const dd = d2(q[0], q[1]); if (dd < bd) { bd = dd; best = q; } } return [best[0], best[1]]; }
+    if (!o) return null;
+    const R = w.R;
+    if (o.type === 'pu') { let best: [number, number] | null = null, bd = 1e18; for (const p of w.pus) { const dd = d2(p.x, p.y); if (dd < bd) { bd = dd; best = [p.x, p.y]; } } if (best) return best; }
+    // a stardust / open-water target is held for 2 s, so the arrow and the H0 hand agree and never jitter
+    if (this.fb && w.t - this.fb.t < (o.type === 'survive' ? 0.6 : 2)) return this.fb.p;
+    const fb = this.fallbackTarget(o.type, R, d2);
+    this.fb = fb ? { t: w.t, p: fb } : null;
+    return fb;
+  }
+  private openWater(R: number, d2: (x: number, y: number) => number): [number, number] {
+    const w = this.m.world, me = this.m.me;
+    let th: Snake | null = null, td = 1e18;
+    for (const s of w.snakes) if (s.alive && !s.isPlayer && !s.sleep) { const dd = d2(s.x, s.y); if (dd < td) { td = dd; th = s; } }
+    let ax = th ? me.x - th.x : Math.cos(me.angle), ay = th ? me.y - th.y : Math.sin(me.angle); const al = Math.hypot(ax, ay) || 1; ax /= al; ay /= al;
+    const dc = Math.hypot(me.x, me.y);
+    if (dc > R * 0.55) { const k = Math.min(1, (dc - R * 0.55) / (R * 0.3)); ax = ax * (1 - k) - (me.x / dc) * k; ay = ay * (1 - k) - (me.y / dc) * k; }
+    const l = Math.hypot(ax, ay) || 1; return [me.x + (ax / l) * 320, me.y + (ay / l) * 320];
+  }
+  private fb: { t: number; p: [number, number] } | null = null;
+  private fallbackTarget(type: string, R: number, d2: (x: number, y: number) => number): [number, number] | null {
+    const m = this.m, w = m.world, me = m.me;
+    if (type === 'survive') return this.openWater(R, d2);
+    let big: [number, number] | null = null, bd = 650 * 650;
+    w.food.query(me.x, me.y, 650, (f) => { if (f.kind !== 'big') return; const dd = d2(f.x, f.y); if (dd < bd && dd > (me.r + 20) ** 2) { bd = dd; big = [f.x, f.y]; } });
+    if (big) return big;
+    const g = w.food, c = g.cell, off = g.off, rad = 600;
+    let bestV = 0, best: [number, number] | null = null;
+    const x0 = Math.max(0, Math.floor((me.x - rad + off) / c)), x1 = Math.min(g.dim - 1, Math.floor((me.x + rad + off) / c));
+    const y0 = Math.max(0, Math.floor((me.y - rad + off) / c)), y1 = Math.min(g.dim - 1, Math.floor((me.y + rad + off) / c));
+    for (let cy = y0; cy <= y1; cy++) for (let cx = x0; cx <= x1; cx++) {
+      const val = g.value[cy * g.dim + cx]; if (val <= 0) continue;
+      const x = cx * c - off + c / 2, y = cy * c - off + c / 2, dd = Math.sqrt(d2(x, y));
+      if (dd < 90 || Math.hypot(x, y) > R - 60) continue;
+      const score = val / (1 + dd / 350); if (score > bestV) { bestV = score; best = [x, y]; }
+    }
+    return best;
+  }
+
   // ---- events --------------------------------------------------------------
   showCount(n: number | '出发') {
-    const el = this.countdown; el.hidden = false; el.textContent = String(n);
+    const el = this.countdown; el.hidden = false; el.textContent = n === '出发' ? '出发！' : String(n);
+    el.classList.toggle('is-word', n === '出发');   // the word beat in the display face, digits in the number face
     el.classList.remove('is-pop'); void el.offsetWidth; el.classList.add('is-pop');
     if (n === '出发') setTimeout(() => { el.hidden = true; }, 450);
   }
@@ -239,7 +290,7 @@ export class Hud {
         const el = this.tags[ti++];
         const name = s.name + (s.stats.lifeKills >= 3 ? ` ×${s.stats.lifeKills}` : '');
         if (el.textContent !== name) el.textContent = name;
-        el.className = 'sb-tag' + (s.isPlayer ? ' is-me' : '') + (s.protect > 0 ? ' is-ghost' : '');
+        el.className = 'sb-tag' + (s.isPlayer ? ' is-me' : '') + (s.protect > 0 || (s.isPlayer && this.m.demo) ? ' is-ghost' : '');
         el.hidden = false;
         el.style.transform = `translate3d(${sx.toFixed(1)}px, ${(sy - s.r * (s.king ? 2.9 : 1.6) * v.zoom - 20).toFixed(1)}px, 0) translateX(-50%)`;
       }

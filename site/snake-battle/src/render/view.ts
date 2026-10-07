@@ -118,7 +118,7 @@ export class WorldView {
   }
 
   // camera ------------------------------------------------------------------
-  private vw = 810; private vh = 1080;
+  vw = 810; vh = 1080;
   resize(w: number, h: number, dpr: number) { this.vw = w; this.vh = h; this.R.resize(w, h, dpr); }
   onScreen(x: number, y: number, pad: number) {
     const hw = this.vw / 2 / this.zoom + pad, hh = this.vh / 2 / this.zoom + pad;
@@ -245,7 +245,11 @@ export class WorldView {
       const k = s.isPlayer ? 0.45 : lod;
       const n = this.sampleBody(s, hxOf(s), hyOf(s), k, seg);
       const copy = seg.slice(0, n * 3); starts.set(s.id, copy); counts.set(s.id, n);
-      if (this.R.quality > 0) for (let i = n - 1; i >= 0; i -= 2) R.push(copy[i * 3] + 4, copy[i * 3 + 1] + 6, s.r * 1.25, s.r * 1.25, 0, 'shadow', 255, 255, 255, s.protect > 0 ? 50 : 110);
+      const sa = this.spawnAge(s);
+      if (this.R.quality > 0) for (let i = n - 1; i >= 0; i -= 2) {
+        const gk = sa < 0.6 ? Math.max(0, Math.min(1, (sa - i * 0.004) / 0.2)) : 1;   // the shadow grows in with its segment (QA r4)
+        if (gk > 0.01) R.push(copy[i * 3] + 4, copy[i * 3 + 1] + 6, s.r * 1.25 * gk, s.r * 1.25 * gk, 0, 'shadow', 255, 255, 255, s.protect > 0 ? 50 : 110);
+      }
     }
     this.segCount = 0;
     for (const s of alive) this.drawSnake(s, starts.get(s.id)!, counts.get(s.id)!, hxOf(s), hyOf(s));
@@ -299,11 +303,16 @@ export class WorldView {
     return false;
   }
 
+  /** seconds since this snake appeared, for the spawn-grow. The opening roster grows in on the render clock, which
+   * starts with the 3-2-1 (the sim clock is frozen at 0 until GO, so the snakes were invisible all countdown — QA r4);
+   * first run: the sim waits for his first touch — he idles fully drawn, breathing (spec §2.6) */
+  spawnAge(s: Snake) { return this.match.waitTouch ? 1 : s.spawnT <= 0 ? Math.max(this.time, this.match.world.t) : this.match.world.t - s.spawnT; }
+
   private drawSnake(s: Snake, b: Float32Array, n: number, hx: number, hy: number) {
     const R = this.R, look = this.lookOf(s), r = s.r, T = this.time;
-    const alpha = s.protect > 0 ? 140 : 255;
-    // first run: the sim waits for his first touch — he idles fully drawn, breathing (spec §2.6)
-    const age = this.match.waitTouch ? 1 : this.match.world.t - s.spawnT;
+    // the H3 示范 snake is the 领航员's semi-transparent ghost, not his own (spec §5.1/§8.10, QA r1)
+    const alpha = s.isPlayer && this.match.demo ? 135 : s.protect > 0 ? 140 : 255;
+    const age = this.spawnAge(s);
     const bl = this.bulges.get(s.id);
     if (bl) for (let i = bl.length - 1; i >= 0; i--) if (T - bl[i].t > 0.9) bl.splice(i, 1);
     const tailStart = n * 0.88, pat = look.pattern;
@@ -447,7 +456,12 @@ export class WorldView {
           const pr = e2 * (pe === 'skittish' ? 0.38 : 0.55), off = e2 * 0.3;
           let px = lx, py = ly;
           if (pe === 'scavenger') { px = lx * 0.4 - sn * side * 0.8; py = ly * 0.4 + c * side * 0.8; }
+          if (pe === 'skittish' && s) {   // 胆小: the small pupils dart left / ahead / right every 0.7 s (nervous glances)
+            const g = ((Math.floor(this.match.world.t / 0.7 + s.id * 0.37) % 3) - 1) * 0.9, gc = Math.cos(g), gs = Math.sin(g);
+            px = lx * gc - ly * gs; py = lx * gs + ly * gc;
+          }
           R.push(ex + px * off, ey + py * off, pr, pr, 0, 'pupil');
+          if (pe === 'skittish') R.push(ex + c * e2 * 0.78, ey + sn * e2 * 0.78, e2 * 0.8, e2 * 0.8, rot + Math.PI / 2 - side * 0.5, 'brow', 70, 60, 95);   // raised, worried brows = the hunter's mirrored
           if (pe === 'hunter') {   // narrowed eye (half lid) + slanted brow, pressed lower while hunting
             const hunting = (s?.brain as { mode?: string } | null)?.mode === 'hunt';
             R.push(ex, ey, e2 * 1.02, e2 * 1.02, rot + Math.PI / 2, 'lid', lid[0], lid[1], lid[2]);

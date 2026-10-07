@@ -107,7 +107,7 @@
    "R": 1900,
    "startMass": 20,
    "ai": {
-    "forager": 5,
+    "forager": 4,
     "scavenger": 2,
     "skittish": 3,
     "hunter": 2,
@@ -236,7 +236,7 @@
    },
    "removeShare": {
     "-1": 0.1,
-    "-2": 0.25
+    "-2": 0.4
    },
    "removeOrder": [
     "forager",

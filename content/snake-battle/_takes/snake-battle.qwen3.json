@@ -1,0 +1,568 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "snake.ann.kill": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "17281f098adc9486aa443de4e3924448a633a913",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.ann.penta": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "0229dfbe798a68c4c7695b66c37f944fad0035e5",
+   "score": 1.666,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.ann.shutdown": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f7b80e510bd608463033851295bbb107f1139bb4",
+   "score": 2.143,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.fact.basnake": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "8170cffcf1305a115fa19a05c7f7ae72da749f2c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.fact.blackhole": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "8cd1c2312d0a6f36f1adda6f30c28af8c8753683",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.fact.comet": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "8c281b0caacaaefa0afd548b578d61d49eb06946",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.fact.crown": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "f7d2d99f4ca1896d60851d35cc6fe25fa363f7f7",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "snake.fact.dipper": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "54704db9166540d78f38ecfa259f061dfc110fcd",
+   "score": 101.7,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.fact.greatwall": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "873ff401fab8970f53f86595c0488d3fb6be0979",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.fact.mecha": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b56a286b422353bbd3bbb2159ba0b2267eb0888f",
+   "score": 0.79,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.fact.moonlight": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "31689922bb13d08648d3b9d2b0eb6a4a4b791c3f",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.hint.offer2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "8f84e049eb2696275da8178df28b121c5c9278fc",
+   "score": 102.3,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.hint.twin.rings": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d70379f3bfdd65100c58e9aa8d20b6499da031fa",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.intro.4": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "865aeea7a667b3f4b4db0f77d6c78d25c7127586",
+   "score": 1.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.king.charge": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1c9174cf6204efbc130f64650767db2ca8a5484c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.lobby.hello.1": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "319e9b0dd679b4a4ffbee39e215461b3580afa99",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.lobby.hello.2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1b73261bf51986c387e9950e26eb39c947e43a97",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.lobby.hello.3": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "0cc305f6476cb95240e5ff279bf08af3b4421d28",
+   "score": 104.7,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.lobby.suggest": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e554d4c985869e7bee56cf0da151ddcbf0f134bb",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.m.c1m4.brief": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "793bbb1c3e7c27a4e29655c7468d949a3749fbfc",
+   "score": 100.5,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.m.c2m5.brief": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b3393d3bb57d4d98354dccbda5d1fce5758f9e5c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.m.c2m5.h1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1e4f3c85516d99c46a4508f81afe8932e9884efd",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.m.c2m6.brief": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e2d1f579fe77e9758709eb08cc54bccd53173575",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.m.c2m6.h1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "4e5264a97efbee9c3e5608ad0ffb03465b8a6b15",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.m.c4m1.brief": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b1e35a50294c76bb0c05396d07e84646f6b51da1",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.m.c4m4.h1": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "c54205c2a0c0a44987d048a28d978f9f6530be85",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "snake.match.go": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "706ed31380abfcebe23b7eda153ebf2a06137579",
+   "score": 200.0,
+   "flags": [
+    "dur",
+    "pause"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "snake.match.idle": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "66a2ba47a3959d8ca4a63f334ff84dab7b362f2c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.match.rank1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c40114baf65b9003a07364211834cd2f99152d3b",
+   "score": 100.4,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.near.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a135b8b8248ee61943b595df1210b6a32489d8d3",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.podium.best": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "da5346f735d6cfb66a8fbe64fd34c4b8a521a739",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.podium.grow": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "13c0459ee3b387f574155c534d97eae238868fea",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.praise.c2.2": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "dc58c14ceaa287f5e9165b708b7483043255e2c9",
+   "score": 100.9,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.praise.c3.1": {
+   "seed": 1238,
+   "base": 1234,
+   "sig": "3aa36878d158db5fda285dc01d2a9a44fd2484cf",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "snake.praise.c4.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "48821191055b56ad986ba90a80ecc038d4bb4690",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.record.life": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "623d3cb1cd29674a4acc08aca28823c850c267f9",
+   "score": 102.655,
+   "flags": [
+    "cer(asr-homophone)",
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.retry.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "28da52fa9c66be046cc297eab3a8fef4f8e3445b",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.retry.3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1e6fafde9539bb95fce5118c4910ac63c9286280",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.story.c5": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "feb68b2670041c43b46d0e75e3393d6cb357b609",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.tip.cut.2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f8516a648e5357ec1732662f8a6c7775cd18af27",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.unlock.trail": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "5d53d8285d04df75fa62a99869845a83674e1dd1",
+   "score": 234.167,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "snake.venue.blackhole": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "9276d17f8f5cecdad4c8a692884ea5f36999748c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.venue.locked.or": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "3db9c4a7c3140452a598f99ea8fef1345e474078",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "snake.wake": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a29497c62a38b7f9d0e469da37e68909d6e5503d",
+   "score": 1.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  }
+ }
+}

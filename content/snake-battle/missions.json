@@ -1371,10 +1371,10 @@
    ],
    "objective": {
     "type": "survive",
-    "sec": 50,
+    "sec": 45,
     "minMass": 70
    },
-   "capSec": 50,
+   "capSec": 45,
    "stars": [
     {
      "type": "massGE",
@@ -1765,7 +1765,7 @@
      "encircle"
     ]
    },
-   "capSec": 150,
+   "capSec": 120,
    "stars": [
     {
      "type": "killTagGE",

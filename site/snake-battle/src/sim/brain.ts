@@ -222,13 +222,19 @@ export class Brain {
       if (dG < 2 * rho + s.r && bear > 1.0) this.orbitT += T.dec; else this.orbitT = 0;
       if (this.orbitT >= 1.0) { this.unstickUntil = w.t + 2; this.unstickA = s.angle; this.orbitT = 0; this.unsticks = (this.unsticks ?? 0) + 1; }
     }
-    // spin detector (spec §3.16-5)
-    (this.spin ??= []).push([w.t, s.x, s.y, s.angle]);
-    while (this.spin.length > 1 && w.t - this.spin[0][0] > 3) this.spin.shift();
+    // spin detector (spec §3.16-5; review B3; v1.2): whatever the cause (goal hopping between nearby food cells,
+    // boxed in by bodies), ≥1.5 full turns within any window of the last ≤4 s while the head moved < 250 wu and
+    // ate < 3 items → 2.5 s straight on. Same exemptions as above. Applies to every snake (AI and player models).
+    // v1.1 looked at exactly the last 3 s: a circle at ~1 turn / 2 s with one short straight bit ran past the V3
+    // probe's 4 s (c1m3 KID 15/200 on seeds 5300+, N = 200).
+    (this.spin ??= []).push([w.t, s.x, s.y, s.angle, s.stats.eaten]);
+    while (this.spin.length > 1 && w.t - this.spin[0][0] > 4) this.spin.shift();
     if (mode !== 'defend' && mode !== 'coil' && mode !== 'flee' && mode !== 'patrol' && !hook?.orbitOk && w.t >= this.unstickUntil && this.spin.length > 4) {
-      let turn = 0; for (let j = 1; j < this.spin.length; j++) turn += angDiff(this.spin[j - 1][3], this.spin[j][3]);
-      const net = Math.hypot(s.x - this.spin[0][1], s.y - this.spin[0][2]);
-      if (Math.abs(turn) >= 3 * Math.PI && net < 250) { this.unstickUntil = w.t + 2.5; this.unstickA = s.angle; this.spin.length = 0; this.unsticks = (this.unsticks ?? 0) + 1; }
+      const sp = this.spin; let turn = 0;
+      for (let j = sp.length - 1; j > 0; j--) {
+        turn += angDiff(sp[j - 1][3], sp[j][3]);
+        if (Math.abs(turn) >= 3 * Math.PI && Math.hypot(s.x - sp[j - 1][1], s.y - sp[j - 1][2]) < 250 && s.stats.eaten - sp[j - 1][4] < 3) { this.unstickUntil = w.t + 2.5; this.unstickA = s.angle; sp.length = 0; this.unsticks = (this.unsticks ?? 0) + 1; break; }
+      }
     }
     if (w.t < this.unstickUntil && mode !== 'flee' && mode !== 'defend') { G = [s.x + Math.cos(this.unstickA) * 400, s.y + Math.sin(this.unstickA) * 400]; mode = 'unstick'; }
     this.mode = mode; this.trace.modes[mode] = (this.trace.modes[mode] ?? 0) + 1;

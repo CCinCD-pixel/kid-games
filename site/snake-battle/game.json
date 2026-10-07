@@ -4,7 +4,7 @@
   "subtitle": "在星际竞技场里长成最长的蛇",
   "place": "playground",
   "order": 10,
-  "status": "wip",
+  "status": "live",
   "accent": "--xg-snake",
   "theme": "snake",
   "icon": "/icons/games/snake-battle.svg",

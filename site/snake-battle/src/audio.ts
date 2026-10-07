@@ -1,56 +1,78 @@
 /**
- * Audio (spec §7): kit semantic sounds (installKitSfx subset), the game's own sounds synthesised in Web
- * Audio on the kit's sfx bus (snake-boost-start, -kill, -out, -shield-up/-break, -magnet-on, -meteor),
- * the eat pentatonic ladder (§7.2), a quiet beat-less match pad on the music bus (25 %, ducked by voice)
- * with a light percussion lift for the last 10 s / first place, and narration (bundled text manifest →
- * subtitles + system voice before the voice step makes clips; lifetime caps §7.5).
- * Everything routes through kit/audio (one AudioContext; auto-muted under automation).
+ * Audio (spec §7): kit semantic sounds (installKitSfx subset) + the game's 18 rendered SFX files
+ * (assets/sfx, tools/snake-battle/build_match_audio.py) incl. the seamless boost loop on its own gain node,
+ * the eat pentatonic ladder (§7.2), the rendered match beds (pad-calm / pad-deep, 40 s loops) and the
+ * percussion lift layer on the music bus (ducked under voice by the kit), and narration (recorded clips,
+ * subtitles, lifetime caps §7.5). Everything routes through kit/audio (one AudioContext; auto-muted under automation).
  */
-import { sfx, getAudioContext, getBus, isMuted } from '@kit/audio';
+import { sfx, getAudioContext, getBus, decodeClip } from '@kit/audio';
 import { installKitSfx, chime } from '@kit/ui/sfx-bridge';
 import { Narrator, type Cue, type NarrationManifest, type SayResult } from '@kit/narration';
 import lines from '../../../content/snake-battle/lines.json';
+import padCalmUrl from '../assets/music/pad-calm.m4a?url';
+import padDeepUrl from '../assets/music/pad-deep.m4a?url';
+import liftUrl from '../assets/music/perc-lift.m4a?url';
 
 const KIT = ['eat', 'chime', 'coin', 'powerup', 'whoosh-up', 'whoosh-down', 'level-up', 'jingle-magic', 'jingle-round-over', 'jingle-win', 'level-complete',
   'ui-tick', 'launch', 'hit-soft', 'ui-locked', 'ui-notify', 'ui-tap', 'ui-press', 'ui-open', 'ui-close', 'ui-back', 'ui-confirm', 'ui-select', 'ui-pop', 'unlock', 'star-1', 'star-2', 'star-3', 'blip-surprised', 'bump'];
 
-export async function loadSfx() { try { await installKitSfx({ only: KIT, maxVoices: 6 }); } catch { /* offline first visit: silent */ } }
-export const play = (name: string, o: { volume?: number; rate?: number } = {}) => sfx.play(name, o);
 
-// ---- synthesised game sounds -------------------------------------------------
-type Tone = { f: number; f1?: number; t: number; d: number; type?: OscillatorType; g?: number; q?: number };
-function synth(parts: Tone[], noise?: { t: number; d: number; g: number; f: number }) {
-  const ctx = getAudioContext(), bus = getBus('sfx'); if (!ctx || !bus || isMuted()) return;
-  const t0 = ctx.currentTime + 0.005;
-  for (const p of parts) {
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = p.type ?? 'sine'; o.frequency.setValueAtTime(p.f, t0 + p.t);
-    if (p.f1) o.frequency.exponentialRampToValueAtTime(p.f1, t0 + p.t + p.d);
-    g.gain.setValueAtTime(0.0001, t0 + p.t); g.gain.exponentialRampToValueAtTime(p.g ?? 0.25, t0 + p.t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t0 + p.t + p.d);
-    o.connect(g).connect(bus); o.start(t0 + p.t); o.stop(t0 + p.t + p.d + 0.05);
-  }
-  if (noise) {
-    const len = Math.ceil(ctx.sampleRate * noise.d), buf = ctx.createBuffer(1, len, ctx.sampleRate), ch = buf.getChannelData(0);
-    let s = 12345; for (let i = 0; i < len; i++) { s = (s * 1103515245 + 12345) & 0x7fffffff; ch[i] = (s / 0x3fffffff - 1) * (1 - i / len); }
-    const src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
-    src.buffer = buf; f.type = 'bandpass'; f.frequency.value = noise.f; f.Q.value = 0.8; g.gain.value = noise.g;
-    src.connect(f).connect(g).connect(bus); src.start(t0 + noise.t);
+// ---- the game's own sounds (spec §7.1): 18 rendered files, tools/snake-battle/build_match_audio.py -------------
+const SFX_URLS = import.meta.glob('../assets/sfx/*.m4a', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const sfxUrl = (id: string) => Object.entries(SFX_URLS).find(([k]) => k.endsWith(`/${id}.m4a`))?.[1] ?? '';
+const GAME_SFX = ['snake-boost-start', 'snake-kill', 'snake-out', 'snake-shield-up', 'snake-shield-break', 'snake-magnet-on', 'snake-speed-on', 'snake-meteor', 'snake-king', 'snake-king-windup', 'snake-king-charge', 'snake-gem-break', 'snake-drop-burst', 'snake-sting-2', 'snake-sting-3', 'snake-sting-4', 'snake-sting-5'];
+/** after the start gate: the kit subset + the game's files (≈150 KB), all decoded before the first match */
+/** idempotent: the first-run path, the gate and every match start may all call it (QA r3: the first session was
+ * silent because only the returning-player path loaded the bank) */
+let sfxLoad: Promise<void> | null = null;
+export function loadSfx(): Promise<void> {
+  return (sfxLoad ??= (async () => {
+    try { await installKitSfx({ only: KIT, maxVoices: 6 }); } catch { /* offline first visit: silent */ }
+    try { await sfx.loadAll(Object.fromEntries(GAME_SFX.map((id) => [id, sfxUrl(id)])), 2); } catch { /* ignore */ }
+  })());
+}
+export const play = (name: string, o: { volume?: number; rate?: number; pan?: number } = {}) => sfx.play(name, o);
+/** spatial rule (spec §7.1): other snakes' events pan by screen x (×0.6); on screen 0.6, just off screen 0.3 */
+export const playAt = (name: string, sx: number, vw: number, onScreen: boolean) => play(name, { volume: onScreen ? 0.6 : 0.3, pan: Math.max(-1, Math.min(1, (sx - vw / 2) / (vw / 2))) * 0.6 });
+export const SND = {
+  boostStart: () => play('snake-boost-start', { volume: 0.7 }),
+  kill: () => play('snake-kill'),
+  out: () => play('snake-out'),
+  shieldUp: () => play('snake-shield-up', { volume: 0.8 }),
+  shieldBreak: () => play('snake-shield-break', { volume: 0.8 }),
+  magnet: () => play('snake-magnet-on', { volume: 0.8 }),
+  speed: () => play('snake-speed-on', { volume: 0.8 }),
+  ring: (i: number) => chime(Math.min(9, i + 2), 'chime'),
+  gem: () => play('snake-gem-break', { volume: 0.63 }),
+  windup: () => play('snake-king-windup'),
+  charge: () => play('snake-king-charge', { volume: 0.8 }),
+  king: () => play('snake-king'),
+  wake: () => play('blip-surprised', { volume: 0.6 }),
+  core: () => play('snake-sting-3', { volume: 0.6 }),
+  meteor: () => play('snake-meteor', { volume: 0.8 }),
+  sting: (n: number) => play(`snake-sting-${Math.max(2, Math.min(5, n))}`, { volume: 0.5 }),
+};
+
+/** a decoded buffer looped over its periodic window [0.25, 0.25 + period] (seamless whatever the AAC priming) */
+function loopSource(ctx: AudioContext, buf: AudioBuffer, period: number, dest: AudioNode) {
+  const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+  src.loopStart = 0.25; src.loopEnd = Math.min(buf.duration, 0.25 + period);
+  src.connect(dest); src.start(ctx.currentTime, 0.25);
+  return src;
+}
+
+/** boost loop (spec §7.1): own AudioBufferSourceNode (loop) → own GainNode → sfx bus; 0 → 0.35 in 50 ms */
+export class BoostLoop {
+  private src: AudioBufferSourceNode | null = null; private g: GainNode | null = null; private on = false; private buf: AudioBuffer | null = null;
+  constructor() { void decodeClip(sfxUrl('snake-boost-loop')).then((b) => { this.buf = b; }); }
+  set(on: boolean) {
+    if (on === this.on) return; this.on = on;
+    const ctx = getAudioContext(), bus = getBus('sfx'); if (!ctx || !bus || !this.buf) return;
+    if (on && !this.src) { this.g = ctx.createGain(); this.g.gain.value = 0; this.g.connect(bus); this.src = loopSource(ctx, this.buf, 1.0, this.g); }
+    this.g?.gain.setTargetAtTime(on ? 0.35 : 0, ctx.currentTime, 0.05 / 3);
+    if (!on) { const src = this.src, g = this.g; this.src = null; this.g = null; setTimeout(() => { try { src?.stop(); } catch { /* ignore */ } g?.disconnect(); }, 250); }
   }
 }
-export const SND = {
-  boostStart: () => synth([{ f: 220, f1: 520, t: 0, d: 0.22, type: 'triangle', g: 0.18 }], { t: 0, d: 0.25, g: 0.25, f: 1800 }),
-  kill: () => synth([{ f: 523, t: 0, d: 0.12, type: 'triangle', g: 0.22 }, { f: 784, t: 0.07, d: 0.14, type: 'triangle', g: 0.2 }, { f: 1046, t: 0.14, d: 0.24, type: 'sine', g: 0.2 }], { t: 0, d: 0.16, g: 0.3, f: 900 }),
-  out: () => synth([{ f: 330, f1: 140, t: 0, d: 0.35, type: 'sine', g: 0.22 }], { t: 0, d: 0.18, g: 0.25, f: 500 }),
-  shieldUp: () => synth([{ f: 660, f1: 990, t: 0, d: 0.25, type: 'sine', g: 0.16 }, { f: 1320, t: 0.08, d: 0.3, type: 'sine', g: 0.08 }]),
-  shieldBreak: () => synth([{ f: 1200, f1: 500, t: 0, d: 0.3, type: 'triangle', g: 0.15 }], { t: 0, d: 0.3, g: 0.35, f: 3500 }),
-  magnet: () => synth([{ f: 300, f1: 600, t: 0, d: 0.3, type: 'square', g: 0.05 }, { f: 450, f1: 900, t: 0.05, d: 0.3, type: 'sine', g: 0.12 }]),
-  ring: (i: number) => { const f = [523, 587, 659, 784, 880, 1046, 1175, 1318][Math.min(7, i)]; synth([{ f, t: 0, d: 0.16, type: 'sine', g: 0.2 }, { f: f * 1.5, t: 0.05, d: 0.22, type: 'triangle', g: 0.1 }]); },
-  gem: () => synth([{ f: 1568, f1: 784, t: 0, d: 0.35, type: 'triangle', g: 0.2 }, { f: 2093, t: 0.04, d: 0.3, type: 'sine', g: 0.1 }], { t: 0, d: 0.25, g: 0.3, f: 4000 }),
-  windup: () => synth([{ f: 90, f1: 160, t: 0, d: 0.8, type: 'sawtooth', g: 0.07 }, { f: 45, t: 0, d: 0.8, type: 'sine', g: 0.16 }]),
-  wake: () => synth([{ f: 400, f1: 700, t: 0, d: 0.18, type: 'sine', g: 0.12 }]),
-  core: () => synth([{ f: 659, t: 0, d: 0.12, g: 0.15 }, { f: 988, t: 0.08, d: 0.12, g: 0.15 }, { f: 1318, t: 0.16, d: 0.3, g: 0.15 }]),
-  meteor: () => synth([{ f: 880, t: 0, d: 0.1, g: 0.15 }, { f: 1175, t: 0.06, d: 0.1, g: 0.15 }, { f: 1568, t: 0.12, d: 0.25, g: 0.15 }]),
-};
 
 /** eat ladder (spec §7.2): consecutive eats within 0.6 s climb the pentatonic scale (cap 2 octaves) */
 let eatStep = 0, eatT = 0;
@@ -61,37 +83,36 @@ export function eatSound(big: boolean) {
   if (big) sfx.play('chime', { volume: 0.6 });
 }
 
-// ---- match pad (beat-less drone + optional lift) --------------------------------
+// ---- match beds + lift layer (spec §7.3): rendered 40 s loops, own looping sources on the music bus ----------
+export type Bed = 'calm' | 'deep';
 export class MatchPad {
-  private nodes: AudioNode[] = []; private out: GainNode | null = null; private lift: GainNode | null = null; private timer = 0;
-  start(venueIdx: number) {
+  private srcs: AudioBufferSourceNode[] = []; private out: GainNode | null = null; private lift: GainNode | null = null; private token = 0;
+  /** moon / mars / saturn → calm, jupiter / black hole → deep. Lazily decoded on the first match (≈7 MB each). */
+  start(bed: Bed) {
     const ctx = getAudioContext(), bus = getBus('music'); if (!ctx || !bus) return;
     const out = ctx.createGain(); out.gain.value = 0; out.connect(bus); this.out = out;
-    const root = [110, 98, 103.8, 87.3][venueIdx] ?? 110;
-    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; lp.connect(out);
-    for (const [mul, det, g] of [[1, -4, 0.09], [1.5, 3, 0.06], [2, 5, 0.05], [3, -2, 0.025]] as const) {
-      const o = ctx.createOscillator(), gg = ctx.createGain(), lfo = ctx.createOscillator(), lg = ctx.createGain();
-      o.type = 'sine'; o.frequency.value = root * mul; o.detune.value = det; gg.gain.value = g;
-      lfo.frequency.value = 0.07 + mul * 0.03; lg.gain.value = g * 0.5; lfo.connect(lg).connect(gg.gain);
-      o.connect(gg).connect(lp); o.start(); lfo.start(); this.nodes.push(o, lfo);
-    }
-    out.gain.setTargetAtTime(0.25, ctx.currentTime, 1.2);
-    // lift: soft ticks (only when raised)
     const lift = ctx.createGain(); lift.gain.value = 0; lift.connect(bus); this.lift = lift;
-    let step = 0;
-    this.timer = window.setInterval(() => {
-      if (!this.lift || this.lift.gain.value < 0.01) return;
-      const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'triangle'; o.frequency.value = step % 4 === 0 ? root * 2 : root * 4; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
-      o.connect(g).connect(lift); o.start(t); o.stop(t + 0.15); step++;
-    }, 250);
+    const tok = ++this.token;
+    void Promise.all([decodeClip(bed === 'deep' ? padDeepUrl : padCalmUrl), decodeClip(liftUrl)]).then(([pb, lb]) => {
+      if (tok !== this.token || this.out !== out) return;   // the match ended while decoding
+      if (pb) this.srcs.push(loopSource(ctx, pb, 40, out));
+      if (lb) this.srcs.push(loopSource(ctx, lb, 40, lift));
+      out.gain.setTargetAtTime(0.25, ctx.currentTime, 1.2 / 3);
+    });
   }
-  raise(on: boolean) { const ctx = getAudioContext(); if (ctx && this.lift) this.lift.gain.setTargetAtTime(on ? 0.6 : 0, ctx.currentTime, 0.6); }
+  /** test probe: the live output nodes (null between matches) */
+  get live() { return { out: this.out, lift: this.lift }; }
+  /** lift layer: 0.2, 1 s fade in / 2 s fade out */
+  raise(on: boolean) { const ctx = getAudioContext(); if (ctx && this.lift) this.lift.gain.setTargetAtTime(on ? 0.2 : 0, ctx.currentTime, on ? 1 / 3 : 2 / 3); }
   stop() {
-    const ctx = getAudioContext(); clearInterval(this.timer);
+    const ctx = getAudioContext(); this.token++;
     if (ctx && this.out) this.out.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
-    const nodes = this.nodes; this.nodes = [];
-    setTimeout(() => { for (const n of nodes) try { (n as OscillatorNode).stop(); } catch { /* ignore */ } this.out?.disconnect(); this.lift?.disconnect(); }, 900);
+    if (ctx && this.lift) this.lift.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
+    const srcs = this.srcs; this.srcs = [];
+    // capture this match's nodes: startMatch() calls stop() then start() in the same tick, so the deferred
+    // disconnect must never touch the NEXT match's out/lift (QA r1: the pad went silent 0.9 s into every match)
+    const out = this.out, lift = this.lift; this.out = null; this.lift = null;
+    setTimeout(() => { for (const n of srcs) try { n.stop(); } catch { /* ignore */ } out?.disconnect(); lift?.disconnect(); }, 900);
   }
 }
 
@@ -103,6 +124,7 @@ export function textManifest(): NarrationManifest {
   for (const l of LINES) m[l.id] = { src: '', text: l.text, durationMs: 0, role: l.role } as NarrationManifest[string];
   return m;
 }
+export const CLIP_MANIFEST = '/audio/snake-battle/audio-manifest.json';
 export const lineText = (id: string) => LINES.find((l) => l.id === id)?.text ?? '';
 
 /**
@@ -135,7 +157,14 @@ export class Voice {
   private lastEnd = -1e9; private lastAnn = -1e9;
   constructor(o: { onCue?: (c: Cue | null) => void; onWord?: (i: number, c: Cue) => void; test?: boolean }) {
     this.narrator = new Narrator({ manifest: textManifest(), onCue: o.onCue, onWord: o.onWord, ...(o.test ? { unlocked: () => Promise.resolve(), voiced: () => false, speechFallback: false } : {}) });
+    // the voice step's recorded clips (docs/VOICE.md) override the text manifest line by line; the text manifest
+    // stays underneath so an offline first visit still gets subtitles + the system voice (spec 0A.2-7)
+    this.clips = this.narrator.addManifest(CLIP_MANIFEST);
   }
+  /** resolves once the recorded-clip manifest is merged (never rejects) */
+  clips: Promise<void>;
+  /** the clip a line will play ('' = system voice / subtitle only) */
+  clipOf(id: string): string { return (this.narrator as unknown as { manifest: NarrationManifest }).manifest[id]?.src ?? ''; }
   say(id: string, o: SayOpts = {}): Promise<SayResult> {
     if (!this.inMatch) { this.log.push(id); this.currentPrio = 0; return this.narrator.say(id, o); }
     const p = o.prio ?? prioOf(id), now = performance.now();

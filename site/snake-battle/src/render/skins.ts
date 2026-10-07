@@ -468,7 +468,7 @@ export function paintSkinSegment(c: CanvasRenderingContext2D, R: number, base: R
   if (v === 'dots') {   // 巡逻蛇: grey-blue with a dotted ring
     ball(c, R, base);
     c.fillStyle = css(scale(base, 0.5));
-    for (let i = 0; i < 6; i++) { const a = (i / 6) * TAU; c.beginPath(); c.arc(Math.cos(a) * R * 0.52, Math.sin(a) * R * 0.52, R * 0.08, 0, TAU); c.fill(); }
+    for (let i = 0; i < 6; i++) { const a = (i / 6) * TAU; c.beginPath(); c.arc(Math.cos(a) * R * 0.52, Math.sin(a) * R * 0.52, R * 0.1, 0, TAU); c.fill(); }   // ≥2 texels at the smallest tier (V14)
     return true;
   }
   if (v === 'black') { ball(c, R, [52, 42, 36], { rim: [246, 196, 58] }); return true; }

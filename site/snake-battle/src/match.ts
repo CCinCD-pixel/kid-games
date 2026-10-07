@@ -84,7 +84,8 @@ export class Match {
       run.guardColors = cols.slice(personas.length, personas.length + 2); run.bigColors = cols.slice(personas.length + 2);
       const n = aiCountOf(ms);
       for (const s of run.w.snakes) if (!s.isPlayer) s.name = MissionNames.of(s, n);
-      run.onNote = (n) => this.onEvent({ kind: 'mission', n });
+      // snakes the script adds mid-level (蛇王 guards, c5m1 big swim-ins) get display names too (QA r2)
+      run.onNote = (n) => { if (n.kind === 'phase2' || n.kind === 'bigSwimIn') this.nameLate(); this.onEvent({ kind: 'mission', n }); };
       this.run = run; this.world = run.w; this.me = run.me;
       this.floor = CHAPTER_FLOOR[ms.ch - 1]; this.arenaR = ms.arena.R;
       this.demo = !!o.demo; this.waitTouch = !!o.waitTouch;
@@ -99,8 +100,17 @@ export class Match {
     const n = this.world.snakes.length + 4;
     this.prevX = new Float32Array(n); this.prevY = new Float32Array(n); this.prevA = new Float32Array(n);
     this.snapPrev();
+    // a level that starts him long (5-x, twins) never celebrates a length he was given (QA r4 contact sheet)
+    for (const n of MILESTONES) if (this.me.mass >= n) this.milestoneHit.add(n);
     if (o.countdown === false) this.state = 'playing';
     this.cdT = 0; this.cdN = 3;
+  }
+
+  /** any non-player snake still carrying an internal id ('guard0', 'big1') gets its display name */
+  nameLate() {
+    if (!this.run) return;
+    const n = aiCountOf(this.run.m);
+    for (const s of this.world.snakes) if (!s.isPlayer && /^[a-z]+\d*$/.test(s.name)) s.name = MissionNames.of(s, n);
   }
 
   get timeLeft() { return Math.max(0, (this.run ? this.run.m.capSec : MATCH_SEC) - this.world.t); }

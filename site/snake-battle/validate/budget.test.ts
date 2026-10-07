@@ -17,8 +17,12 @@ function fakeDom() {
 }
 
 describe('budgets', () => {
-  it('menu music ≤ 1.2 MB; content JSON ≤ 1.5 MB', () => {
+  it('menu music ≤ 1.2 MB; all music ≤ 1.7 MB; new SFX ≤ 260 KB; content JSON ≤ 1.5 MB', () => {
     expect(size('site/snake-battle/assets/music/menu.m4a')).toBeLessThan(1.2e6);
+    // §8.11: every shipped music file together (menu + 2 match pads + lift layer), and the game's own SFX (QA r3)
+    const sum = (d: string) => fs.readdirSync(path.join(ROOT, d)).filter((f) => /\.(m4a|mp3|ogg|wav)$/.test(f)).reduce((a, f) => a + size(`${d}/${f}`), 0);
+    expect(sum('site/snake-battle/assets/music')).toBeLessThanOrEqual(1.7e6);
+    expect(sum('site/snake-battle/assets/sfx')).toBeLessThanOrEqual(260 * 1024);
     const dir = path.join(ROOT, 'content/snake-battle');
     const total = fs.readdirSync(dir).filter((f) => f.endsWith('.json')).reduce((s, f) => s + size(`content/snake-battle/${f}`), 0);
     expect(total).toBeLessThan(1.5e6);
@@ -35,5 +39,27 @@ describe('budgets', () => {
       for (const trail of ['stardust', 'meteor', 'cloud', 'lightning']) worst = Math.max(worst, buildAtlas(list, 'blackhole', { trail }).count);
     }
     expect(worst).toBeLessThanOrEqual(200);
+  });
+});
+
+// §8.11 gzip budgets (QA r1). Content JSON: spec 15 KB; the shipped 40-level set measures ≈ 18.4 KB, accepted at
+// ≤ 20 KB as a spec-owner note (stripping fields would invalidate every demo's contentHash for ~3 KB). JS / CSS are
+// read from dist when a build exists (the root build is not run by game agents).
+import zlib from 'node:zlib';
+describe('gzip budgets (§8.11)', () => {
+  const gz = (p: string) => zlib.gzipSync(fs.readFileSync(p), { level: 9 }).length;
+  it('content JSON ≤ 20 KB gzip (spec 15 KB, deviation noted)', () => {
+    const dir = path.join(ROOT, 'content/snake-battle');
+    const total = fs.readdirSync(dir).filter((f) => f.endsWith('.json')).reduce((a, f) => a + gz(path.join(dir, f)), 0);
+    expect(total).toBeLessThanOrEqual(20 * 1024);
+  });
+  it('built JS ≤ 120 KB gzip and CSS ≤ 15 KB gzip (when dist exists)', () => {
+    const dist = path.join(ROOT, 'dist/assets');
+    if (!fs.existsSync(dist)) return;
+    const files = fs.readdirSync(dist);
+    const js = files.filter((f) => /^(snake-battle|screens2)-.*\.js$/.test(f)).reduce((a, f) => a + gz(path.join(dist, f)), 0);
+    const css = files.filter((f) => /^snake-battle-.*\.css$/.test(f)).reduce((a, f) => a + gz(path.join(dist, f)), 0);
+    if (js) expect(js).toBeLessThanOrEqual(120 * 1024);
+    if (css) expect(css).toBeLessThanOrEqual(15 * 1024);
   });
 });

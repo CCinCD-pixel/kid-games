@@ -28,6 +28,7 @@ lines:
   - id: snake.lobby.hello.3
     role: companion
     text: 换个皮肤再出发？
+    speed: 0.9
   - id: snake.lobby.hello.4
     role: companion
     text: 挑战关有新关卡。
@@ -83,6 +84,7 @@ lines:
   - id: snake.match.rank1
     role: companion
     text: 你现在是第一名！
+    speed: 0.9
   - id: snake.match.boost
     role: companion
     text: 按住闪电键，加速冲！
@@ -182,6 +184,7 @@ lines:
     role: companion
     text: "头碰头，{name}更长。"
     norm: 头碰头，长的赢。
+    pinyin: { 长: cháng }
   - id: snake.death.encircle
     role: companion
     text: "被{name}围住了。"
@@ -246,6 +249,7 @@ lines:
   - id: snake.record.life
     role: companion
     text: 这是活得最久的一次！
+    speed: 0.9
   - id: snake.endless.bank
     role: companion
     text: 收工！纪录保存好了。
@@ -301,6 +305,7 @@ lines:
   - id: snake.unlock.trail
     role: companion
     text: 新的加速尾迹！
+    pinyin: { 尾: wěi }
   - id: snake.unlock.venue
     role: companion
     text: 新赛场开放了！
@@ -313,6 +318,7 @@ lines:
   - id: snake.hint.offer2
     role: companion
     text: 要不要看一招？
+    speed: 0.9
   - id: snake.hint.offer3
     role: companion
     text: 让领航员示范一次？
@@ -391,6 +397,7 @@ lines:
   - id: snake.praise.c2.2
     role: companion
     text: 你找到了空地。
+    speed: 0.9
   - id: snake.praise.c3.1
     role: companion
     text: 你先算好了它去哪。
@@ -431,6 +438,7 @@ lines:
   - id: snake.m.c1m4.brief
     role: companion
     text: 绕过陨石，穿过星环。
+    speed: 1.05
   - id: snake.m.c1m4.h1
     role: companion
     text: 早一点转弯。
@@ -668,18 +676,21 @@ lines:
   - id: snake.fact.dipper
     role: narrator
     text: 北斗七星连起来像一把勺子。
+    speed: 0.92
   - id: snake.fact.blackhole
     role: narrator
     text: 黑洞的引力特别大，连光都跑不出来。
   - id: snake.fact.loco
     role: narrator
     text: 蒸汽火车烧煤把水变成蒸汽，推着车轮转。
+    norm: 蒸汽火车烧煤把水变成蒸汽，推着车轮赚。   # 转 = zhuàn (rotate); 赚 is the monophonic homophone
   - id: snake.fact.rocket
     role: narrator
     text: 长征五号火箭很粗壮，大家叫它“胖五”。
   - id: snake.fact.mecha
     role: narrator
     text: 机器人的关节里有电机，电机一转，手臂就动了。
+    norm: 机器人的关节里有电机，电机一赚，手臂就动了。   # 转 = zhuàn (rotate)
   - id: snake.fact.digger
     role: narrator
     text: 挖掘机的长臂是靠液压油推动的。
@@ -695,6 +706,7 @@ lines:
   - id: snake.fact.yinglong
     role: narrator
     text: 传说应龙帮大禹治水，用尾巴划出了河道。
+    norm: 传说硬龙帮大禹治水，用尾巴划出了河道。   # 应龙 = yìng lóng; no monophonic lock char, so 硬
   - id: snake.fact.zhulong
     role: narrator
     text: 《山海经》里说，烛龙睁开眼是白天，闭上眼是黑夜。

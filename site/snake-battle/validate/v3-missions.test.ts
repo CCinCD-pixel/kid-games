@@ -66,7 +66,8 @@ describe.skipIf(!FULL)('V3 mission difficulty (production sim)', () => {
       if (chk.length) fails.push(`${m.id}: ${chk.join('; ')}`);
       prev = { id: m.id, ch: m.ch, K };
     }
-    writeReport('v3-missions', { N, sec: Math.round((Date.now() - t0) / 1000), table, lines, fails });
+    writeReport(only ? `v3-missions-${only.join('_')}` : 'v3-missions', {   // a subset run never overwrites the full report
+       N, sec: Math.round((Date.now() - t0) / 1000), table, lines, fails });
     expect(fails, fails.join('\n')).toEqual([]);
   }, 12 * 3600_000);
 });

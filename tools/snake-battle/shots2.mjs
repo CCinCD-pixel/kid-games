@@ -26,6 +26,11 @@ try {
       await page.goto(`http://localhost:${port}/snake-battle/?test=1&firstrun=1&nogate`);
       await page.waitForSelector('#app[data-ready]'); await page.waitForTimeout(1800);
       await shot('s2-firstrun');
+      // the ghost hand's press frame (50 % of its 2.5 s loop): hand down + dashed line head → fingertip (spec §2.6)
+      await page.evaluate(() => document.getAnimations().forEach((a) => { a.pause(); a.currentTime = 1250; }));
+      await page.waitForTimeout(120); await shot('s2-firstrun-press');
+      const ln = await page.evaluate(() => { const l = document.querySelector('.sb-ghost-line line'); return l ? ['x1', 'y1', 'x2', 'y2'].map((k) => Math.round(Number(l.getAttribute(k)))).join(',') + ' op ' + getComputedStyle(l).opacity : 'none'; });
+      console.log(`ghost line ${ln}`);
     }
     await page.goto(`http://localhost:${port}/snake-battle/?test=1&nogate`);
     await page.waitForSelector('#app[data-ready]'); await page.waitForTimeout(800);
@@ -36,6 +41,10 @@ try {
     if (want('s7-map')) { await page.evaluate(() => { window.__sbApp.save.markSeen('story:c3'); window.__sbApp.showMap(3); }); await page.waitForTimeout(800); await shot('s7-map'); }
     if (want('s7-story')) { await page.evaluate(() => { window.__sbApp.showMap(4); }); await page.waitForTimeout(1500); await shot('s7-story'); await page.evaluate(() => document.querySelectorAll('.sb-story').forEach((n) => n.remove())); }
     if (want('s8-brief')) { await page.evaluate(() => { window.__sbApp.showMap(3); window.__sbApp.openMission('c3m3'); }); await page.waitForTimeout(900); await shot('s8-brief'); }
+    if (want('s8-brief-h2')) {   // H2 ghost replay in the card: a first visit to a new-element level (c2m2 shield) auto-shows it
+      await page.evaluate(() => { document.querySelectorAll('.sb-brief').forEach((n) => n.remove()); const a = window.__sbApp; delete a.save.data.missions.c2m2; a.showMap(2); a.openMission('c2m2'); });
+      await page.waitForTimeout(2600); await shot('s8-brief-h2'); await page.waitForTimeout(2200); await shot('s8-brief-h2b');
+    }
     if (want('s8-brief-boss')) { await page.evaluate(() => { document.querySelectorAll('.sb-brief').forEach((n) => n.remove()); window.__sbApp.openMission('c5m7'); }); await page.waitForTimeout(900); await shot('s8-brief-boss'); }
     const play = async (name, id, sec, steer) => {
       if (!want(name)) return;

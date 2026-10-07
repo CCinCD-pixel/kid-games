@@ -42,7 +42,8 @@
  {
   "id": "snake.lobby.hello.3",
   "role": "companion",
-  "text": "换个皮肤再出发？"
+  "text": "换个皮肤再出发？",
+  "speed": "0.9"
  },
  {
   "id": "snake.lobby.hello.4",
@@ -135,7 +136,8 @@
  {
   "id": "snake.match.rank1",
   "role": "companion",
-  "text": "你现在是第一名！"
+  "text": "你现在是第一名！",
+  "speed": "0.9"
  },
  {
   "id": "snake.match.boost",
@@ -298,7 +300,10 @@
   "id": "snake.death.headon",
   "role": "companion",
   "text": "头碰头，{name}更长。",
-  "norm": "头碰头，长的赢。"
+  "norm": "头碰头，长的赢。",
+  "pinyin": {
+   "长": "cháng"
+  }
  },
  {
   "id": "snake.death.encircle",
@@ -405,7 +410,8 @@
  {
   "id": "snake.record.life",
   "role": "companion",
-  "text": "这是活得最久的一次！"
+  "text": "这是活得最久的一次！",
+  "speed": "0.9"
  },
  {
   "id": "snake.endless.bank",
@@ -496,7 +502,10 @@
  {
   "id": "snake.unlock.trail",
   "role": "companion",
-  "text": "新的加速尾迹！"
+  "text": "新的加速尾迹！",
+  "pinyin": {
+   "尾": "wěi"
+  }
  },
  {
   "id": "snake.unlock.venue",
@@ -516,7 +525,8 @@
  {
   "id": "snake.hint.offer2",
   "role": "companion",
-  "text": "要不要看一招？"
+  "text": "要不要看一招？",
+  "speed": "0.9"
  },
  {
   "id": "snake.hint.offer3",
@@ -646,7 +656,8 @@
  {
   "id": "snake.praise.c2.2",
   "role": "companion",
-  "text": "你找到了空地。"
+  "text": "你找到了空地。",
+  "speed": "0.9"
  },
  {
   "id": "snake.praise.c3.1",
@@ -714,7 +725,8 @@
  {
   "id": "snake.m.c1m4.brief",
   "role": "companion",
-  "text": "绕过陨石，穿过星环。"
+  "text": "绕过陨石，穿过星环。",
+  "speed": "1.05"
  },
  {
   "id": "snake.m.c1m4.h1",
@@ -1113,7 +1125,8 @@
  {
   "id": "snake.fact.dipper",
   "role": "narrator",
-  "text": "北斗七星连起来像一把勺子。"
+  "text": "北斗七星连起来像一把勺子。",
+  "speed": "0.92"
  },
  {
   "id": "snake.fact.blackhole",
@@ -1123,7 +1136,8 @@
  {
   "id": "snake.fact.loco",
   "role": "narrator",
-  "text": "蒸汽火车烧煤把水变成蒸汽，推着车轮转。"
+  "text": "蒸汽火车烧煤把水变成蒸汽，推着车轮转。",
+  "norm": "蒸汽火车烧煤把水变成蒸汽，推着车轮赚。"
  },
  {
   "id": "snake.fact.rocket",
@@ -1133,7 +1147,8 @@
  {
   "id": "snake.fact.mecha",
   "role": "narrator",
-  "text": "机器人的关节里有电机，电机一转，手臂就动了。"
+  "text": "机器人的关节里有电机，电机一转，手臂就动了。",
+  "norm": "机器人的关节里有电机，电机一赚，手臂就动了。"
  },
  {
   "id": "snake.fact.digger",
@@ -1158,7 +1173,8 @@
  {
   "id": "snake.fact.yinglong",
   "role": "narrator",
-  "text": "传说应龙帮大禹治水，用尾巴划出了河道。"
+  "text": "传说应龙帮大禹治水，用尾巴划出了河道。",
+  "norm": "传说硬龙帮大禹治水，用尾巴划出了河道。"
  },
  {
   "id": "snake.fact.zhulong",

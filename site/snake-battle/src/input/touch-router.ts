@@ -56,8 +56,18 @@ export class TouchRouter {
     return x >= r.left - slop && x <= r.right + slop && y >= r.top - slop && y <= r.bottom + slop;
   }
 
+  /** a finger on an overlay control (pause panel, death card, podium, unlock / story cards …) is a tap for that
+   * control, not steering: no preventDefault (WebKit drops the compatibility click of a default-prevented touch
+   * pointerdown — QA r3 blocker), no capture, no aim. The HUD's own pause / boost keys stay with the router. */
+  private isUi(t: EventTarget | null) {
+    const el = t as Element | null;
+    if (!el || typeof el.closest !== 'function') return false;
+    if (el.closest('.sb-pause, .sb-boost')) return false;
+    return !!el.closest('button, a, input, select, textarea, label, [role="button"], .xg-btn, .sb-scrim, .xg-scrim, .sb-dc, .sb-podium, .sb-unlock, .sb-story, .sb-brief, .sb-demo, .sb-endres');
+  }
+
   private down(e: PointerEvent) {
-    if (!this.enabled) return;
+    if (!this.enabled || this.isUi(e.target)) return;
     e.preventDefault();
     if ((e.width || 0) > 70 && (e.height || 0) > 70) return;  // palm
     const tracked = [this.steerId, this.boostId, this.pauseDown?.id ?? null].filter((v) => v !== null).length;
@@ -103,6 +113,10 @@ export class TouchRouter {
     this.boost = on;
     this.o.boostEl.classList.toggle('is-down', on);
   }
+  /** a finger is steering right now (H0 idle detection) */
+  steering() { return this.steerId !== null; }
+  /** the steering finger's screen point (follow mode), or null when no finger steers */
+  finger(): [number, number] | null { return this.steerId === null || this.o.mode() !== 'follow' ? null : [this.fx, this.fy]; }
   /** follow-finger heading (kept if the finger is within 18 px of the head) */
   aim() {
     if (this.steerId === null || this.o.mode() !== 'follow') return;

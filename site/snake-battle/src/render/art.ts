@@ -40,7 +40,13 @@ export function aiBodyColor(color: string, persona: string): Rgb {
  *  ΔE00 ≥ 25 from the ground (V14); presentation only — the name word (棕) and the sim are unchanged */
 export function aiBodyOn(color: string, persona: string, floor: string): Rgb {
   const c = aiBodyColor(color, persona);
-  return color === '棕' && (floor === 'jupiter' || floor === 'saturn') ? mix(c, [255, 214, 160], 0.38) : c;
+  if (color === '棕' && (floor === 'jupiter' || floor === 'saturn')) return mix(c, [255, 214, 160], 0.38);
+  // QA r4 pixel read-back: the shaded body centre of 红 / 橙 sank into the rust floor of mars (ΔE ≈ 10, 1.1:1) and
+  // 灰 into the moon / black-hole floors (1.9:1): a lighter tint of the same hue on those floors only
+  if (floor === 'mars' && color === '红') return mix(c, [255, 240, 230], 0.45);
+  if (floor === 'mars' && color === '橙') return mix(c, [255, 240, 200], 0.45);
+  if ((floor === 'moon' || floor === 'blackhole') && color === '灰') return mix(c, [255, 255, 255], 0.15);
+  return c;
 }
 
 /** which segment variant a body index uses (spec §6.4 persona patterns, §6.5 skin patterns); n = segment count, ph = scroll phase */
@@ -188,7 +194,7 @@ export function buildAtlas(colors: AtlasColor[], venue: string, o: { trail?: str
   A.add('confetti', (c, R) => { c.fillStyle = '#fff'; c.beginPath(); c.roundRect(-R * 0.6, -R * 0.32, R * 1.2, R * 0.64, R * 0.12); c.fill(); });
   A.add('hex', (c, R) => {
     c.beginPath(); for (let i = 0; i < 6; i++) { const a = (i * Math.PI) / 3; c.lineTo(Math.cos(a) * (R - 4), Math.sin(a) * (R - 4)); } c.closePath();
-    c.fillStyle = 'rgba(255,255,255,0.16)'; c.fill(); c.lineWidth = 6; c.strokeStyle = '#fff'; c.stroke();
+    c.fillStyle = 'rgba(255,255,255,0.16)'; c.fill(); c.lineWidth = 8; c.strokeStyle = '#fff'; c.stroke();   // ≥2 texels at the smallest tier (V14)
     c.beginPath(); c.ellipse(-R * 0.3, -R * 0.4, R * 0.3, R * 0.12, -0.5, 0, Math.PI * 2); c.fillStyle = 'rgba(255,255,255,0.5)'; c.fill();
   });
   A.add('shard', (c, R) => { c.beginPath(); for (let i = 0; i < 6; i++) { const a = (i * Math.PI) / 3; c.lineTo(Math.cos(a) * R * 0.5, Math.sin(a) * R * 0.5); } c.closePath(); c.fillStyle = '#fff'; c.fill(); });

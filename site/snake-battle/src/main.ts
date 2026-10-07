@@ -5,11 +5,15 @@
  */
 import { initShell } from '@kit/shell';
 import { App } from './app';
+import { loadSfx } from './audio';
+import { gateSnake } from './gate-snake';
 import './styles.css';
 
 const params = new URLSearchParams(location.search);
 const root = document.getElementById('app')!;
 if (params.get('dev') === 'style') void import('./dev/style').then((m) => { m.styleBoard(root); root.dataset.ready = ''; });
+// V14 sprite gate (tests/art.spec.ts): automation / dev server only
+else if (params.get('dev') === 'art' && (navigator.webdriver || import.meta.env.DEV)) void import('./dev/art').then((m) => { (window as unknown as { __art: unknown }).__art = m.artMetrics(); root.dataset.ready = ''; });
 else boot();
 
 function boot() {
@@ -24,7 +28,9 @@ function boot() {
     onLayout: (l) => app.layout(l),
   });
   app.shell = shell;
-  if (params.has('test')) (window as unknown as { __sbApp: App }).__sbApp = app;
+  // S0: the gold snake swims behind 开始 (spec §2.5)
+  const gate = document.querySelector('.kit-start'); if (gate) { gate.classList.add('sb-gate'); gate.prepend(gateSnake()); }
+  if (app.test) (window as unknown as { __sbApp: App }).__sbApp = app;
   app.layout(shell.layout());
   // first run (spec §2.6): the very first start goes straight into 1-1 (no lobby, no brief, no 3-2-1)
   const d = app.save.data;
@@ -32,5 +38,6 @@ function boot() {
   const firstRun = params.has('firstrun') || (!d.firstRunDone && !params.has('test'));
   if (!firstRun) app.showLobby();
   root.dataset.ready = '';
-  void shell.ready.then(() => { if (firstRun) app.startFirstRun(); else void app.afterGate(); });
+  // the SFX bank loads on every path, the first run included (QA r3)
+  void shell.ready.then(() => { void loadSfx(); if (firstRun) app.startFirstRun(); else void app.afterGate(); });
 }

@@ -16,12 +16,12 @@ class Mem implements Storage {
 
 describe('heat (spec §3.17)', () => {
   it('roster lever matches the spec table for every venue', () => {
-    // G28: identical to the prototype venues.mjs heatRoster (values printed from the prototype)
+    // G28: identical to the prototype venues.mjs heatRoster (values printed from the prototype; v1.2: mars 4 foragers, h = −2 removes 40 %)
     const PROTO: Record<string, [Record<string, number>, Record<string, number>]> = {
       moon: [{ forager: 2, skittish: 2, scavenger: 1 }, { forager: 2, skittish: 2, scavenger: 1 }],
-      mars: [{ forager: 3, scavenger: 2, skittish: 5, daredevil: 1 }, { forager: 1, scavenger: 2, skittish: 6 }],
-      jupiter: [{ forager: 4, scavenger: 2, skittish: 4, hunter: 2, coiler: 2, daredevil: 3 }, { forager: 1, scavenger: 2, skittish: 6, coiler: 2, daredevil: 3 }],
-      blackhole: [{ forager: 3, scavenger: 2, hunter: 5, coiler: 3, daredevil: 3, skittish: 2 }, { forager: 1, scavenger: 1, hunter: 3, coiler: 3, daredevil: 3, skittish: 4 }],
+      mars: [{ forager: 2, scavenger: 2, skittish: 5, daredevil: 1 }, { forager: 1, scavenger: 1, skittish: 5 }],
+      jupiter: [{ forager: 4, scavenger: 2, skittish: 4, hunter: 2, coiler: 2, daredevil: 3 }, { forager: 1, scavenger: 1, skittish: 4, coiler: 2, daredevil: 3 }],
+      blackhole: [{ forager: 3, scavenger: 2, hunter: 5, coiler: 3, daredevil: 3, skittish: 2 }, { forager: 1, scavenger: 1, hunter: 3, coiler: 3, daredevil: 3, skittish: 1 }],
     };
     for (const [id, [m1, m2]] of Object.entries(PROTO)) { expect(heatRoster(VENUES[id as 'moon'].ai, -1)).toEqual(m1); expect(heatRoster(VENUES[id as 'moon'].ai, -2)).toEqual(m2); }
     expect(heatRoster(VENUES.moon.ai, 0)).toEqual(VENUES.moon.ai);

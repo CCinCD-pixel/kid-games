@@ -3,9 +3,10 @@
  * grid), S4 pause, S5 death card, S6 podium / match summary, endless result, S12 settings (stage-1 subset).
  * 星港 design system: paper night theme, .xg-btn / .xg-card, accent --xg-snake. Never auto-advance.
  */
+import { skinPreview } from './screens2';
 import { h, bindPress, segmented, confetti } from '@kit/ui';
 import { mount as mountBot, type Companion } from '@kit/companion';
-import { VENUES, VENUE_IDS, FLOORS, type VenueId } from './sim/venues';
+import { VENUES, VENUE_IDS, FLOORS, AI_NAMES, type VenueId } from './sim/venues';
 import { hex2rgb, mix, paintSegment, paintHead, rgb2css, skinById, segVariant, variantsOf, ballOf, type Rgb } from './render/art';
 import { paintDeco, paintHeadPortrait, DECO, DECO_K } from './render/skins';
 import type { SaveCtl } from './save';
@@ -44,9 +45,12 @@ const TROPHY_ICON: Record<string, string> = {
 };
 
 // ---------------------------------------------------------------- showcase (his snake on a figure-8)
+/** stardust in the showcase (760×300 design box): along and around the figure-8 */
+const DUST: [number, number, string?][] = [[120, 120], [205, 230, 'big'], [300, 115], [380, 172], [455, 228], [560, 110, 'big'], [640, 170], [90, 215], [700, 240], [250, 60], [520, 60], [420, 270], [330, 250], [610, 60]];
+const DUST_COL = ['rgba(255,226,120,1)', 'rgba(140,220,255,1)', 'rgba(255,150,210,1)', 'rgba(170,255,170,1)'];
 export class Showcase {
   private ctx: CanvasRenderingContext2D; private raf = 0; private t = 0; private last = 0; private idle = 0;
-  private cache = new Map<string, HTMLCanvasElement>(); private asleep = false;
+  private cache = new Map<string, HTMLCanvasElement>(); private asleep = false; private eaten: number[] = [];
   constructor(private canvas: HTMLCanvasElement, private skin: string, private venue: VenueId, private name: string) {
     this.ctx = canvas.getContext('2d')!;
     const sk = skinById(skin), base = hex2rgb(sk.base), acc = hex2rgb(sk.accent);
@@ -66,11 +70,32 @@ export class Showcase {
     const fl = FLOORS[this.venue].map(hex2rgb);
     const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, rgb2css(fl[1])); g.addColorStop(1, rgb2css(fl[0]));
     c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
-    c.fillStyle = rgb2css(fl[2], 0.18); for (let i = 0; i < 9; i++) { c.beginPath(); c.ellipse(((i * 173) % 760) * k, ((i * 97) % 300) * k, 26 * k, 18 * k, 0, 0, Math.PI * 2); c.fill(); }
+    // floor detail (QA r4: the hero panel read as a flat grey box): a faint hex grid, craters with a lit rim
+    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.strokeStyle = 'rgba(255,255,255,0.05)'; c.lineWidth = 2;
+    const hs = 46 * k * 2 / 2;
+    for (let y = 0, row = 0; y < H + hs; y += hs * 1.5, row++) for (let x = (row % 2) * hs * 0.866; x < W + hs; x += hs * 1.732) { c.beginPath(); for (let j = 0; j < 6; j++) { const an = Math.PI / 6 + j * Math.PI / 3; c.lineTo(x + Math.cos(an) * hs, y + Math.sin(an) * hs); } c.closePath(); c.stroke(); }
+    c.restore();
+    for (let i = 0; i < 9; i++) {
+      const cx = ((i * 173 + 40) % 760) * k, cy = ((i * 97 + 30) % 300) * k, rx = (18 + (i * 7) % 16) * k, ry = rx * 0.7;
+      c.fillStyle = rgb2css(fl[2], 0.22); c.beginPath(); c.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); c.fill();
+      c.strokeStyle = 'rgba(255,255,255,0.10)'; c.lineWidth = 2 * k; c.beginPath(); c.ellipse(cx, cy + ry * 0.12, rx, ry, 0, Math.PI * 0.05, Math.PI * 0.95); c.stroke();
+    }
     const sleeping = this.idle > 20;
     const sk = skinById(this.skin);
     const N = 22, sp = 0.42;
-    const pos = (u: number): [number, number] => sleeping ? [380 * k + Math.cos(u) * 70 * k, 160 * k + Math.sin(u) * 46 * k] : [380 * k + Math.sin(u) * 270 * k, 150 * k + Math.sin(2 * u) * 85 * k];
+    // the swim stays inside the panel with room for the name tag above the head (QA r4: the tag was clipped)
+    const pos = (u: number): [number, number] => sleeping ? [380 * k + Math.cos(u) * 70 * k, 170 * k + Math.sin(u) * 46 * k] : [380 * k + Math.sin(u) * 280 * k, 172 * k + Math.sin(2 * u) * 72 * k];
+    // stardust he eats on his way round: a pellet under the head pops and grows back 3 s later
+    const [hx0, hy0] = pos(sleeping ? 0 : this.t * 0.55);
+    for (let i = 0; i < DUST.length; i++) {
+      const [dx, dy, dc] = DUST[i], px = dx * k, py = dy * k;
+      if (!sleeping && Math.hypot(px - hx0, py - hy0) < 30 * k && this.t - (this.eaten[i] ?? -9) > 3) this.eaten[i] = this.t;
+      const since = this.t - (this.eaten[i] ?? -9); if (since < 3) { if (since < 0.25) { c.strokeStyle = `rgba(255,240,180,${1 - since * 4})`; c.lineWidth = 3 * k; c.beginPath(); c.arc(px, py, (8 + since * 60) * k, 0, Math.PI * 2); c.stroke(); } continue; }
+      const tw = 0.75 + 0.25 * Math.sin(this.t * 3 + i * 1.7), rr = (dc === 'big' ? 9 : 5.5) * k * tw;
+      const gg = c.createRadialGradient(px, py, 0, px, py, rr * 2.6); gg.addColorStop(0, DUST_COL[i % DUST_COL.length]); gg.addColorStop(0.35, DUST_COL[i % DUST_COL.length]); gg.addColorStop(1, 'rgba(255,255,255,0)');
+      c.fillStyle = gg; c.beginPath(); c.arc(px, py, rr * 2.6, 0, Math.PI * 2); c.fill();
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(px - rr * 0.25, py - rr * 0.25, rr * 0.35, 0, Math.PI * 2); c.fill();
+    }
     const u0 = sleeping ? 0 : this.t * 0.55;
     const R = 26 * k;
     for (let i = N - 1; i >= 0; i--) {
@@ -92,6 +117,10 @@ export class Showcase {
     c.fillStyle = '#fff6e3'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(this.name, hx, hy - R * 2.6);
     if (sleeping) { c.font = `700 ${28 * k}px -apple-system, system-ui`; c.fillStyle = 'rgba(255,255,255,0.8)'; c.fillText('Z', hx + 40 * k, hy - 60 * k); this.asleep = true; this.stop(); }
     c.restore();
+    // vignette + a soft top rim light
+    const vg = c.createRadialGradient(W / 2, H * 0.55, Math.min(W, H) * 0.3, W / 2, H * 0.55, Math.max(W, H) * 0.75);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(4,6,20,0.55)'); c.fillStyle = vg; c.fillRect(0, 0, W, H);
+    const rim = c.createLinearGradient(0, 0, 0, H * 0.25); rim.addColorStop(0, 'rgba(255,240,200,0.12)'); rim.addColorStop(1, 'rgba(255,240,200,0)'); c.fillStyle = rim; c.fillRect(0, 0, W, H * 0.25);
   }
 }
 
@@ -162,9 +191,10 @@ export function btn(label: string, kind: string, on: () => void, sfx = 'ui-confi
   b.addEventListener('click', on); return b;
 }
 
-export function pausePanel(root: HTMLElement, o: { endless: boolean; mission?: boolean; onResume: () => void; onRestart: () => void; onSettings: () => void; onLobby: () => void; onBank: () => void }) {
+export function pausePanel(root: HTMLElement, o: { endless: boolean; mission?: boolean; tired?: boolean; onResume: () => void; onRestart: () => void; onSettings: () => void; onLobby: () => void; onBank: () => void }) {
   const p = panel(root, 'sb-pausep',
-    h('h2', { class: 'sb-panel__title' }, '暂停'),
+    h('h2', { class: 'sb-panel__title' }, o.tired ? '小蛇有点累了' : '暂停'),
+    ...(o.tired ? [h('p', { class: 'sb-panel__text' }, '休息一下再继续吧。')] : []),
     btn('继续', 'xg-btn--primary xg-btn--lg', o.onResume),
     ...(o.endless ? [btn('收工', 'xg-btn--gold sb-bank', o.onBank)] : []),
     btn('重新开始', '', o.onRestart), btn('设置', '', o.onSettings, 'ui-open'), btn(o.mission ? '回地图' : '回大厅', 'sb-quiet', () => {
@@ -181,9 +211,18 @@ export function settingsPanel(root: HTMLElement, save: SaveCtl, onClose: () => v
   segmented(side, { night: true, value: save.boostSide(), options: [{ id: 'left', label: '左边' }, { id: 'right', label: '右边' }], onChange: (id) => { s.boostSide = id as 'left' | 'right'; save.save(); } });
   segmented(names, { night: true, value: s.showNames ? 'on' : 'off', options: [{ id: 'on', label: '显示' }, { id: 'off', label: '不显示' }], onChange: (id) => { s.showNames = id === 'on'; save.save(); } });
   segmented(music, { night: true, value: s.matchMusic ? 'on' : 'off', options: [{ id: 'on', label: '开' }, { id: 'off', label: '关' }], onChange: (id) => { s.matchMusic = id === 'on'; save.save(); } });
+  const dbl = h('div'), crown = h('div');
+  segmented(dbl, { night: true, value: s.doubleTapBoost ? 'on' : 'off', options: [{ id: 'on', label: '开' }, { id: 'off', label: '关' }], onChange: (id) => { s.doubleTapBoost = id === 'on'; save.save(); } });
+  const hasCrown = save.data.owned.includes('crown');
+  if (hasCrown) segmented(crown, { night: true, value: s.crown ? 'on' : 'off', options: [{ id: 'on', label: '戴上' }, { id: 'off', label: '不戴' }], onChange: (id) => { s.crown = id === 'on'; save.save(); } });
+  // a 3 s looping picture of the chosen control (spec §2.5 S12): finger leads the snake / thumb on a stick
+  const demo = h('div', { class: `sb-ctldemo is-${s.control}`, 'aria-hidden': 'true' });
+  demo.innerHTML = '<svg viewBox="0 0 120 80"><g class="sb-ctldemo__follow"><path class="sb-ctldemo__body" d="M10 60 q20 -30 45 -20 t50 -18" fill="none" stroke="#ffd23f" stroke-width="10" stroke-linecap="round"/><circle class="sb-ctldemo__finger" cx="104" cy="22" r="9" fill="#fff" stroke="#2b3a8a" stroke-width="3"/></g><g class="sb-ctldemo__stick"><circle cx="40" cy="44" r="26" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.5)" stroke-width="3"/><circle class="sb-ctldemo__knob" cx="40" cy="44" r="12" fill="#fff" stroke="#2b3a8a" stroke-width="3"/><path d="M78 56 q12 -16 30 -14" fill="none" stroke="#ffd23f" stroke-width="9" stroke-linecap="round"/></g></svg>';
+  const ctlWrap = h('div', { class: 'sb-set__ctl' }, ctl, demo);
+  ctl.addEventListener('click', () => { demo.className = `sb-ctldemo is-${s.control}`; });
   const row = (label: string, el: HTMLElement) => h('div', { class: 'sb-set' }, h('span', { class: 'sb-set__label' }, label), el);
   const p = panel(root, 'sb-settings', h('h2', { class: 'sb-panel__title' }, '设置'),
-    row('操控', ctl), row('加速键', side), row('名字', names), row('比赛音乐', music),
+    row('操控', ctlWrap), row('加速键', side), row('双击加速', dbl), row('名字', names), row('比赛音乐', music), ...(hasCrown ? [row('王冠', crown)] : []),
     btn('好了', 'xg-btn--primary xg-btn--lg', () => { p.remove(); onClose(); }, 'ui-close'));
   return p;
 }
@@ -195,10 +234,33 @@ const TIP_ART: Record<string, string> = {
   headon: '<svg viewBox="0 0 120 70"><circle cx="38" cy="35" r="9" fill="#ffd23f"/><circle cx="86" cy="35" r="14" fill="#4f8cff"/><path d="M38 24 q0 -16 20 -18" stroke="#fff" stroke-dasharray="4 5" stroke-width="3" fill="none"/></svg>',
   encircle: '<svg viewBox="0 0 120 70"><path d="M60 8 a26 26 0 1 1 -24 10" stroke="#a46bff" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="60" cy="36" r="8" fill="#ffd23f"/><path d="M56 30 l-16 -18" stroke="#fff" stroke-dasharray="4 5" stroke-width="3" fill="none"/></svg>',
 };
-export function deathCard(root: HTMLElement, o: { tipText?: string; tag: KillTag; killer: Snake | null; line: string; killerColor: Rgb; mode: 'timed' | 'endless'; respawnIn: number; stats?: { len: number; peak: number; record: boolean }; onOk: () => void; onAgain: () => void; onLobby: () => void; onReplay: () => void }) {
+/** S5: who got him — a small persona chip under the killer's head (spec §5.2: "这条是猎手") */
+const PERSONA_DANGER = new Set(['hunter', 'daredevil', 'king']);
+/** 挑战关 roles keep their own name on the chip (QA r3: a sleeper runs a skittish brain but is '贪睡', not '胆小') */
+const MISSION_CHIP: Record<string, string> = { sleeper: '贪睡', patrol: '巡逻', guard: '护卫', king: '蛇王' };
+function personaChip(k: Snake | null): HTMLElement | string {
+  const mp = k?.missionPersona && MISSION_CHIP[k.missionPersona] ? k.missionPersona : undefined;
+  const p = mp ?? k?.persona; const name = mp ? MISSION_CHIP[mp] : p ? AI_NAMES.persona[p] : undefined; if (!name) return '';
+  const danger = PERSONA_DANGER.has(p!) || p === 'guard';
+  return h('span', { class: `sb-dc__persona${danger ? ' is-danger' : ''}` }, h('i', null, danger ? '!' : '·'), h('small', null, '这条是'), name);
+}
+function killerHead(col: Rgb) {
   const head = h('canvas', { class: 'sb-dc__head', width: 160, height: 160 }) as HTMLCanvasElement;
-  const c = head.getContext('2d')!; c.translate(80, 80); paintHead(c, 56, o.killerColor, false);
+  const c = head.getContext('2d')!; c.translate(80, 80); paintHead(c, 56, col, false);
   for (const s of [-1, 1]) { c.beginPath(); c.arc(20, s * 26, 18, 0, Math.PI * 2); c.fillStyle = '#20223a'; c.fill(); c.beginPath(); c.arc(20, s * 26, 14, 0, Math.PI * 2); c.fillStyle = '#fff'; c.fill(); c.beginPath(); c.arc(24, s * 26, 7, 0, Math.PI * 2); c.fillStyle = '#1a1830'; c.fill(); }
+  return head;
+}
+/** S9 on an out-is-failure level (QA r4): the compact S5 — killer head + persona chip, the cause line and the 教一招
+ * pictogram — so a fail in 躲闪高手 still says who and how (spec §5.2 '说清被谁、怎么') */
+export function deathCause(o: { tag: KillTag; killer: Snake | null; killerColor: Rgb; line: string; tipText?: string }) {
+  const tipArt = h('div', { class: 'sb-dc__tip' }); tipArt.innerHTML = TIP_ART[o.tag] ?? '';
+  return h('div', { class: 'sb-cause' },
+    h('div', { class: 'sb-cause__who' }, killerHead(o.killerColor), personaChip(o.killer)),
+    h('div', { class: 'sb-cause__mid' }, h('p', { class: 'sb-cause__line' }, o.line),
+      h('div', { class: 'sb-dc__tiprow' }, tipArt, o.tipText ? h('p', { class: 'sb-dc__tiptext' }, o.tipText) : '')));
+}
+export function deathCard(root: HTMLElement, o: { tipText?: string; tag: KillTag; killer: Snake | null; line: string; killerColor: Rgb; mode: 'timed' | 'endless'; respawnIn: number; stats?: { len: number; peak: number; record: boolean }; onOk: () => void; onAgain: () => void; onLobby: () => void; onReplay: () => void }) {
+  const head = killerHead(o.killerColor);
   const replay = h('button', { class: 'sb-dc__replay', type: 'button', 'aria-label': '再听一遍' });
   replay.innerHTML = '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zm11.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
   replay.addEventListener('click', o.onReplay);
@@ -215,7 +277,7 @@ export function deathCard(root: HTMLElement, o: { tipText?: string; tag: KillTag
   const stats = o.stats ? h('div', { class: 'sb-dc__stats' },
     h('span', { class: 'xg-chip' }, `长度 ${o.stats.len}`), h('span', { class: 'xg-chip' }, `最长 ${o.stats.peak}`), ...(o.stats.record ? [h('span', { class: 'xg-chip sb-chip--gold' }, '新纪录！')] : [])) : '';
   const card = h('div', { class: `sb-dc sb-dc--${o.mode} xg-root` },
-    h('div', { class: 'sb-dc__who' }, head),
+    h('div', { class: 'sb-dc__who' }, head, personaChip(o.killer)),
     h('div', { class: 'sb-dc__mid' }, h('p', { class: 'sb-dc__line' }, o.line, replay), stats, tip),
     actions);
   root.append(card); bindPress(card);
@@ -226,10 +288,15 @@ export function deathCard(root: HTMLElement, o: { tipText?: string; tag: KillTag
 }
 
 // ---------------------------------------------------------------- S6 podium / summary
-export function podium(root: HTMLElement, o: { r: MatchResult; meId: number; meName: string; colorOf: (s: Snake) => Rgb; skin: string; title: string; newRecord: boolean; trophies: { name: string }[]; unlocked: string[]; onAgain: () => void; onLobby: () => void }) {
+export function podium(root: HTMLElement, o: { r: MatchResult; meId: number; meName: string; colorOf: (s: Snake) => Rgb; skin: string; title: string; newRecord: boolean; trophies: { name: string }[]; unlocked: string[]; cause?: HTMLElement; onAgain: () => void; onLobby: () => void }) {
   const { r } = o;
   const onPodium = r.rank <= 3 && r.mode === 'timed';
-  const steps = h('div', { class: 'sb-steps' });
+  // endless (and no-podium) runs: a hero portrait of his snake + its peak length instead of empty steps (QA r2)
+  const steps = h('div', { class: r.mode === 'timed' ? 'sb-steps' : 'sb-hero' });
+  if (r.mode !== 'timed') {
+    const pv = skinPreview(o.skin, 260, 130, { anim: true }); pv.classList.add('sb-hero__head');
+    steps.append(pv, h('div', { class: 'sb-hero__len' }, h('b', null, String(r.peak)), h('span', null, '最长')));
+  }
   if (r.mode === 'timed') {
     const order = [1, 0, 2];
     for (const i of order) {
@@ -245,16 +312,17 @@ export function podium(root: HTMLElement, o: { r: MatchResult; meId: number; meN
     }
   }
   const chips = h('div', { class: 'sb-chips' },
-    h('span', { class: 'xg-chip' }, `最长 ${r.peak}`), h('span', { class: 'xg-chip' }, `击败 ${r.kills}`), h('span', { class: 'xg-chip' }, `截击 ${r.cut}`),
+    // the endless hero already shows the peak in big type: no second '最长' chip (QA r3)
+    ...(r.mode === 'timed' ? [h('span', { class: 'xg-chip' }, `最长 ${r.peak}`)] : []), h('span', { class: 'xg-chip' }, `击败 ${r.kills}`), h('span', { class: 'xg-chip' }, `截击 ${r.cut}`),
     ...(r.multiMax >= 2 ? [h('span', { class: 'xg-chip' }, `连击 ${r.multiMax}`)] : []), h('span', { class: 'xg-chip' }, `星尘 ${r.eaten}`),
     ...(r.mode === 'timed' && !onPodium ? [h('span', { class: 'xg-chip sb-chip--small' }, `第 ${r.rank} / ${r.of}`)] : []));
   const news = h('div', { class: 'sb-news' },
     ...(o.newRecord ? [h('div', { class: 'sb-new' }, '新纪录！')] : []),
     ...o.trophies.map((t) => h('div', { class: 'sb-new sb-new--trophy' }, `新奖杯：${t.name}`)),
     ...o.unlocked.map((u) => h('div', { class: 'sb-new sb-new--venue' }, `${u} 开放啦！`)));
-  const big = onPodium ? h('div', { class: 'sb-rank' }, h('b', null, String(r.rank)), h('span', null, '名')) : '';
-  const p = panel(root, 'sb-podium',
-    h('h2', { class: 'sb-panel__title sb-podium__title' }, o.title), big, steps, chips, news,
+  // the title already names the place (冠军！/第二名！), so no second big rank number (QA r2)
+  const p = panel(root, 'sb-podium' + (r.mode === 'timed' ? '' : ' is-endless'),
+    h('h2', { class: 'sb-panel__title sb-podium__title' }, o.title), steps, o.cause ?? '', chips, news,
     h('div', { class: 'sb-podium__actions' }, btn('再来一局', 'xg-btn--primary xg-btn--lg', o.onAgain), btn('回大厅', 'xg-btn--lg', o.onLobby, 'ui-back')));
   if (onPodium) setTimeout(() => { try { confetti(); } catch { /* ignore */ } }, 500);
   return p;

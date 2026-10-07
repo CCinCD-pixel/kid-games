@@ -5,13 +5,14 @@
  * screen; only the opened card animates), S11 纪录, and unlock cards. Never auto-advance.
  */
 import { h, bindPress, nodeMap, showResult, starRating, type MapNode } from '@kit/ui';
+import { miniReplay, hasClip } from './mini-replay';
 import { MISSIONS, CHAPTERS, type Mission, type StarCond } from './sim/mission';
 import { VENUES, VENUE_IDS, TROPHIES, type VenueId } from './sim/venues';
 import { hex2rgb, paintSegment, segVariant, skinById } from './render/art';
 import { paintSkinPortrait } from './render/skins';
 import { C, allItems, progressOf, condText, starsTotal, type Item } from './collection';
 import { planetBadge } from './screens';
-import { lineText } from './audio';
+import { lineText, play } from './audio';
 import type { SaveCtl } from './save';
 
 const CH_NAME = ['星尘新手', '躲闪高手', '截击战术', '围猎战术', '蛇王之路'];
@@ -103,7 +104,7 @@ export function missionMap(root: HTMLElement, save: SaveCtl, ch0: number, hd: Ma
       const open = save.chapterOpen(c);
       const stars = CHAPTERS[c - 1].reduce((a, m) => a + (d.missions[m.id]?.stars ?? 0), 0);
       const b = h('button', { class: 'sb-chtab' + (c === ch ? ' is-sel' : '') + (open ? '' : ' is-locked'), type: 'button', 'data-sfx': open ? 'ui-select' : 'ui-locked', 'aria-label': `第${c}章` },
-        h('span', { class: 'sb-chtab__planet' }, planetBadge(CH_PLANET[c - 1], 52, !open)), h('span', { class: 'sb-chtab__n' }, open ? `★${stars}` : ''));
+        h('span', { class: 'sb-chtab__planet' }, planetBadge(CH_PLANET[c - 1], 52, !open)), h('span', { class: 'sb-chtab__n' }, open ? `★${stars}` : ''), ...(open ? [] : [h('span', { class: 'sb-chtab__lock', 'aria-hidden': 'true' })]));
       if (c === 4 && open) b.querySelector('.sb-chtab__planet')!.classList.add('is-saturn');
       b.addEventListener('click', () => { if (!open) return; ch = c; draw(); hd.onChapter(c, false); });
       return b;
@@ -135,7 +136,7 @@ export function storyCard(root: HTMLElement, ch: number | 'end', onClose: () => 
   const id = ch === 'end' ? 'snake.story.end' : `snake.story.c${ch}`;
   const art = h('div', { class: 'sb-story__art' });
   if (ch === 'end') art.innerHTML = '<svg viewBox="0 0 200 200"><defs><radialGradient id="sbsl" cx="50%" cy="45%"><stop offset="0" stop-color="#fff6c8"/><stop offset=".45" stop-color="#ffb347"/><stop offset="1" stop-color="#ff5a2a" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="92" r="90" fill="url(#sbsl)"/><path d="M40 150c30-40 50 10 80-25s40-10 50-20" fill="none" stroke="#d9452b" stroke-width="22" stroke-linecap="round"/><circle cx="170" cy="105" r="16" fill="#d9452b"/><path d="M160 86l8-14 8 14" fill="#ffcf3a"/><circle cx="174" cy="102" r="4" fill="#fff"/></svg>';
-  else art.append(planetBadge(CH_PLANET[ch - 1], 220, false));
+  else art.append(planetBadge(CH_PLANET[ch - 1], 300, false));
   const s = scrim(root, 'sb-story', h('div', { class: 'sb-story__card xg-root' },
     art, h('div', { class: 'sb-story__ch' }, ch === 'end' ? '尾声' : `第${'一二三四五'[(ch as number) - 1]}章 · ${CH_NAME[(ch as number) - 1]}`), h('p', { class: 'sb-story__line' }, lineText(id)), h('div', { class: 'sb-story__tap' }, '点一下继续')));
   if (ch === 4) art.classList.add('is-saturn');
@@ -150,25 +151,37 @@ export interface BriefOpts { m: Mission; hint: 0 | 1 | 2 | 3; firstTime: boolean
 export function briefCard(root: HTMLElement, o: BriefOpts) {
   const m = o.m;
   const pic = h('div', { class: `sb-brief__pic sb-gi--${goalKind(m)}` }); pic.innerHTML = GOAL_SVG[goalKind(m)];
+  // H1 (spec §5.1): a small direction diagram — his head, the gold arrow, the target — instead of the goal icon (QA r3)
+  if (o.hint === 1 && !o.firstTime) {
+    pic.classList.add('is-dir');
+    pic.innerHTML = `<svg viewBox="0 0 168 168" aria-hidden="true"><circle cx="40" cy="96" r="25" fill="#6fd16a" stroke="#1d4f2a" stroke-width="4"/><circle cx="50" cy="86" r="7.5" fill="#fff" stroke="#20223a" stroke-width="2.5"/><circle cx="50" cy="106" r="7.5" fill="#fff" stroke="#20223a" stroke-width="2.5"/><circle cx="53" cy="86" r="3.6" fill="#1a1830"/><circle cx="53" cy="106" r="3.6" fill="#1a1830"/><path class="sb-dir__dash" d="M74 90 Q100 66 112 62" fill="none" stroke="#ffd23f" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 12"/><path d="M104 50l22 7-15 17z" fill="#ffd23f" stroke="#7a4a00" stroke-width="3" stroke-linejoin="round"/>${GOAL_SVG[goalKind(m)].replace('<svg', '<svg x="112" y="8" width="54" height="54"')}</svg>`;
+  }
   const line = lineText(o.hint >= 1 && !o.firstTime ? m.lines.h1 : m.lines.brief);
   const chips = h('div', { class: 'sb-brief__chips' }, ...(m.stars[0].type === 'clear' ? [] : [starChip(m.stars[0], 2), starChip(m.stars[1], 3)]));
   const actions = h('div', { class: 'sb-brief__actions' });
   if (o.hint >= 2 && o.onWatch) actions.append(btn('看一招', 'xg-btn--secondary', o.onWatch, 'ui-open'));
-  if (o.hint >= 3 && o.onDemo) actions.append(btn('看示范', 'xg-btn--accent', o.onDemo, 'ui-open'));
+  if (o.hint >= 3 && o.onDemo) actions.append(btn('看示范', 'xg-btn--secondary sb-btn--demo', o.onDemo, 'ui-open'));
   actions.append(btn('开始', 'xg-btn--primary xg-btn--lg', o.onStart, 'ui-confirm'));
   const replay = h('button', { class: 'sb-replay', type: 'button', 'aria-label': '再听一遍', 'data-sfx': 'ui-tap' });
   replay.innerHTML = '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
   replay.addEventListener('click', o.onReplay);
+  // H2 (spec §5.1): the ghost replay loops in a small canvas on the card's right, in place of the goal picture
+  let clip: HTMLElement | '' = '';
+  if (o.hint >= 2 && hasClip(m.id)) {
+    const cv = h('canvas', { class: 'sb-brief__cv', width: '392', height: '392', 'aria-hidden': 'true' }) as HTMLCanvasElement;
+    clip = h('div', { class: 'sb-brief__clip' }, cv, h('span', { class: 'sb-brief__cliptag' }, '看一招'));
+    requestAnimationFrame(() => miniReplay(cv, m.id, matchMedia('(prefers-reduced-motion: reduce)').matches));
+  }
   const s = scrim(root, 'sb-brief', h('div', { class: 'sb-brief__card xg-root' },
     h('div', { class: 'sb-brief__top' }, backBtn(o.onBack), h('span', { class: 'sb-brief__no' }, `${m.ch}-${m.id.slice(3)}`), h('h2', { class: 'sb-brief__title' }, m.title), replay),
-    h('div', { class: 'sb-brief__body' }, pic, h('div', { class: 'sb-brief__text' }, h('p', { class: 'sb-brief__line' }, line), chips)),
-    o.hint >= 1 && !o.firstTime ? h('div', { class: 'sb-brief__hint' }, o.hint >= 3 ? '卡住了？看看领航员怎么玩。' : o.hint >= 2 ? '看一招再试试！' : '小提示：跟着金色箭头。') : '',
+    h('div', { class: 'sb-brief__body' }, clip ? '' : pic, h('div', { class: 'sb-brief__text' }, h('p', { class: 'sb-brief__line' }, line), chips), clip),
+    o.hint >= 1 && !o.firstTime ? h('p', { class: 'sb-brief__hint' }, o.hint >= 3 ? '卡住了？看看领航员怎么玩。' : o.hint >= 2 ? '看一招再试试！' : '小提示：开局跟着金色箭头游。') : '',
     actions));
   return s;
 }
 
 // ---------------------------------------------------------------- S9 关卡结算
-export interface ResultOpts { m: Mission; ok: boolean; stars: number; star2: boolean; star3: boolean; praise: string; retry: string; canSkip: boolean; hasNext: boolean; twin: boolean }
+export interface ResultOpts { m: Mission; ok: boolean; stars: number; star2: boolean; star3: boolean; praise: string; retry: string; canSkip: boolean; hasNext: boolean; twin: boolean; cause?: HTMLElement }
 export function missionResult(o: ResultOpts): Promise<string> {
   const m = o.m;
   const actions: { id: string; label: string; kind?: 'primary' | 'secondary' | 'accent' | 'gold' }[] = [];
@@ -181,6 +194,7 @@ export function missionResult(o: ResultOpts): Promise<string> {
     text: o.ok ? `学会了：${m.teaches}` : lineText(o.retry) || '再来一次！',
     stars: (o.ok ? Math.max(1, o.stars) : 0) as 0 | 1 | 2 | 3, actions, accentGame: 'snake',
     onOpen: (panel) => {
+      if (o.cause) { panel.classList.add('sb-res--cause'); const txt = panel.querySelector('.xg-modal__text'); if (txt) txt.after(o.cause); else panel.querySelector('.xg-modal__actions')?.before(o.cause); }
       if (m.stars[0].type === 'clear') return;
       const row = h('div', { class: 'sb-res__conds' }, ...[[m.stars[0], 2, o.star2], [m.stars[1], 3, o.star3]].map(([c, n, got]) => { const ch = starChip(c as StarCond, n as 2 | 3); if (!(got && o.ok)) ch.classList.add('is-miss'); return ch; }));
       if (o.twin) row.append(h('span', { class: 'sb-res__twin' }, '换你来的这局最多 ★★'));
@@ -202,7 +216,11 @@ export function unlockCard(root: HTMLElement, key: string, onClose: () => void) 
   const s = scrim(root, 'sb-unlock', h('div', { class: 'sb-unlock__card xg-root' },
     h('div', { class: 'sb-unlock__kind' }, kindTxt), art, h('h2', { class: 'sb-unlock__name' }, title),
     it?.item.fact ? h('p', { class: 'sb-unlock__fact' }, it.item.fact) : '',
-    btn('好的', 'xg-btn--primary xg-btn--lg', () => { s.remove(); onClose(); })));
+    btn('好的', 'xg-btn--primary xg-btn--lg', () => close())));
+  // a tap anywhere on the card or backdrop also closes it, after a 400 ms guard against stray taps (QA r2)
+  let closed = false; const t0 = performance.now();
+  function close() { if (closed) return; closed = true; s.remove(); onClose(); }
+  s.addEventListener('pointerup', (e) => { if ((e.target as Element).closest?.('button')) return; if (performance.now() - t0 >= 400) { play('ui-close'); close(); } });
   return s;
 }
 
@@ -236,12 +254,13 @@ export function collectionScreen(root: HTMLElement, save: SaveCtl, hd: Collectio
   const nSkins = C.skins.filter((x) => owned(`skin:${x.id}`)).length;
   const el = h('section', { class: 'sb-coll' }, h('div', { class: 'sb-map__bar' }, backBtn(hd.onBack), h('h2', { class: 'sb-map__title' }, '收藏馆'), h('span', { class: 'sb-map__stars' }, `皮肤 ${nSkins}/${C.skins.length}`)), tabs, grid);
   root.append(el); bindPress(el);
+  let few = false;
   const card = (key: string, it: Item, kind: string) => {
     const has = owned(key);
     const eq = (kind === 'skin' && d.equipped.skin === it.id) || (kind === 'trail' && d.equipped.trail === it.id);
     const b = h('button', { class: 'sb-ccard' + (has ? '' : ' is-locked') + (eq ? ' is-eq' : ''), type: 'button', 'data-sfx': has ? 'ui-select' : 'ui-locked' });
     const art = h('div', { class: 'sb-ccard__art' });
-    if (kind === 'skin') art.append(skinPreview(it.id, 140, 84));
+    if (kind === 'skin') art.append(few ? skinPreview(it.id, 200, 120) : skinPreview(it.id, 140, 84));
     else art.innerHTML = kind === 'trail' ? `<svg viewBox="0 0 48 48"><path d="M6 36c10-4 14-18 26-20" fill="none" stroke="${has ? '#ffd23f' : '#8d97ad'}" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 7"/><circle cx="38" cy="14" r="6" fill="${has ? '#ffd23f' : '#8d97ad'}"/></svg>` : kind === 'crown' ? GOAL_SVG.crown : '<svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="13" fill="#ffd23f" stroke="#7a4a00" stroke-width="3"/><path d="M16 31l-4 13 12-6 12 6-4-13" fill="#ff7a59" stroke="#7a3a1a" stroke-width="3" stroke-linejoin="round"/></svg>';
     b.append(art, h('span', { class: 'sb-ccard__name' }, it.name));
     const cond = (it.unlock ?? it.cond)!;
@@ -265,6 +284,9 @@ export function collectionScreen(root: HTMLElement, save: SaveCtl, hd: Collectio
   const draw = () => {
     tabs.replaceChildren(...TABS.map(([id, label]) => { const b = h('button', { class: 'sb-coll__tab' + (tab === id ? ' is-sel' : ''), type: 'button', 'data-sfx': 'ui-select' }, label); b.addEventListener('click', () => { tab = id; draw(); grid.scrollTop = 0; }); return b; }));
     const cards: HTMLElement[] = [];
+    // a tab of ≤ 8 (each skin family, trails): 3 big cards a row instead of a sparse grid (QA r4)
+    few = (tab === 'trail' ? C.trails.length : tab === 'badge' ? 1 + C.badges.length : C.skins.filter((x) => x.family === tab).length) <= 8;
+    grid.classList.toggle('is-few', few);
     if (tab === 'trail') for (const it of C.trails) cards.push(card(`trail:${it.id}`, it, 'trail'));
     else if (tab === 'badge') { cards.push(card('crown', C.crown, 'crown')); for (const it of C.badges) cards.push(card(`badge:${it.id}`, it, 'badge')); }
     else for (const it of C.skins.filter((x) => x.family === tab)) cards.push(card(`skin:${it.id}`, it, 'skin'));

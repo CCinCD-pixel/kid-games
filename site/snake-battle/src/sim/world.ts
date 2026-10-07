@@ -6,6 +6,8 @@
 import { TICK, PHYS, turnRateOf as turnRate, Snake, BodyHash, FoodGrid, createRng, angDiff, enclosedBy, type Rng, type Food, type FoodKind, type KillTag, type SnakeOpts, type Cause } from './core';
 
 export const NATURAL_MIX: [number, number, FoodKind][] = [[1, 0.85, 'orb'], [2, 0.13, 'orb2'], [5, 0.02, 'big']];
+/** mass cap (spec §3.19-19): eating past it no longer grows the snake (never reached in play; keeps the path buffer safe) */
+export const MASS_CAP = 9999;
 export const PU_DURATION = { magnet: 8, shield: 8, speed: 5 };
 export type PuKind = 'magnet' | 'shield' | 'speed';
 
@@ -355,7 +357,7 @@ export class World {
     });
     for (const f of eaten) {
       this.removeFood(f);
-      s.mass += f.v; s.stats.eaten++; s.stats.eatenByKind[f.kind] = (s.stats.eatenByKind[f.kind] ?? 0) + 1;
+      s.mass = Math.min(MASS_CAP, s.mass + f.v); s.stats.eaten++; s.stats.eatenByKind[f.kind] = (s.stats.eatenByKind[f.kind] ?? 0) + 1;
       if (f.kind === 'drop') s.stats.dropValue = (s.stats.dropValue ?? 0) + f.v;
       if (!f.drop) this.foodQueue.push(this.t + this.rng.range(1, 3));
       if (s.isPlayer) this.emit({ type: 'eat', id: s.id, kind: f.kind, v: f.v });
@@ -364,7 +366,7 @@ export class World {
     for (let i = this.meteors.length - 1; i >= 0; i--) {
       const m = this.meteors[i]; const dm = Math.hypot(m.x - s.x, m.y - s.y);
       if (dm < reach + 14 && !this.closerEater(s, m.x, m.y, 14, dm)) {
-        this.meteors.splice(i, 1); s.mass += PHYS.meteorValue;
+        this.meteors.splice(i, 1); s.mass = Math.min(MASS_CAP, s.mass + PHYS.meteorValue);
         s.stats.eatenByKind.meteor = (s.stats.eatenByKind.meteor ?? 0) + 1;
         this.emit({ type: 'meteor', id: s.id });
         if (this.cfg.meteors) this.meteorQueue.push(this.t + this.rng.range(...this.cfg.meteors.delay));
