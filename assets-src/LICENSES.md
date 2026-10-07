@@ -22,6 +22,20 @@ fonts before subsetting) live in `assets-src/` and are never published.
 | public/audio/hub/*.m4a (hub + companion greetings) | local TTS: Qwen3-TTS-12Hz 0.6B CustomVoice, mlx-community 8-bit conversion @049ef77f (voice "Vivian" + robot fx), built by tools/voice | Apache-2.0 (model); output project-owned | loudness-normalised, AAC 40 kbps mono | integration, 2026-10-05 |
 | charset list for the font subsets (not shipped) | 《通用规范汉字表》(2013) 一级字表, data file from github.com/shengdoushi/common-standard-chinese-characters-table | government standard (public); used as data only | — | design system, 2026-10-05 |
 
+## Batch 1 games (merged 2026-10-07 from `site/<game>/LICENSES.part.md` — the part files keep the per-file detail)
+
+| Asset (path in repo) | Source / author | Licence | Modified? | Added by / date |
+|---|---|---|---|---|
+| site/sokoban/assets/sfx/sok-land.m4a, sok-unlatch.m4a | Kenney Impact Sounds `impactWood_medium_002`, Interface Sounds `switch_003` (kenney.nl) | CC0 1.0 | trimmed / filtered / reversed, AAC 64 kbps (site/sokoban/LICENSES.part.md) | sokoban v1, 2026-10-07 |
+| site/sokoban/assets/sfx/* (other 4), assets/music/night-shift.m4a, all board / robot / rocket art (code-drawn) | own work: tools/sokoban/audio/*.py, src/art | project-owned, CC0 | — | sokoban v1, 2026-10-07 |
+| site/emoji-match/assets/sfx/k-sprite.m4a (13 one-shots) | Kenney Interface Sounds + Impact Sounds (kenney.nl; file list in site/emoji-match/LICENSES.part.md) | CC0 1.0 | pitch-shifted / trimmed, packed into one sprite | emoji-match v1, 2026-10-07 |
+| site/emoji-match/assets/music/route-loop.m4a, runtime DSP sounds, gem / ship / sky art (code-drawn) | own work: tools/emoji-match, src/audio.ts, src/art | project-owned, CC0 | — | emoji-match v1, 2026-10-07 |
+| site/military-chess/assets/wood-512.webp, board / pieces / insignia art, runtime sounds and camp ambience | own work: tools/military-chess/wood.py, src/art, src/audio | project-owned, CC0 | — | military-chess v1, 2026-10-07 |
+| site/snake-battle/assets/music/*.m4a (menu, pad-calm, pad-deep, perc-lift), assets/sfx/snake-*.m4a (18), all snake / skin / floor art (code-drawn, WebGL atlas at runtime) | own work: tools/snake-battle/build_music.py, build_match_audio.py, src/render | project-owned, CC0 | — | snake-battle v1, 2026-10-07 |
+| site/gear-fort/src/fonts/gf-wenkai-extra.woff2 (28 glyphs), gf-kuaile-extra.woff2 (25 glyphs) | subsets of 霞鹜文楷 GB Medium and 站酷快乐体 (same sources as the kit fonts above) | SIL OFL 1.1 (public/fonts/licenses/) | pyftsubset; characters the 3500 subsets lack (弩 蒺 藜 礌 檑 牒 枭 鸢 驿 橐 …); remove when the kit subsets include them (K4) | gear-fort v1, 2026-10-07 |
+| gear-fort art (machines, bosses, sand table, Song city), sound effects and music (synthesised at runtime) | own work: site/gear-fort/src/art, src/audio | project-owned, CC0 | — | gear-fort v1, 2026-10-07 |
+| public/audio/{sokoban,emoji-match,military-chess,snake-battle,gear-fort}/*.m4a + audio-manifest.json (167 + 113 + 342 + 238 + 507 clips) | local TTS: Qwen3-TTS-12Hz 0.6B CustomVoice, mlx-community 8-bit conversion, built by tools/voice (docs/VOICE.md); voices Serena / Vivian (+ robot fx) / Uncle_Fu (墨子); takes in content/<game>/_takes/ | Apache-2.0 (model); output project-owned | loudness-normalised, AAC 40 kbps mono | voice steps, 2026-10-07 |
+
 Rules
 - Allowed: CC0, CC-BY (credited on the CREDITS page /credits/ — keep site/credits/ in sync with this table), OFL for fonts, our own work,
   output of local TTS models whose licence allows it (record model + licence per batch).

@@ -100,7 +100,9 @@ test.describe('hub', () => {
       await page.waitForTimeout(400);
       expect(new URL(page.url()).pathname).toBe('/');
     }
-    const target = games.find((g) => g.status === 'live')!;
+    // today's 推荐 card logs 'suggested' instead of 'hub' (the pick changes daily), so launch a card that is not it
+    const suggested = await page.evaluate(() => document.querySelector<HTMLElement>('.hub-card:has(.hub-tag--suggest)')?.dataset.game ?? null);
+    const target = games.find((g) => g.status === 'live' && g.id !== suggested)!;
     await page.locator(`#hub-tabs button[data-id="${target.place}"]`).tap();
     await page.locator(`.hub-card[data-game="${target.id}"]`).tap();
     await page.waitForURL(`**${target.href}`);
