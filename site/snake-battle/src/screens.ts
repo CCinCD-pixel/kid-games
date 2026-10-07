@@ -6,7 +6,7 @@
 import { skinPreview } from './screens2';
 import { h, bindPress, segmented, confetti } from '@kit/ui';
 import { mount as mountBot, type Companion } from '@kit/companion';
-import { VENUES, VENUE_IDS, FLOORS, AI_NAMES, type VenueId } from './sim/venues';
+import { VENUES, VENUE_IDS, FLOORS, AI_NAMES, UNLOCK, type VenueId } from './sim/venues';
 import { hex2rgb, mix, paintSegment, paintHead, rgb2css, skinById, segVariant, variantsOf, ballOf, type Rgb } from './render/art';
 import { paintDeco, paintHeadPortrait, DECO, DECO_K } from './render/skins';
 import type { SaveCtl } from './save';
@@ -14,10 +14,52 @@ import type { MatchResult } from './match';
 import type { Snake, KillTag } from './sim/core';
 
 // ---------------------------------------------------------------- planet badges (code-drawn, §6.9)
-export function planetBadge(id: VenueId, size: number, locked: boolean) {
+export function planetBadge(id: VenueId | 'saturn', size: number, locked: boolean) {
   const c = h('canvas', { class: 'sb-planet', width: size * 2, height: size * 2 }) as HTMLCanvasElement;
   const x = c.getContext('2d')!; x.scale(2, 2);
   const R = size / 2 - 6, cx = size / 2, cy = size / 2;
+  const grey = (hex: string) => { const q = hex2rgb(hex), l = (q[0] + q[1] + q[2]) / 3; return locked ? rgb2css([l, l, l]) : hex; };
+  // QA r5: chapter 4 = 土星 (rings), chapter 5 = 黑洞 (accretion disk + dark core): no two chapter tabs look alike
+  if (id === 'saturn') {
+    const Rp = R * 0.62, tilt = -0.32, ring = (front: boolean) => {
+      x.save(); x.translate(cx, cy); x.rotate(tilt);
+      x.beginPath(); x.rect(-size, front ? 0 : -size, size * 2, size); x.clip();
+      for (const [rx, lw, col] of [[R * 0.98, 5, '#e8cf94'], [R * 0.84, 4, '#b98e52'], [R * 0.74, 2.5, '#f3e2b4']] as [number, number, string][]) { x.beginPath(); x.ellipse(0, 0, rx, rx * 0.3, 0, 0, Math.PI * 2); x.lineWidth = lw; x.strokeStyle = grey(col); x.stroke(); }
+      x.restore();
+    };
+    ring(false);
+    const g = x.createRadialGradient(cx - Rp * 0.35, cy - Rp * 0.4, Rp * 0.1, cx, cy, Rp);
+    g.addColorStop(0, grey('#fff0c8')); g.addColorStop(0.55, grey('#d9b276')); g.addColorStop(1, grey('#8a6436'));
+    x.save(); x.beginPath(); x.arc(cx, cy, Rp, 0, Math.PI * 2); x.fillStyle = g; x.fill(); x.clip();
+    x.translate(cx, cy); x.rotate(tilt * 0.6);
+    for (let i = 0; i < 5; i++) { x.fillStyle = grey(i % 2 ? '#b8894e' : '#f1d9a2'); x.globalAlpha = 0.55; x.fillRect(-Rp, -Rp + i * (Rp * 0.42) + Rp * 0.1, Rp * 2, Rp * 0.16); }
+    x.restore();
+    x.beginPath(); x.arc(cx, cy, Rp, 0, Math.PI * 2); x.lineWidth = 2.5; x.strokeStyle = 'rgba(255,255,255,0.5)'; x.stroke();
+    ring(true);
+    x.beginPath(); x.ellipse(cx - Rp * 0.35, cy - Rp * 0.45, Rp * 0.3, Rp * 0.14, -0.6, 0, Math.PI * 2); x.fillStyle = 'rgba(255,255,255,0.3)'; x.fill();
+    return c;
+  }
+  if (id === 'blackhole') {
+    // accretion disk (hot orange → violet), the dark event horizon, a bright photon ring, the lensed far side of the disk
+    const disk = (front: boolean) => {
+      x.save(); x.translate(cx, cy); x.rotate(-0.28); x.scale(1, 0.32);
+      x.beginPath(); x.rect(-size, front ? 0 : -size, size * 2, size); x.clip();
+      const dg = x.createRadialGradient(0, 0, R * 0.38, 0, 0, R);
+      dg.addColorStop(0, grey('#fff2c0')); dg.addColorStop(0.3, grey('#ffb347')); dg.addColorStop(0.65, grey('#c04fd8')); dg.addColorStop(1, 'rgba(90,40,170,0)');
+      x.beginPath(); x.arc(0, 0, R, 0, Math.PI * 2); x.arc(0, 0, R * 0.36, 0, Math.PI * 2, true); x.fillStyle = dg; x.fill();
+      x.restore();
+    };
+    const halo = x.createRadialGradient(cx, cy, R * 0.3, cx, cy, R * 0.75);
+    halo.addColorStop(0, locked ? 'rgba(150,150,150,.4)' : 'rgba(255,190,110,.45)'); halo.addColorStop(1, 'rgba(120,60,200,0)');
+    x.beginPath(); x.arc(cx, cy, R * 0.75, 0, Math.PI * 2); x.fillStyle = halo; x.fill();
+    disk(false);
+    // lensed far side: a thin bright arc over the top of the core
+    x.beginPath(); x.ellipse(cx, cy, R * 0.47, R * 0.47, 0, Math.PI * 1.05, Math.PI * 1.95); x.lineWidth = 5; x.strokeStyle = grey('#ffcf7a'); x.stroke();
+    x.beginPath(); x.arc(cx, cy, R * 0.36, 0, Math.PI * 2); x.fillStyle = '#05030f'; x.fill();
+    x.lineWidth = 2; x.strokeStyle = grey('#fff1c4'); x.stroke();
+    disk(true);
+    return c;
+  }
   const fl = FLOORS[id].map(hex2rgb);
   const base = locked ? fl.map((q) => { const l = (q[0] + q[1] + q[2]) / 3; return [l, l, l] as Rgb; }) : fl;
   const g = x.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R);
@@ -27,11 +69,6 @@ export function planetBadge(id: VenueId, size: number, locked: boolean) {
   if (id === 'mars') for (let i = 0; i < 4; i++) { x.beginPath(); x.ellipse(cx, cy - R + i * R * 0.55 + 8, R * 1.1, R * 0.12, -0.25, 0, Math.PI * 2); x.fillStyle = rgb2css(base[1], 0.6); x.fill(); }
   if (id === 'jupiter') { for (let i = 0; i < 6; i++) { x.fillStyle = rgb2css(i % 2 ? base[1] : mix(base[2], [255, 240, 220], 0.3), 0.75); x.fillRect(0, cy - R + i * (R / 3), size, R / 6); } x.beginPath(); x.ellipse(cx + R * 0.3, cy + R * 0.25, R * 0.22, R * 0.13, 0, 0, Math.PI * 2); x.fillStyle = locked ? '#888' : '#c8553d'; x.fill(); }
   x.restore();
-  if (id === 'blackhole') {
-    x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.fillStyle = '#07051a'; x.fill();
-    x.lineWidth = 7; x.strokeStyle = locked ? '#777' : '#b89bff'; x.beginPath(); x.ellipse(cx, cy, R * 0.98, R * 0.36, -0.35, 0, Math.PI * 2); x.stroke();
-    x.lineWidth = 3; x.strokeStyle = locked ? '#aaa' : '#ffe7a8'; x.beginPath(); x.arc(cx, cy, R * 0.42, 0, Math.PI * 2); x.stroke();
-  }
   x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.lineWidth = 3; x.strokeStyle = 'rgba(255,255,255,0.5)'; x.stroke();
   x.beginPath(); x.ellipse(cx - R * 0.35, cy - R * 0.45, R * 0.3, R * 0.14, -0.6, 0, Math.PI * 2); x.fillStyle = 'rgba(255,255,255,0.28)'; x.fill();
   return c;
@@ -61,7 +98,7 @@ export class Showcase {
   fit() { const r = this.canvas.getBoundingClientRect(); if (r.width > 0) { const W = Math.round(r.width * 2), H = Math.round(r.height * 2); if (this.canvas.width !== W || this.canvas.height !== H) { this.canvas.width = W; this.canvas.height = H; } } }
   start() { this.fit(); this.last = performance.now(); const loop = (now: number) => { this.raf = requestAnimationFrame(loop); const dt = Math.min(0.05, (now - this.last) / 1000); if (dt < 1 / 32) return; this.last = now; this.tick(dt); }; this.raf = requestAnimationFrame(loop); }
   stop() { cancelAnimationFrame(this.raf); this.raf = 0; }
-  poke() { this.idle = 0; if (this.asleep) { this.asleep = false; this.start(); } }
+  poke() { this.idle = 0; if (this.asleep) { this.asleep = false; delete document.documentElement.dataset.sbShowcase; this.start(); } }
   setVenue(v: VenueId) { this.venue = v; this.poke(); }
   private tick(dt: number) {
     this.t += dt; this.idle += dt;
@@ -115,7 +152,7 @@ export class Showcase {
     c.fillStyle = 'rgba(20,22,40,.72)'; c.strokeStyle = '#ffd23f'; c.lineWidth = 2 * k;
     c.beginPath(); c.roundRect(hx - tw / 2 - 12 * k, hy - R * 2.6 - 15 * k, tw + 24 * k, 30 * k, 15 * k); c.fill(); c.stroke();
     c.fillStyle = '#fff6e3'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(this.name, hx, hy - R * 2.6);
-    if (sleeping) { c.font = `700 ${28 * k}px -apple-system, system-ui`; c.fillStyle = 'rgba(255,255,255,0.8)'; c.fillText('Z', hx + 40 * k, hy - 60 * k); this.asleep = true; this.stop(); }
+    if (sleeping) { c.font = `700 ${28 * k}px -apple-system, system-ui`; c.fillStyle = 'rgba(255,255,255,0.8)'; c.fillText('Z', hx + 40 * k, hy - 60 * k); this.asleep = true; this.stop(); document.documentElement.dataset.sbShowcase = 'asleep'; }
     c.restore();
     // vignette + a soft top rim light
     const vg = c.createRadialGradient(W / 2, H * 0.55, Math.min(W, H) * 0.3, W / 2, H * 0.55, Math.max(W, H) * 0.75);
@@ -135,7 +172,13 @@ export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, na
   const setSel = (v: VenueId) => { for (const b of Array.from(venues.children) as HTMLElement[]) b.classList.toggle('is-sel', b.dataset.v === v); };
   for (const id of VENUE_IDS) {
     const open = save.venueOpen(id);
-    const slots = h('div', { class: 'sb-trophies' }, ...save.trophiesOf(id).map((t) => { const s = h('i', { class: 'sb-trophy' + (t.owned ? ' is-on' : ''), title: t.name }); s.innerHTML = TROPHY_ICON[t.icon] ?? ''; return s; }));
+    const u = UNLOCK[id];
+    // a locked venue shows its two routes (spec §2.4): the chapter boss, or 2 podiums on the venue before (QA r5)
+    const slots = !open && u
+      ? h('div', { class: 'sb-routes' },
+        h('span', { class: 'sb-route', title: `通过第${u.mission[1]}章` }, h('i', { class: 'sb-route__ic sb-route__ic--star' }), `第${u.mission[1]}章`),
+        h('span', { class: 'sb-route', title: `${VENUES[u.orPodiums.venue].name}进前三 ${u.orPodiums.n} 次` }, h('i', { class: 'sb-route__ic sb-route__ic--podium' }), `×${u.orPodiums.n}`))
+      : h('div', { class: 'sb-trophies' }, ...save.trophiesOf(id).map((t) => { const s = h('i', { class: 'sb-trophy' + (t.owned ? ' is-on' : ''), title: t.name }); s.innerHTML = TROPHY_ICON[t.icon] ?? ''; return s; }));
     const b = h('button', { class: 'sb-venue' + (open ? '' : ' is-locked'), type: 'button', 'data-v': id, 'data-sfx': 'ui-select' },
       h('div', { class: 'sb-venue__badge' }, planetBadge(id, 120, !open)), h('span', { class: 'sb-venue__name' }, VENUES[id].name), slots);
     if (!open) b.querySelector('.sb-venue__badge')!.insertAdjacentHTML('beforeend', LOCK);
@@ -177,7 +220,7 @@ export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, na
   lobby.addEventListener('pointerdown', () => show.poke());
   show.start();
   const bot: Companion = mountBot(botHost, { size: 96, bubble: 'left' } as Parameters<typeof mountBot>[1]);
-  return { el: lobby, bot, dispose() { show.stop(); lobby.remove(); } };
+  return { el: lobby, bot, dispose() { show.stop(); delete document.documentElement.dataset.sbShowcase; lobby.remove(); } };
 }
 
 // ---------------------------------------------------------------- panels

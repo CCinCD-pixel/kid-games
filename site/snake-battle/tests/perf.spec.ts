@@ -56,7 +56,9 @@ test.describe('snake-battle perf', () => {
     await page.addInitScript(() => { const raf = window.requestAnimationFrame.bind(window); (window as any).__rafN = 0; window.requestAnimationFrame = (cb) => { (window as any).__rafN++; return raf(cb); }; });
     const t0 = Date.now(); await page.goto('/snake-battle/?test=1&nogate'); await page.waitForSelector('#app[data-ready]'); const ready = Date.now() - t0;
     await page.evaluate(() => { (window as any).__sbApp.save.data.firstRunDone = true; });
-    await page.waitForTimeout(20_000);
+    // QA r5: wait for the showcase to report asleep (its idle clock is dt-capped, so a loaded host takes longer than
+    // 20 s of wall time), then count rAF over 3 s
+    await page.waitForSelector('html[data-sb-showcase="asleep"]', { state: 'attached', timeout: 45_000 });
     const n0 = await page.evaluate(() => (window as any).__rafN); await page.waitForTimeout(3000); const n1 = await page.evaluate(() => (window as any).__rafN);
     const t1 = Date.now(); await page.evaluate(() => (window as any).__sbApp.startMatch('mission', 'moon', { mission: 'c1m1', waitTouch: true }));
     await page.waitForFunction(() => !!(window as any).__sb?.match?.run); const toPlay = Date.now() - t1;

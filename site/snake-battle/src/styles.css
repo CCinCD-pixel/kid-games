@@ -376,7 +376,7 @@ html[data-orientation='landscape'] .sb-rec__grid { grid-template-columns: repeat
 .sb-rec__name { font: 400 28px/1 var(--sb-font-title); color: #fff3c4; }
 .sb-rec__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .sb-rec__stat { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border-radius: 14px; background: rgba(255,255,255,.07); }
-.sb-rec__stat b { font: 700 24px/1 var(--sb-font-num); color: #fff6e3; } .sb-rec__stat span { font: 500 14px/1 var(--sb-font-ui); color: #aab3da; }
+.sb-rec__stat b { font: 700 24px/1 var(--sb-font-num); color: #fff6e3; } .sb-rec__stat span { font: 600 16px/1.1 var(--sb-font-ui); color: #c3cbec; white-space: nowrap; }
 .sb-rec__tros { display: flex; gap: 8px; flex-wrap: wrap; }
 .sb-rec__tro { padding: 6px 10px; border-radius: 99px; background: rgba(255,255,255,.08); color: #8d97ad; font: 600 15px/1 var(--sb-font-ui); }
 .sb-rec__tro.is-on { background: linear-gradient(#ffe48a, #f0a91e); color: #4a2c00; }
@@ -418,7 +418,7 @@ html[data-orientation='landscape'] .sb-showcase { top: calc(var(--sb-st) + 248px
 /* S5 persona chip under the killer's head (spec §5.2) */
 .sb-dc__who { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .sb-dc__persona { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px 5px 6px; border-radius: 99px; background: #2a2f4f; color: #fff6e3; font: 700 18px/1 var(--sb-font-ui); white-space: nowrap; box-shadow: 0 2px 0 rgba(0,0,0,.18); }
-.sb-dc__persona small { font: 500 14px/1 var(--sb-font-ui); color: #c5cdf0; }
+.sb-dc__persona small { font: 600 16px/1 var(--sb-font-ui); color: #d5dcf7; }
 .sb-dc__persona i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font: 800 15px/1 var(--sb-font-num); background: #8fa0d8; color: #1b2148; }
 .sb-dc__persona.is-danger { background: #c8372d; } .sb-dc__persona.is-danger small { color: #ffd9d4; }
 .sb-dc__persona.is-danger i { background: #ff5d5d; color: #fff; }
@@ -531,3 +531,46 @@ html[data-orientation='landscape'] .sb-coll__grid.is-few { grid-template-columns
 .sb-venue.is-suggest .sb-venue__badge::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; border: 4px solid #8ef0a0; box-shadow: 0 0 18px 4px rgba(142,240,160,.45); animation: sb-suggest 2.4s ease-in-out infinite; pointer-events: none; }
 @keyframes sb-suggest { 0%, 100% { transform: scale(.96); opacity: .55; } 50% { transform: scale(1.05); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .sb-venue.is-suggest .sb-venue__badge::after { animation: none; opacity: .85; } }
+
+/* QA r5: the twin's change as an icon chip under the goal pill (non-readers) */
+.sb-twinchip { left: 50%; top: 74px; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 18px 0 8px; border-radius: 24px; background: linear-gradient(#fff3c4, #ffd76a); color: #4a2c00; font: 400 22px/1 var(--sb-font-title); white-space: nowrap; box-shadow: 0 4px 0 #b9811a, 0 8px 18px rgba(0,0,0,.35); animation: sb-twin-in .45s cubic-bezier(.2,1.5,.5,1) both; transition: opacity .35s, transform .35s; }
+.sb-hud--race .sb-twinchip { top: 124px; }
+.sb-twinchip.is-out { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+@keyframes sb-twin-in { from { opacity: 0; transform: translateX(-50%) scale(.6); } }
+.sb-twinchip__ic { width: 36px; height: 36px; display: block; background: no-repeat center/contain; }
+.sb-twinchip--respawn .sb-twinchip__ic { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 41S7 31 7 19a8.5 8.5 0 0 1 17-2 8.5 8.5 0 0 1 17 2c0 12-17 22-17 22z' fill='%23ff5f7e' stroke='%239a1f3a' stroke-width='3'/%3E%3Cpath d='M17 22h14M24 15v14' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.sb-twinchip--shield .sb-twinchip__ic { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 6 39 12v11c0 9-7 16-15 19C16 39 9 32 9 23V12z' fill='%235ad8ff' stroke='%230f5a7a' stroke-width='3'/%3E%3C/svg%3E"); }
+.sb-twinchip--ai .sb-twinchip__ic, .sb-twinchip--meteor .sb-twinchip__ic { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 38h30' stroke='%237a4a00' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='26' r='11' fill='%23ffb347' stroke='%237a4a00' stroke-width='3'/%3E%3Cpath d='M24 26a4 4 0 1 1 4-4' fill='none' stroke='%237a4a00' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M35 30q5-1 6-9M38 21l3-4 2 4' fill='none' stroke='%237a4a00' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.sb-twinchip--rings .sb-twinchip__ic { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='17' fill='none' stroke='%23e0a000' stroke-width='6' stroke-dasharray='9 5'/%3E%3Ccircle cx='24' cy='24' r='5' fill='%23fff3c4' stroke='%23e0a000' stroke-width='2'/%3E%3C/svg%3E"); }
+.sb-twinchip--king .sb-twinchip__ic { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M7 35 6 15l10 9 8-14 8 14 10-9-1 20z' fill='%23ffcf3a' stroke='%237a4a00' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.sb-twinchip--race .sb-twinchip__ic, .sb-twinchip--racekill .sb-twinchip__ic { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M18 14h12v28H18zM4 24h14v18H4zM30 30h14v12H30z' fill='%23ffcf3a' stroke='%237a4a00' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.sb-twinchip--count .sb-twinchip__ic, .sb-twinchip--survive .sb-twinchip__ic { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 6l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z' fill='%23ffd23f' stroke='%23b86a00' stroke-width='3'/%3E%3C/svg%3E"); }
+
+/* QA r5: a met condition whose stars were not earned — grey stars + a green tick */
+.sb-starchip.is-met { opacity: .8; position: relative; }
+.sb-starchip.is-met::after { content: '✓'; position: absolute; right: -6px; top: -8px; width: 24px; height: 24px; border-radius: 50%; background: #3fbf6a; color: #fff; font: 700 16px/24px var(--sb-font-ui); text-align: center; box-shadow: 0 2px 0 #1f7a3e; }
+
+/* ================================================================ QA r5: lobby polish */
+/* locked venue: the two unlock routes (chapter boss / podiums on the venue before) as mini chips */
+.sb-routes { display: flex; gap: 4px; height: 26px; }
+.sb-route { display: inline-flex; align-items: center; gap: 2px; height: 26px; padding: 0 7px 0 3px; border-radius: 13px; background: rgba(255,255,255,.1); font: 700 15px/1 var(--sb-font-ui); color: #d7dcf2; white-space: nowrap; }
+.sb-route__ic { width: 20px; height: 20px; display: block; background: no-repeat center/contain; }
+.sb-route__ic--star { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.5 2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z' fill='%23ffd23f' stroke='%239a5d00' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.sb-route__ic--podium { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7h6v14H9zM2 12h7v9H2zM15 15h7v6h-7z' fill='%23ffcf3a' stroke='%237a4a00' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+html[data-orientation='landscape'] .sb-routes, html[data-orientation='landscape'] .sb-route { height: 22px; }
+html[data-orientation='landscape'] .sb-route { font-size: 14px; padding: 0 5px 0 2px; }
+html[data-orientation='landscape'] .sb-route__ic { width: 18px; height: 18px; }
+/* 无尽: its own saturated teal-blue, never a cream "disabled" look */
+.sb-mode--endless { --face-1: #8fe3ff; --face-2: #45bdf0; --edge: #1f78b0; --ink: #05304d; }
+/* landscape: the right column fills the full height; the robot sits in the showcase's lower-left corner */
+html[data-orientation='landscape'] .sb-modes { row-gap: 24px; }
+html[data-orientation='landscape'] .sb-mode.xg-btn { height: 106px; min-height: 106px; }
+html[data-orientation='landscape'] .sb-records.xg-btn { top: calc(var(--sb-st) + 630px); height: 70px; }
+html[data-orientation='landscape'] .sb-showcase { top: calc(var(--sb-st) + 248px); height: 452px; }
+html[data-orientation='landscape'] .sb-bot { left: calc(var(--sb-sl) + 49px); top: calc(var(--sb-st) + 590px); bottom: auto; }
+/* QA r5: subtitle bar — sized to its line (a fixed bar at left:50% shrank to half the screen and broke 8-char lines),
+   hidden while a card already shows the same line in large type (story, brief, S9 result) */
+.kit-subtitle { width: max-content; }
+body:not(.sb-playing) .kit-subtitle { max-width: min(700px, calc(100vw - 32px)); }
+body:not(.sb-playing) .kit-subtitle__replay { padding: 0 12px; }
+body:has(.sb-story) .kit-subtitle, body:has(.sb-brief) .kit-subtitle, body:has(.xg-result-stars) .kit-subtitle { display: none; }

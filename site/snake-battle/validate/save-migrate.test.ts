@@ -56,3 +56,46 @@ describe('save load / migrate (spec §8.9)', () => {
   });
 });
 
+describe('QA r5: a left / killed run keeps its peak (spec §3.18, DoD 12)', () => {
+  const peak = (n: number) => ({ ...zeroCounters(), peakGrown: n, eaten: 40 });
+  it('endless leave keeps the record and unlocks 磁悬浮蛇 (800) + 火车头蛇 (600) + length badges', () => {
+    const s = new SaveCtl(new Mem());
+    s.startMatch('endless', 'moon'); const items = s.leaveMatch(peak(900), 150);
+    const e = s.data.venues.moon.endless;
+    expect(e.bestPeak).toBe(900); expect(e.bestLife).toBe(150); expect(e.runs).toBe(0);
+    for (const k of ['skin:maglev', 'skin:loco', 'skin:digger', 'badge:len-100', 'badge:len-500']) { expect(s.data.owned).toContain(k); expect(items).toContain(k); expect(s.data.cardQueue).toContain(k); }
+    expect(s.data.inProgress).toBeUndefined();
+  });
+  it('timed leave keeps the peak and unlocks 火车头蛇 at once (no rank, no played)', () => {
+    const s = new SaveCtl(new Mem());
+    s.startMatch('timed', 'moon'); s.leaveMatch(peak(650));
+    expect(s.data.venues.moon.bestPeak).toBe(650); expect(s.data.venues.moon.played).toBe(0); expect(s.data.venues.moon.bestRank).toBeNull();
+    expect(s.data.owned).toContain('skin:loco'); expect(s.data.owned).not.toContain('skin:maglev');
+  });
+  it('background → app killed → boot: the stored peak lands in the records and unlocks', () => {
+    for (const mode of ['timed', 'endless'] as const) {
+      const st = new Mem();
+      const a = new SaveCtl(st); a.startMatch(mode, 'mars'); a.commitProgress(peak(900), 130);
+      const b = new SaveCtl(st);   // reboot
+      expect(b.data.inProgress).toBeUndefined();
+      if (mode === 'timed') expect(b.data.venues.mars.bestPeak).toBe(900);
+      else { expect(b.data.venues.mars.endless.bestPeak).toBe(900); expect(b.data.venues.mars.endless.bestLife).toBe(130); expect(b.data.owned).toContain('skin:maglev'); }
+      expect(b.data.owned).toContain('skin:loco'); expect(b.data.cardQueue).toContain('skin:loco');
+      expect(JSON.parse(st.getItem(KEY)!).data.inProgress).toBeUndefined();
+    }
+  });
+});
+
+describe('QA r5: challenge levels open in order (spec §4.8)', () => {
+  it('2-2 / 3-2 / 4-2 wait for the level before them; a chapter opens after the previous boss', () => {
+    const s = new SaveCtl(new Mem());
+    const clear = (id: string) => { s.mission(id).clears = 1; s.mission(id).stars = 1; };
+    for (let i = 1; i <= 8; i++) clear(`c1m${i}`);
+    expect(s.missionOpen('c2m1')).toBe(true); expect(s.missionOpen('c2m2')).toBe(false);
+    clear('c2m1'); expect(s.missionOpen('c2m2')).toBe(true); expect(s.missionOpen('c2m3')).toBe(false);
+    expect(s.missionOpen('c3m1')).toBe(false);
+    for (let i = 2; i <= 7; i++) clear(`c2m${i}`);
+    expect(s.missionOpen('c3m1')).toBe(true); expect(s.missionOpen('c3m2')).toBe(false); expect(s.missionOpen('c4m2')).toBe(false);
+    s.skip('c3m1'); expect(s.missionOpen('c3m2')).toBe(true);
+  });
+});

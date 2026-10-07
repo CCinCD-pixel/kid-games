@@ -115,7 +115,9 @@ export class Hud {
     // edge arrows: off-screen targets (gold), the current ring / beacon, 星核, meteors on meteor levels
     const pts: [number, number, string][] = [];
     if (o.type === 'rings') { const p = o.points![m.me.m!.ring]; if (p) pts.push([p[0], p[1], 'is-ring']); }
-    for (const s of w.snakes) if (s.alive && !s.isPlayer && (s.target_ || run.qualifies(s))) pts.push([s.x, s.y, s.king ? 'is-king' : '']);
+    const ptSnakes = new Map<number, Snake>();
+    for (const s of w.snakes) if (s.alive && !s.isPlayer && (s.target_ || run.qualifies(s))) { ptSnakes.set(pts.length, s); pts.push([s.x, s.y, s.king ? 'is-king' : '']); }
+    this.ptSnakes = ptSnakes;
     if (o.type === 'loop') { const mk = (w as unknown as { markers: { x: number; y: number; done: boolean }[] }).markers.find((q) => !q.done); if (mk) pts.push([mk.x, mk.y, 'is-ring']); }
     if (o.type === 'eat' && o.kind === 'meteor') for (const mt of w.meteors) pts.push([mt.x, mt.y, 'is-meteor']);
     const v = this.view; let ai = 0;
@@ -145,6 +147,7 @@ export class Hud {
   dispose() { this.root.remove(); }
 
   private pts: [number, number, string][] = [];
+  private ptSnakes = new Map<number, Snake>();
   /** H0/H1 target (spec §5.1): the nearest marker (ring, beacon, 星核, target snake, meteor); objectives without a
    * marker get one too (QA r3) — eat/length/race/kill → the nearest big orb, else the richest stardust cell near
    * him; pu → the nearest power-up; survive → open water away from the nearest awake snake */
@@ -152,7 +155,15 @@ export class Hud {
     const m = this.m, w = m.world, me = m.me, o = m.run?.m.objective;
     if (!me.alive) return null;
     const d2 = (x: number, y: number) => (x - me.x) ** 2 + (y - me.y) ** 2;
-    if (this.pts.length) { let best = this.pts[0], bd = 1e18; for (const q of this.pts) { const dd = d2(q[0], q[1]); if (dd < bd) { bd = dd; best = q; } } return [best[0], best[1]]; }
+    if (this.pts.length) {
+      let best = this.pts[0], bd = 1e18, bi = 0; this.pts.forEach((q, i) => { const sn = this.ptSnakes.get(i); const dd = sn ? d2(sn.x, sn.y) : d2(q[0], q[1]); if (dd < bd) { bd = dd; best = q; bi = i; } });
+      // interception levels (tags incl. 'cut'): lead the snake — aim where its head will be when he gets there,
+      // a little ahead, so following the arrow lays his body across its path instead of meeting it head-on (QA r5)
+      const sn = this.ptSnakes.get(bi);
+      if (sn?.alive && !sn.sleep && o?.tags?.includes('cut')) return this.leadPoint(sn);
+      if (sn?.alive) return [sn.x, sn.y];
+      return [best[0], best[1]];
+    }
     if (!o) return null;
     const R = w.R;
     if (o.type === 'pu') { let best: [number, number] | null = null, bd = 1e18; for (const p of w.pus) { const dd = d2(p.x, p.y); if (dd < bd) { bd = dd; best = [p.x, p.y]; } } if (best) return best; }
@@ -161,6 +172,19 @@ export class Hud {
     const fb = this.fallbackTarget(o.type, R, d2);
     this.fb = fb ? { t: w.t, p: fb } : null;
     return fb;
+  }
+  /** intercept point: his travel time to the snake's future head (2 refinements) + 0.7 s margin ahead of it, nudged
+   * 50 u toward his side of its path; clamped to 3.5 s of its travel */
+  private leadPoint(s: Snake): [number, number] {
+    const me = this.m.me, sp = Math.max(1, s.speed()), mySp = Math.max(1, me.speed());
+    const cx = Math.cos(s.angle), cy = Math.sin(s.angle);
+    let t = Math.hypot(s.x - me.x, s.y - me.y) / mySp;
+    for (let i = 0; i < 2; i++) { const fx = s.x + cx * sp * t, fy = s.y + cy * sp * t; t = Math.min(3.5, Math.hypot(fx - me.x, fy - me.y) / mySp); }
+    t = Math.min(3.5, t + 0.7);
+    const side = Math.sign((me.x - s.x) * -cy + (me.y - s.y) * cx) || 1;
+    let x = s.x + cx * sp * t + -cy * 50 * side, y = s.y + cy * sp * t + cx * 50 * side;
+    const R = this.m.world.R * 0.9, dc = Math.hypot(x, y); if (dc > R) { x *= R / dc; y *= R / dc; }
+    return [x, y];
   }
   private openWater(R: number, d2: (x: number, y: number) => number): [number, number] {
     const w = this.m.world, me = this.m.me;

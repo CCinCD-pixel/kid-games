@@ -46,7 +46,21 @@ export function aiBodyOn(color: string, persona: string, floor: string): Rgb {
   if (floor === 'mars' && color === '红') return mix(c, [255, 240, 230], 0.45);
   if (floor === 'mars' && color === '橙') return mix(c, [255, 240, 200], 0.45);
   if ((floor === 'moon' || floor === 'blackhole') && color === '灰') return mix(c, [255, 255, 255], 0.15);
+  // QA r5 read-back on the chapter-4 土星 floor: 蓝 / 紫 rims reached only 1.8:1 against its bright tan bands
+  if (floor === 'saturn' && (color === '蓝' || color === '紫')) return mix(c, [255, 255, 255], 0.3);
   return c;
+}
+
+/** his skin's body colour on a floor of the same family (QA r5 V14 read-back: 火车头 on mars, centre 1.14:1): a lighter
+ *  tint of the same skin on those floors only; the outline / white core are unchanged. Pairs from a CIEDE2000 +
+ *  contrast model of the shaded centre against each floor (validate/color.ts), confirmed by shots.spec. */
+const SKIN_FLOOR_LIFT: Record<string, number> = {
+  'loco:mars': 0.3, 'loco:jupiter': 0.35, 'zhulong:mars': 0.4, 'greatwall:mars': 0.2, 'greatwall:jupiter': 0.3,
+  'mecha:moon': 0.2, 'mecha:blackhole': 0.1, 'tengshe:moon': 0.25, 'tengshe:blackhole': 0.1,
+};
+export function skinBaseOn(sk: SkinDef, floor: string): { base: Rgb; lift: number } {
+  const lift = SKIN_FLOOR_LIFT[`${sk.id}:${floor}`] ?? 0, b = hex2rgb(sk.base);
+  return { base: lift ? mix(b, [255, 240, 228], lift) : b, lift };
 }
 
 /** which segment variant a body index uses (spec §6.4 persona patterns, §6.5 skin patterns); n = segment count, ph = scroll phase */

@@ -30,11 +30,17 @@ import { PHYS, turnRateOf, angDiff, type KillTag } from './sim/core';
 /** S9 praise that fits what the level asked for (QA r3/r4): one pool per objective type, rotating, never the same line
  * as the previous S9 (the last id is kept in the save); a 1★ clear gets a 'you used what you learned' line instead
  * of praise for the very skill he struggled with */
+/** the 教一招 tip for a death: the cut tips name the 猎手, so a cut by any other persona gets the persona-neutral
+ * "look ahead, go round the body" tip (QA r5: '这条是 贪吃' next to '看到猎手，往它身后拐') */
+function tipFor(tag: string, killer: { persona?: string; missionPersona?: string } | null | undefined, n: number): string {
+  if (tag === 'cut' && (killer?.missionPersona ?? killer?.persona) !== 'hunter') return 'snake.tip.body.1';
+  return `snake.tip.${tag}.${n}`;
+}
 function praiseFor(ms: Mission, stars: number, n: number, last?: string) {
   const o = ms.objective, tags = [o.tag, ...(o.tags ?? [])].filter(Boolean) as string[];
   let pool: string[];
-  if (ms.ai.some((a) => a.king || a.crown)) pool = ['c5.1', 'c5.2'];
-  else if (stars <= 1) pool = ['c5.1', 'c2.1'];
+  if (ms.ai.some((a) => a.king || a.crown) || (ms.ch === 5 && stars >= 2)) pool = ['c5.1', 'c5.2'];
+  else if (stars <= 1) pool = ['c2.1', 'c1.2'];   // QA r5: c5.1 学过的招都用上了 is for the boss / chapter 5 only
   else if (o.type === 'rings') pool = ['c1.1', 'c1.2', 'c2.1'];
   else if (o.type === 'loop' || tags.includes('encircle')) pool = ['c4.1', 'c4.2'];
   else if (o.type === 'kill' || o.type === 'streak' || (o.type as string) === 'clear') pool = ['c3.1', 'c3.2'];
@@ -159,7 +165,7 @@ export class App {
   }
 
   // ---------------------------------------------------------------- match
-  async startMatch(mode: 'timed' | 'endless' | 'mission', venue: VenueId, opts: { seed?: number; countdown?: boolean; stress?: number; mission?: string; twin?: number; demo?: boolean; clip?: boolean; waitTouch?: boolean } = {}) {
+  async startMatch(mode: 'timed' | 'endless' | 'mission', venue: VenueId, opts: { seed?: number; countdown?: boolean; stress?: number; mission?: string; twin?: number; demo?: boolean; clip?: boolean; waitTouch?: boolean; floor?: string } = {}) {
     this.lobby?.dispose(); this.lobby = null;
     this.closeMenus();
     this.teardownMatch();
@@ -172,6 +178,7 @@ export class App {
     const seed = opts.seed ?? randomSeed();
     const skin = s.equipped.skin;
     const avoid = skin === 'venus' ? ['黄', '橙'] : [];
+    if (!opts.twin) this.twinLine = null;
     let mdef: Mission | undefined = opts.mission ? MISSION_BY_ID[opts.mission] : undefined;
     if (mdef && opts.twin) for (let k = 0; k < Math.min(3, opts.twin); k++) mdef = twinOf(mdef);
     const demoRec = opts.demo && opts.mission ? (demos as unknown as { demos: Record<string, { seed: number; keyT: number | null }> }).demos[opts.mission] : undefined;
@@ -179,6 +186,7 @@ export class App {
     const m = new Match({ mode, venue, seed: demoSeed ?? seed, heat: mode === 'timed' ? s.venues[venue].heat : 0, name: opts.demo ? '领航员' : displayName(settings.displayName), skin, avoidColors: avoid, stress: opts.stress, countdown: opts.countdown,
       mission: mdef, twin: false, demo: opts.demo ? { tier: 'EXPERT', persona: 'expert' } : undefined, waitTouch: opts.waitTouch });
     if (mdef?.isTwin) (m as Match & { twinLevel?: number }).twinLevel = opts.twin;
+    if (this.test && opts.floor) (m as { floor: string }).floor = opts.floor;   // ?test=1 only: V14 read-back on the 土星 floor (QA r5)
     // guard against engine drift (V15 checks Node + WebKit; another engine could still differ): the H3 demo ends
     // quietly once it overruns the recorded finish by 6 s
     const demoT = (demoRec as { t?: number } | undefined)?.t;
@@ -237,7 +245,7 @@ export class App {
     if (m.run) {
       hud.root.classList.toggle('is-demo', m.demo);
       if (!m.demo) this.save.startMission(m.run.m.id);
-      this.shell?.session?.mark('mission-start', { id: m.run.m.id, seed: m.seed, twin: !!opts.twin, demo: !!opts.demo });
+      this.shell?.session?.mark('mission-start', { id: m.run.m.id, seed: m.seed, twin: !!opts.twin, demo: !!opts.demo, attempt: (this.save.data.missions[m.run.m.id]?.attempts ?? 0) + 1 });
       if (m.demo) this.demoOverlay(m, !!opts.clip);
       else if (opts.waitTouch) this.ghostHand(m);
       if (!m.demo) this.missionIntroVoice(m);
@@ -308,16 +316,17 @@ export class App {
     const wx = (f[0] - v.vw / 2) / v.zoom + v.camX, wy = (f[1] - v.vh / 2) / v.zoom + v.camY;
     const R = PHYS.baseSpeed / turnRateOf(me.mass), nx = -Math.sin(me.angle) * R, ny = Math.cos(me.angle) * R;
     const inside = Math.hypot(wx - me.x - nx, wy - me.y - ny) < R * 0.95 || Math.hypot(wx - me.x + nx, wy - me.y + ny) < R * 0.95;
-    if (inside) { o.t += dt; if (o.t > 1) { o.t = 0; o.hold = 0.45; return me.angle; } return target; }
+    // QA r5: react after 0.4 s (was 1 s — the coil had already closed into an O) and hold a little longer
+    if (inside) { o.t += dt; if (o.t > 0.4) { o.t = 0; o.hold = 0.5; return me.angle; } return target; }
     o.t = Math.max(0, o.t - dt * 0.5);
     // snake-side trap (QA r3): the finger points out past a pellet that sits inside his turning circle, so he circles
     // it forever. Seen from the snake: > 2π of turning in the window, a pellet inside the circle on the finger's
     // bearing, and no other snake inside it (a deliberate encircle is never touched) → swim straight 0.45 s.
-    if (Math.abs(o.turn) > Math.PI * 2) {
+    if (Math.abs(o.turn) > Math.PI * 1.6) {
       const sd = Math.sign(o.turn), ccx = me.x + sd * nx, ccy = me.y + sd * ny; let trap = false;
       m.world.food.query(ccx, ccy, R, (fd) => { if (!trap && Math.hypot(fd.x - ccx, fd.y - ccy) < R * 0.95 && Math.abs(angDiff(target, Math.atan2(fd.y - me.y, fd.x - me.x))) < 0.6) trap = true; });
       if (trap) for (const sn of m.world.snakes) if (sn !== me && sn.alive && Math.hypot(sn.x - ccx, sn.y - ccy) < R * 1.6 + sn.r) { trap = false; break; }
-      if (trap) { o.turn = 0; o.hold = 0.45; return me.angle; }
+      if (trap) { o.turn = 0; o.hold = 0.5; return me.angle; }
     }
     return target;
   }
@@ -346,7 +355,8 @@ export class App {
         hud.showCount(e.n); play('ui-tick');
         if (e.n === 3 && m.world.t === 0) {
           // the first match in each mode says what the mode is (snake.mode.*), then 准备好了
-          if (!m.run && !this.save.seen(`mode.${m.mode}`)) { this.save.markSeen(`mode.${m.mode}`); void this.say(`snake.mode.${m.mode}`, { interrupt: true }).then(() => this.say('snake.match.go')); }
+          if (m.run && !m.demo && this.twinLine) { const tl = this.twinLine; this.twinLine = null; void this.say(tl, { interrupt: true }); this.twinChip(tl); }
+          else if (!m.run && !this.save.seen(`mode.${m.mode}`)) { this.save.markSeen(`mode.${m.mode}`); void this.say(`snake.mode.${m.mode}`, { interrupt: true }).then(() => this.say('snake.match.go')); }
           else void this.say('snake.match.go', { interrupt: true });
         } else if (e.n === 3 && m.world.t > 0 && !m.demo) void this.say('snake.match.resume', { interrupt: true });   // 3-2-1 after a pause
         break;
@@ -472,14 +482,14 @@ export class App {
     const sayDeath = () => this.say(`snake.death.${d.tag}`, { interrupt: true, vars: { name: killerName } });
     void sayDeath().then(() => {
       const tips = { body: 2, cut: 2, headon: 1, encircle: 1 } as Record<string, number>;
-      if (this.save.tipAllowed(d.tag)) void this.say(`snake.tip.${d.tag}.${1 + (this.save.data.tipDay.byCause[d.tag]! - 1) % (tips[d.tag] ?? 1)}`);
+      if (this.save.tipAllowed(d.tag)) void this.say(tipFor(d.tag, d.killer, 1 + (this.save.data.tipDay.byCause[d.tag]! - 1) % (tips[d.tag] ?? 1)));
     });
     const endless = m.mode === 'endless';
     // endless (QA r4): no card that flashes for 0.75 s and is swapped for the result — the result itself carries the
     // cause line and tip (finishMatch); the voice already said who and how
     if (endless) return;
     const vr = this.save.data.venues[m.venue];
-    const tipId = `snake.tip.${d.tag}.1`;
+    const tipId = tipFor(d.tag, d.killer, 1);
     this.card = deathCard(this.root, {
       tipText: lineText(tipId) || undefined,
       tag: d.tag, killer: d.killer, line, killerColor: kc, mode: m.mode === 'mission' ? 'timed' : m.mode, respawnIn: Math.max(0.5, m.respawnAt - m.world.t),
@@ -498,21 +508,21 @@ export class App {
     this.pausePanel = pausePanel(this.root, {
       endless: m.mode === 'endless', mission: !!m.run, tired,
       onResume: () => { close(); m.resume(true); this.wakeLoop(); },
-      onRestart: () => { close(); this.markLeave(m); this.save.leaveMatch(m.counters()); if (m.run) this.retryMission(m.run.m.id); else void this.startMatch(m.mode, m.venue); },
+      onRestart: () => { close(); this.markLeave(m); this.save.leaveMatch(m.counters(), m.lifeSec()); if (m.run) this.retryMission(m.run.m.id); else void this.startMatch(m.mode, m.venue); },
       onSettings: () => settingsPanel(this.root, this.save, () => { if (this.hud) { this.hud.showNames = this.save.data.settings.showNames; this.hud.setBoostSide(this.save.boostSide()); } }),
-      onLobby: () => { close(); this.markLeave(m); this.save.leaveMatch(m.counters()); if (m.run) this.showMap(m.run.m.ch); else this.showLobby(); },
+      onLobby: () => { close(); this.markLeave(m); this.save.leaveMatch(m.counters(), m.lifeSec()); if (m.run) this.showMap(m.run.m.ch); else this.showLobby(); },
       onBank: () => { close(); void this.say('snake.endless.bank'); m.bank(); this.wakeLoop(); },
     });
   }
 
   /** background: pause + commit the counter increment (spec §3.18) */
-  onBackground() { const m = this.match; if (!m || m.state === 'over') return; this.save.commitProgress(m.counters()); this.showPause(); }
+  onBackground() { const m = this.match; if (!m || m.state === 'over') return; this.save.commitProgress(m.counters(), m.lifeSec()); this.showPause(); }
   private markLeave(m: Match) {
     const base = { durationSec: Math.round((performance.now() - this.perf.t0) / 1000), deaths: this.perf.causes.length, left: true };
     if (m.run) this.shell?.session?.mark('mission-leave', { id: m.run.m.id, ...base }); else this.shell?.session?.mark('match-end', { mode: m.mode, venue: m.venue, ...base });
     this.markEnd('perf', { mode: m.mode, venue: m.venue, left: true });
   }
-  onLeave() { const m = this.match; if (m && m.state !== 'over') this.save.leaveMatch(m.counters()); this.save.save(); }
+  onLeave() { const m = this.match; if (m && m.state !== 'over') this.save.leaveMatch(m.counters(), m.lifeSec()); this.save.save(); }
 
   private async finishMatch() {
     const m = this.match!; const r = m.result();
@@ -549,7 +559,7 @@ export class App {
     podium(this.root, {
       r, meId: m.me.id, meName: m.me.name, skin: this.save.data.equipped.skin, colorOf: (s) => (s.isPlayer ? hex2rgb(skinById(this.save.data.equipped.skin).base) : aiBodyColor(s.color ?? '灰', s.persona)),
       title, newRecord: res.newRecord, trophies, unlocked: res.unlocked.map((u) => VENUES[u].name),
-      cause: d ? deathCause({ tag: d.tag, killer: d.killer, killerColor: d.killer ? this.view?.colorOf(d.killer) ?? hex2rgb('#8d97ad') : hex2rgb('#8d97ad'), line: (lineText(`snake.death.${d.tag}`) || '撞到了{name}的身体。').replace('{name}', d.killer?.name ?? '它'), tipText: lineText(`snake.tip.${d.tag}.1`) || undefined }) : undefined,
+      cause: d ? deathCause({ tag: d.tag, killer: d.killer, killerColor: d.killer ? this.view?.colorOf(d.killer) ?? hex2rgb('#8d97ad') : hex2rgb('#8d97ad'), line: (lineText(`snake.death.${d.tag}`) || '撞到了{name}的身体。').replace('{name}', d.killer?.name ?? '它'), tipText: lineText(tipFor(d.tag, d.killer, 1)) || undefined }) : undefined,
       onAgain: () => { this.root.querySelector('.sb-podium')?.remove(); void this.startMatch(r.mode, r.venue); },
       onLobby: () => { this.root.querySelector('.sb-podium')?.remove(); this.showLobby(); },
     });
@@ -654,8 +664,18 @@ export class App {
     const lvl = this.save.data.twinLevel?.[id] ?? 1;
     const tm = twinOf(MISSION_BY_ID[id]);
     const line = tm.ai.some((a) => a.crown) ? 'snake.hint.twin.king' : tm.objective.type === 'race' ? (MISSION_BY_ID[id].objective.killsGE ? 'snake.hint.twin.racekill' : 'snake.hint.twin.race') : tm.objective.type === 'survive' ? (MISSION_BY_ID[id].ai.length ? 'snake.hint.twin.shield' : 'snake.hint.twin.survive') : tm.playerRespawn === 'keep' && !MISSION_BY_ID[id].playerRespawn ? 'snake.hint.twin.respawn' : tm.ai.length ? 'snake.hint.twin.ai' : tm.objective.type === 'rings' ? 'snake.hint.twin.rings' : MISSION_BY_ID[id].arena.meteors?.speed ? 'snake.hint.twin.meteor' : 'snake.hint.twin.count';
-    void this.say(line, { interrupt: true });
+    // said on the twin's 3-2-1 in place of 三二一出发 (QA r5: said here, startMatch's go line cut it in the same tick)
+    this.twinLine = line;
     void this.startMatch('mission', this.venue, { mission: id, twin: lvl });
+  }
+  private twinLine: string | null = null;
+  /** what changed in the twin, for non-readers: an icon chip under the goal pill for 4 s (QA r5) */
+  private twinChip(line: string) {
+    const k = line.split('.').pop() ?? 'count';
+    const txt: Record<string, string> = { respawn: '撞了能接着游', shield: '送你一个护盾', ai: '蛇游得慢一点', rings: '星环大一点', meteor: '流星糖慢一点', count: '少吃一点', survive: '时间短一点', king: '王冠只要两颗', race: '名次放宽一名', racekill: '不比名次' };
+    const chip = h('div', { class: `sb-twinchip sb-twinchip--${k}` }, h('i', { class: 'sb-twinchip__ic' }), h('span', {}, txt[k] ?? '换你来'));
+    this.hud?.root.append(chip);
+    window.setTimeout(() => { chip.classList.add('is-out'); window.setTimeout(() => chip.remove(), 400); }, 4200);
   }
   private afterDemo: (() => void) | null = null;
   /** a retry that brings a hint card shows it over the chapter map, not over black (QA r1) */
@@ -791,9 +811,9 @@ export class App {
       const kn = d.killer?.name ?? '它';
       const tipVariants = ({ body: 2, cut: 2 } as Record<string, number>)[d.tag] ?? 1;
       const tipN = this.save.tipAllowed(d.tag) ? 1 + ((this.save.data.tipDay.byCause[d.tag] ?? 1) - 1) % tipVariants : 0;
-      cause = deathCause({ tag: d.tag, killer: d.killer, killerColor: d.killer ? this.view!.colorOf(d.killer) : hex2rgb('#8d97ad'), line: (lineText(`snake.death.${d.tag}`) || '撞到了{name}的身体。').replace('{name}', kn), tipText: lineText(`snake.tip.${d.tag}.${tipN || 1}`) || undefined });
+      cause = deathCause({ tag: d.tag, killer: d.killer, killerColor: d.killer ? this.view!.colorOf(d.killer) : hex2rgb('#8d97ad'), line: (lineText(`snake.death.${d.tag}`) || '撞到了{name}的身体。').replace('{name}', kn), tipText: lineText(tipFor(d.tag, d.killer, tipN || 1)) || undefined });
       play('star-1');
-      void this.say(`snake.death.${d.tag}`, { interrupt: true, vars: { name: kn } }).then(() => (tipN ? this.say(`snake.tip.${d.tag}.${tipN}`) : 'skipped')).then(() => this.say(retry));
+      void this.say(`snake.death.${d.tag}`, { interrupt: true, vars: { name: kn } }).then(() => (tipN ? this.say(tipFor(d.tag, d.killer, tipN)) : 'skipped')).then(() => this.say(retry));
     } else if (mr.ok) { play(mr.stars >= 3 ? 'level-complete' : 'jingle-win'); void this.say(praise, { interrupt: true }); }
     else { play('star-1'); void this.say(retry, { interrupt: true }); }
     if (mr.ok && ms.id === 'c1m3' && !this.save.data.firstRunDone) { this.save.data.firstRunDone = true; this.save.save(); }
@@ -801,7 +821,7 @@ export class App {
     if (canSkip) void this.say('snake.hint.skip');
     const hasNext = !!next && this.save.missionOpen(next.id);
     this.hud?.root.classList.add('is-faded');
-    const act = await missionResult({ m: ms, ok: mr.ok, stars: mr.stars, star2: mr.star2, star3: mr.star3, praise, retry, canSkip, hasNext, twin, cause });
+    const act = await missionResult({ m: ms, ok: mr.ok, stars: mr.stars, star2: mr.star2, star3: mr.star3, praise, retry, canSkip, hasNext, twin, cause, nextLabel: mr.ok && ms.id === 'c1m3' && out.firstClear ? '去大厅' : undefined });
     if (this.match !== m) return;
     // unlock / story cards show over the finished (dimmed) arena, not over a black screen (QA r1); the match is torn
     // down only when the next screen is about to appear

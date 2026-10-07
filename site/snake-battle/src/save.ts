@@ -34,7 +34,9 @@ export interface SbSaveV1 {
   missions: Record<string, { stars: number; attempts: number; failStreak: number; clears: number; bestT: number | null; hintMax: number; skipped: boolean; why: Record<string, number> }>;
   venues: Record<VenueId, VenueRec>;
   life: Counters & { timedPlayed: number; podiums: number; wins: number };
-  inProgress?: { matchId: string; mode: Mode | 'mission'; venue?: VenueId; missionId?: string; startedAt: number; committed: Counters; countable?: boolean };
+  /** `peak` / `lifeSec`: the run's peak length and (endless) current life so far, refreshed on every commit, so a
+   * leave or a background kill still lands the records and the length unlocks (QA r5, spec §3.18) */
+  inProgress?: { matchId: string; mode: Mode | 'mission'; venue?: VenueId; missionId?: string; startedAt: number; committed: Counters; countable?: boolean; peak?: number; lifeSec?: number };
   /** twin progression per level (spec §5.1: each further twin miss loosens one more step) */
   twinLevel?: Record<string, number>;
   /** the last S9 praise line id, so the next clear never repeats it (QA r4) */
@@ -118,8 +120,13 @@ export class SaveCtl {
     if (!SKIN_IDS.has(this.data.equipped.skin)) this.data.equipped.skin = 'venus';
     if (!TRAIL_IDS.has(this.data.equipped.trail)) this.data.equipped.trail = 'stardust';
     for (const v of VENUE_IDS) this.data.venues[v] = fillDefaults(venueRec(), this.data.venues[v]);
-    // leftover inProgress (killed in the background): close it as "left" — increments already committed
-    if (this.data.inProgress) { delete this.data.inProgress; this.save(); }
+    // leftover inProgress (killed in the background): close it as "left" — increments already committed; the
+    // peak / endless life stored with it still land in the records and unlock what they reached (QA r5)
+    if (this.data.inProgress) {
+      const ip = this.data.inProgress; delete this.data.inProgress;
+      if (ip && typeof ip === 'object' && ip.mode !== 'mission') { this.applyPeak(ip, ip.peak ?? 0, ip.lifeSec ?? 0); evalUnlocks(this.data, (v) => this.venueOpen(v)); }
+      this.save();
+    }
   }
   /** true when the stored save comes from a newer build: it is never overwritten */
   readonly readOnly: boolean;
@@ -160,7 +167,9 @@ export class SaveCtl {
     const i = MISSIONS.findIndex((m) => m.id === id); if (i < 0) return false;
     const m = MISSIONS[i];
     if (i === 0) return true;
-    if (m.role === 'start') return (this.data.missions[`c${m.ch - 1}m7`]?.clears ?? 0) > 0;
+    // only a chapter's first level waits for the previous boss; every other level (role 'start' included — 2-2,
+    // 3-2, 4-2) opens after the level before it (QA r5: 2-2 opened beside an uncleared 2-1)
+    if (m.id === `c${m.ch}m1`) return (this.data.missions[`c${m.ch - 1}m7`]?.clears ?? 0) > 0;
     const prev = this.data.missions[MISSIONS[i - 1].id];
     return !!prev && (prev.clears > 0 || prev.skipped);
   }
@@ -169,20 +178,32 @@ export class SaveCtl {
   currentMission(): string { return MISSIONS.find((m) => this.missionOpen(m.id) && !(this.data.missions[m.id]?.clears > 0))?.id ?? 'c5m8'; }
   canSkip(id: string) { const m = MISSION_BY_ID[id]; const rec = this.data.missions[id]; return m.role !== 'boss' && !!rec && rec.clears === 0 && rec.failStreak >= 3; }   // spec §5.1: 3 misses in a row on a non-boss level (QA r4: not gated on the H3 card)
   skip(id: string) { this.mission(id).skipped = true; this.save(); }
-  /** background / leave: commit the increment so far */
-  commitProgress(now: Counters) {
+  /** background / leave: commit the increment so far (plus the run's peak / endless life for a later kill) */
+  commitProgress(now: Counters, lifeSec = 0) {
     const ip = this.data.inProgress; if (!ip) return;
     if (ip.mode === 'mission') { if (ip.countable) ip.committed = commitDelta(this.data, { ...now, peakGrown: 0 }, ip.committed); this.save(); return; }
     ip.committed = commitDelta(this.data, now, ip.committed);
+    ip.peak = Math.max(ip.peak ?? 0, now.peakGrown); ip.lifeSec = Math.max(ip.lifeSec ?? 0, lifeSec);
     this.save();
   }
-  /** player left mid-match: commit the increments, no rank (spec §3.18) */
-  leaveMatch(now: Counters) {
-    const ip = this.data.inProgress; if (!ip) return;
-    if (ip.mode === 'mission') { if (ip.countable) commitDelta(this.data, { ...now, peakGrown: 0 }, ip.committed); delete this.data.inProgress; evalUnlocks(this.data, (v) => this.venueOpen(v)); this.save(); return; }
+  /** a left / killed timed or endless run: its peak goes into the records (spec §3.18 "收藏进度不会因为离开而丢"); no
+   * rank, no heat, an endless run is not counted as a run */
+  private applyPeak(ip: NonNullable<SbSaveV1['inProgress']>, peak: number, lifeSec: number) {
+    if (!ip.venue || !this.data.venues[ip.venue] || !Number.isFinite(peak)) return;
+    const v = this.data.venues[ip.venue];
+    if (ip.mode === 'timed') v.bestPeak = Math.max(v.bestPeak, peak);
+    else if (ip.mode === 'endless') { v.endless.bestPeak = Math.max(v.endless.bestPeak, peak); if (Number.isFinite(lifeSec)) v.endless.bestLife = Math.max(v.endless.bestLife, lifeSec); }
+  }
+  /** player left mid-match: commit the increments, no rank (spec §3.18); returns the newly unlocked keys */
+  leaveMatch(now: Counters, lifeSec = 0): string[] {
+    const ip = this.data.inProgress; if (!ip) return [];
+    if (ip.mode === 'mission') { if (ip.countable) commitDelta(this.data, { ...now, peakGrown: 0 }, ip.committed); delete this.data.inProgress; const it = evalUnlocks(this.data, (v) => this.venueOpen(v)); this.save(); return it; }
     commitDelta(this.data, now, ip.committed);
-    if (ip.venue && ip.mode === 'timed') { const v = this.data.venues[ip.venue]; v.bestPeak = Math.max(v.bestPeak, now.peakGrown); }
-    delete this.data.inProgress; this.save();
+    this.applyPeak(ip, Math.max(ip.peak ?? 0, now.peakGrown), Math.max(ip.lifeSec ?? 0, lifeSec));
+    delete this.data.inProgress;
+    const items = evalUnlocks(this.data, (v) => this.venueOpen(v));
+    this.save();
+    return items;
   }
 
   /** match end: commit, records, heat, trophies → list of new things (cards) */

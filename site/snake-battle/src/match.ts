@@ -69,6 +69,7 @@ export class Match {
   banked = false;
   /** world seconds when he was last alive-spawned (endless: life length) */
   lifeStart = 0;
+  private cd3Sent = false;
   realT = 0;
 
   constructor(o: { mode: Mode; venue: VenueId; seed: number; heat?: number; name: string; skin: string; avoidColors?: string[]; stress?: number; countdown?: boolean; mission?: Mission; twin?: boolean; demo?: { tier: string; persona: string }; waitTouch?: boolean }) {
@@ -132,7 +133,7 @@ export class Match {
   /** resume through a fresh 3-2-1 (spec §3.18) */
   resume(withCountdown = true) {
     if (this.state !== 'paused') return;
-    if (withCountdown && this.resumeTo === 'playing') { this.state = 'countdown'; this.cdT = 0; this.cdN = 3; }
+    if (withCountdown && this.resumeTo === 'playing') { this.state = 'countdown'; this.cdT = 0; this.cdN = 3; this.cd3Sent = false; }
     else this.state = this.resumeTo;
   }
   bank() { this.banked = true; this.finish(); }
@@ -144,7 +145,8 @@ export class Match {
     switch (this.state) {
       case 'paused': case 'over': return this.alpha;
       case 'countdown': {
-        if (this.cdT === 0 && this.cdN === 3) this.onEvent({ kind: 'countdown', n: 3 });
+        // once per countdown (QA r5: a 0-dt first frame sent n=3 twice → 三二一出发 queued twice, the twin line cut)
+        if (this.cdT === 0 && this.cdN === 3 && !this.cd3Sent) { this.cd3Sent = true; this.onEvent({ kind: 'countdown', n: 3 }); }
         this.cdT += realDt;
         if (this.cdT >= 0.5) {
           this.cdT -= 0.5; this.cdN--;
@@ -250,6 +252,9 @@ export class Match {
       multiMax: st.bestMulti, streakMax: st.bestStreak ?? 0, peakGrown: Math.floor(st.peak), eaten: st.eaten, playSec: Math.round(this.world.t),
     };
   }
+
+  /** seconds of the current life (endless records) */
+  lifeSec(): number { return this.mode === 'endless' ? Math.max(0, Math.round(this.world.t - this.lifeStart)) : 0; }
 
   result(): MatchResult {
     const r = this.world.ranking();

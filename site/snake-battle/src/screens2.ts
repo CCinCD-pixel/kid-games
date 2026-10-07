@@ -16,7 +16,7 @@ import { lineText, play } from './audio';
 import type { SaveCtl } from './save';
 
 const CH_NAME = ['星尘新手', '躲闪高手', '截击战术', '围猎战术', '蛇王之路'];
-const CH_PLANET: VenueId[] = ['moon', 'mars', 'jupiter', 'jupiter', 'blackhole'];
+const CH_PLANET: (VenueId | 'saturn')[] = ['moon', 'mars', 'jupiter', 'saturn', 'blackhole'];
 
 // ---------------------------------------------------------------- icons (code-drawn SVG, 48 grid)
 export const GOAL_SVG: Record<string, string> = {
@@ -69,6 +69,17 @@ export function starLabel(c: StarCond): string {
     default: return '';
   }
 }
+/** H1 note: what the gold arrow points at on this level (QA r5: was one generic line everywhere) */
+function arrowNote(m: Mission): string {
+  const o = m.objective, tags = [o.tag, ...(o.tags ?? [])];
+  if (tags.includes('cut')) return '金色箭头带你抢到它前面。';
+  if (o.type === 'loop' || tags.includes('encircle')) return '跟着金色箭头，绕着它游一圈。';
+  if (o.type === 'rings') return '金色箭头指着下一个星环。';
+  if (o.type === 'survive') return '金色箭头指着没有蛇的地方。';
+  if (o.type === 'pu') return '金色箭头指着最近的道具。';
+  if (o.type === 'eat' || o.type === 'length') return '金色箭头指着星尘多的地方。';
+  return '开局跟着金色箭头游。';
+}
 function starChip(c: StarCond, n: 2 | 3) {
   const el = h('span', { class: 'sb-starchip' });
   el.innerHTML = `<b>${'★'.repeat(n)}</b><i>${STAR_ICON[c.type] ?? ''}</i><span>${starLabel(c)}</span>`;
@@ -105,7 +116,6 @@ export function missionMap(root: HTMLElement, save: SaveCtl, ch0: number, hd: Ma
       const stars = CHAPTERS[c - 1].reduce((a, m) => a + (d.missions[m.id]?.stars ?? 0), 0);
       const b = h('button', { class: 'sb-chtab' + (c === ch ? ' is-sel' : '') + (open ? '' : ' is-locked'), type: 'button', 'data-sfx': open ? 'ui-select' : 'ui-locked', 'aria-label': `第${c}章` },
         h('span', { class: 'sb-chtab__planet' }, planetBadge(CH_PLANET[c - 1], 52, !open)), h('span', { class: 'sb-chtab__n' }, open ? `★${stars}` : ''), ...(open ? [] : [h('span', { class: 'sb-chtab__lock', 'aria-hidden': 'true' })]));
-      if (c === 4 && open) b.querySelector('.sb-chtab__planet')!.classList.add('is-saturn');
       b.addEventListener('click', () => { if (!open) return; ch = c; draw(); hd.onChapter(c, false); });
       return b;
     }));
@@ -139,7 +149,6 @@ export function storyCard(root: HTMLElement, ch: number | 'end', onClose: () => 
   else art.append(planetBadge(CH_PLANET[ch - 1], 300, false));
   const s = scrim(root, 'sb-story', h('div', { class: 'sb-story__card xg-root' },
     art, h('div', { class: 'sb-story__ch' }, ch === 'end' ? '尾声' : `第${'一二三四五'[(ch as number) - 1]}章 · ${CH_NAME[(ch as number) - 1]}`), h('p', { class: 'sb-story__line' }, lineText(id)), h('div', { class: 'sb-story__tap' }, '点一下继续')));
-  if (ch === 4) art.classList.add('is-saturn');
   let done = false;
   const close = () => { if (done) return; done = true; s.classList.add('is-out'); setTimeout(() => { s.remove(); onClose(); }, 220); };
   setTimeout(() => s.addEventListener('click', close), 400);
@@ -175,28 +184,35 @@ export function briefCard(root: HTMLElement, o: BriefOpts) {
   const s = scrim(root, 'sb-brief', h('div', { class: 'sb-brief__card xg-root' },
     h('div', { class: 'sb-brief__top' }, backBtn(o.onBack), h('span', { class: 'sb-brief__no' }, `${m.ch}-${m.id.slice(3)}`), h('h2', { class: 'sb-brief__title' }, m.title), replay),
     h('div', { class: 'sb-brief__body' }, clip ? '' : pic, h('div', { class: 'sb-brief__text' }, h('p', { class: 'sb-brief__line' }, line), chips), clip),
-    o.hint >= 1 && !o.firstTime ? h('p', { class: 'sb-brief__hint' }, o.hint >= 3 ? '卡住了？看看领航员怎么玩。' : o.hint >= 2 ? '看一招再试试！' : '小提示：开局跟着金色箭头游。') : '',
+    o.hint >= 1 && !o.firstTime ? h('p', { class: 'sb-brief__hint' }, o.hint >= 3 ? '卡住了？看看领航员怎么玩。' : o.hint >= 2 ? '看一招再试试！' : `小提示：${arrowNote(m)}`) : '',
     actions));
   return s;
 }
 
 // ---------------------------------------------------------------- S9 关卡结算
-export interface ResultOpts { m: Mission; ok: boolean; stars: number; star2: boolean; star3: boolean; praise: string; retry: string; canSkip: boolean; hasNext: boolean; twin: boolean; cause?: HTMLElement }
+export interface ResultOpts { m: Mission; ok: boolean; stars: number; star2: boolean; star3: boolean; praise: string; retry: string; canSkip: boolean; hasNext: boolean; twin: boolean; cause?: HTMLElement; nextLabel?: string }
 export function missionResult(o: ResultOpts): Promise<string> {
   const m = o.m;
   const actions: { id: string; label: string; kind?: 'primary' | 'secondary' | 'accent' | 'gold' }[] = [];
-  if (o.ok && o.hasNext) actions.push({ id: 'next', label: '下一关', kind: 'primary' });
+  if (o.ok && o.hasNext) actions.push({ id: 'next', label: o.nextLabel ?? '下一关', kind: 'primary' });
   actions.push({ id: 'again', label: o.ok ? '再玩一次' : '再试一次', kind: o.ok ? 'secondary' : 'primary' });
   if (!o.ok && o.canSkip) actions.push({ id: 'skip', label: '先玩下一关', kind: 'accent' });
   actions.push({ id: 'map', label: '地图', kind: 'secondary' });
   return showResult({
     ribbon: `${m.ch}-${m.id.slice(3)} ${m.title}`, title: o.ok ? lineText(o.praise) || '过关！' : '差一点！',
-    text: o.ok ? `学会了：${m.teaches}` : lineText(o.retry) || '再来一次！',
+    // a 1★ clear: the level's own tip as "next time", not a claim he mastered it (QA r5)
+    text: o.ok ? (o.stars <= 1 && m.stars[0].type !== 'clear' && lineText(m.lines.h1) ? `下次试试：${lineText(m.lines.h1)}` : `学会了：${m.teaches}`) : lineText(o.retry) || '再来一次！',
     stars: (o.ok ? Math.max(1, o.stars) : 0) as 0 | 1 | 2 | 3, actions, accentGame: 'snake',
     onOpen: (panel) => {
       if (o.cause) { panel.classList.add('sb-res--cause'); const txt = panel.querySelector('.xg-modal__text'); if (txt) txt.after(o.cause); else panel.querySelector('.xg-modal__actions')?.before(o.cause); }
       if (m.stars[0].type === 'clear') return;
-      const row = h('div', { class: 'sb-res__conds' }, ...[[m.stars[0], 2, o.star2], [m.stars[1], 3, o.star3]].map(([c, n, got]) => { const ch = starChip(c as StarCond, n as 2 | 3); if (!(got && o.ok)) ch.classList.add('is-miss'); return ch; }));
+      const row = h('div', { class: 'sb-res__conds' }, ...[[m.stars[0], 2, o.star2], [m.stars[1], 3, o.star3]].map(([c, n, got]) => {
+        // a chip's stars light only when those stars were earned (QA r5: ★★★ met without ★★ showed three gold stars
+        // over a 1★ result); a met condition whose stars were not earned gets a tick on grey stars
+        const ch = starChip(c as StarCond, n as 2 | 3), earned = o.ok && o.stars >= (n as number);
+        if (!earned) ch.classList.add('is-miss'); if (!earned && got && o.ok) ch.classList.add('is-met');
+        return ch;
+      }));
       if (o.twin) row.append(h('span', { class: 'sb-res__twin' }, '换你来的这局最多 ★★'));
       const acts = panel.querySelector('.xg-modal__actions'); if (acts) acts.before(row); else panel.append(row);
     },

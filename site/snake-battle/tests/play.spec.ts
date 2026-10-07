@@ -279,6 +279,23 @@ async function open(page: Page) {
       await expect(page.locator('.sb-hud')).toHaveClass(/is-faded/);
     });
 
+    test('r5: H3 示范 → tap → the twin line is said (not cut by 三二一出发) and its perk chip shows', async ({ page }) => {
+      const clips: string[] = [];
+      page.on('request', (r) => { const u = r.url(); if (/snake\.(hint\.twin|match\.go)/.test(u)) clips.push(u); });
+      await open(page);
+      await page.evaluate(() => { const app = (window as any).__sbApp, d = app.save.data; d.firstRunDone = true; d.missions.c2m4 = { stars: 0, attempts: 3, failStreak: 3, clears: 0, bestT: null, hintMax: 2, skipped: false, why: {} };
+        app.startMatch('mission', 'moon', { mission: 'c2m4', demo: true }); app.afterDemo = () => app.startTwin('c2m4'); });
+      await expect(page.locator('.sb-demo')).toBeVisible();
+      await page.waitForTimeout(900);
+      await page.locator('.sb-demo').dispatchEvent('pointerdown');
+      await expect(page.locator('.sb-twinchip')).toBeVisible({ timeout: 8000 });
+      await expect(page.locator('.sb-twinchip')).toContainText('接着游');
+      await page.waitForFunction(() => (window as any).__sb?.match?.state === 'playing', null, { timeout: 8000 });
+      await page.waitForTimeout(600);
+      expect(clips.some((u) => u.includes('snake.hint.twin.respawn')), `twin clip requested: ${clips.join(' ')}`).toBe(true);
+      expect(clips.filter((u) => u.includes('snake.match.go')).length).toBe(0);
+    });
+
     test('r4: H2 看一招 clip plays offline and is labelled as a clip', async ({ page, context }) => {
       await open(page);
       await page.evaluate(() => { const app = (window as any).__sbApp, d = app.save.data; d.firstRunDone = true; d.missions.c3m7 = { stars: 0, attempts: 2, failStreak: 2, clears: 0, bestT: null, hintMax: 1, skipped: false, why: {} }; app.showMap(3); });

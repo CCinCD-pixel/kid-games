@@ -14,7 +14,8 @@ const DIR = process.env.KG_SHOTS_DIR ?? '/tmp';
 type Rect = { x: number; y: number; width: number; height: number; n: string };
 const overlap = (a: Rect, b: Rect) => a.x < b.x + b.width - 1 && b.x < a.x + a.width - 1 && a.y < b.y + b.height - 1 && b.y < a.y + a.height - 1;
 const HUD = ['.sb-pill', '.sb-board', '.sb-mini', '.sb-boost', '.sb-pause', '.sb-goal', '.sb-pus'];
-const CASES: [string, string, string, string?][] = [['timed-moon', 'timed', 'moon'], ['timed-mars', 'timed', 'mars'], ['timed-jupiter', 'timed', 'jupiter'], ['timed-blackhole', 'timed', 'blackhole'], ['endless-moon', 'endless', 'moon'], ['mission-rings', 'mission', 'moon', 'c1m1'], ['mission-race', 'mission', 'moon', 'c3m7'], ['mission-king', 'mission', 'moon', 'c5m7']];
+// QA r5: + the chapter-4 土星 floor (V14 read-back on a timed roster drawn over it) and two non-default skins of his
+const CASES: [string, string, string, string?, { floor?: string; skin?: string }?][] = [['timed-saturn', 'timed', 'jupiter', undefined, { floor: 'saturn' }], ['timed-mars-loco', 'timed', 'mars', undefined, { skin: 'loco' }], ['timed-blackhole-maglev', 'timed', 'blackhole', undefined, { skin: 'maglev' }], ['timed-moon', 'timed', 'moon'], ['timed-mars', 'timed', 'mars'], ['timed-jupiter', 'timed', 'jupiter'], ['timed-blackhole', 'timed', 'blackhole'], ['endless-moon', 'endless', 'moon'], ['mission-rings', 'mission', 'moon', 'c1m1'], ['mission-race', 'mission', 'moon', 'c3m7'], ['mission-king', 'mission', 'moon', 'c5m7']];
 
 async function boot(page: Page) {
   await page.goto('/snake-battle/?test=1&nogate');
@@ -81,11 +82,11 @@ async function readBack(page: Page, steps: number, stage = false) {
 
 test.describe('snake-battle shots', () => {
   test.skip(!SHOTS, 'SB_SHOTS=1 only');
-  for (const [name, mode, venue, mission] of CASES) {
+  for (const [name, mode, venue, mission, extra] of CASES) {
     test(`shots ${name}`, async ({ page }, info) => {
       const orient = info.project.name.startsWith('portrait') ? 'portrait' : 'landscape';
       await boot(page);
-      await page.evaluate(({ mode, venue, mission }) => (window as any).__sbApp.startMatch(mode, venue, { seed: 21, countdown: false, ...(mission ? { mission } : {}) }), { mode, venue, mission });
+      await page.evaluate(({ mode, venue, mission, extra }) => { const app = (window as any).__sbApp; if (extra?.skin) app.save.data.equipped.skin = extra.skin; return app.startMatch(mode, venue, { seed: 21, countdown: false, ...(mission ? { mission } : {}), ...(extra?.floor ? { floor: extra.floor } : {}) }); }, { mode, venue, mission, extra });
       await page.waitForTimeout(1400);
       fs.mkdirSync(path.join(DIR, orient), { recursive: true });
       await page.screenshot({ path: path.join(DIR, orient, `shots-${name}.png`) });

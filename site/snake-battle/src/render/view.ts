@@ -7,7 +7,7 @@
  */
 import { Blend, Renderer } from './gl';
 import { Fx, rnd, FX_KEYFRAMES as KF, pulse } from './fx';
-import { buildAtlas, addColorSprites, aiBodyOn, hex2rgb, skinById, segVariant, ballOf, STAR_COLORS, mix, type Rgb, type Atlas, type AtlasColor, type SkinDef } from './art';
+import { buildAtlas, addColorSprites, aiBodyOn, skinBaseOn, hex2rgb, skinById, segVariant, ballOf, STAR_COLORS, mix, type Rgb, type Atlas, type AtlasColor, type SkinDef } from './art';
 import { HEAD_HS, EYE_SPOT, eyeLayout, extrasOf, DECO, DECO_K, spawnTrail, TRAIL_FOOD, TRAIL_EVERY, type EyeSpot } from './skins';
 import { FLOORS } from '../sim/venues';
 import { angDiff, type Snake, type Food } from '../sim/core';
@@ -80,7 +80,7 @@ export class WorldView {
   /** persona / skin look (§6.4): body colour + pattern, head painter, where and how the eyes are drawn */
   private makeLook(s: Snake): [Look, AtlasColor] {
     if (s.isPlayer) {
-      const sk = skinById(s.skin ?? 'venus'), base = hex2rgb(sk.base), key = `skin-${sk.id}`;
+      const sk = skinById(s.skin ?? 'venus'), { base, lift } = skinBaseOn(sk, this.match.floor), key = `skin-${sk.id}${lift ? `-${this.match.floor}` : ''}`;
       return [{ key, base, pattern: sk.pattern, eyes: sk.eyes, head: sk.head, skin: sk, eye: eyeLayout(sk.head, sk.eyes), extras: extrasOf(sk), persona: 'me' }, { key, base, accent: hex2rgb(sk.accent), pattern: sk.pattern, blush: true, skin: sk }];
     }
     const mp = s.missionPersona;
@@ -274,6 +274,13 @@ export class WorldView {
         for (let i = 0; i < n; i += 2) R.push(b[i * 3], b[i * 3 + 1], s.r * 1.35, s.r * 1.35, 0, 'dot', c[0] * hue, c[1], c[2] * (2 - hue), 120);
       }
       const hx = hxOf(s), hy = hyOf(s);
+      // the 领航员 demo snake (H2 clip / H3 示范): a soft pulsing gold halo along the whole body, so the demo reads as
+      // a ghost guide and never as his own snake playing (QA r5)
+      if (s.isPlayer && this.match.demo) {
+        const gp = Math.round(70 + 30 * Math.sin(T * 2 * Math.PI * 0.8));
+        for (let i = 0; i < n; i += 2) R.push(b[i * 3], b[i * 3 + 1], s.r * 1.7, s.r * 1.7, 0, 'dot', 255, 205, 70, gp);
+        R.push(hx, hy, s.r * 2.6, s.r * 2.6, 0, 'dot', 255, 215, 90, gp + 40);
+      }
       this.drawGlows(s, hx, hy, b, n, T);
       if (s.shield > 0) R.push(hx, hy, s.r * 1.75, s.r * 1.75, T * 1.2, 'hex', 90, 230, 255, s.shield < 1.5 ? pulse(KF.shieldEnding, T) : 210);
       if (s.magnet > 0) R.push(hx, hy, 70, 70, -T * 2, 'ring', 255, 120, 160, 90);
@@ -311,7 +318,7 @@ export class WorldView {
   private drawSnake(s: Snake, b: Float32Array, n: number, hx: number, hy: number) {
     const R = this.R, look = this.lookOf(s), r = s.r, T = this.time;
     // the H3 示范 snake is the 领航员's semi-transparent ghost, not his own (spec §5.1/§8.10, QA r1)
-    const alpha = s.isPlayer && this.match.demo ? 135 : s.protect > 0 ? 140 : 255;
+    const alpha = s.isPlayer && this.match.demo ? 110 : s.protect > 0 ? 140 : 255;
     const age = this.spawnAge(s);
     const bl = this.bulges.get(s.id);
     if (bl) for (let i = bl.length - 1; i >= 0; i--) if (T - bl[i].t > 0.9) bl.splice(i, 1);

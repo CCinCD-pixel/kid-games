@@ -53,13 +53,34 @@ describe('gzip budgets (§8.11)', () => {
     const total = fs.readdirSync(dir).filter((f) => f.endsWith('.json')).reduce((a, f) => a + gz(path.join(dir, f)), 0);
     expect(total).toBeLessThanOrEqual(20 * 1024);
   });
-  it('built JS ≤ 120 KB gzip and CSS ≤ 15 KB gzip (when dist exists)', () => {
-    const dist = path.join(ROOT, 'dist/assets');
-    if (!fs.existsSync(dist)) return;
-    const files = fs.readdirSync(dist);
-    const js = files.filter((f) => /^(snake-battle|screens2)-.*\.js$/.test(f)).reduce((a, f) => a + gz(path.join(dist, f)), 0);
-    const css = files.filter((f) => /^snake-battle-.*\.css$/.test(f)).reduce((a, f) => a + gz(path.join(dist, f)), 0);
-    if (js) expect(js).toBeLessThanOrEqual(120 * 1024);
-    if (css) expect(css).toBeLessThanOrEqual(15 * 1024);
+  // QA r5: the old gate summed only chunks named snake-battle-* / screens2-* (25 KB) while the game's code sat in
+  // screens-* / art-* / view-* and lazy chunks, so it passed at any size. Now: every chunk reachable from
+  // dist/snake-battle/index.html (script + modulepreload, then static / dynamic imports inside chunks) that no other
+  // page reaches = this game's own JS (spec §8.11: ≤160 KB gzip, kit shared chunks excluded).
+  it('built JS ≤ 160 KB gzip (own chunks of the page graph) and CSS ≤ 15 KB gzip (when dist exists)', () => {
+    const distRoot = path.join(ROOT, 'dist'), dist = path.join(distRoot, 'assets');
+    const page = path.join(distRoot, 'snake-battle/index.html');
+    if (!fs.existsSync(dist) || !fs.existsSync(page)) { console.warn('[budget] no dist build: skipped (run the root build first)'); return; }
+    const refRe = /(?:src|href)="\/assets\/([^"]+\.(?:js|css))"/g, impRe = /["'`](?:\.\/|\/assets\/)([\w.-]+\.(?:js|css))["'`]/g;
+    const reach = (html: string) => {
+      const seen = new Set<string>(), todo = [...html.matchAll(refRe)].map((x) => x[1]);
+      while (todo.length) {
+        const f = todo.pop()!; if (seen.has(f) || !fs.existsSync(path.join(dist, f))) continue; seen.add(f);
+        if (f.endsWith('.js')) for (const x of fs.readFileSync(path.join(dist, f), 'utf8').matchAll(impRe)) todo.push(x[1]);
+      }
+      return seen;
+    };
+    const pages: string[] = [];
+    const walk = (d: string) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const q = path.join(d, e.name); if (e.isDirectory() && e.name !== 'assets' && e.name !== 'audio') walk(q); else if (e.name === 'index.html') pages.push(q); } };
+    walk(distRoot);
+    const mine = reach(fs.readFileSync(page, 'utf8'));
+    const others = new Set<string>(); for (const p of pages) if (p !== page) for (const f of reach(fs.readFileSync(p, 'utf8'))) others.add(f);
+    const own = [...mine].filter((f) => !others.has(f));
+    const ownJs = own.filter((f) => f.endsWith('.js')), ownCss = own.filter((f) => f.endsWith('.css'));
+    expect(ownJs.length, 'no game-only JS chunk found from dist/snake-battle/index.html').toBeGreaterThan(0);
+    const js = ownJs.reduce((a, f) => a + gz(path.join(dist, f)), 0), css = ownCss.reduce((a, f) => a + gz(path.join(dist, f)), 0);
+    console.log(`[budget] own JS ${(js / 1024).toFixed(1)} KB gz in ${ownJs.length} chunks; CSS ${(css / 1024).toFixed(1)} KB gz`);
+    expect(js).toBeLessThanOrEqual(160 * 1024);
+    expect(css).toBeLessThanOrEqual(15 * 1024);
   });
 });
