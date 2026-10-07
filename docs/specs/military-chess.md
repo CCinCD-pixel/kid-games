@@ -1447,7 +1447,7 @@ interface SaveV1 {
 ```
 - 旧版没有任何 localStorage（审计确认），`legacy` 为空；版本迁移函数从 v1 起写单测。
 - `settings.refereeSpeed`：默认 `normal`，孩子下完第一盘天梯暗棋时自动改成 `fast`（§3.8）；家长面板可改。
-- `settings.fanFlagRule: 'easy'`（家长可选的家规：翻翻棋军旗翻开就能扛）只影响家庭翻翻棋与天梯翻翻棋的规则对象 `rules.fanFlagLock = false`；**谜题永远按标准规则**；默认 `standard`。
+- `settings.fanFlagRule: 'easy'`（家长可选的家规：翻翻棋军旗翻开就能扛）只影响**家庭翻翻棋**的规则对象 `rules.fanFlagLock = false`；**对战机器人（天梯）和谜题永远按标准规则（先挖光地雷才能扛旗）**——爸爸 2026-10-07 验收决定，机器人强度按标准规则校准；默认 `standard`。
 
 ### 8.8 引擎
 

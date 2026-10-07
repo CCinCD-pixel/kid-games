@@ -236,21 +236,21 @@ describe('save', () => {
   test('BLUE constant sanity', () => expect(BLUE).toBe(1));
 });
 
-describe('家规 fanFlagRule reaches ladder 翻翻棋 (QA r2 tech minor, §8.7 / §9.8 item 3)', () => {
-  test('easy → the ladder match stores fanFlagLock=false and its rules follow; standard keeps the lock', async () => {
+describe('家规 fanFlagRule is family-only: robot (ladder) 翻翻棋 always keeps the standard mine lock (dad 2026-10-07)', () => {
+  test('easy house rule does not reach ladder 翻翻棋; standard stays standard', async () => {
     const { newLadderMatch } = await import('../src/ctrl/ladder');
     const { startState } = await import('../src/ctrl/setup');
     const save = defaultSave();
+    expect(save.settings.fanFlagRule).toBe('standard');
     save.settings.fanFlagRule = 'easy';
-    const easy = newLadderMatch(save, 'fan', 3);
-    expect(easy.house?.fanFlagLock).toBe(false);
-    expect(startState(easy).rules.fanFlagLock).toBe(false);
-    const easy1 = newLadderMatch(save, 'fan', 1);
-    expect(startState(easy1).rules.fanFlagLock).toBe(false);
+    for (const level of [1, 2, 3, 4] as const) {
+      const m = newLadderMatch(save, 'fan', level);
+      expect(m.house?.fanFlagLock ?? true).toBe(true);
+      expect(startState(m).rules.fanFlagLock).toBe(true);
+    }
     expect(newLadderMatch(save, 'ming', 1).house?.fanFlagLock ?? true).toBe(true);
     save.settings.fanFlagRule = 'standard';
     expect(startState(newLadderMatch(save, 'fan', 3)).rules.fanFlagLock).toBe(true);
-    expect(startState(newLadderMatch(save, 'fan', 1)).rules.fanFlagLock).toBe(true);
   });
 });
 

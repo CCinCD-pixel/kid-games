@@ -52,10 +52,11 @@ export function newLadderMatch(save: SaveV1, mode: Mode, level: Level, o: { hand
   };
   if (o.free) base.free = true;
   const q = ladderRuleOverrides(mode, level).quietLimit;
-  // 家规 (§8.7, §9.8 item 3): the parent's 翻翻棋扛旗 rule applies to ladder 翻翻棋 too; stored in the
-  // match so a resume / replay keeps the rule it started with
-  const fanFlagLock = !(mode === 'fan' && save.settings.fanFlagRule === 'easy');
-  if (q || !fanFlagLock) base.house = { fanFlagLock, ...(q ? { quietLimit: q } : {}), shuttleMax: 4 };
+  // 家规 (§8.7, §9.8 item 3) — dad's decision 2026-10-07: games against the robots ALWAYS use the standard
+  // 翻翻棋 flag rule (先挖光地雷才能扛旗; the robots are calibrated for it). The parent's 扛旗 house rule only
+  // applies to family games (screens/family.ts). Old in-progress ladder matches keep the rule stored in them.
+  const fanFlagLock = true;
+  if (q) base.house = { fanFlagLock, quietLimit: q, shuttleMax: 4 };
   if (mode === 'fan') {
     base.setup = { fanSeed: `mc:fan:${id}`, firstMover: RED, firstPlayer: kidFirst ? 0 : 1 };
     return base;
