@@ -21,7 +21,7 @@ import { applyCertPass, applyLevelResult, applyRandomResult, destFor, hallFor, t
 import type { AppCtx, Screen } from '../app/context';
 import { deadMarkerFor, inputModeFor, stuckDelayFor, swipeEnabled, type InputMode } from '../app/settings';
 import { canName, nextAfter, type NextStep } from '../app/unlock';
-import { noteLevel, noteRandomH3, slowDue, storeVisit } from '../app/visit';
+import { noteActive, noteLevel, noteRandomH3, slowDue, storeVisit } from '../app/visit';
 import { chapterOf, levelById, paramsFor, type LevelDef } from '../data';
 import { PlaySession, holdGap, type SessionEvent } from '../game/session';
 import { starsFor } from '../game/stars';
@@ -50,7 +50,11 @@ export interface PlayOptions {
   newChapter?: number;
 }
 
+/** praise lines of the last few result cards this page load (a lesson praise is not repeated within 3 results) */
+const recentPraise: string[] = [];
+
 export class PlayScreen implements Screen {
+  readonly ownsClock = true;
   readonly el: HTMLDivElement;
   readonly session: PlaySession;
   board!: BoardView;
@@ -68,7 +72,6 @@ export class PlayScreen implements Screen {
   /** the H3 ghost demo is playing: a tap aborts it, nothing else */
   private demo = false;
   /** hint presses this run (the result card shows it when > 0) */
-  private hintPresses = 0;
   private detachInput: (() => void) | null = null;
   readonly mode: InputMode;
   private swipeOn: boolean;
@@ -132,8 +135,9 @@ export class PlayScreen implements Screen {
     this.plate.dataset.sfx = 'ui-tap';
     const base = def.twinOf ? levelById(def.twinOf) : def;
     const ch = base?.track === 'classic' ? 'classic' : def.track === 'random' ? 'random' : def.track === 'cert' ? 'cert' : `ch${base?.ch ?? def.ch}`;
-    const tag = def.track === 'random' ? `T${def.random?.tier ?? 1}` : def.twinOf ?? def.id;
-    const title = def.track === 'twin' ? `镜子·${def.name}` : def.track === 'cert' ? `跳级考试 · ${def.name}` : def.name;
+    // child-facing tags only (QA r3): 0-1 / C10 / T2 / 跳级考试 — never an internal slug like cert-1
+    const tag = def.track === 'random' ? `T${def.random?.tier ?? 1}` : def.track === 'cert' ? '跳级考试' : def.twinOf ?? def.id;
+    const title = def.track === 'twin' ? `镜子·${def.name}` : def.name;
     this.plate.innerHTML = `<span class="sok-plate__badge">${chapterEmblem(ch, 40)}</span><span class="sok-plate__title"><b>${tag}</b> ${title}</span>`;
     this.plate.setAttribute('aria-label', `${tag} ${title}，再听一遍这关讲什么`);
     this.plate.addEventListener('click', () => void this.strip.say(def.say, { mood: 'encouraging' }));
@@ -211,9 +215,6 @@ export class PlayScreen implements Screen {
         offerRewind: (line) => this.offerRewind(line),
         rewindTo: (len) => this.rewindTo(len),
       }, this.hintBtn, quiet);
-      this.hintBtn.addEventListener('click', () => {
-        this.hintPresses += 1;
-      });
       this.slowStart = slow;
     }
     this.layout(ctx.layout());
@@ -333,6 +334,9 @@ export class PlayScreen implements Screen {
     if (!this.finished) {
       this.persist();
       this.trackActive();
+      // left unfinished: the level still books its active time into the visit (it owns the clock)
+      noteActive(this.ctx.visit, this.activeMs);
+      storeVisit(this.ctx.visit);
       this.ctx.marks.add('level-leave', { id: this.def.id, pushes: this.session.pushes, ms: Math.round(this.activeMs) });
       this.ctx.marks.flush();
     }
@@ -1139,7 +1143,11 @@ export class PlayScreen implements Screen {
     const lvlNo = Number(this.def.id.split('-')[1] ?? this.def.id.replace(/\D/g, ''));
     if (s.stats.undos > 0 && this.deadSeenThisRun > 0) return 'sok.praise.undo';
     if (stars === 3 && this.def.ch !== 0 && lvlNo % 2 === 0) return 'sok.praise.lean';
-    return `sok.praise.${this.def.lesson}`;
+    const line = `sok.praise.${this.def.lesson}`;
+    // no repeat within the last 3 results (QA r3: 0-2 and 0-4 both teach 'turn', two minutes apart)
+    if (!recentPraise.includes(line)) return line;
+    const alt = s.pushes <= this.def.opt.pushes ? ['sok.praise.lean', 'sok.praise.plain'] : ['sok.praise.plain'];
+    return alt.find((a) => !recentPraise.includes(a)) ?? alt[0];
   }
 
   private async result(stars: 1 | 2 | 3, o: Outcome, certPassed: boolean): Promise<void> {
@@ -1149,6 +1157,8 @@ export class PlayScreen implements Screen {
     const random = def.track === 'random';
     const next: NextStep = random ? { kind: 'map' } : certPassed ? { kind: 'level', id: '2-1', newChapter: 2 } : nextAfter(save, def.id, o.firstPass);
     const praise = certPassed ? 'sok.cert.pass' : this.praiseLine(stars);
+    recentPraise.push(praise);
+    if (recentPraise.length > 3) recentPraise.shift();
     const actions: ResultAction[] = [];
     if (random) {
       actions.push({ id: 'again-random', label: '再来一个', kind: 'primary', icon: 'plus' }, { id: 'map', label: '地图', kind: 'secondary', icon: 'map' });
@@ -1159,12 +1169,13 @@ export class PlayScreen implements Screen {
       // 镜子仓库: only after H3 was used on a fixed level (spec §5.1)
       if (this.ladder?.usedH3 && def.track !== 'twin' && def.track !== 'cert') actions.push({ id: 'twin', label: '镜子仓库', kind: 'gold', icon: 'swap' });
     }
-    const ribbon = random ? `随机新仓库 · ${TIERS[def.random?.tier ?? 1].name}` : def.track === 'twin' ? `${def.twinOf} 镜子仓库` : `${def.id} ${def.name}`;
+    const ribbon = random ? `随机新仓库 · ${TIERS[def.random?.tier ?? 1].name}` : def.track === 'twin' ? `${def.twinOf} 镜子仓库` : def.track === 'cert' ? `跳级考试 · ${def.name}` : `${def.id} ${def.name}`;
     // spec §2.1 S5: statements, not questions — 推了 N 下 / 用了 N 次提示 (sentence tiles, see onOpen)
     const sentences = [['推了', '下']];
     const stats = [{ label: '推了 下', value: `${this.session.pushes}`, best: o.newBest && !o.firstPass }];
-    if (this.hintPresses > 0) {
-      stats.push({ label: '用了 次提示', value: `${this.hintPresses}`, best: false });
+    const hintsGiven = this.ladder?.given ?? 0;
+    if (hintsGiven > 0) {
+      stats.push({ label: '用了 次提示', value: `${hintsGiven}`, best: false });
       sentences.push(['用了', '次提示']);
     }
     void ctx.voice.say(praise, { interrupt: true });

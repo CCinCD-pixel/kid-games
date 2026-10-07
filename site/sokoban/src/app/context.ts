@@ -22,6 +22,8 @@ export interface Screen {
   resume?(): void;
   /** persist anything in progress (leaving the page) */
   persist?(): void;
+  /** a level screen books its own active time into the visit (see visitClock) */
+  readonly ownsClock?: boolean;
   destroy(): void;
 }
 

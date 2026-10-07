@@ -78,9 +78,9 @@ export async function showChapterDone(ctx: AppCtx, ch: number, items: string[], 
       panel.dataset.testid = 'chapter-done';
       const row = document.createElement('div');
       row.className = 'sok-done__row';
-      const emblem = document.createElement('div');
+      const emblem = document.createElement('figure');
       emblem.className = 'sok-done__emblem';
-      emblem.innerHTML = chapterEmblem(`ch${ch}`, 120);
+      emblem.innerHTML = `${chapterEmblem(`ch${ch}`, 120)}<figcaption><b>章节徽章</b><span>${c?.name ?? `第 ${ch} 章`}</span></figcaption>`;
       row.append(emblem);
       if (item) {
         const fig = document.createElement('figure');

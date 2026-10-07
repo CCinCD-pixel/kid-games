@@ -83,7 +83,8 @@ export class OpeningScreen implements Screen {
     this.bot.height = size * 1.25 * dpr;
     this.bot.style.width = `${size}px`;
     this.bot.style.height = `${size * 1.25}px`;
-    this.strip.layout(portrait ? { x: 16, y: l.height - 190, w: l.width - 32, h: 72 } : { x: l.width - 260, y: 120, w: 224, h: 260 }, portrait ? 'portrait' : 'landscape');
+    // landscape: lower-right quadrant above the conveyor, clear of the moon (QA r3: the bubble covered it)
+    this.strip.layout(portrait ? { x: 16, y: l.height - 190, w: l.width - 32, h: 72 } : { x: l.width - 260, y: Math.round(l.height * 0.4), w: 224, h: 260 }, portrait ? 'portrait' : 'landscape');
   }
 
   private drawBot(): void {

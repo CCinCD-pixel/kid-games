@@ -61,6 +61,15 @@ function cardFace(tier: Tier, open: boolean): string {
   return `<svg viewBox="0 0 140 110" class="sok-order__art${open ? '' : ' is-locked'}" aria-hidden="true">${parts.join('')}</svg>`;
 }
 
+/**
+ * A second readable dimension next to the crate count (QA r3: 小/中 both say 📦 2): three bars that
+ * grow like a signal meter — one lit for 小, two for 中, three for 大 (warehouse size + trickiness).
+ */
+function sizeBars(tier: Tier): string {
+  const bars = [0, 1, 2].map((i) => `<i class="${i < tier ? 'is-on' : ''}" style="height:${8 + i * 6}px"></i>`).join('');
+  return `<span class="sok-order__size" data-testid="order-size" aria-label="仓库大小 ${tier}">${bars}</span>`;
+}
+
 export async function showOrderBoard(ctx: AppCtx): Promise<void> {
   void preloadPool();
   playMusic();
@@ -89,7 +98,7 @@ export async function showOrderBoard(ctx: AppCtx): Promise<void> {
     b.dataset.testid = `order-T${tier}`;
     const cont = open && resume?.tier === tier;
     b.innerHTML = `${cardFace(tier, open)}<span class="sok-order__name">${info.name}</span>
-      <span class="sok-order__meta">${gameIcon('crate')}<b>${info.crates}</b><span class="sok-order__dest">→ ${info.dest}</span></span>
+      <span class="sok-order__meta">${gameIcon('crate')}<b>${info.crates}</b>${sizeBars(tier)}<span class="sok-order__dest">→ ${info.dest}</span></span>
       ${open ? `<span class="sok-order__done">已送 <b>${save.random.byTier[tier - 1]}</b></span>` : `<span class="sok-order__lock">${icon('lock')}<span>第 ${TIER_CHAPTER[tier]} 章</span></span>`}
       ${cont ? '<span class="sok-order__resume">继续</span>' : ''}`;
     b.setAttribute('aria-label', `${info.name}${open ? '' : '（还没开放）'}`);

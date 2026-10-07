@@ -12,7 +12,7 @@ import { LEGACY_SNAPSHOT_KEY, SAVE_KEY, defaults, openSave, type SaveV1 } from '
 import { deadMarkerFor, inputModeFor, swipeEnabled } from './src/app/settings';
 import { levelBroken, resetBroken } from './src/app/broken';
 import { arrowsAvailable, canName, certOpen, chapterInfo, currentLevel, isLevelOpen, nextAfter, openLevels, randomTierOpen } from './src/app/unlock';
-import { loadVisit, newVisit, noteLevel, noteRandomH3, slowDue, storeVisit, wrapDue } from './src/app/visit';
+import { loadVisit, newVisit, noteActive, noteLevel, noteRandomH3, slowDue, storeVisit, visitClock, wrapDue } from './src/app/visit';
 import { CARDS, CHAPTERS, CLASSIC_LEVELS, COSMETICS, LINES, VOICE, allPushLevels, chapterLevels, levelById } from './src/data';
 // @ts-expect-error -- plain ESM tool with JSDoc types
 import { parseNarrationYaml } from '../../tools/sokoban/narration-json.mjs';
@@ -300,6 +300,29 @@ describe('stage 2: cert, quizzes, random tiers, rewards, finale', () => {
     storeVisit(v, st);
     expect(loadVisit(10, st).levels).toBe(7);
     expect(loadVisit(10 + 31 * 60_000, st).levels).toBe(0);
+  });
+
+  it('visit clock books a level once (QA r3: route clock + level time counted it twice)', () => {
+    const v = newVisit(0);
+    const clock = visitClock(v, 0);
+    clock.tick(false, 5_000); // 5 s on the map, then go(play)
+    // a 15 s level that the play screen books itself on the pass
+    noteLevel(v, { id: '2-8', ch: 2, h3: false, activeMs: 15_000, launched: false, now: 20_000 });
+    clock.tick(true, 20_500); // go(map): the level owned the clock, nothing more booked
+    expect(v.activeMs).toBe(20_000);
+    clock.tick(false, 30_500); // 10 s on the map
+    expect(v.activeMs).toBe(30_000);
+    // a level left unfinished books its own active time (noteActive from destroy), still once
+    noteActive(v, 8_000, 40_000);
+    clock.tick(true, 40_500);
+    expect(v.activeMs).toBe(38_000);
+    // an idle gap off a level counts at most 60 s
+    clock.tick(false, 40_500 + 10 * 60_000);
+    expect(v.activeMs).toBe(98_000);
+    // paused → resumed: the hidden time is not booked
+    clock.reset(2_000_000);
+    clock.tick(false, 2_001_000);
+    expect(v.activeMs).toBe(99_000);
   });
 });
 

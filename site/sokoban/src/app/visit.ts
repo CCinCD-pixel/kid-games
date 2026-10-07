@@ -68,6 +68,25 @@ export function noteActive(v: Visit, ms: number, now = Date.now()): void {
   v.last = now;
 }
 
+/**
+ * The visit's wall clock between route changes / pauses (each gap ≤ 60 s, so an idle open page
+ * does not count). Time on a level screen is NOT booked here: PlayScreen / QuizScreen book their own
+ * active time (noteLevel on a pass, noteActive when left unfinished) — QA r3: booking both counted
+ * every level twice and brought the 12-minute wrap-up card at ~8 real minutes.
+ */
+export function visitClock(v: Visit, start = Date.now()): { tick(ownedByLevel: boolean, now?: number): void; reset(now?: number): void } {
+  let last = start;
+  return {
+    tick(ownedByLevel, now = Date.now()) {
+      if (!ownedByLevel) noteActive(v, Math.min(60_000, now - last), now);
+      last = now;
+    },
+    reset(now = Date.now()) {
+      last = now;
+    },
+  };
+}
+
 export function wrapDue(v: Visit): boolean {
   return !v.shown && (v.activeMs >= WRAP_MS || v.levels >= WRAP_LEVELS);
 }

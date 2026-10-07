@@ -27,7 +27,7 @@ import type { AppCtx, Route, Screen } from './context';
 import { randomLevelDef } from './random';
 import { openSave } from './save';
 import { levelPassed } from './unlock';
-import { loadVisit, noteActive, storeVisit } from './visit';
+import { loadVisit, storeVisit, visitClock } from './visit';
 import { guardGateClickThrough } from './gateGuard';
 import { installTestHooks } from '../dev';
 
@@ -36,11 +36,10 @@ export function boot(app: HTMLElement, params: URLSearchParams): void {
   const save = openSave();
   let screen: Screen | null = null;
   let layoutInfo: LayoutInfo | null = null;
-  let lastActive = Date.now();
-  const touchVisit = () => {
-    const now = Date.now();
-    noteActive(ctx.visit, Math.min(60_000, now - lastActive), now);
-    lastActive = now;
+  let clock: ReturnType<typeof visitClock> | null = null;
+  const touchVisit = (owned = !!screen?.ownsClock) => {
+    clock ??= visitClock(ctx.visit);
+    clock.tick(owned);
     storeVisit(ctx.visit);
   };
   const shell = initShell({
@@ -59,7 +58,7 @@ export function boot(app: HTMLElement, params: URLSearchParams): void {
       touchVisit();
     },
     onResume: () => {
-      lastActive = Date.now();
+      clock?.reset();
       screen?.resume?.();
     },
     onLayout: (l) => {
@@ -106,10 +105,11 @@ export function boot(app: HTMLElement, params: URLSearchParams): void {
   }
 
   function go(route: Route): void {
+    const owned = !!screen?.ownsClock;
     screen?.destroy();
     screen = null;
     app.dataset.screen = route.name;
-    touchVisit();
+    touchVisit(owned);
     if (route.name === 'opening') {
       screen = new OpeningScreen(ctx, () => {
         save.update((s) => {

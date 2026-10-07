@@ -22,7 +22,7 @@ import { chapterEmblem } from '../art/emblems';
 import { applyQuizResult, hallFor, type Outcome } from '../app/collection';
 import type { AppCtx, Screen } from '../app/context';
 import { nextAfter } from '../app/unlock';
-import { noteLevel, storeVisit } from '../app/visit';
+import { noteActive, noteLevel, storeVisit } from '../app/visit';
 import { QUIZZES, type DeadKind, type LevelDef, type QuizBoard, type QuizSide } from '../data';
 import { quizStars } from '../game/stars';
 import { attachBoardInput, type BoardGesture } from '../input/boardInput';
@@ -37,6 +37,7 @@ import { setPhraseText } from './wrap';
 const TYPE_NAME: Record<DeadKind, string> = { corner: '墙角', wall: '墙边', pair: '并排', square: '四方块' };
 
 export class QuizScreen implements Screen {
+  readonly ownsClock = true;
   readonly el: HTMLDivElement;
   private readonly hud: HTMLDivElement;
   private readonly plate: HTMLButtonElement;
@@ -174,7 +175,13 @@ export class QuizScreen implements Screen {
 
   destroy(): void {
     this.destroyed = true;
-    if (this.stage !== 'after') this.ctx.marks.add('level-leave', { id: this.def.id, pushes: 0, ms: Math.round(this.activeMs + performance.now() - this.t0) });
+    if (this.stage !== 'after') {
+      const ms = Math.round(this.activeMs + performance.now() - this.t0);
+      // left unfinished: book the active time into the visit (this screen owns the clock)
+      noteActive(this.ctx.visit, ms);
+      storeVisit(this.ctx.visit);
+      this.ctx.marks.add('level-leave', { id: this.def.id, pushes: 0, ms });
+    }
     this.ctx.marks.flush();
     this.detach?.();
     this.strip.destroy();

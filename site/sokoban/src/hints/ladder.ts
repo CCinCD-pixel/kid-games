@@ -48,6 +48,8 @@ export class HintLadder {
   private step = 0;
   usedMax: 0 | 1 | 2 | 3 = 0;
   h3Count = 0;
+  /** hints actually shown this run (presses swallowed by the cool-down / busy / a failed lookup do not count) */
+  given = 0;
   private lastPress = -1e9;
   private glowing = false;
   private idleTimer: ReturnType<typeof setTimeout> | null = null;
@@ -239,6 +241,7 @@ export class HintLadder {
       playSfx('hint', { volume: 0.6 });
       const c = b.crateCenterPage(slot);
       b.glance(c.x, c.y);
+      this.given += 1;
       void b.showHintRing(slot);
       void this.h.strip.say(H1_LINE[a.kind], { mood: 'encouraging', interrupt: true });
       return;
@@ -248,6 +251,7 @@ export class HintLadder {
       const stand = nb(s.level, a.slotCell, OPP[dir]);
       const route = s.player === stand ? [] : walkPath(s.level, s.state, stand, b.robot.pose.facing);
       b.showHint2(slot, dir, route, dir);
+      this.given += 1;
       void this.h.strip.say('sok.hint.h2', { mood: 'encouraging', interrupt: true });
       return;
     }
@@ -257,6 +261,7 @@ export class HintLadder {
     const steps = this.choreograph(line);
     if (!steps.length) return;
     this.h3Count += 1;
+    this.given += 1;
     playSfx('jingle-magic', { volume: 0.35 });
     this.h.setDemo(true);
     const said = this.h.strip.say('sok.hint.h3', { mood: 'encouraging', interrupt: true });
