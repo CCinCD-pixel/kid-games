@@ -3,6 +3,8 @@
 // Coordinates in design units (1 tile = 100 du; y up is negative). Poses are pure functions of state — no allocation
 // beyond the returned record, which the renderer reuses.
 
+import { RIGS2, pose2 } from './rigs2';
+
 export interface RigPart { p: string; b?: string; x: number; y: number; px?: number; py?: number; r?: number; sx?: number; sy?: number; z?: number }
 export interface Rig { parts: RigPart[]; shadow: number /* shadow half-width du */; height: number }
 export interface Bone { x?: number; y?: number; r?: number; s?: number; hide?: boolean }
@@ -77,10 +79,10 @@ export const RIGS: Record<string, Rig> = {
     { p: 'brFuse', b: 'pot', x: 1, y: -73 },
     { p: 'flame', b: 'fuse', x: 2, y: -86, px: 8, py: 22, sx: 0.5, sy: 0.5 },
   ] },
-  beam: { shadow: 30, height: 68, parts: [
+  beam: { shadow: 30, height: 74, parts: [
     ...op(-26, -10),
     { p: 'bmStand', x: -12, y: -44 },
-    { p: 'bmMirror', b: 'mirror', x: 4, y: -70, px: 7, py: 20 },
+    { p: 'bmMirror', b: 'mirror', x: 3, y: -44, px: 16, py: 34 },
     { p: 'bmWheel', b: 'wheel', x: -2, y: -44, px: 7, py: 7 },
   ] },
   // ── machines (face left) ──
@@ -121,12 +123,16 @@ export const RIGS: Record<string, Rig> = {
     { p: 'anLegs', b: 'legs', x: -8, y: -7 },
     { p: 'anBody', b: 'body', x: -10, y: -14 },
   ] },
-  brute: { shadow: 32, height: 92, parts: [
+  brute: { shadow: 32, height: 100, parts: [
     { p: 'btArm', b: 'armB', x: 10, y: -64, px: 5.5, py: 4 },
     { p: 'btLeg', b: 'legB', x: 4, y: -24, px: 5.5, py: 1 },
     { p: 'btBody', b: 'body', x: -20, y: -60 },
+    { p: 'btPaul', b: 'body', x: 8, y: -66 },
     { p: 'btHead', b: 'head', x: -14, y: -86 },
+    { p: 'btPaul', b: 'body', x: -29, y: -66 },
     { p: 'btLeg', b: 'legF', x: -12, y: -24, px: 5.5, py: 1 },
+    // the studded mace sits in the FRONT hand (its pivot = the grip); pose() moves it with that hand every frame
+    { p: 'btMace', b: 'mace', x: -16, y: -42, px: 12, py: 44 },
     { p: 'btArm', b: 'armF', x: -16, y: -62, px: 5.5, py: 4 },
   ] },
   rhino: { shadow: 70, height: 96, parts: [
@@ -143,6 +149,7 @@ export const RIGS: Record<string, Rig> = {
   ] },
 };
 
+Object.assign(RIGS, RIGS2); // volume 2 (bank · radial · gust · hook · flyer · smoker · ladder · drummer · 铜盾 · owl)
 const S = Math.sin;
 /** pose for a kind; `out` is reused */
 export function poseOf(kind: string, st: PoseState, out: Pose): Pose {
@@ -180,7 +187,7 @@ export function poseOf(kind: string, st: PoseState, out: Pose): Pose {
     case 'pit': out.cover = { hide: st.mode === 0 }; out.spade = { hide: st.mode !== 0, r: S(t * 7) * 0.5 }; break;
     case 'burner': { const k = st.atk > 0 ? Math.min(1, st.atk) : 0; out.pot = { hide: k > 0.15 && k < 0.85 }; out.fuse = { hide: k > 0.15 && k < 0.85, s: 1 + S(t * 18) * 0.15 }; out.opH = { y: S(t * 1.7) * 0.6 }; out.root = { s: breathe }; break; }
     case 'beam': out.mirror = { r: S(t * 0.8) * 0.05 }; out.wheel = { r: t * 0.6 }; out.opH = { y: S(t * 1.7) * 0.6 }; out.root = { s: breathe }; break;
-    case 'walker': case 'shielder': {
+    case 'walker': case 'shielder': case 'shielder_m': {
       const ph = st.walk * 0.11; const sw = S(ph);
       const bite = st.atk > 0 ? S(Math.min(1, st.atk) * Math.PI) : 0;
       out.legF = { r: sw * 0.5 }; out.legB = { r: -sw * 0.5 };
@@ -202,8 +209,12 @@ export function poseOf(kind: string, st: PoseState, out: Pose): Pose {
     case 'brute': {
       const ph = st.walk * 0.08; const sw = S(ph); const bite = st.atk > 0 ? S(Math.min(1, st.atk) * Math.PI) : 0;
       out.legF = { r: sw * 0.35 }; out.legB = { r: -sw * 0.35 };
-      out.armF = { r: -sw * 0.3 - bite * 1.4 }; out.armB = { r: sw * 0.3 - bite };
+      // front arm holds the mace raised overhead; a bite brings arm + mace down in front (the arm hangs from the
+      // shoulder at (-16,-62); a 20-unit forearm → the grip is at shoulder + 20·(-sin r, cos r), rest grip (-16,-42))
+      const rF = Math.PI - 0.25 + sw * 0.12 - bite * 1.75; const gx = -20 * Math.sin(rF), gy = 20 * Math.cos(rF) - 20;
+      out.armF = { r: rF }; out.armB = { r: sw * 0.3 - bite * 0.4 };
       out.body = { y: -Math.abs(sw) * 2 }; out.head = { y: -Math.abs(sw) * 2 }; out.root = {};
+      out.mace = { x: gx, y: gy, r: 0.22 + sw * 0.06 - bite * 2.3 };
       break;
     }
     case 'rhino': {
@@ -216,7 +227,7 @@ export function poseOf(kind: string, st: PoseState, out: Pose): Pose {
       out.drvH = { y: S(t * 3) * 0.6 }; out.root = {};
       break;
     }
-    default: out.root = {};
+    default: if (!pose2(kind, st, out)) out.root = {};
   }
   return out;
 }

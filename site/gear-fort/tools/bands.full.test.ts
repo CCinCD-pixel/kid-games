@@ -9,8 +9,10 @@ import path from 'node:path';
 import { batch, chain, pct, star3, facts, type Tally } from '../src/bots/evaluate';
 import type { Level } from '../src/lane/types';
 
-const FULL = !!process.env.GF_FULL;
 const VOL = +(process.env.GF_VOL || 1);
+// volume 2 is judged on K2h + the wide K band (tools/bands-v2.ts) by bands.rest.test.ts — never by the volume-1 rules here
+if (process.env.GF_FULL && VOL !== 1) console.warn('[bands.full] GF_VOL=2: run GF_FULL=1 GF_VOL=2 bands.rest.test.ts instead — this file judges volume 1 only');
+const FULL = !!process.env.GF_FULL && VOL === 1;
 const C = path.resolve(__dirname, '../../../content/gear-fort');
 const REF = JSON.parse(fs.readFileSync(path.join(__dirname, 'ref-report-v1.json'), 'utf8')) as Record<string, Record<string, number | number[] | string | string[]>>;
 const BANDS = JSON.parse(fs.readFileSync(path.join(C, 'bands.json'), 'utf8')) as { TYPE: Record<string, Record<string, number | number[]>>; OVERRIDE: Record<string, Record<string, unknown>>; GLOBAL: Record<string, unknown> };

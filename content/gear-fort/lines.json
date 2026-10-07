@@ -1103,7 +1103,7 @@
   "role": "dad",
   "kind": "sub",
   "text": "你用礌石拆掉了{n}个机关。",
-  "norm": "你用礌石拆掉了好多机关。"
+  "norm": "你用雷石拆掉了好多机关。"
  },
  "fort.good.counter.gust": {
   "role": "dad",
@@ -1289,6 +1289,11 @@
   "role": "dad",
   "kind": "sub",
   "text": "对症下药：看清再选牒。"
+ },
+ "fort.pz.g4": {
+  "role": "dad",
+  "kind": "sub",
+  "text": "举一反三：没见过的，看它身上的标签。"
  },
  "fort.pz.fei.1": {
   "role": "dad",
@@ -1654,6 +1659,11 @@
   "role": "narrator",
   "kind": "talk",
   "text": "木鸢折成的风筝，挂在城楼上。"
+ },
+ "fort.repair.flag": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "宋城的城楼上，挂起了一面墨家旗！"
  },
  "fort.alm.shooter.1": {
   "role": "narrator",
@@ -2354,5 +2364,272 @@
   "role": "dad",
   "kind": "card",
   "text": "举一反三：看它的标签，就知道谁对付得了它。"
+ },
+ "fort.nar.luban.preview.1-1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：我的木甲兵，会自己走路！"
+ },
+ "fort.nar.luban.preview.1-2": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：这回我派更多木甲兵！"
+ },
+ "fort.nar.luban.preview.1-3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：这回五路都来，看你挡不挡得住！"
+ },
+ "fort.nar.luban.preview.1-4": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：我的盾甲兵举着大木盾！",
+  "norm": "鲁班说：我的盾甲兵，举着大木盾！"
+ },
+ "fort.nar.luban.preview.1-5": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：这回我带了会冲的车！"
+ },
+ "fort.nar.luban.preview.1-6": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：嘿嘿，猜猜我按住哪一路？"
+ },
+ "fort.nar.luban.preview.1-7": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：一大群小木蚁，看你怎么办！"
+ },
+ "fort.nar.luban.preview.1-8": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：这回机关多，你可要留一手！"
+ },
+ "fort.nar.luban.preview.1-9": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：铜甲力士，火都烧不动！"
+ },
+ "fort.nar.luban.preview.1-10": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：这回，你自己挑牒吧！"
+ },
+ "fort.nar.luban.preview.1-11": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：我的铜犀冲车，天下第一硬！"
+ },
+ "fort.nar.luban.preview.2-1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：夜里没人送粮，看你怎么办！"
+ },
+ "fort.nar.luban.preview.2-2": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：我的木鹊，专门去啄粮！"
+ },
+ "fort.nar.luban.preview.2-3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：木鹊又来了，这回没有转射机！"
+ },
+ "fort.nar.luban.preview.2-4": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：烟车一放烟，你就看不见！"
+ },
+ "fort.nar.luban.preview.2-5": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：大雾来了，猜我从哪路来！"
+ },
+ "fort.nar.luban.preview.2-6": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：我的云梯，一架就上城！"
+ },
+ "fort.nar.luban.preview.2-7": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：急报！看你的粮够不够！"
+ },
+ "fort.nar.luban.preview.2-8": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：咚咚咚，鼓一响，机关都快跑！"
+ },
+ "fort.nar.luban.preview.2-9": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：烟、蚂蚁、冲车，一起上！"
+ },
+ "fort.nar.luban.preview.2-10": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：天亮之前，看你守不守得住！"
+ },
+ "fort.nar.luban.preview.2-11": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：我最得意的夜枭木鸢来了！"
+ },
+ "fort.nar.luban.rhino": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：铜犀冲车，出发！"
+ },
+ "fort.nar.luban.rhino.shell": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：缩进铜壳里，看你怎么打！"
+ },
+ "fort.nar.luban.rhino.crack": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：壳裂了？你真会想办法！"
+ },
+ "fort.nar.luban.owl": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：夜枭木鸢，起飞！"
+ },
+ "fort.nar.luban.owl.down": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：哎呀，被风吹下来了！"
+ },
+ "fort.nar.luban.dawn": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "鲁班说：天亮了？木鸢停不住啦！"
+ },
+ "fort.bonus.1-1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：没有木甲兵走过第 5 格。",
+  "norm": "附加题：没有木甲兵走过第五格。"
+ },
+ "fort.bonus.1-2": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：第 60 秒时有 4 块禾田。",
+  "norm": "附加题：第六十秒时有四块禾田。"
+ },
+ "fort.bonus.1-3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：最多两台连弩车被咬坏。"
+ },
+ "fort.bonus.1-4": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：盾甲兵没有走过第 3 格。",
+  "norm": "附加题：盾甲兵没有走过第三格。"
+ },
+ "fort.bonus.1-5": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：铁蒺藜卡住 5 辆冲车。",
+  "norm": "附加题：铁蒺藜卡住五辆冲车。"
+ },
+ "fort.bonus.1-6": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：陷坑收走 5 个机关。",
+  "norm": "附加题：陷坑收走五个机关。"
+ },
+ "fort.bonus.1-7": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：一罐火油烧到一整群（8 只）蚁傅。",
+  "norm": "附加题：一罐火油烧到一整群（八只）蚁傅。"
+ },
+ "fort.bonus.1-8": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：一块礌石砸中 3 个机关。",
+  "norm": "附加题：一块雷石砸中三个机关。"
+ },
+ "fort.bonus.1-9": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：没有机关走过第 2 格。",
+  "norm": "附加题：没有机关走过第二格。"
+ },
+ "fort.bonus.1-10": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：冲车最多撞坏两台机关。"
+ },
+ "fort.bonus.1-11": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：没有机关走过第 3 格。",
+  "norm": "附加题：没有机关走过第三格。"
+ },
+ "fort.bonus.2-1": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：没有机关走过第 4 格。",
+  "norm": "附加题：没有机关走过第四格。"
+ },
+ "fort.bonus.2-2": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：没有一块禾田被啄坏。"
+ },
+ "fort.bonus.2-3": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：风箱吹落 3 只木鹊，禾田一块不丢。",
+  "norm": "附加题：风箱吹落三只木鹊，禾田一块不丢。"
+ },
+ "fort.bonus.2-4": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：风箱吹散 10 格烟。",
+  "norm": "附加题：风箱吹散十格烟。"
+ },
+ "fort.bonus.2-5": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：雾里最多只有 1 块禾田被咬坏。",
+  "norm": "附加题：雾里最多只有一块禾田被咬坏。"
+ },
+ "fort.bonus.2-6": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：没有一座木垒被推倒。"
+ },
+ "fort.bonus.2-7": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：最多只丢一台机关。"
+ },
+ "fort.bonus.2-8": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：鼓车没有走过第 4 格。",
+  "norm": "附加题：鼓车没有走过第四格。"
+ },
+ "fort.bonus.2-9": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：风箱同一路的火油罐，一罐烧到 5 个机关。",
+  "norm": "附加题：风箱同一路的火油罐，一罐烧到五个机关。"
+ },
+ "fort.bonus.2-10": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：天亮后 20 秒内放下阳燧。",
+  "norm": "附加题：天亮后二十秒内放下阳燧。"
+ },
+ "fort.bonus.2-11": {
+  "role": "narrator",
+  "kind": "talk",
+  "text": "附加题：风箱把木鸢打落一次。"
  }
 }

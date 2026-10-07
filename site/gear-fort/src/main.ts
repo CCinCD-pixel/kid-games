@@ -24,7 +24,8 @@ ctx.shell = initShell({
   game: 'gear-fort',
   startGate: { title: '机关守城', subtitle: '跟墨子在沙盘上守住小城' },
   back: { compact: true },
-  onBeforeLeave: () => { appApi?.leave(); store.save(save); },
+  // the kit waits ≤ 400 ms for this promise: the suspend snapshot is written to IndexedDB at once, not on an idle frame
+  onBeforeLeave: () => { const p = appApi?.leave(); store.save(save); return p ?? undefined; },
   onPause: () => appApi?.pause(),
   onLayout: (l) => { ctx.layout = l; ctx.dpr = Math.min(2, l.dpr || window.devicePixelRatio || 1); appApi?.layout(l); },
 });
@@ -37,6 +38,8 @@ if (/[?&]dev=replay\b/.test(location.search)) {
   const sim = await import('./lane/sim');
   (window as unknown as { __gfKernel: unknown }).__gfKernel = { createSim: sim.createSim, step: sim.step, hash: sim.hash, snapshot: sim.snapshot, resume: sim.resume, restore: sim.restore };
 }
+// the start gate is up: smoke marker for the platform test (data-ready follows after the tap; GAME_AUTHORING §8)
+root.dataset.gate = '1';
 await shell.ready;
 void installKitSfx({ only: ['ui-tap', 'ui-pick', 'ui-select', 'ui-confirm', 'ui-open', 'ui-locked', 'ui-toggle-on', 'place-piece', 'coin', 'bump', 'lock-in', 'star-1', 'star-2', 'star-3', 'level-complete', 'jingle-win'] });
 root.dataset.ready = '1';

@@ -45,11 +45,20 @@ export class Atlas {
   part(ctx: CanvasRenderingContext2D, id: string, white = false): void {
     const s = this.slots[id]; if (!s) return;
     ctx.drawImage(white ? this.white : this.page, s.x, s.y, s.w, s.h, -PAD, -PAD, s.w / this.a, s.h / this.a);
+    if (drawStats.measure) { const m = ctx.getTransform(); drawStats.px += Math.abs(m.a * m.d - m.b * m.c) * (s.w / this.a) * (s.h / this.a); }
+  }
+  /** same as part() without the fill-rate probe (drawRig measures with the matrix it already has) */
+  blit(ctx: CanvasRenderingContext2D, id: string, white: boolean): number {
+    const s = this.slots[id]; if (!s) return 0; const w = s.w / this.a, h = s.h / this.a;
+    ctx.drawImage(white ? this.white : this.page, s.x, s.y, s.w, s.h, -PAD, -PAD, w, h); return w * h;
   }
 }
 
-/** draw counter for the ?dev overlay and the perf gate (≤700 drawImage per frame) */
-export const drawStats = { calls: 0 };
+/**
+ * Draw counters for the ?dev overlay and the perf gate (§8.6/§9.8): drawImage calls per frame (≤700) and, while
+ * `measure` is on (?dev=perf only — getTransform allocates), the device pixels those drawImages cover (≤3× the screen).
+ */
+export const drawStats = { calls: 0, px: 0, measure: false };
 
 /**
  * Draw a rig. X, Y in CSS px (feet / origin), k = CSS px per du, dpr = device pixel ratio of the stage canvas.
@@ -76,7 +85,8 @@ export function drawRig(ctx: CanvasRenderingContext2D, atlas: Atlas, kind: strin
       const a1 = (a0 * cp + c0 * sp) * sx, b1 = (b0 * cp + d0 * sp) * sx, c1 = (-a0 * sp + c0 * cp) * sy, d1 = (-b0 * sp + d0 * cp) * sy;
       const px = p.px ?? 0, py = p.py ?? 0;
       ctx.setTransform(a1, b1, c1, d1, e1 - a1 * px - c1 * py, f1 - b1 * px - d1 * py);
-      atlas.part(ctx, p.p, pass === 1); drawStats.calls++;
+      const area = atlas.blit(ctx, p.p, pass === 1); drawStats.calls++;
+      if (drawStats.measure) drawStats.px += Math.abs(a1 * d1 - b1 * c1) * area;
     }
   }
   ctx.globalAlpha = 1;

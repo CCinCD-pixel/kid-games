@@ -5,10 +5,12 @@ import { Narrator, type Cue, type NarrationManifest, type SayResult } from '@kit
 import { LINES, VOICE } from './content';
 import { lineText } from './theme/mozi';
 import { duckMusic } from './audio/music';
+import { WORDS, wordId } from './pointread';
 
 export function textManifest(): NarrationManifest {
   const m: NarrationManifest = {};
   for (const [id, l] of Object.entries(LINES)) if (l.role !== 'luban') m[id] = { src: '', text: l.text, durationMs: 0, role: l.role };
+  for (const w of WORDS) m[wordId(w)] ??= { src: '', text: w, durationMs: 0, role: 'word' }; // 点读 (clips merge over these)
   return m;
 }
 

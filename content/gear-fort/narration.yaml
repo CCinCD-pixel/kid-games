@@ -5,9 +5,9 @@ game: gear-fort
 seed: 2610
 lines:
   - {id: fort.dock.1, role: companion, text: 两千多年前，有一位叫墨子的科学家。}
-  - {id: fort.dock.2, role: companion, text: 2016年，中国把量子卫星叫作墨子号。, norm: 二零一六年，中国把量子卫星叫作墨子号。, pinyin: {墨子号: mò zǐ hào, 量子: liàng zǐ}}
+  - {id: fort.dock.2, role: companion, text: 2016年，中国把量子卫星叫作墨子号。, norm: 二零一六年，中国把量子卫星叫作墨子号。, pinyin: {量: liàng}}
   - {id: fort.dock.3, role: companion, text: 走，我们去见见墨子！}
-  - {id: fort.dock.v1, role: companion, text: 墨子号卫星，就是用他的名字命名的。, pinyin: {墨子号: mò zǐ hào}}
+  - {id: fort.dock.v1, role: companion, text: 墨子号卫星，就是用他的名字命名的。}
   - {id: fort.dock.v2, role: companion, text: 第二卷推演完成！你守住了十天十夜。, pinyin: {第二卷: dì èr juàn}}
   - {id: fort.story.0.1, role: narrator, text: 很久以前，楚王想去攻打小小的宋国。}
   - {id: fort.story.0.2, role: narrator, text: 鲁班为楚王造好了高高的云梯。}
@@ -35,14 +35,14 @@ lines:
   - {id: fort.lvl.1-7.1, role: dad, text: 蚁傅一来就是一大群。}
   - {id: fort.lvl.1-7.2, role: dad, text: 火油罐，一罐烧一片。}
   - {id: fort.lvl.1-8.1, role: dad, text: 礌石很重，要留着用。}
-  - {id: fort.lvl.1-8.2, role: dad, text: 等机关挤在一起再砸。}
+  - {id: fort.lvl.1-8.2, role: dad, text: 等机关挤在一起再砸。, pinyin: {}, speed: 0.9, notes: {qc: pace 5.0 cps}}
   - {id: fort.lvl.1-9.1, role: dad, text: 铜甲力士不怕火。}
   - {id: fort.lvl.1-9.2, role: dad, text: 阳燧把阳光聚起来照它。}
   - {id: fort.lvl.1-10.1, role: dad, text: 这回你自己选牒。}
   - {id: fort.lvl.1-10.2, role: dad, text: 先看看鲁班亮了什么招。}
   - {id: fort.lvl.1-11.1, role: dad, text: 铜犀冲车来了！}
   - {id: fort.lvl.1-11.2, role: dad, text: 想想，什么敲得开铜壳？}
-  - {id: fort.lvl.2-1.1, role: dad, text: 夜里没有人送粮。}
+  - {id: fort.lvl.2-1.1, role: dad, text: 夜里没有人送粮。, pinyin: {}, speed: 0.9, notes: {qc: pace 5.2 cps}}
   - {id: fort.lvl.2-1.2, role: dad, text: 先建粮仓，粮会自己来。}
   - {id: fort.lvl.2-2.1, role: dad, text: 木鹊会飞去啄禾田。}
   - {id: fort.lvl.2-2.2, role: dad, text: 转射机打得到天上的。}
@@ -72,26 +72,26 @@ lines:
   - {id: fort.coach.lane.lobber, role: dad, text: 这一路还空着，放一台籍车！}
   - {id: fort.coach.lane.burner, role: dad, text: 这一路还空着，放一台火油罐！}
   - {id: fort.coach.lane.beam, role: dad, text: 这一路还空着，放一台阳燧！}
-  - {id: fort.coach.lane.radial, role: dad, text: 这一路还空着，放一台转射机！, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.coach.lane.radial, role: dad, text: 这一路还空着，放一台转射机！, pinyin: {转: zhuàn}}
   - {id: fort.coach.counter.walker, role: dad, text: 木甲兵，连弩车就拆得动。}
   - {id: fort.coach.counter.shielder, role: dad, text: 盾挡箭，挡不住籍车的石头。}
   - {id: fort.coach.counter.ram, role: dad, text: 冲车怕铁蒺藜。, pinyin: {冲车: chōng chē}}
   - {id: fort.coach.counter.ant, role: dad, text: 蚁群怕火油罐。}
   - {id: fort.coach.counter.brute, role: dad, text: 铜甲力士怕阳燧和籍车。}
-  - {id: fort.coach.counter.flyer, role: dad, text: 木鹊怕转射机，也怕风箱。, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.coach.counter.flyer, role: dad, text: 木鹊怕转射机，也怕风箱。, pinyin: {转: zhuàn}}
   - {id: fort.coach.counter.smoker, role: dad, text: 烟车怕风箱，也怕籍车。}
   - {id: fort.coach.counter.ladder, role: dad, text: 云梯车怕钩拒。}
-  - {id: fort.coach.counter.drummer, role: dad, text: 鼓车怕礌石和籍车。, pinyin: {礌石: léi shí}}
+  - {id: fort.coach.counter.drummer, role: dad, text: 鼓车怕礌石和籍车。, norm: 鼓车怕雷石和籍车。}
   - {id: fort.coach.flag, role: dad, text: 大波要来了，这路还空着。}
   - {id: fort.coach.econ, role: dad, text: 先种禾田，粮会越来越多。, pinyin: {种禾田: zhòng hé tián}}
   - {id: fort.coach.night, role: dad, text: 夜里禾田出粮少，建座粮仓。}
-  - {id: fort.coach.boss.shell, role: dad, text: 铜壳只怕重石和阳燧。, pinyin: {重石: zhòng shí}}
+  - {id: fort.coach.boss.shell, role: dad, text: 铜壳只怕重石和阳燧。, pinyin: {重: zhòng}}
   - {id: fort.coach.boss.swap, role: dad, text: 铲掉一台连弩车，换上籍车。}
   - {id: fort.coach.boss.charge, role: dad, text: 铁蒺藜能扎住它的冲锋。, pinyin: {扎住: zhā zhù, 冲锋: chōng fēng}}
-  - {id: fort.coach.boss.owlhigh, role: dad, text: 转射机放前面，打高空的。, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.coach.boss.owlhigh, role: dad, text: 转射机放前面，打高空的。, pinyin: {转: zhuàn}}
   - {id: fort.coach.boss.owlswoop, role: dad, text: 它要俯冲了，风箱吹它！, pinyin: {俯冲: fǔ chōng}}
   - {id: fort.coach.boss.owldown, role: dad, text: 它落地了，现在最好打！}
-  - {id: fort.coach.token, role: dad, text: 机关令！拖到一台机关上。, pinyin: {机关令: jī guān lìng}}
+  - {id: fort.coach.token, role: dad, text: 机关令！拖到一台机关上。}
   - {id: fort.coach.drum, role: dad, text: 准备好了，可以敲鼓迎战。}
   - {id: fort.coach.newcard, role: dad, text: 这是新的牒，试试看。}
   - {id: fort.coach.newmachine, role: dad, text: 新机关来了，看仔细。}
@@ -112,13 +112,13 @@ lines:
   - {id: fort.fail.ramRunUp.4, role: dad, text: 冲车在第4路跑起来了。, norm: 冲车在第四路跑起来了。, pinyin: {冲车: chōng chē}}
   - {id: fort.fail.outgunned.4, role: dad, text: 第4路的机关太多了。, norm: 第四路的机关太多了。}
   - {id: fort.fail.emptyLane.5, role: dad, text: 机关进第5路时，那里没人守。, norm: 机关进第五路时，那里没人守。}
-  - {id: fort.fail.noAntiAir.5, role: dad, text: 木鹊从第5路飞过去了。, norm: 木鹊从第五路飞过去了。}
+  - {id: fort.fail.noAntiAir.5, role: dad, text: 木鹊从第5路飞过去了。, norm: 木鹊从第五路飞过去了。, pinyin: {}, speed: 0.9, notes: {qc: pace 5.1 cps}}
   - {id: fort.fail.ramRunUp.5, role: dad, text: 冲车在第5路跑起来了。, norm: 冲车在第五路跑起来了。, pinyin: {冲车: chōng chē}}
   - {id: fort.fail.outgunned.5, role: dad, text: 第5路的机关太多了。, norm: 第五路的机关太多了。}
   - {id: fort.fail.ladderPins, role: dad, text: 云梯压住了木垒后面的机关。}
   - {id: fort.fail.owlWalked, role: dad, text: 木鸢落地后，走到了城门。}
   - {id: fort.tip.owlWalked, role: dad, text: 它落地了，什么都打得到。}
-  - {id: fort.fail.counterMissing.shielder, role: dad, text: 木盾挡住了你的连弩车。}
+  - {id: fort.fail.counterMissing.shielder, role: dad, text: 木盾挡住了你的连弩车。, pinyin: {}, seed: 2710, notes: {qc: 木盾 heard as 木棍 on seeds 2610-2613}}
   - {id: fort.fail.counterMissing.ram, role: dad, text: 冲车一路冲到了城门。, pinyin: {冲车: chōng chē}}
   - {id: fort.fail.counterMissing.ant, role: dad, text: 蚁群太多，一箭只拆一只。}
   - {id: fort.fail.counterMissing.brute, role: dad, text: 铜甲挡住了你的牒。}
@@ -140,45 +140,45 @@ lines:
   - {id: fort.fail.counterUnused.beam, role: dad, text: 阳燧带了，却没放在那一路。}
   - {id: fort.tip.counterMissing.beam, role: dad, text: 下次带上阳燧。}
   - {id: fort.tip.counterUnused.beam, role: dad, text: 看到它来，那一路放阳燧。}
-  - {id: fort.fail.counterUnused.radial, role: dad, text: 转射机带了，却没放在那一路。, pinyin: {转射机: zhuàn shè jī}}
-  - {id: fort.tip.counterMissing.radial, role: dad, text: 下次带上转射机。, pinyin: {转射机: zhuàn shè jī}}
-  - {id: fort.tip.counterUnused.radial, role: dad, text: 看到它来，那一路放转射机。, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.fail.counterUnused.radial, role: dad, text: 转射机带了，却没放在那一路。, pinyin: {转: zhuàn}}
+  - {id: fort.tip.counterMissing.radial, role: dad, text: 下次带上转射机。, pinyin: {转: zhuàn}}
+  - {id: fort.tip.counterUnused.radial, role: dad, text: 看到它来，那一路放转射机。, pinyin: {转: zhuàn}}
   - {id: fort.fail.counterUnused.gust, role: dad, text: 风箱带了，却没放在那一路。}
   - {id: fort.tip.counterMissing.gust, role: dad, text: 下次带上风箱。}
   - {id: fort.tip.counterUnused.gust, role: dad, text: 看到它来，那一路放风箱。}
   - {id: fort.fail.counterUnused.hook, role: dad, text: 钩拒带了，却没放在那一路。}
   - {id: fort.tip.counterMissing.hook, role: dad, text: 下次带上钩拒。}
   - {id: fort.tip.counterUnused.hook, role: dad, text: 看到它来，那一路放钩拒。}
-  - {id: fort.fail.counterUnused.strike, role: dad, text: 礌石带了，却没放在那一路。}
-  - {id: fort.tip.counterMissing.strike, role: dad, text: 下次带上礌石。}
-  - {id: fort.tip.counterUnused.strike, role: dad, text: 看到它来，那一路放礌石。}
+  - {id: fort.fail.counterUnused.strike, role: dad, text: 礌石带了，却没放在那一路。, norm: 雷石带了，却没放在那一路。}
+  - {id: fort.tip.counterMissing.strike, role: dad, text: 下次带上礌石。, norm: 下次带上雷石。}
+  - {id: fort.tip.counterUnused.strike, role: dad, text: 看到它来，那一路放礌石。, norm: 看到它来，那一路放雷石。}
   - {id: fort.fail.nightFarms, role: dad, text: 夜里禾田只出一半粮。}
   - {id: fort.fail.lateEconomy, role: dad, text: "到第60秒只种了{n}块禾田。", norm: 到第六十秒，禾田种得太少。}
   - {id: fort.fail.hoard, role: dad, text: "粮最多攒了{n}没花。", norm: 攒了好多粮，没有花。}
-  - {id: fort.fail.strikeEarly, role: dad, text: 礌石在大波之前就用掉了。}
+  - {id: fort.fail.strikeEarly, role: dad, text: 礌石在大波之前就用掉了。, norm: 雷石在大波之前就用掉了。}
   - {id: fort.fail.generic, role: dad, text: 再推演一次看看。}
   - {id: fort.tip.emptyLane, role: dad, text: 机关进哪路，哪路先放一台。}
-  - {id: fort.tip.noAntiAir, role: dad, text: 转射机打得到飞的。, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.tip.noAntiAir, role: dad, text: 转射机打得到飞的。, pinyin: {转: zhuàn}}
   - {id: fort.tip.noAntiAir.2, role: dad, text: 风箱能把它吹下来。}
   - {id: fort.tip.ladderPins, role: dad, text: 钩拒能把梯子拉倒。, pinyin: {拉倒: lā dǎo}}
   - {id: fort.tip.ramRunUp, role: dad, text: 木垒前一格铺铁蒺藜。}
   - {id: fort.tip.nightFarms, role: dad, text: 夜里先建粮仓。}
   - {id: fort.tip.lateEconomy, role: dad, text: 开局先种4块禾田。, norm: 开局先种四块禾田。, pinyin: {先种: xiān zhòng}}
   - {id: fort.tip.hoard, role: dad, text: 粮够了就放，别让它睡觉。}
-  - {id: fort.tip.strikeEarly, role: dad, text: 礌石留给扎堆的大波。, pinyin: {扎堆: zhā duī}}
+  - {id: fort.tip.strikeEarly, role: dad, text: 礌石留给扎堆的大波。, norm: 雷石留给扎堆的大波。, pinyin: {扎堆: zhā duī}}
   - {id: fort.tip.outgunned, role: dad, text: 大波前给这一路多放一台。}
-  - {id: fort.good.econ, role: dad, text: "你第{t}秒就种了{n}块田。", norm: 你很早就种好了田。, pinyin: {种好: zhòng hǎo}}
+  - {id: fort.good.econ, role: dad, text: "你第{t}秒就种了{n}块田。", norm: 你很早就种好了田。, pinyin: {种好: zhòng hǎo}, speed: 0.9, notes: {qc: pace 5.05 cps}}
   - {id: fort.good.econ.2, role: dad, text: "所以大波来时多出{g}粮。", norm: 所以大波来的时候，粮更多。}
   - {id: fort.good.counter.shooter, role: dad, text: "你用连弩车拆掉了{n}个机关。", norm: 你用连弩车拆掉了好多机关。}
   - {id: fort.good.counter.lobber, role: dad, text: "你用籍车拆掉了{n}个机关。", norm: 你用籍车拆掉了好多机关。}
   - {id: fort.good.counter.burner, role: dad, text: "你用火油罐拆掉了{n}个机关。", norm: 你用火油罐拆掉了好多机关。}
   - {id: fort.good.counter.beam, role: dad, text: "你用阳燧拆掉了{n}个机关。", norm: 你用阳燧拆掉了好多机关。}
-  - {id: fort.good.counter.radial, role: dad, text: "你用转射机拆掉了{n}个机关。", norm: 你用转射机拆掉了好多机关。, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.good.counter.radial, role: dad, text: "你用转射机拆掉了{n}个机关。", norm: 你用转射机拆掉了好多机关。, pinyin: {转: zhuàn}}
   - {id: fort.good.counter.spikes, role: dad, text: "铁蒺藜让冲车冲不起来{n}次。", norm: 铁蒺藜让冲车冲不起来好几次。, pinyin: {冲车: chōng chē}}
   - {id: fort.good.counter.pit, role: dad, text: "陷坑收走了{n}个机关。", norm: 陷坑收走了好几个机关。}
-  - {id: fort.good.counter.strike, role: dad, text: "你用礌石拆掉了{n}个机关。", norm: 你用礌石拆掉了好多机关。}
+  - {id: fort.good.counter.strike, role: dad, text: "你用礌石拆掉了{n}个机关。", norm: 你用雷石拆掉了好多机关。}
   - {id: fort.good.counter.gust, role: dad, text: "风箱吹落了{n}只木鹊。", norm: 风箱吹落了好几只木鹊。}
-  - {id: fort.good.counter.hook, role: dad, text: "钩拒拉倒了{n}架云梯。", norm: 钩拒拉倒了好几架云梯。, pinyin: {拉倒: lā dǎo}}
+  - {id: fort.good.counter.hook, role: dad, text: "钩拒拉倒了{n}架云梯。", norm: 钩拒拉倒了好几架云梯。, pinyin: {拉倒: lā dǎo}, speed: 0.9, notes: {qc: pace 5.2 cps}}
   - {id: fort.good.log, role: dad, text: 檑木帮你挡住了一次。, pinyin: {檑木: léi mù}}
   - {id: fort.good.hold, role: dad, text: "你守住了{k}面大波。", norm: 你守住了好几面大波。}
   - {id: fort.good.learned, role: dad, text: 今天又学会了一招！}
@@ -194,7 +194,7 @@ lines:
   - {id: fort.result.lose, role: dad, text: 推演没守住，我们复盘看看。}
   - {id: fort.result.flag, role: dad, text: "从第{n}面战鼓重来？", norm: 从刚才那面战鼓重来？, pinyin: {重来: chóng lái}}
   - {id: fort.result.assist, role: dad, text: 要不要我帮你一把？}
-  - {id: fort.result.ghost, role: dad, text: 看看我怎么守这一段？}
+  - {id: fort.result.ghost, role: dad, text: 看看我怎么守这一段？, pinyin: {}, speed: 0.88, notes: {qc: pace 5.5 cps}}
   - {id: fort.result.star3, role: dad, text: 鲁班的附加题，也做到了！}
   - {id: fort.ui.home, role: dad, text: 回大厅？这一局会存好。}
   - {id: fort.ui.seal, role: dad, text: 带上它。}
@@ -213,6 +213,7 @@ lines:
   - {id: fort.pz.par, role: dad, text: 正好够，一粒粮都没浪费！}
   - {id: fort.pz.g1, role: dad, text: 精打细算：粮正好够用。}
   - {id: fort.pz.g2, role: dad, text: 对症下药：看清再选牒。}
+  - {id: fort.pz.g4, role: dad, text: 举一反三：没见过的，看它身上的标签。}
   - {id: fort.pz.fei.1, role: dad, text: 这道题，一台射的都没有。}
   - {id: fort.pz.fei.2, role: dad, text: 挡住、推回、收走，也能守。}
   - {id: fort.fam.intro.1, role: dad, text: 爸爸当鲁班，你来守城。}
@@ -221,11 +222,11 @@ lines:
   - {id: fort.fam.win, role: dad, text: 守住了！鲁班的招用完了。}
   - {id: fort.fam.lose, role: dad, text: 爸爸这招厉害！再来一局？}
   - {id: fort.fam.more, role: dad, text: 给爸爸多一点木料吗？}
-  - {id: fort.fam.less, role: dad, text: 给爸爸少一点木料吗？}
+  - {id: fort.fam.less, role: dad, text: 给爸爸少一点木料吗？, pinyin: {}, speed: 0.88, notes: {qc: pace 5.4 cps}}
   - {id: fort.inn.1-3.1, role: dad, text: 今天学会了先挡后打。}
   - {id: fort.inn.1-6.1, role: dad, text: 鲁班按哪路，就先防哪路。}
   - {id: fort.inn.1-9.1, role: dad, text: 铜不怕火，可怕聚起来的阳光。}
-  - {id: fort.inn.1-11.1, role: dad, text: 第一卷推演完了！, pinyin: {第一卷: dì yī juàn}}
+  - {id: fort.inn.1-11.1, role: dad, text: 第一卷推演完了！, pinyin: {卷: juàn}}
   - {id: fort.inn.1-11.2, role: dad, text: 宋城修好了一大半。}
   - {id: fort.inn.2-3.1, role: dad, text: 风能帮我们，也能帮火。}
   - {id: fort.inn.2-6.1, role: dad, text: 云梯再高，钩拒一拉就倒。, pinyin: {拉就倒: lā jiù dǎo}}
@@ -240,12 +241,12 @@ lines:
   - {id: fort.ask.1-5, role: dad, text: 讲给爸爸听：冲车为什么要先跑起来才撞得狠？, pinyin: {冲车: chōng chē}}
   - {id: fort.ask.1-6, role: dad, text: 讲给爸爸听：鲁班的手按住了哪两路？你提前做了什么？}
   - {id: fort.ask.1-7, role: dad, text: 讲给爸爸听：一箭只能拆一只蚂蚁，一罐火油呢？}
-  - {id: fort.ask.1-8, role: dad, text: 讲给爸爸听：礌石为什么要等它们挤在一起再砸？}
+  - {id: fort.ask.1-8, role: dad, text: 讲给爸爸听：礌石为什么要等它们挤在一起再砸？, norm: 讲给爸爸听：雷石为什么要等它们挤在一起再砸？}
   - {id: fort.ask.1-9, role: dad, text: 讲给爸爸听：火油罐为什么烧不动铜甲力士？}
   - {id: fort.ask.1-10, role: dad, text: 讲给爸爸听：你为什么带了这几张牒？}
   - {id: fort.ask.1-11, role: dad, text: 讲给爸爸听：铜犀缩进壳里时，什么能把壳敲裂？, pinyin: {敲裂: qiāo liè}}
   - {id: fort.ask.2-1, role: dad, text: 讲给爸爸听：粮仓要等一会儿才出粮，为什么还值得先建？}
-  - {id: fort.ask.2-2, role: dad, text: 讲给爸爸听：木鹊飞过了连弩车，为什么转射机打得到它？, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.ask.2-2, role: dad, text: 讲给爸爸听：木鹊飞过了连弩车，为什么转射机打得到它？, pinyin: {转: zhuàn}}
   - {id: fort.ask.2-3, role: dad, text: 讲给爸爸听：风箱吹不动谁？为什么？}
   - {id: fort.ask.2-4, role: dad, text: 讲给爸爸听：烟里看不见，籍车为什么还能打中？, pinyin: {打中: dǎ zhòng}}
   - {id: fort.ask.2-5, role: dad, text: 讲给爸爸听：雾里看不见，你怎么知道每路都要守？}
@@ -264,7 +265,7 @@ lines:
   - {id: fort.repair.1-4, role: narrator, text: 城楼的木梯修好了。}
   - {id: fort.repair.1-5, role: narrator, text: 护城的小桥铺上了木板。}
   - {id: fort.repair.1-6, role: narrator, text: 水井装上了辘轳。, pinyin: {辘轳: lù lu}}
-  - {id: fort.repair.1-7, role: narrator, text: 第二块粟田长高了。, pinyin: {长高: zhǎng gāo}}
+  - {id: fort.repair.1-7, role: narrator, text: 第二块粟田长高了。, pinyin: {长: zhǎng}}
   - {id: fort.repair.1-8, role: narrator, text: 西边的城墙补齐了。}
   - {id: fort.repair.1-9, role: narrator, text: 铁匠铺的炉子点着了。, pinyin: {点着: diǎn zháo}}
   - {id: fort.repair.1-10, role: narrator, text: 孩子们有了秋千。}
@@ -280,27 +281,28 @@ lines:
   - {id: fort.repair.2-9, role: narrator, text: 粮仓装满了。}
   - {id: fort.repair.2-10, role: narrator, text: 太阳从城后升起来了。}
   - {id: fort.repair.2-11, role: narrator, text: 木鸢折成的风筝，挂在城楼上。}
+  - {id: fort.repair.flag, role: narrator, text: 宋城的城楼上，挂起了一面墨家旗！}
   - {id: fort.alm.shooter.1, role: narrator, text: 连弩车：一次能装好多支箭的大弩车。}
   - {id: fort.alm.shooter.2, role: narrator, text: 弓弦拉得越紧，箭飞得越远。}
-  - {id: fort.alm.farm.1, role: narrator, text: 禾田：种下粟，就会长出粮。}
-  - {id: fort.alm.farm.2, role: narrator, text: 庄稼要晒太阳，夜里长得慢。, pinyin: {长得慢: zhǎng de màn}}
+  - {id: fort.alm.farm.1, role: narrator, text: 禾田：种下粟，就会长出粮。, norm: 禾田：种下素，就会长出粮。, pinyin: {长: zhǎng}}
+  - {id: fort.alm.farm.2, role: narrator, text: 庄稼要晒太阳，夜里长得慢。, pinyin: {长: zhǎng}}
   - {id: fort.alm.wall.1, role: narrator, text: 木垒：用木头和土垒起来的墙。}
   - {id: fort.alm.wall.2, role: narrator, text: 先挡住，后面的车才能慢慢打。}
   - {id: fort.alm.lobber.1, role: narrator, text: 籍车：把石头抛过城墙的投石车。, pinyin: {籍车: jí chē}}
-  - {id: fort.alm.lobber.2, role: narrator, text: 杠杆：短的一头一压，长的一头就甩出去。, pinyin: {一头: yì tóu}}
+  - {id: fort.alm.lobber.2, role: narrator, text: 杠杆：短的一头一压，长的一头就甩出去。}
   - {id: fort.alm.spikes.1, role: narrator, text: 铁蒺藜：撒在地上的四角铁刺。}
   - {id: fort.alm.spikes.2, role: narrator, text: 四个尖角，怎么扔都有一个尖朝上。}
   - {id: fort.alm.pit.1, role: narrator, text: 陷坑：提前挖好、盖上草的坑。}
   - {id: fort.alm.pit.2, role: narrator, text: 机关一踩就掉下去，被收走了。}
   - {id: fort.alm.burner.1, role: narrator, text: 火油罐：装着火油的陶罐。}
   - {id: fort.alm.burner.2, role: narrator, text: 木头会烧，青铜不会烧。同一把火，要看材料。}
-  - {id: fort.alm.strike.1, role: narrator, text: 礌石：守城时从城上推下的大石头。}
+  - {id: fort.alm.strike.1, role: narrator, text: 礌石：守城时从城上推下的大石头。, norm: 雷石：守城时从城上推下的大石头。}
   - {id: fort.alm.strike.2, role: narrator, text: 石头越重，砸下来越有力。}
   - {id: fort.alm.beam.1, role: narrator, text: 阳燧：青铜做的凹面镜。, pinyin: {凹面镜: āo miàn jìng}}
   - {id: fort.alm.beam.2, role: narrator, text: 凹面镜把阳光聚到一点，那一点会变得很热。}
   - {id: fort.alm.bank.1, role: narrator, text: 粮仓：存粮的大仓库。}
-  - {id: fort.alm.bank.2, role: narrator, text: 先花粮建仓，以后一大包一大包地来。}
-  - {id: fort.alm.radial.1, role: narrator, text: 转射机：能转圈的弩机。, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.alm.bank.2, role: narrator, text: 先花粮建仓，以后一大包一大包地来。, pinyin: {地: de}}
+  - {id: fort.alm.radial.1, role: narrator, text: 转射机：能转圈的弩机。, pinyin: {转: zhuàn}}
   - {id: fort.alm.radial.2, role: narrator, text: 前后左右、天上飞的，都打得到。}
   - {id: fort.alm.gust.1, role: narrator, text: 橐，就是风箱：一拉一推，风就吹出去。, pinyin: {橐: tuó}}
   - {id: fort.alm.gust.2, role: narrator, text: 风能吹走烟，也能让火烧得更旺。}
@@ -310,7 +312,7 @@ lines:
   - {id: fort.alm.walker.2, role: narrator, text: 会走路的木头人，是古人的想象。, pinyin: {想象: xiǎng xiàng}}
   - {id: fort.alm.shielder.1, role: narrator, text: 盾甲兵：举着大木盾的木甲兵。}
   - {id: fort.alm.shielder.2, role: narrator, text: 盾挡得住正面，挡不住头顶。}
-  - {id: fort.alm.ram.1, role: narrator, text: 冲车：用来撞城门的车。, pinyin: {冲车: chōng chē}}
+  - {id: fort.alm.ram.1, role: narrator, text: 冲车：用来撞城门的车。, pinyin: {冲车: chōng chē}, seed: 2710, notes: {qc: 城门 slurred on seeds 2610-2613}}
   - {id: fort.alm.ram.2, role: narrator, text: 跑得越久，撞得越狠，这叫动量。}
   - {id: fort.alm.ant.1, role: narrator, text: 蚁傅：像蚂蚁一样一拥而上。, pinyin: {蚁傅: yǐ fù}}
   - {id: fort.alm.ant.2, role: narrator, text: 古书里真有这一招，画成小木蚁是游戏的想象。, pinyin: {想象: xiǎng xiàng}}
@@ -332,13 +334,13 @@ lines:
   - {id: fort.alm.shielder.fear, role: dad, text: 盾挡得住箭，挡不住从天上落下的石头。}
   - {id: fort.alm.ram.fear, role: dad, text: 冲车要跑起来才撞得狠，蒺藜让它跑不起来。, pinyin: {冲车: chōng chē}}
   - {id: fort.alm.ant.fear, role: dad, text: 一箭一只太慢了，一罐火油一大片。}
-  - {id: fort.alm.brute.fear, role: dad, text: 铜不怕火。重石和聚起来的阳光才对付得了它。, pinyin: {重石: zhòng shí}}
-  - {id: fort.alm.flyer.fear, role: dad, text: 飞在天上的，转射机打得到；风箱能把它吹下来。, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.alm.brute.fear, role: dad, text: 铜不怕火。重石和聚起来的阳光才对付得了它。, pinyin: {重: zhòng}}
+  - {id: fort.alm.flyer.fear, role: dad, text: 飞在天上的，转射机打得到；风箱能把它吹下来。, pinyin: {转: zhuàn}}
   - {id: fort.alm.smoker.fear, role: dad, text: 烟里看不见。吹散它，或者用不用看的籍车。, pinyin: {吹散: chuī sàn}}
   - {id: fort.alm.ladder.fear, role: dad, text: 梯子一架起来，后面三台都被压住。钩拒把梯子拉倒。, pinyin: {拉倒: lā dǎo}}
   - {id: fort.alm.drummer.fear, role: dad, text: 鼓一响，旁边的机关都变快。先拆鼓车。, pinyin: {鼓车: gǔ chē}}
   - {id: fort.jn.econ, role: dad, text: 兵马未动，粮草先行：先把粮准备好。}
-  - {id: fort.jn.invest, role: dad, text: 磨刀不误砍柴工：先花一点，以后得更多。, pinyin: {磨刀不误砍柴工: mó dāo bú wù kǎn chái gōng, 得更多: dé gèng duō}}
+  - {id: fort.jn.invest, role: dad, text: 磨刀不误砍柴工：先花一点，以后得更多。, pinyin: {磨: mó, 得: dé}}
   - {id: fort.jn.counter, role: dad, text: 对症下药：看清它怕什么，再选牒。}
   - {id: fort.jn.aoe, role: dad, text: 一网打尽：成群的，用一罐火一大片。}
   - {id: fort.jn.timing, role: dad, text: 好钢用在刀刃上：大招留到最要紧的时候。, pinyin: {好钢: hǎo gāng}}
@@ -350,7 +352,7 @@ lines:
   - {id: fort.jn.preview, role: dad, text: 知己知彼：先看鲁班出什么招，再选牒。}
   - {id: fort.jn.daynight, role: dad, text: 因时制宜：白天黑夜，打法不一样。}
   - {id: fort.jn.improvise, role: dad, text: 随机应变：来什么，就用什么。}
-  - {id: fort.jn.priority, role: dad, text: 擒贼先擒王：先拆最要紧的那一个。, pinyin: {擒贼先擒王: qín zéi xiān qín wáng}}
+  - {id: fort.jn.priority, role: dad, text: 擒贼先擒王：先拆最要紧的那一个。}
   - {id: fort.fail.ramNoSpikes.1, role: dad, text: 冲车在第1路跑起来了。, norm: 冲车在第一路跑起来了。, pinyin: {冲车: chōng chē}}
   - {id: fort.fail.swarmNoFire.1, role: dad, text: 蚁傅从第1路涌过去了。, norm: 蚁傅从第一路涌过去了。, pinyin: {蚁傅: yǐ fù}}
   - {id: fort.fail.smokeBlind.1, role: dad, text: 第1路被烟罩住，连弩看不见。, norm: 第一路被烟罩住，连弩看不见。}
@@ -378,7 +380,7 @@ lines:
   - {id: fort.fail.warnIgnored.5, role: dad, text: 鲁班按住第5路，那里没准备。, norm: 鲁班按住第五路，那里没准备。}
   - {id: fort.fail.drummerAlive, role: dad, text: 鼓车让旁边的机关又快又硬。, pinyin: {鼓车: gǔ chē}}
   - {id: fort.fail.noWall, role: dad, text: 连弩车被咬坏了，前面没有木垒。}
-  - {id: fort.fail.strikeUnused, role: dad, text: 礌石带了，大波来时没用上。}
+  - {id: fort.fail.strikeUnused, role: dad, text: 礌石带了，大波来时没用上。, norm: 雷石带了，大波来时没用上。}
   - {id: fort.tip.alt.ram, role: dad, text: 趁冲车还没跑起来，先拆它。, pinyin: {冲车: chōng chē}}
   - {id: fort.tip.alt.ladder, role: dad, text: 火油罐能烧断梯子。}
   - {id: fort.tip.alt.ant, role: dad, text: 风箱把蚁傅吹回去。, pinyin: {蚁傅: yǐ fù}}
@@ -395,25 +397,78 @@ lines:
   - {id: fort.tip.smokeBlind, role: dad, text: 风箱吹散烟。}
   - {id: fort.tip.smokeBlind.2, role: dad, text: 籍车不怕烟。}
   - {id: fort.tip.drummerAlive, role: dad, text: 先拆鼓车，再拆别的。, pinyin: {鼓车: gǔ chē}}
-  - {id: fort.tip.drummerAlive.strike, role: dad, text: 先用礌石砸鼓车。, pinyin: {鼓车: gǔ chē}}
+  - {id: fort.tip.drummerAlive.strike, role: dad, text: 先用礌石砸鼓车。, norm: 先用雷石砸鼓车。, pinyin: {鼓车: gǔ chē}}
   - {id: fort.tip.drummerAlive.lobber, role: dad, text: 先用籍车拆鼓车。, pinyin: {鼓车: gǔ chē}}
   - {id: fort.tip.noWall, role: dad, text: 木垒放在连弩车前面。}
   - {id: fort.tip.wallLate, role: dad, text: 木垒要在它们走到之前放好。}
   - {id: fort.tip.lostAttackers, role: dad, text: 大波前给这一路多放两台。}
   - {id: fort.tip.warnIgnored, role: dad, text: 看到鲁班的手，先在那一路挖坑。}
   - {id: fort.tip.warnIgnored.2, role: dad, text: 看到鲁班的手，那一路多放牒。, pinyin: {牒: dié}}
-  - {id: fort.tip.strikeUnused, role: dad, text: 大波扎堆时，用礌石砸。, pinyin: {扎堆: zhā duī}}
+  - {id: fort.tip.strikeUnused, role: dad, text: 大波扎堆时，用礌石砸。, norm: 大波扎堆时，用雷石砸。, pinyin: {扎堆: zhā duī}}
   - {id: fort.story.0.b1, role: dad, text: 这是鲁班做的沙盘，我们在沙盘上替宋城守一守。}
   - {id: fort.lvl.2-10.infer, role: dad, text: 看它的标签，想想谁对付得了它。}
   - {id: fort.result.assist2, role: dad, text: 要不要我陪你一起摆？}
   - {id: fort.ui.assist2.tap, role: dad, text: 点一下，就放在这里。}
   - {id: fort.ui.bonusLost, role: dad, text: 这次附加题没做到，没关系。}
   - {id: fort.ui.resume, role: dad, text: 接着上次的推演吗？}
-  - {id: fort.coach.boss.owlRage, role: dad, text: 木鸢发怒了，多放转射机！, pinyin: {转射机: zhuàn shè jī}}
+  - {id: fort.coach.boss.owlRage, role: dad, text: 木鸢发怒了，多放转射机！, pinyin: {转: zhuàn}}
   - {id: fort.alm.shielder_m.1, role: dad, text: 铜盾甲兵：木头身子，举着一面铜盾。}
   - {id: fort.alm.shielder_m.2, role: dad, text: 铜盾挡箭也不怕火，可它的木身子挡不住从天上落下来的东西。}
   - {id: fort.alm.shielder_m.fear, role: dad, text: 铜盾挡得住箭，挡不住从天上落下的石头和火。}
-  - {id: fort.jn.infer, role: dad, text: 举一反三：看它的标签，就知道谁对付得了它。, pinyin: {举一反三: jǔ yī fǎn sān}}
+  - {id: fort.jn.infer, role: dad, text: 举一反三：看它的标签，就知道谁对付得了它。}
+  - {id: fort.nar.luban.preview.1-1, role: narrator, text: 鲁班说：我的木甲兵，会自己走路！}
+  - {id: fort.nar.luban.preview.1-2, role: narrator, text: 鲁班说：这回我派更多木甲兵！}
+  - {id: fort.nar.luban.preview.1-3, role: narrator, text: 鲁班说：这回五路都来，看你挡不挡得住！}
+  - {id: fort.nar.luban.preview.1-4, role: narrator, text: 鲁班说：我的盾甲兵举着大木盾！, norm: 鲁班说：我的盾甲兵，举着大木盾！}
+  - {id: fort.nar.luban.preview.1-5, role: narrator, text: 鲁班说：这回我带了会冲的车！, pinyin: {会冲: huì chōng}}
+  - {id: fort.nar.luban.preview.1-6, role: narrator, text: 鲁班说：嘿嘿，猜猜我按住哪一路？}
+  - {id: fort.nar.luban.preview.1-7, role: narrator, text: 鲁班说：一大群小木蚁，看你怎么办！}
+  - {id: fort.nar.luban.preview.1-8, role: narrator, text: 鲁班说：这回机关多，你可要留一手！}
+  - {id: fort.nar.luban.preview.1-9, role: narrator, text: 鲁班说：铜甲力士，火都烧不动！}
+  - {id: fort.nar.luban.preview.1-10, role: narrator, text: 鲁班说：这回，你自己挑牒吧！}
+  - {id: fort.nar.luban.preview.1-11, role: narrator, text: 鲁班说：我的铜犀冲车，天下第一硬！, pinyin: {冲车: chōng chē}}
+  - {id: fort.nar.luban.preview.2-1, role: narrator, text: 鲁班说：夜里没人送粮，看你怎么办！}
+  - {id: fort.nar.luban.preview.2-2, role: narrator, text: 鲁班说：我的木鹊，专门去啄粮！}
+  - {id: fort.nar.luban.preview.2-3, role: narrator, text: 鲁班说：木鹊又来了，这回没有转射机！}
+  - {id: fort.nar.luban.preview.2-4, role: narrator, text: 鲁班说：烟车一放烟，你就看不见！}
+  - {id: fort.nar.luban.preview.2-5, role: narrator, text: 鲁班说：大雾来了，猜我从哪路来！}
+  - {id: fort.nar.luban.preview.2-6, role: narrator, text: 鲁班说：我的云梯，一架就上城！}
+  - {id: fort.nar.luban.preview.2-7, role: narrator, text: 鲁班说：急报！看你的粮够不够！}
+  - {id: fort.nar.luban.preview.2-8, role: narrator, text: 鲁班说：咚咚咚，鼓一响，机关都快跑！}
+  - {id: fort.nar.luban.preview.2-9, role: narrator, text: 鲁班说：烟、蚂蚁、冲车，一起上！, pinyin: {冲车: chōng chē}}
+  - {id: fort.nar.luban.preview.2-10, role: narrator, text: 鲁班说：天亮之前，看你守不守得住！}
+  - {id: fort.nar.luban.preview.2-11, role: narrator, text: 鲁班说：我最得意的夜枭木鸢来了！, pinyin: {夜枭木鸢: yè xiāo mù yuān}}
+  - {id: fort.nar.luban.rhino, role: narrator, text: 鲁班说：铜犀冲车，出发！, pinyin: {冲车: chōng chē}}
+  - {id: fort.nar.luban.rhino.shell, role: narrator, text: 鲁班说：缩进铜壳里，看你怎么打！}
+  - {id: fort.nar.luban.rhino.crack, role: narrator, text: 鲁班说：壳裂了？你真会想办法！}
+  - {id: fort.nar.luban.owl, role: narrator, text: 鲁班说：夜枭木鸢，起飞！, pinyin: {夜枭木鸢: yè xiāo mù yuān}}
+  - {id: fort.nar.luban.owl.down, role: narrator, text: 鲁班说：哎呀，被风吹下来了！}
+  - {id: fort.nar.luban.dawn, role: narrator, text: 鲁班说：天亮了？木鸢停不住啦！, pinyin: {木鸢: mù yuān}}
+  - {id: fort.bonus.1-1, role: narrator, text: 附加题：没有木甲兵走过第 5 格。, norm: 附加题：没有木甲兵走过第五格。}
+  - {id: fort.bonus.1-2, role: narrator, text: 附加题：第 60 秒时有 4 块禾田。, norm: 附加题：第六十秒时有四块禾田。}
+  - {id: fort.bonus.1-3, role: narrator, text: 附加题：最多两台连弩车被咬坏。}
+  - {id: fort.bonus.1-4, role: narrator, text: 附加题：盾甲兵没有走过第 3 格。, norm: 附加题：盾甲兵没有走过第三格。}
+  - {id: fort.bonus.1-5, role: narrator, text: 附加题：铁蒺藜卡住 5 辆冲车。, norm: 附加题：铁蒺藜卡住五辆冲车。, pinyin: {冲车: chōng chē, 蒺藜: jí lí}}
+  - {id: fort.bonus.1-6, role: narrator, text: 附加题：陷坑收走 5 个机关。, norm: 附加题：陷坑收走五个机关。}
+  - {id: fort.bonus.1-7, role: narrator, text: 附加题：一罐火油烧到一整群（8 只）蚁傅。, norm: 附加题：一罐火油烧到一整群（八只）蚁傅。, pinyin: {蚁傅: yǐ fù}}
+  - {id: fort.bonus.1-8, role: narrator, text: 附加题：一块礌石砸中 3 个机关。, norm: 附加题：一块雷石砸中三个机关。}
+  - {id: fort.bonus.1-9, role: narrator, text: 附加题：没有机关走过第 2 格。, norm: 附加题：没有机关走过第二格。}
+  - {id: fort.bonus.1-10, role: narrator, text: 附加题：冲车最多撞坏两台机关。, pinyin: {冲车: chōng chē}}
+  - {id: fort.bonus.1-11, role: narrator, text: 附加题：没有机关走过第 3 格。, norm: 附加题：没有机关走过第三格。}
+  - {id: fort.bonus.2-1, role: narrator, text: 附加题：没有机关走过第 4 格。, norm: 附加题：没有机关走过第四格。}
+  - {id: fort.bonus.2-2, role: narrator, text: 附加题：没有一块禾田被啄坏。}
+  - {id: fort.bonus.2-3, role: narrator, text: 附加题：风箱吹落 3 只木鹊，禾田一块不丢。, norm: 附加题：风箱吹落三只木鹊，禾田一块不丢。}
+  - {id: fort.bonus.2-4, role: narrator, text: 附加题：风箱吹散 10 格烟。, norm: 附加题：风箱吹散十格烟。, pinyin: {吹散: chuī sàn}}
+  - {id: fort.bonus.2-5, role: narrator, text: 附加题：雾里最多只有 1 块禾田被咬坏。, norm: 附加题：雾里最多只有一块禾田被咬坏。}
+  - {id: fort.bonus.2-6, role: narrator, text: 附加题：没有一座木垒被推倒。}
+  - {id: fort.bonus.2-7, role: narrator, text: 附加题：最多只丢一台机关。}
+  - {id: fort.bonus.2-8, role: narrator, text: 附加题：鼓车没有走过第 4 格。, norm: 附加题：鼓车没有走过第四格。}
+  - {id: fort.bonus.2-9, role: narrator, text: 附加题：风箱同一路的火油罐，一罐烧到 5 个机关。, norm: 附加题：风箱同一路的火油罐，一罐烧到五个机关。}
+  - {id: fort.bonus.2-10, role: narrator, text: 附加题：天亮后 20 秒内放下阳燧。, norm: 附加题：天亮后二十秒内放下阳燧。, pinyin: {阳燧: yáng suì}}
+  - {id: fort.bonus.2-11, role: narrator, text: 附加题：风箱把木鸢打落一次。, pinyin: {木鸢: mù yuān}}
+  - {id: fort.w.礌石, role: word, text: 礌石, norm: 雷石}
+  - {id: fort.w.檑木, role: word, text: 檑木, norm: 雷木}
+  - {id: fort.w.牒, role: word, text: 牒, norm: 碟}
 words:
   - {text: 连弩车, pinyin: lián nǔ chē, id: fort.w.连弩车}
   - {text: 禾田, pinyin: hé tián, id: fort.w.禾田}
@@ -421,41 +476,38 @@ words:
   - {text: 籍车, pinyin: jí chē, id: fort.w.籍车}
   - {text: 铁蒺藜, pinyin: tiě jí lí, id: fort.w.铁蒺藜}
   - {text: 陷坑, pinyin: xiàn kēng, id: fort.w.陷坑}
-  - {text: 火油罐, pinyin: huǒ yóu guàn, id: fort.w.火油罐}
-  - {text: 礌石, pinyin: léi shí, id: fort.w.礌石}
+  - {text: 火油罐, id: fort.w.火油罐}
   - {text: 阳燧, pinyin: yáng suì, id: fort.w.阳燧}
   - {text: 粮仓, pinyin: liáng cāng, id: fort.w.粮仓}
   - {text: 转射机, pinyin: zhuàn shè jī, id: fort.w.转射机}
   - {text: 风箱, pinyin: fēng xiāng, id: fort.w.风箱}
-  - {text: 钩拒, pinyin: gōu jù, id: fort.w.钩拒}
+  - {text: 钩拒, id: fort.w.钩拒}
   - {text: 木甲兵, pinyin: mù jiǎ bīng, id: fort.w.木甲兵}
   - {text: 盾甲兵, pinyin: dùn jiǎ bīng, id: fort.w.盾甲兵}
   - {text: 冲车, pinyin: chōng chē, id: fort.w.冲车}
   - {text: 蚁傅, pinyin: yǐ fù, id: fort.w.蚁傅}
   - {text: 铜甲力士, pinyin: tóng jiǎ lì shì, id: fort.w.铜甲力士}
   - {text: 木鹊, pinyin: mù què, id: fort.w.木鹊}
-  - {text: 烟车, pinyin: yān chē, id: fort.w.烟车}
+  - {text: 烟车, id: fort.w.烟车}
   - {text: 云梯车, pinyin: yún tī chē, id: fort.w.云梯车}
   - {text: 鼓车, pinyin: gǔ chē, id: fort.w.鼓车}
   - {text: 铜犀冲车, pinyin: tóng xī chōng chē, id: fort.w.铜犀冲车}
   - {text: 夜枭木鸢, pinyin: yè xiāo mù yuān, id: fort.w.夜枭木鸢}
-  - {text: 墨子, pinyin: mò zǐ, id: fort.w.墨子}
+  - {text: 墨子, id: fort.w.墨子}
   - {text: 鲁班, pinyin: lǔ bān, id: fort.w.鲁班}
-  - {text: 檑木, pinyin: léi mù, id: fort.w.檑木}
-  - {text: 机关令, pinyin: jī guān lìng, id: fort.w.机关令}
-  - {text: 机关匣, pinyin: jī guān xiá, id: fort.w.机关匣}
+  - {text: 机关令, id: fort.w.机关令}
+  - {text: 机关匣, id: fort.w.机关匣}
   - {text: 橐, pinyin: tuó, id: fort.w.橐}
   - {text: 铜盾甲兵, pinyin: tóng dùn jiǎ bīng, id: fort.w.铜盾甲兵}
-  - {text: 牒, pinyin: dié, id: fort.w.牒}
   - {text: 推演, pinyin: tuī yǎn, id: fort.w.推演}
-  - {text: 沙盘, pinyin: shā pán, id: fort.w.沙盘}
+  - {text: 沙盘, id: fort.w.沙盘}
   - {text: 战鼓, pinyin: zhàn gǔ, id: fort.w.战鼓}
-  - {text: 大波, pinyin: dà bō, id: fort.w.大波}
+  - {text: 大波, id: fort.w.大波}
   - {text: 锦囊, pinyin: jǐn náng, id: fort.w.锦囊}
   - {text: 图谱, pinyin: tú pǔ, id: fort.w.图谱}
-  - {text: 驿站, pinyin: yì zhàn, id: fort.w.驿站}
+  - {text: 驿站, id: fort.w.驿站}
   - {text: 复盘, pinyin: fù pán, id: fort.w.复盘}
-  - {text: 附加题, pinyin: fù jiā tí, id: fort.w.附加题}
+  - {text: 附加题, id: fort.w.附加题}
   - {text: 粮斗, pinyin: liáng dǒu, id: fort.w.粮斗}
   - {text: 鲁班线, pinyin: lǔ bān xiàn, id: fort.w.鲁班线}
   - {text: 宋城, pinyin: sòng chéng, id: fort.w.宋城}

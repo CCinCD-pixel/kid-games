@@ -12,10 +12,10 @@ export function rigIcon(atlas: Atlas, kind: string, size: number, dpr: number, o
   c.style.width = size + 'px'; c.style.height = size + 'px';
   const ctx = c.getContext('2d')!; const rig = RIGS[kind] ?? RIGS.walker;
   const big = kind === 'rhino' ? 1.25 : kind === 'ram' ? 1.15 : kind === 'farm' || kind === 'wall' ? 1.05 : kind === 'ant' ? 0.45 : 1;
-  const k = (size * 0.78) / (Math.max(rig.height, 60) * big + 14) * (kind === 'ant' ? 2.2 : kind === 'spikes' || kind === 'pit' ? 1.35 : 1);
+  const k = (size * 0.78) / (Math.max(rig.height, 60) * big + 14) * (kind === 'ant' ? 1.75 : kind === 'spikes' || kind === 'pit' ? 1.35 : 1);
   poseOf(RIGS[kind] ? kind : 'walker', { t: o.t ?? 0.4, walk: o.walk ?? 0, atk: 0, hurt: 0, mode: kind === 'pit' ? 1 : 0, hp: 1, extra: kind === 'spikes' ? 5 : 1 }, pose);
   const ox = kind === 'rhino' ? size * 0.62 : kind === 'ram' ? size * 0.58 : size / 2;
-  if (kind === 'ant') { for (const [dx, dy] of [[-0.2, -0.05], [0.12, 0.02], [0.3, -0.08]]) drawRig(ctx, atlas, 'ant', pose, ox + dx * size, size * (0.8 + dy), k, dpr); }
+  if (kind === 'ant') { for (const [dx, dy] of [[-0.19, -0.05], [0.03, 0.02], [0.19, -0.08]]) drawRig(ctx, atlas, 'ant', pose, ox + dx * size, size * (0.8 + dy), k, dpr); }
   else drawRig(ctx, atlas, RIGS[kind] ? kind : 'walker', pose, ox, size * (kind === 'spikes' || kind === 'pit' ? 0.58 : 0.9), k, dpr);
   return c;
 }

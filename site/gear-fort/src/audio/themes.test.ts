@@ -1,6 +1,6 @@
-// V16 (data half): the written themes stay in the 宫/羽 pentatonic, have the bar counts the spec gives (§7.2),
-// stingers are 1–3 s, and the seeded arrangement is pure. The audio render half (LUFS, centroids) is listed in the
-// build report as a stage-2 item (tools/gear-fort/render-audio.mjs).
+// V16 (data half): written themes stay pentatonic, bar counts per spec §7.2, stingers 1–3 s, arrangement is pure.
+// The render half (buffers, LUFS, centroids) is synth.test.ts; WAVs for dad: tools/render-audio.test.ts (GF_AUDIO=1).
+
 import { describe, expect, it } from 'vitest';
 import { MOTIF, MAP_THEME, STORY_THEME, STINGERS, beatsOf, inMode, arrangement, degUp } from './themes';
 

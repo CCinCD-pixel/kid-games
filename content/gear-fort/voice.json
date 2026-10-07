@@ -1,4 +1,4 @@
 {
- "clips": false,
- "note": "set true after the voice step produced public/audio/gear-fort/ (spec §7.3, platform request K3)"
+ "clips": true,
+ "note": "voice step done 2026-10-07 (+ fix r1): public/audio/gear-fort/ = 507 clips (dad 327, narrator 130 incl. the 鲁班说 fallback and the voiced 附加题, word 45, companion 5), Qwen3 0.6B 8-bit; 鲁班 (narration.luban.yaml) still waits for K1"
 }

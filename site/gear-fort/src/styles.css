@@ -167,7 +167,8 @@ html[data-orientation="portrait"] .gf-pv__table { margin: 96px 16px 8px; } html[
 .gf-star3__logs i.is-used { background: rgba(60,40,20,.25); border-style: dashed; }
 .gf-star3.is-ok { box-shadow: 0 0 0 3px #2f8f5b, 0 3px 0 rgba(40,20,8,.45); }
 .gf-star3.is-lost { filter: grayscale(1) brightness(.9); opacity: .75; transform: rotateX(8deg); transition: filter .6s, opacity .6s, transform .6s; }
-.gf-battle[data-orient="portrait"] .gf-star3__t { font-size: 15px; }
+.gf-battle[data-orient="portrait"] .gf-star3__t { font-size: 14px; }
+.gf-star3__t { text-wrap: balance; } /* never strand one character of a word (蚁|傅) on its own line */
 .gf-tip.is-on { flex-direction: column; align-items: stretch; min-width: 180px; }
 .gf-tip__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .gf-tip__top b { font: 400 24px/1 var(--xg-font-title); }
@@ -296,3 +297,414 @@ button.gf-bigcard { border: 0; text-align: left; font: inherit; cursor: pointer;
 .gf-resume__t b { white-space: nowrap; font-size: 30px; }
 .gf-resume__acts { grid-column: 1 / -1; display: flex; gap: 12px; justify-content: center; }
 @media (orientation: portrait) { .gf-alm__head { padding-left: 0; } }
+
+/* §3.15: a chosen 1.5× held at 1× around a 战鼓 / new machine / Boss phase → grey with a small drum; level start flash */
+.gf-speed__b.is-on.is-held { background: linear-gradient(#b9b2a6, #8d867b); color: #f4efe6; }
+.gf-speed__b.is-held::after { content: ''; position: absolute; right: 4px; top: 4px; width: 11px; height: 9px; border-radius: 3px 3px 4px 4px;
+  background: radial-gradient(circle at 50% 30%, #f3d9a8 0 34%, transparent 36%), linear-gradient(#b8452e, #7a2418); box-shadow: 0 1px 0 rgba(42,27,18,.4); }
+.gf-speed__b.is-flash { animation: gf-speed-flash .5s ease-in-out 0.6s 4 alternate; }
+@keyframes gf-speed-flash { to { box-shadow: inset 0 0 0 3px #ffd36a, 0 0 12px 2px rgba(255, 211, 106, .8); } }
+@media (prefers-reduced-motion: reduce) { .gf-speed__b.is-flash { animation-duration: .25s; } }
+
+/* 鲁班的桌子 = a small sand table: walnut frame, inked sand tray, the machines standing in formation on it (spec §2.3) */
+.gf-pv__table::before { content: ''; position: absolute; inset: 62px 14px 14px; border-radius: 18px;
+  background: repeating-linear-gradient(90deg, rgba(43,38,34,.10) 0 1.5px, transparent 1.5px 86px), repeating-linear-gradient(0deg, rgba(43,38,34,.08) 0 1.5px, transparent 1.5px 72px),
+    radial-gradient(ellipse at 50% 40%, #ecd9b0, #d6b780 70%, #c8a46c);
+  box-shadow: inset 0 4px 10px rgba(60,35,15,.45), inset 0 -2px 0 rgba(255,240,210,.35), 0 0 0 4px #4a2c16, 0 0 0 6px rgba(201,162,58,.55); }
+.gf-pv__table::after { content: ''; position: absolute; left: 34px; right: 34px; bottom: 34px; height: 10px; border-radius: 5px; opacity: .5;
+  background: repeating-linear-gradient(90deg, #8a3a26 0 14px, transparent 14px 26px); -webkit-mask: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent); }
+.gf-pv__machines { inset: 70px 22px 52px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 14px; align-content: center; justify-items: center; z-index: 1; }
+.gf-pv__m { width: 156px; padding: 0 0 4px; background: radial-gradient(ellipse 46% 12% at 50% 79%, rgba(60,35,15,.38), transparent 100%); box-shadow: none; }
+.gf-pv__m span { margin-top: -6px; padding: 3px 12px 4px; border-radius: 9px; background: linear-gradient(#7a4f2e, #5b3a22); color: #fbe9c8; font-size: 19px;
+  box-shadow: inset 0 1px 0 rgba(255,220,170,.35), 0 2px 0 rgba(0,0,0,.35); }
+.gf-pv__machines[data-n="4"] .gf-pv__m:nth-child(even), .gf-pv__machines[data-n="3"] .gf-pv__m:nth-child(2) { transform: translateY(28px); }
+.gf-pv__m:active { transform: scale(.96); }
+.gf-pv__say { z-index: 2; }
+html[data-orientation="portrait"] .gf-pv__machines { inset: 70px 16px 46px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+html[data-orientation="portrait"] .gf-pv__m { width: 144px; }
+
+/* 复盘: the night theme's ghost button is pale on the cream card — give 回地图 a readable wooden outline */
+.gf-db__acts .xg-btn--ghost { color: #5a3418; background: linear-gradient(#f6ead2, #ead1a6); border: 2px solid rgba(90,52,24,.45); box-shadow: 0 3px 0 rgba(90,52,24,.35); }
+.gf-db__acts .xg-btn--ghost .xg-icon { color: #3e8e7e; }
+html[data-orientation="landscape"] .gf-pv__machines[data-n="4"] { grid-template-columns: repeat(2, 1fr); }
+html[data-orientation="landscape"] .gf-pv__machines[data-n="4"] .gf-pv__m:nth-child(even) { transform: none; }
+.gf-pv__m canvas { filter: drop-shadow(0 3px 0 rgba(60,35,15,.25)); }
+
+/* ── journey map sky: 第一卷 by day (鲁国 → 宋城), 第二卷 by night (宋 → 楚); first entry fades day → night in 3 s (§4.13) ── */
+.gf-map__sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.gf-map > :not(.gf-map__sky) { z-index: 1; }
+.gf-sky { position: absolute; inset: 0; transition: opacity 3s ease-in-out; }
+.gf-sky--day { background: radial-gradient(120% 70% at 18% 8%, rgba(255,238,196,.55), rgba(255,238,196,0) 60%), linear-gradient(#4f78ab 0%, #7da2c8 42%, #c9d6d4 78%, #e7d8b4 100%); }
+.gf-sky--night { opacity: 0; background:
+  radial-gradient(1.6px 1.6px at 12% 18%, #fff8e0 60%, transparent), radial-gradient(1.4px 1.4px at 27% 9%, #fff8e0 60%, transparent), radial-gradient(1.8px 1.8px at 41% 22%, #fff 60%, transparent),
+  radial-gradient(1.3px 1.3px at 58% 12%, #fff8e0 60%, transparent), radial-gradient(1.5px 1.5px at 66% 30%, #fff 60%, transparent), radial-gradient(1.2px 1.2px at 74% 7%, #fff8e0 60%, transparent),
+  radial-gradient(1.6px 1.6px at 88% 26%, #fff 60%, transparent), radial-gradient(1.2px 1.2px at 6% 40%, #fff8e0 60%, transparent), radial-gradient(1.4px 1.4px at 34% 38%, #fff 60%, transparent),
+  radial-gradient(1.3px 1.3px at 95% 44%, #fff8e0 60%, transparent), radial-gradient(1.5px 1.5px at 51% 44%, #fff 60%, transparent),
+  linear-gradient(#0d1330 0%, #1b2450 50%, #2c3263 82%, #3a3560 100%); }
+.gf-sky__sun, .gf-sky__moon { position: absolute; border-radius: 50%; transition: opacity 3s ease-in-out, transform 3s ease-in-out; }
+.gf-sky__sun { width: 86px; height: 86px; right: 9%; top: 9%; background: radial-gradient(circle, #fff3c4 0 52%, #ffd77a 53% 62%, rgba(255,215,122,0) 72%); }
+.gf-sky__moon { width: 62px; height: 62px; right: 11%; top: 10%; opacity: 0; transform: translateY(40px); background: radial-gradient(circle at 36% 38%, #fffbe9 0 45%, #f1e3b6 70%, #d9c58e 100%); box-shadow: 0 0 40px 10px rgba(255,240,190,.22); }
+.gf-sky__hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 34%; }
+.gf-sky__hills path { transition: fill 3s ease-in-out; }
+.gf-sky__hills .h1 { fill: #8fae8a; } .gf-sky__hills .h2 { fill: #6f9370; } .gf-sky__hills .h3 { fill: #557a5b; }
+.gf-map.is-v2 .gf-sky--night, .gf-map.is-dusk .gf-sky--night { opacity: 1; }
+.gf-map.is-v2 .gf-sky__sun, .gf-map.is-dusk .gf-sky__sun { opacity: 0; transform: translateY(60px); }
+.gf-map.is-v2 .gf-sky__moon, .gf-map.is-dusk .gf-sky__moon { opacity: 1; transform: none; }
+.gf-map.is-v2 .gf-sky__hills .h1, .gf-map.is-dusk .gf-sky__hills .h1 { fill: #2b3567; } .gf-map.is-v2 .gf-sky__hills .h2, .gf-map.is-dusk .gf-sky__hills .h2 { fill: #232b55; } .gf-map.is-v2 .gf-sky__hills .h3, .gf-map.is-dusk .gf-sky__hills .h3 { fill: #1b2246; }
+.gf-map.is-v1 .gf-title, .gf-map.is-v1 .gf-sub { text-shadow: 0 2px 0 rgba(40,52,90,.35); }
+.gf-tabs button { border: 0; font: inherit; color: inherit; padding: 9px 16px; border-radius: 14px; background: rgba(255,255,255,.14); font-size: 19px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.gf-tabs button.is-on { background: #ffe7a6; color: #4a2c16; box-shadow: 0 3px 0 #c9a25a; }
+.gf-tabs button.is-off { opacity: .7; } .gf-tabs button svg { width: 18px; height: 18px; }
+.gf-tabs button.is-shake { animation: gf-tabshake .4s; }
+@keyframes gf-tabshake { 20% { transform: translateX(-5px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { .gf-sky, .gf-sky__sun, .gf-sky__moon, .gf-sky__hills path { transition-duration: 1.5s; } .gf-tabs button.is-shake { animation: none; } }
+
+/* ── 锦囊谜题 list (§3.18) ── */
+.gf-pzlist { overflow: hidden; }
+.gf-pzlist__head { position: absolute; left: 96px; right: 16px; top: calc(var(--kit-safe-top, 0px) + 14px); display: flex; gap: 14px; align-items: center; }
+.gf-pzlist__back { margin-left: auto; }
+.gf-pzlist__groups { position: absolute; left: 16px; right: 16px; top: calc(var(--kit-safe-top, 0px) + 104px); bottom: 16px; display: grid; gap: 14px; align-content: start; }
+.gf-pzg { border-radius: 22px; padding: 12px 14px 14px; background: linear-gradient(#f6e9cf, #e3c99b); color: #4a2c16; box-shadow: 0 6px 0 #b48a52, 0 10px 22px rgba(0,0,0,.25); }
+.gf-pzg.is-locked { filter: saturate(.55) brightness(.92); }
+.gf-pzg__head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.gf-pzg__head b { display: block; font: 400 28px/1.1 var(--xg-font-title); } .gf-pzg__head small { font-size: 16px; opacity: .78; }
+.gf-pzg__seal { width: 50px; height: 50px; flex: none; border-radius: 12px; display: grid; place-items: center; font: 400 30px/1 var(--xg-font-title); color: #fff3df; background: linear-gradient(#c8473b, #8e2a22); border: 2px solid rgba(255,255,255,.35); box-shadow: inset 0 -3px 0 rgba(0,0,0,.2); }
+.gf-pzg__deck { margin-left: auto; display: flex; gap: 4px; }
+.gf-pzg__card { width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,.55); display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px rgba(74,44,22,.25); }
+.gf-pzg__row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.gf-pz { position: relative; border: 0; font: inherit; color: #4a2c16; cursor: pointer; border-radius: 16px; padding: 8px 6px 8px; min-height: 92px; background: #fff7e6; box-shadow: 0 4px 0 #c9a46b; display: grid; justify-items: center; gap: 3px; }
+.gf-pz:active { transform: translateY(2px); box-shadow: 0 2px 0 #c9a46b; }
+.gf-pz.is-done { background: #fff2c7; }
+.gf-pz.is-locked { opacity: .7; cursor: default; }
+.gf-pz__no { font: 400 30px/1 var(--xg-font-title); }
+.gf-pz__lanes { display: flex; gap: 3px; } .gf-pz__lanes i { width: 16px; height: 5px; border-radius: 3px; background: #b98f57; }
+.gf-pz__stars { display: flex; gap: 1px; } .gf-pz__stars i { width: 20px; height: 20px; color: #d8c8a6; } .gf-pz__stars i.on { color: #f3b51c; } .gf-pz__stars svg { width: 100%; height: 100%; }
+.gf-pz__grain { font-size: 14px; opacity: .8; display: inline-flex; } .gf-pz__grain svg { width: 18px; height: 18px; }
+html[data-orientation="portrait"] .gf-pzlist__groups { top: calc(var(--kit-safe-top, 0px) + 110px); gap: 18px; }
+html[data-orientation="portrait"] .gf-pz { min-height: 104px; }
+
+/* ── drill HUD (§3.18): 开始推演 button, budget plate, 鲁班's queue in the exit strip ── */
+.gf-pzgo { position: absolute; z-index: 6; font-size: 24px !important; box-shadow: 0 6px 0 #1f5e52, 0 10px 18px rgba(0,0,0,.25); animation: gf-pzgo-breathe 2.4s ease-in-out infinite; }
+.gf-pzgo.is-gone { display: none; }
+.gf-pzgo.is-no { animation: gf-tabshake .4s; }
+@keyframes gf-pzgo-breathe { 50% { transform: scale(1.04); } }
+.gf-pzq__lane { position: absolute; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px 1px; pointer-events: none; }
+.gf-pzq__m { display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #fff6e2, #e9d2a6); box-shadow: 0 2px 0 rgba(60,20,10,.45), inset 0 0 0 1.5px rgba(120,60,30,.35); overflow: hidden; transition: opacity .35s, transform .35s; }
+.gf-pzq__m.is-out { opacity: 0; transform: translateX(-10px) scale(.7); }
+.gf-battle.is-puzzle .gf-card.is-locked { filter: grayscale(.65) brightness(.9); pointer-events: none; }
+.gf-battle.is-puzzle.is-setup .gf-speed { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .gf-pzgo { animation: none; } }
+
+/* ── 天亮 (§3.9): the night veil lifts over 3 s while a warm light comes in from the city side ── */
+.gf-dawn { position: absolute; inset: 0; pointer-events: none; background: rgba(30,46,108,.6); mix-blend-mode: multiply; transition: opacity 3s ease-in-out; }
+.gf-dawn::after { content: ''; position: absolute; inset: 0; mix-blend-mode: screen; background: linear-gradient(90deg, rgba(255,196,120,.55), rgba(255,170,110,0) 70%); opacity: 0; transition: opacity 1.4s ease-out; }
+.gf-dawn.is-on { opacity: 0; } .gf-dawn.is-on::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .gf-dawn { transition-duration: 1.5s; } }
+
+/* ── 宋城修复沙盘 (§5.7): map plaque · result close-up · big view ── */
+.gf-song { position: relative; border: 0; padding: 0; border-radius: 20px; height: 196px; background: linear-gradient(#5b3a22, #3e2716); box-shadow: 0 4px 0 #2a1b12, inset 0 0 0 3px rgba(255,220,160,.18); cursor: pointer; overflow: hidden; }
+.gf-song__cv { position: absolute; left: 0; top: 0; display: block; }
+.gf-song__cap { position: absolute; left: 10px; top: 8px; z-index: 1; padding: 3px 12px; border-radius: 12px; background: rgba(35,24,21,.74); color: #fff3df; font: 16px/1.35 var(--xg-font-read); pointer-events: none; }
+.gf-song__cap b { font-family: var(--xg-font-num); color: #ffe7a6; font-weight: 600; }
+.gf-song__flag { display: inline-block; vertical-align: -4px; width: 20px; height: 20px; margin-left: 6px; }
+.gf-map__gear { position: absolute; right: 18px; top: calc(var(--kit-safe-top, 0px) + 16px); z-index: 2; }
+html[data-orientation="portrait"] .gf-map__road { bottom: 40%; }
+html[data-orientation="portrait"] .gf-map__side { height: calc(40% - 24px); grid-template-rows: 150px 1fr; }
+html[data-orientation="portrait"] .gf-song { grid-area: 1 / 1 / 2 / 2; height: auto; }
+html[data-orientation="portrait"] .gf-tabs { grid-area: 1 / 2 / 2 / 4; justify-content: center; align-items: center; }
+html[data-orientation="portrait"] .gf-song__cap { font-size: 14px; padding: 2px 8px; }
+html[data-orientation="portrait"] .gf-bigcard { grid-row: 2; }
+.gf-repair { position: relative; display: block; width: min(440px, 100%); height: 176px; margin: 2px auto 14px; border: 0; padding: 0; border-radius: 18px; overflow: hidden; background: linear-gradient(#5b3a22, #3e2716); box-shadow: inset 0 0 0 3px rgba(255,220,160,.2); cursor: pointer; }
+.gf-repair__cap { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 1; white-space: nowrap; padding: 4px 14px; border-radius: 14px; background: rgba(35,24,21,.78); color: #fff3df; font: 18px/1.3 var(--xg-font-read); pointer-events: none; }
+.gf-songview__panel { width: min(92vw, 860px); }
+.gf-songview__tray { position: relative; width: 100%; height: min(58vh, 560px); border-radius: 22px; overflow: hidden; background: linear-gradient(#5b3a22, #3e2716); }
+.gf-songview__cap { margin: 12px 0 0; text-align: center; font: 22px/1.5 var(--xg-font-read); color: #3a2414; }
+.gf-songview__cap b { font-family: var(--xg-font-num); } .gf-songview__cap small { display: block; font-size: 16px; opacity: .72; }
+.gf-songview .gf-song__flag { background: #231815; }
+
+/* ── 叙事画面 (§6.3b) ── */
+.gf-story { position: fixed; inset: 0; z-index: 40; overflow: hidden; background: #0e1430; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.gf-story__cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.gf-story__bot { position: absolute; left: 13%; bottom: 17%; width: 170px; pointer-events: none; }
+html[data-orientation="portrait"] .gf-story__bot { left: 7%; bottom: 31%; }
+.gf-cap { position: absolute; left: 50%; bottom: calc(20px + var(--kit-safe-bottom, 0px)); transform: translate(-50%, 12px); width: max-content; max-width: min(860px, calc(100% - 240px)); display: flex; align-items: center; gap: 14px; padding: 10px 24px 10px 12px; border-radius: 24px; background: rgba(246,234,210,.95); color: #3a2414; box-shadow: 0 6px 0 rgba(42,27,18,.35), 0 16px 30px rgba(0,0,0,.25); opacity: 0; transition: opacity .25s, transform .25s; pointer-events: none; }
+.gf-cap.is-on { opacity: 1; transform: translate(-50%, 0); }
+.gf-cap__who { flex: none; display: flex; } .gf-cap__who:empty { display: none; }
+.gf-cap:has(.gf-cap__who:empty) { padding-left: 24px; }
+.gf-cap__t { margin: 0; font: 28px/1.4 var(--xg-font-read); }
+.gf-cap[data-role="luban"] { background: rgba(255,228,214,.96); }
+.gf-skip { position: absolute; right: 18px; bottom: calc(22px + var(--kit-safe-bottom, 0px)); z-index: 2; display: inline-flex; align-items: center; gap: 4px; }
+.gf-skip svg { width: 22px; height: 22px; }
+html[data-orientation="portrait"] .gf-cap { bottom: calc(100px + var(--kit-safe-bottom, 0px)); max-width: calc(100% - 48px); }
+/* 驿站 */
+.gf-inn__ui { position: absolute; inset: 0; pointer-events: none; }
+.gf-inn__title { position: absolute; top: calc(var(--kit-safe-top, 0px) + 26px); left: 50%; transform: translateX(-50%); font: 32px/1 var(--xg-font-title); color: #ffe7a6; text-shadow: 0 2px 0 rgba(0,0,0,.35); white-space: nowrap; }
+.gf-ask { position: absolute; left: 50%; top: 15%; display: flex; align-items: center; gap: 14px; width: max-content; max-width: min(760px, 88%); padding: 12px 22px 12px 12px; border: 0; border-radius: 24px; background: linear-gradient(#fbf1dc, #ecd6ab); color: #3a2414; font: 26px/1.45 var(--xg-font-read); text-align: left; box-shadow: 0 6px 0 #b98f5e, 0 14px 30px rgba(0,0,0,.35); opacity: 0; transform: translate(-50%, -20px) scale(.96); transition: opacity .35s, transform .4s cubic-bezier(.2,1.4,.4,1); pointer-events: none; cursor: pointer; }
+.gf-inn__ui.is-ask .gf-ask { opacity: 1; transform: translate(-50%, 0) scale(1); pointer-events: auto; }
+.gf-ask > svg { width: 30px; height: 30px; flex: none; opacity: .65; } .gf-ask__p { flex: none; display: flex; }
+.gf-inn__acts { position: absolute; left: 50%; bottom: calc(24px + var(--kit-safe-bottom, 0px)); transform: translateX(-50%); display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: min(640px, 90%); opacity: 0; transition: opacity .3s; }
+.gf-inn__ui.is-acts .gf-inn__acts { opacity: 1; pointer-events: auto; }
+.gf-inn__acts .xg-btn { justify-content: center; }
+.gf-inn .gf-cap { bottom: calc(118px + var(--kit-safe-bottom, 0px)); }
+html[data-orientation="portrait"] .gf-ask { top: 13%; }
+@media (prefers-reduced-motion: reduce) { .gf-cap, .gf-ask { transition-duration: .12s; } }
+
+/* ── 设置 (S32): switches carry a ✓ / ✕ shape, not only a colour ── */
+.gf-set__panel { width: min(580px, 92vw); display: grid; gap: 12px; padding-top: 38px; }
+.gf-set__row { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 14px; min-height: 76px; padding: 10px 14px; border: 0; border-radius: 18px; background: rgba(255,255,255,.62); color: #3a2414; text-align: left; font: inherit; cursor: pointer; }
+.gf-set__ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(#4aa391, #2f6e63); color: #fff3df; } .gf-set__ic svg { width: 30px; height: 30px; }
+.gf-set__t b { display: block; font: 400 26px/1.15 var(--xg-font-title); } .gf-set__t small { display: block; font: 16px/1.3 var(--xg-font-read); opacity: .7; }
+.gf-sw { position: relative; width: 94px; height: 50px; border-radius: 25px; background: #c9b79a; box-shadow: inset 0 3px 0 rgba(0,0,0,.15); transition: background .2s; }
+.gf-sw i { position: absolute; left: 5px; top: 5px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; transition: transform .22s cubic-bezier(.3,1.3,.5,1), opacity .18s; box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.gf-sw i svg { width: 22px; height: 22px; }
+.gf-sw i:first-child { background: #2EC4B6; color: #fff; opacity: 0; transform: translateX(44px); }
+.gf-sw i:last-child { background: #fff; color: #8a6446; }
+.gf-set__row[aria-checked="true"] .gf-sw { background: #9fdacd; }
+.gf-set__row[aria-checked="true"] .gf-sw i:first-child { opacity: 1; }
+.gf-set__row[aria-checked="true"] .gf-sw i:last-child { opacity: 0; transform: translateX(44px); }
+.gf-set__note { margin: 2px 0 0; text-align: center; font: 15px/1.4 var(--xg-font-read); opacity: .65; }
+/* 图谱 · 锦囊页 */
+.gf-jn { align-content: center; gap: 4px; padding: 10px 8px; position: relative; }
+.gf-jn .gf-jn__idiom { font: 400 19px/1.2 var(--xg-font-title); color: #4a2c16; text-wrap: balance; }
+.gf-jn span { font: 14px/1.3 var(--xg-font-read); opacity: .75; }
+.gf-jn.is-mastered { box-shadow: inset 0 0 0 3px #c9a23a; }
+.gf-jn__ok { position: absolute; right: 6px; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: #2EC4B6; color: #fff; display: grid; place-items: center; } .gf-jn__ok svg { width: 16px; height: 16px; }
+.gf-jn.is-say { animation: gf-jnsay .5s; }
+@keyframes gf-jnsay { 40% { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .gf-jn.is-say { animation: none; } }
+
+/* ?dev=perf overlay (V19, spec §9.8) — dev only */
+.gf-perfhud { position: fixed; left: 50%; top: calc(var(--safe-top, 0px) + 150px); transform: translateX(-50%); z-index: 50; pointer-events: none; padding: 6px 12px; border-radius: 8px; background: rgba(20,14,10,.78); color: #f6ecd8; font: 600 13px/1.45 ui-monospace, Menlo, monospace; white-space: nowrap; }
+.gf-perfhud b { color: #ffd968; margin-right: 6px; }
+
+/* ───── fix round 1 (QA r1) ───── */
+/* 牒卡 "还差 N" (spec §2.5): the art goes dark, N sits on its own dark plaque in the middle, the cost plaque steps back */
+.gf-card.is-poor canvas { filter: grayscale(.85) brightness(.5); opacity: 1; }
+.gf-card.is-poor::after { content: ''; position: absolute; inset: 0 0 0 10px; background: rgba(28,16,8,.62); pointer-events: none; }
+.gf-card__short { left: 50%; right: auto; top: 50%; transform: translate(calc(-50% + 5px), -50%); z-index: 2; white-space: nowrap; padding: 5px 8px 4px; border-radius: 10px;
+  background: linear-gradient(#3a2414, #1f130a); border: 2px solid #e2b13c; color: #ffe7a6; font: 700 22px/1 var(--xg-font-num); text-shadow: none; box-shadow: 0 3px 0 rgba(0,0,0,.45); }
+.gf-battle[data-orient="portrait"] .gf-card__short { font-size: 26px; padding: 6px 10px 5px; }
+.gf-card.is-poor .gf-card__cost { opacity: .45; transform: scale(.82); transform-origin: right bottom; }
+/* 1-1: the card keeps breathing once he has watched the hand twice (spec §2.4) */
+.gf-card.is-pulse { animation: gf-glow 1.2s ease-in-out infinite; }
+/* dragging over a cell that can't take the card: the ghost (which hides the cell) shows the red ✕ too (spec §2.7) */
+.gf-dragghost.is-bad { opacity: .78; }
+.gf-dragghost.is-bad canvas { filter: grayscale(.7); }
+.gf-dragghost.is-bad::after { content: '✕'; position: absolute; right: -6px; top: -6px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: #e0115f; color: #fff; font: 700 22px/1 var(--xg-font-num); border: 2.5px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,.4); }
+/* 鲁班's bubble lives in the bottom bar (landscape) and never takes a tap */
+.gf-bubble--luban { pointer-events: none; z-index: 4; }
+/* 附加题 chip: ≥16 px text; a tap = a little bounce while it is read */
+.gf-star3__t { font-size: 16px; line-height: 1.15; }
+.gf-battle[data-orient="portrait"] .gf-star3__t { font-size: 17px; }
+.gf-star3.is-say { animation: gf-jnsay .5s; }
+/* 机关匣 tokens stay inside the box frame in portrait */
+.gf-battle[data-orient="portrait"] .gf-box { gap: 4px; padding: 4px 6px; }
+.gf-battle[data-orient="portrait"] .gf-box__tokens { gap: 2px; flex-wrap: nowrap; }
+.gf-battle[data-orient="portrait"] .gf-box__tokens i { width: 17px; height: 17px; font-size: 9px; }
+/* pause: the speed segment (spec §2.1) */
+.gf-pausel__speed { display: flex; height: 64px; }
+.gf-pausel__speed .gf-speed__b { font-size: 22px; min-width: 84px; }
+/* 1-1 首屏钩子 */
+.gf-hook { position: absolute; inset: 0; z-index: 30; overflow: hidden; }
+.gf-hook__lane { position: absolute; transform-origin: left center; border-radius: 8px; background: linear-gradient(90deg, rgba(255,236,190,.0), rgba(255,236,190,.85) 70%, rgba(255,250,230,.95)); box-shadow: 0 0 18px rgba(255,220,150,.6); }
+.gf-hook__toy, .gf-hook__hand { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.gf-hook__toy { filter: drop-shadow(0 6px 3px rgba(40,20,5,.35)); }
+.gf-hook__toy.is-stuck canvas { animation: gf-stuck .3s linear 1; }
+@keyframes gf-stuck { 25% { transform: rotate(-7deg) translateX(-3px); } 75% { transform: rotate(6deg) translateX(3px); } }
+.gf-hook__hand svg { width: 64px; height: 120px; filter: drop-shadow(0 6px 4px rgba(20,10,0,.35)); }
+.gf-hook__hand--luban { color: #c8372d; } .gf-hook__hand--mozi { color: #2b3a36; }
+.gf-battle.is-hook .gf-hud > :not(.gf-hook) { opacity: 0; }
+.gf-hud > * { transition: opacity .3s; }
+
+/* 鲁班亮招 + 选牒 (spec §2.3) */
+.gf-pv__say { pointer-events: none; font-size: 24px; padding: 12px 18px; max-width: 64%; transform-origin: right center; animation: gf-pvsay .35s .3s both cubic-bezier(.2,.9,.3,1.3); }
+.gf-pv__say span { opacity: 0; transition: opacity .08s, color .12s, background-color .12s; border-radius: 4px; }
+.gf-pv__say span.is-in { opacity: 1; }
+.gf-pv__say span.is-hi { color: #fff; background: #c8372d; }
+@keyframes gf-pvsay { from { transform: scale(.4); opacity: 0; } }
+.gf-pv__machines { inset: 64px 14px 14px; gap: 18px 10px; }
+.gf-pv__m { overflow: visible; }
+.gf-pv__m canvas { display: block; margin: 0 auto; }
+.gf-pv__deck { display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+.gf-pv__label { display: flex; align-items: baseline; gap: 10px; font: 400 22px/1.1 var(--xg-font-title); color: #5a3418; opacity: 1; }
+.gf-pv__label small { font: 15px/1.2 var(--xg-font-read); color: #7a5634; }
+.gf-pv__slots { display: flex; gap: 8px; flex-wrap: nowrap; padding: 8px; border-radius: 16px; background: linear-gradient(#a7774a, #835733); box-shadow: inset 0 3px 6px rgba(40,20,5,.45); }
+.gf-pv__slots .gf-slot { width: var(--slot, 76px); height: calc(var(--slot, 76px) * 1.1); flex: none; }
+.gf-slot.is-empty { background: linear-gradient(#cfa673, #b88b58); border: 2.5px dashed rgba(255,236,200,.75); box-shadow: inset 0 2px 5px rgba(60,30,10,.4); }
+.gf-slot.is-newcard { animation: gf-float 1.6s ease-in-out infinite; }
+@keyframes gf-float { 50% { transform: translateY(-5px); } }
+.gf-pv__pool { display: flex; flex-wrap: wrap; gap: 8px; }
+.gf-pv__pool .gf-poolcard { width: var(--pool, 72px); height: calc(var(--pool, 72px) * 1.08); }
+.gf-poolcard.is-in { opacity: 1; box-shadow: 0 0 0 3px #2EC4B6, 0 3px 0 rgba(40,20,8,.45); }
+.gf-poolcard__ok { position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #2EC4B6; color: #fff; display: grid; place-items: center; border: 2px solid #fff; }
+.gf-poolcard__ok svg { width: 15px; height: 15px; }
+.gf-pv__feat { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; text-align: left; padding: 10px 14px; border-radius: 18px; border: 2px solid rgba(90,52,24,.35);
+  background: radial-gradient(circle at 15% 50%, #fff6e0, #f0dcb4 70%); color: #3a2414; box-shadow: 0 3px 0 rgba(90,52,24,.25); flex: 1 1 auto; min-height: 0; max-height: 220px; }
+.gf-pv__featart { display: grid; place-items: center; border-radius: 16px; background: radial-gradient(circle at 50% 45%, #fffaf0, #e6c690); padding: 4px; }
+.gf-pv__feattext { display: grid; gap: 6px; } .gf-pv__feattext b { display: flex; align-items: center; gap: 8px; font: 400 26px/1.1 var(--xg-font-title); color: #5a3418; }
+.gf-pv__feattext b i { font: 700 14px/1 var(--xg-font-title); font-style: normal; padding: 4px 7px; border-radius: 7px; background: #c8372d; color: #fff3df; }
+.gf-pv__feattext span { font: 19px/1.4 var(--xg-font-read); }
+.gf-pv__ear { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: #2f6e63; color: #fff; flex: none; } .gf-pv__ear svg { width: 24px; height: 24px; }
+.gf-pv__bonus { border: 2px solid rgba(42,27,18,.55); text-align: left; color: #3a2414; font: 19px/1.3 var(--xg-font-read); }
+.gf-pv__bonust { flex: 1; display: grid; } .gf-pv__bonust small { font-size: 13px; opacity: .7; }
+.gf-pv__go { margin-top: auto; }
+html[data-orientation="portrait"] .gf-pv__say { max-width: 70%; }
+html[data-orientation="portrait"] .gf-pv__machines { inset: 56px 12px 12px; }
+
+/* 城守图谱: tabs (spec §2.2) */
+.gf-alm__head { flex-wrap: wrap; }
+.gf-alm__tabs { display: flex; gap: 8px; }
+.gf-alm__tab { position: relative; min-width: 84px; min-height: 52px; padding: 0 18px; border-radius: 16px; border: 2px solid rgba(255,231,166,.35); background: rgba(255,255,255,.08); color: #ffe7a6; font: 400 24px/1 var(--xg-font-title); }
+.gf-alm__tab.is-on { background: #ffe7a6; color: #4a2c16; border-color: #ffe7a6; }
+.gf-alm__dot { position: absolute; right: -4px; top: -4px; width: 14px; height: 14px; border-radius: 50%; background: #c8372d; border: 2px solid #fff3df; }
+.gf-alm__grid { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 6px 2px 12px; }
+.gf-alm__tile { height: 128px; }
+.gf-alm__grid[data-tab="boss"] { grid-template-columns: repeat(2, minmax(220px, 300px)); justify-content: center; }
+.gf-alm__grid[data-tab="boss"] .gf-alm__tile { height: 240px; }
+.gf-alm__grid[data-tab="jn"] .gf-alm__tile { height: 118px; }
+html[data-orientation="portrait"] .gf-alm { padding-left: 24px; padding-top: calc(var(--gf-top, 24px) + 84px); }
+html[data-orientation="portrait"] .gf-alm__grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+html[data-orientation="portrait"] .gf-alm__tile { height: 150px; }
+html[data-orientation="portrait"] .gf-alm__grid[data-tab="jn"] .gf-alm__tile { height: 128px; }
+
+/* map: volume tabs ≥ 48 px (spec §8.7) */
+.gf-tabs button { min-height: 52px; min-width: 96px; }
+
+/* 复盘 ③ 做得好的 */
+.gf-db__good { margin: 0; display: flex; gap: 8px; align-items: center; font-size: 22px; color: #8a5a10; cursor: pointer; }
+.gf-db__good svg { width: 28px; flex: none; color: #e2b13c; }
+/* 结算: 今天学会了 */
+.gf-learned { display: flex; align-items: center; gap: 14px; width: min(440px, 100%); margin: 2px auto 12px; padding: 8px 14px; border-radius: 18px; border: 2px solid rgba(201,162,58,.7);
+  background: linear-gradient(#fff6df, #f3dfb4); color: #3a2414; box-shadow: 0 3px 0 rgba(90,52,24,.25); }
+.gf-learned__pair { display: flex; align-items: center; gap: 4px; } .gf-learned__pair b { font: 400 22px/1 var(--xg-font-title); color: #c8372d; }
+.gf-learned__pair i { width: 56px; height: 56px; border-radius: 12px; background: rgba(255,255,255,.7); display: grid; place-items: center; }
+.gf-learned__cap { display: grid; text-align: left; font: 20px/1.3 var(--xg-font-read); } .gf-learned__cap small { font-size: 14px; opacity: .7; }
+/* ?dev=export */
+.gf-export { position: absolute; inset: 0; display: grid; place-items: center; }
+.gf-export__card { display: grid; gap: 12px; padding: 28px; border-radius: 26px; background: #fff8ea; color: #3a2414; min-width: 320px; text-align: center; }
+.gf-export__card b { font: 400 30px/1.1 var(--xg-font-title); }
+@media (prefers-reduced-motion: reduce) { .gf-card.is-pulse, .gf-slot.is-newcard, .gf-star3.is-say { animation: none; } .gf-pv__say { animation: none; } }
+.gf-pv__slots .gf-slot, .gf-pv__pool .gf-poolcard { box-sizing: border-box; }
+html[data-orientation="landscape"] .gf-pv__deck { margin-top: 24px; gap: 8px; }
+.gf-pv__feat { max-height: 300px; }
+html[data-orientation="landscape"] .gf-alm__head { padding-left: 100px; }
+html[data-orientation="portrait"] .gf-preview.is-choose { grid-template-rows: 37% 63%; }
+html[data-orientation="portrait"] .gf-pv__machines { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
+.gf-card__short { display: grid; justify-items: center; gap: 1px; padding: 4px 7px 5px; min-width: 40px; font-size: 22px; }
+.gf-card__short small { font: 600 13px/1 var(--xg-font-read); color: #f6dfa8; }
+.gf-card__short b { font: 700 22px/1 var(--xg-font-num); }
+.gf-battle[data-orient="portrait"] .gf-card__short { padding: 5px 10px 6px; }
+.gf-battle[data-orient="portrait"] .gf-card__short small { font-size: 15px; }
+.gf-battle[data-orient="portrait"] .gf-card__short b { font-size: 28px; }
+
+/* ── fix round 2 (QA r2) ─────────────────────────────────────────────────────────────────────────────── */
+/* placement cell under the finger: a DOM cell above both canvases, repainted with the drag ghost (Stage.onHover) */
+.gf-cellhint { position: absolute; left: 0; top: 0; display: none; pointer-events: none !important; box-sizing: border-box; border-radius: 8px; z-index: 0; }
+.gf-cellhint.is-on { display: block; }
+.gf-cellhint.is-ok { background: rgba(46,196,182,.30); border: 3px solid #2EC4B6; box-shadow: inset 0 0 0 2px rgba(255,255,255,.4), 0 0 16px rgba(46,196,182,.6); }
+.gf-cellhint.is-bad { background: rgba(224,17,95,.16); border: 3px solid rgba(224,17,95,.9); }
+.gf-cellhint svg { display: none; }
+.gf-cellhint.is-bad svg { display: block; width: 44%; height: 44%; margin: 0 auto; position: relative; top: 28%; fill: none; stroke: #E0115F; stroke-width: 5; stroke-linecap: round; }
+.gf-cellhint.is-pulse { animation: gf-cellpulse 1.1s ease-in-out infinite; }
+@keyframes gf-cellpulse { 50% { background: rgba(46,196,182,.5); box-shadow: inset 0 0 0 2px rgba(255,255,255,.6), 0 0 26px rgba(46,196,182,.9); } }
+@media (prefers-reduced-motion: reduce) { .gf-cellhint.is-pulse { animation: none; background: rgba(46,196,182,.42); } }
+/* the demo hand carries the machine where a real drag shows it (0.6 tile above the fingertip) */
+.gf-hand__rig { position: absolute; left: 0; top: 0; display: none; pointer-events: none; transform-origin: 50% 100%; filter: drop-shadow(0 10px 6px rgba(20,10,0,.45)); }
+.gf-hand svg { position: relative; z-index: 1; }
+/* 粮不够: the card stays readable (art at ~50 % grey), "还差 N" is a chip over the lower third */
+.gf-card.is-poor canvas { filter: grayscale(1) contrast(.85) brightness(1.02); opacity: .55; }
+.gf-card.is-poor::after { background: rgba(70,46,26,.14); }
+.gf-card__short { top: auto; bottom: 7px; left: 50%; transform: translateX(calc(-50% + 5px)); display: flex; align-items: baseline; gap: 3px; padding: 3px 8px 4px; min-width: 0; border-width: 1.5px; border-radius: 999px; box-shadow: 0 2px 0 rgba(0,0,0,.4); }
+.gf-card__short small { font-size: 12px; } .gf-card__short b { font-size: 18px; }
+.gf-battle[data-orient="portrait"] .gf-card__short { padding: 4px 10px 5px; bottom: 8px; }
+.gf-battle[data-orient="portrait"] .gf-card__short small { font-size: 14px; } .gf-battle[data-orient="portrait"] .gf-card__short b { font-size: 22px; }
+.gf-card.is-poor .gf-card__cost { opacity: 0; }
+/* pause layer: the speed segment is always one row of ≥ 56 px buttons (it no longer inherits the portrait HUD column) */
+.gf-battle .gf-pausel .gf-pausel__speed { flex-direction: row; height: 60px; min-height: 60px; overflow: hidden; border-radius: 16px; }
+.gf-battle .gf-pausel .gf-pausel__speed .gf-speed__b { flex: 1 1 0; min-width: 0; height: 100%; min-height: 56px; font-size: 22px; }
+/* pause layer: the four actions are one size (spec §9.9 S23) — colour and icon tell them apart */
+.gf-pausel__panel { width: min(400px, calc(100vw - 48px)); box-sizing: border-box; }
+.gf-pausel__panel > .xg-btn { --h: 64px; --fs: 22px; --px: 20px; --depth: 5px; width: 100%; height: 64px; min-height: 64px; padding: 0 20px; font-size: 22px; justify-content: center; box-sizing: border-box; }
+/* K4 stopgap (kit request): the kit's 3500-character subsets lack 28 characters this game uses (弩 蒺藜 礌 檑 牒 枭鸢 驿 橐 …).
+   Same family names + a unicode-range, so only those code points come from these small gear-fort subsets (built from
+   the same OFL sources with pyftsubset; ~16 KB together) and no word mixes fonts. ZCOOL KuaiLe has no 礌 轒 辒: titles take
+   WenKai's. Delete when the kit subsets include them. */
+@font-face { font-family: "XG WenKai"; src: url("./fonts/gf-wenkai-extra.woff2") format("woff2"); font-weight: 300 800; font-style: normal; font-display: swap;
+  unicode-range: U+5043, U+5494, U+55D2, U+5657, U+57D9, U+5E27, U+5F29, U+5FB5, U+6512, U+67AD, U+6A50, U+6A91, U+7252, U+74EE, U+790C, U+7BDD, U+7F2A, U+84BA, U+85DC, U+8F52, U+8F73, U+8F92, U+8F98, U+90E2, U+95E9, U+97EC, U+9A7F, U+9E22; }
+@font-face { font-family: "XG KuaiLe"; src: url("./fonts/gf-kuaile-extra.woff2") format("woff2"); font-weight: 300 900; font-style: normal; font-display: swap;
+  unicode-range: U+5043, U+5494, U+55D2, U+5657, U+57D9, U+5E27, U+5F29, U+5FB5, U+6512, U+67AD, U+6A50, U+6A91, U+7252, U+74EE, U+7BDD, U+7F2A, U+84BA, U+85DC, U+8F73, U+8F98, U+90E2, U+95E9, U+97EC, U+9A7F, U+9E22; }
+@font-face { font-family: "XG KuaiLe"; src: url("./fonts/gf-wenkai-extra.woff2") format("woff2"); font-weight: 300 900; font-style: normal; font-display: swap; unicode-range: U+790C, U+8F52, U+8F92; }
+/* 点读: the word being read glows for a moment */
+::highlight(gf-read) { background-color: rgba(255,206,84,.6); color: inherit; }
+.gf-reading { animation: gf-reading 1.1s ease-out 1; }
+@keyframes gf-reading { 0% { filter: brightness(1.25) drop-shadow(0 0 6px rgba(255,206,84,.9)); } 100% { filter: none; } }
+/* 1-1 hook (spec §2.4): lid → lane strips → light pass → sleeves */
+.gf-hook { perspective: 1400px; }
+.gf-hook__recess { position: absolute; border-radius: 6px; background: linear-gradient(#3b2414, #2a180c); box-shadow: inset 0 8px 18px rgba(0,0,0,.6), inset 0 -2px 0 rgba(255,220,160,.08); }
+.gf-hook__lid { position: absolute; transform-style: preserve-3d; pointer-events: none; }
+.gf-hook__half { position: absolute; left: 0; right: 0; height: 50%; backface-visibility: hidden; border: 3px solid #2a1b12; box-sizing: border-box;
+  background: radial-gradient(circle at 12px 12px, #e7c35a 0 5px, #6b4a14 5.5px 7px, transparent 7.5px) , radial-gradient(circle at calc(100% - 12px) 12px, #e7c35a 0 5px, #6b4a14 5.5px 7px, transparent 7.5px),
+    repeating-linear-gradient(90deg, rgba(60,30,10,0) 0 46px, rgba(60,30,10,.22) 46px 48px), linear-gradient(#b4804c, #8c5c33); box-shadow: inset 0 0 0 5px rgba(255,226,170,.18); }
+.gf-hook__half--top { top: 0; transform-origin: 50% 0; border-radius: 22px 22px 0 0; border-bottom-width: 1.5px; }
+.gf-hook__half--bot { bottom: 0; transform-origin: 50% 100%; border-radius: 0 0 22px 22px; border-top-width: 1.5px;
+  background: radial-gradient(circle at 12px calc(100% - 12px), #e7c35a 0 5px, #6b4a14 5.5px 7px, transparent 7.5px), radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #e7c35a 0 5px, #6b4a14 5.5px 7px, transparent 7.5px),
+    repeating-linear-gradient(90deg, rgba(60,30,10,0) 0 46px, rgba(60,30,10,.22) 46px 48px), linear-gradient(#9a6a3c, #7a4d29); }
+.gf-hook__seal { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; border-radius: 14px; display: grid; place-items: center; background: #c8372d; color: #fff3df;
+  font: 400 46px/1 var(--xg-font-title); border: 3px solid #2a1b12; box-shadow: 0 4px 0 rgba(0,0,0,.35), inset 0 0 0 4px rgba(255,243,223,.35); transform: translate(-50%, -50%); }
+.gf-hook__strip { position: absolute; transform-origin: 50% 100%; border-radius: 4px; box-shadow: 0 6px 10px rgba(20,10,0,.35); }
+.gf-hook__dust { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(246,226,186,.95), rgba(214,180,120,.55) 55%, rgba(214,180,120,0) 72%); pointer-events: none; }
+.gf-hook__sweepbox { position: absolute; overflow: hidden; pointer-events: none; border-radius: 6px; }
+.gf-hook__sweep { position: absolute; top: -10%; bottom: -10%; left: 0; width: 34%; background: linear-gradient(90deg, rgba(255,240,200,0), rgba(255,244,214,.55) 45%, rgba(255,255,240,.8) 50%, rgba(255,244,214,.55) 55%, rgba(255,240,200,0)); mix-blend-mode: screen; }
+.gf-hook__hand svg { width: 100%; height: 100%; filter: drop-shadow(0 8px 5px rgba(20,10,0,.35)); }
+/* 点读 on the HUD bubbles (墨子 / 鲁班): they take taps while shown (they never cover the board) */
+.gf-hud .gf-bubble.is-on { pointer-events: auto; }
+/* 鲁班's line being read: the character turns red with an ink underline (no filled block; punctuation is skipped) */
+.gf-pv__say span.is-hi { color: #c8372d; background: none; box-shadow: inset 0 -4px 0 rgba(200,55,45,.85); }
+/* 🏠 mid-battle: the pause panel turns into a one-tap confirm */
+.gf-pausel__panel.is-home > :not(.gf-pausel__home) { display: none; }
+.gf-pausel__home { display: grid; gap: 14px; text-align: center; }
+.gf-pausel__home b { font: 400 32px/1.15 var(--xg-font-title); color: #5a3418; }
+.gf-pausel__home span { font: 600 20px/1.35 var(--xg-font-read); color: #6b4a2e; }
+.gf-pausel__home div { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gf-pausel__home .xg-btn { --h: 64px; --fs: 21px; --px: 12px; height: 64px; width: 100%; justify-content: center; box-sizing: border-box; }
+/* Boss bar (landscape): the portrait stays inside the bar, clear of the grain box above it */
+.gf-battle[data-orient="landscape"] .gf-boss__face { width: 46px; height: 46px; margin: -5px 0 -5px 2px; }
+/* result: 下一关 / 再玩一次 / 回地图 are one size (spec §2.1); the learned tile breaks at the colon, never inside a name */
+.gf-resultp .xg-btn[data-act] { --h: 64px; --fs: 22px; --px: 14px; flex: 1 1 0; min-width: 0; height: 64px; justify-content: center; white-space: nowrap; }
+.gf-learned__cap em { font-style: normal; font-size: 16px; opacity: .8; } .gf-learned__cap b { font-weight: 700; white-space: nowrap; }
+.gf-battle:not([data-orient="portrait"]) .gf-bubble--luban { font-size: 16px; line-height: 1.25; padding: 6px 10px; z-index: 6; }
+/* 图谱 in portrait: four big tiles a row fill the page instead of a short strip at the top (QA r2) */
+html[data-orientation="portrait"] .gf-alm__grid:not([data-tab="boss"]) { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+html[data-orientation="portrait"] .gf-alm__grid:not([data-tab="boss"]) .gf-alm__tile { height: 176px; font-size: 20px; }
+html[data-orientation="portrait"] .gf-alm__grid:not([data-tab="boss"]) .gf-alm__tile canvas { transform: scale(1.3); transform-origin: 50% 70%; }
+/* 亮招 labels: never touch their neighbours */
+.gf-pv__m > span { display: block; max-width: 100%; padding: 0 3px; overflow: hidden; text-overflow: clip; white-space: nowrap; letter-spacing: -.02em; }
+
+/* ───────── fix round 3 ───────── */
+/* result: 鲁班的附加题 — the outcome big (做到了 ✓ green / 下次再试 grey), the condition in small text under it */
+.gf-resultp .xg-stat span { text-wrap: balance; max-width: 22em; margin-inline: auto; display: block; }
+.gf-bonus.is-ok { color: var(--xg-ok-600); }
+.gf-bonus.is-miss { color: var(--xg-ink-400); font-weight: 700; }
+/* 复盘 mini sand table: the wall on the left, his machines where they stood, the breach run in red */
+.gf-db__mini { gap: 4px; padding: 8px 8px 8px 22px; position: relative; background: linear-gradient(90deg, #6e4426 0 16px, #8a5a35 16px); }
+.gf-db__mini::before { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 10px; border-radius: 3px; background: repeating-linear-gradient(#b9a27c 0 9px, #8f7a58 9px 11px); }
+.gf-db__lane { height: 40px; }
+.gf-db__lane.is-lost { background: repeating-linear-gradient(90deg, #f1c2a8 0 calc(12.5% - 2px), #dc9f84 calc(12.5% - 2px) 12.5%); }
+.gf-db__unit { position: absolute; top: 1px; width: 38px; height: 38px; filter: drop-shadow(0 1px 0 rgba(0,0,0,.35)); }
+.gf-db__path { position: absolute; left: 34px; right: 6px; top: 50%; height: 0; border-top: 3px dashed #d23a2e; }
+.gf-db__path::before { content: ""; position: absolute; left: -4px; top: -8px; border: 7px solid transparent; border-right: 10px solid #d23a2e; border-left: 0; }
+.gf-db__who { top: -4px; z-index: 1; animation: gf-db-who 1.2s ease-in-out 6 alternate; }
+@keyframes gf-db-who { to { transform: translateX(-3px); } }
+@media (prefers-reduced-motion: reduce) { .gf-db__who { animation: none; } }
+/* 城守图谱 landscape: 5 big tiles a row so the pages fill the screen (the grid used to fill only the top 40 %) */
+html[data-orientation="landscape"] .gf-alm__grid:not([data-tab="boss"]):not([data-tab="jn"]) { grid-template-columns: repeat(5, 1fr); gap: 14px; padding-right: 8px; }
+html[data-orientation="landscape"] .gf-alm__grid:not([data-tab="boss"]):not([data-tab="jn"]) .gf-alm__tile { height: 192px; font-size: 21px; border-radius: 20px; }
+html[data-orientation="landscape"] .gf-alm__grid:not([data-tab="boss"]):not([data-tab="jn"]) .gf-alm__tile canvas { transform: scale(1.4); transform-origin: 50% 72%; }
+/* Boss bar in landscape: a taller strip so the 铜板 cracks read, and the 只有 石/光 icons on their own plaque */
+html[data-orientation="landscape"] .gf-boss__bar { min-height: 30px; }
+.gf-boss__only.is-on { padding: 4px 8px 4px 10px; border-radius: 12px; background: linear-gradient(#5a3a1e, #3a2414); border: 2px solid #c9a23a; box-shadow: 0 2px 0 rgba(0,0,0,.35); font-size: 16px; }
+.gf-boss__only span { width: 34px; height: 34px; }
+/* 鲁班's bubble: bigger, and bigger still while a Boss is on the board */
+.gf-battle.has-boss .gf-bubble--luban { font-size: 21px; line-height: 1.3; padding: 9px 14px; max-width: 46%; text-wrap: balance; }
+.gf-bonus { font-size: 24px; }

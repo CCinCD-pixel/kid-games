@@ -117,7 +117,10 @@ export function causes(S: SimState): Cause[] {
   };
   const cc = counterCauses(); const sc = setupCauses();
   const lessonFirst = lesson || (sc.length > 0 && (LESSON_CAUSES[L.id] || []).some((id) => sc.some((c) => c.id === id)));
-  if (lessonFirst) { cc.forEach(push); sc.forEach(push); empty().forEach(push); }
+  // an (almost) empty board: say that first — "the right card was not in that lane" is true but beside the point (QA r3)
+  const fewPlaced = placed.filter((p) => ATT.has(p.card!) && p.tick <= bt).length === 0;
+  if (fewPlaced) { empty().forEach(push); cc.forEach(push); sc.forEach(push); }
+  else if (lessonFirst) { cc.forEach(push); sc.forEach(push); empty().forEach(push); }
   else { empty().forEach(push); cc.forEach(push); sc.forEach(push); }
   if (L.env?.night && S.stats.econAt60 >= 0 && placed.filter((p) => p.card === 'bank' && p.tick < 60 * TPS).length === 0 && placed.some((p) => p.card === 'farm' && p.tick < 60 * TPS) && deck.has('bank')) push({ id: 'nightFarms', tip: 'nightFarms', card: 'bank' });
   if (!L.belt && !L.env?.night && S.stats.econAt60 >= 0 && S.stats.econAt60 < 3 && deck.has('farm')) push({ id: 'lateEconomy', tip: 'lateEconomy', card: 'farm', vars: { n: S.stats.econAt60 } });

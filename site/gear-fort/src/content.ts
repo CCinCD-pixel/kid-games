@@ -20,8 +20,8 @@ export interface Campaign {
 export const CAMPAIGN = CAMPAIGN_RAW as unknown as Campaign;
 /** every v1 level id in play order */
 export const ORDER: string[] = CAMPAIGN.volumes.flatMap((v) => v.levels);
-/** levels this build ships playable (stage 1 = volume 1; volume 2 lands in build stage 2) */
-export const PLAYABLE_VOLUMES = [1];
+/** volumes this build ships playable (v1 = volumes 1–2; 3–4 are the v2 backlog, spec §11) */
+export const PLAYABLE_VOLUMES = [1, 2];
 
 export interface UnitInfo { name: string; unlock: string; cost: number; cd: number; v1?: boolean; stamp?: string; ult?: { name: string; text: string } }
 export interface EnemyInfo { name: string; intro?: string; v1?: boolean; fears?: string[]; mat: string; wt: string; layer: string; traits: string[] }

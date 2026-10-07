@@ -4,7 +4,7 @@
 // hash(S) must match the prototype at every flag of every golden run (lane.test.ts, determinism.spec.ts).
 import {
   T, COLS, LANES, BOARD_X, SPAWN_X, FACE, PASS, BODY, FEET, AUTO_COLLECT, BITE_EVERY, GRACE,
-  PARTS_PER_TOKEN, TOKEN_MAX, PARTS, SKY, FIRE, SWARM_N,
+  PARTS_PER_TOKEN, TOKEN_MAX, PARTS, SKY, FIRE, SWARM_N, ASSIST,
 } from './rules';
 import { UNITS, ENEMIES } from './tables';
 import { mulberry } from './rng';
@@ -856,7 +856,7 @@ export function resume(snap: Snapshot, L: Level, opt: { events?: boolean } = {})
 /** 从第 N 面战鼓重来: back to the checkpoint; every gate gets its 檑木 back; the attempt is marked restored (≤ 2★). */
 export function restore(snap: Snapshot, L: Level, opt: { events?: boolean; assist?: number } = {}): SimState | null {
   const S = resume(snap, L, opt); if (!S) return null;
-  S.logs = [0, 0, 0, 0, 0]; S.restored = (S.restored || 0) + 1; if (opt.assist) { S.grain += 50; S.assist = S.assist || 1; }
+  S.logs = [0, 0, 0, 0, 0]; S.restored = (S.restored || 0) + 1; if (opt.assist) { S.grain += ASSIST.startGrain; S.assist = S.assist || 1; } // spec §3.14/§3.21-14: tier one only (+150); proto said +50 (never exercised by its tools)
   return S;
 }
 function relink(S: SimState): void { // bolts/lobs keep their source as {k, id} after a JSON round trip

@@ -26,4 +26,11 @@ describe('save', () => {
     expect(m.levels['1-1'].best).toBe(2); expect(m.settings.shake).toBe(false); expect(m.settings.speed).toBe(1); expect(m.coach.followed).toEqual({}); expect(m.resume).toBeNull();
     expect(migrate(null)).toEqual(defaults()); expect(migrate(full())).toEqual(full());
   });
+  it('migrate drops fields of the wrong type (a damaged save starts fresh there, never a blank screen)', () => {
+    const m = migrate({ levels: null, story: null, settings: { speed: 'x', music: false }, coach: [], resume: { level: 3 }, learned: ['a', 5], current: 7, infer: { firstSeenAt: '2-10', solvedUnaided: 'yes' } });
+    expect(m.levels).toEqual({}); expect(m.story).toEqual([]); expect(m.settings.speed).toBe(1); expect(m.settings.music).toBe(false);
+    expect(m.coach).toEqual({ followed: {} }); expect(m.resume).toBeNull(); expect(m.learned).toEqual(['a']); expect(m.current).toBe('1-1');
+    expect(m.infer).toEqual({ firstSeenAt: '2-10', solvedUnaided: false });
+    expect(Object.keys(m.levels)).toEqual([]);
+  });
 });

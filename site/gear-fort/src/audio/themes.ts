@@ -2,6 +2,8 @@
 // Notes are [midi, beats, velocity 0..1, bell?]; midi 0 = rest. All pitches sit in the 宫/羽 pentatonic on C
 // (C D E G A) — checked by themes.test.ts. Procedural code only arranges (qin pattern, xun long-tone placement) by
 // seed; it never invents melody.
+import type { NoteEv } from './synth';
+
 export type Note = readonly [midi: number, beats: number, vel: number, bell?: 1];
 export interface Theme { id: string; bpm: number; bars: number; melody: Note[]; roots: number[]; loop: boolean }
 
@@ -64,4 +66,28 @@ export function arrangement(seed: number): { pattern: number[]; xunEvery: 1 | 2;
 export function degUp(m: number, k: number): number {
   const L = [0, 2, 4, 7, 9]; const oct = Math.floor(m / 12); let i = L.indexOf(m % 12); if (i < 0) return m;
   i += k; return (oct + Math.floor(i / 5)) * 12 + L[((i % 5) + 5) % 5];
+}
+
+/** melody note → instrument events (bell notes double on the qin, as written) */
+function voice(evs: NoteEv[], m: number, t: number, dur: number, v: number, isBell?: 1): void {
+  const q = m >= 66 ? 'qinHi' : 'qin';
+  if (isBell) { evs.push({ inst: 'bell', m, t, dur, vel: v }); evs.push({ inst: q, m, t, dur, vel: v * 0.6 }); } else evs.push({ inst: q, m, t, dur, vel: v });
+}
+/** one pass of a theme as timed events (s). The page scheduler and the offline renderer play this same list. */
+export function scoreOf(theme: Theme, seed: number): { evs: NoteEv[]; len: number } {
+  const spb = 60 / theme.bpm; const evs: NoteEv[] = []; let mt = 0;
+  for (const [m, b, v, isBell] of theme.melody) { if (m) voice(evs, m, mt * spb, b * spb, v, isBell); mt += b; }
+  const arr = arrangement(seed);
+  for (let bar = 0; bar < theme.bars; bar++) {
+    const t = bar * 4 * spb; const root = theme.roots[bar];
+    arr.pattern.forEach((d, i) => evs.push({ inst: 'qin', m: degUp(root, d), t: t + i * spb, dur: spb, vel: 0.32 }));
+    if ((bar + arr.xunOffset) % arr.xunEvery === 0) evs.push({ inst: 'xun', m: degUp(root, 5), t: t + 0.02, dur: 4 * spb * arr.xunEvery - 0.1, vel: 0.8 });
+  }
+  evs.sort((a, b) => a.t - b.t); return { evs, len: mt * spb };
+}
+export function stingerScore(id: string): { evs: NoteEv[]; len: number } {
+  const s = STINGERS[id]; const spb = 60 / s.bpm; const evs: NoteEv[] = []; let t = 0;
+  for (const [m, b, v, isBell] of s.notes) { if (m) voice(evs, m, t, b * spb, v, isBell); t += b * spb; }
+  for (const d of s.drum || []) evs.push({ inst: 'drum', m: 0, t: d * spb, dur: 0.45, vel: 0.9 });
+  evs.sort((a, b) => a.t - b.t); return { evs, len: t };
 }

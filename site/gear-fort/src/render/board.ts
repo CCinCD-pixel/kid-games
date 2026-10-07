@@ -144,5 +144,33 @@ export function drawBoard(ctx: CanvasRenderingContext2D, g: Geo, o: BoardOpts): 
   }
   // ── fog (vol 2) and night (vol 2) are baked here too ──
   if (o.fogCol != null) { const fx0 = g.x0 + o.fogCol * g.w; const fgr = ctx.createLinearGradient(fx0 - g.w * 0.4, 0, fx0 + g.w, 0); fgr.addColorStop(0, 'rgba(220,230,238,0)'); fgr.addColorStop(1, 'rgba(220,230,238,0.85)'); ctx.fillStyle = fgr; ctx.fillRect(fx0 - g.w * 0.4, g.by, g.x0 + 8 * g.w + g.spawnW - fx0 + g.w * 0.4, g.bh); }
-  if (o.night) { ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = 'rgba(30,42,74,0.55)'; ctx.fillRect(0, 0, g.W, g.H); ctx.globalCompositeOperation = 'source-over'; }
+  if (o.night) nightBake(ctx, g);
+}
+
+/**
+ * 夜 (spec §6.1, §8.5): baked once — an indigo multiply over the whole table, a cool moon wash over the sand from the
+ * top right, and a paper lantern at every gate with its warm pool of light (glow-warm #FFC86B, additive). Cards and
+ * machines stay at day brightness on top (toy figures under the lamps — readability first); fire glows are per frame.
+ */
+function nightBake(ctx: CanvasRenderingContext2D, g: Geo): void {
+  ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = 'rgba(30,46,108,0.6)'; ctx.fillRect(0, 0, g.W, g.H);
+  const mx = g.x0 + 8 * g.w, my = g.by - g.h * 0.8;
+  const mg = ctx.createRadialGradient(mx, my, g.h * 0.4, mx, my, g.bw * 1.05); mg.addColorStop(0, 'rgba(178,196,246,0.26)'); mg.addColorStop(1, 'rgba(178,196,246,0)');
+  ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = mg; ctx.fillRect(g.bx, g.by, g.bw, g.bh);
+  for (let l = 0; l < 5; l++) {
+    const lx = g.bx + g.wallW * 0.84, ly = laneTop(g, l) + g.h * 0.3, r = Math.max(6, g.h * 0.1);
+    ctx.globalCompositeOperation = 'lighter';
+    const R = g.w * 1.15; const gl = ctx.createRadialGradient(lx, ly + r, 0, lx, ly + r, R);
+    gl.addColorStop(0, 'rgba(255,200,107,0.5)'); gl.addColorStop(0.35, 'rgba(255,170,80,0.2)'); gl.addColorStop(1, 'rgba(255,200,107,0)');
+    ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(lx, ly + r, R, 0, Math.PI * 2); ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.strokeStyle = 'rgba(42,27,18,0.85)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(lx, laneTop(g, l) + 3); ctx.lineTo(lx, ly - r); ctx.stroke();
+    const bg = ctx.createRadialGradient(lx - r * 0.25, ly - r * 0.2, r * 0.1, lx, ly, r * 1.05); bg.addColorStop(0, '#ffd27a'); bg.addColorStop(0.55, '#f0713a'); bg.addColorStop(1, '#b8322a');
+    ctx.fillStyle = bg; ctx.beginPath(); ctx.ellipse(lx, ly, r * 0.78, r, 0, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = 'rgba(42,27,18,0.9)'; ctx.lineWidth = 1.2; ctx.stroke();
+    ctx.strokeStyle = 'rgba(120,30,20,0.55)'; ctx.lineWidth = 0.9; for (const k of [-0.42, 0.42]) { ctx.beginPath(); ctx.ellipse(lx, ly, r * 0.78 * Math.abs(k), r * 0.97, 0, 0, Math.PI * 2); ctx.stroke(); }
+    ctx.fillStyle = '#c9a23a'; ctx.strokeStyle = 'rgba(42,27,18,0.9)'; ctx.lineWidth = 1;
+    for (const yy of [ly - r - 1.5, ly + r - 1.5]) { ctx.beginPath(); ctx.rect(lx - r * 0.42, yy, r * 0.84, 3); ctx.fill(); ctx.stroke(); }
+    ctx.strokeStyle = '#c8372d'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(lx, ly + r + 1.5); ctx.lineTo(lx, ly + r + 6); ctx.stroke();
+  }
+  ctx.globalCompositeOperation = 'source-over';
 }

@@ -1,6 +1,7 @@
 // Parametric part library (spec §6.2/§6.3): every part is a Path2D in design units (1 tile = 100 du) + a material,
 // shaded only through shadePart (shade.ts). Characters (rigs.ts) are 4–14 of these parts on rigid bones.
 import type { Mat } from './shade';
+import { buildVol2Parts } from './parts2';
 
 export interface PartDef { w: number; h: number; mat: Mat; path: Path2D; marks?: Path2D; markW?: number; markColor?: string; seed: number; outline?: number }
 
@@ -89,7 +90,8 @@ export function buildParts(): Record<string, PartDef> {
 
   // ── 阳燧 beam ──
   P.bmStand = part(30, 40, 'woodDark', (p) => { poly(p, [0, 40, 12, 6, 18, 6, 30, 40, 24, 40, 15, 14, 6, 40]); });
-  P.bmMirror = part(14, 40, 'bronze', (p, m) => { p.moveTo(2, 0); p.quadraticCurveTo(16, 20, 2, 40); p.lineTo(8, 40); p.quadraticCurveTo(-2, 20, 8, 0); p.closePath(); m.moveTo(9, 6); m.quadraticCurveTo(4, 20, 9, 34); }, { markW: 1.2, markColor: '#fff2c4' });
+  // 阳燧: a big round bronze mirror seen face-on on a short stem — its own silhouette at tray size, never the 火油罐's pot (QA r3)
+  P.bmMirror = part(32, 38, 'bronze', (p, m) => { p.arc(16, 15, 15, 0, Math.PI * 2); p.closePath(); p.rect(13, 28, 6, 10); m.arc(16, 15, 9.5, 0, Math.PI * 2); m.moveTo(10, 9); m.quadraticCurveTo(13, 6, 17, 6); }, { markW: 1.8, markColor: '#fff2c4' });
   P.bmWheel = wheel(7, 'wood', 5);
 
   // ── 木甲兵 walker (red lacquer, faces left) ──
@@ -118,6 +120,9 @@ export function buildParts(): Record<string, PartDef> {
   P.btBody = part(40, 34, 'bronze', (p, m) => { p.moveTo(5, 0); p.lineTo(35, 0); p.quadraticCurveTo(42, 17, 37, 34); p.lineTo(3, 34); p.quadraticCurveTo(-2, 17, 5, 0); p.closePath(); line(m, 20, 3, 20, 31); m.moveTo(6, 12); m.quadraticCurveTo(20, 17, 34, 12); m.moveTo(6, 22); m.quadraticCurveTo(20, 27, 34, 22); }, { markW: 1.5, markColor: '#6f4a1e' });
   P.btHead = part(26, 24, 'bronze', (p, m) => { rr(p, 0, 2, 26, 22, 8); poly(p, [8, 4, 13, -4, 18, 4]); line(m, 4, 12, 22, 12); circ(m, 8, 16, 1); circ(m, 18, 16, 1); }, { markW: 1.8 });
   P.btArm = part(11, 26, 'bronze', (p) => { rr(p, 0, 0, 11, 26, 5); });
+  // V15: a raised studded mace and spiked pauldrons give the brute a silhouette no other machine has (IoU vs walker ≤ 0.7)
+  P.btMace = part(24, 46, 'bronze', (p, m) => { rr(p, 10, 16, 4, 30, 2); rr(p, 4, 4, 16, 14, 4); poly(p, [9, 4, 12, 0, 15, 4]); poly(p, [4, 8, 0, 11, 4, 14]); poly(p, [20, 8, 24, 11, 20, 14]); line(m, 6, 11, 18, 11); circ(m, 12, 44, 1.2); }, { markW: 1.6 });
+  P.btPaul = part(22, 15, 'bronze', (p, m) => { p.moveTo(0, 14); p.quadraticCurveTo(1, 3, 11, 3); p.quadraticCurveTo(21, 3, 22, 14); p.closePath(); poly(p, [4, 6, 2, 0, 8, 4]); poly(p, [14, 4, 20, 0, 18, 6]); line(m, 3, 10, 19, 10); }, { markW: 1.4 });
 
   // ── 铜犀冲车 rhino (boss) ──
   P.rhBody = part(130, 40, 'lacRed', (p, m) => { rr(p, 0, 0, 130, 40, 8); for (let i = 1; i < 5; i++) line(m, i * 26, 4, i * 26, 36); }, { markW: 1.8, markColor: '#E8C35A' });
@@ -132,6 +137,10 @@ export function buildParts(): Record<string, PartDef> {
   P.log = part(20, 20, 'woodDark', (p, m) => { circ(p, 10, 10, 9.5); circ(m, 10, 10, 6); circ(m, 10, 10, 2.5); }, { markW: 1.2, markColor: '#5f3b1e' });
   P.plank = part(18, 8, 'wood', (p) => { poly(p, [0, 1, 18, 0, 17, 8, 1, 7]); });
   P.chip = part(8, 5, 'lacRed', (p) => { poly(p, [0, 1, 8, 0, 7, 5, 1, 4]); });
+  // 盾裂成两半 (spec §6.4): the two halves of a broken wooden shield, a jagged split edge on the inside
+  P.shieldL = part(12, 22, 'wood', (p) => { poly(p, [11, 0, 5, 1, 1, 6, 0, 11, 1, 16, 5, 21, 11, 22, 9, 18, 12, 14, 9, 10, 12, 6, 9, 3]); });
+  P.shieldR = part(12, 22, 'wood', (p) => { poly(p, [1, 0, 7, 1, 11, 6, 12, 11, 11, 16, 7, 21, 1, 22, 3, 18, 0, 14, 3, 10, 0, 6, 3, 3]); });
+  buildVol2Parts(P, part);
   return P;
 }
 const PAL_RED = '#C8372D';

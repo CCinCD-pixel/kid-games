@@ -4,7 +4,7 @@
   "subtitle": "跟墨子在沙盘上守住小城",
   "place": "playground",
   "order": 30,
-  "status": "wip",
+  "status": "live",
   "accent": "--xg-defense",
   "theme": "defense",
   "icon": "/icons/games/gear-fort.svg",
@@ -14,9 +14,9 @@
     "science"
   ],
   "parentNote": "车道策略新作《机关守城·九攻九距》：墨子止楚攻宋的沙盘推演，用杠杆、凹面镜、风箱等古代机关见招拆招；只守不攻，输了就复盘。",
-  "orientation": "landscape",
+  "orientation": "any",
   "smoke": {
-    "waitFor": "#app[data-ready]"
+    "waitFor": "#app[data-gate], #app[data-ready]"
   },
-  "notes": "规格 docs/specs/lane-defense.md rev d。构建阶段 1 进行中：内核/机器人与原型逐位一致（V4 52/52、V4b 660/660、V8 第一卷 11/11 在带内），第一卷可玩（地图→亮招选牒→战斗→结算/复盘）；其余见 ~/kid-games-work/state/progress-build-gear-fort-1.md。"
+  "notes": "规格 docs/specs/lane-defense.md rev d。第一、二卷 22 关可玩（V8 两卷在带内；V6 G1–G11）；Boss 折叠（铜犀→犁、木鸢→风筝）；夜景；锦囊谜题 12 题；宋城修复 22 步；序幕/码头/卷尾 + 8 个驿站；设置；家长 3 指标；V19 ?dev=perf；语音已生成（507 段：墨子 327、旁白 130、点读 45、伙伴 5；鲁班待 K1，用旁白\"鲁班说\"代读）。QA r1/r2 修复：点读（词表 45 词 + 整句重读）、1-1 开场钩子、示范手与真实落点一致、K4 补字（28 字，本地子集，待 kit 收录）。v1.1 待办：真实数据校准 tools/gear-fort/calibrate.mjs（读 ?dev=export 的对局记录重拟 K 模型）、§8.5 姿态缓存 + atlas.test、故事场景加镜头与布景。真机 iPad 9 p95 待爸爸验收。"
 }

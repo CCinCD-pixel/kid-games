@@ -1,58 +1,89 @@
-// 编钟 · 木头 · 鼓 — the game's own synthesized sound effects (spec §7.1), on the kit's ONE AudioContext and its
-// 'sfx' bus (never a second context, never the destination directly). Kit UI sounds (ui-tap …) go through
-// installKitSfx. All of it is silent under automation (kit/automute.ts).
-import { getAudioContext, getBus } from '@kit/audio';
+// 编钟 · 木头 · 鼓 — the game's sound effects (spec §7.1). Every buffer is computed by the pure-JS synth (synth.ts) and
+// copied into an AudioBuffer of the kit's ONE context; one-shots play through kit `playBuffer(…, { bus: 'sfx' })`,
+// the three continuously modulated loops (冲车助跑, 阳燧, 蚁傅) through this game's own Gain → Panner → sfx-bus chain.
+// The mixer (§7.1 混音规则): ≤12 voices, per-id "at once" and "per second" caps, priority drop (P0 never dropped),
+// pan by lane. Kit UI sounds (ui-tap …) go through installKitSfx. Silent under automation (kit/automute.ts).
+import { getAudioContext, getBus, playBuffer, type Voice } from '@kit/audio';
+import { RECIPES, renderSfx, SR } from './synth';
+import { commonSfx, levelSfx, halfRate, HALF } from './sfxset';
+import type { Level } from '../lane/types';
 
-const BELL = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51]; // pentatonic (编钟 ladder)
-let noiseBuf: AudioBuffer | null = null;
-let lastAt: Record<string, number> = {};
+const bufs = new Map<string, AudioBuffer>(); let bufCtx: AudioContext | null = null;
+const STEP = [0, 2, 4, 7, 9, 12, 14, 16]; // C5 D5 E5 G5 A5 C6 D6 E6 — the kit chime ladder
+const stepRate = (k: number): number => Math.pow(2, STEP[((k % 8) + 8) % 8] / 12);
+const portrait = (): boolean => typeof innerHeight === 'number' && innerHeight > innerWidth;
+const panOf = (lane?: number): number => (lane == null ? 0 : (lane - 2) * (portrait() ? 0.15 : 0.25));
 
-function ctx(): { ac: AudioContext; out: AudioNode } | null {
-  const ac = getAudioContext(); const out = getBus('sfx'); if (!ac || !out || ac.state !== 'running') return null; return { ac, out };
+function ac(): AudioContext | null { const a = getAudioContext(); return a && a.state === 'running' && getBus('sfx') ? a : null; }
+function buf(a: AudioContext, id: string): AudioBuffer {
+  if (bufCtx !== a) { bufs.clear(); bufCtx = a; }
+  let b = bufs.get(id);
+  if (!b) { const half = HALF.has(id) && !RECIPES[id].loop; const d0 = renderSfx(id); const d = half ? halfRate(d0) : d0; b = a.createBuffer(1, d.length, half ? SR / 2 : SR); b.copyToChannel(d, 0); bufs.set(id, b); }
+  return b;
 }
-function noise(ac: AudioContext): AudioBuffer {
-  if (noiseBuf) return noiseBuf;
-  const b = ac.createBuffer(1, ac.sampleRate * 0.5, ac.sampleRate); const d = b.getChannelData(0);
-  let s = 12345; for (let i = 0; i < d.length; i++) { s = (Math.imul(s, 1103515245) + 12345) >>> 0; d[i] = (s / 2147483648 - 1); }
-  return (noiseBuf = b);
+/** bytes of sound-effect samples held right now (spec §8.6 budget; read by the tech probe) */
+export function sfxBytes(): number { let n = 0; for (const b of bufs.values()) n += b.length * b.numberOfChannels * 4; return n; }
+/** synthesize ahead in idle slices (battle-critical ids first; spec: ≤150 ms on A13, split in two batches) */
+const FIRST = ['place', 'hit.wood', 'hit.metal', 'shoot.crossbow', 'collect', 'machine.break', 'parts.fly', 'unit.hurt', 'flag.drum', 'shoot.lobber', 'syll'];
+export function warmSfx(): void { warm([...FIRST, ...commonSfx(Object.keys(RECIPES)).filter((k) => !FIRST.includes(k))]); }
+/** a battle starts: keep the common set + this level's own sounds, let the rest go (spec §8.6 "只合成用到的音效") */
+export function prepareLevel(L: Level, cards?: string[]): void {
+  const keep = new Set([...commonSfx(Object.keys(RECIPES)), ...levelSfx(L, cards)]);
+  for (const id of [...bufs.keys()]) if (!keep.has(id) && !loops.has(id)) bufs.delete(id);
+  warm([...keep].filter((id) => !bufs.has(id)));
 }
-function env(_ac: AudioContext, g: GainNode, t: number, a: number, peak: number, d: number): void { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
-function throttle(name: string, ms: number): boolean { const now = performance.now(); if (now - (lastAt[name] || 0) < ms) return false; lastAt[name] = now; return true; }
+let warmTok = 0;
+function warm(ids: string[]): void {
+  let i = 0; const tok = ++warmTok;
+  const slice = (): void => { if (tok !== warmTok && i === 0) return; const a = ac(); if (!a) { setTimeout(slice, 500); return; } const t = performance.now(); while (i < ids.length && performance.now() - t < 6) buf(a, ids[i++]); if (i < ids.length) setTimeout(slice, 30); };
+  setTimeout(slice, 60);
+}
 
-/** a bronze bell: inharmonic partials, long decay */
-export function bell(step = 0, gain = 0.35, delay = 0): void {
-  const c = ctx(); if (!c) return; const { ac, out } = c; const t = ac.currentTime + delay;
-  const f = BELL[((step % 8) + 8) % 8] * (step >= 8 ? 2 : 1);
-  for (const [mul, gm, dec] of [[1, 1, 1.4], [2.76, 0.4, 0.6], [5.4, 0.18, 0.3], [0.5, 0.25, 1.1]] as number[][]) {
-    const o = ac.createOscillator(); const g = ac.createGain(); o.type = 'sine'; o.frequency.value = f * mul;
-    env(ac, g, t, 0.004, gain * gm, dec); o.connect(g).connect(out); o.start(t); o.stop(t + dec + 0.05);
+interface Live { id: string; pri: number; v: Voice; at: number; done: boolean }
+let live: Live[] = []; const recent = new Map<string, number[]>();
+export interface PlayOpts { lane?: number; vol?: number; rate?: number; step?: number; delay?: number }
+/** one-shot through the mixer; silently skipped when capped (the picture still shows the event) */
+export function play(id: string, o: PlayOpts = {}): void {
+  const rc = RECIPES[id]; const a = ac(); if (!rc || !a) return;
+  const now = performance.now(); const hist = (recent.get(id) || []).filter((t) => now - t < 1000);
+  if (hist.length >= rc.perSec) { recent.set(id, hist); return; }
+  live = live.filter((l) => !l.done);
+  const same = live.filter((l) => l.id === id);
+  if (same.length >= rc.max) { if (rc.pri > 0) return; same[0].v.stop(0.03); same[0].done = true; }
+  if (live.filter((l) => !l.done).length >= 12) {
+    const victim = live.filter((l) => !l.done && (l.pri > rc.pri || (l.pri === 2 && rc.pri === 2))).sort((x, y) => y.pri - x.pri || x.at - y.at)[0];
+    if (!victim && rc.pri > 0) return; const v = victim ?? live.find((l) => !l.done)!; v.v.stop(0.03); v.done = true;
   }
+  const rate = (o.rate ?? 1) * (o.step != null ? stepRate(o.step) : 1) * (rc.jit ? 1 + (Math.random() * 2 - 1) * rc.jit : 1);
+  const v = playBuffer(buf(a, id), { bus: 'sfx', rate, pan: panOf(o.lane), volume: rc.vol * (o.vol ?? 1), delay: o.delay }); if (!v) return;
+  const l: Live = { id, pri: rc.pri, v, at: now, done: false }; live.push(l); void v.ended.then(() => { l.done = true; });
+  hist.push(now); recent.set(id, hist);
 }
-/** wooden knock (filtered noise burst + a short body tone) */
-export function wood(pitch = 1, gain = 0.4): void {
-  const c = ctx(); if (!c) return; const { ac, out } = c; const t = ac.currentTime;
-  const s = ac.createBufferSource(); s.buffer = noise(ac); const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 900 * pitch; bp.Q.value = 3;
-  const g = ac.createGain(); env(ac, g, t, 0.002, gain, 0.09); s.connect(bp).connect(g).connect(out); s.start(t); s.stop(t + 0.12);
-  const o = ac.createOscillator(); const g2 = ac.createGain(); o.type = 'triangle'; o.frequency.setValueAtTime(220 * pitch, t); o.frequency.exponentialRampToValueAtTime(120 * pitch, t + 0.08);
-  env(ac, g2, t, 0.002, gain * 0.6, 0.1); o.connect(g2).connect(out); o.start(t); o.stop(t + 0.14);
+
+// ── continuous loops (own chain: they need live gain / rate / pan, which kit playBuffer cannot do — spec §7.1 B18) ──
+const loops = new Map<string, { src: AudioBufferSourceNode; g: GainNode; p: StereoPannerNode | null }>();
+export function setLoop(id: string, level: number, o: { rate?: number; lane?: number } = {}): void {
+  const a = ac(); const bus = getBus('sfx'); let l = loops.get(id);
+  if (!a || !bus) return;
+  if (level <= 0.001) { if (l) { l.g.gain.setTargetAtTime(0, a.currentTime, 0.08); try { l.src.stop(a.currentTime + 0.5); } catch { /* stopped */ } loops.delete(id); } return; }
+  if (!l) {
+    const src = a.createBufferSource(); src.buffer = buf(a, id); src.loop = true; const g = a.createGain(); g.gain.value = 0;
+    const p = typeof a.createStereoPanner === 'function' ? a.createStereoPanner() : null; src.connect(g); if (p) g.connect(p).connect(bus); else g.connect(bus);
+    src.start(); l = { src, g, p }; loops.set(id, l); src.onended = () => { src.disconnect(); g.disconnect(); p?.disconnect(); };
+  }
+  l.g.gain.setTargetAtTime(RECIPES[id].vol * Math.min(1, level), a.currentTime, 0.12);
+  if (o.rate) l.src.playbackRate.setTargetAtTime(o.rate, a.currentTime, 0.15);
+  if (l.p && o.lane != null) l.p.pan.setTargetAtTime(panOf(o.lane), a.currentTime, 0.15);
 }
-/** a drum hit (大波) */
-export function drum(gain = 0.6): void {
-  const c = ctx(); if (!c) return; const { ac, out } = c; const t = ac.currentTime;
-  const o = ac.createOscillator(); const g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(48, t + 0.25);
-  env(ac, g, t, 0.003, gain, 0.35); o.connect(g).connect(out); o.start(t); o.stop(t + 0.4);
-  const s = ac.createBufferSource(); s.buffer = noise(ac); const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 400; const g2 = ac.createGain(); env(ac, g2, t, 0.002, gain * 0.5, 0.12); s.connect(lp).connect(g2).connect(out); s.start(t); s.stop(t + 0.15);
+export function stopLoops(): void { for (const id of [...loops.keys()]) setLoop(id, 0); }
+
+// ── ladders (spec: collect = pentatonic steps within 1.5 s; parts = one rising figure per machine) ──
+let colStep = 0, colAt = 0, partStep = 0, partAt = 0;
+export function collect(lane?: number): void { const now = performance.now(); colStep = now - colAt < 1500 ? colStep + 1 : 0; colAt = now; play('collect', { step: Math.min(7, colStep), lane }); }
+export function parts(n: number, delay = 0.6): void {
+  const now = performance.now(); if (now - partAt > 1500) partStep = 0; partAt = now;
+  for (let i = 0; i < n; i++) play('parts.fly', { step: Math.min(7, partStep++), delay: delay + i * 0.09 });
 }
-/** metal "叮" (no effect) */
-export function ding(): void { if (!throttle('ding', 120)) return; const c = ctx(); if (!c) return; const { ac, out } = c; const t = ac.currentTime; for (const f of [1760, 2637]) { const o = ac.createOscillator(); const g = ac.createGain(); o.type = 'triangle'; o.frequency.value = f; env(ac, g, t, 0.002, 0.12, 0.25); o.connect(g).connect(out); o.start(t); o.stop(t + 0.3); } }
-/** bow twang */
-export function twang(): void { if (!throttle('twang', 70)) return; const c = ctx(); if (!c) return; const { ac, out } = c; const t = ac.currentTime; const o = ac.createOscillator(); const g = ac.createGain(); o.type = 'sawtooth'; o.frequency.setValueAtTime(420, t); o.frequency.exponentialRampToValueAtTime(160, t + 0.09); const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1800; env(ac, g, t, 0.002, 0.07, 0.1); o.connect(lp).connect(g).connect(out); o.start(t); o.stop(t + 0.14); }
-/** whoosh (throw) */
-export function whoosh(gain = 0.18): void { if (!throttle('whoosh', 90)) return; const c = ctx(); if (!c) return; const { ac, out } = c; const t = ac.currentTime; const s = ac.createBufferSource(); s.buffer = noise(ac); const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.setValueAtTime(400, t); bp.frequency.exponentialRampToValueAtTime(1600, t + 0.25); const g = ac.createGain(); env(ac, g, t, 0.05, gain, 0.2); s.connect(bp).connect(g).connect(out); s.start(t); s.stop(t + 0.3); }
-/** heavy thud (礌石, 冲车, 檑木) */
-export function thud(gain = 0.7): void { const c = ctx(); if (!c) return; const { ac, out } = c; const t = ac.currentTime; const o = ac.createOscillator(); const g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(35, t + 0.3); env(ac, g, t, 0.004, gain, 0.4); o.connect(g).connect(out); o.start(t); o.stop(t + 0.45); wood(0.5, gain * 0.5); }
-/** 鲁班's wooden babble (no voice yet): a few clicks */
-export function babble(n = 4): void { for (let i = 0; i < n; i++) setTimeout(() => wood(1.6 + Math.random() * 0.8, 0.12), i * 85); }
-/** rising pentatonic arpeggio */
-export function arp(from = 0, n = 4, gap = 0.08): void { for (let i = 0; i < n; i++) bell(from + i, 0.22, i * gap); }
-export function resetSfx(): void { lastAt = {}; }
+/** 鲁班's wooden "puppet talk" (no voice yet, kit request K1): pentatonic woodblock syllables */
+export function babble(n = 4): void { for (let i = 0; i < n; i++) play('syll', { step: Math.floor(Math.random() * 6), delay: i * 0.085, rate: 0.9 + Math.random() * 0.2 }); }
+export function resetSfx(): void { live = []; recent.clear(); colStep = 0; partStep = 0; stopLoops(); }
