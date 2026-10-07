@@ -340,8 +340,8 @@ test.describe('陆战棋', () => {
     const vp = page.viewportSize()!;
     await page.setViewportSize({ width: vp.height, height: vp.width });
     await expect(sheet).toBeVisible();
-    const inStage = await sheet.evaluate((el) => { const r = el.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth + 1 && r.top >= 0 && r.bottom <= innerHeight + 1; });
-    expect(inStage).toBe(true);
+    // the stage re-lays out on the resize event (next frame), so poll instead of reading the very first frame
+    await expect.poll(() => sheet.evaluate((el) => { const r = el.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth + 1 && r.top >= 0 && r.bottom <= innerHeight + 1; }), { timeout: 2000 }).toBe(true);
     await page.getByRole('button', { name: '再想想' }).click();
     await page.waitForFunction(() => (window as any).__mc.phase() === 'idle' && (window as any).__mc.ctx().lock === 0);
     // pause menu open across a rotation

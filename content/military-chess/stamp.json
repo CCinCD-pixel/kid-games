@@ -1,7 +1,7 @@
 {
  "src": "8be9a6d549ac644b",
  "content": "60657b80f082807a",
- "at": "2026-10-07T05:36:47.570Z",
+ "at": "2026-10-07T16:03:38.184Z",
  "books": 17,
  "note": "written by tools/military-chess/books.heavy.test.ts after every book rebuilt identically; re-run it when core/{rules,movegen,combat,board,puzzle,solver,policy,book}.ts change"
 }
