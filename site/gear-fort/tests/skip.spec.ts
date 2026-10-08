@@ -9,7 +9,7 @@ const KEY = 'kg:v1:gear-fort';
 const won = (ids: string[], extra: Record<string, unknown> = {}): string => JSON.stringify({ v: 1, updatedAt: Date.now(), data: {
   levels: Object.fromEntries(ids.map((id) => [id, { best: 2, attempts: 1, firstTry: 'win', wins: 1, lastAt: '' }])), current: ids.length ? `1-${Math.min(11, ids.length + 1)}` : '1-1', ...extra } });
 
-test.beforeEach(({}, info) => { test.skip(!/^(landscape-1080x810|portrait-810x1080|phone-land-844x390)$/.test(info.project.name), 'iPads + one phone'); });
+test.beforeEach(({}, info) => { test.skip(!/^(landscape-1080x810|portrait-810x1080|phone-land-844x390|phone-land-568x320)$/.test(info.project.name), 'iPads + a big and the smallest phone'); });
 
 async function open(page: Page, save: string | null, skipIntros = false): Promise<string[]> {
   const errors: string[] = [];
@@ -47,6 +47,9 @@ test('1-1 lesson: 跳过 ends the demo, the level plays on, and the next 1-1 sta
   const vp = page.viewportSize()!; const b = (await pill.boundingBox())!; const g = await page.evaluate(() => (window as any).__gf.stage.geo);
   expect(b.x + b.width).toBeLessThanOrEqual(vp.width); expect(b.y + b.height).toBeLessThanOrEqual(vp.height);
   expect(b.y + b.height / 2).toBeGreaterThan(g.by + 4 * g.h); // on the boarded-up 第 5 路, clear of the HUD
+  // not offered over the pause panel (QA fb1 r1: it floated beside the panel); back with 继续
+  await page.evaluate(() => (window as any).__gf.pause()); await expect(pill).toBeHidden();
+  await page.locator('.gf-pausel [data-a="go"]').click(); await expect(pill).toBeVisible();
   await pill.click();
   await expect(pill).toHaveCount(0);
   expect(await page.evaluate(() => (window as any).__gf.hooking)).toBe(false);

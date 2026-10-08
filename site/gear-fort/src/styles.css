@@ -287,8 +287,8 @@ button.gf-bigcard { border: 0; text-align: left; font: inherit; cursor: pointer;
 .gf-alm blockquote cite { display: block; font: 400 15px/1.3 var(--xg-font-read); opacity: .7; font-style: normal; }
 .gf-alm__line { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; font-size: 20px; line-height: 1.4; }
 .gf-alm__line + .gf-alm__line { margin-top: 12px; } /* two listen buttons ≥ 52 px apart: each keeps its whole 48 px hit area (QA r5) */
-.gf-say::before { content: "";  position: absolute; inset: -6px; } /* 48 px hit area around the 40 px button (inset counts from inside its 2 px border; QA r4) */
-.gf-say { position: relative; z-index: 1; flex: none; width: 40px; height: 40px; border-radius: 12px; border: 2px solid rgba(42,27,18,.5); background: #fff8ea; color: #2f6e63; display: grid; place-items: center; font-size: 22px; cursor: pointer; }
+.gf-say::before { content: "";  position: absolute; inset: -4px; } /* a 48 px hit area around the 44 px button (inset counts from inside its 2 px border; QA r4, fb1 r1) */
+.gf-say { position: relative; z-index: 1; flex: none; width: 44px; height: 44px; border-radius: 12px; border: 2px solid rgba(42,27,18,.5); background: #fff8ea; color: #2f6e63; display: grid; place-items: center; font-size: 22px; cursor: pointer; }
 .gf-alm__pairs { display: flex; align-items: center; gap: 6px; font-size: 19px; margin-top: 6px; } .gf-alm__pairs .gf-mini { width: 44px; height: 44px; }
 .gf-alm__nums { margin: 8px 0 0; padding: 6px 10px; border-radius: 10px; background: rgba(47,110,99,.12); font: 600 18px/1.4 var(--xg-font-num); }
 .gf-alm__close { position: absolute; right: 12px; top: 12px; }
@@ -951,4 +951,90 @@ html[data-orientation="landscape"] .gf-boss__bar { min-height: 30px; }
   .gf-battle[data-phone] .gf-pausel__panel > .xg-btn { --h: 52px; --fs: 18px; --px: 10px; height: 52px; min-height: 52px; font-size: 18px; padding: 0 10px; }
   .gf-battle[data-phone] .gf-pausel__home { gap: 8px; } .gf-battle[data-phone] .gf-pausel__home b { font-size: 24px; } .gf-battle[data-phone] .gf-pausel__home span { font-size: 16px; }
   .gf-battle[data-phone] .gf-pausel__home .xg-btn { --h: 52px; --fs: 18px; height: 52px; }
+}
+
+/* ═════════════ QA fb1 r1 ═════════════ */
+/* the map title on the daytime sky: a wood-brown outline so the pale gold letters read (it was pale on pale) */
+.gf-map.is-v1 .gf-title { text-shadow: 1.5px 0 0 #6b4423, -1.5px 0 0 #6b4423, 0 1.5px 0 #6b4423, 0 -1.5px 0 #6b4423, 1px 1px 0 #6b4423, -1px -1px 0 #6b4423, 1px -1px 0 #6b4423, -1px 1px 0 #6b4423, 0 3px 0 #4a2c16, 0 5px 10px rgba(40,26,12,.35); }
+.gf-map.is-v1 .gf-sub { text-shadow: 0 1px 2px rgba(40,26,12,.7), 0 0 8px rgba(40,26,12,.35); }
+/* 跳过 (1-1's lesson, the ghost replay) is not offered over the pause panel */
+.gf-battle:has(.gf-pausel.is-on) .gf-skipbtn { visibility: hidden !important; pointer-events: none !important; }
+.gf-speed__dots { display: none; }
+
+/* phones held sideways: the battle HUD fits a 320-px-high screen (iPhone SE 568×320, Safari's 750×342) */
+@media (orientation: landscape) and (max-height: 599px) {
+  /* the speed: one button showing the current speed — a tap moves on to the next (battle.ts); its dots say which of 慢 / 1× / 1.5× */
+  .gf-battle[data-phone] .gf-hud .gf-speed { border-radius: 12px; }
+  .gf-battle[data-phone] .gf-shovel svg { width: 76%; height: 76%; }
+  .gf-battle[data-phone] .gf-hud .gf-speed__b:not(.is-on) { display: none; }
+  .gf-battle[data-phone] .gf-hud .gf-speed__b { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 0; font-size: 17px; min-height: 44px; }
+  .gf-battle[data-phone] .gf-hud .gf-speed__b.is-on:not(.is-held) { background: linear-gradient(#ead1a6, #c99a62); color: #5a3418; }
+  .gf-battle[data-phone] .gf-hud .gf-speed__dots { display: flex; gap: 3px; }
+  .gf-speed__dots b { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .3; }
+  .gf-speed__dots b.is-cur { opacity: 1; } .gf-speed__dots b.is-shut { opacity: .1; }
+  .gf-battle[data-phone] .gf-hud .gf-speed:has(.gf-new)::after { content: "新"; position: absolute; right: 1px; top: 1px; padding: 1px 2px; border-radius: 5px; background: #c8372d; color: #fff3df; font: 700 13px/1 var(--xg-font-title); pointer-events: none; }
+  /* 附加题: the condition on one line, 附 · logs · count under it; compact (568 wide): the count over 附 · logs */
+  .gf-battle[data-phone] .gf-hud .gf-star3 { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; grid-template-areas: "t t t t" "seal logs n ok"; align-items: center; align-content: center; justify-items: start; gap: 3px 5px; padding: 3px 6px; }
+  .gf-battle[data-phone] .gf-hud .gf-star3__t { grid-area: t; justify-self: stretch; min-width: 0; white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; line-height: 1.15; }
+  .gf-battle[data-phone] .gf-hud .gf-star3__seal { grid-area: seal; width: 18px; height: 18px; }
+  .gf-battle[data-phone] .gf-hud .gf-star3__logs { grid-area: logs; order: 0; }
+  .gf-battle[data-phone] .gf-hud .gf-star3__n { grid-area: n; order: 0; justify-self: stretch; min-width: 0; padding: 0; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gf-battle[data-phone] .gf-hud .gf-star3__ok { grid-area: ok; }
+  .gf-battle[data-phone] .gf-hud .gf-star3[data-fit="compact"] { grid-template-areas: "n n n n" "seal logs . ok"; gap: 3px 4px; padding: 3px 5px; }
+  .gf-battle[data-phone] .gf-hud .gf-star3[data-fit="compact"] .gf-star3__t { display: none; }
+  .gf-battle[data-phone] .gf-hud .gf-star3[data-fit="compact"]:not([data-count]) { grid-template-areas: "t t t t" "seal logs . ok"; }
+  .gf-battle[data-phone] .gf-hud .gf-star3[data-fit="compact"]:not([data-count]) .gf-star3__t { display: block; }
+  /* 鲁班's bubble: one line, as wide as his whole line from the start (the invisible copy sizes it), beside him; no taps */
+  .gf-battle[data-phone] .gf-hud .gf-bubble--luban { display: grid; justify-content: start; align-items: center; white-space: nowrap; transform-origin: right top; }
+  .gf-battle[data-phone] .gf-hud .gf-bubble--luban .t, .gf-battle[data-phone] .gf-hud .gf-bubble--luban::after { grid-area: 1 / 1; }
+  .gf-battle[data-phone] .gf-hud .gf-bubble--luban::after { content: attr(data-full); visibility: hidden; }
+  .gf-battle[data-phone] .gf-hud .gf-bubble--luban::before { content: ""; position: absolute; right: 8px; top: -7px; width: 10px; height: 10px; background: #fdeee6; border-left: 2px solid #8e2a22; border-top: 2px solid #8e2a22; transform: rotate(45deg); }
+  .gf-battle[data-phone] .gf-hud .gf-bubble--luban.is-on { pointer-events: none; }
+}
+
+/* short phone landscape (iPhone SE 568×320, Safari's 750×342): map, 亮招 + 选牒, 复盘 and the start gate fit one screen */
+@media (orientation: landscape) and (max-height: 359px) {
+  /* map: a smaller plaque, card names on one line, the volume tabs on one line */
+  .gf-map__side { top: 66px; bottom: 6px; gap: 6px; grid-template-rows: minmax(60px, 1fr) auto auto; }
+  .gf-song { min-height: 60px; }
+  .gf-bigcard { padding: 5px 2px 6px; row-gap: 2px; border-radius: 14px; }
+  .gf-bigcard__art { width: 30px; height: 30px; border-radius: 9px; font-size: 17px; }
+  .gf-bigcard b { font-size: 14px; letter-spacing: -.03em; white-space: nowrap; }
+  .gf-bigcard .gf-new { right: 2px; top: 2px; }
+  .gf-tabs button { min-height: 44px; padding: 4px 8px; font-size: 16px; white-space: nowrap; gap: 4px; }
+  .gf-tabs button svg { width: 15px; height: 15px; flex: none; }
+  .gf-map__road .xg-node { --s: 44px; font-size: 20px; } .gf-map__road .xg-node--current { --s: 54px; font-size: 24px; } /* 11 stops on a 240-px-high road */
+  /* 亮招 + 选牒: the 附加题 right under the level name (never below the fold), a tighter deck */
+  html .gf-pv__deck { gap: 3px; padding: 6px 10px; }
+  .gf-pv__deck > * { order: 2; } .gf-pv__deck > .gf-pv__lv { order: 0; } .gf-pv__deck > .gf-pv__bonus { order: 1; }
+  .gf-pv__lv { line-height: 1; } .gf-pv__lv b { font-size: 18px; } .gf-pv__no { font-size: 13px; }
+  .gf-pv__label { font-size: 15px; }
+  .gf-pv__slots { padding: 4px; }
+  .gf-pv__bonus { padding: 3px 8px; gap: 6px; font-size: 14px; line-height: 1.25; } .gf-pv__bonus small { display: none; }
+  .gf-pv__bonus .gf-star3__seal { width: 22px; height: 22px; font-size: 14px; }
+  .gf-pv__ear { width: 30px; height: 30px; } .gf-pv__ear svg, .gf-pv__ear .xg-icon { width: 18px; height: 18px; font-size: 18px; } /* (the whole slip is the button) */
+  .gf-pv__bonus { min-height: 44px; }
+  .gf-pv__slots .gf-slot { height: var(--slot, 76px); } .gf-pv__pool .gf-poolcard { height: var(--pool, 72px); } /* square cards */
+  /* 复盘: a smaller head and mini table, the help cards in one compact row — all on one screen */
+  .gf-db__panel { padding: 8px 14px; gap: 4px 14px; }
+  .gf-db__head { gap: 8px; } .gf-db__mozi canvas { width: 40px !important; height: 40px !important; }
+  .gf-db__panel .gf-title--sm { font-size: 20px; } .gf-db__panel .gf-sub { font-size: 13px; margin-top: 0; }
+  .gf-db__mini { gap: 2px; padding-top: 5px; padding-bottom: 5px; }
+  .gf-db__lane { height: 21px; } .gf-db__unit { width: 20px; height: 20px; top: 0; } .gf-db__who { width: 24px !important; height: 24px !important; top: -2px; }
+  .gf-db__line { font-size: 17px; line-height: 1.3; } .gf-db__tip, .gf-db__good { font-size: 15px; }
+  .gf-db__acts { gap: 6px; } .gf-db__acts .xg-btn { --h: 44px; --fs: 16px; --px: 12px; }
+  .gf-db__help { margin-top: 0; gap: 6px; }
+  .gf-helpcard { padding: 4px 8px; column-gap: 6px; min-height: 44px; } .gf-helpcard small { display: none; }
+  .gf-helpcard b { font-size: 15px; text-wrap: balance; } .gf-helpcard .xg-icon { font-size: 22px; grid-row: auto; }
+  /* the narrowest (568 wide): no 卡槽 / 牒池 captions — the tray and the ticked cards say it — so a 13-card pool fits */
+  @media (max-width: 640px) {
+    .gf-pv__deck > .gf-pv__label { display: none; }
+    html .gf-pv__deck { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "lv bonus" "slots slots" "pool pool" "feat feat"; align-content: start; column-gap: 6px; }
+    .gf-pv__deck > .gf-pv__lv { grid-area: lv; align-self: center; } .gf-pv__deck > .gf-pv__lv b { display: none; } /* (just the 2-9 badge beside the 附加题) */
+    .gf-pv__deck > .gf-pv__bonus { grid-area: bonus; } .gf-pv__deck > .gf-pv__slots { grid-area: slots; } .gf-pv__deck > .gf-pv__pool { grid-area: pool; } .gf-pv__deck > .gf-pv__feat { grid-area: feat; }
+  }
+  /* the kit's start gate: its 开始 stays on the screen */
+  .kit-start { padding-top: 10px; padding-bottom: 10px; }
+  .kit-start__card { gap: 6px; }
+  .kit-start__go { width: 128px; height: 128px; margin-top: 4px; }
 }

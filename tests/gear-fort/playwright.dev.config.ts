@@ -25,7 +25,7 @@ export default defineConfig({
   reporter: [['list']],
   use: { baseURL: `http://localhost:${process.env.GF_PORT || 5311}`, browserName: 'webkit', locale: 'zh-CN', timezoneId: 'Asia/Shanghai', trace: 'off', video: 'off', screenshot: 'off' },
   // iPads run every spec but phone.spec; the phones (Dad's phone, 2026-10-08) run phone.spec + skip.spec:
-  // upright → 把手机横过来玩, landscape 844×390 / 667×375 → the phone layout
+  // upright → 把手机横过来玩, landscape 844×390 / 667×375 / 750×342 / 568×320 → the phone layout
   projects: [
     { name: 'portrait-810x1080', testIgnore: /phone\.spec/, use: { ...ipad, viewport: { width: 810, height: 1080 } } },
     { name: 'landscape-1080x810', testIgnore: /phone\.spec/, use: { ...ipad, viewport: { width: 1080, height: 810 } } },
@@ -33,5 +33,8 @@ export default defineConfig({
     { name: 'phone-iphonese', testMatch: /(phone|skip)\.spec/, use: { ...devices['iPhone SE'], browserName: 'webkit' } },
     { name: 'phone-land-844x390', testMatch: /(phone|skip)\.spec/, use: { ...devices['iPhone 13'], browserName: 'webkit', viewport: { width: 844, height: 390 } } },
     { name: 'phone-land-667x375', testMatch: /(phone|skip)\.spec/, use: { ...devices['iPhone SE'], browserName: 'webkit', viewport: { width: 667, height: 375 } } },
+    // QA fb1 r1: Safari's toolbars on Dad's iPhone sideways (750×342) and the iPhone SE (1st gen) sideways (568×320)
+    { name: 'phone-land-750x342', testMatch: /(phone|skip)\.spec/, use: { ...devices['iPhone 13'], browserName: 'webkit', viewport: { width: 750, height: 342 } } },
+    { name: 'phone-land-568x320', testMatch: /(phone|skip)\.spec/, use: { ...devices['iPhone SE'], browserName: 'webkit', viewport: { width: 568, height: 320 } } },
   ],
 });

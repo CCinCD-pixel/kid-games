@@ -115,6 +115,8 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   let speedSel = ghost ? 1 : tier ? 0.75 : fastOK ? (app.save.settings.speed || 1) : Math.min(1, app.save.settings.speed || 1);
   for (const s of SPEEDS) {
     const b = h('button', 'gf-speed__b', s === 0.75 ? '慢' : s === 1 ? '1×' : '1.5×'); b.dataset.s = String(s);
+    // phones show only the current speed (one button that moves on to the next on a tap); the dots say which of the three it is
+    b.insertAdjacentHTML('beforeend', `<i class="gf-speed__dots" aria-hidden="true">${SPEEDS.map((x) => `<b class="${x === s ? 'is-cur' : ''}${x === 1.5 && !fastOK ? ' is-shut' : ''}"></b>`).join('')}</i>`);
     if (s === 1.5 && !fastOK) b.disabled = true;
     if (s === 1.5 && o.level.id === '1-4' && !app.save.levels['1-4']) b.insertAdjacentHTML('beforeend', '<i class="gf-new">新</i>'); // 1.5× opens from 1-4
     if (s === 1.5 && speedSel === 1.5) b.classList.add('is-flash');
@@ -168,19 +170,26 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   function placeHud(): void {
     const g = geo; const Ts = app.layout.safe.top; const W = g.W, H = g.H; const n = trayCount();
     el.dataset.orient = g.landscape ? 'landscape' : 'portrait'; el.toggleAttribute('data-phone', g.phone);
+    lubanB.style.right = ''; lubanB.style.maxWidth = ''; // (the phone layout anchors his bubble on the right)
     if (g.phone) { // phone landscape (Dad's phone, 2026-10-08): tray column · board · tools column, a thin top bar
       const sf = app.layout.safe; const lx = Math.max(8, sf.left + 4); const rx = W - Math.max(8, sf.right + 4) - PHONE.tools; const yb = H - Math.max(6, sf.bottom);
-      // top bar: [🏠 kit][粮斗][墨子][his bubble …][再听][附加题], the bamboo scroll under it
-      const tb0 = Math.max(12, sf.left) + 56 + 8, tb1 = rx - 6; const s3W = W >= 780 ? 176 : 150; const bx0 = tb0 + 142;
+      // top bar: [🏠 kit][粮斗][墨子][his bubble …][再听][附加题], the bamboo scroll under it. The 附加题 slip gets what the
+      // bubble can spare (QA fb1 r1): its condition on one line over 附 · logs · count; on the narrowest phones (iPhone SE
+      // 568 wide) just 附 · the count · logs — a tap reads the condition and 墨子's bubble shows it whole
+      const tb0 = Math.max(12, sf.left) + 56 + 8, tb1 = rx - 6; const bx0 = tb0 + 142;
+      const spare = tb1 - tb0 - (84 + 6 + 46 + 6 + 6 + 44 + 6); const compact = spare < 300; // (bubble + slip share it)
+      const s3W = compact ? (goB ? 124 : ghost ? 112 : 88) : Math.min(204, spare - 150); star3.dataset.fit = compact ? 'compact' : 'full'; // (a drill's 开始推演 / the ghost's 跳过 take that slot)
       px(bin, tb0, Ts + 6, 84, 46); px(moziA, tb0 + 90, Ts + 6, 46, 46);
       px(star3, tb1 - s3W, Ts + 6, s3W, 46); px(replay, tb1 - s3W - 6 - 44, Ts + 7, 44, 44);
-      px(moziB, bx0, Ts + 6, Math.max(110, tb1 - s3W - 56 - bx0), 46); moziB.style.height = ''; moziB.style.minHeight = '46px';
+      px(moziB, bx0, Ts + 6, tb1 - s3W - 56 - bx0, 46); moziB.style.height = ''; moziB.style.minHeight = '46px';
       px(scroll, tb0, Ts + 56, tb1 - tb0, 16);
-      // tools column: 鲁班 · ⏸ · 机关匣 · 铲子 … the speed at the bottom
-      px(lubanA, rx + 4, Ts + 6, 48, 48); px(pauseB, rx + 4, Ts + 60, 48, 48); px(box, rx, Ts + 114, PHONE.tools, 62); px(shovel, rx + 4, Ts + 182, 48, 48);
-      px(speed, rx, yb - 132, PHONE.tools, 132); // three 44-px buttons
-      // 鲁班's bubble opens beside him over the board's top-right (his machines' side): no taps, gone after a few seconds
-      const lbw = Math.min(320, rx - 8 - bx0); px(lubanB, rx - 8 - lbw, Ts + 56, lbw, 46); lubanB.style.height = ''; lubanB.style.minHeight = '46px';
+      // tools column (QA fb1 r1: it has to fit a 320-px-high screen): 鲁班 · ⏸ at the top; 机关匣 · 铲子 · the speed (one
+      // button: 慢 → 1× → 1.5×) stacked up from the bottom, where the thumb is
+      px(lubanA, rx + 4, Ts + 6, 48, 48); px(pauseB, rx + 4, Ts + 60, 48, 48);
+      const sy = Math.max(Ts + 114 + 62 + 6 + 48 + 6, yb - 48); px(speed, rx + 4, sy, 48, 48); px(shovel, rx + 4, sy - 54, 48, 48); px(box, rx, sy - 54 - 68, PHONE.tools, 62);
+      // 鲁班's bubble: one line as long as his line, right beside him over the bamboo scroll — never over lane 1 (the
+      // board starts at T+86 at the earliest), never takes a tap (QA fb1 r1)
+      Object.assign(lubanB.style, { left: 'auto', right: `${W - (rx - 6)}px`, top: `${Ts + 52}px`, width: 'auto', height: '', minHeight: '', maxWidth: `${rx - 6 - tb0}px` });
       // the tray column under the 🏠: one card wide, two when the deck has more than five
       const cols = n > 5 ? 2 : 1; const cw = cols > 1 ? PHONE.card2 : PHONE.card; const rows = Math.ceil(Math.max(n, 1) / cols); const top0 = Math.max(12, Ts) + 56 + 8;
       const ch = Math.max(44, Math.min(56, Math.floor((yb - top0 + PHONE.gap) / rows) - PHONE.gap)); const th = rows * ch + (rows - 1) * PHONE.gap;
@@ -317,7 +326,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
    *  yet) his bubble types out with a wooden click per syllable and turning points are read by the narrator
    *  ("鲁班说：……", the spec §7.3 fallback). The bubble's typewriter follows the length of his clip. */
   function luban(id: string, narrate = false): void {
-    const txt = app.voice.text(id); if (!txt) return; const t = lubanB.querySelector('.t')!; t.textContent = ''; lubanB.classList.add('is-on'); lubanA.classList.add('is-talking');
+    const txt = app.voice.text(id); if (!txt) return; const t = lubanB.querySelector('.t')!; t.textContent = ''; lubanB.dataset.full = txt; lubanB.classList.add('is-on'); lubanA.classList.add('is-talking');
     const nar = 'fort.nar.' + id.slice(5);
     const own = !ghost && app.voice.hasClip(id) && (narrate || !app.voice.narrator.speaking);
     if (own) { void app.voice.say(id); lubanB.dataset.line = id; }
@@ -342,6 +351,8 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   // tap the 附加题 chip → this level's condition, read aloud (fort.bonus.<关>); the chip itself is the subtitle
   star3.addEventListener('click', () => {
     const id = `fort.bonus.${o.level.id}`; app.ui('ui-tap', 0.4); star3.classList.remove('is-say'); void star3.offsetWidth; star3.classList.add('is-say');
+    // phones: the slip has room for the start of the condition (or only the count), so 墨子's bubble shows it whole while it is read
+    if (geo.phone && app.voice.text(id)) { mozi(id, true); return; }
     if (app.voice.text(id)) void app.voice.say(id, { interrupt: true }); else mozi('fort.ui.star3rule');
   });
   star3.querySelector('.gf-star3__t')!.textContent = o.level.star3Text || '';
@@ -522,8 +533,14 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     (tip.querySelector('.gf-tip__flag') as HTMLElement).onclick = () => { queue.push({ t: 'mark', id: S.mark === id ? 0 : id }); tip.classList.remove('is-on'); app.ui('lock-in', 0.5); };
     clearTimeout(tipTimer); tipTimer = window.setTimeout(() => tip.classList.remove('is-on'), 3500);
   }
-  function setSpeed(s: number): void { if (ghost) return; speedSel = s; if (!tier) { app.save.settings.speed = speedSel as 0.75 | 1 | 1.5; app.persist(); } speed.querySelector(`[data-s="${s}"] .gf-new`)?.remove(); app.ui('ui-toggle-on', 0.4); lastHud = ''; }
-  for (const b of speed.querySelectorAll('button')) b.addEventListener('click', () => setSpeed(+(b as HTMLElement).dataset.s!));
+  function setSpeed(s: number): void {
+    if (ghost) return; speedSel = s; if (!tier) { app.save.settings.speed = speedSel as 0.75 | 1 | 1.5; app.persist(); } speed.querySelector(`[data-s="${s}"] .gf-new`)?.remove();
+    for (const x of speed.querySelectorAll<HTMLElement>('.gf-speed__b')) x.classList.toggle('is-on', +x.dataset.s! === s); // at once: on a phone it is the only button shown
+    app.ui('ui-toggle-on', 0.4); lastHud = '';
+  }
+  // a phone shows only the current speed: a tap moves on to the next one (慢 → 1× → 1.5× → 慢; 1.5× only where it is open)
+  const nextSpeed = (): number => { const open = SPEEDS.filter((s) => s !== 1.5 || fastOK); return open[(open.indexOf(speedSel) + 1) % open.length] ?? 1; };
+  for (const b of speed.querySelectorAll('button')) b.addEventListener('click', () => setSpeed(geo.phone ? nextSpeed() : +(b as HTMLElement).dataset.s!));
   pauseB.addEventListener('click', () => openPause());
 
   // ── pause ──
@@ -730,7 +747,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     for (const b of speed.querySelectorAll<HTMLElement>('button')) { b.classList.toggle('is-on', +b.dataset.s! === speedSel); b.classList.toggle('is-held', isHeld && +b.dataset.s! === 1.5); }
     // 附加题 chip: live count, two little 檑木 for 守得稳, tick when done, grey once it can't be done
     if (!ghost) {
-      const st = star3State(S); (star3.querySelector('.gf-star3__n') as HTMLElement).textContent = st.text;
+      const st = star3State(S); (star3.querySelector('.gf-star3__n') as HTMLElement).textContent = st.text; star3.toggleAttribute('data-count', !!st.text);
       star3.querySelectorAll('.gf-star3__logs i').forEach((x, i) => x.classList.toggle('is-used', i < S.stats.logsUsed));
       if (st.ok && !s3ok) { s3ok = true; star3.classList.add('is-ok'); sfx.play('collect', { step: 7, vol: 1.3 }); }
       if (!st.ok && s3ok && !st.lost) { s3ok = false; star3.classList.remove('is-ok'); }
@@ -896,7 +913,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     return { n: perf.n, mean: r2(ms.reduce((x, y) => x + y, 0) / Math.max(1, ms.length)), p50: q(0.5), p95: q(0.95), p99: q(0.99), maxCalls: Math.max(0, ...Array.from(perf.calls.slice(0, perf.n))), units: S.units.length, enemies: S.enemies.length, bolts: S.bolts.length, dpr: devicePixelRatio,
       work: { n: work.n, p50: r2(work.q(0.5)), p95: r2(work.q(0.95)), p99: r2(work.q(0.99)), max: r2(work.max()) }, fill: { n: fill.n, max: r2(fill.max()), mean: r2(fill.mean()) },
       stepUs: r2((stepMs / Math.max(1, stepN)) * 1000), steps: stepN, degrade, probe: r2(probe.median), stageDpr: stageGeo().dpr, bakeMs: r2(atlas.bakeMs), particles: stage.activeParticles() }; },
-    resetPerf: () => { perf.n = 0; perf.i = 0; work.reset(); fill.reset(); stepMs = 0; stepN = 0; }, degrade: (d: number) => applyDegrade(d), place: tryPlace, collectAll: () => { for (const d of S.drops) queue.push({ t: 'collect', id: d.id }); }, token: (lane: number, col: number) => queue.push({ t: 'token', lane, col }), mark: (id: number) => queue.push({ t: 'mark', id }), setSpeed: (s: number) => { speedSel = s; }, pause: openPause, skipHook: () => hookDone?.(), get hooking() { return hooking; }, go: startDrill, placed: () => placed.slice(), tile: TILE, cell: (l: number, c: number) => ({ x: cellCx(geo, c), y: feetY(geo, l) }), ghost: !!ghost, tier };
+    resetPerf: () => { perf.n = 0; perf.i = 0; work.reset(); fill.reset(); stepMs = 0; stepN = 0; }, degrade: (d: number) => applyDegrade(d), place: tryPlace, collectAll: () => { for (const d of S.drops) queue.push({ t: 'collect', id: d.id }); }, token: (lane: number, col: number) => queue.push({ t: 'token', lane, col }), mark: (id: number) => queue.push({ t: 'mark', id }), setSpeed: (s: number) => { speedSel = s; }, pause: openPause, skipHook: () => hookDone?.(), luban: (id: string) => luban(id), get hooking() { return hooking; }, go: startDrill, placed: () => placed.slice(), tile: TILE, cell: (l: number, c: number) => ({ x: cellCx(geo, c), y: feetY(geo, l) }), ghost: !!ghost, tier };
 
   return {
     layout(l: LayoutInfo): void { geo = makeGeo(l.width, l.height, l.safe.top, app.dpr, phIns(l)); atlas = atlasFor(geo.w, app.dpr); stage.setGeo(stageGeo(), atlas); warn.clear(); paintBoard(); placeHud(); paintHover(stage.hover); kick(); },

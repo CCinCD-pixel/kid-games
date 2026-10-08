@@ -218,7 +218,10 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
     const ph = phone(); // phones: smaller slots (still ≥ 44 px), and the pool goes up to 8 across so it stays in one or two rows
     const gap = ph ? (ns >= 7 ? 4 : 6) : ns >= 7 ? 6 : 8; slots.style.gap = `${gap}px`;
     sw = Math.max(ph ? 44 : 40, Math.min(P ? 92 : ph ? 54 : 88, Math.floor((w - (ph ? 10 : 16) - (ns - 1) * gap) / ns))); // the slot tray has 8 px padding (5 on phones)
-    const cols = Math.max(1, Math.min(pool.length || 1, P || ph ? 8 : 5)); pw = Math.max(ph ? 46 : 60, Math.min(ph ? 54 : 84, Math.floor((w - (cols - 1) * 8) / cols)));
+    // a short phone (iPhone SE sideways, Safari's 750×342; QA fb1 r1): 44-px pool cards 4 px apart, so even a 12-card pool
+    // takes two rows and the whole pane — 附加题 included — fits the screen
+    const short = ph && app.layout.height < 360; const pg = short ? 4 : 8; if (poolEl) poolEl.style.gap = `${pg}px`;
+    const cols = Math.max(1, Math.min(pool.length || 1, P || ph ? 8 : 5)); pw = Math.max(ph ? (short ? 44 : 46) : 60, Math.min(ph ? 54 : 84, Math.floor((w - (cols - 1) * pg) / cols)));
     pane.style.setProperty('--slot', sw + 'px'); pane.style.setProperty('--pool', pw + 'px');
   }
   function render(): void {

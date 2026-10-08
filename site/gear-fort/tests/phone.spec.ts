@@ -1,8 +1,9 @@
 /**
  * 机关守城 on a phone (Dad's feedback 2026-10-08). Held upright (shorter side < 600 px) the page shows 把手机横过来玩 over
  * everything — the start gate too — and goes on by itself when the phone is turned; a battle under it pauses. In
- * landscape (844×390, 667×375) every screen fits: the HUD controls stay on screen and apart, tap targets ≥ 44 px,
- * HUD text ≥ 13 px, and the kit modals (result, 设置) keep their buttons and ribbon inside the screen.
+ * landscape (844×390, 667×375, Safari's 750×342, the iPhone SE's 568×320) every screen fits: the HUD controls stay on
+ * screen and apart, tap targets ≥ 44 px, HUD text ≥ 13 px, and the kit modals (result, 设置) keep their buttons and
+ * ribbon inside the screen.
  * Runs on the phone projects of tests/gear-fort/playwright.dev.config.ts (iPads skip this file).
  */
 import { expect, test, type Page } from '@playwright/test';
@@ -70,6 +71,26 @@ test.describe('phone held upright: 把手机横过来玩', () => {
   });
 });
 
+test.describe('phone held upright mid-scene', () => {
+  test.beforeEach(({}, info) => { test.skip(!/iphone13$/.test(info.project.name), 'one phone'); });
+
+  test('a story scene waits under 把手机横过来玩 (QA fb1 r1): its clock stops, and it goes on when the phone is turned back', async ({ page }) => {
+    test.setTimeout(60_000);
+    const vp = page.viewportSize()!; await page.setViewportSize({ width: vp.height, height: vp.width });
+    const errors = await open(page, won(['1-1'], { story: ['map.guide', 'tut.1-1'] }));
+    void page.evaluate(() => (window as any).__gfApp.story('dock')).catch(() => {});
+    await page.waitForFunction(() => (window as any).__gfStory, null, { timeout: 8000 }); await page.waitForTimeout(500);
+    // near the end of shot 1, then upright: unpaused it would move on within dur + 4 s
+    await page.evaluate(() => { const s = (window as any).__gfStory; s.seek(0, s.dur() - 0.3); });
+    await page.setViewportSize(vp); await expect(page.locator('.gf-rotate')).toBeVisible();
+    await page.waitForTimeout(5500);
+    expect(await page.evaluate(() => (window as any).__gfStory.shot())).toBe(0);
+    await page.setViewportSize({ width: vp.height, height: vp.width }); await expect(page.locator('.gf-rotate')).toBeHidden();
+    await page.waitForFunction(() => (window as any).__gfStory.shot() > 0, null, { timeout: 15000 });
+    expect(errors).toEqual([]);
+  });
+});
+
 test.describe('phone landscape', () => {
   test.beforeEach(({}, info) => { test.skip(!/land/.test(info.project.name), 'phone landscape projects'); });
 
@@ -84,7 +105,8 @@ test.describe('phone landscape', () => {
     for (const x of b) expect(inside(x, vp.width, vp.height), `${x.sel} on screen`).toBe(true);
     for (let i = 0; i < b.length; i++) for (let j = i + 1; j < b.length; j++) expect(meet(b[i], b[j]), `${b[i].sel} × ${b[j].sel}`).toBe(false);
     const g = await page.evaluate(() => { const q = (window as any).__gf.stage.geo; return { x: q.bx, y: q.by, w: q.bw, h: q.bh, tw: q.w, th: q.h, phone: q.phone }; });
-    expect(g.phone).toBe(true); expect(g.tw).toBeGreaterThanOrEqual(44); expect(g.th).toBeGreaterThanOrEqual(44);
+    // (a 4-inch phone held sideways is 568 px wide: the sand table's cells are 42 px there — 9½ tiles between the columns)
+    expect(g.phone).toBe(true); expect(g.tw).toBeGreaterThanOrEqual(vp.width < 600 ? 42 : 44); expect(g.th).toBeGreaterThanOrEqual(vp.width < 600 ? 42 : 44);
     for (const x of b) expect(meet(x, g), `${x.sel} off the board`).toBe(false);
     // the board takes most of the screen: ≥ 45 % of its area at 844×390
     if (vp.width >= 800) expect((g.w * g.h) / (vp.width * vp.height)).toBeGreaterThan(0.45);
@@ -104,6 +126,35 @@ test.describe('phone landscape', () => {
     expect(errors).toEqual([]);
   });
 
+  test('short screens too (QA fb1 r1): one speed button that cycles, the tools apart, the 附加题 slip whole, 鲁班 off lane 1', async ({ page }) => {
+    test.setTimeout(60_000);
+    const errors = await open(page, won(V1.slice(0, 7))); const vp = page.viewportSize()!;
+    await page.evaluate(() => (window as any).__gfApp.play('1-8', ['bank', 'shooter', 'wall', 'lobber', 'spikes', 'pit']));
+    await page.waitForFunction(() => (window as any).__gf, null, { timeout: 8000 }); await page.evaluate(() => (window as any).__gf.skipHook?.()); await page.waitForTimeout(900);
+    // the speed: one button showing the current speed; a tap moves on 1× → 1.5× → 慢 → 1×
+    const shown = (): Promise<string[]> => page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.gf-hud .gf-speed__b')].filter((b) => getComputedStyle(b).display !== 'none').map((b) => b.dataset.s!));
+    const seq: string[] = [];
+    for (let i = 0; i < 4; i++) { const v = await shown(); expect(v.length).toBe(1); seq.push(v[0]); await page.locator('.gf-hud .gf-speed__b.is-on').click(); await page.waitForTimeout(150); }
+    expect(seq).toEqual(['1', '1.5', '0.75', '1']);
+    // 鲁班 · ⏸ · 机关匣 · 铲子 · speed: on screen, apart, ≥ 44 px
+    const t = await boxes(page, ['.gf-luban', '.gf-pause', '.gf-box', '.gf-shovel', '.gf-speed']); expect(t.length).toBe(5);
+    for (let i = 0; i < t.length; i++) { expect(inside(t[i], vp.width, vp.height), t[i].sel).toBe(true); expect(Math.min(t[i].w, t[i].h)).toBeGreaterThanOrEqual(44); for (let j = i + 1; j < t.length; j++) expect(meet(t[i], t[j]), `${t[i].sel} × ${t[j].sel}`).toBe(false); }
+    // the 附加题 slip: everything shown in it stays inside it
+    const s3 = await page.evaluate(() => { const c = document.querySelector('.gf-star3')!.getBoundingClientRect(); return [...document.querySelectorAll<HTMLElement>('.gf-star3 > *')].filter((e) => getComputedStyle(e).display !== 'none' && e.offsetWidth > 0).map((e) => { const r = e.getBoundingClientRect(); return `${e.className}:${r.top >= c.top - 1 && r.bottom <= c.bottom + 1 && r.left >= c.left - 1 && r.right <= c.right + 1}`; }); });
+    expect(s3.length).toBeGreaterThan(1); for (const x of s3) expect(x).toMatch(/:true$/);
+    // …and its live count is never cut (the condition may end in … on the narrowest phones: a tap shows it whole)
+    const n = await page.evaluate(() => { const e = document.querySelector<HTMLElement>('.gf-star3__n')!; return { shown: getComputedStyle(e).display !== 'none', text: e.textContent, sw: e.scrollWidth, cw: e.clientWidth }; });
+    expect(n.shown).toBe(true); expect(n.text).toMatch(/\d\/\d/); expect(n.sw).toBeLessThanOrEqual(n.cw + 1);
+    // 鲁班's longest line: one row over the bamboo scroll, clear of lane 1, taps go through it
+    await page.evaluate(() => (window as any).__gf.luban('fort.luban.win')); await page.waitForTimeout(500);
+    const lb = await page.evaluate(() => { const b = document.querySelector<HTMLElement>('.gf-bubble--luban')!; const r = b.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, right: r.right, h: r.height, by: (window as any).__gf.stage.geo.by, pe: getComputedStyle(b).pointerEvents }; });
+    expect(lb.bottom).toBeLessThanOrEqual(lb.by); expect(lb.h).toBeLessThan(40); expect(lb.pe).toBe('none'); expect(lb.right).toBeLessThanOrEqual(vp.width);
+    // a tap on the slip: 墨子's bubble shows the whole condition while it is read
+    await page.locator('.gf-star3').click(); await expect(page.locator('.gf-bubble--mozi')).toContainText('礌石');
+    await page.screenshot({ path: `${process.env.KG_SHOTS_DIR}/fb1-phone/${test.info().project.name}-1-8-short.png` });
+    expect(errors).toEqual([]);
+  });
+
   test('a 7-card deck (2-10) keeps two tray columns and a 44-px board; the pause layer fits', async ({ page }) => {
     const all = [...V1, '1-11', '2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7', '2-8', '2-9'];
     const errors = await open(page, won(all, { current: '2-10', story: ['prologue', 'dock', 'map.guide', 'map.night', 'v1end', 'v2open', 'tut.1-1'] })); const vp = page.viewportSize()!;
@@ -114,7 +165,8 @@ test.describe('phone landscape', () => {
     const cards = b.filter((x) => x.sel === '.gf-card'); expect(cards.length).toBe(7);
     expect(new Set(cards.map((c) => c.x)).size).toBe(2);
     for (const c of cards) expect(Math.min(c.w, c.h)).toBeGreaterThanOrEqual(44);
-    const g = await page.evaluate(() => (window as any).__gf.stage.geo); expect(Math.min(g.w, g.h)).toBeGreaterThanOrEqual(44);
+    // (568 wide, two card columns: 36-px cells — the most a 4-inch phone has between the tray and the tools; the cards stay ≥ 44)
+    const g = await page.evaluate(() => (window as any).__gf.stage.geo); expect(Math.min(g.w, g.h)).toBeGreaterThanOrEqual(vp.width < 600 ? 36 : 44);
     await page.evaluate(() => (window as any).__gf.pause()); await page.waitForTimeout(400);
     const p = await boxes(page, ['.gf-pausel__panel', '.gf-pausel__panel .xg-btn', '.gf-pausel__speed .gf-speed__b']);
     for (const x of p) { expect(inside(x, vp.width, vp.height), `${x.sel} on screen`).toBe(true); if (x.sel !== '.gf-pausel__panel') expect(x.h).toBeGreaterThanOrEqual(44); }

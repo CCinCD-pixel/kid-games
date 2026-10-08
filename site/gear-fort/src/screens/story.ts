@@ -6,6 +6,7 @@
 import { cost } from '../render/perf';
 import { mount as mountCompanion, type Companion } from '@kit/companion';
 import { icon, bindPress, mountSkipButton, shouldAutoSkip } from '@kit/ui';
+import { PHONE_PORTRAIT } from './rotate';
 import { Atlas, drawRig } from '../render/atlas';
 import { poseOf, type Pose, type PoseState } from '../art/rigs';
 import { portrait } from '../art/icons';
@@ -147,17 +148,28 @@ export function playStory(root: HTMLElement, app: AppCtx, id: StoryId, o: { repl
   playTheme('story');
   return new Promise((resolve) => {
     let i = -1; let t0 = 0; let lineDone = true; let raf = 0; const T0 = performance.now(); const timers: number[] = []; let ended = false;
-    const finish = (skipped: boolean): void => { if (ended) return; ended = true; unskip(); cancelAnimationFrame(raf); timers.forEach(clearTimeout); st.destroy(); if (!app.save.story.includes(id)) { app.save.story.push(id); app.persist(); } app.mark('gf-story', { id, skipped, shot: i }); resolve(); };
+    const finish = (skipped: boolean): void => { if (ended) return; ended = true; unskip(); upright.removeEventListener('change', onTurn); cancelAnimationFrame(raf); timers.forEach(clearTimeout); st.destroy(); if (!app.save.story.includes(id)) { app.save.story.push(id); app.persist(); } app.mark('gf-story', { id, skipped, shot: i }); resolve(); };
+    // a phone turned upright mid-scene gets 把手机横过来玩 over the scene (QA fb1 r1): the scene waits under it — the clock
+    // stops, the line is cut — and when the phone is turned back the shot goes on and its line is said again
+    const upright = matchMedia(PHONE_PORTRAIT); let heldAt = 0; let sayAgain = false;
+    const hold = (): void => { if (ended || heldAt) return; heldAt = performance.now(); sayAgain = !lineDone; timers.forEach(clearTimeout); timers.length = 0; app.voice.stop(); };
+    const resume = (): void => {
+      if (ended || !heldAt) return; t0 += performance.now() - heldAt; heldAt = 0; const sh = shots[i]; const me = i;
+      if (sayAgain && sh?.line) { lineDone = false; void st.speak(sh.line).then(() => { if (me === i && !heldAt) lineDone = true; }); }
+    };
+    const onTurn = (): void => { if (upright.matches) hold(); else resume(); };
+    upright.addEventListener('change', onTurn);
     const next = (): void => {
       i++; timers.forEach(clearTimeout); timers.length = 0; if (i >= shots.length) { finish(false); return; }
       const sh = shots[i]; t0 = performance.now(); lineDone = !sh.line; const me = i;
-      if (sh.line) void st.speak(sh.line).then(() => { if (me === i) lineDone = true; });
+      if (sh.line) void st.speak(sh.line).then(() => { if (me === i && !heldAt) lineDone = true; });
       else st.cap.classList.remove('is-on');
       for (const [at, sid] of sh.sfx ?? []) timers.push(window.setTimeout(() => sfx.play(sid), at * 1000));
       sh.enter?.(st);
     };
     const frame = (now: number): void => {
       if (ended) return; raf = requestAnimationFrame(frame);
+      if (heldAt) return; // under 把手机横过来玩
       const sh = shots[i]; const s = (now - t0) / 1000;
       if (s >= sh.dur && (lineDone || s >= sh.dur + 4)) { next(); if (ended) return; }
       const cur = shots[i]; const ss = (now - t0) / 1000; st.keep = cur.keep ?? null; const t = clamp01(ss / cur.dur); const k = ease(t);
@@ -172,7 +184,7 @@ export function playStory(root: HTMLElement, app: AppCtx, id: StoryId, o: { repl
     st.cv.addEventListener('click', () => { app.voice.stop(); lineDone = true; t0 = Math.min(t0, performance.now() - shots[i].dur * 1000); });
     // the kit's 跳过 (top-right, after 1.5 s so a child tapping through the shots does not hit it; its tap never reaches the canvas)
     const unskip = mountSkipButton(st.el, () => finish(true), { theme: 'night', className: 'gf-storyskip' });
-    next(); raf = requestAnimationFrame(frame);
+    next(); raf = requestAnimationFrame(frame); if (upright.matches) hold();
     if (app.test) (window as unknown as { __gfStory?: unknown }).__gfStory = { id, shot: () => i, jump: (n: number) => { i = n - 1; next(); }, seek: (n: number, sec: number) => { if (n !== i) { i = n - 1; next(); } t0 = performance.now() - sec * 1000; lineDone = false; }, dur: () => shots[i]?.dur ?? 0, n: shots.length, end: () => finish(true) };
   });
 }
