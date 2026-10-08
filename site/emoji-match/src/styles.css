@@ -108,6 +108,11 @@ html[data-orientation="landscape"] .em-cut__pier { height: 23%; }
 [data-orientation="landscape"] .em-sub-lane .kit-subtitle.is-docked { flex-wrap: wrap; border-radius: 26px; font-size: 22px; padding: 12px 14px 12px 18px; }
 [data-orientation="landscape"] .em-sub-lane .kit-subtitle__text { flex-basis: 100%; }
 .em-subbar:not(.is-docked) { z-index: 90; transition: opacity .35s; }
+/* the floating bar overlays a menu screen for a few seconds only: taps go through it to what is underneath,
+   except on a visible 再听一遍 (hidden or faded behind a card's own text, nothing in it takes a tap) */
+.em-subbar:not(.is-docked) { pointer-events: none; }
+.em-subbar:not(.is-docked):not([hidden]) .kit-subtitle__replay { pointer-events: auto; }
+body:has(.em-has-text) .em-subbar:not(.is-docked):not([hidden]) .kit-subtitle__replay { pointer-events: none; }
 /* QA r1: no orphan character on a second line — balanced wrapping, and in the play lane 再听一遍 becomes
    a 56 px icon button (aria-label stays) so the text column gets the width */
 .em-subbar .kit-subtitle__text, .em-result-bubble .xg-bot-bubble { text-wrap: balance; }
@@ -628,8 +633,10 @@ body:not(:has(.xg-scrim)) .xg-confetti { opacity: 0; transition: opacity .2s eas
   .em-pause-toggles { gap: 8px; }
   .em-toggle { min-height: 84px; padding: 8px 4px; font-size: 15px; gap: 4px; }
 
-  /* floating subtitle (menu screens): smaller, under the 🏠 row so it never covers the bottom buttons */
-  .em-subbar:not(.is-docked) { font-size: 17px; padding: 6px 6px 6px 16px; gap: 8px; max-width: calc(100vw - 24px); }
+  /* floating subtitle (menu screens): smaller, under the 🏠 row so it never covers the bottom buttons.
+     Centred on the full width: the kit's left: 50% + translateX(-50%) leaves it half the screen to wrap
+     in, which squeezed a line into a two-character column on a phone (fb1 r1 follow-up). */
+  .em-subbar:not(.is-docked) { box-sizing: border-box; left: 0; right: 0; margin: 0 auto; transform: none; width: max-content; font-size: 17px; padding: 6px 6px 6px 16px; gap: 8px; max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)); }
   .em-subbar:not(.is-docked) .kit-subtitle__replay { min-height: 44px; font-size: 15px; padding: 0 12px; }
   body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked), body:has(#app[data-screen="map"]) .em-subbar:not(.is-docked), body:has(#app[data-screen="hangar"]) .em-subbar:not(.is-docked) { bottom: auto; top: calc(max(12px, env(safe-area-inset-top, 0px)) + 64px); }
   /* the level card and intro card own the screen: no floating copy behind them */
@@ -768,6 +775,9 @@ body:not(:has(.xg-scrim)) .xg-confetti { opacity: 0; transition: opacity .2s eas
 }
 @media (orientation: portrait) and (max-width: 374px) {
   .em-tab .xg-icon { display: none; }
+  /* the floating subtitle's 再听一遍 becomes a 44 px icon (aria-label stays) so the line keeps its width */
+  .em-subbar:not(.is-docked) .kit-subtitle__replay { width: 44px; padding: 0; justify-content: center; border-radius: 50%; }
+  .em-subbar:not(.is-docked) .kit-subtitle__replay > span:not(.xg-icon) { display: none; }
 }
 /* phone landscape: short screen — modals hug the top, two-column cards where it helps */
 @media (orientation: landscape) and (max-height: 599px) {
@@ -782,10 +792,35 @@ body:not(:has(.xg-scrim)) .xg-confetti { opacity: 0; transition: opacity .2s eas
   .em-intro__foot { flex-direction: column; align-items: stretch; }
   .em-intro__lane .kit-subtitle.is-docked { flex-wrap: wrap; justify-content: flex-end; border-radius: 20px; padding: 10px; }
   .em-intro__lane .kit-subtitle__text { flex-basis: 100%; }
+  /* QA fb1 r1: the 720 px intro card starts below the 🏠 and 跳过 pills (they sat on its top corners);
+     the demo box gives back the height that costs */
+  .em-intro-scrim { padding-top: calc(max(12px, env(safe-area-inset-top, 0px)) + 64px); }
+  .em-intro-scrim .em-intro__anim { height: calc(100vh - max(12px, env(safe-area-inset-top, 0px)) - 104px); height: calc(100dvh - max(12px, env(safe-area-inset-top, 0px)) - 104px); }
   .em-hangar__ship { right: 50%; top: calc(env(safe-area-inset-top, 0px) + 72px); bottom: 8px; align-content: center; }
   .em-hangar__art { width: min(170px, 22vw); }
   .em-hangar__mods { gap: 4px; }
   .em-hangar__book { left: 50%; right: calc(8px + env(safe-area-inset-right, 0px)); top: calc(env(safe-area-inset-top, 0px) + 72px); bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); height: auto; gap: 8px; }
+  /* QA fb1 r1: the book page ends at the book's bottom edge and scrolls inside itself (the landscape
+     rule's align-self: start let it grow past the screen, so its overflow never kicked in) */
+  [data-orientation="landscape"] .em-hangar__page { box-sizing: border-box; max-height: 100%; overflow-y: auto; overscroll-behavior: contain; }
+  /* hangar cards (知识卡 / 星图 / 徽章): art left, words right in a 600 px card, so the card fits the
+     short screen (the stacked badge card ran 40 px off the bottom, 好的 half cut) and clears 🏠 */
+  .xg-modal.em-modal--wide { width: min(600px, 100%); padding-left: 20px; padding-right: 20px; }
+  .em-hangar__modal { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: 1fr auto auto 1fr; justify-items: start; align-items: center; column-gap: 20px; row-gap: 6px; }
+  .em-hangar__modal > .em-kcard__art, .em-hangar__modal > .em-sky__card, .em-hangar__modal > .em-badge-big { grid-column: 1; grid-row: 1 / 5; }
+  .em-hangar__modal > .xg-modal__title { grid-column: 2; grid-row: 2; margin: 0; }
+  .em-hangar__modal > .em-kcard__text { grid-column: 2; grid-row: 3; margin: 0; text-align: left; }
+  .em-hangar__modal > .em-kcard__art { width: 232px; max-height: none; }
+  .em-hangar__modal > .em-kcard__art svg { width: 100%; height: auto; }
+  .em-hangar__modal > .em-sky__card { width: 210px; }
+  .em-hangar__modal > .em-sky__card svg { max-height: 150px; }
+  .em-hangar__modal > .em-badge-big { width: 132px; height: 132px; margin: 0 39px; }
+  .em-modal--wide > .xg-modal__actions { margin-top: 12px; }
+  /* floating subtitle, one vertical anchor each: the route's centred over the title row (the tablet
+     rule's bottom-left spot holds 机库 / 自由星海 here, and its bottom plus the phone top stretched the
+     bar down the screen); the hangar's over the ship, clear of the book's tabs */
+  [data-orientation="landscape"] body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { left: 0; right: 0; width: max-content; max-width: calc(100vw - 2 * var(--em-home-r, 116px) - 16px); top: max(12px, env(safe-area-inset-top, 0px)); bottom: auto; }
+  [data-orientation="landscape"] body:has(#app[data-screen="hangar"]) .em-subbar:not(.is-docked) { left: calc(12px + env(safe-area-inset-left, 0px)); right: calc(50% + 8px); max-width: calc(50vw - 20px - env(safe-area-inset-left, 0px)); }
   .em-arr__ship, .em-arrival.has-panel .em-arr__ship { width: min(220px, 26vw); top: 52%; }
   .em-arr__dest { top: calc(env(safe-area-inset-top, 0px) + 12px); }
   .em-arr__dest svg { width: 56px; height: 56px; }

@@ -114,14 +114,24 @@ export async function startGame(): Promise<void> {
   void initAudio();
   app = new App(ctx);
   // `?test=1&firstrun=1` drives the real first-run path under the test hook (QA r2: veteran toast)
-  if (!save.data.firstRunDone && (!test || params.get('firstrun') === '1')) {
-    // first open: 4 s dock cutscene (em.start.1), then straight into 1-01 (no route, no card, spec §2.6);
-    // the masked lesson IS the swap intro. A first run closed half way resumes the same 1-01 board.
-    // A veteran (legacy import) hears em.veteran on the 1-01 result card (play.ts showWin), not here:
-    // the cutscene and the lesson own the narration until then.
-    const resume = save.data.resume?.id === '1-01';
-    if (!resume) await playCutscene(ctx);
-    if (!save.data.intros.includes('swap')) { save.data.intros.push('swap'); save.commit(); }
+  // first open: 4 s dock cutscene (em.start.1), then straight into 1-01 (no route, no card, spec §2.6);
+  // the masked lesson IS the swap intro. A first run closed half way resumes the same 1-01 board.
+  // The cutscene plays once: watched, tapped away, 跳过 or the parent's 跳过开场和教学 all count as seen
+  // (QA fb1 r1). Once the cutscene and the 1-01 lesson are both behind the child (skipped, or a move
+  // made), the route is home like on any later day: no more forced 1-01.
+  // A veteran (legacy import) hears em.veteran on the 1-01 result card (play.ts showWin), not here:
+  // the cutscene and the lesson own the narration until then.
+  const firstRun = !save.data.firstRunDone && (!test || params.get('firstrun') === '1');
+  const resume = firstRun && save.data.resume?.id === '1-01';
+  const seen = (k: string) => save.data.intros.includes(k);
+  const onboarded = seen('cutscene') && (seen('lesson:1-01') || (save.data.levels['1-01']?.attempts ?? 0) > 0);
+  if (firstRun && (resume || !onboarded)) {
+    if (!resume && !seen('cutscene')) {
+      await playCutscene(ctx);
+      if (!seen('cutscene')) save.data.intros.push('cutscene');
+    }
+    if (!seen('swap')) save.data.intros.push('swap');
+    save.commit();
     app.go({ s: 'play', id: '1-01', resume }, false);
   } else {
     app.go({ s: 'route' }, false);

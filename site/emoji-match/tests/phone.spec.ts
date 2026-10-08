@@ -91,6 +91,56 @@ test.describe('phones: every screen fits', () => {
     // the hangar's book page may scroll inside itself on a phone; everything else must fit
     expect((await auditButtons(page, '#app')).filter((s) => !/outside em-item/.test(s))).toEqual([]);
     await snap(page, info, 'hangar');
+    // QA fb1 r1: the page ends on screen and its last row scrolls into view (phone landscape clipped it)
+    for (const tab of ['cards', 'sky', 'badges', 'tools']) {
+      await page.evaluate((t) => window.__em.goto({ s: 'hangar', tab: t }), tab);
+      await page.waitForTimeout(500);
+      const g = await page.evaluate(() => {
+        const pg = document.querySelector<HTMLElement>('.em-hangar__page')!;
+        pg.scrollTop = 1e5;
+        const r = pg.getBoundingClientRect(), last = [...pg.querySelectorAll('.em-item')].pop()!.getBoundingClientRect();
+        return { bottom: r.bottom, lastBottom: last.bottom, vh: innerHeight };
+      });
+      expect(g.bottom, `${tab} page ends on screen`).toBeLessThanOrEqual(g.vh + 0.5);
+      expect(g.lastBottom, `${tab} last row reachable`).toBeLessThanOrEqual(g.bottom + 0.5);
+    }
+    // a hangar line keeps playing after its card closes: the floating subtitle is a compact pill on
+    // screen (not a squeezed column), clear of the book's tabs, and taps go through it
+    // the hangar's cards (a badge, a constellation) fit the screen with 好的 on it, clear of 🏠
+    // (phone landscape: the stacked badge card ran 40 px off the bottom)
+    const cardFits = async (what: string) => {
+      const m = (await page.locator('.xg-scrim .xg-modal').boundingBox())!, ok = (await page.locator('.xg-scrim .xg-modal [data-act="ok"]').boundingBox())!;
+      const v = page.viewportSize()!;
+      expect(inside(m, v.width, v.height), `${what} card on screen`).toBe(true);
+      expect(inside(ok, v.width, v.height), `${what} 好的 on screen`).toBe(true);
+      expect(overlap(m, (await page.locator('.kit-back').boundingBox())!), `${what} card clear of 🏠`).toBe(false);
+    };
+    await page.evaluate(() => { window.__em.setSave({ grants: ['veteran'] }); window.__em.goto({ s: 'hangar', tab: 'badges' }); });
+    await page.waitForTimeout(500);
+    await page.locator('.em-item[data-item="badge:veteran"]').scrollIntoViewIfNeeded(); // last row: the page scrolls on a phone
+    await page.waitForTimeout(300);
+    await press(page, '.em-item[data-item="badge:veteran"]');
+    await page.waitForSelector('.xg-scrim .xg-modal');
+    await page.waitForTimeout(700); // the card's entrance has settled
+    await cardFits('badge');
+    await press(page, '.xg-scrim .xg-modal [data-act="ok"]');
+    await expect(page.locator('.xg-scrim')).toHaveCount(0, { timeout: 3000 });
+    await page.evaluate(() => window.__em.goto({ s: 'hangar', tab: 'sky' }));
+    await page.waitForTimeout(500);
+    await press(page, '.em-hangar__page .em-item');
+    await page.waitForSelector('.xg-scrim .xg-modal');
+    await page.waitForTimeout(700); // the card's entrance has settled
+    await cardFits('sky');
+    await press(page, '.xg-scrim .xg-modal [data-act="ok"]');
+    await expect(page.locator('.xg-scrim')).toHaveCount(0, { timeout: 3000 });
+    await expect.poll(() => page.evaluate(() => { const b = document.querySelector('.em-subbar'); return !!b && !b.hasAttribute('hidden') && Number(getComputedStyle(b).opacity) > 0.5; }), { timeout: 3000 }).toBe(true);
+    const bar = (await page.locator('.em-subbar').boundingBox())!;
+    const vp = page.viewportSize()!;
+    expect(inside(bar, vp.width, vp.height), 'subtitle on screen').toBe(true);
+    expect(bar.height, 'subtitle: at most three lines').toBeLessThanOrEqual(isPhone(page) ? 110 : 130);
+    expect(bar.width, 'subtitle: not squeezed into a column').toBeGreaterThan(Math.min(240, vp.width * 0.5));
+    for (const t of await page.locator('.em-tab').all()) expect(overlap(bar, (await t.boundingBox())!), 'subtitle clear of the tabs').toBe(false);
+    expect(await page.locator('.em-subbar').evaluate((e) => getComputedStyle(e).pointerEvents)).toBe('none');
     await goPlay(page, '1-06', { seed: 3 });
     await press(page, '.em-pause');
     await page.waitForSelector('.xg-scrim .xg-modal');
@@ -175,6 +225,13 @@ test.describe('跳过: intros and lessons', () => {
     await press(page, '.em-card [data-act="go"]');
     await page.waitForSelector('.em-intro-scrim');
     await expect(page.locator('.xg-skip[data-state="shown"]')).toBeVisible({ timeout: 4000 });
+    await page.waitForTimeout(500); // the card's entrance has settled
+    // QA fb1 r1: the 🏠 and 跳过 pills stay clear of the card (phone landscape put them on its corners)
+    const card = (await page.locator('.em-intro').boundingBox())!;
+    expect(overlap(card, (await page.locator('.xg-skip').boundingBox())!), '跳过 clear of the intro card').toBe(false);
+    expect(overlap(card, (await page.locator('.kit-back').boundingBox())!), '🏠 clear of the intro card').toBe(false);
+    const vi = page.viewportSize()!;
+    expect(inside(card, vi.width, vi.height), 'intro card on screen').toBe(true);
     await snap(page, info, 'intro-skip');
     await page.locator('.xg-skip').click();
     await page.waitForFunction(() => window.__em.state()?.id === '2-02' && window.__em.state()?.ready === true);
@@ -202,7 +259,7 @@ test.describe('跳过: intros and lessons', () => {
     expect(errors).toEqual([]);
   });
 
-  test('first-run cutscene: 跳过 goes straight to the 1-01 board', async ({ page }) => {
+  test('first-run cutscene: 跳过 goes straight to the 1-01 board, and it plays only once', async ({ page }) => {
     const errors = watchErrors(page);
     await boot(page);
     await page.goto('/emoji-match/?test=1&firstrun=1');
@@ -211,6 +268,21 @@ test.describe('跳过: intros and lessons', () => {
     await page.locator('.xg-skip').click();
     await page.waitForFunction(() => window.__em.state()?.id === '1-01' && window.__em.state()?.ready === true);
     await expect(page.locator('[data-testid="em-cutscene"]')).toHaveCount(0, { timeout: 2000 });
+    expect((await page.evaluate(() => window.__em.save())).intros).toContain('cutscene');
+    // QA fb1 r1: reopened before the lesson was done → straight back to the 1-01 lesson, no cutscene
+    await page.reload();
+    await page.waitForSelector('#app[data-ready]', { timeout: 20000 });
+    await page.waitForFunction(() => window.__em.state()?.id === '1-01' && window.__em.state()?.ready === true);
+    await expect(page.locator('[data-testid="em-cutscene"]')).toHaveCount(0);
+    expect((await page.evaluate(() => window.__em.mask()))?.length).toBeGreaterThan(0);
+    // lesson skipped too → the onboarding is behind the child: the next open is the route, like any day
+    await expect(page.locator('.xg-skip[data-state="shown"]')).toBeVisible({ timeout: 4000 });
+    await page.locator('.xg-skip').click();
+    await expect.poll(() => page.evaluate(() => window.__em.mask())).toBeNull();
+    await page.reload();
+    await page.waitForSelector('#app[data-ready]', { timeout: 20000 });
+    await expect.poll(() => page.evaluate(() => window.__em.screen()?.s)).toBe('route');
+    await expect(page.locator('[data-testid="em-cutscene"]')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 });
