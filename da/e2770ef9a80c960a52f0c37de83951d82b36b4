@@ -1,0 +1,173 @@
+site/military-chess/src/ctrl/save.ts
+  s_0eb5d4e8842e10::t_3f4c79c5305778 134
+  s_0eb5d4e8842e10::t_699a2cfd9f7b2b 202
+  s_0eb5d4e8842e10::t_2f8587a9f4e736 56-60,118
+site/military-chess/src/screens/puzzle.ts
+  s_0eb5d4e8842e10::t_5203f376c19332 13,404-416,628-654,657-659,674
+  s_0eb5d4e8842e10::t_3204b9deafec31 28,181-184,190,203-211,213-219,221-228,249-250,655-656,746,782-783
+  s_0eb5d4e8842e10::t_0ce7ce6aac92b0 9,130-136,138,845-846,872-892,1005
+  s_0eb5d4e8842e10::t_dac34efa2b724e 230-232
+  s_0eb5d4e8842e10::t_9ee81edfaefa82 31,212,220
+site/military-chess/tests/feedback.spec.ts
+  s_0eb5d4e8842e10::t_d88420063bb3c5 1-121,125-147
+  s_0eb5d4e8842e10::t_a934e15f01daad 122-124
+site/military-chess/src/screens/match.ts
+  s_0eb5d4e8842e10::t_32d480445a0efe 10,107-108,1242
+  s_0eb5d4e8842e10::t_6d5702427d311e 671-672,690-696
+  s_0eb5d4e8842e10::t_f71678d08f4e77 148-149,223-244,246-251,253-266,268-271,273-285,289-303,318-319,442-443
+  s_0eb5d4e8842e10::t_d724c07e41081d 1087,1094-1101,1104-1105
+  s_0eb5d4e8842e10::t_5baf06d6ca39cc 30
+  s_0eb5d4e8842e10::t_f7dba0e78fbf18 252,267
+  s_0eb5d4e8842e10::t_a88ba8fab547ee 272,441,448
+  s_0eb5d4e8842e10::t_46b87506662c63 245,304-312,320,1102-1103,1423
+  s_0eb5d4e8842e10::t_5fa124390f311c 286-288
+  s_0eb5d4e8842e10::t_3894ad786143d6 1369-1372
+  s_0eb5d4e8842e10::t_3d15a5a7074645 470-471
+site/military-chess/src/screens/base.ts
+  s_0eb5d4e8842e10::t_0ce7ce6aac92b0 300,304-305
+  s_0eb5d4e8842e10::t_9ee81edfaefa82 62-65,69,74,78,81-82
+  s_0eb5d4e8842e10::t_a06166c228680d 213
+  s_0eb5d4e8842e10::t_b39803f7c17500 6,177-199
+  s_0eb5d4e8842e10::t_90d1596e535cda 125-126,158-166
+  s_0eb5d4e8842e10::t_2f8587a9f4e736 3,57-61,66-68,70-73,75-77,79-80,83-94,262,272,297-298,318,327
+  s_0eb5d4e8842e10::t_01083f3d37094e 169-176,200-212,214-229,233,299
+site/military-chess/src/view/board-view.ts
+  s_0eb5d4e8842e10::t_80c2b3bd155347 16,224
+site/military-chess/src/screens/deploy.ts
+  s_0eb5d4e8842e10::t_a8ea29bd3e1516 19
+  s_0eb5d4e8842e10::t_a6fd232f0ffdda 21,98-99,104-105,213-265,479,546
+site/military-chess/tests/phone.spec.ts
+  s_0eb5d4e8842e10::t_d68625a0c74970 1-97,99-144
+  s_0eb5d4e8842e10::t_6a4ecfaf41cdde 98
+tests/military-chess/playwright.dev.config.ts
+  s_0eb5d4e8842e10::t_4d6676ec47e669 5-7,12,16,30-34
+site/military-chess/src/screens/review.ts
+  s_0eb5d4e8842e10::t_3ec498c1af4ceb 47-48,54,57,65-82
+site/military-chess/src/screens/ladder.ts
+  s_0eb5d4e8842e10::t_4d5f6493b26a11 7,10,19,24-25,37-38,45-46,76-77,79-80
+  s_0eb5d4e8842e10::t_f7dba0e78fbf18 102
+  s_0eb5d4e8842e10::t_31643d7023dfdc 92,104
+  s_0eb5d4e8842e10::t_1698ef56e69276 57-58,64-66,70-74,91,93-94,100,103,105-107,129,135-137,150-154
+site/military-chess/src/view/intel.ts
+  s_0eb5d4e8842e10::t_a88ba8fab547ee 25-43,84,112
+content/military-chess/display-text.txt
+  s_0eb5d4e8842e10::t_d7e800f4c6de3a 1-2
+content/military-chess/cards.json
+  ai_agent 13
+site/military-chess/src/view/layout.ts
+  s_0eb5d4e8842e10::t_0676f24acf8a4a 189-201
+content/military-chess/narration.yaml
+  s_0eb5d4e8842e10::t_867a19365946dd 64
+site/military-chess/src/screens/academy.ts
+  s_0eb5d4e8842e10::t_31643d7023dfdc 95-96
+  s_0eb5d4e8842e10::t_d98afc806e7968 12,41-53,61-65,69,81-82,91,99-100,119
+  s_0eb5d4e8842e10::t_f7dba0e78fbf18 92-94,97-98
+site/military-chess/src/screens/item-common.ts
+  s_0eb5d4e8842e10::t_9bac6031eb7cd4 69-70
+site/military-chess/src/screens/ft.ts
+  s_0eb5d4e8842e10::t_699a2cfd9f7b2b 10-12,26,30-40,67-78,328,333
+  s_0eb5d4e8842e10::t_3204b9deafec31 87-88,94,97-110,121-122
+  s_0eb5d4e8842e10::t_b67a8f6c2c1612 126-128
+  s_0eb5d4e8842e10::t_0ce7ce6aac92b0 153
+site/military-chess/src/router.ts
+  s_0eb5d4e8842e10::t_699a2cfd9f7b2b 1,10,27-31
+site/military-chess/validate/lines.test.ts
+  s_0eb5d4e8842e10::t_38cda4ede34c3c 23-25
+tests/military-chess/phone.mjs
+  s_0eb5d4e8842e10::t_a88ba8fab547ee 103-104,110-114
+  s_0eb5d4e8842e10::t_98790932eee66b 60-64
+  s_0eb5d4e8842e10::t_f0ad52831b7bc3 1-35,37-59,65-102,105-109,115-167
+  s_0eb5d4e8842e10::t_80c2b3bd155347 36
+site/military-chess/src/screens/medals.ts
+  s_0eb5d4e8842e10::t_f83295e8b60d4a 10,18,78-79,84,86,90-93
+  s_0eb5d4e8842e10::t_d98afc806e7968 34-35,38-39,43-47,50-57,61,65,72,80-82,97-100
+site/military-chess/src/app.ts
+  s_0eb5d4e8842e10::t_0676f24acf8a4a 14,23-24,65-77,143-148,162-178,180,182-187,189,191,212-213,227
+  s_0eb5d4e8842e10::t_80c2b3bd155347 15,181
+site/military-chess/src/screens/endgames.ts
+  s_0eb5d4e8842e10::t_d98afc806e7968 40-41,44-45,49-58,64,69-73,77,87-89
+site/military-chess/src/core/progress.ts
+  s_0eb5d4e8842e10::t_4d5f6493b26a11 96-101
+  ai_agent 197-198,223
+site/military-chess/src/styles.css
+  s_0eb5d4e8842e10::t_867a19365946dd 868
+  s_0eb5d4e8842e10::t_cc3adf2baa10e8 1097-1103
+  s_0eb5d4e8842e10::t_dac34efa2b724e 1092
+  s_0eb5d4e8842e10::t_d04711a11162bb 874
+  s_0eb5d4e8842e10::t_e3cfd60f174374 909-1083
+  s_0eb5d4e8842e10::t_8700d67a7369b0 878-879
+  s_0eb5d4e8842e10::t_a88ba8fab547ee 906-908
+  s_0eb5d4e8842e10::t_31643d7023dfdc 1113
+  s_0eb5d4e8842e10::t_1a4c9901fce9fa 861-867,869
+  s_0eb5d4e8842e10::t_e6f6de6613c17e 881
+  s_0eb5d4e8842e10::t_5fa124390f311c 882-893,895,897-902
+  s_0eb5d4e8842e10::t_518c988279df17 870-873,876-877
+  s_0eb5d4e8842e10::t_004f6893c664eb 894,1112
+  s_0eb5d4e8842e10::t_c57260782be633 880
+  s_0eb5d4e8842e10::t_f7dba0e78fbf18 896,1104-1111
+  s_0eb5d4e8842e10::t_f181cecb1d8b76 875
+  s_0eb5d4e8842e10::t_3894ad786143d6 903-905
+  s_0eb5d4e8842e10::t_c6caf17c0aafd2 1084-1091
+  s_0eb5d4e8842e10::t_50abe00ea19d4c 1093-1096
+site/military-chess/src/screens/rules.ts
+  s_0eb5d4e8842e10::t_c57260782be633 70-75,78-79
+  s_0eb5d4e8842e10::t_4897e7d0c86b64 54-55,58-60,64-69,76-77,81-85,92-94,98,120-128,138-141
+  s_0eb5d4e8842e10::t_79ea1238433ec6 20,24,26,29-35,95-96
+site/military-chess/validate/coach.test.ts
+  s_0eb5d4e8842e10::t_dca2e8cba8cdb2 7,10,109-133
+site/military-chess/src/screens/parent.ts
+  s_0eb5d4e8842e10::t_4897e7d0c86b64 34-35,38-39,42-47,119-134
+  s_0eb5d4e8842e10::t_ce739115b53304 11,56,69,71,75-76,90-93
+site/military-chess/src/screens/deploy-item.ts
+  s_0eb5d4e8842e10::t_810e63e98ba42b 10,435-440,442
+  s_0eb5d4e8842e10::t_1c595c66e5784e 113,119-120,123,126-132
+  s_0eb5d4e8842e10::t_dac34efa2b724e 153-156
+  s_0eb5d4e8842e10::t_50abe00ea19d4c 21,94-112,114-118,121-122,124-125,133-137,142-146,166,199,212,218-222,242-243,570
+site/military-chess/src/screens/result.ts
+  s_0eb5d4e8842e10::t_4897e7d0c86b64 124-125,136-137,141-142,154-156,158-159,164-165,173-178,197,199,205,219-220,222-223,225-227,230-237
+  s_0eb5d4e8842e10::t_9ee81edfaefa82 157,160-161,221,228
+  s_0eb5d4e8842e10::t_cc3adf2baa10e8 162-163,229
+  s_0eb5d4e8842e10::t_518c988279df17 18
+  s_0eb5d4e8842e10::t_f788bf761aeb40 129
+  s_0eb5d4e8842e10::t_2baba9803431a1 150-153,261-266
+site/military-chess/src/screens/family.ts
+  s_0eb5d4e8842e10::t_b2030a8c7a9b3d 4-5,10,23-25,43-44,77,82-87,104-109
+  s_0eb5d4e8842e10::t_2ee68a556c9c26 47,91-94
+  s_0eb5d4e8842e10::t_1698ef56e69276 55-56,62-63,65-73,79,103,116-117,164-171
+site/military-chess/src/view/pieces-svg.ts
+  s_0eb5d4e8842e10::t_5fa124390f311c 60,67,81
+  s_0eb5d4e8842e10::t_0a416e1e2afc98 79
+  s_0eb5d4e8842e10::t_80c2b3bd155347 18-27,61-62,65,73-78,80,82
+content/military-chess/lessons.json
+  s_0eb5d4e8842e10::t_e6f6de6613c17e 373,640,794
+site/military-chess/src/screens/cards.ts
+  s_0eb5d4e8842e10::t_1c595c66e5784e 161-162
+  s_0eb5d4e8842e10::t_9bac6031eb7cd4 27,144-160,163-182,189,210-211,220-223,993,1005
+  s_0eb5d4e8842e10::t_dac34efa2b724e 191-194
+  s_0eb5d4e8842e10::t_810e63e98ba42b 14,767-777
+site/military-chess/src/screens/home.ts
+  s_0eb5d4e8842e10::t_dcc7a766c0b8ca 12,47-49,79-81
+  s_0eb5d4e8842e10::t_aaf2cebe362432 90-91,95,105,107-122,141-142,147-148,151,155,161-162,164-175,186-189,318-319
+site/military-chess/src/core/coach.ts
+  s_0eb5d4e8842e10::t_0d21e0f03ab859 10-13,23,158-169,179,184-185
+content/military-chess/stamp.json
+  ai_agent 3-4
+content/military-chess/lines.json
+  s_0eb5d4e8842e10::t_867a19365946dd 298-301
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "dae2770ef9a80c960a52f0c37de83951d82b36b4",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
