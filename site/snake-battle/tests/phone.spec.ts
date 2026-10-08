@@ -10,6 +10,9 @@
  *   unlock card removed by a screen change goes back to the queue (no soft-lock); on phones the narration bar covers no
  *   control (lobby, map) and hides over 设置 / 纪录; a skipped line leaves at once; a 4-digit endless peak fits the card;
  *   the landscape map's "you are here" token clears the back key.
+ * QA fb1 r2: a short landscape view (Safari's bars: 844×340, 750×340; iPhone SE sideways 568×320) — every lobby button
+ *   is what a finger hits (收藏馆 sat under 纪录), 设置 shows 好了 unscrolled, banners stay on one line clear of the
+ *   leaderboard, the map's chapter title clears the planet tabs.
  * The phone cases run once (iPad portrait project); they set their own viewport.
  */
 import { expect, test, type Page } from '@playwright/test';
@@ -139,6 +142,69 @@ test.describe('phones', () => {
         await fits(page, 'endless result');
         expect(await page.evaluate(() => { const p = document.querySelector('.sb-podium .sb-panel')!.getBoundingClientRect(); return [...document.querySelectorAll('.sb-hero__len b, .sb-hero__head')].map((e) => { const r = e.getBoundingClientRect(); return r.left >= p.left - 0.5 && r.right <= p.right + 0.5; }); })).toEqual([true, true]);
         expect(await page.locator('.sb-hero__len b').textContent()).toBe('1234');
+      });
+    });
+  }
+});
+
+/** every lobby control: whole, ≥ 44 px, never on another one, and the control itself is what a finger at its centre and
+ * near its edges hits — a button covered everywhere is never "top", so audit() alone missed 收藏馆 under 纪录 */
+function lobbyHits() {
+  const out: string[] = [], els = [...document.querySelectorAll('.sb-mode, .sb-records, .sb-venue, .sb-gear')];
+  const nm = (e: Element) => (e.textContent || String(e.className)).replace(/\s+/g, '').slice(0, 5);
+  for (const e of els) {
+    const r = e.getBoundingClientRect();
+    if (r.width < 44 - 0.5 || r.height < 44 - 0.5) out.push(`small ${nm(e)}`);
+    if (r.left < 0 || r.top < 0 || r.right > innerWidth || r.bottom > innerHeight) out.push(`cut ${nm(e)}`);
+    for (const [fx, fy] of [[.5, .5], [.15, .5], [.85, .5], [.5, .15], [.5, .85]]) {
+      const hit = document.elementFromPoint(r.left + r.width * fx, r.top + r.height * fy);
+      if (!hit || !e.contains(hit)) { out.push(`covered ${nm(e)} at ${fx},${fy} by ${hit ? String(hit.className).split(' ')[0] : 'nothing'}`); break; }
+    }
+  }
+  for (let i = 0; i < els.length; i++) for (let j = i + 1; j < els.length; j++) {
+    const a = els[i].getBoundingClientRect(), b = els[j].getBoundingClientRect();
+    if (a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1) out.push(`overlap ${nm(els[i])} × ${nm(els[j])}`);
+  }
+  return out;
+}
+
+// QA fb1 r2: phone Safari's bars leave ~340 px of a landscape phone (844 → 750 px wide with the side insets); an
+// iPhone SE turned sideways is 568×320
+test.describe('phones: short landscape', () => {
+  test.beforeEach(({}, ti) => test.skip(ti.project.name !== 'portrait-810x1080', 'phone cases run once'));
+  for (const [pname, viewport] of [['844x340', { width: 844, height: 340 }], ['750x340', { width: 750, height: 340 }], ['568x320', { width: 568, height: 320 }]] as const) {
+    test.describe(pname, () => {
+      test.use({ viewport, ...touch });
+      test(`${pname}: every lobby button tappable; 设置 shows 好了 unscrolled; banners on one line; the map title clear of the tabs`, async ({ page }) => {
+        await boot(page);
+        await app(page, `a.save.data.firstRunDone = true; a.save.markSeen('story:c1'); a.save.save(); a.showLobby();`);
+        await page.waitForSelector('.sb-lobby'); await page.waitForTimeout(500);
+        expect(await page.evaluate(lobbyHits), 'lobby').toEqual([]);
+        await fits(page, 'lobby');
+        await app(page, `a.sub.onCue({ text: '玩了好几局，看看远处吧。' });`); await page.waitForTimeout(300);
+        expect(await page.evaluate(covered), 'lobby line').toEqual([]);
+        await page.locator('.sb-mode--collection').click(); await page.waitForSelector('.sb-coll');   // the tap QA could not make
+        await app(page, `a.showLobby();`); await page.waitForSelector('.sb-lobby');
+        await page.locator('.sb-gear').click(); await page.waitForSelector('.sb-settings'); await page.waitForTimeout(400);
+        await fits(page, 'settings');
+        expect(await page.evaluate(() => { const p = document.querySelector('.sb-settings .sb-panel')!, pr = p.getBoundingClientRect(); const ok = [...p.children].find((e) => e.textContent?.trim() === '好了')!.getBoundingClientRect(); return { scrolls: p.scrollHeight > p.clientHeight + 1, inside: ok.top >= pr.top && ok.bottom <= pr.bottom && ok.bottom <= innerHeight }; }), '好了').toEqual({ scrolls: false, inside: true });
+        await app(page, `document.querySelectorAll('.sb-scrim').forEach((n) => n.remove()); a.showMap(1);`);
+        await page.waitForSelector('.sb-map .xg-node'); await page.waitForTimeout(400);
+        await fits(page, 'map');
+        expect(await page.evaluate(() => { const hd = [...document.querySelectorAll('.sb-map__head > *')].map((e) => e.getBoundingClientRect()); return [...document.querySelectorAll('.sb-chtab, .sb-map__stars')].filter((e) => { const r = e.getBoundingClientRect(); return hd.some((h) => h.left < r.right && r.left < h.right && h.top < r.bottom && r.top < h.bottom); }).map((e) => e.className); }), 'map title').toEqual([]);
+        await app(page, `a.closeMenus(); void a.startMatch('timed', 'moon', { seed: 21, countdown: false });`);
+        await page.waitForFunction(() => (window as any).__sb?.match?.state === 'playing'); await page.waitForTimeout(600);
+        for (const t of ['一条命击败三条！', '你是第一名！', '看明白了吗？']) {
+          await page.evaluate((t) => { const hud = (window as any).__sb.hud; hud.bannerQ.length = 0; hud.bannerT = 0; hud.bannerShow(t, 'is-gold'); }, t);
+          await page.waitForTimeout(300);   // past the pop-in scale
+          const r = await page.evaluate(() => {
+            const e = document.querySelector('.sb-banner')!, rg = document.createRange(); rg.selectNodeContents(e);
+            const rs = [...rg.getClientRects()], board = document.querySelector('.sb-board')!.getBoundingClientRect();
+            const l = Math.min(...rs.map((x) => x.left)), rt = Math.max(...rs.map((x) => x.right)), top = Math.min(...rs.map((x) => x.top)), bot = Math.max(...rs.map((x) => x.bottom));
+            return { lines: new Set(rs.map((x) => Math.round(x.top))).size, onBoard: l < board.right && board.left < rt && top < board.bottom && board.top < bot };
+          });
+          expect(r, t).toEqual({ lines: 1, onBoard: false });
+        }
       });
     });
   }

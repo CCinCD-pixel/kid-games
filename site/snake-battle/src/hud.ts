@@ -264,8 +264,8 @@ export class Hud {
   update(dt: number) {
     const m = this.m, me = m.me, v = this.view;
     this.t += dt;
-    // banner lifetime: in 220 ms → hold 900 → out 260
-    if (this.bannerT > 0) { this.bannerT -= dt; if (this.bannerT <= 0.26) this.banner.classList.add('is-out'); if (this.bannerT <= 0) { this.banner.hidden = true; this.banner.classList.remove('is-in', 'is-out'); this.bannerQ.shift(); if (this.bannerQ.length) this.nextBanner(); } }
+    // banner lifetime: in 220 ms → hold 900 → out 260; it waits out a 3-2-1 (hidden under it, styles.css) and plays after
+    if (this.bannerT > 0 && this.countdown.hidden) { this.bannerT -= dt; if (this.bannerT <= 0.26) this.banner.classList.add('is-out'); if (this.bannerT <= 0) { this.banner.hidden = true; this.banner.classList.remove('is-in', 'is-out'); this.bannerQ.shift(); if (this.bannerQ.length) this.nextBanner(); } }
     // pill
     this.pillT -= dt;
     if (this.pillT <= 0) {

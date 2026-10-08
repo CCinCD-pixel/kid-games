@@ -576,3 +576,13 @@ html[data-orientation='landscape'] .sb-bot { left: calc(var(--sb-sl) + 49px); to
 body:not(.sb-playing) .kit-subtitle { max-width: min(700px, calc(100vw - 32px)); }
 body:not(.sb-playing) .kit-subtitle__replay { padding: 0 12px; }
 body:has(.sb-story) .kit-subtitle, body:has(.sb-brief) .kit-subtitle, body:has(.xg-result-stars) .kit-subtitle { display: none; }
+/* iPad landscape 收藏馆 (QA fb1 r2): the few-card grid ends above the robot's narration bar (bottom 16 px, 72 px tall),
+   so a line never sits on the second row's names and counts; a longer grid can scroll its last row clear of it */
+@media (orientation: landscape) and (min-height: 600px) {
+  html[data-orientation='landscape'] .sb-coll__grid { padding-bottom: 104px; }
+  html[data-orientation='landscape'] .sb-coll__grid.is-few { row-gap: 16px; padding-top: 12px; }
+  html[data-orientation='landscape'] .sb-coll__grid.is-few .sb-ccard { height: 268px; padding: 12px 10px; gap: 8px; }
+  html[data-orientation='landscape'] .sb-coll__grid.is-few .sb-ccard__art { height: 120px; }
+}
+/* the 3-2-1 after a rotation or a pause never draws over a banner still on screen: the banner waits (hud.ts) and shows after */
+.sb-hud:has(> .sb-count:not([hidden])) > .sb-banner { visibility: hidden; }
