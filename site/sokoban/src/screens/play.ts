@@ -20,7 +20,7 @@ import { cosmeticsOf } from '../art/robotArt';
 import { applyCertPass, applyLevelResult, applyRandomResult, destFor, hallFor, type Outcome } from '../app/collection';
 import type { AppCtx, Screen } from '../app/context';
 import { deadMarkerFor, inputModeFor, stuckDelayFor, swipeEnabled, type InputMode } from '../app/settings';
-import { canName, nextAfter, type NextStep } from '../app/unlock';
+import { canName, levelPassed, nextAfter, type NextStep } from '../app/unlock';
 import { noteActive, noteLevel, noteRandomH3, slowDue, storeVisit } from '../app/visit';
 import { chapterOf, levelById, paramsFor, type Dest, type LevelDef } from '../data';
 import { PlaySession, holdGap, type SessionEvent } from '../game/session';
@@ -31,7 +31,7 @@ import { mountSky } from '../render/backdrop';
 import { BoardView } from '../render/board';
 import { ghostTapAt, hideGhostHand } from '../render/ghostHand';
 import { HALLS } from '../render/halls';
-import { playLayout, type Rect } from '../render/layout';
+import { PHONE_PAD_X, boardGeom, phoneLandscapeTall, playLayout, type Rect } from '../render/layout';
 import { CompanionStrip } from './companion';
 import { ceremonies, follow, tabOf } from './flow';
 import { LaunchSequence } from './launch';
@@ -44,6 +44,11 @@ const DEAD_LINE: Record<DeadType, string> = {
 };
 const PRIORITY: DeadType[] = ['corner', 'wall', 'pair', 'square'];
 const AUTO_LINE_ROLES = new Set(['intro', 'twist', 'boss', 'quiz', 'cert', 'random']);
+/**
+ * 0-1's ghost-hand teaching was seen: 跳过 tapped (or the parent switch), or 0-1 solved. A plain 0-1
+ * entry (reload, 再来一次, map) then no longer teaches; only 机库 → 本领 → 再看一遍 → 第一课 does (QA fb1 r2).
+ */
+export const LESSON_SEEN = 'lesson.0-1';
 
 export interface PlayOptions {
   fresh?: boolean;
@@ -254,19 +259,22 @@ export class PlayScreen implements Screen {
     // the parent switch 跳过开场和教学: every intro line and teaching demo is skipped as if 跳过 was tapped —
     // except the first lesson asked for again (再看一遍 → 第一课), as the opening replay plays too (QA fb1 r1)
     const auto = shouldAutoSkip() && !this.lesson;
-    // 0-1: the ghost hand comes 1–4 s after the board lands, while the chapter line plays (spec §2.3)
+    const save = this.ctx.save.data;
+    // 0-1: the ghost hand comes 1–4 s after the board lands, while the chapter line plays (spec §2.3);
+    // once seen (skipped, or 0-1 solved — older saves too) only the lesson asked for again teaches
+    const teach = def.id === '0-1' && !auto && (this.lesson || (!this.onceKey(LESSON_SEEN) && !levelPassed(save, '0-1')));
     if (def.id === '0-1') {
       if (auto) this.skipTutorial('auto');
-      else this.tutor();
+      else if (teach) this.tutor();
+      else this.tutorSkipped = true;
     }
-    const save = this.ctx.save.data;
     // chapter intro (first time), the level line on first entry of key levels, the arrows upgrade;
-    // each intro line can be skipped (0-1's own 跳过 already covers its chapter line) and is seen then
+    // each intro line can be skipped (0-1's teaching 跳过 already covers its chapter line) and is seen then
     const chN = typeof def.ch === 'number' ? def.ch : -1;
     if (chN >= 0 && !save.chaptersSeen.includes(chN)) {
       this.ctx.save.update((s) => s.chaptersSeen.push(chN));
       const c = chapterOf(chN);
-      if (c?.introLine && !auto) await this.introLine(c.introLine, { mood: 'encouraging', polite: true }, def.id !== '0-1');
+      if (c?.introLine && !auto) await this.introLine(c.introLine, { mood: 'encouraging', polite: true }, !teach);
     } else if (def.track === 'classic' && !this.onceKey('sok.classic.intro')) {
       this.once('sok.classic.intro');
       if (!auto) await this.introLine('sok.classic.intro', { mood: 'happy' });
@@ -318,7 +326,7 @@ export class PlayScreen implements Screen {
 
   /**
    * 0-1's ghost-hand teaching skipped (跳过, or the parent switch): no more hands, footprints or
-   * 先走到… lines; the level itself stays to be played, and the opening counts as done.
+   * 先走到… lines; the level itself stays to be played, and the opening and the teaching count as seen.
    */
   private skipTutorial(why: 'tap' | 'auto'): void {
     this.tutorSkipped = true;
@@ -330,19 +338,33 @@ export class PlayScreen implements Screen {
     if (why === 'tap') this.strip.hide();
     this.tutorSkipOff?.();
     this.tutorSkipOff = null;
-    if (!this.ctx.save.data.tutorialDone && !this.ctx.save.readOnly) {
+    // skipping marks the teaching seen (Dad's feedback 2026-10-08): it does not come back on the next 0-1
+    if ((!this.ctx.save.data.tutorialDone || !this.onceKey(LESSON_SEEN)) && !this.ctx.save.readOnly) {
       this.ctx.save.update((s) => {
         s.tutorialDone = true;
+        if (!s.onceLines.includes(LESSON_SEEN)) s.onceLines.push(LESSON_SEEN);
       });
     }
   }
 
   layout(l: LayoutInfo): void {
-    const g = playLayout(l.width, l.height, l.safe.top, l.safe);
+    let g = playLayout(l.width, l.height, l.safe.top, l.safe);
+    // a phone held sideways: the board at full height when that gives this warehouse bigger cells
+    const tall = phoneLandscapeTall(g, l.safe);
+    const { W, H } = this.session.level;
+    if (tall && boardGeom(tall.board, W, H, PHONE_PAD_X).s > boardGeom(g.board, W, H, PHONE_PAD_X).s) g = tall;
     this.el.dataset.orient = g.orientation;
     this.el.toggleAttribute('data-phone', g.phone);
     const place = (el: HTMLElement, r: Rect) => Object.assign(el.style, { left: `${r.x}px`, top: `${r.y}px`, width: `${r.w}px`, height: `${r.h}px` });
     place(this.hud, g.hud);
+    // the level plate: in the HUD row, or docked at the top of the right column (phoneLandscapeTall)
+    if (g.plate) {
+      Object.assign(this.plate.style, { left: `${g.plate.x - g.hud.x}px`, top: `${g.plate.y - g.hud.y}px`, width: `${g.plate.w}px`, height: `${g.plate.h}px` });
+      this.plate.dataset.docked = '';
+    } else if (this.plate.hasAttribute('data-docked')) {
+      Object.assign(this.plate.style, { left: '', top: '', width: '', height: '' });
+      delete this.plate.dataset.docked;
+    }
     place(this.inputLayer, g.board);
     place(this.btn.undo, g.actions.undo);
     place(this.btn.redo, g.actions.redo);
@@ -356,7 +378,7 @@ export class PlayScreen implements Screen {
       ? { x: g.board.x + g.board.w / 2 - sbW / 2, y: g.board.y + g.board.h - (g.phone ? 60 : 76), w: sbW, h: g.phone ? 52 : 64 }
       : { x: g.side.x, y: g.side.y + g.side.h - (g.phone ? 56 : 70), w: g.side.w, h: g.phone ? 52 : 64 };
     place(this.stuckBtn, sb);
-    this.board.layout(g.board);
+    this.board.layout(g.board, g.phone ? PHONE_PAD_X : undefined);
     mountSky(document.body, HALLS[hallFor(this.def)].sky, this.def.id);
   }
 
@@ -1158,7 +1180,10 @@ export class PlayScreen implements Screen {
       d.stats.deadDelayed += s.stats.delayed.events;
       d.stats.selfRescues += s.stats.delayed.rescued;
       d.stats.activeMs += Math.round(this.activeMs);
-      if (def.id === '0-1') d.tutorialDone = true;
+      if (def.id === '0-1') {
+        d.tutorialDone = true;
+        if (!d.onceLines.includes(LESSON_SEEN)) d.onceLines.push(LESSON_SEEN);
+      }
     });
     const o = outcome as unknown as Outcome;
     const dest = destFor(def);

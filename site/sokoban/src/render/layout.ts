@@ -47,6 +47,8 @@ export interface PlayLayout {
   /** companion strip (portrait) or right column (landscape) */
   side: Rect;
   actions: { undo: Rect; redo: Rect; restart: Rect; map: Rect };
+  /** phones in landscape with the board at full height (phoneLandscapeTall): the level plate tops the right column */
+  plate?: Rect;
 }
 
 export const HEADROOM = 0.45;
@@ -154,9 +156,45 @@ function phonePlayLayout(width: number, height: number, T: number, inset: SideIn
   };
 }
 
-/** Cell size and placement for a W×H board inside `area` (spec §2.2 formula v1.1). */
-export function boardGeom(area: Rect, W: number, H: number): BoardGeom {
-  const s = Math.max(8, Math.floor(Math.min((area.w - 2 * SHADOW_PAD_X) / W, (area.h - SHADOW_PAD_BOTTOM) / (H + HEADROOM), MAX_CELL)));
+/**
+ * Phones in landscape, the board at full height (QA fb1 r2: under the HUD row a 10-row warehouse got
+ * 26-px cells at 844×390): the board runs from the top of the screen down, right of the 🏠 button,
+ * and the level plate moves to the top of the right column, under the pushes chip and 💡; the
+ * companion keeps the rest of the column above the keys. The play screen takes it when it gives the
+ * level a bigger cell (a wide warehouse on a narrow phone keeps the HUD-row layout). Null when it
+ * does not apply or the companion would get too short.
+ */
+export function phoneLandscapeTall(g: PlayLayout, inset: SideInsets = {}): PlayLayout | null {
+  if (!g.phone || g.orientation !== 'landscape') return null;
+  const L = 12 + Math.max(0, Math.round(inset.left ?? 0));
+  // the 🏠 button: 12 px in, ~104 px wide
+  const x = L + 112;
+  const plate = { x: g.side.x, y: g.top + 64, w: g.side.w, h: 48 };
+  const sideY = plate.y + plate.h + 8;
+  const sideBottom = g.side.y + g.side.h;
+  const boardBottom = g.board.y + g.board.h;
+  const boardRight = g.board.x + g.board.w;
+  if (sideBottom - sideY < 96 || boardRight - x < 200) return null;
+  return {
+    ...g,
+    plate,
+    board: { x, y: g.top + 8, w: boardRight - x, h: boardBottom - (g.top + 8) },
+    side: { x: g.side.x, y: sideY, w: g.side.w, h: sideBottom - sideY },
+  };
+}
+
+/**
+ * Phones: the side gutter the cell size keeps (QA fb1 r2: 9–10-column boards at 320 px got 26-px
+ * cells). The canvas keeps its 18-px shadow pad either way, reaching into the 12-px screen margin.
+ */
+export const PHONE_PAD_X = 6;
+
+/**
+ * Cell size and placement for a W×H board inside `area` (spec §2.2 formula v1.1); `padX` is the side
+ * gutter kept free for the shadow (phones: PHONE_PAD_X).
+ */
+export function boardGeom(area: Rect, W: number, H: number, padX = SHADOW_PAD_X): BoardGeom {
+  const s = Math.max(8, Math.floor(Math.min((area.w - 2 * padX) / W, (area.h - SHADOW_PAD_BOTTOM) / (H + HEADROOM), MAX_CELL)));
   const x0 = area.x + (area.w - W * s) / 2;
   const y0 = area.y + HEADROOM * s + (area.h - SHADOW_PAD_BOTTOM - (H + HEADROOM) * s) / 2;
   const canvas = { x: Math.round(x0 - SHADOW_PAD_X), y: Math.round(y0 - HEADROOM * s), w: Math.round(W * s + 2 * SHADOW_PAD_X), h: Math.round((H + HEADROOM) * s + SHADOW_PAD_BOTTOM) };

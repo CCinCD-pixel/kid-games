@@ -8,7 +8,8 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { classify, swipeDir } from './src/input/boardInput';
 import { HALLS } from './src/render/halls';
-import { HEADROOM, WALL_H, boardGeom, mapLayout, playLayout, topWallPixel } from './src/render/layout';
+import { HEADROOM, PHONE_PAD_X, WALL_H, boardGeom, mapLayout, playLayout, topWallPixel } from './src/render/layout';
+import { minClearance, snakeLayout, snakePath, type Foot } from './src/render/snakeRoad';
 import { CRATES, ROBOT, SIGNAL } from './src/render/palette';
 import { VISIONS, deltaE, paletteGates, worstDeltaE, type Vision } from './src/dev/colour';
 
@@ -134,6 +135,59 @@ describe('layout (spec §2.2)', () => {
     // the iPad is not a phone
     expect(playLayout(810, 1080, T).phone).toBe(false);
     expect(mapLayout(1080, 810, T).phone).toBe(false);
+  });
+  it('phones (QA fb1 r2): the narrow gutter gives bigger cells, the grid stays on the input layer and the canvas on screen', () => {
+    for (const [w, h] of [[390, 664], [320, 568], [844, 390]]) {
+      const g = playLayout(w, h, 0);
+      for (const [W, H] of [[10, 6], [9, 10], [9, 7], [7, 5]]) {
+        const b = boardGeom(g.board, W, H, PHONE_PAD_X);
+        expect(b.s).toBeGreaterThanOrEqual(boardGeom(g.board, W, H).s);
+        expect(b.x0).toBeGreaterThanOrEqual(g.board.x);
+        expect(b.x0 + W * b.s).toBeLessThanOrEqual(g.board.x + g.board.w);
+        expect(b.canvas.x).toBeGreaterThanOrEqual(0);
+        expect(b.canvas.x + b.canvas.w).toBeLessThanOrEqual(g.orientation === 'portrait' ? w : g.side.x);
+      }
+    }
+    // iPhone SE, a 10-column warehouse: 28 px (was 26)
+    expect(boardGeom(playLayout(320, 568, 0).board, 10, 6, PHONE_PAD_X).s).toBeGreaterThanOrEqual(28);
+  });
+  it('the phone-portrait snake road (QA fb1 r2): no two stops touch, all inside the road box', () => {
+    const pad = (f: Foot): Foot => ({ l: f.l + 3, r: f.r + 3, u: f.u + 3, d: f.d + 3 });
+    const crate = pad({ l: 28, r: 28, u: 27, d: 39 }); // 54-px crate + its star pill
+    const current = pad({ l: 37, r: 31, u: 31, d: 39 }); // 62 px, 小推 at its lower-left corner
+    const boss = pad({ l: 34, r: 34, u: 34, d: 45 });
+    const coming = pad({ l: 46, r: 46, u: 32, d: 55 }); // the 新货单在路上 tag
+    const cert = pad({ l: 33, r: 33, u: 32, d: 55 });
+    const roads: Foot[][] = [
+      [crate, crate, crate, current],
+      [cert, crate, crate, crate, crate, crate, boss],
+      [crate, crate, crate, current, crate, crate, crate, boss],
+      [crate, crate, crate, crate, crate, crate, boss, crate, coming],
+      [crate, crate, crate, crate, current, crate, crate, crate, crate, crate],
+    ];
+    for (const [w, h] of [[296, 252], [336, 324], [366, 348]]) {
+      for (const feet of roads) {
+        const lay = snakeLayout(w, h, feet)!;
+        expect(lay.clear, `${w}×${h} n=${feet.length}`).toBeGreaterThanOrEqual(0);
+        expect(minClearance(lay.pts, feet)).toBe(lay.clear);
+        lay.pts.forEach(([x, y], i) => {
+          expect(x - feet[i].l).toBeGreaterThanOrEqual(-0.01);
+          expect(x + feet[i].r).toBeLessThanOrEqual(w + 0.01);
+          expect(y - feet[i].u).toBeGreaterThanOrEqual(-0.01);
+          expect(y + feet[i].d).toBeLessThanOrEqual(h + 0.01);
+        });
+        // the road climbs: stop 0 on the bottom row, the last one on the top row
+        expect(lay.pts[0][1]).toBeGreaterThan(lay.pts[feet.length - 1][1] - (lay.rows === 1 ? 1 : 0));
+      }
+    }
+    // the iPhone SE classic tab: 4 stops a row, 3 rows; 4 stops make a loop
+    expect(snakeLayout(296, 252, roads[4])!.cols).toBe(4);
+    expect(snakeLayout(296, 252, roads[0])!.cols).toBe(2);
+    // the path: straight along a row, one curve per turn
+    const d = snakePath([[10, 100], [60, 100], [60, 40], [10, 40]], 20);
+    expect(d.startsWith('M10.0 100.0')).toBe(true);
+    expect((d.match(/L/g) ?? []).length).toBe(2);
+    expect((d.match(/C/g) ?? []).length).toBe(1);
   });
   it('map layout keeps the tab bar inside the screen', () => {
     const p = mapLayout(810, 1080, T);

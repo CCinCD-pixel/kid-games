@@ -20,6 +20,7 @@ import { certOpen, chapterInfo, currentLevel, isLevelOpen, levelPassed, openLeve
 import { CHAPTERS, CLASSIC_LEVELS, TRACKS, chapterLevels, isQuiz, levelById, type LevelDef } from '../data';
 import { mountSky } from '../render/backdrop';
 import { mapLayout, type Rect } from '../render/layout';
+import { applySnakeRoad } from '../render/snakeRoad';
 import { drawRobot, restPose } from '../render/robot';
 import { CompanionStrip } from './companion';
 import { showOrderBoard } from './random';
@@ -45,6 +46,12 @@ function robotMarker(save: Parameters<typeof cosmeticsOf>[0]): HTMLCanvasElement
   g.scale(dpr, dpr);
   drawRobot(g, 28, 62, 46, { ...restPose(1), eyes: 'happy', cosmetics: cosmeticsOf(save) });
   return c;
+}
+
+/** The last two characters of a line that may wrap travel together (no lone character on a line of its own). */
+function keepTail(t: string): string {
+  const cs = [...t];
+  return cs.length > 3 ? `${cs.slice(0, -2).join('')}<span class="sok-chcard__tail">${cs.slice(-2).join('')}</span>` : t;
 }
 
 /** 侦探题 node: a paper magnifier with the quiz number. */
@@ -96,6 +103,9 @@ export class MapScreen implements Screen {
   private readonly loggedBroken = new Set<string>();
 
   private focus: 'coming' | 'cert' | undefined;
+  /** the road's node buttons and the last reached one (the phone-portrait snake road re-lays them) */
+  private roadBtns: HTMLElement[] = [];
+  private roadCur = -1;
 
   constructor(private readonly ctx: AppCtx, o: { tab?: Tab; opened?: number; focus?: 'coming' | 'cert'; say?: string } = {}) {
     const save = ctx.save.data;
@@ -146,9 +156,9 @@ export class MapScreen implements Screen {
     });
     this.layout(ctx.layout());
     // the title font may arrive after the first layout: measure the title's line break again
-    document.fonts?.ready.then(() => {
-      if (!this.destroyed) this.fitTitle();
-    }, () => {});
+    document.fonts?.ready.then(this.refit, () => {});
+    // a font face (or a CJK subset first needed by a tag such as 新货单在路上) can land later still
+    document.fonts?.addEventListener?.('loadingdone', this.refit);
     app(ctx).dataset.screen = 'map';
     let greeted = 0;
     try {
@@ -268,12 +278,14 @@ export class MapScreen implements Screen {
     const goal = isClassic ? (TRACKS.classic.goal ?? '') : chapter!.goal;
     const dest = isClassic ? 'tiangong' : chapter!.dest;
     this.card.innerHTML = `<span class="sok-chcard__emblem">${chapterEmblem(isClassic ? 'classic' : `ch${this.tab}`, 84)}</span>
-      <span class="sok-chcard__text"><span class="sok-chcard__name">${isClassic ? '' : `<span class="sok-chcard__ch">第 ${this.tab} 章<span class="sok-chcard__dot"> ·</span></span> `}<span class="sok-chcard__nm">${name}</span></span><span class="sok-chcard__goal">${goal}</span>
+      <span class="sok-chcard__text"><span class="sok-chcard__name">${isClassic ? '' : `<span class="sok-chcard__ch">第 ${this.tab} 章<span class="sok-chcard__dot"> ·</span></span> `}<span class="sok-chcard__nm">${name}</span></span><span class="sok-chcard__goal">${keepTail(goal ?? '')}</span>
       <span class="xg-pips" aria-label="通过 ${passed} / ${levels.length}">${levels.map((l) => `<i class="${levelPassed(save, l.id) ? 'on' : ''}"></i>`).join('')}</span></span>
       <span class="sok-chcard__dest">${destIcon(dest)}<span>${DEST_NAME[dest]}</span>${levels.length ? `<span class="sok-chcard__stars">${icon('star')}<b>${stars}</b><small>/${levels.length * 3}</small></span>` : ''}</span>`;
     this.fitTitle();
     // road
     this.road.textContent = '';
+    this.roadBtns = [];
+    delete this.road.dataset.road;
     if (!levels.length) {
       this.road.innerHTML = `<button type="button" class="sok-coming" data-sfx="ui-pop"><svg viewBox="0 0 120 110" aria-hidden="true"><rect x="10" y="30" width="100" height="74" rx="12" fill="#74491E"/><rect x="10" y="14" width="100" height="70" rx="12" fill="#A27038"/><rect x="52" y="14" width="16" height="70" fill="#F9A726"/><path d="M10 50h100" stroke="#F9A726" stroke-width="12"/><rect x="10" y="14" width="100" height="90" rx="12" fill="none" stroke="#4A2D12" stroke-width="4"/></svg><span>新货单在路上</span></button>`;
       this.road.querySelector('button')!.addEventListener('click', () => {
@@ -341,7 +353,26 @@ export class MapScreen implements Screen {
       if (m) b.append(m);
       b.setAttribute('aria-label', `${l.id} ${l.name}${n.state === 'locked' ? '（还没开放）' : ''}`);
     });
-    void this.destroyed;
+    this.roadBtns = btns;
+    this.roadCur = nodes.reduce((a, nd, i) => (nd.state === 'done' || nd.state === 'current' ? i : a), -1);
+    this.fitRoad();
+  }
+
+  /**
+   * A phone held upright: the snake road — rows of stops laid out from their real footprints, so no
+   * crate, star pill or tag sits on another (the kit's sine stacked them on a 320-px phone; QA fb1 r2).
+   * Everywhere else the kit's road stays as drawn.
+   */
+  /** fonts arrived: the title's line break and the snake road's footprints are measured again */
+  private readonly refit = (): void => {
+    if (this.destroyed) return;
+    this.fitTitle();
+    this.fitRoad();
+  };
+
+  private fitRoad(): void {
+    if (!this.roadBtns.length || !this.el.hasAttribute('data-phone') || this.el.dataset.orient !== 'portrait') return;
+    applySnakeRoad(this.road, this.roadBtns, this.roadCur);
   }
 
   private pick(n: MapNode): void {
@@ -383,6 +414,7 @@ export class MapScreen implements Screen {
 
   destroy(): void {
     this.destroyed = true;
+    document.fonts?.removeEventListener?.('loadingdone', this.refit);
     this.strip.destroy();
     this.el.remove();
   }

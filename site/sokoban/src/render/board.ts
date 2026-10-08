@@ -174,11 +174,14 @@ export class BoardView {
     return this.geom.s;
   }
 
-  /** Lay out inside `area` (page px). Rebuilds the static layers; finishes running tweens first. */
-  layout(area: Rect): void {
+  /**
+   * Lay out inside `area` (page px). Rebuilds the static layers; finishes running tweens first.
+   * `padX`: the side gutter the cell size keeps (phones use a narrower one, layout.ts PHONE_PAD_X).
+   */
+  layout(area: Rect, padX?: number): void {
     this.anim.finishAll();
     const l = this.level;
-    this.geom = boardGeom(area, l.W, l.H);
+    this.geom = boardGeom(area, l.W, l.H, padX);
     this.dpr = Math.min(2, window.devicePixelRatio || 1);
     const c = this.geom.canvas;
     Object.assign(this.el.style, { left: `${c.x}px`, top: `${c.y}px`, width: `${c.w}px`, height: `${c.h}px` });
@@ -672,13 +675,17 @@ export class BoardView {
 
   // ------------------------------------------------------------------ hit testing (spec §3.2)
 
-  /** What did the finger hit? (x, y) page px. Arrows → robot → crates (lower rows first) → visible floor → wall/void; 6 px slop. */
+  /**
+   * What did the finger hit? (x, y) page px. Arrows → robot → crates (lower rows first) → visible
+   * floor → wall/void; 6 px slop — more where cells are under a 44-px finger (phones: (44 − s) / 2,
+   * nearest visual centre still decides; QA fb1 r2).
+   */
   hitTest(px: number, py: number): Hit {
     const { s } = this;
     const l = this.level;
     const lx = px - this.geom.canvas.x - this.geom.ox;
     const ly = py - this.geom.canvas.y - this.geom.oy;
-    const slop = 6;
+    const slop = Math.max(6, (44 - s) / 2);
     const inR = (x: number, y: number, x0: number, y0: number, w: number, h: number, e = 0) => x >= x0 - e && x <= x0 + w + e && y >= y0 - e && y <= y0 + h + e;
     type Cand = { hit: Hit; cx: number; cy: number; prio: number; exact: boolean };
     const cands: Cand[] = [];

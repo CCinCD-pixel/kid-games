@@ -136,6 +136,35 @@ test.describe('phones', () => {
         }
       });
 
+      test(`${pname}: the map's road — no stop, star pill, tag or 小推 on another (QA fb1 r2)`, async ({ page }) => {
+        test.skip(viewport.width > viewport.height, 'phone landscape keeps the kit road');
+        // every level passed (all pills shown), then a half-way save (a current stop with 小推 on it)
+        for (const except of [[], ['0-3', '0-4', '1-4', '1-5', '1-6', '1-7', '1-8', '2-5', '2-6', '2-7', '2-8', '3-4', '3-5', '3-6', '3-7', '3-8', '4-3', '4-4', '4-5', '4-6', '4-7', '4-8', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10']]) {
+          await open(page, 'screen=map');
+          await sok(page, 'unlockAll', { rewards: true, except });
+          for (const tab of [0, 1, 2, 3, 4, 'classic'] as const) {
+            await sok(page, 'map', tab);
+            await page.evaluate(() => document.fonts.ready);
+            const bad = await page.evaluate(() => {
+              const R = (e: Element) => e.getBoundingClientRect();
+              const road = R(document.querySelector('.sok-road')!);
+              const stops = [...document.querySelectorAll('.sok-road .xg-node')].map((n) => ({
+                id: (n as HTMLElement).dataset.testid ?? '',
+                rs: [n, ...n.querySelectorAll('.sok-node__stars, .sok-node__tag, .sok-node__legacy, .sok-node__ribbon, .xg-node__marker')].filter((e) => e.getClientRects().length).map(R),
+              }));
+              const hit = (a: DOMRect, b: DOMRect) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1;
+              const out: string[] = [];
+              for (let i = 0; i < stops.length; i += 1) {
+                for (let j = i + 1; j < stops.length; j += 1) if (stops[i].rs.some((a) => stops[j].rs.some((b) => hit(a, b)))) out.push(`${stops[i].id}×${stops[j].id}`);
+                if (stops[i].rs.some((r) => r.left < road.left - 12 || r.right > road.right + 12 || r.top < road.top - 8 || r.bottom > road.bottom + 8)) out.push(`out ${stops[i].id}`);
+              }
+              return out;
+            });
+            expect(bad, `tab ${tab}${except.length ? ' (half-way)' : ''}`).toEqual([]);
+          }
+        }
+      });
+
       test(`${pname}: the map's chapter card holds its lines (none cut at its edges, no "·" ending a line)`, async ({ page }) => {
         await open(page, 'screen=map');
         await sok(page, 'unlockAll', { rewards: true });
@@ -169,7 +198,23 @@ async function tapSkip(page: Page) {
   await expect(skipPill(page)).toHaveAttribute('data-state', 'shown', { timeout: 4000 });
   await skipPill(page).click();
 }
-const save = (page: Page) => sok(page, 'save') as Promise<{ tutorialDone: boolean; arrows: string; chaptersSeen: number[] }>;
+const save = (page: Page) => sok(page, 'save') as Promise<{ tutorialDone: boolean; arrows: string; chaptersSeen: number[]; onceLines: string[] }>;
+/** 0-1 entered again: watched for 3 s, a teaching would have shown its hand and its pill (QA fb1 r2) */
+async function untaught(page: Page, what: string) {
+  await expect(page.locator('.sok-play'), what).toHaveAttribute('data-level', '0-1');
+  const seen = await page.evaluate(() => new Promise<string[]>((done) => {
+    const out = new Set<string>(), t0 = performance.now();
+    const tick = () => {
+      if (document.querySelector('.sok-ghost-hand.is-on')) out.add('hand');
+      if (document.querySelector('.xg-skip')) out.add('pill');
+      if (document.querySelector('.sok-play[data-skipping]')) out.add('skipping');
+      if (performance.now() - t0 > 3000) done([...out]);
+      else setTimeout(tick, 80);
+    };
+    tick();
+  }));
+  expect(seen, what).toEqual([]);
+}
 
 test.describe('跳过', () => {
   test.beforeEach(({}, ti) => test.skip(ti.project.name !== 'portrait-810x1080', 'skip cases run once'));
@@ -306,5 +351,40 @@ test.describe('跳过', () => {
     await page.waitForTimeout(1800);
     await expect(skipPill(page)).toHaveCount(0);
     await expect(page.locator('.sok-play')).not.toHaveAttribute('data-skipping', '');
+  });
+
+  test('0-1 teaching skipped stays seen: a reload resumes 0-1 without it; 第一课 still teaches (QA fb1 r2)', async ({ page }) => {
+    test.setTimeout(40_000);
+    await open(page, 'anim=real&level=0-1');
+    await tapSkip(page);
+    expect((await save(page)).onceLines).toContain('lesson.0-1');
+    // the half-played 0-1 comes back after a reload — without the hand, the lines or a new pill
+    await open(page, 'anim=real');
+    await expect.poll(() => screen(page)).toBe('play');
+    await untaught(page, 'reload');
+    // the map's way in (an ordinary entry) neither
+    await sok(page, 'load', '0-1');
+    await untaught(page, 'map → 0-1');
+    // asked for on purpose: 机库 → 本领 → 再看一遍 → 第一课 teaches
+    await sok(page, 'hangar');
+    await page.locator('.sok-hangar__tabs button').nth(2).click();
+    await page.locator('[data-testid=again-lesson]').click();
+    await expect.poll(() => screen(page)).toBe('play');
+    await expect(page.locator('.sok-play')).toHaveAttribute('data-skipping', '');
+    await expect(skipPill(page)).toHaveAttribute('data-state', 'shown', { timeout: 4000 });
+  });
+
+  test('0-1 solved (teaching not skipped) stays seen: 再来一次 does not teach again (QA fb1 r2)', async ({ page }) => {
+    test.setTimeout(45_000);
+    await open(page, 'anim=real&screen=map');
+    // every reward owned and chapter 0 left open: nothing between the result card and the replay
+    await sok(page, 'unlockAll', { rewards: true, except: ['0-1', '0-2'] });
+    await sok(page, 'load', '0-1');
+    await expect(page.locator('.sok-play')).toHaveAttribute('data-skipping', '');
+    void sok(page, 'solve');
+    await page.locator('.xg-scrim [data-act="again"]').click({ timeout: 20_000 });
+    await expect(page.locator('[data-testid=result]')).toHaveCount(0);
+    expect((await save(page)).onceLines).toContain('lesson.0-1');
+    await untaught(page, '再来一次');
   });
 });
