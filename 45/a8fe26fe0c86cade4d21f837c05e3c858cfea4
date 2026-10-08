@@ -1,0 +1,44 @@
+kit/ui/skip.ts
+  s_0eb5d4e8842e10::t_216b1ca5772610 1-175
+tests/unit/settings.test.ts
+  s_0eb5d4e8842e10::t_4df9f353353f13 2,9,11,16-27
+kit/ui/kit.css
+  s_0eb5d4e8842e10::t_4ba25a400b4e3f 500-509,512-526,528-536,538
+  s_0eb5d4e8842e10::t_b7ef5b85ff67f4 510-511,527
+site/parent/src/main.ts
+  s_0eb5d4e8842e10::t_6a159c1769e965 6,8,156,353,377-378,444
+  s_0eb5d4e8842e10::t_43611745afd5ae 379
+site/_hub/hub.css
+  s_0eb5d4e8842e10::t_4b2d3eff80fec2 254-373
+  s_0eb5d4e8842e10::t_55e6d09889cd89 3-4
+site/parent/src/parent.css
+  s_0eb5d4e8842e10::t_77ecf6a9c1d3a4 118-165
+docs/GAME_AUTHORING.md
+  s_0eb5d4e8842e10::t_97bb678ba0fcc4 258-261,263,265-267
+  s_0eb5d4e8842e10::t_b09dc3bb880544 283
+  s_0eb5d4e8842e10::t_30429005c37dcc 147-156,245,252-257,262,264,268-282,291,293,341-343
+kit/ui/index.ts
+  s_0eb5d4e8842e10::t_1fe8d82ce396cd 16-18,39-40
+tests/unit/skip.test.ts
+  s_0eb5d4e8842e10::t_4df9f353353f13 1-82
+site/_hub/main.ts
+  s_0eb5d4e8842e10::t_5298f15a53611d 185-200,202,205-206,208,356-357
+kit/settings.ts
+  s_0eb5d4e8842e10::t_1a421dc4e89a77 5,8,14-17,37-38,41,65,107-112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "45a8fe26fe0c86cade4d21f837c05e3c858cfea4",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
