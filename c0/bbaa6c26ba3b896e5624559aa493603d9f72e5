@@ -1,0 +1,33 @@
+site/snake-battle/src/styles.css
+  s_0eb5d4e8842e10::t_722ca3a52625a5 587
+  s_0eb5d4e8842e10::t_9a3c170419a44a 579-586,588
+site/snake-battle/tests/phone.spec.ts
+  s_0eb5d4e8842e10::t_231e88b5924eae 13-15,198-200,205
+  s_0eb5d4e8842e10::t_258b26ce93895a 150-197,201-204,206-212
+site/snake-battle/src/hud.ts
+  s_0eb5d4e8842e10::t_1dce21e0dab85a 267-268
+site/snake-battle/src/phone.css
+  s_0eb5d4e8842e10::t_b0e957e74153f7 479-480
+  s_0eb5d4e8842e10::t_c2a707a5d4a476 407-409
+  s_0eb5d4e8842e10::t_88a98c32713219 481-484
+  s_0eb5d4e8842e10::t_f93ba54325c1f1 353-363,366-379,382-383
+  s_0eb5d4e8842e10::t_03729251d604f1 434-436
+  s_0eb5d4e8842e10::t_723cf7948c051a 391-393
+  s_0eb5d4e8842e10::t_b740267a2eecdb 467-478
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "c0bbaa6c26ba3b896e5624559aa493603d9f72e5",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
