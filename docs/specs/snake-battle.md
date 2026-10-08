@@ -1699,7 +1699,7 @@ interface SbSaveV1 {
 
 | 项 | 预算 | 怎么测 |
 |---|---|---|
-| 本游戏 JS（不含 kit 共享块） | ≤160 KB gzip；CSS ≤15 KB；内容 JSON ≤15 KB gzip（示范录像另算，按需，每关 ≤30 KB gzip） | `validate/budget.test.ts` 读构建后的 `dist/assets`（没有 `dist/` 时跳过并打印提示：`npm run check` 不构建；全量档前先 `npm run build`） |
+| 本游戏 JS（不含 kit 共享块） | ≤160 KB gzip；CSS ≤15 KB（2026-10-09 注：手机版 `phone.css` 加了约 5.6 KB，只在手机尺寸生效，整张样式表约 16.3 KB，按 ≤17 KB 接受）；内容 JSON ≤15 KB gzip（示范录像另算，按需，每关 ≤30 KB gzip） | `validate/budget.test.ts` 读构建后的 `dist/assets`（没有 `dist/` 时跳过并打印提示：`npm run check` 不构建；全量档前先 `npm run build`） |
 | 音频 | 新增音效 ≤260 KB；音乐 ≤1.7 MB（菜单 ≈900 KB 流式 + 2 首铺底 + 抬升层，懒加载） | 同上 |
 | 帧时间（黑洞场 22 条蛇、他长 1 000、Q2） | 主线程每帧 p95 ≤ 12 ms（模拟 ≤4 + 渲染准备 ≤5 + HUD ≤1）；GPU 60 fps | `tests/perf.spec.ts`：WebKit 里用 `?test=1` 钩子跑固定种子 60 秒，记录每帧 `performance.now()` 分段；真机目测 + Safari 时间线 |
 | 帧时间压力档（25 条蛇：`?test=1&stress=25` = 黑洞场 + 1 猎手 + 1 贪吃 + 1 冲冲，只给测试用） | 主线程每帧 p95 ≤ 14 ms；真机肉眼 60 fps，允许自动降到 Q1，不允许 Q0 | 同上 + 真机清单第 3 条 |

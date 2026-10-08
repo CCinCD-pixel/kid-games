@@ -44,7 +44,9 @@ describe('budgets', () => {
 
 // §8.11 gzip budgets (QA r1). Content JSON: spec 15 KB; the shipped 40-level set measures ≈ 18.4 KB, accepted at
 // ≤ 20 KB as a spec-owner note (stripping fields would invalidate every demo's contentHash for ~3 KB). JS / CSS are
-// read from dist when a build exists (the root build is not run by game agents).
+// read from dist when a build exists (the root build is not run by game agents). CSS: spec 15 KB; phones (Dad,
+// 2026-10-08) add src/phone.css, ≈ 5.6 KB min+gz of media-gated rules the iPad never applies — the sheet measures
+// ≈ 16.3 KB, accepted at ≤ 17 KB as a spec-owner note (finalize fb1; spec §8.11 table).
 import zlib from 'node:zlib';
 describe('gzip budgets (§8.11)', () => {
   const gz = (p: string) => zlib.gzipSync(fs.readFileSync(p), { level: 9 }).length;
@@ -81,6 +83,6 @@ describe('gzip budgets (§8.11)', () => {
     const js = ownJs.reduce((a, f) => a + gz(path.join(dist, f)), 0), css = ownCss.reduce((a, f) => a + gz(path.join(dist, f)), 0);
     console.log(`[budget] own JS ${(js / 1024).toFixed(1)} KB gz in ${ownJs.length} chunks; CSS ${(css / 1024).toFixed(1)} KB gz`);
     expect(js).toBeLessThanOrEqual(160 * 1024);
-    expect(css).toBeLessThanOrEqual(15 * 1024);
+    expect(css).toBeLessThanOrEqual(17 * 1024);
   });
 });
