@@ -1,0 +1,60 @@
+site/emoji-match/src/screens/route.ts
+  s_0eb5d4e8842e10::t_5d25c4140df80d 130-139
+tests/emoji-match/phone.mjs
+  s_0eb5d4e8842e10::t_32f282907a01b7 1-32,34-49,51-53,56-110
+  s_0eb5d4e8842e10::t_fa4a594cb5d6d8 33,54
+  s_0eb5d4e8842e10::t_7123901f148b47 55
+  s_0eb5d4e8842e10::t_9d284a21e98ac7 50
+site/emoji-match/tests/phone.spec.ts
+  s_0eb5d4e8842e10::t_a56c1c012ce1fa 190
+  s_0eb5d4e8842e10::t_4097b8462ed577 1-189,191-216
+site/emoji-match/src/screens/intro-card.ts
+  s_0eb5d4e8842e10::t_d7eb8148cff987 9,188-189,195,240-242,244,252-254
+site/emoji-match/src/screens/map.ts
+  s_0eb5d4e8842e10::t_5d25c4140df80d 55
+site/emoji-match/validate/layout.test.ts
+  s_0eb5d4e8842e10::t_1c94f5fc696eac 28-51
+site/emoji-match/src/view/route-geom.ts
+  s_0eb5d4e8842e10::t_4e1b0fba3c044b 13
+  s_0eb5d4e8842e10::t_5d25c4140df80d 10-12,21
+  s_0eb5d4e8842e10::t_d5ac41c892f232 30
+site/emoji-match/src/screens/cutscene.ts
+  s_0eb5d4e8842e10::t_a430d3bed03ed9 53
+  s_0eb5d4e8842e10::t_f8b36b10a15bae 4-5,8,22-23,40,43
+site/emoji-match/src/dev/test-hook.ts
+  s_0eb5d4e8842e10::t_f8b36b10a15bae 52
+site/emoji-match/src/screens/arrival.ts
+  s_0eb5d4e8842e10::t_cab430bbb07f70 8-10,12,36-37,47-48,51-64,69,194
+  s_0eb5d4e8842e10::t_d5ac41c892f232 214
+site/emoji-match/src/view/hud.ts
+  s_0eb5d4e8842e10::t_acf447eb4e97a1 69,73
+site/emoji-match/src/screens/play.ts
+  s_0eb5d4e8842e10::t_35041a00734c76 770
+  s_0eb5d4e8842e10::t_5f12416f4576e4 341
+  s_0eb5d4e8842e10::t_33ce5fbdcda0f4 8,91-93,269-273,278-280,282-283,287-303,382,583,756,759,761-762,766,779,782-784
+site/emoji-match/src/styles.css
+  s_0eb5d4e8842e10::t_35041a00734c76 569-573
+  s_0eb5d4e8842e10::t_d6a31d33ede732 568,574-606
+  s_0eb5d4e8842e10::t_4e1b0fba3c044b 717-766
+  s_0eb5d4e8842e10::t_c24760f0683305 711-712
+site/emoji-match/src/view/layout.ts
+  s_0eb5d4e8842e10::t_a56c1c012ce1fa 122-123
+  s_0eb5d4e8842e10::t_acf447eb4e97a1 32,34-35,37-40,56,75,92-116,126-152
+  s_0eb5d4e8842e10::t_b26fc7954c62a6 117-121,124-125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "8d3279faffacfab46f4fcc8138c3491887f35837",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
