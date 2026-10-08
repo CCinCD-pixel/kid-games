@@ -1,0 +1,55 @@
+tests/gear-fort/fix-r5.mjs
+  s_0eb5d4e8842e10::t_3e898c44b18e42 68-69
+site/gear-fort/src/render/board.ts
+  s_0eb5d4e8842e10::t_53edd4d590f906 8-10,24-28,31-40,42,45-46,51
+site/gear-fort/src/screens/story.ts
+  s_0eb5d4e8842e10::t_e26ed5001ffeed 3-4,8,135-141,146,150,173-174
+site/gear-fort/tests/phone.spec.ts
+  s_0eb5d4e8842e10::t_e2512f5bb5fcab 1-158
+site/gear-fort/tests/skip.spec.ts
+  s_0eb5d4e8842e10::t_18d2414f9a227e 1-28,30-58,61-107
+site/gear-fort/tests/flow.spec.ts
+  s_0eb5d4e8842e10::t_3e898c44b18e42 110-111,402-403
+site/gear-fort/src/render/board.test.ts
+  s_0eb5d4e8842e10::t_8ef345e31db91d 1-35
+tests/gear-fort/shoot.mjs
+  s_0eb5d4e8842e10::t_a9b8182e9dd178 13-14,18-19,21-31,238
+site/gear-fort/src/screens/menus.ts
+  s_0eb5d4e8842e10::t_e37a3df75c2048 3
+  s_0eb5d4e8842e10::t_c1fd4b28bf394a 62,64-65,75
+  s_0eb5d4e8842e10::t_9f56f822b9385b 150-151,186,189,221
+site/gear-fort/src/screens/settings.ts
+  s_0eb5d4e8842e10::t_5881429632e0bf 6,14-16,18,23-24,34-36
+site/gear-fort/src/app.ts
+  s_0eb5d4e8842e10::t_869056c45cfd7e 4,64-69,102,107,132,204-208
+site/gear-fort/src/main.ts
+  s_0eb5d4e8842e10::t_0360d97186b5cc 9,34-35
+site/gear-fort/src/screens/battle.ts
+  s_0eb5d4e8842e10::t_f526a030b4544a 15,26,38-39,104-106,125-127,170-180,182-191,224,233-241,249,295-298,301-302,696,791,870-878,902
+  s_0eb5d4e8842e10::t_260cfef0bfea75 181
+site/gear-fort/src/screens/rotate.ts
+  s_0eb5d4e8842e10::t_585f18bd0ebc98 1-29
+site/gear-fort/src/styles.css
+  s_0eb5d4e8842e10::t_260cfef0bfea75 919,935
+  s_0eb5d4e8842e10::t_955545fd6c72f6 800,828,831-832,949
+  s_0eb5d4e8842e10::t_568d81d7f6c73f 729-761,763-799,801-806,808-825,827,829-830,833-846,848-869,872-918,920,922-934,936-948,950-954
+  s_0eb5d4e8842e10::t_3e898c44b18e42 921
+tests/gear-fort/playwright.dev.config.ts
+  s_0eb5d4e8842e10::t_260cfef0bfea75 11,27-28,30-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "94f4fee554dc02a8abefa13b03a425bf74e42a87",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
