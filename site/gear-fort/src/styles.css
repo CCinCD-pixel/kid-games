@@ -1003,7 +1003,7 @@ html[data-orientation="landscape"] .gf-boss__bar { min-height: 30px; }
   .gf-bigcard .gf-new { right: 2px; top: 2px; }
   .gf-tabs button { min-height: 44px; padding: 4px 8px; font-size: 16px; white-space: nowrap; gap: 4px; }
   .gf-tabs button svg { width: 15px; height: 15px; flex: none; }
-  .gf-map__road .xg-node { --s: 44px; font-size: 20px; } .gf-map__road .xg-node--current { --s: 54px; font-size: 24px; } /* 11 stops on a 240-px-high road */
+  .gf-map__road .xg-node { --s: 44px; font-size: 20px; } .gf-map__road .xg-node--current { --s: 50px; font-size: 23px; } /* 11 stops on a 240-px-high road */
   /* 亮招 + 选牒: the 附加题 right under the level name (never below the fold), a tighter deck */
   html .gf-pv__deck { gap: 3px; padding: 6px 10px; }
   .gf-pv__deck > * { order: 2; } .gf-pv__deck > .gf-pv__lv { order: 0; } .gf-pv__deck > .gf-pv__bonus { order: 1; }
@@ -1037,4 +1037,63 @@ html[data-orientation="landscape"] .gf-boss__bar { min-height: 30px; }
   .kit-start { padding-top: 10px; padding-bottom: 10px; }
   .kit-start__card { gap: 6px; }
   .kit-start__go { width: 128px; height: 128px; margin-top: 4px; }
+}
+
+/* ═════════════ QA fb1 r2 ═════════════ */
+/* 设置's note is dark ink on the paper (it inherited the night theme's pale ink and could not be seen); ✕ sits on the
+   panel's corner, off the first row's switch (it covered the 震屏 / 音乐 switch on phones and the iPad) */
+.gf-set__note { color: #5a3418; opacity: .8; }
+.gf-set .xg-modal__close { top: -20px; right: -10px; }
+/* 设置 on a phone: if a longer scene list ever makes the panel taller than the screen, the scrim scrolls (the panel
+   stays centred when it fits — the auto margins — and starts at the top when it does not) */
+@media (orientation: landscape) and (max-height: 599px) {
+  .gf-set.xg-scrim { overflow-y: auto; overscroll-behavior: contain; place-items: start center; }
+  .gf-set__panel { max-height: none; margin-block: auto; }
+  /* the journey map (a tap on 6 opened 1-7): each stop's stars ride its own lower rim on a small wooden pill — they never
+     cover a neighbour, and a finger on them reaches the stop underneath; 墨子 is a size smaller and, under the 🏠 /
+     title, stands beside his stop (menus.ts clearHead) */
+  .gf-map__road .xg-node__stars { top: auto; bottom: -9px; translate: -50% 0; display: flex; padding: 2px 3px 3px; border-radius: 9px;
+    background: linear-gradient(#7a4f2e, #553620); box-shadow: 0 1px 0 rgba(30,15,5,.45), inset 0 1px 0 rgba(255,220,170,.25); line-height: 0; filter: none; pointer-events: none; }
+  .gf-map__road .xg-node__stars .xg-stars { font-size: 12px; gap: 1px; }
+  .gf-map__road .xg-node__stars .xg-stars--arc .xg-s:nth-child(n) { transform: none; }
+  .gf-map__road .xg-node__stars .xg-s:has(svg path[fill="#e8d5b1"]) { opacity: .4; } /* an empty slot: a dim star, not a pale one */
+  .gf-map__road .gf-map__me canvas { width: 38px !important; height: 38px !important; }
+  .gf-map__road .xg-node__marker.is-side { left: 100%; bottom: 50%; translate: 4px 4px; }
+  .gf-map__road .xg-node__marker.is-left { left: auto; right: 100%; bottom: 50%; translate: -4px 4px; }
+  /* 亮招 + 选牒 cards on a phone (568 wide: "almost all price tag and check mark"): the machine stands at the top of its
+     card, the price is a slim tag at its feet, the ✓ / 墨 / 新 marks sit out on the corners */
+  .gf-pv__slots .gf-slot:not(.is-empty), .gf-pv__pool .gf-poolcard { place-items: start center; padding-top: 1px; }
+  .gf-pv__slots .gf-card__cost, .gf-pv__pool .gf-card__cost { left: 50%; right: auto; bottom: 1px; translate: -50% 0; min-width: 0; padding: 0 4px; font-size: 13px; line-height: 14px; border-radius: 6px; }
+  .gf-pv__pool .gf-poolcard__ok { left: -6px; top: -6px; width: 18px; height: 18px; border-width: 1.5px; } .gf-pv__pool .gf-poolcard__ok svg { width: 11px; height: 11px; }
+  .gf-pv__deck .gf-seal { right: -6px; top: -6px; width: 20px; height: 20px; border-radius: 5px; font-size: 13px; }
+  .gf-pv__slots .gf-new, .gf-pv__pool .gf-new { right: -4px; top: -5px; padding: 2px 3px; }
+  /* 鲁班's machines (menus.ts phoneFit sizes them): a slim name plate over the figure's feet that may reach into the gap
+     beside it, so a four-character name (铜盾甲兵) is never cut; the 新 mark on the corner, off the figure */
+  .gf-pv__slots.is-strip .gf-slot { pointer-events: none; }
+  /* the deck panel: the iPad's 24-px top margin and 8-px gaps (html[data-orientation] rule) are the phone's 8 and 5 — at
+     667×375 a 13-card pool and the two-line 附加题 then fit without scrolling */
+  html[data-orientation="landscape"] .gf-pv__deck { margin-top: 8px; gap: 5px; }
+  html .gf-pv__machines { overflow: visible; }
+  .gf-pv__machines .gf-pv__m > span { position: relative; max-width: calc(100% + 8px); margin-top: -5px; padding: 1px 2px; line-height: 1.1; letter-spacing: -.05em; }
+  .gf-pv__machines .gf-pv__m .gf-new { right: -5px; top: -4px; padding: 2px 3px; }
+}
+/* 设置 on a 320-px-high screen (卷二开篇 fell off the bottom): one-line rows (the names say it; the small print is for the
+   iPad), the replay buttons beside their title */
+@media (orientation: landscape) and (max-height: 359px) {
+  /* the map: the road takes the whole height under the title, the stars tuck into the stop's lower rim and the number
+     moves up over them (stops ≥ 52 px apart here) */
+  .gf-map__road { top: 70px; bottom: 2px; }
+  .gf-map__road .xg-node__stars { bottom: -5px; padding: 1px 2px 2px; border-radius: 8px; } .gf-map__road .xg-node__stars .xg-stars { font-size: 11px; }
+  .gf-map__road .xg-node:has(> .xg-node__stars) > :first-child { translate: 0 -6px; }
+  .gf-set.xg-scrim { padding-top: 24px; }
+  html[data-orientation="landscape"] .gf-pv__deck { gap: 3px 6px; }
+  .gf-set__panel { gap: 6px; padding: 30px 14px 10px; }
+  .gf-set__row { min-height: 48px; padding: 2px 8px; gap: 8px; grid-template-columns: 34px 1fr auto; }
+  .gf-set__ic { width: 34px; height: 34px; border-radius: 10px; } .gf-set__ic svg { width: 20px; height: 20px; }
+  .gf-set__t b { font-size: 18px; } .gf-set__t small { display: none; }
+  .gf-sw { width: 70px; height: 38px; border-radius: 19px; } .gf-sw i { left: 4px; top: 4px; width: 30px; height: 30px; } .gf-sw i svg { width: 18px; height: 18px; }
+  .gf-sw i:first-child, .gf-set__row[aria-checked="true"] .gf-sw i:last-child, .gf-set__row[aria-checked="true"] .gf-sw i:first-child { transform: translateX(32px); }
+  .gf-set__replay { grid-template-columns: 34px auto 1fr; padding: 5px 8px; gap: 6px 8px; }
+  .gf-set__chips .xg-btn { --h: 44px; --fs: 15px; --px: 10px; min-height: 44px; }
+  .gf-set__note { margin: 0; font-size: 13px; line-height: 1.3; }
 }

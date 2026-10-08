@@ -26,7 +26,7 @@ const VOL_CN = ['', '一', '二', '三', '四'];
 /** paper-cut hills + sky for a volume (vol 1 = 鲁国→宋城 by day, vol 2 = 宋→楚 by night; spec §4.13) */
 const SKY = `<div class="gf-map__sky" aria-hidden="true"><i class="gf-sky gf-sky--day"></i><i class="gf-sky gf-sky--night"></i><i class="gf-sky__moon"></i><i class="gf-sky__sun"></i>
   <svg class="gf-sky__hills" viewBox="0 0 1000 300" preserveAspectRatio="none"><path class="h1" d="M0 170 C90 120 170 140 250 110 C330 80 420 130 500 105 C590 75 680 120 760 95 C850 70 930 110 1000 90 L1000 300 L0 300Z"/><path class="h2" d="M0 220 C120 175 220 205 330 180 C440 155 540 200 650 175 C760 150 880 195 1000 170 L1000 300 L0 300Z"/><path class="h3" d="M0 262 C150 240 300 258 460 246 C620 234 800 256 1000 240 L1000 300 L0 300Z"/></svg></div>`;
-export function mountMap(root: HTMLElement, app: AppCtx, onPick: (id: string) => void, mo?: MapOpts): { destroy(): void } {
+export function mountMap(root: HTMLElement, app: AppCtx, onPick: (id: string) => void, mo?: MapOpts): { destroy(): void; layout(): void } {
   const el = h('div', 'gf-menu gf-map xg-root'); el.dataset.xgTheme = 'night'; root.appendChild(el);
   const won = (id: string): boolean => (app.save.levels[id]?.wins ?? 0) > 0;
   const vol2Open = PLAYABLE_VOLUMES.includes(2) && won('1-11');
@@ -44,6 +44,25 @@ export function mountMap(root: HTMLElement, app: AppCtx, onPick: (id: string) =>
     </aside>`;
   const road = el.querySelector('.gf-map__road') as HTMLElement;
   const sub = el.querySelector('.gf-sub') as HTMLElement;
+  /** a phone held sideways (shorter side < 600 px; Dad's phone, 2026-10-08) */
+  const phone = (): boolean => app.layout.width > app.layout.height && app.layout.height < 600;
+  /** 墨子 floats above his stop. On a phone the road is tight: when he would cover the 🏠, the title or another stop, he
+   *  stands beside his stop instead — on whichever side covers least (the 🏠 and the title count most) */
+  const placeMarker = (): void => {
+    const mk = road.querySelector<HTMLElement>('.xg-node__marker'); if (!mk || !el.isConnected) return;
+    mk.classList.remove('is-side', 'is-left'); if (!phone()) return;
+    // what he must not cover: the title's letters (not its line boxes), the round 🏠 and ⚙ (their square corners are empty)
+    const text = (e: Element | null): DOMRect[] => { if (!e) return []; const r = document.createRange(); r.selectNodeContents(e); return [r.getBoundingClientRect()]; };
+    const round = (e: Element | null): DOMRect[] => { if (!e) return []; const b = e.getBoundingClientRect(), d = b.width * 0.15; return [new DOMRect(b.left + d, b.top + d, b.width - 2 * d, b.height - 2 * d)]; };
+    const head = [...text(el.querySelector('.gf-map__head')), ...round(document.querySelector('.kit-back')), ...round(el.querySelector('.gf-map__gear'))];
+    const stops = [...road.querySelectorAll('.xg-node')].filter((n) => !n.contains(mk)).map((n) => n.getBoundingClientRect());
+    const over = (a: DOMRect, b: DOMRect): number => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+    const cost = (): number => { const a = mk.getBoundingClientRect(); const off = a.left < 0 || a.right > innerWidth || a.top < 0 ? 1e6 : 0;
+      return off + head.reduce((t, b) => t + 8 * over(a, b), 0) + stops.reduce((t, b) => t + over(a, b), 0); };
+    let best = { c: cost(), cls: '' };
+    for (const cls of ['is-side', 'is-left']) { if (best.c === 0) break; mk.classList.add(cls); const c = cost(); mk.classList.remove(cls); if (c < best.c) best = { c, cls }; }
+    if (best.cls) mk.classList.add(best.cls);
+  };
   const draw = (): void => {
     const V = CAMPAIGN.volumes[vol - 1];
     sub.textContent = `第${VOL_CN[vol]}卷 · ${V.name}`;
@@ -56,7 +75,10 @@ export function mountMap(root: HTMLElement, app: AppCtx, onPick: (id: string) =>
     });
     const m = h('span', 'gf-map__me'); m.append(portrait('mozi', 46, app.dpr, 'happy'));
     const here = V.levels.includes(app.save.current);
-    nodeMap(road, nodes, { onPick: (n) => { if (n.state !== 'locked' && PLAYABLE_VOLUMES.includes(+n.id.split('-')[0])) { app.ui('ui-confirm', 0.5); onPick(n.id); } else app.ui('ui-locked', 0.5); }, marker: here ? m : undefined, pad: 56 });
+    // phones (QA fb1 r2: a tap on 6 opened 1-7): the stops spread to the road's edges, so 11 of them never touch on a
+    // 240-px-high road; each stop's stars ride its own rim and let taps through (styles.css)
+    nodeMap(road, nodes, { onPick: (n) => { if (n.state !== 'locked' && PLAYABLE_VOLUMES.includes(+n.id.split('-')[0])) { app.ui('ui-confirm', 0.5); onPick(n.id); } else app.ui('ui-locked', 0.5); }, marker: here ? m : undefined, pad: phone() ? 28 : 56 });
+    if (here) placeMarker();
   };
   // first time on the volume-2 road: the sky turns from day to night (3 s, spec §4.13)
   // (the parent's 跳过开场和教学 skips the 3-s change and the first-visit guide below: both count as seen)
@@ -90,7 +112,12 @@ export function mountMap(root: HTMLElement, app: AppCtx, onPick: (id: string) =>
     el.appendChild(b); resumeT = window.setTimeout(() => { if (b.isConnected) void app.voice.say('fort.ui.resume'); }, 500);
   }
   bindPress(el);
-  return { destroy: () => { clearTimeout(resumeT); song.destroy(); el.remove(); } };
+  // the road is laid out for the screen it is on: a turned phone or iPad, or Safari's toolbars coming and going, re-lay it
+  let lastL = `${app.layout.width}x${app.layout.height}`;
+  return {
+    destroy: () => { clearTimeout(resumeT); song.destroy(); el.remove(); },
+    layout: () => { const k = `${app.layout.width}x${app.layout.height}`; if (k === lastL) return; lastL = k; requestAnimationFrame(draw); },
+  };
 }
 function songCaption(app: AppCtx): string {
   const st = songState(app.save); const flags = st.flags.filter(Boolean).length;
@@ -178,15 +205,34 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
     if (bonusId) await app.voice.say(bonusId);
   }
   const mEl = el.querySelector('.gf-pv__machines') as HTMLElement; mEl.dataset.n = String(kinds.length);
+  /** a phone held sideways: the figures fill the sand table between 鲁班's bubble and 开始推演, in the number of rows that
+   *  makes them biggest — never under either, never over the frame (QA fb1 r2: 2-9's 冲车 was under the button at
+   *  568×320, 1-8's names at 750×342, and the bubble covered the first row) */
+  function phoneFit(n: number): { ms: number; cw: number } {
+    const t = (el.querySelector('.gf-pv__table') as HTMLElement).getBoundingClientRect(); const g = (el.querySelector('.gf-pv__go') as HTMLElement).getBoundingClientRect();
+    mEl.style.top = `${Math.max(46, say.offsetTop + say.offsetHeight + 4)}px`; // (the bubble's layout box: its pop-in scale does not count)
+    mEl.style.bottom = `${Math.max(8, Math.ceil(t.bottom - g.top) + 4)}px`;
+    const W = mEl.clientWidth, H = mEl.clientHeight, gx = 6, gy = 4, label = 16; // label: the name plate under each figure
+    const cap = n <= 1 ? 128 : n === 2 ? 100 : n <= 4 ? 76 : n <= 6 ? 60 : 52;
+    let best = { ms: 0, cw: W, cols: n };
+    for (let rows = 1; rows <= n; rows++) {
+      const cols = Math.ceil(n / rows); if (Math.ceil(n / cols) !== rows) continue; // (no row left empty)
+      const cw = (W - (cols - 1) * gx) / cols, ms = Math.floor(Math.min(cap, cw - 6, (H - (rows - 1) * gy) / rows - label));
+      if (ms > best.ms) best = { ms, cw, cols };
+    }
+    mEl.style.gridTemplateColumns = `repeat(${best.cols}, minmax(0, 1fr))`;
+    return { ms: Math.max(24, best.ms), cw: best.cw };
+  }
   function drawMachines(): void {
-    mEl.replaceChildren(); const n = kinds.length; const P = port();
+    mEl.replaceChildren(); const n = kinds.length; const P = port(); const ph = phone();
     // portrait: one row; with 7–8 kinds (2-10) each column is exactly one figure wide with a compact name plate, so
     // neighbours never overlap (QA r5); a lone machine stands big on the table
     const dense = P && n > 6;
-    const ms = P ? (n <= 1 ? 236 : n === 2 ? 184 : n <= 4 ? 136 : n <= 6 ? 96 : 86) : phone() ? (n <= 1 ? 128 : n === 2 ? 100 : n <= 4 ? 76 : n <= 6 ? 60 : 52) : (n <= 1 ? 280 : n === 2 ? 216 : n <= 4 ? 168 : 128);
+    let ms = P ? (n <= 1 ? 236 : n === 2 ? 184 : n <= 4 ? 136 : n <= 6 ? 96 : 86) : (n <= 1 ? 280 : n === 2 ? 216 : n <= 4 ? 168 : 128);
+    let cw = 0; if (ph) ({ ms, cw } = phoneFit(n)); else for (const p of ['top', 'bottom', 'grid-template-columns']) mEl.style.removeProperty(p);
     mEl.dataset.dense = dense ? '1' : '';
     kinds.forEach((k, i) => {
-      const b = h('button', 'gf-pv__m'); b.dataset.word = nameOf(k); b.style.animationDelay = `${0.15 + i * 0.3}s`; b.style.width = Math.max(ms + (dense ? 6 : 16), phone() ? 64 : 0) + 'px';
+      const b = h('button', 'gf-pv__m'); b.dataset.word = nameOf(k); b.style.animationDelay = `${0.15 + i * 0.3}s`; b.style.width = (ph ? Math.max(44, Math.floor(cw)) : ms + (dense ? 6 : 16)) + 'px';
       b.append(rigIcon(atlas, k, ms, app.dpr, { walk: i * 7 }));
       b.insertAdjacentHTML('beforeend', `<span>${nameOf(k)}</span>${k === lv.newEnemy || (lv.newEnemy === 'swarm' && k === 'ant') ? '<i class="gf-new">新</i>' : ''}`);
       b.addEventListener('click', () => info(k)); mEl.appendChild(b);
@@ -216,12 +262,21 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
     const w = Math.max(240, pane.clientWidth - (phone() ? 20 : 32)); const P = port(); const ns = choose ? (lv.slots || 6) : Math.max(1, deck.length);
     // 7-slot levels (2-9…2-11) must fit one row in the landscape side panel too: tighter gap, never wider than the tray
     const ph = phone(); // phones: smaller slots (still ≥ 44 px), and the pool goes up to 8 across so it stays in one or two rows
-    const gap = ph ? (ns >= 7 ? 4 : 6) : ns >= 7 ? 6 : 8; slots.style.gap = `${gap}px`;
-    sw = Math.max(ph ? 44 : 40, Math.min(P ? 92 : ph ? 54 : 88, Math.floor((w - (ph ? 10 : 16) - (ns - 1) * gap) / ns))); // the slot tray has 8 px padding (5 on phones)
+    const room = w - (ph ? parseFloat(getComputedStyle(slots).paddingLeft) * 2 || 10 : 16); // the slot tray's padding
+    let gap = ph ? (ns >= 7 ? 4 : 6) : ns >= 7 ? 6 : 8; if (ph && ns * 44 + (ns - 1) * gap > room) gap = 4;
+    sw = Math.max(ph ? 44 : 40, Math.min(P ? 92 : ph ? 54 : 88, Math.floor((room - (ns - 1) * gap) / ns)));
+    // the narrowest phone (568 wide) cannot hold 7 slots of 44 px in one row (QA fb1 r2: 2-10's 7th was cut off): the tray
+    // becomes a strip that only shows the deck — the ✓ on a pool card takes a card out or puts it back
+    const strip = ph && ns * 44 + (ns - 1) * gap > room; if (strip) sw = Math.floor((room - (ns - 1) * gap) / ns);
+    slots.classList.toggle('is-strip', strip); slots.style.gap = `${gap}px`;
     // a short phone (iPhone SE sideways, Safari's 750×342; QA fb1 r1): 44-px pool cards 4 px apart, so even a 12-card pool
-    // takes two rows and the whole pane — 附加题 included — fits the screen
-    const short = ph && app.layout.height < 360; const pg = short ? 4 : 8; if (poolEl) poolEl.style.gap = `${pg}px`;
-    const cols = Math.max(1, Math.min(pool.length || 1, P || ph ? 8 : 5)); pw = Math.max(ph ? (short ? 44 : 46) : 60, Math.min(ph ? 54 : 84, Math.floor((w - (cols - 1) * pg) / cols)));
+    // takes two rows and the whole pane — 附加题 included — fits the screen. Other phones: the fewest rows 44-px cards can
+    // make, with the biggest cards (≤ 46 px: the pane is short too) that keep them (QA fb1 r2: a 13-card pool took 3 rows
+    // at 667×375 and pushed the 附加题 off the screen)
+    const short = ph && app.layout.height < 360; const pg = short ? 4 : ph ? 6 : 8; if (poolEl) poolEl.style.gap = `${pg}px`;
+    const n = pool.length || 1; const per = (c: number): number => Math.max(1, Math.floor((w + pg) / (c + pg)));
+    if (ph && !short) { const rows = Math.ceil(n / per(44)); pw = 46; while (pw > 44 && Math.ceil(n / per(pw)) > rows) pw--; }
+    else { const cols = Math.max(1, Math.min(n, P || ph ? 8 : 5)); pw = Math.max(ph ? 44 : 60, Math.min(ph ? 54 : 84, Math.floor((w - (cols - 1) * pg) / cols))); }
     pane.style.setProperty('--slot', sw + 'px'); pane.style.setProperty('--pool', pw + 'px');
   }
   function render(): void {
@@ -256,6 +311,7 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
   if (feat && featCur) { setFeat(featCur); feat.addEventListener('click', () => { app.ui('ui-tap', 0.4); const id = featCur && almLine(featCur); if (id) void app.voice.say(id, { interrupt: true }); }); }
   (el.querySelector('.gf-pv__bonus') as HTMLElement).addEventListener('click', () => { app.ui('ui-tap', 0.4); if (bonusId) void app.voice.say(bonusId, { interrupt: true }); });
   sizeCards(); drawMachines(); render(); requestAnimationFrame(fitFeat);
+  if (phone()) void document.fonts?.ready.then(() => { if (live) drawMachines(); }); // the bubble's font can change its line breaks
   (el.querySelector('.gf-pv__go') as HTMLElement).addEventListener('click', () => { if (!deck.length && !beltCards) return; if (choose) { app.save.decks[lv.id] = deck.slice(); app.persist(); } app.ui('ui-confirm', 0.6); onStart(beltCards ? [] : deck.slice()); });
   const back = h('button', 'gf-back xg-btn xg-btn--ghost', icon('back')); back.addEventListener('click', onBack); el.appendChild(back);
   bindPress(el);

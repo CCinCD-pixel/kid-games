@@ -4,6 +4,8 @@
  * landscape (844×390, 667×375, Safari's 750×342, the iPhone SE's 568×320) every screen fits: the HUD controls stay on
  * screen and apart, tap targets ≥ 44 px, HUD text ≥ 13 px, and the kit modals (result, 设置) keep their buttons and
  * ribbon inside the screen.
+ * QA fb1 r2: on the journey map a finger on a stop opens that stop (the stars of the next one sat on it), 设置 fits with
+ * every scene seen, and 亮招 at its fullest keeps 鲁班's machines between his bubble and 开始推演.
  * Runs on the phone projects of tests/gear-fort/playwright.dev.config.ts (iPads skip this file).
  */
 import { expect, test, type Page } from '@playwright/test';
@@ -172,6 +174,71 @@ test.describe('phone landscape', () => {
     for (const x of p) { expect(inside(x, vp.width, vp.height), `${x.sel} on screen`).toBe(true); if (x.sel !== '.gf-pausel__panel') expect(x.h).toBeGreaterThanOrEqual(44); }
     expect(p.filter((x) => x.sel === '.gf-pausel__speed .gf-speed__b').length).toBe(3);
     await page.screenshot({ path: `${process.env.KG_SHOTS_DIR}/fb1-phone/${test.info().project.name}-2-10-pause.png` });
+    expect(errors).toEqual([]);
+  });
+
+  test('the road with every level won (QA fb1 r2): a finger on a stop opens that stop, its stars sit on its own rim', async ({ page }) => {
+    test.setTimeout(60_000);
+    const errors = await open(page, won([...V1, '1-11'], { current: '2-1', story: ['prologue', 'dock', 'map.guide', 'map.night', 'tut.1-1', 'v1end', 'v2open'] }));
+    await page.locator('.gf-tabs button[data-v="1"]').click(); await page.waitForTimeout(700);
+    const r = await page.evaluate(() => {
+      const nodes = [...document.querySelectorAll<HTMLElement>('.gf-map__road .xg-node')];
+      return nodes.map((e, i) => {
+        const b = e.getBoundingClientRect(); const cx = b.left + b.width / 2, cy = b.top + b.height / 2, R = b.width / 2; let hit = 0, tot = 0;
+        for (let a = -3; a <= 3; a++) for (let c = -3; c <= 3; c++) { const x = cx + (a / 3.5) * R, y = cy + (c / 3.5) * R; if (Math.hypot(x - cx, y - cy) > R * 0.95) continue; tot++; if (e.contains(document.elementFromPoint(x, y))) hit++; }
+        const st = e.querySelector<HTMLElement>('.xg-node__stars')!; const s = st.getBoundingClientRect();
+        // how deep the star pill reaches into any other stop's disc (0 = clear)
+        const nick = Math.max(0, ...nodes.filter((o) => o !== e).map((o) => { const q = o.getBoundingClientRect(); const ox = q.left + q.width / 2, oy = q.top + q.height / 2;
+          const dx = Math.max(s.left - ox, 0, ox - s.right), dy = Math.max(s.top - oy, 0, oy - s.bottom); return q.width / 2 - Math.hypot(dx, dy); }));
+        return { i: i + 1, own: e.contains(document.elementFromPoint(cx, cy)), share: hit / tot, pe: getComputedStyle(st).pointerEvents, nick, x: cx, y: cy, in: b.left >= 0 && b.top >= 0 && b.right <= innerWidth && b.bottom <= innerHeight };
+      });
+    });
+    expect(r.length).toBe(11);
+    for (const n of r) { expect(n.own, `stop ${n.i} owns its centre`).toBe(true); expect(n.share, `stop ${n.i} tappable`).toBeGreaterThan(0.9); expect(n.pe).toBe('none'); expect(n.nick, `stop ${n.i}'s stars off the other stops`).toBeLessThan(5); expect(n.in).toBe(true); }
+    await page.screenshot({ path: `${process.env.KG_SHOTS_DIR}/fb1-phone/${test.info().project.name}-road-won.png` });
+    // a real finger on 6 opens 1-6 (it opened 1-7 at 844×390)
+    await page.touchscreen.tap(r[5].x, r[5].y); await expect(page.locator('.gf-pv__no')).toHaveText('1-6');
+    // 墨子 on 2-1 (the stop under the 🏠 and the title) stands clear of both
+    await page.locator('.gf-back').click(); await page.waitForTimeout(700);
+    await page.locator('.gf-tabs button[data-v="2"]').click(); await page.waitForTimeout(700);
+    const mk = await page.evaluate(() => { const a = document.querySelector('.xg-node__marker')!.getBoundingClientRect(); const ov = (b: DOMRect): number => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+      const r = document.createRange(); r.selectNodeContents(document.querySelector('.gf-map__head')!); // the title's letters
+      const k = document.querySelector('.kit-back')!.getBoundingClientRect(); const c = { x: k.left + k.width / 2, y: k.top + k.height / 2 }; // the round 🏠
+      const toBack = Math.hypot(Math.max(a.left - c.x, 0, c.x - a.right), Math.max(a.top - c.y, 0, c.y - a.bottom)) - k.width / 2;
+      return { head: ov(r.getBoundingClientRect()), toBack, top: a.top }; });
+    expect(mk.head, '墨子 off the title').toBeLessThan(20); expect(mk.toBack, '墨子 off the 🏠').toBeGreaterThan(-2); expect(mk.top).toBeGreaterThanOrEqual(0);
+    expect(errors).toEqual([]);
+  });
+
+  test('设置 with every scene seen, and 亮招 at its fullest (2-10: 8 machines, 7 slots, 13 cards) fit (QA fb1 r2)', async ({ page }) => {
+    test.setTimeout(60_000);
+    const all = [...V1, '1-11', '2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7', '2-8', '2-9', '2-10', '2-11'];
+    const errors = await open(page, won(all, { current: '2-11', story: ['prologue', 'dock', 'map.guide', 'map.night', 'tut.1-1', 'v1end', 'v2open', 'v2end'] })); const vp = page.viewportSize()!;
+    await page.locator('.gf-map__gear').click(); await page.waitForTimeout(600);
+    const set = await boxes(page, ['.gf-set__row', '.gf-set__chips .xg-btn', '.gf-set .xg-modal__close', '.gf-set__note', '.gf-set .xg-ribbon']);
+    expect(set.filter((x) => x.sel === '.gf-set__chips .xg-btn').length).toBe(6); // 新手教学 + the five scenes
+    for (const x of set) { expect(inside(x, vp.width, vp.height), `设置: ${x.sel} on screen ${JSON.stringify(x)}`).toBe(true); if (!/note|ribbon/.test(x.sel)) expect(Math.min(x.w, x.h)).toBeGreaterThanOrEqual(44); }
+    // ✕ sits clear of every row and switch
+    const shut = set.find((x) => x.sel === '.gf-set .xg-modal__close')!; for (const x of set.filter((y) => /row|chips/.test(y.sel))) expect(meet(shut, x), `✕ × ${x.sel}`).toBe(false);
+    await page.screenshot({ path: `${process.env.KG_SHOTS_DIR}/fb1-phone/${test.info().project.name}-settings-all.png` });
+    await page.locator('.gf-set .xg-modal__close').click(); await page.waitForTimeout(400);
+    for (const id of ['2-10', '1-8']) {
+      await page.evaluate((id) => (window as any).__gfApp.preview(id), id); await page.waitForTimeout(id === '1-8' ? 6000 : 3300); // (1-8: 鲁班 has said his line)
+      const pv = await page.evaluate(() => {
+        const R = (e: Element): DOMRect => e.getBoundingClientRect(); const meet = (a: DOMRect, b: DOMRect): boolean => a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+        const go = R(document.querySelector('.gf-pv__go')!), say = R(document.querySelector('.gf-pv__say')!), t = R(document.querySelector('.gf-pv__table')!), pane = document.querySelector<HTMLElement>('.gf-pv__deck')!;
+        const ms = [...document.querySelectorAll<HTMLElement>('.gf-pv__m')].map((e) => { const b = R(e), n = e.querySelector('span')!;
+          return { w: e.dataset.word, go: meet(b, go), say: meet(b, say), out: b.left < t.left || b.right > t.right || b.top < t.top || b.bottom > t.bottom, cut: n.scrollWidth > n.clientWidth + 1, art: R(e.querySelector('canvas')!).width }; });
+        const cards = [...document.querySelectorAll('.gf-poolcard, .gf-slot')].map((e) => { const b = R(e); return { pool: e.classList.contains('gf-poolcard'), w: b.width, h: b.height, in: b.left >= 0 && b.right <= innerWidth && b.top >= 0 && b.bottom <= innerHeight }; });
+        const bonus = R(document.querySelector('.gf-pv__bonus')!);
+        return { ms, cards, fits: pane.scrollHeight <= pane.clientHeight + 1, bonusIn: bonus.top >= 0 && bonus.bottom <= innerHeight };
+      });
+      for (const m of pv.ms) { expect(m.go || m.say || m.out || m.cut, `${m.w}: clear of 开始推演 / the bubble, inside the table, name whole`).toBe(false); expect(m.art).toBeGreaterThanOrEqual(28); }
+      for (const c of pv.cards) { expect(c.in).toBe(true); if (c.pool) expect(Math.min(c.w, c.h)).toBeGreaterThanOrEqual(44); }
+      expect(pv.fits, `${id}: the deck fits its panel`).toBe(true); expect(pv.bonusIn).toBe(true);
+      await page.screenshot({ path: `${process.env.KG_SHOTS_DIR}/fb1-phone/${test.info().project.name}-preview-${id}.png` });
+      await page.locator('.gf-back').click(); await page.waitForTimeout(600);
+    }
     expect(errors).toEqual([]);
   });
 
