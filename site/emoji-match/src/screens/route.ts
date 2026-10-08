@@ -127,8 +127,16 @@ export class RouteScreen {
     // parked just above its stop (top row: just below, under the label)
     const top = p.row === rows.length - 1;
     // narrow windows (Split View / Slide Over): keep the parked ship inside the frame
-    ship.style.left = `${Math.min(W - (land ? 104 : 130), Math.max(land ? 104 : 130, p.x + (land && k0(p) ? 46 : 0)))}px`;
-    ship.style.top = `${p.y + (top ? 150 : -122)}px`;
+    if (Math.min(W, H) < 600) {
+      // phones: a small ship docked on the current planet's shoulder (rows are too close to hover between)
+      const right = p.x > W * 0.7;
+      ship.style.left = `${Math.min(W - 40, Math.max(40, p.x + (right ? -34 : 34)))}px`;
+      ship.style.top = `${p.y - 30}px`;
+      ship.classList.toggle('is-flip', right);
+    } else {
+      ship.style.left = `${Math.min(W - (land ? 104 : 130), Math.max(land ? 104 : 130, p.x + (land && k0(p) ? 46 : 0)))}px`;
+      ship.style.top = `${p.y + (top ? 150 : -122)}px`;
+    }
     ship.classList.toggle('is-small', land);
     this.el.querySelector('.em-continue')!.addEventListener('click', () => this.app.go({ s: 'card', id: next, back: 'route' }));
     this.el.querySelector('.em-route__hangar')!.addEventListener('click', () => this.app.go({ s: 'hangar' }));

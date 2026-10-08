@@ -49,7 +49,7 @@ export function installTestHook(ctx: AppCtx, app: () => App | null): void {
     ghost: () => !!document.querySelector('.em-ghost:not([hidden])'),
     hintCells: () => { const p = play(); return p?.scene.hintCells ? [...p.scene.hintCells] : null; },
     /** spec §2.6: show the first-run dock cutscene (screenshots); resolves when it ends */
-    cutscene: () => import('../screens/cutscene').then((m) => m.playCutscene(ctx)),
+    cutscene: () => import('../screens/cutscene').then((m) => m.playCutscene(ctx, { force: true })),
     goals: () => [...document.querySelectorAll('.em-goal__n')].map((e) => e.textContent ?? ''),
     /** V12 silhouettes on the real sprites: pairwise IoU of the six gem alpha masks at cell 76 × DPR 2 */
     art: async () => {

@@ -52,7 +52,7 @@ export class MapScreen {
     marker.className = 'em-map__marker';
     marker.innerHTML = shipSvg(installed(this.app), { flame: false });
     requestAnimationFrame(() => {
-      const btns = nodeMap(host, nodes, { marker, pad: 64, onPick: (n) => { if (n.state === 'locked') { void this.app.voice.say('em.route.locked'); return; } this.app.go({ s: 'card', id: n.id, back: 'map' }); } });
+      const btns = nodeMap(host, nodes, { marker, pad: Math.min(li.width, li.height) < 600 ? 34 : 64, onPick: (n) => { if (n.state === 'locked') { void this.app.voice.say('em.route.locked'); return; } this.app.go({ s: 'card', id: n.id, back: 'map' }); } });
       this.puzzleNode(host, btns, land);
       const mk = host.querySelector<HTMLElement>('.xg-node__marker'), bar = this.el.querySelector<HTMLElement>('.em-topbar');
       if (mk && bar && mk.getBoundingClientRect().top < bar.getBoundingClientRect().bottom + 24) mk.classList.add('is-beside');

@@ -6,7 +6,7 @@
  * the level card's "i" button or the hangar. A booster card grants that booster the first time
  * (spec §5.5: drill-intro / tractor-intro / ion-intro, idempotent).
  */
-import { bindPress, icon } from '@kit/ui';
+import { bindPress, icon, mountSkipButton, shouldAutoSkip } from '@kit/ui';
 import { INTROS, LINES, type IntroData } from '../content';
 import { applyBooster, applyMove, assignUids, newGame, parseLevel, type GameState } from '../core';
 import { stepToOp } from '../core/expect';
@@ -185,12 +185,14 @@ class IntroPlayer {
 
 /**
  * Show the card; resolves when the child taps 知道了. `first` = the automatic first showing (marks
- * it seen, applies the booster grant and speaks a grant line).
+ * it seen, applies the booster grant and speaks a grant line); it also carries the kit's 跳过, and the
+ * parent's 跳过开场和教学 switch skips it outright (seen + granted, replayable from the "i" / hangar).
  */
 export function showIntroCard(app: AppCtx, id: string, o: { first?: boolean } = {}): Promise<void> {
   const it = INTROS.find((x) => x.id === id);
   if (!it) return Promise.resolve();
   if (o.first) markIntroSeen(app, id);
+  if (o.first && shouldAutoSkip()) return Promise.resolve();
   const g = INTRO_GRANTS[id];
   const showMoves = id === 'tap' || !!g;
   return new Promise((resolve) => {
@@ -235,8 +237,11 @@ export function showIntroCard(app: AppCtx, id: string, o: { first?: boolean } = 
     })();
     const onResize = () => fit();
     window.addEventListener('resize', onResize);
-    scrim.querySelector('[data-act="ok"]')!.addEventListener('click', () => {
+    let unskip = () => {};
+    const close = () => {
+      if (!open) return;
       open = false;
+      unskip();
       window.removeEventListener('resize', onResize);
       player.destroy();
       app.voice.stop();
@@ -244,6 +249,8 @@ export function showIntroCard(app: AppCtx, id: string, o: { first?: boolean } = 
       scrim.classList.add('is-leaving');
       window.setTimeout(() => scrim.remove(), 240);
       resolve();
-    });
+    };
+    scrim.querySelector('[data-act="ok"]')!.addEventListener('click', close);
+    if (o.first) unskip = mountSkipButton(document.body, close, { className: 'em-skip' });
   });
 }

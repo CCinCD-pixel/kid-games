@@ -565,3 +565,238 @@ body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { bottom: calc(ma
 body:not(:has(.xg-scrim)) .xg-confetti { opacity: 0; transition: opacity .2s ease-out; }
 /* QA r2: the star row under a map node sits on a dark pill, so it never merges with the dotted road */
 .em-map .xg-node__stars { z-index: 2; padding: 2px 8px 5px; border-radius: 999px; line-height: 1; background: rgba(18, 14, 48, .82); box-shadow: 0 0 0 1.5px rgba(255, 224, 138, .35), 0 3px 8px rgba(0, 0, 0, .3); }
+
+/* 跳过 (kit) during a masked lesson / the puzzle's H3 demo: it takes the top-right corner, so the pause
+   button (and on a phone in portrait the level chip) steps aside until the lesson ends */
+.em-play.is-lesson .em-hud:is([data-orientation="portrait"], [data-size="phone"]) .em-pause { visibility: hidden; }
+.em-play.is-lesson .em-hud[data-size="phone"][data-orientation="portrait"] .em-chip { visibility: hidden; }
+
+/* ------------------------------------------------------------------ phones (Dad's feedback 2026-10-08)
+   "phone" = the shorter side < 600 px. The play HUD gets data-size="phone" from layout.ts; menu screens use
+   the same media queries as the hub: (orientation: portrait) and (max-width: 599px) /
+   (orientation: landscape) and (max-height: 599px). iPad rules above stay untouched. */
+.em-hud[data-size="phone"] .em-chip__txt { height: 40px; padding: 0 12px; gap: 4px; font-size: 16px; letter-spacing: .02em; }
+.em-hud[data-size="phone"] .em-chip .xg-num { font-size: 17px; }
+.em-hud[data-size="phone"] .em-chip { overflow: hidden; }
+.em-hud[data-size="phone"] .em-pause { width: 48px; height: 48px; min-width: 48px; min-height: 48px; }
+.em-hud[data-size="phone"] .em-pause .xg-icon { width: 24px; height: 24px; }
+.em-hud[data-size="phone"] .em-moves { box-shadow: 0 4px 0 #c9b78f, 0 10px 16px -8px rgba(2, 4, 15, .7), inset 0 2px 0 rgba(255, 255, 255, .8); }
+.em-hud[data-size="phone"] .em-moves b { font-size: 30px; }
+.em-hud[data-size="phone"] .em-moves span { font-size: 13px; letter-spacing: .04em; }
+.em-hud[data-size="phone"] .em-goal { grid-template-columns: none; justify-items: center; align-content: center; padding: 0; gap: 0; border-radius: 16px; }
+.em-hud[data-size="phone"] .em-goal__icon { width: 32px; height: 32px; }
+.em-hud[data-size="phone"] .em-goal__n { font-size: 22px; }
+.em-hud[data-size="phone"] .em-goal__check { border-radius: 16px; }
+.em-hud[data-size="phone"] .em-goal__check .xg-icon { width: 32px; height: 32px; }
+.em-hud[data-size="phone"] .em-tool { border-radius: 18px; box-shadow: 0 4px 0 #10164a, 0 10px 16px -8px rgba(2, 4, 15, .7), inset 0 2px 0 rgba(255, 255, 255, .18); }
+.em-hud[data-size="phone"] .em-tool__icon { width: 38px; height: 38px; }
+.em-hud[data-size="phone"] .em-tool:has(.em-tool__label) .em-tool__icon { width: 28px; height: 28px; margin-top: -12px; }
+.em-hud[data-size="phone"] .em-tool__label { font-size: 13px; letter-spacing: .02em; bottom: 3px; }
+.em-hud[data-size="phone"] .em-tool__count { top: -6px; right: -6px; min-width: 24px; height: 24px; padding: 0 5px; font-size: 14px; }
+.em-hud[data-size="phone"] .em-sub-lane .kit-subtitle.is-docked { font-size: 16px; line-height: 1.35; padding: 4px 4px 4px 14px; min-height: 0; gap: 8px; flex-wrap: nowrap; border-radius: 28px; }
+.em-hud[data-size="phone"][data-orientation="landscape"] .em-sub-lane .kit-subtitle.is-docked { flex-wrap: wrap; border-radius: 20px; padding: 10px 10px 10px 14px; }
+.em-hud[data-size="phone"] .em-sub-lane .kit-subtitle.is-docked .kit-subtitle__replay { min-width: 48px; width: 48px; height: 48px; }
+.em-hud[data-size="phone"] .em-sub-lane .kit-subtitle.is-docked .kit-subtitle__replay .xg-icon { width: 24px; height: 24px; }
+.em-hud[data-size="phone"] .em-dirkey { width: 52px; height: 52px; border-radius: 16px; }
+.em-hud[data-size="phone"] .em-callout { font-size: 30px; padding: 6px 16px 9px; border-radius: 14px; }
+.em-hud[data-size="phone"] .em-callout--chain b { font-size: 38px; }
+.em-hud[data-size="phone"] .em-callout--chain span { font-size: 18px; }
+.em-hud[data-size="phone"] .em-callout--info { font-size: 24px; }
+.em-hud[data-size="phone"] .em-callout.is-big { font-size: 36px; }
+.em-hud[data-size="phone"] .em-callout--chain.is-big b { font-size: 48px; }
+
+/* phones: every screen and modal (portrait + landscape) */
+@media (orientation: portrait) and (max-width: 599px), (orientation: landscape) and (max-height: 599px) {
+  /* kit modals on this page (level card, intro card, result, pause, hangar cards, parent) */
+  .xg-scrim { padding: 12px; }
+  .xg-modal { padding: 42px 16px 16px; border-radius: 26px; max-height: 100%; }
+  .xg-ribbon { top: -22px; height: 52px; min-width: 0; max-width: calc(100% + 24px); padding: 0 40px; font-size: 22px; letter-spacing: .04em; }
+  .xg-ribbon::after { inset: 14px 0 -5px; }
+  .xg-modal__title { font-size: 24px; margin-bottom: 4px; }
+  .xg-modal__text { font-size: 17px; line-height: 1.45; margin-bottom: 8px; }
+  .xg-modal__actions { gap: 10px; margin-top: 12px; }
+  .xg-btn { --h: 52px; --fs: 18px; --px: 18px; --depth: 4px; }
+  .xg-btn--lg { --h: 56px; --fs: 20px; --px: 24px; --depth: 5px; }
+  .xg-result-stars { height: 78px; margin: -4px 0 4px; }
+  .xg-rstar { width: 58px; height: 58px; }
+  .xg-rstar:nth-child(2) { width: 74px; height: 74px; transform: translateY(-8px); }
+  .xg-stat { min-width: 92px; padding: 8px 10px 6px; }
+  .xg-stat b { font-size: 26px; }
+  .xg-stat span { font-size: 13px; }
+  .em-result-bubble { min-height: 64px; }
+  .em-badge-won__badge { width: 84px; height: 84px; }
+  .em-pause-toggles { gap: 8px; }
+  .em-toggle { min-height: 84px; padding: 8px 4px; font-size: 15px; gap: 4px; }
+
+  /* floating subtitle (menu screens): smaller, under the 🏠 row so it never covers the bottom buttons */
+  .em-subbar:not(.is-docked) { font-size: 17px; padding: 6px 6px 6px 16px; gap: 8px; max-width: calc(100vw - 24px); }
+  .em-subbar:not(.is-docked) .kit-subtitle__replay { min-height: 44px; font-size: 15px; padding: 0 12px; }
+  body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked), body:has(#app[data-screen="map"]) .em-subbar:not(.is-docked), body:has(#app[data-screen="hangar"]) .em-subbar:not(.is-docked) { bottom: auto; top: calc(max(12px, env(safe-area-inset-top, 0px)) + 64px); }
+  /* the level card and intro card own the screen: no floating copy behind them */
+  body:has(.em-card-scrim) .em-subbar:not(.is-docked) { top: auto; bottom: max(8px, env(safe-area-inset-bottom, 0px)); }
+
+  /* route (S1) */
+  .em-route__title span { font-size: 28px; padding-top: 6px; }
+  .em-stop { width: 76px; height: 92px; margin: -32px 0 0 -38px; }
+  .em-stop .em-planet { width: 64px; height: 64px; }
+  .em-stop__name { font-size: 15px; }
+  .em-stop__sign { top: 20px; padding: 2px 6px; font-size: 13px; border-radius: 8px; }
+  .em-stop__sign .xg-icon { width: 18px; height: 18px; }
+  .em-route__ship, .em-route__ship.is-small { width: 64px; margin: -16px 0 0 -32px; }
+  .em-route__ship.is-flip svg { transform: scaleX(-1); }
+  .em-continue { min-height: 56px; font-size: 20px; bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 66px); }
+  .em-continue b { font-size: 22px; }
+  .em-route__hangar, .em-route__free { min-height: 52px; font-size: 17px; padding-inline: 16px; bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  .em-route__hangar { left: calc(12px + env(safe-area-inset-left, 0px)); }
+  .em-route__free { right: calc(12px + env(safe-area-inset-right, 0px)); }
+
+  /* top bar (map, hangar): icon-only 航线 button, compact chips */
+  .em-topbar { gap: 8px; left: calc(var(--em-home-r, 116px) + 8px); right: calc(12px + env(safe-area-inset-right, 0px)); }
+  .em-upbtn { min-height: 52px; min-width: 52px; padding: 0 12px; }
+  .em-upbtn > span:not(.xg-icon) { display: none; }
+  .em-topbar .em-chip { height: 40px; padding: 0 12px; font-size: 16px; letter-spacing: .02em; }
+  .em-topbar .em-chip .xg-num { font-size: 16px; }
+  .em-chip--stars .xg-icon { width: 20px; height: 20px; }
+
+  /* episode map (S2) */
+  .em-map__nodes { left: 8px; right: 8px; top: calc(env(safe-area-inset-top, 0px) + 76px); bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); }
+  .em-map .xg-node { --s: 50px; font-size: 22px; }
+  .em-map .xg-node--current { --s: 60px; font-size: 26px; }
+  .em-map .xg-node .xg-icon { font-size: 22px; }
+  .em-map .xg-node .xg-stars { font-size: 13px; }
+  .em-map__marker { width: 64px; margin-top: -14px; }
+  .em-pnode { width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 16px; }
+  .em-pnode svg { width: 30px; height: 30px; }
+  .em-pnode .xg-icon { width: 24px; height: 24px; }
+
+  /* level card (S3) */
+  .em-card { width: min(420px, 100%); gap: 10px; padding-top: 44px; }
+  .em-card__info { top: 10px; right: 10px; width: 48px; height: 48px; }
+  .em-card__id { font-size: 44px; }
+  .em-card__goals { gap: 10px; }
+  .em-card__goal { padding: 8px 12px 6px; border-radius: 18px; }
+  .em-card__icon { width: 52px; height: 52px; }
+  .em-card__goal b { font-size: 28px; }
+  .em-card__moves b { font-size: 30px; }
+  .em-card__moves span { font-size: 17px; }
+  .em-card__actions { gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .em-card__go { min-height: 56px; min-width: 140px; font-size: 22px; }
+  .em-assist-row { font-size: 15px; flex-wrap: wrap; gap: 4px; }
+  .em-assist-row .xg-icon { width: 22px; height: 22px; }
+  .em-mini { width: 32px; height: 32px; }
+
+  /* intro card (S3a) */
+  .em-intro { width: min(440px, 100%); gap: 10px; padding: 12px 12px 12px; }
+  .em-intro__anim { height: auto; aspect-ratio: 4 / 3; max-height: 46vh; padding: 10px; gap: 8px; border-radius: 18px; }
+  .em-intro__side { width: 64px; gap: 10px; }
+  .em-intro__moves { width: 56px; height: 56px; }
+  .em-intro__moves b { font-size: 24px; }
+  .em-intro__tool { width: 56px; height: 56px; border-radius: 18px; }
+  .em-intro__tool svg { width: 40px; height: 40px; }
+  .em-intro__dir { width: 48px; height: 48px; }
+  .em-intro__dir svg { width: 32px; height: 32px; }
+  .em-intro__energy { width: 60px; height: 60px; }
+  .em-intro__foot { flex-wrap: wrap; justify-content: center; gap: 8px; min-height: 0; }
+  .em-intro__lane { flex: 1 1 100%; }
+  .em-intro__lane .kit-subtitle.is-docked { font-size: 16px; padding: 4px 4px 4px 14px; gap: 6px; }
+  .em-intro__lane .kit-subtitle__replay { min-height: 44px; font-size: 14px; padding: 0 10px; }
+  .em-intro__ok { min-height: 52px; min-width: 132px; font-size: 20px; }
+
+  /* hangar (S9): ship + modules on top, the book below; the page scrolls inside itself on a phone */
+  .em-hangar__ship { top: calc(env(safe-area-inset-top, 0px) + 72px); height: auto; gap: 6px; }
+  .em-hangar__art { width: min(240px, 60vw); }
+  .em-hangar__mods { gap: 6px; max-width: 100%; padding: 0 8px; }
+  .em-mod { min-height: 44px; font-size: 14px; padding: 0 10px 0 8px; gap: 6px; }
+  .em-mod i { width: 16px; height: 16px; }
+  /* the dashed "next batch" teasers need a tablet's room */
+  .em-hangar .em-mod.is-future, .em-hangar .em-hangar__next { display: none; }
+  .em-tabs { gap: 6px; flex-wrap: nowrap; }
+  .em-tab { flex: 1 1 0; min-width: 0; justify-content: center; min-height: 48px; padding: 0 6px; gap: 4px; font-size: 15px; white-space: nowrap; }
+  .em-tab .xg-icon { width: 20px; height: 20px; }
+  .em-hangar__page { padding: 10px; border-radius: 20px; overflow-y: auto; -webkit-overflow-scrolling: touch; align-content: start; }
+  .em-grid { gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .em-grid--sky, .em-grid--tools, .em-grid--badges { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .em-item { min-width: 0; }
+  .em-item { font-size: 15px; padding: 8px; border-radius: 16px; }
+
+  /* arrival (S8) */
+  .em-arrival { --lane-h: 64px; }
+  .em-arr__dest { top: calc(env(safe-area-inset-top, 0px) + 72px); font-size: 18px; gap: 2px; }
+  .em-arr__dest svg { width: 72px; height: 72px; }
+  .em-arr__bot { top: calc(env(safe-area-inset-top, 0px) + 72px); }
+  .em-arr__bot .kit-companion { width: 64px !important; height: 64px !important; }
+  .em-arr__lane { left: 8px; right: 8px; min-height: 56px; }
+  .em-arr__lane .kit-subtitle.is-docked { font-size: 16px; padding: 4px 4px 4px 14px; }
+  .em-arr__lane .kit-subtitle__replay { min-height: 44px; font-size: 14px; padding: 0 10px; }
+  .em-arr__panel { padding: 0 10px; }
+  .em-arr__card { gap: 10px; padding: 38px 14px 14px; }
+  .em-arr__actions { gap: 8px; }
+  .em-arr__actions .xg-btn { min-height: 52px; }
+  .em-paint { gap: 10px; }
+  .em-paint__card { width: auto; flex: 1 1 0; min-width: 0; max-width: 200px; padding: 10px 8px 10px; border-radius: 20px; }
+  .em-paint__ship { width: 100%; }
+  .em-paint__card b { font-size: 18px; }
+  .em-paint--modal .em-paint__card { width: auto; }
+  .em-kcard__text { font-size: 17px; line-height: 1.6; }
+  .em-stop__line { font-size: 22px; }
+  .em-talk { padding: 8px 12px; gap: 8px; font-size: 15px; }
+  .em-ending__stop { width: 80px; font-size: 14px; }
+  .em-ending__stop svg { width: 60px; height: 60px; }
+
+  /* first-run cutscene + gate art */
+  .em-cut__ship { width: min(300px, 80vw); }
+}
+/* phone portrait: modals start below the 🏠 button (the ribbon must not slide under it) */
+@media (orientation: portrait) and (max-width: 599px) {
+  .xg-scrim { padding-top: calc(max(12px, env(safe-area-inset-top, 0px)) + 82px); place-items: start center; }
+  .em-route__title { justify-content: center; padding-left: calc(var(--em-home-r, 116px) + 4px); padding-right: 8px; }
+  .em-hangar__book { top: auto; height: calc(100% - 340px - env(safe-area-inset-top, 0px)); min-height: 220px; left: 8px; right: 8px; bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); gap: 8px; }
+  .em-arr__ship { width: min(240px, 64vw); top: 30%; }
+  .em-arrival.has-panel .em-arr__ship { top: calc(env(safe-area-inset-top, 0px) + 132px); width: min(170px, 48vw); }
+  .em-arr__panel { top: calc(env(safe-area-inset-top, 0px) + 200px); }
+  .em-arrival.has-panel .em-arr__dest { opacity: 0; }
+  /* map / hangar: the top bar is a full-width row under 🏠 (next to it there is no room on a phone) */
+  .em-topbar { top: calc(max(12px, env(safe-area-inset-top, 0px)) + 64px); left: calc(12px + env(safe-area-inset-left, 0px)); }
+  .em-upbtn > span:not(.xg-icon) { display: inline; }
+  .em-map__nodes { top: calc(env(safe-area-inset-top, 0px) + 136px); }
+  /* hangar: ship + modules, then the book filling the rest (flow layout; the book page scrolls) */
+  .em-hangar { display: flex; flex-direction: column; gap: 8px; padding: calc(max(12px, env(safe-area-inset-top, 0px)) + 124px) 8px calc(env(safe-area-inset-bottom, 0px) + 8px); }
+  .em-hangar__ship { position: relative; inset: auto; height: auto; flex: none; }
+  .em-hangar__art { width: min(170px, 46vw); }
+  .em-hangar__book { position: relative; inset: auto; height: auto; min-height: 0; flex: 1 1 0; }
+  body:has(#app[data-screen="map"]) .em-subbar:not(.is-docked), body:has(#app[data-screen="hangar"]) .em-subbar:not(.is-docked) { top: calc(max(12px, env(safe-area-inset-top, 0px)) + 124px); }
+}
+@media (orientation: portrait) and (max-width: 374px) {
+  .em-tab .xg-icon { display: none; }
+}
+/* phone landscape: short screen — modals hug the top, two-column cards where it helps */
+@media (orientation: landscape) and (max-height: 599px) {
+  .xg-scrim { padding: 30px 12px 8px; }
+  .xg-modal { width: min(560px, 100%); }
+  .em-card { width: min(600px, 100%); grid-template-columns: auto auto; column-gap: 20px; align-items: center; padding-top: 36px; }
+  .em-card > .em-card__id, .em-card > .em-card__moves { grid-column: 1; }
+  .em-card > .em-card__goals { grid-column: 2; grid-row: 1 / span 2; }
+  .em-card > .em-assist-row, .em-card > .em-card__actions { grid-column: 1 / -1; }
+  .em-intro { width: min(640px, 100%); grid-template-columns: 1fr 200px; align-items: center; }
+  .em-intro__anim { aspect-ratio: auto; height: calc(100vh - 70px); max-height: 300px; }
+  .em-intro__foot { flex-direction: column; align-items: stretch; }
+  .em-intro__lane .kit-subtitle.is-docked { flex-wrap: wrap; justify-content: flex-end; border-radius: 20px; padding: 10px; }
+  .em-intro__lane .kit-subtitle__text { flex-basis: 100%; }
+  .em-hangar__ship { right: 50%; top: calc(env(safe-area-inset-top, 0px) + 72px); bottom: 8px; align-content: center; }
+  .em-hangar__art { width: min(170px, 22vw); }
+  .em-hangar__mods { gap: 4px; }
+  .em-hangar__book { left: 50%; right: calc(8px + env(safe-area-inset-right, 0px)); top: calc(env(safe-area-inset-top, 0px) + 72px); bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); height: auto; gap: 8px; }
+  .em-arr__ship, .em-arrival.has-panel .em-arr__ship { width: min(220px, 26vw); top: 52%; }
+  .em-arr__dest { top: calc(env(safe-area-inset-top, 0px) + 12px); }
+  .em-arr__dest svg { width: 56px; height: 56px; }
+  .em-arr__bot { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px + var(--lane-h) + 6px); }
+  .em-arr__panel { top: calc(env(safe-area-inset-top, 0px) + 28px); bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); width: 56%; }
+  .em-arrival.is-textcard .em-arr__panel { bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); }
+  .em-arr__lane { right: 57%; }
+  .em-arr__card { padding-top: 32px; }
+  .em-kcard__art { max-height: 120px; }
+  .em-kcard__art svg { height: 120px; width: auto; margin: 0 auto; }
+  .em-sky__card svg { max-height: 130px; }
+  .em-route__bar { left: calc(12px + env(safe-area-inset-left, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); gap: 10px; }
+  .em-continue { right: calc(12px + env(safe-area-inset-right, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+}

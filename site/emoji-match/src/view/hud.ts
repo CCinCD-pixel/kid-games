@@ -66,10 +66,11 @@ export class Hud {
   }
   layout(l: PlayLayout): void {
     this.root.dataset.orientation = l.orientation;
+    this.root.dataset.size = l.size;
     place(this.chip, l.chip); place(this.pause, l.pause); place(this.moves, l.moves); place(this.head, l.head); place(this.sub, l.sub);
     l.goals.forEach((r, k) => { if (this.goals[k]) place(this.goals[k], r); });
     if (l.tools) { place(this.tools, l.tools); this.tools.hidden = false; } else this.tools.hidden = true;
-    l.toolBtns.forEach((r, k) => { const b = this.tools.children[k] as HTMLElement | undefined; if (b) { b.style.left = `${r.x - l.tools!.x}px`; b.style.top = '0px'; } });
+    l.toolBtns.forEach((r, k) => { const b = this.tools.children[k] as HTMLElement | undefined; if (b) { b.style.left = `${r.x - l.tools!.x}px`; b.style.top = '0px'; b.style.width = `${r.w}px`; b.style.height = `${r.h}px`; } });
     place(this.aimbar, l.sub);
     this.callouts.style.left = `${l.panel.x}px`; this.callouts.style.width = `${l.panel.w}px`;
     this.callouts.style.top = `${l.panel.y + Math.min(l.panel.h * 0.3, 160)}px`;

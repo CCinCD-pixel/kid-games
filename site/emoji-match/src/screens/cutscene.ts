@@ -1,9 +1,11 @@
 /**
  * First-run cutscene (spec §2.6 "~2 s", review D3): 4 s, no words on screen. 星晶号 is moored at the
  * 星港 dock with its engine lamps dark; the navigator (companion head) peeks out over the hull and
- * waves while em.start.1 plays. A tap after 0.8 s skips it. Shown once, before the first 1-01 board.
+ * waves while em.start.1 plays. A tap after 0.8 s (or the kit's 跳过) skips it; the parent's 跳过开场和教学
+ * switch never shows it. Shown once, before the first 1-01 board.
  */
 import { mount as mountCompanion } from '@kit/companion';
+import { mountSkipButton, shouldAutoSkip } from '@kit/ui';
 import type { AppCtx } from '../ctx';
 import { shipSvg } from '../view/art/ship';
 import { backdrop } from '../view/backdrop';
@@ -17,7 +19,8 @@ const DOCK = `<svg class="em-cut__dock" viewBox="0 0 400 90" preserveAspectRatio
   <g stroke="#2a3478" stroke-width="3">${[70, 150, 230, 310].map((x) => `<path d="M${x} 34V90"/>`).join('')}</g>
 </svg>`;
 
-export function playCutscene(app: AppCtx): Promise<void> {
+export function playCutscene(app: AppCtx, o: { force?: boolean } = {}): Promise<void> {
+  if (!o.force && shouldAutoSkip()) return Promise.resolve();
   return new Promise((done) => {
     const land = innerWidth > innerHeight;
     const el = document.createElement('div');
@@ -34,8 +37,10 @@ export function playCutscene(app: AppCtx): Promise<void> {
     const t0 = performance.now();
     let over = false;
     const timers: number[] = [];
+    let unskip = () => {};
     const finish = () => {
       if (over) return; over = true;
+      unskip();
       timers.forEach((t) => window.clearTimeout(t));
       el.classList.add('is-leaving');
       window.setTimeout(() => { bot.destroy(); el.remove(); }, 420);
@@ -45,6 +50,7 @@ export function playCutscene(app: AppCtx): Promise<void> {
     timers.push(window.setTimeout(() => bot.setMood('happy'), 1500));
     timers.push(window.setTimeout(finish, 4000));
     el.addEventListener('pointerdown', () => { if (performance.now() - t0 > 800) finish(); });
+    unskip = mountSkipButton(document.body, () => { app.voice.stop(); finish(); }, { theme: 'night', className: 'em-skip' });
     void app.voice.say('em.start.1');
   });
 }

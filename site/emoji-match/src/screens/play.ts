@@ -5,7 +5,7 @@
  * The engine computes a whole move at once (src/core), the director replays its events; the save is
  * committed on the winning move before the bonus (review B20) and `resume` after every move/tool.
  */
-import { icon, setHintReady, showResult } from '@kit/ui';
+import { icon, mountSkipButton, setHintReady, shouldAutoSkip, showResult } from '@kit/ui';
 import { mount as mountCompanion, sayLine, type Companion } from '@kit/companion';
 import { updateHub } from '../hub';
 import {
@@ -88,6 +88,9 @@ export class PlayScreen {
   private metrics = { combos: 0, specials0: 0, maxCascade: 0, t5: [] as number[], readyAt: 0, hintSeen: 0, boosters: 0 };
   private destroyed = false;
   private skipBonus = false;
+  /** the kit's 跳过 while a masked lesson (or the puzzle's H3 demo) runs; null otherwise */
+  private unskip: (() => void) | null = null;
+  private pSkip = false;
   private resultShown = false;
   private toolUses = 0;
   private tools: ToolId[] = [];
@@ -263,17 +266,41 @@ export class PlayScreen {
     }
     const rec = this.rec();
     const ls = this.def.lesson;
-    if (ls?.mask && rec.attempts === 0 && !this.ops.length) {
+    // a lesson shows on the first attempt only; 跳过 (or the parent's 跳过开场和教学) marks it seen
+    const fresh = rec.attempts === 0 && !this.ops.length && !this.app.save.data.intros.includes(`lesson:${this.def.id}`);
+    const auto = fresh && !!ls && shouldAutoSkip();
+    if (auto) { this.lessonDone = true; this.markLessonSeen(); }
+    if (ls?.mask && fresh && !auto) {
       this.lessonOnly = true;
       this.scene.maskCells = this.lessonCells();
       this.draw();
       this.demoLesson();
-    } else if (ls && rec.attempts === 0 && !this.ops.length) this.demoLesson(true);
+      this.el.classList.add('is-lesson');
+      this.unskip = mountSkipButton(document.body, () => this.skipLesson(), { theme: 'night', className: 'em-skip' });
+    } else if (ls && fresh && !auto) this.demoLesson(true);
     // 1-01 skips the intro card on the very first run: its line is spoken on the masked board instead
-    if (this.def.intro === 'swap' && rec.attempts === 0 && !this.ops.length) say('em.intro.swap.1');
+    if (this.def.intro === 'swap' && fresh && !auto) say('em.intro.swap.1');
+    else if (this.def.intro === 'swap' && auto) { this.flashGoals(); say('em.goal.collect'); }
     else if (this.tier > 0) say(`em.assist.${this.tier}`);
     this.armHint();
   }
+  private markLessonSeen(): void {
+    const s = this.app.save.data, key = `lesson:${this.def.id}`;
+    if (!s.intros.includes(key)) { s.intros.push(key); this.app.save.commit(); }
+  }
+  /** 跳过 on a masked lesson: the whole board opens, no more demo, the lesson counts as seen */
+  private skipLesson(): void {
+    this.endLessonSkip();
+    if (!this.lessonOnly || this.destroyed) return;
+    this.lessonOnly = false; this.lessonDone = true;
+    this.scene.maskCells = null; this.ghost.stop();
+    this.markLessonSeen();
+    this.app.voice.stop();
+    this.draw();
+    if (this.def.intro === 'swap') { this.flashGoals(); void this.app.voice.say('em.goal.collect'); }
+    this.armHint();
+  }
+  private endLessonSkip(): void { this.unskip?.(); this.unskip = null; this.el.classList.remove('is-lesson'); }
   /** first run, right after the lesson swap (spec §2.6 ~10 s; review D3): the rule line, then the goal
    *  line while the goal card flashes, since the very first 1-01 skips the level card */
   private goalLesson(): void {
@@ -311,7 +338,7 @@ export class PlayScreen {
     this.board.setup(l, this.scene, li.dpr, ep);
     this.fx.resize(li.width, li.height, Math.min(2, li.dpr));
     this.fx.cellPx = l.cell;
-    this.el.style.setProperty('--em-ghost', `${Math.round(Math.max(64, l.cell * 0.9))}px`);
+    this.el.style.setProperty("--em-ghost", `${Math.round(Math.max(l.size === "phone" ? 44 : 64, l.cell * 0.9))}px`);
     this.hud.layout(l);
     this.input.setLayout(l, this.L.W, this.L.H);
     const key = `ep${ep}` as SceneKey;
@@ -352,6 +379,7 @@ export class PlayScreen {
     this.destroyed = true;
     cancelAnimationFrame(this.raf); window.clearTimeout(this.beatTimer); window.clearTimeout(this.hintTimer); window.clearInterval(this.hintLoop);
     window.clearTimeout(this.pIdle);
+    this.unskip?.(); this.unskip = null;
     this.input.destroy(); this.aim.destroy(); this.ghost.destroy(); this.bot?.destroy(); this.hud.destroy();
     this.atlas?.dispose(); this.atlas = null;
     this.board.dispose(); this.fx.dispose();
@@ -552,7 +580,7 @@ export class PlayScreen {
       this.aim.stop(); this.stage.classList.remove('is-aiming'); this.hud.showAimbar(null);
     }
     const wasMasked = this.lessonOnly;
-    if (this.lessonOnly) { this.lessonOnly = false; this.scene.maskCells = null; this.ghost.stop(); }
+    if (this.lessonOnly) { this.lessonOnly = false; this.scene.maskCells = null; this.ghost.stop(); this.endLessonSkip(); }
     if (!isTool && this.isLessonMove(op.m)) { this.lessonDone = true; this.ghost.stop(); }
     if (!isTool && this.metrics.t5.length < 5) this.metrics.t5.push(this.hintLevel ? -1 : think);
     const save = this.app.save.data;
@@ -725,17 +753,21 @@ export class PlayScreen {
   }
   /** H3: play the standard solution from the start, then back to the start for the child */
   private async puzzleH3(): Promise<void> {
-    this.pHelped = true; this.pAuto = true;
+    this.pHelped = true; this.pAuto = true; this.pSkip = false;
     void this.app.voice.say('em.puzzle.h3', { interrupt: true });
     this.rebuildPuzzle([]);
-    // QA r2: the board is locked for the whole demo (input gate checks phase AND pAuto)
+    // QA r2: the board is locked for the whole demo (input gate checks phase AND pAuto); 跳过 ends it early
     this.phase = 'ANIMATING';
+    this.unskip = mountSkipButton(document.body, () => { this.pSkip = true; this.unskip = null; this.ghost.stop(); this.app.voice.stop(); }, { theme: 'night', className: 'em-skip' });
+    this.el.classList.add('is-lesson');
     await this.wait(700);
     for (const step of this.puzzle!.solution as StepDef[]) {
       if (this.destroyed) return;
+      if (this.pSkip) break;
       const mv = stepToOp(this.st, step).move!;
       const p0 = this.cellXY(mv.a), p1 = mv.t === 'tap' ? p0 : this.cellXY(mv.b);
       await this.ghost.once(p0.x, p0.y, p1.x, p1.y);
+      if (this.pSkip || this.destroyed) break;
       const e0 = this.st.energy;
       applyMove(this.st, mv);
       const ev = this.st.log!.splice(0);
@@ -744,9 +776,12 @@ export class PlayScreen {
       this.tl.clear(); direct(ev, this.dctx(e0), 0);
       await this.run();
       this.afterAnimation();
+      if (this.pSkip) break;
       await this.wait(500);
     }
-    await this.wait(900);
+    if (!this.pSkip) await this.wait(900);
+    if (this.destroyed) return;
+    this.endLessonSkip();
     this.pAuto = false;
     this.phase = 'READY';
     this.rebuildPuzzle([]);

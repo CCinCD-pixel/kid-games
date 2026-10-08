@@ -5,8 +5,11 @@
  *   [episode 4: the v1 ending — the ship parks in the belt, the shield lights up, the camera pulls back
  *   to the route with stops 5–9 "建造中"] → stop card (em.stop.1) + a 讲给爸爸听 card → 回航线图 only
  *   (never straight into the next episode). Every step waits for a tap; nothing is timed out.
+ * 跳过 (kit, after 1.5 s) or the parent's 跳过开场和教学 switch: everything the sequence grants is kept
+ * (tools, the module in its first paint — repaintable in the hangar —, lit constellations, the arrival
+ * itself) and the child is back on the route; the cards stay in the hangar.
  */
-import { bindPress, confetti, icon } from '@kit/ui';
+import { bindPress, confetti, icon, mountSkipButton, shouldAutoSkip } from '@kit/ui';
 import { mount as mountCompanion, type Companion } from '@kit/companion';
 import { EPISODES, LEVELS, ROUTE } from '../content';
 import type { AppCtx } from '../ctx';
@@ -30,6 +33,8 @@ export class ArrivalScreen {
   private alive = true;
   private bot: Companion | null = null;
   private skip: (() => void) | null = null;
+  private unskip: (() => void) | null = null;
+  private skipped = false;
   constructor(private app: AppCtx, private ep: number) {
     this.el = document.createElement('div');
     this.el.className = 'em-screen em-arrival';
@@ -39,13 +44,29 @@ export class ArrivalScreen {
     this.app.music(true);
     this.render();
     this.el.dataset.ready = '1';
+    if (shouldAutoSkip()) { this.skipAll(); return; }
+    this.unskip = mountSkipButton(document.body, () => this.skipAll(), { theme: 'night', className: 'em-skip' });
     await this.sequence();
+  }
+  /** 跳过: settle every reward the sequence would give, then back to the route */
+  private skipAll(): void {
+    if (this.skipped || !this.alive) return;
+    this.skipped = true;
+    this.unskip?.(); this.unskip = null;
+    const s = this.app.save.data, mod = this.module;
+    grantFor(s, { k: 'arrival', ep: this.ep });
+    if (!s.cosmetics[mod]) s.cosmetics[mod] = PAINTS[mod][0];
+    for (const c of litBy(totalStars(this.app))) if (!(s.sky ??= []).includes(c.id)) s.sky.push(c.id);
+    if (!s.arrivals.includes(this.ep)) s.arrivals.push(this.ep);
+    this.app.save.commit();
+    this.app.voice.stop();
+    this.app.go({ s: 'route' });
   }
   resize(): void {
     const bg = this.el.querySelector<HTMLElement>('.em-bg'), land = this.land();
     if (bg && bg.dataset.land !== String(land)) { bg.innerHTML = backdrop(`ep${this.ep}` as SceneKey, land); bg.dataset.land = String(land); }
   }
-  destroy(): void { this.alive = false; this.bot?.destroy(); this.app.dockSub(null); this.el.remove(); }
+  destroy(): void { this.alive = false; this.unskip?.(); this.unskip = null; this.bot?.destroy(); this.app.dockSub(null); this.el.remove(); }
   private land(): boolean { const l = this.app.layout(); return l.width > l.height; }
   private get module(): ModuleKey { return EPISODES.find((e) => e.ep === this.ep)!.module as ModuleKey; }
   private render(): void {
@@ -170,6 +191,7 @@ export class ArrivalScreen {
       <div class="em-talk">${icon('parent')}<p>${this.app.voice.text(talk)}</p></div>
       <div class="em-arr__actions">${this.again()}<button class="xg-btn xg-btn--primary xg-btn--lg" data-act="route" data-sfx="ui-back">${icon('map')}<span>回航线图</span></button></div>`, 'is-stop',
     (a) => { if (a !== 'again') return false; void this.app.voice.say('em.stop.1', { interrupt: true }).then(() => this.app.voice.say(talk)); return true; }, true);
+    if (!this.alive) return;
     this.app.go({ s: 'route' });
   }
   /**
@@ -189,7 +211,7 @@ export class ArrivalScreen {
     // the S1 route itself (same serpentine as the route screen), in px of the full overlay; the camera
     // starts close on the parked ship and pulls back over the whole route (QA r2: big, not a diagram)
     const W = li.width, H = li.height;
-    const { pts, path } = routeGeom(W, H, li.safe.top, li.safe.bottom, land, { bottom: land ? 300 : 210, top: land ? 170 : 200 });
+    const { pts, path } = routeGeom(W, H, li.safe.top, li.safe.bottom, land, Math.min(W, H) < 600 ? {} : { bottom: land ? 300 : 210, top: land ? 170 : 200 });
     const here = Math.max(0, ROUTE.findIndex((r) => r.ep === 4));
     const strip = document.createElement('div');
     strip.className = 'em-ending';
