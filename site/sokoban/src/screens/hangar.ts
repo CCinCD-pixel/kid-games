@@ -412,7 +412,8 @@ export class HangarScreen implements Screen {
     again.dataset.testid = 'skill-again';
     again.innerHTML = `<span class="sok-skill__name sok-skill__name--static">${icon('restart')}<span>再看一遍</span></span><div class="sok-again"><button type="button" class="xg-btn xg-btn--secondary xg-btn--sm" data-again="opening" data-testid="again-opening">${icon('play')}<span>开场</span></button><button type="button" class="xg-btn xg-btn--secondary xg-btn--sm" data-again="lesson" data-testid="again-lesson">${icon('hand')}<span>第一课</span></button></div>`;
     again.querySelector('[data-again="opening"]')!.addEventListener('click', () => this.ctx.go({ name: 'opening', replay: { name: 'hangar', back: this.back } }));
-    again.querySelector('[data-again="lesson"]')!.addEventListener('click', () => this.ctx.go({ name: 'play', id: '0-1', fresh: true }));
+    // asked for explicitly: the teaching plays even with the parent's 跳过开场和教学 on (like 开场 above)
+    again.querySelector('[data-again="lesson"]')!.addEventListener('click', () => this.ctx.go({ name: 'play', id: '0-1', fresh: true, lesson: true }));
     this.panel.append(again);
     this.panel.querySelectorAll<HTMLElement>('[data-line]').forEach((b) => b.addEventListener('click', () => void this.strip.say(b.dataset.line!, { mood: 'happy', interrupt: true })));
   }

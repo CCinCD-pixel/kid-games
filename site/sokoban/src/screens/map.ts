@@ -145,6 +145,10 @@ export class MapScreen implements Screen {
       void this.strip.say(c?.introLine ?? 'sok.classic.intro', { mood: 'encouraging' });
     });
     this.layout(ctx.layout());
+    // the title font may arrive after the first layout: measure the title's line break again
+    document.fonts?.ready.then(() => {
+      if (!this.destroyed) this.fitTitle();
+    }, () => {});
     app(ctx).dataset.screen = 'map';
     let greeted = 0;
     try {
@@ -209,6 +213,20 @@ export class MapScreen implements Screen {
     this.render();
   }
 
+  /**
+   * "第 N 章 · 名称" on one line where it fits; where the column is too narrow and it breaks (phone
+   * landscape's side column, narrow phones) it becomes two deliberate lines — a small "第 N 章" over
+   * the name, without a "·" dangling at the end of the first line (QA fb1 r1).
+   */
+  private fitTitle(): void {
+    this.card.classList.remove('is-stacked');
+    const ch = this.card.querySelector<HTMLElement>('.sok-chcard__ch');
+    const nm = this.card.querySelector<HTMLElement>('.sok-chcard__nm');
+    // the classic tab has no chapter number; narrow portrait hides it (the emblem and the tab carry it)
+    if (!ch || !nm || !ch.getClientRects().length) return;
+    if (nm.getBoundingClientRect().top > ch.getBoundingClientRect().top + 4) this.card.classList.add('is-stacked');
+  }
+
   private render(): void {
     const save = this.ctx.save.data;
     // tabs
@@ -250,9 +268,10 @@ export class MapScreen implements Screen {
     const goal = isClassic ? (TRACKS.classic.goal ?? '') : chapter!.goal;
     const dest = isClassic ? 'tiangong' : chapter!.dest;
     this.card.innerHTML = `<span class="sok-chcard__emblem">${chapterEmblem(isClassic ? 'classic' : `ch${this.tab}`, 84)}</span>
-      <span class="sok-chcard__text"><span class="sok-chcard__name">${isClassic ? '' : `<span class="sok-chcard__ch">第 ${this.tab} 章 ·</span> `}<span class="sok-chcard__nm">${name}</span></span><span class="sok-chcard__goal">${goal}</span>
+      <span class="sok-chcard__text"><span class="sok-chcard__name">${isClassic ? '' : `<span class="sok-chcard__ch">第 ${this.tab} 章<span class="sok-chcard__dot"> ·</span></span> `}<span class="sok-chcard__nm">${name}</span></span><span class="sok-chcard__goal">${goal}</span>
       <span class="xg-pips" aria-label="通过 ${passed} / ${levels.length}">${levels.map((l) => `<i class="${levelPassed(save, l.id) ? 'on' : ''}"></i>`).join('')}</span></span>
       <span class="sok-chcard__dest">${destIcon(dest)}<span>${DEST_NAME[dest]}</span>${levels.length ? `<span class="sok-chcard__stars">${icon('star')}<b>${stars}</b><small>/${levels.length * 3}</small></span>` : ''}</span>`;
+    this.fitTitle();
     // road
     this.road.textContent = '';
     if (!levels.length) {

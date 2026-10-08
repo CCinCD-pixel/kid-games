@@ -154,7 +154,7 @@ export function boot(app: HTMLElement, params: URLSearchParams): void {
       if (isQuiz(def)) {
         app.dataset.screen = 'quiz';
         screen = new QuizScreen(ctx, def);
-      } else screen = new PlayScreen(ctx, def, { fresh: route.fresh, newChapter: route.newChapter });
+      } else screen = new PlayScreen(ctx, def, { fresh: route.fresh, newChapter: route.newChapter, lesson: route.lesson });
     } catch (err) {
       // a broken level never reaches the child (validators); if it ever did: log and go back to the map
       console.error(`[sokoban] level ${route.id} failed to start`, err);

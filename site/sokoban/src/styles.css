@@ -566,6 +566,12 @@ body { margin: 0; overflow: hidden; }
 [data-phone] .sok-chcard__text { gap: 3px; }
 [data-phone] .sok-chcard__name { font-size: 21px; }
 .sok-chcard__ch, .sok-chcard__nm { white-space: nowrap; }
+/* the title did not fit on one line (map.ts fitTitle): a small "第 N 章" over the name, no dangling "·" */
+.sok-chcard.is-stacked .sok-chcard__ch { display: block; margin-bottom: 2px; font-size: .72em; letter-spacing: .08em; color: var(--xg-ink-700); }
+.sok-chcard.is-stacked .sok-chcard__dot { display: none; }
+/* phone landscape: the side column has no height for a "第 N 章" line over a two-line goal (it was cut
+   at the card's top edge, QA fb1 r1) — the number is on the emblem and the selected tab right below */
+.sok-map[data-phone][data-orient="landscape"] .sok-chcard__ch { display: none; }
 [data-phone] .sok-chcard__goal { font-size: 15px; }
 [data-phone] .sok-chcard__dest { font-size: 13px; }
 [data-phone] .sok-dest { width: 34px; height: 34px; }

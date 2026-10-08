@@ -7,7 +7,8 @@
  * - 跳过: the opening shows the kit pill after ~1.5 s (not before), tapping it opens 0-1 with the opening
  *   seen; 0-1's ghost-hand teaching, chapter intro lines, the 自动绕路 upgrade show, a route's first
  *   (long) launch and the finale all carry the pill; the parent's 跳过开场和教学 skips them as if tapped
- *   (nothing lost: arrows on, chapter seen); 机库 → 本领 → 再看一遍 replays the opening and 0-1.
+ *   (nothing lost: arrows on, chapter seen); 机库 → 本领 → 再看一遍 replays the opening and 0-1 —
+ *   both even with the switch on (asked for on purpose).
  * The phone cases run once (iPad portrait project); they set their own viewport.
  */
 import { expect, test, type Page } from '@playwright/test';
@@ -134,6 +135,29 @@ test.describe('phones', () => {
           await fits(page, name);
         }
       });
+
+      test(`${pname}: the map's chapter card holds its lines (none cut at its edges, no "·" ending a line)`, async ({ page }) => {
+        await open(page, 'screen=map');
+        await sok(page, 'unlockAll', { rewards: true });
+        for (const tab of [0, 1, 2, 3, 4, 'classic'] as const) {
+          await sok(page, 'map', tab);
+          const bad = await page.evaluate(async () => {
+            await document.fonts.ready;
+            const card = document.querySelector('.sok-chcard')!;
+            const cr = card.getBoundingClientRect();
+            const out: string[] = [];
+            for (const e of card.querySelectorAll('.sok-chcard__ch, .sok-chcard__nm, .sok-chcard__goal, .xg-pips, .sok-chcard__dest > *')) {
+              if (!e.getClientRects().length) continue;
+              const r = e.getBoundingClientRect();
+              if (r.top < cr.top + 1 || r.bottom > cr.bottom - 1 || r.right > cr.right - 1) out.push(`cut ${(e.getAttribute('class') ?? e.tagName).split(' ')[0]}`);
+            }
+            const ch = card.querySelector('.sok-chcard__ch'), nm = card.querySelector('.sok-chcard__nm'), dot = card.querySelector('.sok-chcard__dot');
+            if (ch && nm && dot?.getClientRects().length && nm.getBoundingClientRect().top > ch.getBoundingClientRect().top + 4) out.push('· ends a line');
+            return out;
+          });
+          expect(bad, `tab ${tab}`).toEqual([]);
+        }
+      });
     });
   }
 });
@@ -179,11 +203,17 @@ test.describe('跳过', () => {
     test.setTimeout(40_000);
     await open(page, 'anim=real&level=0-1');
     await page.waitForTimeout(500);
-    // play the level (the teaching pill goes at the first push)
+    // play the level (the teaching pill goes at the first push; the launch's own pill comes with the win
+    // and stays through the flight and the arrival line)
     void sok(page, 'solve');
     await expect(page.locator('[data-testid=launch]')).toBeAttached({ timeout: 10_000 });
-    await tapSkip(page);
+    // only a shown pill: a teaching pill still fading out ('leaving') is never the one tapped
+    const shown = page.locator('.xg-skip[data-state="shown"]');
+    await expect(shown).toHaveCount(1, { timeout: 4000 });
+    await shown.click();
     await expect(page.locator('[data-testid=result]')).toBeVisible({ timeout: 3000 });
+    const marks = await sok(page, 'marks') as [string, Record<string, unknown>][];
+    expect(marks.some(([k, v]) => k === 'skip' && v.id === '0-1' && v.what === 'launch')).toBe(true);
   });
 
   test('the 自动绕路 upgrade show and chapter intro lines carry 跳过; the upgrade is granted either way', async ({ page }) => {
@@ -246,5 +276,35 @@ test.describe('跳过', () => {
     await expect.poll(() => screen(page)).toBe('play');
     await expect(page.locator('.sok-play')).toHaveAttribute('data-level', '0-1');
     await expect(skipPill(page)).toBeAttached();
+  });
+
+  test('跳过开场和教学 on: 再看一遍 → 第一课 still teaches (and its 再来一次); a plain 0-1 does not (QA fb1 r1)', async ({ page }) => {
+    test.setTimeout(40_000);
+    await page.addInitScript(() => localStorage.setItem('kg:settings:v1', JSON.stringify({ skipIntros: true })));
+    await open(page, 'anim=real&screen=map');
+    // every reward owned: no 新装备 card between the result card and the replay
+    await sok(page, 'unlockAll', { rewards: true });
+    // asked for on purpose: the teaching (and its pill) plays despite the parent switch, like 开场 does
+    await sok(page, 'hangar');
+    await page.locator('.sok-hangar__tabs button').nth(2).click();
+    await page.locator('[data-testid=again-lesson]').click();
+    await expect.poll(() => screen(page)).toBe('play');
+    await expect(page.locator('.sok-play')).toHaveAttribute('data-level', '0-1');
+    await expect(page.locator('.sok-play')).toHaveAttribute('data-skipping', '');
+    await expect(skipPill(page)).toHaveAttribute('data-state', 'shown', { timeout: 4000 });
+    // played through: 再来一次 brings the teaching again
+    void sok(page, 'solve');
+    await page.locator('.xg-scrim [data-act="again"]').click({ timeout: 15_000 });
+    await expect(page.locator('[data-testid=result]')).toHaveCount(0);
+    await expect(page.locator('.sok-play')).toHaveCount(1);
+    await expect(page.locator('.sok-play')).toHaveAttribute('data-level', '0-1');
+    await tapSkip(page);
+    const marks = await sok(page, 'marks') as [string, Record<string, unknown>][];
+    expect(marks.some(([k, v]) => k === 'skip' && v.id === '0-1' && v.what === 'teach')).toBe(true);
+    // 0-1 entered the ordinary way: the switch still skips its teaching
+    await sok(page, 'load', '0-1');
+    await page.waitForTimeout(1800);
+    await expect(skipPill(page)).toHaveCount(0);
+    await expect(page.locator('.sok-play')).not.toHaveAttribute('data-skipping', '');
   });
 });

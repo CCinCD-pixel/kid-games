@@ -10,7 +10,8 @@ import type { Visit } from './visit';
 
 export type Route =
   | { name: 'map'; tab?: number | 'classic'; opened?: number; focus?: 'coming' | 'cert'; say?: string }
-  | { name: 'play'; id: string; fresh?: boolean; newChapter?: number; def?: LevelDef }
+  /** `lesson`: 0-1 asked for again (机库 → 本领 → 再看一遍 → 第一课): its teaching plays even with 跳过开场和教学 on */
+  | { name: 'play'; id: string; fresh?: boolean; newChapter?: number; def?: LevelDef; lesson?: boolean }
   | { name: 'hangar'; back?: Route }
   | { name: 'opening'; replay?: Route };
 
