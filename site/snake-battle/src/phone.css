@@ -9,6 +9,11 @@
 .xg-skip.sb-skip { --xg-skip-top: calc(var(--sb-st) + 80px); --xg-skip-right: calc(var(--sb-sr) + 16px); }
 /* 设置 → 新手教学 · 再玩一次 */
 .sb-set__tut.xg-btn { flex: 1; min-height: 56px; }
+/* the first-run 跳过 never sits over a panel — pause, 设置, the S9 result, an unlock card (QA fb1 r1; finishMission also
+   unmounts it when a level ends) */
+body:has(.sb-scrim, .xg-scrim, .sb-unlock) .xg-skip.sb-skip { visibility: hidden; pointer-events: none; }
+/* 设置 has no lines of its own: a narration line never sits on its 好了 button (QA fb1 r1) */
+body:has(.sb-settings) .kit-subtitle { display: none; }
 
 /* ================================================================ both phone orientations */
 @media (orientation: portrait) and (max-width: 599px), (orientation: landscape) and (max-height: 599px) {
@@ -74,6 +79,15 @@
   html[data-orientation] .sb-twinchip__ic { width: 30px; height: 30px; }
   html[data-orientation] body.sb-playing .kit-subtitle { top: calc(var(--sb-st) + 176px); max-width: min(300px, calc(100vw - 24px)); font-size: 15px; padding: 5px 12px; }
   html[data-orientation] body.sb-playing:has(.sb-hud--race) .kit-subtitle { top: calc(var(--sb-st) + 218px); }
+  /* narration bar on the menus: compact (17 px, a 44 px 再听一遍) and placed per screen where it covers no control —
+     lobby: inside the showcase beside the robot; map: a band kept free under the road (portrait) or the road's empty
+     lower-right corner (landscape); 设置 and 纪录 have no lines of their own, so it hides there (QA fb1 r1) */
+  html[data-orientation] body:not(.sb-playing) .kit-subtitle { box-sizing: border-box; font-size: 17px; letter-spacing: .03em; padding: 6px 6px 6px 16px; gap: 8px; }
+  html[data-orientation] body:not(.sb-playing) .kit-subtitle__replay { min-height: 44px; font-size: 15px; padding: 0 12px; gap: 6px; }
+  html[data-orientation] body:not(.sb-playing) .kit-subtitle__replay .xg-icon { width: 20px; height: 20px; }
+  html[data-orientation] body:has(.sb-rec__grid) .kit-subtitle { display: none; }
+  /* an unlock card / the collection's big card shows the very words being read: no second copy on its top edge */
+  html[data-orientation] body:has(.sb-unlock, .sb-cbig) .kit-subtitle { display: none; }
   /* 跳过 over the first-run levels: under the pause key */
   html[data-orientation] .xg-skip.sb-skip { --xg-skip-top: calc(var(--sb-st) + 64px); --xg-skip-right: calc(var(--sb-sr) + 10px); height: 48px; min-width: 84px; font-size: 16px; padding: 0 12px 0 16px; }
   html[data-orientation] .sb-demo__tag { top: calc(var(--sb-st) + 120px); font-size: 22px; padding: 8px 18px; }
@@ -129,9 +143,13 @@
   html[data-orientation] .sb-new { font-size: 17px; padding: 8px 14px; }
   html[data-orientation] .sb-podium__actions { gap: 10px; }
   html[data-orientation] .sb-podium__actions .xg-btn { min-width: 0; min-height: 56px; height: 56px; font-size: 22px; padding: 0 10px; }
-  html[data-orientation] .sb-hero { gap: 14px; }
-  html[data-orientation] .sb-hero__head canvas, html[data-orientation] .sb-hero__head svg { width: 72px; height: 72px; }
-  html[data-orientation] .sb-hero__len b { font-size: 52px; } html[data-orientation] .sb-hero__len span { font-size: 18px; }
+  /* endless hero: the portrait (a canvas with inline px sizes, or 烛龙's two-canvas wrapper) scales down and may
+     shrink further; the peak length never shrinks or clips — 4 digits fit a 320 px phone (QA fb1 r1) */
+  html[data-orientation] .sb-hero { gap: 12px; max-width: 100%; }
+  html[data-orientation] .sb-hero__head { flex: 0 1 auto; min-width: 0; }
+  html[data-orientation] canvas.sb-hero__head, html[data-orientation] .sb-hero__head canvas { width: min(180px, 44vw) !important; height: auto !important; max-width: 100%; aspect-ratio: 2; }
+  html[data-orientation] .sb-hero__len { flex: none; }
+  html[data-orientation] .sb-hero__len b { font-size: clamp(40px, 13vw, 56px); } html[data-orientation] .sb-hero__len span { font-size: 18px; }
   html[data-orientation] .sb-cause { gap: 10px; padding: 8px 10px; margin: 2px 0 6px; }
   html[data-orientation] .sb-cause__who .sb-dc__head { width: 56px; height: 56px; }
   html[data-orientation] .sb-cause__line { font-size: 17px; margin-bottom: 4px; }
@@ -180,7 +198,7 @@
   html[data-orientation] .sb-map button:has(.xg-node__stars) .sb-node__title { transform: translate(-50%, 20px); }
   html[data-orientation] .sb-map__me, html[data-orientation] .sb-map__me svg { width: 30px; height: 30px; }
   html[data-orientation] .xg-map__path path { stroke-width: 18px; }
-  html[data-orientation] body.sb-onmap .kit-subtitle, html[data-orientation='landscape'] body.sb-onmap .kit-subtitle { max-width: min(420px, calc(100vw - 24px)); font-size: 15px; }
+  html[data-orientation] body.sb-onmap .kit-subtitle, html[data-orientation='landscape'] body.sb-onmap .kit-subtitle { max-width: min(420px, calc(100vw - 24px)); bottom: calc(var(--sb-sb) + 8px); }
 
   /* ---- story card */
   html[data-orientation] .sb-story__card { width: min(560px, calc(100vw - 28px)); padding: 22px 18px 18px; border-radius: 28px; gap: 10px; margin-top: 70px; }
@@ -280,8 +298,11 @@
   html[data-orientation] .sb-records.xg-btn { position: relative; left: auto; top: auto; flex: none; width: auto; height: 50px; min-height: 50px; margin: 10px 12px calc(10px + var(--sb-sb)); font-size: 20px; border-radius: 18px; }
   /* the robot stands in the showcase's lower-right corner, above the mode tiles */
   html[data-orientation] .sb-bot { right: calc(var(--sb-sr) + 18px); top: auto; bottom: calc(var(--sb-sb) + 226px); transform: scale(.56); transform-origin: 100% 100%; pointer-events: none; }
-  /* map: the road needs room below for the lowest node's title */
-  html[data-orientation] .sb-map__road { margin-bottom: 56px; }
+  /* the robot's lines: in the showcase's lower-left, beside the robot, clear of the mode tiles and 纪录 (QA fb1 r1) */
+  html[data-orientation] body:has(.sb-lobby) .kit-subtitle { left: calc(var(--sb-sl) + 20px); right: auto; transform: none; bottom: calc(var(--sb-sb) + 240px); max-width: calc(100vw - var(--sb-sl) - var(--sb-sr) - 100px); }
+  /* map: below the road a band for the lowest node's stars + title and, under it, the narration bar — the bar never
+     covers 1-1, the node he taps next (QA fb1 r1) */
+  html[data-orientation] .sb-map__road { margin-bottom: 100px; }
   /* S8 brief: the 看一招 clip goes under the text */
   html[data-orientation] .sb-brief__body { flex-wrap: wrap; justify-content: center; }
   html[data-orientation] .sb-brief__text { flex: 1 1 160px; }
@@ -301,6 +322,10 @@
   html[data-orientation] .sb-records.xg-btn { height: 46px; min-height: 46px; margin-top: 8px; }
   html[data-orientation] .sb-modes { row-gap: 8px; padding-top: 8px; }
   html[data-orientation] .sb-bot { bottom: calc(var(--sb-sb) + 202px); transform: scale(.48); }
+  /* the robot's line beside the smaller robot; 再听一遍 keeps its speaker icon (and its label for VoiceOver) */
+  html[data-orientation] body:has(.sb-lobby) .kit-subtitle { bottom: calc(var(--sb-sb) + 218px); max-width: calc(100vw - var(--sb-sl) - var(--sb-sr) - 92px); }
+  html[data-orientation] body:has(.sb-lobby) .kit-subtitle__replay { width: 44px; padding: 0; justify-content: center; }
+  html[data-orientation] body:has(.sb-lobby) .kit-subtitle__replay > span:not(.xg-icon) { display: none; }
   html[data-orientation] .sb-pill { width: 104px; margin-left: -52px; }
   html[data-orientation] .sb-pill__num { font-size: 27px; }
   html[data-orientation] .sb-goal { width: 164px; margin-left: -82px; }
@@ -336,6 +361,8 @@
   html[data-orientation] .sb-records.xg-btn { left: auto; right: calc(var(--sb-sr) + 12px); top: auto; bottom: calc(var(--sb-sb) + 10px); width: 308px; height: 48px; min-height: 48px; font-size: 20px; border-radius: 16px; }
   html[data-orientation] .sb-bot { left: calc(var(--sb-sl) + 14px); top: auto; right: auto; bottom: calc(var(--sb-sb) + 8px); transform: scale(.56); transform-origin: 0 100%; pointer-events: none; }
   html[data-orientation] .sb-title { font-size: 26px; }
+  /* the robot's lines: in the showcase's bottom, right of the robot, clear of the mode column and 纪录 (QA fb1 r1) */
+  html[data-orientation] body:has(.sb-lobby) .kit-subtitle { left: calc(var(--sb-sl) + 80px); right: auto; transform: none; bottom: calc(var(--sb-sb) + 18px); max-width: calc(100vw - var(--sb-sl) - var(--sb-sr) - 432px); }
   /* match: the board sits under the pause key, the feed above the minimap; the subtitle under the pill */
   html[data-orientation] .sb-board, html[data-orientation] .sb-hud--race .sb-board { top: 62px; }
   html[data-orientation] .sb-pus, html[data-orientation] .sb-hud--race .sb-pus { top: 64px; }
@@ -383,7 +410,12 @@
   html[data-orientation] .sb-map__title { visibility: hidden; }
   html[data-orientation] .sb-map__head { position: absolute; top: calc(var(--sb-st) + 12px); left: 50%; transform: translateX(-10%); }
   html[data-orientation] .sb-map__road { margin: 0 calc(var(--sb-sr) + 12px) 6px calc(var(--sb-sl) + 12px); }
-  html[data-orientation] body.sb-onmap .kit-subtitle { max-width: 320px; bottom: calc(var(--sb-sb) + 6px); }
+  /* the road's wave runs high on the right half (kit nodeMap): the bar takes that empty lower-right corner, clear of
+     the trough nodes (别撞身体 / 急转弯) it covered on the left (QA fb1 r1) */
+  html[data-orientation] body.sb-onmap .kit-subtitle { left: auto; right: calc(var(--sb-sr) + 12px); transform: none; max-width: min(340px, calc(100vw - var(--sb-sl) - var(--sb-sr) - 480px)); bottom: calc(var(--sb-sb) + 8px); }
+  /* the first node sits under the back key and the chapter tabs: its "you are here" token floats at its right side,
+     not on the back key's corner (QA fb1 r1) */
+  html[data-orientation] .sb-map__road button.xg-node:first-of-type .xg-node__marker { left: 100%; bottom: 50%; translate: -6px 0; }
   html[data-orientation] body:has(.sb-brief) .sb-map__head, html[data-orientation] body:has(.sb-brief) .sb-chtabs { visibility: hidden; }
   /* brief: picture | text | clip in one row */
   html[data-orientation] .sb-brief__card { width: min(700px, 100%); }

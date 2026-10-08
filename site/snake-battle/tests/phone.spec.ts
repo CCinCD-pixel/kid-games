@@ -6,6 +6,10 @@
  * - 跳过: the first-run levels show the kit pill after ~1.5 s (not before); tapping it opens the lobby with the first run
  *   marked done; the parent's 跳过开场和教学 skips the first run and the chapter story cards; story cards carry the
  *   pill; 设置 → 新手教学 · 再玩一次 replays the tutorial.
+ * QA fb1 r1: the first-run pill leaves when a level ends (never over S9 / an unlock card) and hides under panels; an
+ *   unlock card removed by a screen change goes back to the queue (no soft-lock); on phones the narration bar covers no
+ *   control (lobby, map) and hides over 设置 / 纪录; a skipped line leaves at once; a 4-digit endless peak fits the card;
+ *   the landscape map's "you are here" token clears the back key.
  * The phone cases run once (iPad portrait project); they set their own viewport.
  */
 import { expect, test, type Page } from '@playwright/test';
@@ -44,6 +48,20 @@ function audit() {
   return [...new Set(out)];
 }
 const fits = async (page: Page, what: string) => expect(await page.evaluate(audit), what).toEqual([]);
+/** what the (shown) narration bar sits on: controls, map nodes and their titles, the map token */
+function covered() {
+  const bar = document.querySelector('.kit-subtitle') as HTMLElement | null;
+  if (!bar || bar.hidden || getComputedStyle(bar).display === 'none') return ['bar not shown'];
+  const b = bar.getBoundingClientRect(), out: string[] = [];
+  if (b.left < 0 || b.top < 0 || b.right > innerWidth || b.bottom > innerHeight) out.push('bar outside the view');
+  for (const e of document.querySelectorAll('button, .xg-btn, .xg-node, .sb-node__title, .xg-node__marker, .sb-venue, .sb-mode, .sb-records')) {
+    if (bar.contains(e)) continue;
+    const cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden' || e.closest('[hidden]')) continue;
+    const r = e.getBoundingClientRect(); if (!r.width || !r.height) continue;
+    if (r.left < b.right - 1 && b.left < r.right - 1 && r.top < b.bottom - 1 && b.top < r.bottom - 1) out.push(`${String(e.className).split(' ')[0]}:${(e.textContent || '').replace(/\s+/g, '').slice(0, 6)}`);
+  }
+  return out;
+}
 
 test.describe('phones', () => {
   test.beforeEach(({}, ti) => test.skip(ti.project.name !== 'portrait-810x1080', 'phone cases run once'));
@@ -95,6 +113,33 @@ test.describe('phones', () => {
         await app(page, `a.showPause();`); await page.waitForSelector('.sb-pausep'); await page.waitForTimeout(400);
         await fits(page, 'pause');
       });
+
+      test(`${pname}: the narration bar covers no control and hides over 设置 / 纪录; a 4-digit endless peak fits`, async ({ page }) => {
+        await boot(page);
+        const say = (t: string) => app(page, `a.sub.onCue({ text: ${JSON.stringify(t)} });`);
+        await app(page, `a.save.data.firstRunDone = true; a.save.markSeen('story:c1'); a.save.save(); a.showLobby();`);
+        await page.waitForSelector('.sb-lobby'); await page.waitForTimeout(400);
+        await say('玩了好几局，看看远处吧。'); await page.waitForTimeout(300);   // the longest lobby lines are 13 字
+        expect(await page.evaluate(covered), 'lobby').toEqual([]);
+        await page.locator('.sb-gear').click(); await page.waitForSelector('.sb-settings'); await say('准备好了，去比赛吧！');
+        await expect(page.locator('.kit-subtitle')).toBeHidden();
+        await app(page, `document.querySelectorAll('.sb-scrim').forEach((n) => n.remove()); a.showMap(1);`);
+        await page.waitForSelector('.sb-map .xg-node__marker'); await page.waitForTimeout(400);
+        await say('蛇王守着的烛龙灯，归你了！'); await page.waitForTimeout(300);
+        expect(await page.evaluate(covered), 'map').toEqual([]);
+        // the "you are here" token never sits on the back key or a chapter tab (landscape: 1-1 is right under them)
+        expect(await page.evaluate(() => { const m = document.querySelector('.xg-node__marker')!.getBoundingClientRect(); return [...document.querySelectorAll('.sb-map .sb-backbtn, .sb-chtab')].filter((e) => { const r = e.getBoundingClientRect(); return r.left < m.right && m.left < r.right && r.top < m.bottom && m.top < r.bottom; }).map((e) => e.className); }), 'map token').toEqual([]);
+        await app(page, `a.showRecords();`); await page.waitForSelector('.sb-rec__grid'); await say('准备好了，去比赛吧！');
+        await expect(page.locator('.kit-subtitle')).toBeHidden();
+        // endless result: the peak length stays on the card (it was cut on a 320 px phone)
+        await app(page, `void a.startMatch('endless', 'moon', { seed: 7, countdown: false });`);
+        await page.waitForFunction(() => (window as any).__sb?.match?.state === 'playing');
+        await page.evaluate(() => { const m = (window as any).__sb.match; m.me.stats.peak = 1234; m.bank(); });
+        await page.waitForSelector('.sb-podium.is-endless'); await page.waitForTimeout(1200);
+        await fits(page, 'endless result');
+        expect(await page.evaluate(() => { const p = document.querySelector('.sb-podium .sb-panel')!.getBoundingClientRect(); return [...document.querySelectorAll('.sb-hero__len b, .sb-hero__head')].map((e) => { const r = e.getBoundingClientRect(); return r.left >= p.left - 0.5 && r.right <= p.right + 0.5; }); })).toEqual([true, true]);
+        expect(await page.locator('.sb-hero__len b').textContent()).toBe('1234');
+      });
     });
   }
 });
@@ -129,7 +174,10 @@ test.describe('跳过', () => {
     await app(page, `a.save.data.firstRunDone = true; a.showMap(1);`);
     await page.waitForSelector('.sb-story');
     await page.waitForSelector('.xg-skip[data-state="shown"]', { timeout: 3000 });
+    await app(page, `a.sub.onCue({ text: '星际竞技场开张了，出发！' });`);
     await page.locator('.xg-skip').click();
+    // the skipped line leaves with the voice — it never lingers over the 1-1 node
+    expect(await page.evaluate(() => (document.querySelector('.kit-subtitle') as HTMLElement).hidden)).toBe(true);
     await expect(page.locator('.sb-story')).toHaveCount(0);
     await app(page, `a.showLobby();`); await page.waitForSelector('.sb-lobby');
     await page.locator('.sb-gear').click(); await page.locator('.sb-set__tut').click();
@@ -140,5 +188,41 @@ test.describe('跳过', () => {
     await page.locator('.xg-skip').click();
     await page.waitForSelector('.sb-lobby');
     expect(await page.evaluate(() => (window as any).__sbApp.firstRun)).toBe(false);
+  });
+
+  test('first run: 跳过 leaves when a level ends — never over S9 or an unlock card; 好的 goes on to 1-2 with a new pill', async ({ page }) => {
+    await boot(page, '?test=1&nogate&firstrun=1');
+    await page.waitForFunction(() => (window as any).__sb?.match?.run?.m.id === 'c1m1');
+    await app(page, `a.save.data.cardQueue.push('skin:loco'); a.save.save();`);
+    await page.waitForSelector('.xg-skip.sb-skip[data-state="shown"]', { timeout: 3000 });
+    const vp = page.viewportSize()!; await page.touchscreen.tap(vp.width * 0.4, vp.height * 0.6); await page.waitForTimeout(300);   // 1-1 waits for his first touch
+    await page.evaluate(() => { const r = (window as any).__sb.match.run; r.outcome = { ok: true }; r.done = true; });
+    await expect(page.locator('.xg-scrim .xg-modal__actions')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('.xg-skip')).toHaveCount(0);
+    await page.getByRole('button', { name: '下一关' }).click();
+    await expect(page.locator('.sb-unlock')).toBeVisible();
+    await expect(page.locator('.xg-skip')).toHaveCount(0);
+    await page.waitForTimeout(450); await page.locator('.sb-unlock .xg-btn--primary').click();
+    await page.waitForFunction(() => (window as any).__sb?.match?.run?.m.id === 'c1m2');
+    await page.waitForSelector('.xg-skip.sb-skip[data-state="shown"]', { timeout: 3000 });
+    // under the pause panel the pill is hidden and untappable
+    await app(page, `a.showPause();`); await page.waitForSelector('.sb-pausep');
+    await expect(page.locator('.xg-skip.sb-skip')).toHaveCSS('visibility', 'hidden');
+  });
+
+  test('an unlock card removed by a screen change goes back to the queue; later results still move on', async ({ page }) => {
+    await boot(page);
+    await app(page, `a.save.data.firstRunDone = true; a.save.data.cardQueue.push('skin:loco'); a.save.save(); a.showLobby();`);
+    await expect(page.locator('.sb-unlock')).toBeVisible();
+    await app(page, `a.save.markSeen('story:c1'); a.showMap(1);`); await page.waitForSelector('.sb-map');
+    expect(await page.evaluate(() => [document.querySelectorAll('.sb-unlock').length, (window as any).__sbApp.save.data.cardQueue[0]])).toEqual([0, 'skin:loco']);
+    await app(page, `a.showLobby();`); await expect(page.locator('.sb-unlock')).toBeVisible();
+    await page.waitForTimeout(450); await page.locator('.sb-unlock .xg-btn--primary').click();
+    await app(page, `void a.startMatch('mission', 'moon', { mission: 'c1m1', countdown: false });`);
+    await page.waitForFunction(() => (window as any).__sb?.match?.run);
+    await page.evaluate(() => { const r = (window as any).__sb.match.run; r.outcome = { ok: true }; r.done = true; });
+    await page.getByRole('button', { name: '下一关' }).click({ timeout: 15000 });
+    await page.waitForFunction(() => (window as any).__sb?.match?.run?.m.id === 'c1m2');
+    await expect(page.locator('.sb-hud')).toBeVisible();
   });
 });

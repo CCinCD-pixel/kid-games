@@ -462,10 +462,12 @@ html[data-orientation='landscape'] .sb-rec__card--mission .sb-rec__stats { flex:
 html[data-orientation='landscape'] .sb-rec__name { font-size: 24px; }
 html[data-orientation='landscape'] .sb-rec__stat { padding: 6px 2px; } html[data-orientation='landscape'] .sb-rec__stat b { font-size: 21px; }
 html[data-orientation='landscape'] .sb-rec__tro { font-size: 14px; padding: 5px 8px; }
-/* S7 map polish (QA r1): lock badge on locked chapter tabs; landscape subtitle bottom-left, clear of the node path */
+/* S7 map polish (QA r1): lock badge on locked chapter tabs; landscape subtitle in a corner, clear of the node path */
 .sb-chtab { position: relative; }
 .sb-chtab__lock { position: absolute; right: 2px; bottom: 6px; width: 24px; height: 24px; border-radius: 50%; background: #2a2f4f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 10V8a4 4 0 0 1 8 0v2' fill='none' stroke='%23ffe48a' stroke-width='2.4'/%3E%3Crect x='6' y='10' width='12' height='9' rx='2' fill='%23ffe48a'/%3E%3C/svg%3E") center / 16px no-repeat; box-shadow: 0 0 0 2px rgba(255,255,255,.25); pointer-events: none; }
-html[data-orientation='landscape'] body.sb-onmap .kit-subtitle { left: calc(var(--sb-sl, 0px) + 20px); right: auto; transform: none; max-width: 360px; bottom: calc(var(--sb-sb, 0px) + 18px); }
+/* the road's wave runs high on its right half (kit nodeMap): the bar takes that empty lower-right corner, never the
+   trough nodes (别撞身体 / 急转弯) on the left (QA fb1 r1) */
+html[data-orientation='landscape'] body.sb-onmap .kit-subtitle { left: auto; right: calc(var(--sb-sr, 0px) + 20px); transform: none; max-width: 360px; bottom: calc(var(--sb-sb, 0px) + 18px); }
 
 /* fix r2 (QA r2) */
 /* no match subtitle over the demo tag, the pause panel, the podium or the S9 card */

@@ -95,8 +95,8 @@ export class App {
     this.test = params.has('test') && (navigator.webdriver === true || import.meta.env.DEV);
     this.sub = createSubtitleBar(document.body);
     // subtitles fade 2.5 s after the voice queue drains (the kit bar keeps the last line by design)
-    const onCue = this.sub.onCue; let hideT = 0;
-    this.sub.onCue = (c) => { clearTimeout(hideT); if (c && this.voice?.inMatch && this.voice.currentPrio === 2) return; onCue(c); if (!c) hideT = window.setTimeout(() => { this.sub.el.hidden = true; }, 2500); };
+    const onCue = this.sub.onCue;
+    this.sub.onCue = (c) => { clearTimeout(this.subHideT); if (c && this.voice?.inMatch && this.voice.currentPrio === 2) return; onCue(c); if (!c) this.subHideT = window.setTimeout(() => { this.sub.el.hidden = true; }, 2500); };
     this.voice = new Voice({ onCue: this.sub.onCue, onWord: this.sub.onWord, test: this.test && params.has('silentvoice') });
     this.sub.attach(this.voice.narrator);
     const last = VENUE_IDS.filter((v) => this.save.venueOpen(v));
@@ -110,6 +110,10 @@ export class App {
   }
 
   private say(id: string, o: { interrupt?: boolean; vars?: Record<string, string | number> } = {}) { return this.voice.say(id, o).catch(() => 'skipped'); }
+  private subHideT = 0;
+  /** stop the narrator and take its line off the screen at once (跳过, a torn-down match): a cut line never lingers
+   * 2.5 s over the next screen (QA fb1 r1: the skipped story line sat on the 1-1 node for 3 s) */
+  private hush() { this.voice.stop(); clearTimeout(this.subHideT); this.sub.el.hidden = true; }
   /** voice with a lifetime cap per group (spec §7.5): after `cap` plays only the sound + banner remain */
   private sayCapped(group: string, id: string, cap = 3, o: { vars?: Record<string, string | number>; interrupt?: boolean } = {}) {
     if (this.save.voiceCount(group) >= cap) return;
@@ -587,9 +591,10 @@ export class App {
     this.canvas?.remove(); this.canvas = null;
     this.view = null; this.match = null;
     this.card?.remove(); this.card = null; this.pausePanel?.remove(); this.pausePanel = null;
+    this.dropCard();
     this.root.querySelectorAll('.sb-scrim, .sb-ghost, .sb-ghost-line').forEach((n) => n.remove());
     this.skipOff?.(); this.skipOff = null;
-    this.pad.stop(); this.boostLoop?.set(false); this.voice.stop(); this.voice.inMatch = false;
+    this.pad.stop(); this.boostLoop?.set(false); this.hush(); this.voice.inMatch = false;
     this.root.classList.remove('sb-freeze');
   }
 
@@ -598,9 +603,17 @@ export class App {
 
   private missionVoice = { headon: false, windup: false };
   private hintState = { idle: 0, noProg: 0, lastProg: '', h0: 0, pointShown: false, touchSeen: 0 };
-  private cardBusy = false;
+  /** the unlock card on screen (null = none). A screen change that removes it before its 好的 puts its key back at
+   * the front of the queue, so it shows on the next screen instead of leaving the queue blocked (QA fb1 r1: a card
+   * torn down without its onClose kept a busy flag set and soft-locked every later result) */
+  private cardKey: string | null = null;
+  private dropCard() {
+    if (this.cardKey === null) return;
+    if (this.root.querySelector('.sb-unlock')) { this.save.data.cardQueue.unshift(this.cardKey); this.save.save(); }
+    this.cardKey = null;
+  }
 
-  private closeMenus() { document.body.classList.remove('sb-onmap'); this.sub.el.hidden = true; this.menu?.dispose(); this.menu = null; this.root.querySelectorAll('.sb-brief, .sb-story, .sb-unlock, .sb-cbig, .sb-demo').forEach((n) => n.remove()); }
+  private closeMenus() { document.body.classList.remove('sb-onmap'); this.sub.el.hidden = true; this.menu?.dispose(); this.menu = null; this.dropCard(); this.root.querySelectorAll('.sb-brief, .sb-story, .sb-unlock, .sb-cbig, .sb-demo').forEach((n) => n.remove()); }
   private leaveLobby() { this.lobby?.dispose(); this.lobby = null; this.closeMenus(); }
 
   /** `then` runs once the chapter's first-entry story card is closed (or at once if it was seen) — the next brief
@@ -637,7 +650,7 @@ export class App {
   private storyCardSkippable(ch: number | 'end', then: () => void) {
     let off: (() => void) | null = null;
     const card = storyCard(this.root, ch, () => { off?.(); then(); });
-    off = mountSkipButton(document.body, () => { off = null; this.voice.stop(); card.close(); });
+    off = mountSkipButton(document.body, () => { off = null; this.hush(); card.close(); });
   }
 
   /** hint level for the next attempt (spec §5.1): misses 1/2/3 → H1/H2/H3 */
@@ -806,6 +819,9 @@ export class App {
   private async finishMission() {
     const m = this.match!; const res = m.result(); const mr = res.mission!; const ms = m.run!.m;
     this.pad.stop(); this.root.classList.remove('sb-freeze');
+    // the first-run 跳过 lives only while a level is played: never over S9 or an unlock card (QA fb1 r1 — a tap there
+    // tore the screen down under an open card); the next first-run level mounts it again
+    this.skipOff?.(); this.skipOff = null;
     if (m.demo) { const f = (m as Match & { onDemoEnd?: () => void }).onDemoEnd; await new Promise((ok) => setTimeout(ok, 900)); if (this.match === m) f?.(); return; }
     const twin = !!ms.isTwin;
     const out = this.save.endMission(ms.id, { ok: mr.ok, stars: mr.stars, t: mr.t, why: mr.why }, res.counters, { twin });
@@ -862,17 +878,17 @@ export class App {
   /** unlock cards one by one (name + fact read aloud), then `then` (spec §5.4) */
   drainCards(then?: () => void) {
     const q = this.save.data.cardQueue;
-    if (this.cardBusy) return;
+    if (this.cardKey !== null) return;
     const key = q.shift();
     if (!key) { this.save.save(); then?.(); return; }
     this.save.save();
     if (key.startsWith('trophy:')) { this.drainCards(then); return; }   // trophies have their own podium card
-    this.cardBusy = true; play('unlock');
+    this.cardKey = key; play('unlock');
     this.shell?.session?.mark('unlock', { id: key });   // §8.12 field name
     const kind = key.startsWith('venue:') ? 'venue' : key.split(':')[0];
     const name = allItems().find((x) => x.key === key)?.item.name ?? (key.startsWith('venue:') ? VENUES[key.slice(6) as VenueId]?.name : '') ?? '';
     void this.say(`snake.unlock.${kind === 'crown' ? 'skin' : kind}`, { interrupt: true, vars: { name } });
-    unlockCard(this.root, key, () => { this.cardBusy = false; this.drainCards(then); });
+    unlockCard(this.root, key, () => { this.cardKey = null; this.drainCards(then); });
   }
 
   showCollection() {
