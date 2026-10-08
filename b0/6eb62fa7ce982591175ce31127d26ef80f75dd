@@ -1,0 +1,30 @@
+site/emoji-match/tests/phone.spec.ts
+  s_0eb5d4e8842e10::t_8c530b235b5a9a 140
+  s_0eb5d4e8842e10::t_2242a286bf0b31 94-131,135-139,141-143
+  s_0eb5d4e8842e10::t_a2a3a02b5e5802 134,262,271-285
+  s_0eb5d4e8842e10::t_8d453c346d84d5 228-234
+site/emoji-match/src/main.ts
+  s_0eb5d4e8842e10::t_44fb9a2b84015c 117-134
+site/emoji-match/src/styles.css
+  s_0eb5d4e8842e10::t_0cce34abb03524 806-818
+  s_0eb5d4e8842e10::t_87c25578bac0b6 819-823
+  s_0eb5d4e8842e10::t_3dc46732dac0a1 778-780
+  s_0eb5d4e8842e10::t_0c9adbbc3b228e 636-638
+  s_0eb5d4e8842e10::t_2af87705238231 795-798,803-805
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "b06eb62fa7ce982591175ce31127d26ef80f75dd",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
