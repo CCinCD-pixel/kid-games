@@ -127,7 +127,9 @@ export function missionMap(root: HTMLElement, save: SaveCtl, ch0: number, hd: Ma
       return { id: m.id, label: `${m.ch}-${m.id.slice(3)}`, state, stars: rec?.stars ?? 0, boss: m.role === 'boss' };
     });
     box.replaceChildren();
-    const btns = nodeMap(box, nodes, { marker: nodes.some((n) => n.state === 'current') ? marker : undefined, onPick: (n) => { if (n.state !== 'locked') hd.onPick(n.id); } });
+    // phones (shorter side < 600 px): a tighter edge pad so the 8 nodes spread over the whole road
+    const phone = Math.min(innerWidth, innerHeight) < 600;
+    const btns = nodeMap(box, nodes, { ...(phone ? { pad: 36 } : {}), marker: nodes.some((n) => n.state === 'current') ? marker : undefined, onPick: (n) => { if (n.state !== 'locked') hd.onPick(n.id); } });
     btns.forEach((b, i) => {
       const m = CHAPTERS[ch - 1][i];
       b.classList.add(`sb-node--${m.role}`);

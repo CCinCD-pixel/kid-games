@@ -8,6 +8,7 @@ import { App } from './app';
 import { loadSfx } from './audio';
 import { gateSnake } from './gate-snake';
 import './styles.css';
+import './phone.css';
 
 const params = new URLSearchParams(location.search);
 const root = document.getElementById('app')!;

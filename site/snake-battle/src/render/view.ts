@@ -119,7 +119,10 @@ export class WorldView {
 
   // camera ------------------------------------------------------------------
   vw = 810; vh = 1080;
-  resize(w: number, h: number, dpr: number) { this.vw = w; this.vh = h; this.R.resize(w, h, dpr); }
+  /** phones (shorter side < 600 px, Dad 2026-10-08) pull the camera back so a phone sees about the iPad's share of
+   * the arena (≈ 75 % of its world area) instead of a third of it; the iPad stays at 1 */
+  screenK = 1;
+  resize(w: number, h: number, dpr: number) { this.vw = w; this.vh = h; this.screenK = Math.min(w, h) < 600 ? 0.66 : 1; this.R.resize(w, h, dpr); }
   onScreen(x: number, y: number, pad: number) {
     const hw = this.vw / 2 / this.zoom + pad, hh = this.vh / 2 / this.zoom + pad;
     return Math.abs(x - this.camX) < hw && Math.abs(y - this.camY) < hh;
@@ -129,7 +132,7 @@ export class WorldView {
   updateCamera(dt: number, hx: number, hy: number, ang: number) {
     const m = this.match;
     const vs = m.viewScale();
-    let targetZ = (1.25 / vs) * this.zoomMul;
+    let targetZ = (1.25 / vs) * this.zoomMul * this.screenK;
     if (m.me.boost) targetZ /= 1.06;
     if (this.focus) targetZ *= this.fx.reduced ? 1 : 1.25;
     // critically damped springs: zoom ω=3, position ω=8 (spec §3.14)

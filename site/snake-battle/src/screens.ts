@@ -247,7 +247,8 @@ export function pausePanel(root: HTMLElement, o: { endless: boolean; mission?: b
   return p;
 }
 
-export function settingsPanel(root: HTMLElement, save: SaveCtl, onClose: () => void) {
+/** `onTutorial` (lobby only): 新手教学 · 再玩一次 replays the first-run levels — skipping them never loses the lesson */
+export function settingsPanel(root: HTMLElement, save: SaveCtl, onClose: () => void, o: { onTutorial?: () => void } = {}) {
   const s = save.data.settings;
   const ctl = h('div'), side = h('div'), names = h('div'), music = h('div');
   segmented(ctl, { night: true, value: s.control, options: [{ id: 'follow', label: '跟手指' }, { id: 'stick', label: '摇杆' }], onChange: (id) => { s.control = id as 'follow' | 'stick'; save.save(); } });
@@ -266,6 +267,7 @@ export function settingsPanel(root: HTMLElement, save: SaveCtl, onClose: () => v
   const row = (label: string, el: HTMLElement) => h('div', { class: 'sb-set' }, h('span', { class: 'sb-set__label' }, label), el);
   const p = panel(root, 'sb-settings', h('h2', { class: 'sb-panel__title' }, '设置'),
     row('操控', ctlWrap), row('加速键', side), row('双击加速', dbl), row('名字', names), row('比赛音乐', music), ...(hasCrown ? [row('王冠', crown)] : []),
+    ...(o.onTutorial ? [row('新手教学', btn('再玩一次', 'sb-set__tut', () => { p.remove(); onClose(); o.onTutorial!(); }))] : []),
     btn('好了', 'xg-btn--primary xg-btn--lg', () => { p.remove(); onClose(); }, 'ui-close'));
   return p;
 }

@@ -4,7 +4,7 @@
  * The match loop: read input → step the sim (fixed 60 Hz, ≤3 steps/frame) → build sprites → HUD.
  * Quality tiers (Q2 1.5 / Q1 1.25 / Q0 1.0 render scale) adapt to frame time and only change pixels.
  */
-import { h, createSubtitleBar, toast } from '@kit/ui';
+import { h, createSubtitleBar, toast, mountSkipButton, shouldAutoSkip } from '@kit/ui';
 import { getSettings } from '@kit/settings';
 import { randomSeed } from '@kit/rng';
 import { setHubProgress } from '@kit/progress';
@@ -53,6 +53,8 @@ function praiseFor(ms: Mission, stars: number, n: number, last?: string) {
   return ids[0];
 }
 const GHOST_SVG = '<svg viewBox="0 0 64 64"><path d="M26 30V12a5 5 0 0 1 10 0v16l12 3c4 1 6 4 5 8l-3 13c-1 4-4 6-8 6H31c-3 0-5-1-7-4l-9-12c-2-3 0-6 3-6 2 0 4 1 5 3z" fill="#fff" stroke="#2b3a8a" stroke-width="3" stroke-linejoin="round"/></svg>';
+/** the first-run levels: 1-1 → 1-3 with no lobby in between (spec §2.6) */
+const FIRST_RUN = ['c1m1', 'c1m2', 'c1m3'];
 const LEN_WORD: Record<number, string> = { 100: '一百', 200: '两百', 300: '三百', 500: '五百', 800: '八百', 1000: '一千', 1500: '一千五', 2000: '两千' };
 const MULTI: Record<number, string> = { 2: 'double', 3: 'triple', 4: 'quad', 5: 'penta' };
 const MULTI_TXT: Record<number, string> = { 2: '两连击！', 3: '三连击！', 4: '四连击！', 5: '五连击！' };
@@ -130,6 +132,7 @@ export class App {
 
   // ---------------------------------------------------------------- lobby
   showLobby() {
+    this.tutorial = false;
     menuMusic(true);
     this.teardownMatch();
     document.body.classList.remove('sb-playing');
@@ -145,7 +148,7 @@ export class App {
         const d = today();
         if (this.save.data.venueIntroDay[v] !== d) { this.save.data.venueIntroDay[v] = d; this.save.save(); void this.say(`snake.venue.${v}`, { interrupt: true }); }
       },
-      onSettings: () => { settingsPanel(this.root, this.save, () => {}); },
+      onSettings: () => { settingsPanel(this.root, this.save, () => {}, { onTutorial: () => this.startFirstRun(true) }); },
       onSoon: () => toast('下一个版本开放，敬请期待！'),
       onMissions: () => this.showMap(),
       onCollection: () => this.showCollection(),
@@ -233,6 +236,7 @@ export class App {
     view.R.onRestored = () => { clearTimeout(lostT); view.R.setAtlas(view.atlas); this.wakeLoop(); if (this.pausePanel?.classList.contains('sb-ctxlost')) { this.pausePanel.remove(); this.pausePanel = null; this.showPause(); } };
     const L = this.shell?.layout();
     view.resize(L?.width ?? innerWidth, L?.height ?? innerHeight, this.renderScale());
+    view.zoom *= view.screenK;   // a phone starts at its own camera distance (no zoom-out at the start)
     const hud = new Hud(this.root, m, view, this.save.boostSide()); this.hud = hud;
     hud.showNames = s.settings.showNames;
     this.router = new TouchRouter({
@@ -248,6 +252,7 @@ export class App {
       this.shell?.session?.mark('mission-start', { id: m.run.m.id, seed: m.seed, twin: !!opts.twin, demo: !!opts.demo, attempt: (this.save.data.missions[m.run.m.id]?.attempts ?? 0) + 1 });
       if (m.demo) this.demoOverlay(m, !!opts.clip);
       else if (opts.waitTouch) this.ghostHand(m);
+      if (!m.demo && this.firstRun && FIRST_RUN.includes(m.run.m.id)) this.firstRunSkip();
       if (!m.demo) this.missionIntroVoice(m);
     } else {
       this.save.startMatch(mode as 'timed' | 'endless', venue);
@@ -364,7 +369,7 @@ export class App {
       case 'go': {
         hud.showCount('出发'); play('launch', { volume: 0.7 });
         // first run 1-2 / 1-3 skip S8, so the level's goal is read in-level right after GO (spec §2.6)
-        if (m.run && !m.demo && !this.save.data.firstRunDone && m.world.t < 0.5 && (m.run.m.id === 'c1m2' || m.run.m.id === 'c1m3')) void this.say(m.run.m.lines.brief, { interrupt: true });
+        if (m.run && !m.demo && this.firstRun && m.world.t < 0.5 && (m.run.m.id === 'c1m2' || m.run.m.id === 'c1m3')) void this.say(m.run.m.lines.brief, { interrupt: true });
         break;
       }
       case 'milestone': {
@@ -394,7 +399,7 @@ export class App {
     switch (e.type) {
       case 'eat': {
         // first run 1-2: his first stardust → 吃星尘，变长！ (spec §2.6)
-        if (!this.tips.firstEat && m.run?.m.id === 'c1m2' && !this.save.data.firstRunDone && w.t > 3) { this.tips.firstEat = true; void this.say('snake.intro.4'); }
+        if (!this.tips.firstEat && m.run?.m.id === 'c1m2' && this.firstRun && w.t > 3) { this.tips.firstEat = true; void this.say('snake.intro.4'); }
         eatSound(e.kind === 'big'); if (e.kind === 'big') hud.floater('+5', me.x, me.y, 'is-gold'); break; }
       case 'meteor': {
         const s = w.byId.get(e.id)!;
@@ -583,12 +588,14 @@ export class App {
     this.view = null; this.match = null;
     this.card?.remove(); this.card = null; this.pausePanel?.remove(); this.pausePanel = null;
     this.root.querySelectorAll('.sb-scrim, .sb-ghost, .sb-ghost-line').forEach((n) => n.remove());
+    this.skipOff?.(); this.skipOff = null;
     this.pad.stop(); this.boostLoop?.set(false); this.voice.stop(); this.voice.inMatch = false;
     this.root.classList.remove('sb-freeze');
   }
 
   // ================================================================ stage 2: 挑战关 / 收藏 / 纪录
   private menu: { dispose(): void } | null = null;
+
   private missionVoice = { headon: false, windup: false };
   private hintState = { idle: 0, noProg: 0, lastProg: '', h0: 0, pointShown: false, touchSeen: 0 };
   private cardBusy = false;
@@ -599,6 +606,7 @@ export class App {
   /** `then` runs once the chapter's first-entry story card is closed (or at once if it was seen) — the next brief
    * never buries the story (QA r4) */
   showMap(ch?: number, then?: () => void) {
+    this.tutorial = false;
     menuMusic(true);
     this.teardownMatch(); this.leaveLobby();
     document.body.classList.remove('sb-playing');
@@ -620,8 +628,16 @@ export class App {
     const key = `story:c${ch}`;
     if (this.save.seen(key)) { then?.(); return; }
     this.save.markSeen(key);
+    if (shouldAutoSkip()) { then?.(); return; }   // parent page: 跳过开场和教学
     void this.say(`snake.story.c${ch}`, { interrupt: true });
-    storyCard(this.root, ch, () => then?.());
+    this.storyCardSkippable(ch, () => then?.());
+  }
+  /** a story card (chapter opener / 尾声) with the kit 跳过 pill: a tap anywhere still closes it; 跳过 also stops the
+   * narrator mid-line (Dad 2026-10-08) */
+  private storyCardSkippable(ch: number | 'end', then: () => void) {
+    let off: (() => void) | null = null;
+    const card = storyCard(this.root, ch, () => { off?.(); then(); });
+    off = mountSkipButton(document.body, () => { off = null; this.voice.stop(); card.close(); });
   }
 
   /** hint level for the next attempt (spec §5.1): misses 1/2/3 → H1/H2/H3 */
@@ -681,7 +697,7 @@ export class App {
   /** a retry that brings a hint card shows it over the chapter map, not over black (QA r1) */
   retryMission(id: string) {
     const rec = this.save.data.missions[id];
-    if (this.save.data.firstRunDone && this.hintLevel(id) > (rec?.hintMax ?? 0)) this.showMap(MISSION_BY_ID[id].ch);
+    if (!this.firstRun && this.hintLevel(id) > (rec?.hintMax ?? 0)) this.showMap(MISSION_BY_ID[id].ch);
     this.openMission(id);
   }
 
@@ -717,7 +733,7 @@ export class App {
   }
   private missionIntroVoice(m: Match) {
     const ms = m.run!.m;
-    if (ms.id === 'c1m1' && !this.save.data.firstRunDone) { void this.say('snake.intro.1', { interrupt: true }).then(() => this.say('snake.intro.2')); return; }
+    if (ms.id === 'c1m1' && this.firstRun) { void this.say('snake.intro.1', { interrupt: true }).then(() => this.say('snake.intro.2')); return; }
     if (this.hintLevel(ms.id) >= 1) { this.hud!.pointUntil = 3; this.hintState.pointShown = true; }
     if (ms.ai.some((a) => a.king)) { if (ms.id === 'c5m7') SND.king(); }
     if (ms.ai.some((a) => a.king)) void this.say(ms.id === 'c5m7' ? 'snake.king.appear' : 'snake.king.sleep');
@@ -750,7 +766,7 @@ export class App {
       else tp.idle += dt;
       if (tp.idle >= 6) { tp.idleDone = true; this.ghostDrag(m, [me.x + Math.cos(me.angle) * 320, me.y + Math.sin(me.angle) * 320]); this.sayCapped('idle', 'snake.match.idle', 3); }
     }
-    if (m.run?.m.id === 'c1m2' && !this.save.data.firstRunDone && !tp.big) {
+    if (m.run?.m.id === 'c1m2' && this.firstRun && !tp.big) {
       const rad = Math.min(v.vw, v.vh) * 0.42 / v.zoom; let hit: { x: number; y: number } | null = null;
       m.world.food.query(v.camX, v.camY, rad, (fd) => { if (!hit && fd.kind === 'big' && Math.hypot(fd.x - v.camX, fd.y - v.camY) < rad) hit = fd; });
       const b = hit as { x: number; y: number } | null;
@@ -777,7 +793,7 @@ export class App {
   private onMissionNote(n: { kind: string; id?: number; n?: number }) {
     const m = this.match!, v = this.view!, hud = this.hud!, me = m.me, run = m.run!;
     switch (n.kind) {
-      case 'ring': { const p = run.m.objective.points![(n.n ?? 1) - 1]; SND.ring((n.n ?? 1) - 1); play('chime', { volume: 0.6 }); if (p) { v.fx.burst(p[0], p[1], [255, 214, 90], 26, 300, 9, 'spark', 0.7); v.fx.shockwave(p[0], p[1], [255, 240, 170], 30, run.m.objective.radius! * 1.4, 0.45); } if (run.m.id === 'c1m1' && n.n === 1 && !this.save.data.firstRunDone) void this.say('snake.intro.3'); break; }
+      case 'ring': { const p = run.m.objective.points![(n.n ?? 1) - 1]; SND.ring((n.n ?? 1) - 1); play('chime', { volume: 0.6 }); if (p) { v.fx.burst(p[0], p[1], [255, 214, 90], 26, 300, 9, 'spark', 0.7); v.fx.shockwave(p[0], p[1], [255, 240, 170], 30, run.m.objective.radius! * 1.4, 0.45); } if (run.m.id === 'c1m1' && n.n === 1 && this.firstRun) void this.say('snake.intro.3'); break; }
       case 'marker': SND.core(); hud.bannerShow('圈住了！', 'is-gold'); break;
       case 'headonTarget': if (!this.missionVoice.headon) { this.missionVoice.headon = true; void this.say('snake.m.headon', { interrupt: true }); } break;
       case 'phase2': void this.say('snake.king.guards', { interrupt: true }); break;
@@ -821,25 +837,25 @@ export class App {
     if (canSkip) void this.say('snake.hint.skip');
     const hasNext = !!next && this.save.missionOpen(next.id);
     this.hud?.root.classList.add('is-faded');
-    const act = await missionResult({ m: ms, ok: mr.ok, stars: mr.stars, star2: mr.star2, star3: mr.star3, praise, retry, canSkip, hasNext, twin, cause, nextLabel: mr.ok && ms.id === 'c1m3' && out.firstClear ? '去大厅' : undefined });
+    const act = await missionResult({ m: ms, ok: mr.ok, stars: mr.stars, star2: mr.star2, star3: mr.star3, praise, retry, canSkip, hasNext, twin, cause, nextLabel: mr.ok && ms.id === 'c1m3' && (out.firstClear || this.tutorial) ? '去大厅' : undefined });
     if (this.match !== m) return;
     // unlock / story cards show over the finished (dimmed) arena, not over a black screen (QA r1); the match is torn
     // down only when the next screen is about to appear
     const go = () => {
       this.teardownMatch();
       if (act === 'next' && next) {
-        if (!this.save.data.firstRunDone || ms.id === 'c1m1' || ms.id === 'c1m2') { void this.startMatch('mission', this.venue, { mission: next.id }); return; }
+        if (this.firstRun || ms.id === 'c1m1' || ms.id === 'c1m2') { void this.startMatch('mission', this.venue, { mission: next.id }); return; }
         if (next.ch !== ms.ch) this.showMap(next.ch, () => this.openMission(next.id)); else this.openMission(next.id);
       }
       else if (act === 'again') { if (twin && !mr.ok) this.startTwin(ms.id); else this.retryMission(ms.id); }
       else if (act === 'skip' && next) { this.save.skip(ms.id); this.showMap(next.ch, () => this.openMission(next.id)); }
       else if (!this.save.data.firstRunDone) { void this.startMatch('mission', this.venue, { mission: ms.id }); }
-      else this.showMap(ms.ch);
+      else this.showMap(ms.ch);   // a replayed 新手教学 ends on the map (showMap clears the flag)
     };
     const end = mr.ok && out.firstClear && ms.id === 'c5m7';
     // first run: c1m3 cleared → the lobby appears for the first time (spec §2.6)
-    if (mr.ok && ms.id === 'c1m3' && out.firstClear && act !== 'again') { this.teardownMatch(); this.showLobby(); void this.say('snake.intro.done', { interrupt: true }); return; }
-    if (end) { void this.say('snake.story.end', { interrupt: true }); storyCard(this.root, 'end', () => this.drainCards(go)); return; }
+    if (mr.ok && ms.id === 'c1m3' && (out.firstClear || this.tutorial) && act !== 'again') { this.endFirstRun(); return; }
+    if (end && !shouldAutoSkip()) { void this.say('snake.story.end', { interrupt: true }); this.storyCardSkippable('end', () => this.drainCards(go)); return; }
     this.drainCards(go);
   }
 
@@ -876,9 +892,31 @@ export class App {
   }
   /** first run (spec §2.6): straight into c1m1, no lobby, no S8, no 3-2-1; the sim waits for his first touch */
   /** first run: resumes at 1-2 / 1-3 if he left after clearing 1-1 / 1-2 (QA r1) */
-  startFirstRun() {
+  /** `replay`: 设置 → 新手教学 · 再玩一次 runs the same 1-1 → 1-3 sequence again (it ends in the lobby) */
+  startFirstRun(replay = false) {
+    if (replay) this.tutorial = true;
+    // parent page 跳过开场和教学: straight to the lobby, exactly as if 跳过 had been tapped
+    else if (shouldAutoSkip()) { this.endFirstRun(false); return; }
     const cur = this.save.currentMission();
-    if (cur === 'c1m2' || cur === 'c1m3') { void this.startMatch('mission', 'moon', { mission: cur }); return; }
+    if (!replay && (cur === 'c1m2' || cur === 'c1m3')) { void this.startMatch('mission', 'moon', { mission: cur }); return; }
     void this.startMatch('mission', 'moon', { mission: 'c1m1', countdown: false, waitTouch: true });
+  }
+  /** 新手教学 replay in progress (the first-run voice, ghost hand and 1-1 → 1-3 chaining apply again) */
+  tutorial = false;
+  /** the first-run sequence is running: never finished yet, or replayed from 设置 */
+  get firstRun() { return !this.save.data.firstRunDone || this.tutorial; }
+  private skipOff: (() => void) | null = null;
+  /** 跳过 over the first-run levels (Dad 2026-10-08): appears 1.5 s in, under the pause key; skipping = seen */
+  private firstRunSkip() {
+    this.skipOff?.();
+    this.skipOff = mountSkipButton(document.body, () => { this.skipOff = null; this.endFirstRun(); }, { className: 'sb-skip' });
+  }
+  /** the first run is over — 1-3 cleared, 跳过 tapped, or the parent's 跳过开场和教学: the lobby opens with every mode
+   * (all the sequence unlocks; 1-1 … 1-3 stay on the 挑战关 map and 设置 can replay the tutorial) (spec §2.6) */
+  endFirstRun(voice = true) {
+    this.skipOff?.(); this.skipOff = null;
+    if (!this.save.data.firstRunDone) { this.save.data.firstRunDone = true; this.save.save(); }
+    this.teardownMatch(); this.showLobby();
+    if (voice) void this.say('snake.intro.done', { interrupt: true }); else void this.afterGate();
   }
 }

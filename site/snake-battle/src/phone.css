@@ -1,0 +1,409 @@
+/* 贪吃蛇大作战 on phones (Dad 2026-10-08). "Phone" = the shorter side < 600 px (GAME_AUTHORING §3):
+     P  @media (orientation: portrait)  and (max-width: 599px)   — iPhone 13 390×664, iPhone SE 320×568
+     L  @media (orientation: landscape) and (max-height: 599px)  — 844×390
+   Loaded after styles.css; every rule is prefixed with html[data-orientation] so it outranks the iPad layout
+   (html[data-orientation='landscape'] …) without !important. The iPad (both sides ≥ 600) never matches.
+   Tap targets ≥ 44 px, text ≥ 13 px. The arena camera pulls back on phones too (WorldView.screenK). */
+
+/* 跳过 over the first-run levels (all sizes): under the pause key, clear of the HUD */
+.xg-skip.sb-skip { --xg-skip-top: calc(var(--sb-st) + 80px); --xg-skip-right: calc(var(--sb-sr) + 16px); }
+/* 设置 → 新手教学 · 再玩一次 */
+.sb-set__tut.xg-btn { flex: 1; min-height: 56px; }
+
+/* ================================================================ both phone orientations */
+@media (orientation: portrait) and (max-width: 599px), (orientation: landscape) and (max-height: 599px) {
+  /* back link + gear + map back: 48 px squares in a 56 px title bar */
+  html[data-orientation] .sb-back { width: 48px; height: 48px; top: calc(var(--sb-st) + 4px); left: calc(var(--sb-sl) + 8px); border-radius: 15px; }
+  html[data-orientation] .sb-back svg { width: 24px; height: 24px; }
+  html[data-orientation] .sb-titlebar { height: 56px; }
+  html[data-orientation] .sb-title { font-size: 26px; letter-spacing: .04em; }
+  html[data-orientation] .sb-gear { width: 48px; height: 48px; top: 4px; right: 8px; border-radius: 15px; }
+  html[data-orientation] .sb-gear svg { width: 26px; height: 26px; }
+  html[data-orientation] .sb-backbtn { width: 48px; height: 48px; left: 8px; top: 4px; border-radius: 15px; }
+  html[data-orientation] .sb-backbtn svg { width: 26px; height: 26px; }
+
+  /* ---- match HUD (phone sizes; rectangles checked for overlap by tests/phone.spec.ts) */
+  html[data-orientation] .sb-pause { right: 10px; top: 8px; width: 48px; height: 48px; border-radius: 15px; }
+  html[data-orientation] .sb-pause svg { width: 24px; height: 24px; }
+  html[data-orientation] .sb-pill { top: 8px; width: 116px; height: 44px; margin-left: -58px; border-radius: 22px; }
+  html[data-orientation] .sb-pill__num { font-size: 30px; }
+  html[data-orientation] .sb-pill__label { font-size: 14px; }
+  html[data-orientation] .sb-goal { top: 8px; width: 180px; height: 44px; margin-left: -90px; border-radius: 22px; padding: 0 8px 0 2px; }
+  html[data-orientation] .sb-goal.is-race { top: 60px; height: 38px; }
+  html[data-orientation] .sb-goal__icon, html[data-orientation] .sb-goal.is-race .sb-goal__icon { width: 36px; height: 36px; }
+  html[data-orientation] .sb-goal__icon > i { width: 24px; height: 24px; }
+  html[data-orientation] .sb-goal__num { font-size: 20px; }
+  html[data-orientation] .sb-goal__num.is-long, html[data-orientation] .sb-goal.is-race .sb-goal__num { font-size: 16px; }
+  html[data-orientation] .sb-goal__star { width: 16px; height: 16px; }
+  html[data-orientation] .sb-pus { left: 8px; top: 64px; width: auto; margin-left: 0; height: 36px; gap: 6px; justify-content: flex-start; }
+  html[data-orientation] .sb-hud--race .sb-pus { top: 106px; }
+  html[data-orientation] .sb-pu { width: 36px; height: 36px; }
+  html[data-orientation] .sb-pu svg { width: 36px; height: 36px; }
+  html[data-orientation] .sb-pu i { inset: 7px; }
+  html[data-orientation] .sb-board { right: 10px; top: 64px; width: 150px; padding: 4px 0; border-radius: 14px; }
+  html[data-orientation] .sb-hud--race .sb-board { top: 106px; }
+  html[data-orientation] .sb-board__row { height: 24px; gap: 5px; padding: 0 8px; }
+  /* top 3 + himself (the full top 5 is a lot of a phone screen) */
+  html[data-orientation] .sb-board__row:nth-child(n+4):not(.is-me) { display: none; }
+  html[data-orientation] .sb-board__n { width: 14px; font-size: 14px; }
+  html[data-orientation] .sb-board__dot { width: 9px; height: 9px; }
+  html[data-orientation] .sb-board__name { font-size: 14px; }
+  html[data-orientation] .sb-board__len { font-size: 15px; padding-top: 2px; }
+  html[data-orientation] .sb-feed { top: auto; bottom: 116px; left: 8px; width: 180px; gap: 3px; }
+  html[data-orientation] .sb-feed__row { height: 24px; padding: 0 8px; border-radius: 12px; font-size: 13px; line-height: 24px; gap: 4px; }
+  html[data-orientation] .sb-feed__row:nth-child(n+3) { display: none; }
+  html[data-orientation] .sb-feed__row b { max-width: 64px; }
+  html[data-orientation] .sb-feed__tag { width: 20px; height: 20px; font-size: 13px; }
+  html[data-orientation] .sb-mini { width: 96px; height: 96px; bottom: 12px; left: 10px; }
+  html[data-orientation] .sb-boost-left .sb-mini { left: auto; right: 10px; }
+  html[data-orientation] .sb-boost { width: 84px; height: 84px; bottom: 16px; right: 16px; }
+  html[data-orientation] .sb-boost-left .sb-boost { right: auto; left: 16px; }
+  html[data-orientation] .sb-boost svg { width: 42px; height: 42px; }
+  html[data-orientation] .sb-banner { left: 12px; right: 12px; height: 52px; font-size: 38px; top: calc(var(--sb-H) * .36); }
+  html[data-orientation] .sb-count { font-size: 100px; }
+  html[data-orientation] .sb-count.is-word { font-size: 76px; line-height: 96px; }
+  html[data-orientation] .sb-tag { height: 22px; padding: 0 8px; border-radius: 11px; font-size: 14px; line-height: 22px; }
+  html[data-orientation] .sb-float { font-size: 19px; }
+  html[data-orientation] .sb-float.is-near { font-size: 24px; }
+  html[data-orientation] .sb-stick { width: 116px; height: 116px; }
+  html[data-orientation] .sb-stick__knob { width: 52px; height: 52px; }
+  html[data-orientation] .sb-edge, html[data-orientation] .sb-edge svg { width: 36px; height: 36px; }
+  html[data-orientation] .sb-ghost, html[data-orientation] .sb-ghost svg { width: 64px; height: 64px; }
+  html[data-orientation] .sb-twinchip { top: 60px; height: 40px; font-size: 18px; padding: 0 14px 0 6px; }
+  html[data-orientation] .sb-hud--race .sb-twinchip { top: 104px; }
+  html[data-orientation] .sb-twinchip__ic { width: 30px; height: 30px; }
+  html[data-orientation] body.sb-playing .kit-subtitle { top: calc(var(--sb-st) + 176px); max-width: min(300px, calc(100vw - 24px)); font-size: 15px; padding: 5px 12px; }
+  html[data-orientation] body.sb-playing:has(.sb-hud--race) .kit-subtitle { top: calc(var(--sb-st) + 218px); }
+  /* 跳过 over the first-run levels: under the pause key */
+  html[data-orientation] .xg-skip.sb-skip { --xg-skip-top: calc(var(--sb-st) + 64px); --xg-skip-right: calc(var(--sb-sr) + 10px); height: 48px; min-width: 84px; font-size: 16px; padding: 0 12px 0 16px; }
+  html[data-orientation] .sb-demo__tag { top: calc(var(--sb-st) + 120px); font-size: 22px; padding: 8px 18px; }
+  html[data-orientation] .sb-demo__tap { bottom: calc(var(--sb-sb) + 120px); font-size: 18px; padding: 12px 22px; }
+
+  /* ---- panels (pause, confirm, settings, podium) */
+  html[data-orientation] .sb-scrim { padding: 10px calc(var(--sb-sr) + 10px) 10px calc(var(--sb-sl) + 10px); box-sizing: border-box; }
+  html[data-orientation] .sb-panel { width: min(520px, 100%); max-height: 100%; box-sizing: border-box; padding: 16px 18px 18px; gap: 10px; border-radius: 24px; overflow-y: auto; }
+  html[data-orientation] .sb-panel__title { font-size: 30px; margin-bottom: 2px; }
+  html[data-orientation] .sb-panel__text { font-size: 18px; }
+  html[data-orientation] .sb-pausep .xg-btn, html[data-orientation] .sb-confirm .xg-btn { min-height: 52px; height: 52px; font-size: 20px; }
+  html[data-orientation] .sb-pausep .xg-btn--lg, html[data-orientation] .sb-confirm .xg-btn--lg { min-height: 60px; height: 60px; font-size: 24px; }
+  html[data-orientation] .sb-set { gap: 10px; }
+  html[data-orientation] .sb-set__label { width: 76px; flex: none; font-size: 16px; line-height: 1.2; }
+  html[data-orientation] .sb-set .xg-seg button, html[data-orientation] .sb-set .xg-seg__btn { min-height: 44px; font-size: 16px; padding-left: 6px; padding-right: 6px; }
+  html[data-orientation] .sb-set__ctl { gap: 8px; }
+  html[data-orientation] .sb-ctldemo { width: 64px; height: 44px; }
+  html[data-orientation] .sb-set__tut.xg-btn { flex: 1; min-height: 48px; height: 48px; font-size: 18px; }
+  html[data-orientation] .sb-settings .xg-btn--lg { min-height: 56px; height: 56px; font-size: 22px; }
+  /* death card */
+  html[data-orientation] .sb-dc { left: calc(var(--sb-sl) + 8px); right: calc(var(--sb-sr) + 8px); bottom: calc(var(--sb-sb) + 8px); height: auto; padding: 12px 14px 14px; border-radius: 22px; grid-template-columns: 76px 1fr; gap: 8px 12px; }
+  html[data-orientation] .sb-dc__head { width: 68px; height: 68px; }
+  html[data-orientation] .sb-dc__persona { font-size: 14px; padding: 3px 8px 3px 4px; gap: 3px; }
+  html[data-orientation] .sb-dc__persona small { font-size: 13px; }
+  html[data-orientation] .sb-dc__persona i { width: 18px; height: 18px; font-size: 13px; }
+  html[data-orientation] .sb-dc__line { font-size: 18px; gap: 8px; }
+  html[data-orientation] .sb-dc__replay { width: 44px; height: 44px; border-radius: 13px; }
+  html[data-orientation] .sb-dc__replay svg { width: 24px; height: 24px; }
+  html[data-orientation] .sb-dc__tiprow { gap: 8px; margin-top: 6px; }
+  html[data-orientation] .sb-dc__tip { width: 84px; height: 50px; padding: 3px; border-radius: 12px; }
+  html[data-orientation] .sb-dc__tiptext { font-size: 15px; }
+  html[data-orientation] .sb-dc__stats { gap: 6px; margin-top: 6px; }
+  html[data-orientation] .sb-dc__stats .xg-chip { font-size: 14px; }
+  html[data-orientation] .sb-dc__actions { grid-column: 1 / -1; gap: 10px; }
+  html[data-orientation] .sb-dc__actions .xg-btn { min-width: 0; flex: 1; min-height: 50px; height: 50px; font-size: 20px; }
+  html[data-orientation] .sb-dc__ring { width: 50px; height: 50px; font-size: 14px; flex: none; }
+  html[data-orientation] .sb-dc__ring span { width: 38px; height: 38px; }
+  /* podium / endless result */
+  html[data-orientation] .sb-podium .sb-panel { width: min(560px, 100%); }
+  html[data-orientation] .sb-podium__title { font-size: 32px; }
+  html[data-orientation] .sb-rank b { font-size: 52px; } html[data-orientation] .sb-rank span { font-size: 20px; }
+  html[data-orientation] .sb-steps { height: 168px; gap: 8px; width: 100%; justify-content: center; }
+  html[data-orientation] .sb-step { width: auto; flex: 1 1 0; min-width: 0; max-width: 130px; }
+  html[data-orientation] .sb-step__head { width: 56px; height: 56px; }
+  html[data-orientation] .sb-step__head canvas, html[data-orientation] .sb-step__head svg { width: 56px; height: 56px; }
+  html[data-orientation] .sb-step__name { font-size: 14px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  html[data-orientation] .sb-step__block { font-size: 30px; }
+  html[data-orientation] .sb-step--1 .sb-step__block { height: 76px; }
+  html[data-orientation] .sb-step--2 .sb-step__block { height: 56px; }
+  html[data-orientation] .sb-step--3 .sb-step__block { height: 40px; }
+  html[data-orientation] .sb-chips { gap: 6px; }
+  html[data-orientation] .sb-chips .xg-chip { font-size: 14px; }
+  html[data-orientation] .sb-new { font-size: 17px; padding: 8px 14px; }
+  html[data-orientation] .sb-podium__actions { gap: 10px; }
+  html[data-orientation] .sb-podium__actions .xg-btn { min-width: 0; min-height: 56px; height: 56px; font-size: 22px; padding: 0 10px; }
+  html[data-orientation] .sb-hero { gap: 14px; }
+  html[data-orientation] .sb-hero__head canvas, html[data-orientation] .sb-hero__head svg { width: 72px; height: 72px; }
+  html[data-orientation] .sb-hero__len b { font-size: 52px; } html[data-orientation] .sb-hero__len span { font-size: 18px; }
+  html[data-orientation] .sb-cause { gap: 10px; padding: 8px 10px; margin: 2px 0 6px; }
+  html[data-orientation] .sb-cause__who .sb-dc__head { width: 56px; height: 56px; }
+  html[data-orientation] .sb-cause__line { font-size: 17px; margin-bottom: 4px; }
+  html[data-orientation] .sb-cause .sb-dc__tip { width: 72px; height: 44px; }
+  html[data-orientation] .sb-cause .sb-dc__tiptext { font-size: 14px; }
+
+  /* ---- S9 result (kit showResult, scoped to this page) */
+  html[data-orientation] .xg-scrim { padding: 12px calc(var(--sb-sr) + 10px) 12px calc(var(--sb-sl) + 10px); }
+  html[data-orientation] .xg-scrim .xg-modal { width: min(520px, 100%); box-sizing: border-box; padding: 46px 16px 18px; max-height: none; }   /* no overflow clip: the ribbon hangs above the card */
+  html[data-orientation] .xg-scrim .xg-ribbon { min-width: 0; max-width: calc(100% + 8px); height: 52px; top: -20px; padding: 0 40px; font-size: 22px; letter-spacing: .04em; box-sizing: border-box; }
+  html[data-orientation] .xg-scrim .xg-ribbon::after { inset: 12px 0 -4px; }
+  html[data-orientation] .xg-scrim .xg-result-stars { height: 84px; margin: 0 0 4px; }
+  html[data-orientation] .xg-scrim .xg-rstar { width: 64px; height: 64px; }
+  html[data-orientation] .xg-scrim .xg-rstar:nth-child(2) { width: 80px; height: 80px; transform: translateY(-10px); }
+  html[data-orientation] .xg-scrim .xg-modal__title { font-size: 26px; }
+  html[data-orientation] .xg-scrim .xg-modal__text { font-size: 16px; line-height: 1.45; margin-bottom: 10px; letter-spacing: .02em; }
+  html[data-orientation] .xg-scrim .xg-modal__actions { margin-top: 12px; gap: 10px; flex-wrap: wrap; }
+  html[data-orientation] .xg-scrim .xg-modal__actions .xg-btn { min-width: 0; flex: 1 1 120px; min-height: 52px; height: 52px; font-size: 20px; padding: 0 12px; }
+  html[data-orientation] .xg-scrim .sb-res__conds { gap: 6px; margin: 2px 0 4px; }
+  html[data-orientation] .sb-starchip { height: 36px; font-size: 15px; padding: 0 10px 0 8px; gap: 4px; }
+  html[data-orientation] .sb-starchip b { font-size: 14px; }
+  html[data-orientation] .sb-starchip i, html[data-orientation] .sb-starchip i svg { width: 20px; height: 20px; }
+  html[data-orientation] .sb-res__twin { font-size: 14px; line-height: 32px; }
+
+  /* ---- S7 map */
+  html[data-orientation] .sb-map__bar { height: 56px; }
+  html[data-orientation] .sb-map__title { font-size: 28px; }
+  html[data-orientation] .sb-map__stars { right: 8px; top: 12px; padding: 7px 10px; font-size: 15px; }
+  html[data-orientation] .sb-chtabs { gap: 4px; padding: 4px 8px 2px; justify-content: space-evenly; }
+  html[data-orientation] .sb-chtab { width: 56px; gap: 2px; }
+  html[data-orientation] .sb-chtab__planet, html[data-orientation] .sb-chtab__planet .sb-planet { width: 44px; height: 44px; }
+  html[data-orientation] .sb-chtab__n { height: 18px; font-size: 14px; line-height: 18px; }
+  html[data-orientation] .sb-chtab__lock { width: 20px; height: 20px; right: 4px; bottom: 18px; background-size: 14px; }
+  html[data-orientation] .sb-map__head { gap: 8px; padding-top: 2px; }
+  html[data-orientation] .sb-map__ch { font-size: 15px; }
+  html[data-orientation] .sb-map__chname { font-size: 24px; }
+  html[data-orientation] .sb-map__road { margin: 0 8px 8px; }
+  html[data-orientation] .sb-map__road .xg-node { --s: 54px; min-width: 54px; min-height: 54px; font-size: 22px; }
+  html[data-orientation] .sb-map__road .xg-node--current { --s: 62px; font-size: 25px; }
+  html[data-orientation] .sb-map__road .xg-node--boss { --s: 64px; font-size: 0; }
+  html[data-orientation] .sb-map__road .xg-node .xg-icon { font-size: 22px; }
+  html[data-orientation] .sb-map__road .xg-node--boss .xg-icon { font-size: 32px; }
+  html[data-orientation] .sb-map__road .xg-node__stars { font-size: 15px; }
+  html[data-orientation] .sb-map__road .xg-node--current::before, html[data-orientation] .sb-map__road .xg-node--current::after { inset: -4px; border-width: 3px; }
+  html[data-orientation] .sb-node__title { font-size: 13px; padding: 2px 7px 3px; transform: translate(-50%, 4px); }
+  html[data-orientation] .sb-map button:has(.xg-node__stars) .sb-node__title { transform: translate(-50%, 20px); }
+  html[data-orientation] .sb-map__me, html[data-orientation] .sb-map__me svg { width: 30px; height: 30px; }
+  html[data-orientation] .xg-map__path path { stroke-width: 18px; }
+  html[data-orientation] body.sb-onmap .kit-subtitle, html[data-orientation='landscape'] body.sb-onmap .kit-subtitle { max-width: min(420px, calc(100vw - 24px)); font-size: 15px; }
+
+  /* ---- story card */
+  html[data-orientation] .sb-story__card { width: min(560px, calc(100vw - 28px)); padding: 22px 18px 18px; border-radius: 28px; gap: 10px; margin-top: 70px; }
+  html[data-orientation] .sb-story__art, html[data-orientation] .sb-story__art svg, html[data-orientation] .sb-story__art .sb-planet { width: 150px; height: 150px; }
+  html[data-orientation] .sb-story__art { margin-top: -80px; }
+  html[data-orientation] .sb-story__ch { font-size: 16px; padding: 6px 14px; }
+  html[data-orientation] .sb-story__line { font-size: 26px; }
+  html[data-orientation] .sb-story__tap { margin-top: 6px; font-size: 16px; }
+
+  /* ---- S8 brief */
+  html[data-orientation] .sb-brief__card { width: min(560px, 100%); padding: 12px 14px 16px; border-radius: 24px; gap: 10px; max-height: 100%; overflow-y: auto; }
+  html[data-orientation] .sb-brief__top { min-height: 48px; gap: 8px; }
+  html[data-orientation] .sb-brief__top .sb-backbtn { left: 0; top: 0; }
+  html[data-orientation] .sb-brief__no { font-size: 16px; padding: 5px 9px; }
+  html[data-orientation] .sb-brief__title { font-size: 26px; }
+  html[data-orientation] .sb-replay { width: 48px; height: 48px; border-radius: 15px; }
+  html[data-orientation] .sb-replay svg { width: 26px; height: 26px; }
+  html[data-orientation] .sb-brief__body { gap: 12px; }
+  html[data-orientation] .sb-brief__pic { width: 96px; height: 96px; border-radius: 20px; }
+  html[data-orientation] .sb-brief__pic svg, html[data-orientation] .sb-brief__pic.is-dir svg { width: 72px; height: 72px; }
+  html[data-orientation] .sb-brief__text { gap: 8px; min-width: 0; }
+  html[data-orientation] .sb-brief__line { font-size: 21px; }
+  html[data-orientation] .sb-brief__chips { gap: 6px; }
+  html[data-orientation] .sb-brief__clip { width: 132px; height: 132px; border-radius: 20px; }
+  html[data-orientation] .sb-brief__cliptag { font-size: 13px; left: 6px; top: 6px; padding: 1px 8px; }
+  html[data-orientation] .sb-brief__hint { font-size: 16px; }
+  html[data-orientation] .sb-brief__actions { gap: 10px; }
+  html[data-orientation] .sb-brief__actions .xg-btn { min-width: 0; flex: 1 1 120px; min-height: 52px; height: 52px; font-size: 20px; }
+
+  /* ---- unlock card + collection big card */
+  html[data-orientation] .sb-unlock__card, html[data-orientation] .sb-cbig__card { width: min(480px, 100%); padding: 16px 16px 18px; gap: 8px; border-radius: 26px; max-height: 100%; overflow-y: auto; box-sizing: border-box; }
+  html[data-orientation] .sb-unlock__kind { font-size: 18px; padding: 6px 14px; }
+  html[data-orientation] .sb-unlock__art { min-height: 96px; }
+  html[data-orientation] .sb-unlock__art > svg { width: 96px; height: 96px; }
+  /* skin previews carry inline px sizes (skinPreview); phones scale them, same 2:1 aspect */
+  html[data-orientation] .sb-unlock__art canvas, html[data-orientation] .sb-cbig__art canvas { width: min(240px, 100%) !important; height: auto !important; aspect-ratio: 2; }
+  html[data-orientation] .sb-unlock__name { font-size: 28px; }
+  html[data-orientation] .sb-unlock__fact { font-size: 17px; margin-bottom: 2px; }
+  html[data-orientation] .sb-unlock__card .xg-btn, html[data-orientation] .sb-cbig__card .xg-btn { min-width: 160px; min-height: 52px; height: 52px; font-size: 20px; }
+
+  /* ---- S10 collection / S11 records */
+  html[data-orientation] .sb-coll__tabs { gap: 6px; padding: 4px 8px 8px; }
+  html[data-orientation] .sb-coll__tab { min-width: 0; flex: 1 1 0; max-width: 96px; height: 44px; font-size: 17px; padding: 0 6px; }
+  html[data-orientation] .sb-coll__grid, html[data-orientation] .sb-coll__grid.is-few { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; padding: 4px 10px 16px; justify-content: stretch; }
+  html[data-orientation] .sb-ccard, html[data-orientation] .sb-coll__grid.is-few .sb-ccard { height: 156px; padding: 8px 4px; gap: 4px; border-radius: 18px; }
+  html[data-orientation] .sb-ccard__art, html[data-orientation] .sb-coll__grid.is-few .sb-ccard__art { width: 96px; height: 56px; }
+  html[data-orientation] .sb-ccard__art canvas { width: 96px !important; height: 58px !important; }
+  html[data-orientation] .sb-ccard__art > svg, html[data-orientation] .sb-coll__grid.is-few .sb-ccard__art > svg { width: 50px; height: 50px; }
+  html[data-orientation] .sb-ccard__name, html[data-orientation] .sb-coll__grid.is-few .sb-ccard__name { font-size: 15px; }
+  html[data-orientation] .sb-ccard__cond, html[data-orientation] .sb-coll__grid.is-few .sb-ccard__cond { font-size: 13px; line-height: 1.2; }
+  html[data-orientation] .sb-ccard__bar, html[data-orientation] .sb-coll__grid.is-few .sb-ccard__bar { width: 80px; height: 6px; }
+  html[data-orientation] .sb-ccard__p { font-size: 13px; }
+  html[data-orientation] .sb-ccard__eq { font-size: 13px; padding: 3px 8px; }
+  html[data-orientation] .sb-rec__grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; padding: 4px 10px 16px; overflow-y: auto; width: 100%; box-sizing: border-box; }
+  html[data-orientation] .sb-rec__card { padding: 10px; gap: 6px; border-radius: 18px; min-width: 0; }
+  html[data-orientation] .sb-rec__head { gap: 8px; } html[data-orientation] .sb-rec__head .sb-planet { width: 36px; height: 36px; }
+  html[data-orientation] .sb-rec__name { font-size: 20px; white-space: nowrap; }
+  html[data-orientation] .sb-rec__card .sb-rec__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
+  html[data-orientation] .sb-rec__stat { padding: 5px 2px; border-radius: 10px; min-width: 0; }
+  html[data-orientation] .sb-rec__stat b { font-size: 18px; } html[data-orientation] .sb-rec__stat span { font-size: 13px; }
+  html[data-orientation] .sb-rec__tros { gap: 4px; }
+  html[data-orientation] .sb-rec__tro { font-size: 13px; padding: 4px 7px; }
+  html[data-orientation] .sb-rec__card--mission { flex-direction: column; align-items: stretch; }
+  html[data-orientation] .sb-rec__card--mission .sb-rec__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* lobby chips (both orientations) */
+  html[data-orientation] .sb-venue { gap: 2px; }
+  html[data-orientation] .sb-venue__name { margin-top: 2px; font-size: 15px; line-height: 18px; }
+  html[data-orientation] .sb-routes { flex-direction: column; align-items: center; height: auto; gap: 2px; }
+  html[data-orientation] .sb-route { height: 20px; font-size: 13px; padding: 0 6px 0 2px; border-radius: 10px; }
+  html[data-orientation] .sb-route__ic { width: 15px; height: 15px; }
+  html[data-orientation] .sb-trophies { height: 20px; gap: 4px; }
+  html[data-orientation] .sb-trophy { width: 20px; height: 20px; border-radius: 6px; }
+  html[data-orientation] .sb-trophy svg { width: 14px; height: 14px; }
+  html[data-orientation] .sb-lock { width: 26px; height: 26px; padding: 4px; }
+  html[data-orientation] .sb-mode__icon svg { width: 30px; height: 30px; }
+  html[data-orientation] .sb-mode__label { font-size: 22px; }
+  html[data-orientation] .sb-mode__chip { font-size: 13px; padding: 4px 8px; }
+  html[data-orientation] .sb-records svg { width: 24px; height: 24px; }
+  html[data-orientation] .sb-bot { transform: scale(.62); transform-origin: 100% 100%; }
+}
+
+/* ================================================================ phone portrait */
+@media (orientation: portrait) and (max-width: 599px) {
+  /* lobby: one column — title, 4 venues, the showcase (flexible), 2×2 modes, 纪录 */
+  html[data-orientation] .sb-lobby { display: flex; flex-direction: column; }
+  html[data-orientation] .sb-titlebar { flex: none; }
+  html[data-orientation] .sb-venues { flex: none; grid-template-columns: repeat(4, 1fr); padding: 6px 8px 0; gap: 4px; }
+  html[data-orientation] .sb-venue__badge, html[data-orientation] .sb-planet { width: 60px; height: 60px; }
+  html[data-orientation] .sb-venue.is-sel .sb-venue__badge { box-shadow: 0 0 0 3px var(--sb-gold), 0 0 16px 4px rgba(255,210,63,.35); }
+  html[data-orientation] .sb-showcase { flex: 1 1 0; min-height: 96px; height: auto; margin: 8px 12px 0; border-radius: 20px; }
+  html[data-orientation] .sb-modes { flex: none; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 10px; padding: 10px 12px 0; }
+  html[data-orientation] .sb-mode.xg-btn { height: 64px; min-height: 64px; border-radius: 20px; padding: 0 10px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 8px; row-gap: 3px; align-content: center; justify-items: start; text-align: left; }
+  html[data-orientation] .sb-mode__icon { grid-row: 1 / 3; align-self: center; }
+  html[data-orientation] .sb-mode__chip { margin-left: 0; grid-column: 2; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; }
+  html[data-orientation] .sb-mode__label { white-space: nowrap; }
+  html[data-orientation] .sb-records.xg-btn { position: relative; left: auto; top: auto; flex: none; width: auto; height: 50px; min-height: 50px; margin: 10px 12px calc(10px + var(--sb-sb)); font-size: 20px; border-radius: 18px; }
+  /* the robot stands in the showcase's lower-right corner, above the mode tiles */
+  html[data-orientation] .sb-bot { right: calc(var(--sb-sr) + 18px); top: auto; bottom: calc(var(--sb-sb) + 226px); transform: scale(.56); transform-origin: 100% 100%; pointer-events: none; }
+  /* map: the road needs room below for the lowest node's title */
+  html[data-orientation] .sb-map__road { margin-bottom: 56px; }
+  /* S8 brief: the 看一招 clip goes under the text */
+  html[data-orientation] .sb-brief__body { flex-wrap: wrap; justify-content: center; }
+  html[data-orientation] .sb-brief__text { flex: 1 1 160px; }
+  html[data-orientation] .sb-brief__clip { width: 100%; max-width: 260px; height: 130px; }
+  /* S5 death card: actions on their own row (grid row 3) */
+  html[data-orientation] .sb-dc { grid-template-rows: auto auto; }
+  html[data-orientation] .sb-dc__who { grid-row: 1; }
+  html[data-orientation] .sb-dc__actions { grid-row: 2; }
+}
+@media (orientation: portrait) and (max-width: 359px) {
+  html[data-orientation] .sb-title { font-size: 23px; }
+  html[data-orientation] .sb-venue__badge, html[data-orientation] .sb-planet { width: 52px; height: 52px; }
+  html[data-orientation] .sb-venue__name { font-size: 14px; }
+  html[data-orientation] .sb-mode.xg-btn { height: 58px; min-height: 58px; padding: 0 8px; column-gap: 6px; }
+  html[data-orientation] .sb-mode__icon svg { width: 24px; height: 24px; }
+  html[data-orientation] .sb-mode__label { font-size: 19px; }
+  html[data-orientation] .sb-records.xg-btn { height: 46px; min-height: 46px; margin-top: 8px; }
+  html[data-orientation] .sb-modes { row-gap: 8px; padding-top: 8px; }
+  html[data-orientation] .sb-bot { bottom: calc(var(--sb-sb) + 202px); transform: scale(.48); }
+  html[data-orientation] .sb-pill { width: 104px; margin-left: -52px; }
+  html[data-orientation] .sb-pill__num { font-size: 27px; }
+  html[data-orientation] .sb-goal { width: 164px; margin-left: -82px; }
+  html[data-orientation] .sb-board { width: 136px; }
+  html[data-orientation] .sb-chtab { width: 50px; }
+  html[data-orientation] .sb-chtab__planet, html[data-orientation] .sb-chtab__planet .sb-planet { width: 38px; height: 38px; }
+  html[data-orientation] .sb-map__title { font-size: 24px; }
+  html[data-orientation] .sb-map__stars { font-size: 13px; padding: 6px 8px; }
+  html[data-orientation] .sb-map__road .xg-node { --s: 48px; min-width: 48px; min-height: 48px; font-size: 19px; }
+  html[data-orientation] .sb-map__road .xg-node--current { --s: 54px; font-size: 22px; }
+  html[data-orientation] .sb-map__road .xg-node--boss { --s: 56px; }
+  html[data-orientation] .sb-brief__pic { width: 76px; height: 76px; }
+  html[data-orientation] .sb-brief__pic svg, html[data-orientation] .sb-brief__pic.is-dir svg { width: 58px; height: 58px; }
+  html[data-orientation] .sb-brief__line { font-size: 19px; }
+  html[data-orientation] .sb-brief__title { font-size: 22px; }
+  html[data-orientation] .sb-story__line { font-size: 22px; }
+  html[data-orientation] .sb-coll__grid, html[data-orientation] .sb-coll__grid.is-few { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); }
+  html[data-orientation] .sb-rec__grid { grid-template-columns: 1fr; }
+  /* 操控: the segmented control needs the row; the little picture steps aside */
+  html[data-orientation] .sb-ctldemo { display: none; }
+}
+
+/* ================================================================ phone landscape */
+@media (orientation: landscape) and (max-height: 599px) {
+  /* lobby: left = venues + showcase, right = the 4 modes + 纪录 (column 300 px) */
+  html[data-orientation] .sb-venues { position: absolute; left: var(--sb-sl); top: calc(var(--sb-st) + 52px); width: calc(100% - var(--sb-sl) - var(--sb-sr) - 332px); padding: 0 12px; grid-template-columns: repeat(4, 1fr); box-sizing: border-box; }
+  html[data-orientation] .sb-venue__badge, html[data-orientation] .sb-planet { width: 48px; height: 48px; }
+  html[data-orientation] .sb-venue.is-sel .sb-venue__badge { box-shadow: 0 0 0 3px var(--sb-gold), 0 0 14px 3px rgba(255,210,63,.35); }
+  html[data-orientation] .sb-routes { flex-direction: row; gap: 3px; }
+  html[data-orientation] .sb-showcase { position: absolute; left: calc(var(--sb-sl) + 12px); top: calc(var(--sb-st) + 152px); width: calc(100% - var(--sb-sl) - var(--sb-sr) - 356px); height: auto; bottom: calc(var(--sb-sb) + 10px); margin: 0; border-radius: 20px; }
+  html[data-orientation] .sb-modes { position: absolute; left: auto; right: calc(var(--sb-sr) + 12px); top: calc(var(--sb-st) + 56px); width: 308px; grid-template-columns: 1fr; row-gap: 8px; padding: 0; }
+  html[data-orientation] .sb-mode.xg-btn { height: 56px; min-height: 56px; border-radius: 18px; padding: 0 14px; gap: 10px; }
+  html[data-orientation] .sb-records.xg-btn { left: auto; right: calc(var(--sb-sr) + 12px); top: auto; bottom: calc(var(--sb-sb) + 10px); width: 308px; height: 48px; min-height: 48px; font-size: 20px; border-radius: 16px; }
+  html[data-orientation] .sb-bot { left: calc(var(--sb-sl) + 14px); top: auto; right: auto; bottom: calc(var(--sb-sb) + 8px); transform: scale(.56); transform-origin: 0 100%; pointer-events: none; }
+  html[data-orientation] .sb-title { font-size: 26px; }
+  /* match: the board sits under the pause key, the feed above the minimap; the subtitle under the pill */
+  html[data-orientation] .sb-board, html[data-orientation] .sb-hud--race .sb-board { top: 62px; }
+  html[data-orientation] .sb-pus, html[data-orientation] .sb-hud--race .sb-pus { top: 64px; }
+  html[data-orientation] .sb-feed { bottom: auto; top: 8px; left: 10px; width: 220px; }
+  html[data-orientation] .sb-mini { width: 92px; height: 92px; bottom: 10px; }
+  html[data-orientation] .sb-boost { width: 80px; height: 80px; bottom: 14px; }
+  html[data-orientation] body.sb-playing .kit-subtitle, html[data-orientation] body.sb-playing:has(.sb-hud--race) .kit-subtitle { top: auto; bottom: calc(var(--sb-sb) + 14px); max-width: min(420px, calc(100vw - 280px)); }
+  html[data-orientation] .sb-banner { left: 200px; right: 200px; top: calc(var(--sb-H) * .3); }
+  html[data-orientation] .sb-dc { left: auto; right: calc(var(--sb-sr) + 8px); width: 440px; bottom: calc(var(--sb-sb) + 8px); grid-template-rows: auto auto; }
+  html[data-orientation] .sb-dc__who { grid-row: 1; }
+  html[data-orientation] .sb-dc__actions { grid-row: 2; }
+  html[data-orientation] .sb-demo__tag { top: calc(var(--sb-st) + 64px); }
+  html[data-orientation] .sb-demo__tap { bottom: calc(var(--sb-sb) + 20px); }
+  /* panels: two-column button grids so they fit 390 px high */
+  html[data-orientation] .sb-pausep .sb-panel, html[data-orientation] .sb-confirm .sb-panel { width: min(560px, 100%); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  html[data-orientation] .sb-pausep .sb-panel__title, html[data-orientation] .sb-confirm .sb-panel__title, html[data-orientation] .sb-pausep .sb-panel__text, html[data-orientation] .sb-confirm .sb-panel__text { grid-column: 1 / -1; }
+  html[data-orientation] .sb-pausep .xg-btn--primary { grid-column: 1 / -1; }
+  html[data-orientation] .sb-settings .sb-panel { width: min(640px, 100%); display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; padding-top: 12px; }
+  html[data-orientation] .sb-settings .sb-panel__title { grid-column: 1 / -1; font-size: 26px; }
+  html[data-orientation] .sb-settings .sb-panel > .xg-btn { grid-column: 1 / -1; }
+  html[data-orientation] .sb-settings .sb-set:first-of-type { grid-column: 1 / -1; }
+  /* podium: steps + chips beside each other is too wide; keep the column but shorter */
+  html[data-orientation] .sb-podium .sb-panel { width: min(640px, 100%); gap: 6px; padding-top: 10px; }
+  html[data-orientation] .sb-podium__title { font-size: 26px; margin: 0; }
+  html[data-orientation] .sb-steps { height: 130px; }
+  html[data-orientation] .sb-step__head, html[data-orientation] .sb-step__head canvas, html[data-orientation] .sb-step__head svg { width: 44px; height: 44px; }
+  html[data-orientation] .sb-step--1 .sb-step__block { height: 56px; } html[data-orientation] .sb-step--2 .sb-step__block { height: 42px; } html[data-orientation] .sb-step--3 .sb-step__block { height: 30px; }
+  html[data-orientation] .sb-step__block { font-size: 24px; }
+  html[data-orientation] .sb-podium__actions .xg-btn { min-height: 50px; height: 50px; }
+  /* S9: the 3 buttons on one row */
+  html[data-orientation] .xg-scrim .xg-modal { width: min(600px, 100%); padding-top: 40px; }
+  html[data-orientation] .xg-scrim .xg-result-stars { height: 64px; }
+  html[data-orientation] .xg-scrim .xg-rstar { width: 50px; height: 50px; }
+  html[data-orientation] .xg-scrim .xg-rstar:nth-child(2) { width: 62px; height: 62px; }
+  html[data-orientation] .xg-scrim .xg-modal__title { font-size: 22px; margin-bottom: 4px; }
+  html[data-orientation] .xg-scrim .xg-modal__text { margin-bottom: 6px; }
+  html[data-orientation] .xg-scrim .xg-modal__actions { flex-wrap: nowrap; margin-top: 8px; }
+  /* map: chapter tabs to the left of the title row would crowd it — a slimmer header instead */
+  html[data-orientation] .sb-map__bar { height: 52px; }
+  html[data-orientation] .sb-chtabs { position: absolute; top: calc(var(--sb-st) + 4px); left: calc(var(--sb-sl) + 64px); padding: 0; gap: 6px; justify-content: flex-start; }
+  html[data-orientation] .sb-chtab { width: 44px; height: 44px; flex-direction: row; }
+  html[data-orientation] .sb-chtab__planet, html[data-orientation] .sb-chtab__planet .sb-planet { width: 40px; height: 40px; }
+  html[data-orientation] .sb-chtab__n { position: absolute; left: 50%; top: 32px; transform: translateX(-50%); font-size: 13px; text-shadow: 0 1px 3px #000; }
+  html[data-orientation] .sb-chtab__lock { right: -2px; bottom: -2px; }
+  html[data-orientation] .sb-map__title { visibility: hidden; }
+  html[data-orientation] .sb-map__head { position: absolute; top: calc(var(--sb-st) + 12px); left: 50%; transform: translateX(-10%); }
+  html[data-orientation] .sb-map__road { margin: 0 calc(var(--sb-sr) + 12px) 6px calc(var(--sb-sl) + 12px); }
+  html[data-orientation] body.sb-onmap .kit-subtitle { max-width: 320px; bottom: calc(var(--sb-sb) + 6px); }
+  html[data-orientation] body:has(.sb-brief) .sb-map__head, html[data-orientation] body:has(.sb-brief) .sb-chtabs { visibility: hidden; }
+  /* brief: picture | text | clip in one row */
+  html[data-orientation] .sb-brief__card { width: min(700px, 100%); }
+  html[data-orientation] .sb-brief__pic { width: 84px; height: 84px; }
+  html[data-orientation] .sb-brief__pic svg, html[data-orientation] .sb-brief__pic.is-dir svg { width: 64px; height: 64px; }
+  html[data-orientation] .sb-brief__clip { width: 130px; height: 110px; }
+  html[data-orientation] .sb-brief__line { font-size: 20px; }
+  html[data-orientation] .sb-brief__actions .xg-btn { flex: 0 1 200px; min-height: 48px; height: 48px; }
+  /* story card: planet beside the text */
+  html[data-orientation] .sb-story__card { width: min(680px, calc(100vw - 40px)); margin-top: 0; display: grid; grid-template-columns: 150px 1fr; grid-template-rows: auto auto auto; column-gap: 20px; row-gap: 8px; align-items: center; justify-items: center; padding: 18px 22px; }
+  html[data-orientation] .sb-story__art { grid-row: 1 / 4; margin: 0; width: 150px; height: 150px; }
+  html[data-orientation] .sb-story__art svg, html[data-orientation] .sb-story__art .sb-planet { width: 150px; height: 150px; }
+  html[data-orientation] .sb-story__line { font-size: 24px; }
+  /* unlock / collection card: art beside the words */
+  html[data-orientation] .sb-unlock__card, html[data-orientation] .sb-cbig__card { width: min(620px, 100%); }
+  html[data-orientation] .sb-unlock__art { min-height: 72px; }
+  html[data-orientation] .sb-unlock__art > svg { width: 72px; height: 72px; }
+  html[data-orientation] .sb-cbig__art canvas, html[data-orientation] .sb-unlock__art canvas { width: 200px !important; }
+  html[data-orientation] .sb-coll__grid, html[data-orientation] .sb-coll__grid.is-few { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }
+  html[data-orientation] .sb-rec__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: none; overflow-y: auto; }
+  html[data-orientation] .sb-rec__card--mission { flex-direction: row; align-items: center; }
+  html[data-orientation] .sb-rec__card--mission .sb-rec__stats { grid-template-columns: repeat(6, minmax(0, 1fr)); flex: 1; }
+}
