@@ -450,8 +450,14 @@ test.describe('screens and art', () => {
     await page.locator('.em-route__title span').click({ force: true });
     await page.waitForTimeout(400);
     expect(await page.locator('.em-parent').count()).toBe(0);
-    await page.evaluate(() => document.querySelector('.em-route__title span')!.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' })));
+    // a real hold at the title's centre (QA fb1 r2: the stops layer covered the title, so only a synthetic
+    // pointerdown on the span ever opened the panel)
+    const t = (await page.locator('.em-route__title span').boundingBox())!;
+    expect(await page.evaluate(([x, y]) => !!document.elementFromPoint(x, y)?.closest('.em-route__title'), [t.x + t.width / 2, t.y + t.height / 2])).toBe(true);
+    await page.mouse.move(t.x + t.width / 2, t.y + t.height / 2);
+    await page.mouse.down();
     await page.waitForTimeout(3300);
+    await page.mouse.up();
     await page.waitForSelector('.em-parent', { timeout: 3000 });
     expect(await page.locator('[data-act="reset"]').count()).toBe(0);
     await shot(page, info, 's17-parent');

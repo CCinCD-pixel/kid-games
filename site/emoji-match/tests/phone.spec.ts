@@ -286,3 +286,89 @@ test.describe('跳过: intros and lessons', () => {
     expect(errors).toEqual([]);
   });
 });
+
+test.describe('QA fb1 r2: the 开始 tap, the parent window', () => {
+  for (const who of ['new', 'veteran'] as const) {
+    test(`start gate (${who}): the 开始 tap never lands on the screen under it; the next tap works`, async ({ page }, info) => {
+      const errors = watchErrors(page);
+      await boot(page, { save: who === 'veteran' ? veteran : { firstRunDone: true, intros: ['cutscene', 'swap', 'lesson:1-01'] } });
+      // a real launch: the kit gate, then the route (SE / sideways phones: a planet sits under 开始)
+      await page.goto('/emoji-match/');
+      await page.waitForSelector('#app[data-gate]', { timeout: 20000 });
+      await page.waitForTimeout(700);
+      const g = (await page.locator('.kit-start__go').boundingBox())!;
+      await page.touchscreen.tap(g.x + g.width / 2, g.y + g.height / 2);
+      await page.waitForSelector('#app[data-ready]', { timeout: 20000 });
+      await page.waitForTimeout(1200);
+      const r = await page.evaluate(() => ({
+        route: !!document.querySelector('.em-route'), map: !!document.querySelector('.em-map'), card: !!document.querySelector('.em-card'),
+        nudge: !!document.querySelector('.is-nudge'), line: (document.querySelector('.em-subbar:not([hidden])')?.textContent ?? '').trim(),
+      }));
+      expect(r).toEqual({ route: true, map: false, card: false, nudge: false, line: '' });
+      if (info.project.name.includes('se')) await snap(page, info, 'r2-gate-after');
+      // the guard is gone: a real tap on 继续 opens the level card
+      const c = (await page.locator('.em-continue').boundingBox())!;
+      await page.touchscreen.tap(c.x + c.width / 2, c.y + c.height / 2);
+      await expect(page.locator('.em-card')).toBeVisible({ timeout: 4000 });
+      expect(errors).toEqual([]);
+    });
+  }
+
+  test('parent window: a real hold on the title opens it; the PIN card and the table fit the screen', async ({ page }, info) => {
+    const errors = watchErrors(page);
+    await boot(page, { save: veteran });
+    await page.evaluate(() => { window.__em.setPin('2468'); window.__em.goto({ s: 'route' }); });
+    await page.waitForTimeout(600);
+    const t = (await page.locator('.em-route__title span').boundingBox())!;
+    expect(await page.evaluate(([x, y]) => !!document.elementFromPoint(x, y)?.closest('.em-route__title'), [t.x + t.width / 2, t.y + t.height / 2])).toBe(true);
+    await page.mouse.move(t.x + t.width / 2, t.y + t.height / 2);
+    await page.mouse.down();
+    await page.waitForTimeout(3300);
+    await page.mouse.up();
+    await expect(page.locator('.em-parent--keys')).toBeVisible({ timeout: 3000 });
+    await page.waitForTimeout(400);
+    const card = (await page.locator('.em-parent--keys').boundingBox())!;
+    const v = page.viewportSize()!;
+    expect(card.y + card.height, 'PIN card bottom').toBeLessThanOrEqual(v.height);
+    expect(card.x + card.width, 'PIN card right').toBeLessThanOrEqual(v.width);
+    expect(await auditButtons(page, '.em-parent--keys')).toEqual([]);
+    // the card clears 🏠 返回
+    const home = (await page.locator('.kit-back').boundingBox())!;
+    const ribbon = (await page.locator('.em-parent--keys .xg-ribbon').boundingBox())!;
+    expect(overlap(home, card), 'card under 🏠').toBe(false);
+    expect(overlap(home, ribbon), 'ribbon under 🏠').toBe(false);
+    await snap(page, info, 'r2-parent-pin');
+    for (const k of '2468') await page.locator(`.em-parent--keys .xg-key[data-key="${k}"]`).tap();
+    await page.locator('.em-parent--keys .xg-key[data-key="ok"]').tap();
+    await expect(page.locator('.em-parent-page')).toBeVisible({ timeout: 3000 });
+    await page.waitForTimeout(300);
+    const fit = await page.evaluate(() => {
+      const pg = document.querySelector<HTMLElement>('.em-parent-page')!;
+      const wide = [...pg.querySelectorAll<HTMLElement>('table, header, section, p, h1, h2, .xg-btn')].filter((e) => e.getBoundingClientRect().right > innerWidth + 0.5).map((e) => e.tagName + '.' + e.className);
+      return { overflowX: pg.scrollWidth - pg.clientWidth, wide };
+    });
+    expect(fit).toEqual({ overflowX: 0, wide: [] });
+    expect(await auditButtons(page, '.em-parent-page header')).toEqual([]);
+    await snap(page, info, 'r2-parent-table');
+    // 重置本游戏进度: both confirmations open ABOVE the page (they used to sit under it) and fit; 不了 keeps it
+    const confirm = async (pick: string) => {
+      const btn = page.locator('.em-over-parent .xg-modal button', { hasText: pick }).last();
+      await expect(btn).toBeVisible({ timeout: 3000 });
+      await page.waitForTimeout(350);
+      const m = (await page.locator('.em-over-parent .xg-modal').last().boundingBox())!;
+      expect(inside(m, v.width, v.height), 'confirmation inside the screen').toBe(true);
+      await btn.tap();
+      await page.waitForTimeout(450);
+    };
+    await page.locator('.em-parent__reset').tap();
+    await confirm('不了');
+    await expect(page.locator('.em-parent-page')).toBeVisible();
+    expect((await page.evaluate(() => window.__em.save())).levels['1-01']?.stars).toBe(3);
+    await page.locator('.em-parent__reset').tap();
+    await confirm('继续');
+    await confirm('清空');
+    await expect(page.locator('.em-parent-page')).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => Object.keys(window.__em.save().levels).length)).toBe(0);
+    expect(errors).toEqual([]);
+  });
+});

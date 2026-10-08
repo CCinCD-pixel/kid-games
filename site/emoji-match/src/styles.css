@@ -19,6 +19,8 @@ html, body { background: var(--xg-night-950); }
 
 /* ------------------------------------------------------------------ start gate illustration (kit request #6) */
 body[data-xg-game="match"] .kit-start { background: radial-gradient(70% 55% at 50% 40%, rgba(7, 11, 31, .25), rgba(7, 11, 31, .7)); }
+/* the gate subtitle breaks at its comma, never before a lone 远航 (QA fb1 r2, SE 320 px; main.ts phraseWrap) */
+.kit-start__subtitle .em-ph { display: inline-block; max-width: 100%; }
 .em-gate-art { position: fixed; inset: 0; z-index: calc(var(--xg-z-modal, 100) + 9); pointer-events: none; transition: opacity .5s; }
 .em-gate-art.is-leaving { opacity: 0; }
 .em-gate-ship { position: absolute; left: 50%; bottom: 5%; width: min(460px, 62vw); transform: translateX(-50%); filter: drop-shadow(0 18px 24px rgba(2, 4, 15, .55)); animation: em-float 3.2s ease-in-out infinite; }
@@ -168,6 +170,8 @@ body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { bottom: calc(ma
 .em-ghost[hidden] i { animation: none; }
 
 .em-play.is-small::after { content: "把窗口放大一点"; position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; background: rgba(7, 11, 31, .92); font: 400 32px var(--xg-font-title); }
+/* a phone held sideways that is too short for the board (SE 568×320): upright it plays fine (QA fb1 r2) */
+.em-play.is-small.is-turn::after { content: "把手机竖过来玩"; padding: 0 24px; text-align: center; }
 
 /* assist row + mini specials */
 .em-assist-row { display: flex; align-items: center; justify-content: center; gap: 8px; font: 600 20px/1.2 var(--xg-font-read); color: var(--xg-ink-700); }
@@ -181,15 +185,17 @@ body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { bottom: calc(ma
 .em-fail__goal { display: grid; justify-items: center; padding: 8px 14px; border-radius: 18px; background: var(--xg-paper-100); }
 .em-fail__icon { width: 64px; height: 64px; }
 .em-fail__goal b { font: 800 34px/1 var(--xg-font-num); color: var(--xg-ink-800); }
-.em-fail__coach { margin: 0; font: 600 24px/1.5 var(--xg-font-read); color: var(--xg-ink-800); text-align: center; }
+.em-fail__coach { margin: 0; font: 600 24px/1.5 var(--xg-font-read); color: var(--xg-ink-800); text-align: center; text-wrap: balance; }
 .em-breathe { animation: em-breath 1.6s ease-in-out infinite; }
 
 /* ------------------------------------------------------------------ route map (S1) */
 .em-route__title { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 16px); left: 0; right: 0; display: flex; justify-content: center; z-index: 2; pointer-events: none; }
 .em-route__title span { font: 400 40px/1 var(--xg-font-title); letter-spacing: .12em; text-shadow: 0 4px 0 rgba(3, 5, 22, .6); padding-top: 10px; }
 .em-route__path { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-.em-route__stops { position: absolute; inset: 0; z-index: 2; }
-.em-stop { position: absolute; width: 112px; height: 136px; margin: -56px 0 0 -56px; padding: 0; border: 0; background: none; display: grid; justify-items: center; align-content: start; gap: 2px; color: var(--xg-moon-50); cursor: pointer; }
+/* the full-screen stops layer lets taps through between the planets (QA fb1 r2: it sat over the title, so
+   the 3 s parent hold never reached it); the planets themselves catch them */
+.em-route__stops { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.em-stop { position: absolute; width: 112px; height: 136px; margin: -56px 0 0 -56px; padding: 0; border: 0; background: none; display: grid; justify-items: center; align-content: start; gap: 2px; color: var(--xg-moon-50); cursor: pointer; pointer-events: auto; }
 .em-stop .em-planet { width: 112px; height: 112px; filter: drop-shadow(0 10px 12px rgba(2, 4, 15, .55)); transition: transform .2s var(--xg-ease-back); }
 .em-stop:active .em-planet { transform: scale(.94); }
 .em-stop.is-current .em-planet { filter: drop-shadow(0 0 18px rgba(255, 224, 138, .7)) drop-shadow(0 10px 12px rgba(2, 4, 15, .55)); }
@@ -520,6 +526,7 @@ body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { bottom: calc(ma
 .em-parent__keypad { display: grid; justify-items: center; gap: 12px; }
 .em-parent-scrim.is-leaving { opacity: 0; transition: opacity .2s; }
 .em-parent-page { position: fixed; inset: 0; z-index: calc(var(--xg-z-modal, 100) + 20); overflow: auto; -webkit-overflow-scrolling: touch; background: var(--xg-paper-50, #fbf6ec); color: var(--xg-ink-800); -webkit-user-select: text; user-select: text; touch-action: pan-y; }
+.xg-scrim.em-over-parent { z-index: calc(var(--xg-z-modal, 100) + 30); } /* parent.ts reset confirmations */
 .em-parent-page__in { max-width: 980px; margin: 0 auto; padding: calc(env(safe-area-inset-top, 0px) + 24px) 24px 60px; font: 400 18px/1.6 var(--xg-font-ui); }
 .em-parent-page header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .em-parent-page h1 { margin: 0; font: 400 32px var(--xg-font-title); letter-spacing: .06em; }
@@ -532,6 +539,9 @@ body:has(#app[data-screen="route"]) .em-subbar:not(.is-docked) { bottom: calc(ma
 .em-parent-page th, .em-parent-page td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #efe6d4; font-size: 16px; }
 .em-parent-page th { background: #f4ecdb; font-weight: 700; }
 .em-parent__reset { margin-top: 8px; }
+.em-parent-page h1 span, .em-parent__metrics span i { display: inline-block; font-style: normal; } /* line breaks between phrases */
+.em-pt__teach { display: none; }
+.em-pt td > b { font-weight: inherit; }
 .em-tool__icon .xg-icon { width: 100%; height: 100%; display: block; color: #ffe9a8; }
 /* puzzle bulb: rings + wobble after 20 s without a touch (setHintReady → data-state="ready") */
 .em-tool[data-id="hint"]::before, .em-tool[data-id="hint"]::after { content: ""; position: absolute; inset: -4px; border-radius: 28px; border: 3px solid var(--xg-gold-500); opacity: 0; pointer-events: none; }
@@ -752,6 +762,32 @@ body:not(:has(.xg-scrim)) .xg-confetti { opacity: 0; transition: opacity .2s eas
 
   /* first-run cutscene + gate art */
   .em-cut__ship { width: min(300px, 80vw); }
+
+  /* lose card: the coach line on one row where it fits, else split evenly (QA fb1 r2: a lone 试。 on an SE) */
+  .em-fail__coach { font-size: 21px; line-height: 1.45; }
+
+  /* parent window (S12): the PIN card fits the screen (QA fb1 r2: a fixed 614 px card ran off an SE and
+     a sideways phone, ✓ and 关闭 out of reach); 64×52 keys keep well over 44 px */
+  .em-parent { gap: 10px; padding-top: 40px; }
+  .em-parent__msg { font-size: 18px; line-height: 1.5; text-align: center; }
+  .em-parent__keypad { gap: 8px; }
+  .em-parent .xg-display { box-sizing: border-box; width: 216px; max-width: 100%; min-width: 0; height: 56px; padding: 0 16px; font-size: 38px; }
+  .em-parent .xg-display__caret { height: 34px; }
+  .em-parent .xg-keypad { --xg-hit-key: 64px; gap: 8px 12px; }
+  .em-parent .xg-key { height: 52px; border-radius: 18px; font-size: 28px; }
+  .em-parent .xg-key .xg-icon { font-size: 28px; }
+  .em-parent > .xg-modal__actions { margin-top: 0; }
+  /* parent page (the S12 table): compact type, a header that wraps, a table that fits the width */
+  .em-parent-page__in { padding: calc(env(safe-area-inset-top, 0px) + 14px) calc(12px + env(safe-area-inset-right, 0px)) 40px calc(12px + env(safe-area-inset-left, 0px)); font-size: 16px; line-height: 1.5; }
+  .em-parent-page header { gap: 10px; }
+  .em-parent-page h1 { flex: 1 1 0; min-width: 0; font-size: 24px; line-height: 1.25; }
+  .em-parent-page h1 + .xg-btn { flex: none; }
+  .em-parent-page h2 { margin: 20px 0 8px; font-size: 19px; }
+  .em-parent__metrics { gap: 8px; margin-top: 12px; }
+  .em-parent__metrics div { padding: 10px 12px; }
+  .em-parent__metrics b { font-size: 21px; }
+  .em-parent__metrics span { font-size: 15px; }
+  .em-parent-page th, .em-parent-page td { padding: 6px 5px; font-size: 14px; line-height: 1.4; }
 }
 /* phone portrait: modals start below the 🏠 button (the ribbon must not slide under it) */
 @media (orientation: portrait) and (max-width: 599px) {
@@ -772,6 +808,15 @@ body:not(:has(.xg-scrim)) .xg-confetti { opacity: 0; transition: opacity .2s eas
   .em-hangar__art { width: min(170px, 46vw); }
   .em-hangar__book { position: relative; inset: auto; height: auto; min-height: 0; flex: 1 1 0; }
   body:has(#app[data-screen="map"]) .em-subbar:not(.is-docked), body:has(#app[data-screen="hangar"]) .em-subbar:not(.is-docked) { top: calc(max(12px, env(safe-area-inset-top, 0px)) + 124px); }
+  .em-parent__metrics { grid-template-columns: 1fr; }
+  /* the tables: the teach column folds under the level id, so the numbers keep their own narrow columns */
+  .em-pt .em-pt__col { display: none; }
+  .em-pt .em-pt__teach { display: block; margin-top: 2px; color: var(--xg-ink-500); }
+  .em-pt th, .em-pt td:not(:first-child):not(:last-child) { white-space: nowrap; }
+  .em-pt td:first-child b { font: 800 15px/1.3 var(--xg-font-num); }
+}
+@media (orientation: portrait) and (max-width: 374px) {
+  .em-parent-page h1 { font-size: 21px; }
 }
 @media (orientation: portrait) and (max-width: 374px) {
   .em-tab .xg-icon { display: none; }
@@ -834,4 +879,19 @@ body:not(:has(.xg-scrim)) .xg-confetti { opacity: 0; transition: opacity .2s eas
   .em-sky__card svg { max-height: 130px; }
   .em-route__bar { left: calc(12px + env(safe-area-inset-left, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); gap: 10px; }
   .em-continue { right: calc(12px + env(safe-area-inset-right, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  /* parent PIN card: the number and 关闭 on the left, the keypad on the right (390 px tall: four key rows) */
+  .xg-modal.em-parent--keys { width: auto; max-width: 100%; grid-template-columns: auto auto; grid-template-rows: 1fr auto auto 1fr; align-items: center; column-gap: 28px; row-gap: 14px; padding: 40px 24px 14px; }
+  .em-parent--keys .em-parent__keypad { display: contents; }
+  .em-parent--keys .xg-display { grid-column: 1; grid-row: 2; }
+  .em-parent--keys .xg-keypad { grid-column: 2; grid-row: 1 / 5; }
+  .em-parent--keys > .xg-modal__actions { grid-column: 1; grid-row: 3; }
+}
+/* phones held sideways under 340 px tall (SE 568×320): shorter keys so all four rows fit */
+@media (orientation: landscape) and (max-height: 339px) {
+  .em-parent .xg-key { height: 46px; }
+  .em-parent .xg-keypad { --xg-hit-key: 58px; gap: 6px 10px; }
+  .xg-modal.em-parent--keys { padding: 36px 20px 10px; column-gap: 20px; }
+  .em-parent .xg-display { width: 156px; }
+  /* centred in the room right of 🏠 返回, so the pill never sits on the card's corner */
+  .em-parent-scrim:has(.em-parent--keys) { padding-left: calc(116px + 8px + env(safe-area-inset-left, 0px)); }
 }

@@ -5,7 +5,7 @@
  */
 import { initShell, currentLayout, type Shell } from '@kit/shell';
 import { createSubtitleBar } from '@kit/ui';
-import { installPhraseWrap } from './view/phrase-wrap';
+import { installPhraseWrap, phraseWrap } from './view/phrase-wrap';
 import { requestPersistence } from '@kit/progress';
 import { App } from './app';
 import type { AppCtx } from './ctx';
@@ -21,6 +21,28 @@ import './styles.css';
 
 const params = new URLSearchParams(location.search);
 const root = document.getElementById('app')!;
+
+/**
+ * QA fb1 r2: the kit's start gate starts the game on pointerup and stops catching pointers at once
+ * (data-leaving), so on a touch screen the click of that same tap is hit-tested again and lands on
+ * whatever the first screen put under 开始 — a route planet on an SE or on a phone held sideways
+ * (这条航线还在建造 for a new player, an episode map nobody chose for a veteran). The first click after the
+ * gate opens belongs to that tap: unless it landed on the gate itself (mouse, keyboard), it is swallowed
+ * in the capture phase before any screen sees it. Kit request: keep the gate catching that tap until it
+ * is gone, which would cover every game.
+ */
+function swallowGateClick(): void {
+  let timer = 0;
+  const eat = (e: MouseEvent) => {
+    off();
+    if ((e.target as Element | null)?.closest?.('.kit-start')) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  };
+  const off = () => { window.removeEventListener('click', eat, true); window.clearTimeout(timer); };
+  window.addEventListener('click', eat, true);
+  timer = window.setTimeout(off, 1000);
+}
 
 /** started by boot.ts (dynamic import; the legacy page never loads this chunk or its CSS) */
 export async function startGame(): Promise<void> {
@@ -102,10 +124,13 @@ export async function startGame(): Promise<void> {
     onLayout: () => { syncHome(); app?.resize(); },
   });
   ctx.shell = shell;
+  const gateSub = document.querySelector<HTMLElement>('.kit-start__subtitle');
+  if (gateSub) phraseWrap(gateSub); // 收集星晶，/ 开着星晶号去远航 on an SE, never a lone 远航 (QA fb1 r2)
   syncHome();
   root.dataset.gate = ''; // the start gate is up (smoke marker; data-ready follows after the tap)
   if (test) { const { installTestHook } = await import('./dev/test-hook'); installTestHook(ctx, () => app); }
   await shell.ready;
+  if (!test) swallowGateClick();
   syncHome();
   art.classList.add('is-leaving');
   window.setTimeout(() => art.remove(), 600);

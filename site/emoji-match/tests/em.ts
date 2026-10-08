@@ -29,6 +29,7 @@ export interface EmHook {
   pause(): void;
   resume(): void;
   setSave(o: Record<string, unknown>): void;
+  setPin(pin: string | null): void;
   save(): Record<string, any>;
   rects(): Record<string, any> | null;
   board(): string | null;

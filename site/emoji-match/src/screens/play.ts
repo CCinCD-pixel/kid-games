@@ -345,7 +345,11 @@ export class PlayScreen {
     const want = `${key}-${l.orientation}`;
     if (this.bg.dataset.key !== want) { this.bg.innerHTML = backdrop(key, l.orientation === 'landscape'); this.bg.dataset.key = want; }
     this.el.classList.toggle('is-small', l.tooSmall);
-    if (l.tooSmall && !this.el.dataset.smallSaid) { this.el.dataset.smallSaid = '1'; void this.app.voice.say('em.window.small'); }
+    // a phone held sideways that is too short (SE 568×320) is told to turn upright, without the
+    // 把窗口放大一点 voice (no window to enlarge there; QA fb1 r2)
+    const turn = l.tooSmall && l.size === 'phone' && l.orientation === 'landscape';
+    this.el.classList.toggle('is-turn', turn);
+    if (l.tooSmall && !turn && !this.el.dataset.smallSaid) { this.el.dataset.smallSaid = '1'; void this.app.voice.say('em.window.small'); }
     if (prev && prev !== l.cell) void this.ensureAtlas().then(() => this.draw());
     else this.draw();
     if (this.ghost.active && this.lessonOnly) this.demoLesson();

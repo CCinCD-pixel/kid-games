@@ -7,6 +7,7 @@ import type { PlayScreen } from '../screens/play';
 import type { BoosterUse, Move } from '../core/types';
 import { boardString } from '../core';
 import { stepToOp } from '../core/expect';
+import { clearPin, setPin } from '@kit/settings';
 
 export function installTestHook(ctx: AppCtx, app: () => App | null): void {
   const play = () => ctx.play as PlayScreen | null;
@@ -38,6 +39,8 @@ export function installTestHook(ctx: AppCtx, app: () => App | null): void {
     pause: () => play()?.pause(),
     resume: () => play()?.resume(),
     setSave: (obj: Record<string, unknown>) => { Object.assign(ctx.save.data, obj); ctx.save.commit(); },
+    /** the parent PIN (kit/settings) for the S12 tests; null clears it */
+    setPin: (pin: string | null) => { if (pin) setPin(pin); else clearPin(); },
     save: () => JSON.parse(JSON.stringify(ctx.save.data)),
     rects: () => play()?.rects() ?? null,
     board: () => { const p = play(); return p ? boardString(p.st) : null; },
