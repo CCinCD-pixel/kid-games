@@ -94,7 +94,7 @@ test.describe('phone held upright mid-scene', () => {
 });
 
 test.describe('phone landscape', () => {
-  test.beforeEach(({}, info) => { test.skip(!/land/.test(info.project.name), 'phone landscape projects'); });
+  test.beforeEach(({}, info) => { test.skip(!/^phone-land/.test(info.project.name), 'phone landscape projects (not the iPad landscape-1080x810)'); });
 
   test('1-1: the HUD is on screen, nothing overlaps, targets ≥ 44 px, text ≥ 13 px; a drag places the card', async ({ page }) => {
     test.setTimeout(60_000);

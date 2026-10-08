@@ -93,7 +93,20 @@ const SCREENS: Array<[string, Record<string, unknown>]> = [
   ['比大小 L1-2', { name: 'item', id: 'L1-2' }],
 ];
 
-test.describe('陆战棋 · phones', () => {
+/**
+ * Each phone case runs on its own phone project (tests/military-chess/playwright.dev.config.ts) and, in the
+ * platform smoke (tests/smoke, iPad projects only), once on the iPad portrait project with the phone viewport.
+ */
+const PHONES = [
+  ['phone-390x664', { width: 390, height: 664 }],
+  ['phone-se-320x568', { width: 320, height: 568 }],
+  ['phone-land-844x390', { width: 844, height: 390 }],
+] as const;
+
+for (const [pname, viewport] of PHONES) test.describe(`陆战棋 · phones · ${pname}`, () => {
+  test.use({ viewport, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+  test.beforeEach(({}, info) => test.skip(info.project.name !== pname && info.project.name !== 'portrait-810x1080', 'one phone per project'));
+
   test('every menu screen and lesson fits the phone (no clipping, overlap or tiny targets)', async ({ page }) => {
     await open(page);
     const bad: string[] = [];
@@ -106,7 +119,7 @@ test.describe('陆战棋 · phones', () => {
     expect(bad).toEqual([]);
   });
 
-  test('a 翻翻棋 game: the board fills the screen, piece names are readable, the HUD fits', async ({ page }, info) => {
+  test('a 翻翻棋 game: the board fills the screen, piece names are readable, the HUD fits', async ({ page }) => {
     await open(page);
     await match(page);
     expect(await audit(page)).toEqual([]);
@@ -125,7 +138,7 @@ test.describe('陆战棋 · phones', () => {
       }
       return m;
     });
-    expect(min).toBeGreaterThanOrEqual(info.project.name === 'phone-390x664' ? 14 : 12.9);
+    expect(min).toBeGreaterThanOrEqual(pname === 'phone-390x664' ? 14 : 12.9);
     // the menu sheet fits as well
     await page.locator('[data-testid="menu"]').click();
     await page.waitForTimeout(500);
