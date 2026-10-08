@@ -1,7 +1,7 @@
 // App state machine (spec §8.4): gate → (first time) 1-1 → result → map ⇄ preview → battle → result | debrief.
 // Each screen = mount(root, app, …) → { destroy, layout? }. Never auto-advances (the child chooses every next step).
 // Snapshots (pause/leave + each 战鼓) go to IndexedDB through snapstore.ts; the save only points at them.
-import { showResult, confetti } from '@kit/ui';
+import { showResult, confetti, shouldAutoSkip } from '@kit/ui';
 import { installPointRead } from './pointread';
 import { setHubProgress } from '@kit/progress';
 import type { LayoutInfo } from '@kit/shell';
@@ -61,7 +61,12 @@ export function startApp(root: HTMLElement, app: AppCtx): { layout(l: LayoutInfo
       else { app.save.resume = null; app.persist(); if (rec) app.mark('gf-desync', { level: r.level }); }
     }
     const newPages = (ALMANAC as unknown as { id: string }[]).filter((p) => isNewPage(app, p as never)).length;
-    swap(mountMap(root, app, (id) => void preview(id), { onAlmanac: almanac, onPuzzles: puzzles, resume, newPages, onSettings: () => openSettings(app) }));
+    swap(mountMap(root, app, (id) => void preview(id), { onAlmanac: almanac, onPuzzles: puzzles, resume, newPages, onSettings: () => openSettings(app, undefined, { replay }) }));
+  }
+  /** 设置 → 故事和教学 (Dad, 2026-10-08): every skipped or seen scene and the 1-1 lesson stay replayable */
+  function replay(what: StoryId | 'tut'): void {
+    if (what === 'tut') battle('1-1', LEVELS['1-1'].loadout || ['shooter'], undefined, 0, true);
+    else { swap(null); stopMusic(300); void playStory(root, app, what, { replay: true }).then(() => void map()); }
   }
   function almanac(): void { swap(mountAlmanac(root, app, () => void map())); }
   // ── 锦囊谜题 (static drills, spec §3.18) ──
@@ -94,12 +99,12 @@ export function startApp(root: HTMLElement, app: AppCtx): { layout(l: LayoutInfo
     const lv = LEVELS[id];
     swap(mountPreview(root, app, lv, (deck) => battle(id, deck, undefined, assist), () => void map(), assist));
   }
-  function battle(id: string, deck: string[], resume?: { snap: Snapshot; restore: boolean; paused?: boolean; checkpoint?: { snap: Snapshot; flag: number } | null }, assist: 0 | 1 | 2 = 0): void {
+  function battle(id: string, deck: string[], resume?: { snap: Snapshot; restore: boolean; paused?: boolean; checkpoint?: { snap: Snapshot; flag: number } | null }, assist: 0 | 1 | 2 = 0, tutorial = false): void {
     stopMusic(500);
     const lv = LEVELS[id]; const rec = app.save.levels[id];
     const seed = ((rec?.attempts ?? 0) * 7919 + ORDER.indexOf(id) * 31 + 1) % 100000 || 1;
     const s: Screen = mountBattle(root, app, {
-      level: lv, loadout: deck, seed, resume: resume?.snap ?? null, restore: resume?.restore, startPaused: !!resume?.paused, checkpoint: resume?.checkpoint ?? null, assist,
+      level: lv, loadout: deck, seed, resume: resume?.snap ?? null, restore: resume?.restore, startPaused: !!resume?.paused, checkpoint: resume?.checkpoint ?? null, assist, tutorial,
       onSnap: (snap, kind, flag, now) => {
         const p = putSnap({ key: kind, level: id, kind, seed, loadout: deck, snap, h: snap.h, kernelVersion: KERNEL_VERSION, restored: snap.restored || 0, assist, flag, at: new Date().toISOString() }, now);
         app.save.resume = { level: id, kind, key: kind, at: new Date().toISOString() }; // always the newest snapshot
@@ -124,6 +129,7 @@ export function startApp(root: HTMLElement, app: AppCtx): { layout(l: LayoutInfo
     const before = s.learned.length;
     for (const [k, fs] of Object.entries(FEARS)) for (const c of fs) { const key = `${k}>${c}`; if (!s.learned.includes(key) && learned(s.counters, k, c)) s.learned.push(key); }
     if (r.result === 'win') {
+      if (id === '1-1' && !s.story.includes('tut.1-1')) s.story.push('tut.1-1'); // the 1-1 lesson is done: later 1-1s play without it (设置 replays it)
       rec.wins++; rec.best = Math.max(rec.best, r.stars) as Stars; s.lossStreak[id] = 0;
       const nx = nextLevel(id); if (nx && ORDER.indexOf(nx) > ORDER.indexOf(s.current)) s.current = nx;
     } else s.lossStreak[id] = (s.lossStreak[id] ?? 0) + 1;
@@ -195,7 +201,11 @@ export function startApp(root: HTMLElement, app: AppCtx): { layout(l: LayoutInfo
     // the first-run chain 序幕 → 码头 → 旅途地图 (spec §2.1): the child's first look at the journey map, with its 3-s
     // first-visit guide, whichever button he pressed on the 1-1 result (QA r5)
     if (id === '1-1' && !s.story.includes('prologue')) { await story('prologue'); await story('dock'); dest = 'map'; }
-    if (CAMPAIGN.inns[id] && !s.story.includes('inn.' + id)) dest = (await inn(id)) === 'more' ? 'next' : 'map';
+    // the 驿站 offers its two buttons at once; under the parent's 跳过开场和教学 it is skipped (seen) and his result-screen choice stands
+    if (CAMPAIGN.inns[id] && !s.story.includes('inn.' + id)) {
+      if (shouldAutoSkip()) { s.story.push('inn.' + id); app.persist(); app.mark('gf-inn', { level: id, skipped: true }); }
+      else dest = (await inn(id)) === 'more' ? 'next' : 'map';
+    }
     const V = CAMPAIGN.volumes[volOf(id) - 1]; const end: StoryId = volOf(id) === 1 ? 'v1end' : 'v2end';
     if (V.levels[V.levels.length - 1] === id && !s.story.includes(end)) await story(end);
     const nx = nextLevel(id);

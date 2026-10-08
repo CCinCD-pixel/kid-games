@@ -107,8 +107,8 @@ test('after a win: 宋城 close-up → 序幕 + 码头 (first 1-1) → map; 驿�
   await page.evaluate(() => (window as unknown as { __gfApp: { win(id: string, s: number): void } }).__gfApp.win('1-1', 2));
   await expect(page.locator('.gf-repair canvas')).toBeVisible();
   await page.getByRole('button', { name: '回地图' }).click();
-  await expect(page.locator('.gf-story--prologue')).toBeVisible(); await page.locator('.gf-skip').click();
-  await expect(page.locator('.gf-story--dock')).toBeVisible(); await page.locator('.gf-skip').click();
+  await expect(page.locator('.gf-story--prologue')).toBeVisible(); await page.locator('.gf-story .xg-skip').click();
+  await expect(page.locator('.gf-story--dock')).toBeVisible(); await page.locator('.gf-story .xg-skip').click();
   await expect(page.locator('.gf-song')).toContainText('1/22');
   // 1-3 is the first 驿站
   await page.evaluate(() => (window as unknown as { __gfApp: { win(id: string, s: number): void } }).__gfApp.win('1-3', 3));
@@ -399,8 +399,8 @@ test('r5: first 1-1 win → 下一关 → 序幕 → 码头 → the journey map 
   await page.waitForTimeout(800);
   await page.evaluate(() => (window as unknown as { __gfApp: { win(id: string, s: number): void } }).__gfApp.win('1-1', 2));
   await page.getByRole('button', { name: '下一关' }).click();
-  await expect(page.locator('.gf-story--prologue')).toBeVisible(); await page.locator('.gf-skip').click();
-  await expect(page.locator('.gf-story--dock')).toBeVisible(); await page.locator('.gf-skip').click();
+  await expect(page.locator('.gf-story--prologue')).toBeVisible(); await page.locator('.gf-story .xg-skip').click();
+  await expect(page.locator('.gf-story--dock')).toBeVisible(); await page.locator('.gf-story .xg-skip').click();
   await expect(page.locator('.gf-map')).toBeVisible(); await expect(page.locator('.gf-pv__table')).toHaveCount(0);
   expect(errors).toEqual([]);
 });

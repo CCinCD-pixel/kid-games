@@ -1,6 +1,6 @@
 // Menu-type screens on the 星港 paper-cut night (spec §2.1–2.3, §6.6): the journey map, 鲁班亮招 + 选牒,
 // and the 复盘 (debrief). Kit components (.xg-*) + lacquered-wood-toy illustrations from the same rigs.
-import { nodeMap, icon, bindPress, ghostTap, type MapNode } from '@kit/ui';
+import { nodeMap, icon, bindPress, ghostTap, shouldAutoSkip, type MapNode } from '@kit/ui';
 import { CAMPAIGN, LEVELS, PLAYABLE_VOLUMES, previewKinds, nameOf, UNIT_INFO, ENEMY_INFO } from '../content';
 import { sayCard, endCard } from '../pointread';
 import { recommend } from '../bots/loadout';
@@ -59,8 +59,10 @@ export function mountMap(root: HTMLElement, app: AppCtx, onPick: (id: string) =>
     nodeMap(road, nodes, { onPick: (n) => { if (n.state !== 'locked' && PLAYABLE_VOLUMES.includes(+n.id.split('-')[0])) { app.ui('ui-confirm', 0.5); onPick(n.id); } else app.ui('ui-locked', 0.5); }, marker: here ? m : undefined, pad: 56 });
   };
   // first time on the volume-2 road: the sky turns from day to night (3 s, spec §4.13)
+  // (the parent's 跳过开场和教学 skips the 3-s change and the first-visit guide below: both count as seen)
   const night = vol === 2 && !app.save.story.includes('map.night');
-  if (night) { el.classList.add('is-v1'); requestAnimationFrame(() => requestAnimationFrame(() => { el.classList.add('is-dusk'); draw(); })); app.save.story.push('map.night'); app.persist(); }
+  if (night && shouldAutoSkip()) { app.save.story.push('map.night'); app.persist(); requestAnimationFrame(draw); }
+  else if (night) { el.classList.add('is-v1'); requestAnimationFrame(() => requestAnimationFrame(() => { el.classList.add('is-dusk'); draw(); })); app.save.story.push('map.night'); app.persist(); }
   else requestAnimationFrame(draw);
   for (const b of el.querySelectorAll<HTMLElement>('.gf-tabs button')) b.addEventListener('click', () => {
     const v = +b.dataset.v!; if (v === vol) return;
@@ -70,7 +72,7 @@ export function mountMap(root: HTMLElement, app: AppCtx, onPick: (id: string) =>
   el.querySelector('.gf-bigcard--alm')?.addEventListener('click', () => { app.ui('ui-open', 0.5); mo?.onAlmanac(); });
   el.querySelector('.gf-bigcard--pz')?.addEventListener('click', () => { if (!pz || !mo?.onPuzzles) { app.ui('ui-locked', 0.5); return; } app.ui('ui-open', 0.5); mo.onPuzzles(); });
   // first time on the map (after 序幕 + 码头): a 3-s ghost tap on the next station (spec §2.1)
-  if (!app.save.story.includes('map.guide')) { app.save.story.push('map.guide'); app.persist(); setTimeout(() => { const n = el.querySelector('.xg-node--current'); if (n && el.isConnected) void ghostTap(n); }, 900); }
+  if (!app.save.story.includes('map.guide')) { app.save.story.push('map.guide'); app.persist(); if (!shouldAutoSkip()) setTimeout(() => { const n = el.querySelector('.xg-node--current'); if (n && el.isConnected) void ghostTap(n); }, 900); }
   // 宋城修复沙盘 (§5.7): bottom-left of the journey (the side column), tap → the big tray
   const songEl = el.querySelector('.gf-song') as HTMLElement; const song = mountSong(songEl, app.save, app.dpr, { fps: 20 });
   (songEl.querySelector('.gf-song__cap') as HTMLElement).innerHTML = songCaption(app);
@@ -145,6 +147,8 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
       <button class="xg-btn xg-btn--primary xg-btn--lg gf-pv__go">${icon('play')}开始推演</button></section>
     <div class="gf-info"></div>`;
   const port = (): boolean => app.layout.height > app.layout.width;
+  /** phone landscape (shorter side < 600 px): the table and the deck panel are half as tall as on the iPad */
+  const phone = (): boolean => !port() && app.layout.height < 600;
   (el.querySelector('.gf-pv__luban') as HTMLElement).append(portrait('luban', 96, app.dpr, 'laugh'));
   // 鲁班's line in his own voice, the characters typing in step with the clip; before his clips have loaded: typewriter +
   // wooden clicks, then the narrator reads 「鲁班说：……」 while the characters light up
@@ -179,10 +183,10 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
     // portrait: one row; with 7–8 kinds (2-10) each column is exactly one figure wide with a compact name plate, so
     // neighbours never overlap (QA r5); a lone machine stands big on the table
     const dense = P && n > 6;
-    const ms = P ? (n <= 1 ? 236 : n === 2 ? 184 : n <= 4 ? 136 : n <= 6 ? 96 : 86) : (n <= 1 ? 280 : n === 2 ? 216 : n <= 4 ? 168 : 128);
+    const ms = P ? (n <= 1 ? 236 : n === 2 ? 184 : n <= 4 ? 136 : n <= 6 ? 96 : 86) : phone() ? (n <= 1 ? 128 : n === 2 ? 100 : n <= 4 ? 76 : n <= 6 ? 60 : 52) : (n <= 1 ? 280 : n === 2 ? 216 : n <= 4 ? 168 : 128);
     mEl.dataset.dense = dense ? '1' : '';
     kinds.forEach((k, i) => {
-      const b = h('button', 'gf-pv__m'); b.dataset.word = nameOf(k); b.style.animationDelay = `${0.15 + i * 0.3}s`; b.style.width = ms + (dense ? 6 : 16) + 'px';
+      const b = h('button', 'gf-pv__m'); b.dataset.word = nameOf(k); b.style.animationDelay = `${0.15 + i * 0.3}s`; b.style.width = Math.max(ms + (dense ? 6 : 16), phone() ? 64 : 0) + 'px';
       b.append(rigIcon(atlas, k, ms, app.dpr, { walk: i * 7 }));
       b.insertAdjacentHTML('beforeend', `<span>${nameOf(k)}</span>${k === lv.newEnemy || (lv.newEnemy === 'swarm' && k === 'ant') ? '<i class="gf-new">新</i>' : ''}`);
       b.addEventListener('click', () => info(k)); mEl.appendChild(b);
@@ -209,11 +213,12 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
   const missing = (): string[] => rec.filter((c) => !deck.includes(c));
   let sw = 76, pw = 72;
   function sizeCards(): void { // slot row = one row; the pool fills the panel width (4–5 columns landscape, up to 7 portrait)
-    const w = Math.max(240, pane.clientWidth - 32); const P = port(); const ns = choose ? (lv.slots || 6) : Math.max(1, deck.length);
+    const w = Math.max(240, pane.clientWidth - (phone() ? 20 : 32)); const P = port(); const ns = choose ? (lv.slots || 6) : Math.max(1, deck.length);
     // 7-slot levels (2-9…2-11) must fit one row in the landscape side panel too: tighter gap, never wider than the tray
-    const gap = ns >= 7 ? 6 : 8; slots.style.gap = `${gap}px`;
-    sw = Math.max(40, Math.min(P ? 92 : 88, Math.floor((w - 16 - (ns - 1) * gap) / ns))); // the slot tray has 8 px padding
-    const cols = Math.max(1, Math.min(pool.length || 1, P ? 8 : 5)); pw = Math.max(60, Math.min(84, Math.floor((w - (cols - 1) * 8) / cols)));
+    const ph = phone(); // phones: smaller slots (still ≥ 44 px), and the pool goes up to 8 across so it stays in one or two rows
+    const gap = ph ? (ns >= 7 ? 4 : 6) : ns >= 7 ? 6 : 8; slots.style.gap = `${gap}px`;
+    sw = Math.max(ph ? 44 : 40, Math.min(P ? 92 : ph ? 54 : 88, Math.floor((w - (ph ? 10 : 16) - (ns - 1) * gap) / ns))); // the slot tray has 8 px padding (5 on phones)
+    const cols = Math.max(1, Math.min(pool.length || 1, P || ph ? 8 : 5)); pw = Math.max(ph ? 46 : 60, Math.min(ph ? 54 : 84, Math.floor((w - (cols - 1) * 8) / cols)));
     pane.style.setProperty('--slot', sw + 'px'); pane.style.setProperty('--pool', pw + 'px');
   }
   function render(): void {

@@ -448,8 +448,6 @@ html[data-orientation="portrait"] .gf-story__bot { left: 7%; bottom: 31%; }
 .gf-cap:has(.gf-cap__who:empty) { padding-left: 24px; }
 .gf-cap__t { margin: 0; font: 28px/1.4 var(--xg-font-read); }
 .gf-cap[data-role="luban"] { background: rgba(255,228,214,.96); }
-.gf-skip { position: absolute; right: 18px; bottom: calc(22px + var(--kit-safe-bottom, 0px)); z-index: 2; display: inline-flex; align-items: center; gap: 4px; }
-.gf-skip svg { width: 22px; height: 22px; }
 html[data-orientation="portrait"] .gf-cap { bottom: calc(100px + var(--kit-safe-bottom, 0px)); max-width: calc(100% - 48px); }
 /* 驿站 */
 .gf-inn__ui { position: absolute; inset: 0; pointer-events: none; }
@@ -728,3 +726,229 @@ html[data-orientation="landscape"] .gf-boss__bar { min-height: 30px; }
 .gf-battle[data-orient="landscape"].has-boss .gf-bubble--luban { font-size: 19px; max-width: none; padding: 7px 12px; }
 .gf-battle[data-orient="landscape"] .gf-bubble--luban { text-wrap: balance; }
 .gf-bonus { font-size: 24px; }
+
+/* ═════════════ 设置 → 故事和教学 (Dad, 2026-10-08: whatever can be skipped stays replayable) ═════════════ */
+.gf-set__replay { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 10px 14px; padding: 10px 14px; border-radius: 18px; background: rgba(255,255,255,.62); color: #3a2414; text-align: left; }
+.gf-set__chips { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
+.gf-set__chips .xg-btn { --h: 48px; --fs: 18px; --px: 16px; min-height: 48px; }
+
+/* ═════════════ 把手机横过来玩 — a phone held upright (shorter side < 600 px; Dad's phone, 2026-10-08) ═════════════ */
+.gf-rotate { display: none; }
+@media (orientation: portrait) and (max-width: 599px) {
+  .gf-rotate { position: fixed; inset: 0; z-index: calc(var(--xg-z-modal, 100) + 15); display: grid; align-content: center; justify-items: center; gap: 10px; box-sizing: border-box;
+    padding: max(24px, env(safe-area-inset-top, 0px)) 24px max(24px, env(safe-area-inset-bottom, 0px)); text-align: center; color: #fff6e3; touch-action: none;
+    background: radial-gradient(ellipse at 50% 30%, #2b3a6b, #131a35 72%); }
+  .xg-skip { visibility: hidden !important; pointer-events: none !important; } /* nothing to skip under the card */
+}
+.gf-rotate__stage { position: relative; width: 248px; height: 196px; }
+.gf-rotate__mozi { position: absolute; left: 0; bottom: 0; filter: drop-shadow(0 6px 0 rgba(0,0,0,.35)); }
+.gf-rotate__mozi canvas { display: block; }
+.gf-rotate__phone { position: absolute; right: 26px; top: 24px; width: 72px; height: 128px; box-sizing: border-box; border-radius: 16px; border: 5px solid #ffe7a6; background: #3b2415;
+  box-shadow: 0 6px 0 rgba(0,0,0,.35); animation: gf-rot 3.2s cubic-bezier(.6,0,.3,1) infinite; }
+.gf-rotate__screen { position: absolute; inset: 8px 5px; border-radius: 6px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; padding: 3px; background: #8a5a35; }
+.gf-rotate__screen b { border-radius: 2px; background: linear-gradient(90deg, #efdcae, #d1b27a); }
+.gf-rotate__arrow { position: absolute; right: 0; top: 0; width: 46px; height: 46px; color: #ffe7a6; animation: gf-rot-arrow 3.2s ease-in-out infinite; }
+.gf-rotate__t { margin: 8px 0 0; font: 400 34px/1.15 var(--xg-font-title); color: #ffe7a6; text-shadow: 0 3px 0 rgba(0,0,0,.35); letter-spacing: .04em; }
+.gf-rotate__s { margin: 0; max-width: 18em; font: 18px/1.5 var(--xg-font-read); opacity: .88; }
+@keyframes gf-rot { 0%, 22% { transform: rotate(0deg); } 50%, 78% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
+@keyframes gf-rot-arrow { 0%, 20% { opacity: .95; transform: none; } 50%, 80% { opacity: .3; transform: rotate(-24deg); } 100% { opacity: .95; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .gf-rotate__phone, .gf-rotate__arrow { animation: none; } .gf-rotate__phone { transform: rotate(-90deg); } }
+
+/* ═════════════ phone landscape (shorter side < 600 px): every screen of the game (Dad's phone, 2026-10-08) ═════════════
+   The battle HUD is laid out in battle.ts (placeHud, data-phone); everything else is here. iPads never match. */
+@media (orientation: landscape) and (max-height: 599px) {
+  /* kit modals on this page (result, 设置, 宋城 tray): compact, never taller than the screen */
+  .xg-scrim { padding: 26px 12px 8px; }
+  .xg-modal { padding: 34px 18px 14px; border-radius: 24px; box-sizing: border-box; } /* (no overflow clip: the ribbon sits on the edge) */
+  .xg-ribbon { top: -20px; height: 48px; min-width: 0; padding: 0 38px; font-size: 21px; letter-spacing: .04em; }
+  .xg-modal__title { font-size: 22px; margin-bottom: 2px; }
+  .xg-modal__text { font-size: 16px; line-height: 1.4; margin-bottom: 6px; }
+  .xg-modal__actions { gap: 10px; margin-top: 10px; }
+  .xg-modal__close { right: 8px; top: 8px; }
+  .xg-btn { --h: 48px; --fs: 17px; --px: 16px; --depth: 4px; }
+  .xg-btn--lg { --h: 52px; --fs: 19px; --px: 20px; --depth: 5px; }
+  .xg-result-stars { height: 60px; margin: -4px 0 0; }
+  .xg-rstar { width: 46px; height: 46px; } .xg-rstar:nth-child(2) { width: 58px; height: 58px; transform: translateY(-6px); }
+  .xg-stat { min-width: 0; padding: 6px 10px 5px; } .xg-stat b { font-size: 20px; } .xg-stat span { font-size: 13px; }
+  /* result: stars + words + 附加题 left, 今天学会了 / 宋城修复 right, the three buttons under both */
+  .gf-resultp { width: min(780px, 100%); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 18px; align-content: start; padding-top: 30px; }
+  .gf-resultp > * { grid-column: 1; }
+  .gf-resultp > .gf-learned { grid-column: 2; grid-row: 1 / span 2; width: 100%; margin: 0; align-self: center; box-sizing: border-box; }
+  .gf-resultp > .gf-repair { grid-column: 2; grid-row: 1 / span 4; width: 100%; height: 150px; margin: 0; align-self: center; }
+  .gf-resultp:has(> .gf-learned) > .gf-repair { grid-row: 3 / span 2; height: 112px; }
+  .gf-resultp > .xg-modal__actions { grid-column: 1 / -1; }
+  .gf-resultp:not(:has(> .gf-learned, > .gf-repair)) { grid-template-columns: minmax(0, 1fr); width: min(560px, 100%); }
+  .gf-resultp .xg-btn[data-act] { --h: 50px; --fs: 18px; height: 50px; }
+  .gf-learned { gap: 8px; padding: 6px 10px; } .gf-learned__pair i { width: 44px; height: 44px; } .gf-learned__pair i canvas { width: 40px !important; height: 40px !important; }
+  .gf-learned__cap { font-size: 16px; } .gf-learned__cap em { font-size: 13px; } .gf-learned__cap small { font-size: 13px; }
+  .gf-repair__cap { font-size: 14px; }
+  /* 设置: two columns of rows, the replay row and the note across */
+  .gf-set__panel { width: min(680px, 100%); grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 34px; }
+  .gf-set__row { min-height: 60px; padding: 6px 10px; gap: 10px; grid-template-columns: 40px 1fr auto; border-radius: 14px; }
+  .gf-set__ic { width: 40px; height: 40px; border-radius: 12px; } .gf-set__ic svg { width: 24px; height: 24px; }
+  .gf-set__t b { font-size: 20px; } .gf-set__t small { font-size: 13px; }
+  .gf-sw { width: 80px; height: 44px; } .gf-sw i { width: 34px; height: 34px; }
+  .gf-sw i:first-child, .gf-set__row[aria-checked="true"] .gf-sw i:last-child { transform: translateX(36px); }
+  .gf-set__row[aria-checked="true"] .gf-sw i:first-child { transform: translateX(36px); }
+  .gf-set__replay, .gf-set__note { grid-column: 1 / -1; }
+  .gf-set__replay { grid-template-columns: 40px auto 1fr; padding: 6px 10px; border-radius: 14px; }
+  .gf-set__replay .gf-set__chips { grid-column: auto; gap: 6px; }
+  .gf-set__chips .xg-btn { --h: 44px; --fs: 16px; --px: 12px; min-height: 44px; }
+  .gf-set__note { font-size: 13px; }
+  /* 宋城 tray (big) */
+  .gf-songview__panel { width: min(92vw, 720px); }
+  .gf-songview__tray { height: calc(100vh - 186px); min-height: 140px; }
+  .gf-songview__cap { margin-top: 6px; font-size: 16px; line-height: 1.35; } .gf-songview__cap small { font-size: 13px; }
+
+  /* journey map: title next to the 🏠, the road on the left, a compact side column (宋城 plaque, cards, volume tabs) */
+  .gf-title { font-size: 30px; } .gf-title--sm { font-size: 24px; } .gf-sub { font-size: 15px; margin-top: 2px; }
+  .gf-map__head { left: calc(max(12px, env(safe-area-inset-left, 0px)) + 68px); top: calc(var(--kit-safe-top, 0px) + 10px); }
+  .gf-map__gear { top: calc(var(--kit-safe-top, 0px) + 10px); right: calc(max(12px, env(safe-area-inset-right, 0px))); }
+  .gf-map__road { left: calc(max(8px, env(safe-area-inset-left, 0px))); top: 74px; right: 40%; bottom: 4px; } /* (墨子's marker rides above the current node: clear of the title) */
+  .gf-map__road .xg-node { --s: 50px; font-size: 22px; }
+  .gf-map__road .xg-node--current { --s: 60px; font-size: 26px; }
+  .gf-map__road .xg-node .xg-icon { font-size: 22px; }
+  .gf-map__side { right: calc(max(12px, env(safe-area-inset-right, 0px))); top: 70px; bottom: 8px; width: calc(40% - 24px); gap: 8px; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(90px, 1fr) auto auto; align-content: stretch; }
+  .gf-song { grid-column: 1 / -1; height: auto; min-height: 90px; border-radius: 16px; }
+  .gf-song__cap { font-size: 13px; padding: 2px 8px; left: 6px; top: 5px; }
+  .gf-bigcard { grid-template-columns: 1fr; grid-template-rows: auto auto; justify-items: center; text-align: center; padding: 8px 4px; border-radius: 16px; row-gap: 4px; }
+  .gf-bigcard b { font-size: 17px; } .gf-bigcard small { display: none; }
+  .gf-bigcard__art { grid-row: auto; width: 40px; height: 40px; border-radius: 12px; font-size: 22px; }
+  .gf-bigcard .gf-new { right: 4px; top: 4px; }
+  .gf-tabs { grid-column: 1 / -1; justify-content: center; }
+  .gf-tabs button { min-height: 44px; min-width: 0; flex: 1; justify-content: center; font-size: 17px; padding: 6px 10px; }
+  .gf-resume__card { padding: 14px 18px; gap: 8px 14px; border-radius: 22px; max-width: calc(100vw - 32px); box-sizing: border-box; }
+  .gf-resume__art { width: 56px; height: 56px; } .gf-resume__art canvas { width: 56px !important; height: 56px !important; }
+  .gf-resume__t b { font-size: 24px; } .gf-resume__t small { font-size: 14px; }
+
+  /* 亮招 + 选牒: table left, deck right (54 %); 开始推演 sits at the foot of the table */
+  .gf-back { left: calc(max(12px, env(safe-area-inset-left, 0px)) + 66px); top: calc(var(--kit-safe-top, 0px) + 12px); }
+  html .gf-preview { grid-template-columns: 42% 58%; }
+  html .gf-pv__table { margin: 70px 6px 8px calc(max(10px, env(safe-area-inset-left, 0px))); border-radius: 20px; }
+  .gf-pv__table::before { inset: 48px 10px 64px; }
+  .gf-pv__table::after { display: none; }
+  .gf-pv__luban { right: 8px; top: -30px; } .gf-pv__luban canvas { width: 56px !important; height: 56px !important; }
+  html .gf-pv__say { left: 10px; right: 68px; top: 8px; width: auto; max-width: none; font-size: 15px; line-height: 1.3; padding: 5px 10px; border-radius: 14px; border-width: 2px; }
+  html .gf-pv__machines { inset: 50px 8px 64px; gap: 4px 6px; grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); }
+  html .gf-pv__machines[data-n="4"] { grid-template-columns: repeat(4, 1fr); }
+  .gf-pv__machines .gf-pv__m:nth-child(n) { transform: none; }
+  .gf-pv__m span, .gf-pv__m > span { font-size: 13px; padding: 1px 6px 2px; margin-top: -2px; }
+  .gf-pv__m .gf-new { font-size: 13px; }
+  html .gf-pv__deck { margin: 8px calc(max(10px, env(safe-area-inset-right, 0px))) 8px 4px; padding: 8px 10px; gap: 5px; border-radius: 20px; overflow-y: auto; position: static; }
+  .gf-pv__lv b { font-size: 22px; } .gf-pv__no { font-size: 15px; }
+  .gf-pv__label { font-size: 16px; } .gf-pv__label small { font-size: 13px; }
+  .gf-pv__slots { padding: 5px; border-radius: 12px; }
+  .gf-pv__feat { max-height: 64px; padding: 4px 8px; gap: 8px; border-radius: 14px; flex: none; }
+  .gf-pv__featart > * { width: 48px !important; height: 48px !important; }
+  .gf-pv__feattext b { font-size: 16px; } .gf-pv__feattext span { font-size: 13px; }
+  .gf-preview.is-choose .gf-pv__feat { display: none; }
+  .gf-pv__bonus { font-size: 14px; padding: 4px 8px; border-radius: 10px; flex: none; } .gf-pv__bonus small { font-size: 13px; }
+  .gf-pv__ear svg, .gf-pv__ear .xg-icon { width: 22px; height: 22px; font-size: 22px; }
+  .gf-pv__go { position: absolute; left: calc(max(10px, env(safe-area-inset-left, 0px)) + 21% - 96px); bottom: 18px; width: 192px; margin: 0; justify-content: center; z-index: 3; }
+  .gf-info__card { width: 230px; padding: 12px; gap: 4px; font-size: 17px; border-radius: 20px; }
+  .gf-info__card b { font-size: 24px; } .gf-info__art canvas { width: 84px !important; height: 84px !important; }
+
+  /* 复盘: the mini table left, the three sentences and the buttons right, the help cards under both — clear of the 🏠 */
+  .gf-debrief { place-items: center end; }
+  .gf-db__panel { width: calc(100% - max(12px, env(safe-area-inset-left, 0px)) - 68px - max(12px, env(safe-area-inset-right, 0px))); margin-right: max(12px, env(safe-area-inset-right, 0px));
+    max-height: calc(100% - 16px); overflow-y: auto; box-sizing: border-box; padding: 12px 16px; gap: 6px 16px; border-radius: 22px; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-content: start; }
+  .gf-db__head { grid-column: 1; grid-row: 1; gap: 10px; } .gf-db__mozi canvas { width: 54px !important; height: 54px !important; }
+  .gf-db__mini { grid-column: 1; grid-row: 2 / span 4; align-self: start; gap: 3px; }
+  .gf-db__lane { height: 28px; } .gf-db__unit { width: 26px; height: 26px; top: 1px; } .gf-db__who { width: 30px !important; height: 30px !important; top: -2px; }
+  .gf-db__line, .gf-db__tip, .gf-db__good, .gf-db__acts { grid-column: 2; }
+  .gf-db__line { font-size: 19px; line-height: 1.35; } .gf-db__tip { font-size: 16px; } .gf-db__good { font-size: 16px; }
+  .gf-db__tip svg, .gf-db__good svg { width: 22px; }
+  .gf-db__acts { gap: 8px; }
+  .gf-db__help { grid-column: 1 / -1; margin-top: 2px; gap: 8px; flex-wrap: nowrap; }
+  .gf-helpcard { padding: 6px 10px; border-radius: 14px; flex: 1 1 0; min-width: 0; } .gf-helpcard b { font-size: 17px; } .gf-helpcard small { font-size: 13px; }
+  .gf-helpcard .xg-icon { font-size: 26px; }
+
+  /* 城守图谱 */
+  .gf-alm { padding: calc(var(--kit-safe-top, 0px) + 10px) calc(max(12px, env(safe-area-inset-right, 0px))) 6px calc(max(12px, env(safe-area-inset-left, 0px)) + 66px); }
+  .gf-alm__head { padding-left: 0; gap: 10px; margin-bottom: 6px; flex-wrap: nowrap; }
+  .gf-alm__head .gf-back { position: static; }
+  .gf-alm__tabs { gap: 6px; } .gf-alm__tabs button, .gf-alm .gf-tabs button { min-height: 46px; min-width: 52px; padding: 4px 12px; font-size: 17px; box-sizing: border-box; }
+  .gf-alm__num { min-height: 46px; box-sizing: border-box; }
+  .gf-alm__nums, .gf-alm__num { font-size: 15px; }
+  .gf-alm__grid { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+  .gf-alm__tile { height: 100px; font-size: 14px; }
+  .gf-alm__grid[data-tab="jn"] .gf-alm__tile { height: 96px; }
+  .gf-alm__grid[data-tab="boss"] .gf-alm__tile { height: 180px; }
+  .gf-alm__sheet { max-height: calc(100vh - 20px); overflow-y: auto; box-sizing: border-box; }
+
+  /* 锦囊谜题 list */
+  .gf-pzlist__head { left: calc(max(12px, env(safe-area-inset-left, 0px)) + 66px); top: calc(var(--kit-safe-top, 0px) + 10px); right: calc(max(12px, env(safe-area-inset-right, 0px))); gap: 10px; }
+  .gf-pzlist__groups { top: calc(var(--kit-safe-top, 0px) + 68px); bottom: 6px; left: calc(max(10px, env(safe-area-inset-left, 0px))); right: calc(max(10px, env(safe-area-inset-right, 0px))); gap: 8px; overflow-y: auto; }
+  .gf-pzg { padding: 8px 10px 10px; border-radius: 16px; }
+  .gf-pzg__head { margin-bottom: 6px; gap: 8px; } .gf-pzg__head b { font-size: 20px; } .gf-pzg__head small { font-size: 13px; }
+  .gf-pzg__seal { width: 38px; height: 38px; font-size: 22px; border-radius: 10px; }
+  .gf-pzg__card { width: 32px; height: 32px; }
+  .gf-pzg__row { gap: 8px; }
+  html .gf-pz { min-height: 60px; padding: 4px; }
+
+  /* story scenes + 驿站: smaller caption, the companion and the inn card */
+  .gf-cap { max-width: calc(100% - 140px); padding: 6px 16px 6px 8px; gap: 10px; bottom: calc(10px + var(--kit-safe-bottom, 0px)); border-radius: 18px; }
+  .gf-cap__who canvas { width: 44px !important; height: 44px !important; }
+  .gf-cap__t { font-size: 17px !important; line-height: 1.4; }
+  .gf-story__bot { transform: scale(.62); transform-origin: left bottom; bottom: 22%; }
+  .gf-inn__title { top: calc(var(--kit-safe-top, 0px) + 18px); font-size: 22px; }
+  .gf-ask { top: 64px; max-width: min(620px, 80%); padding: 6px 14px 6px 8px; gap: 10px; font-size: 17px; line-height: 1.4; border-radius: 18px; }
+  .gf-ask__p canvas { width: 52px !important; height: 52px !important; }
+  .gf-ask > svg { width: 24px; height: 24px; }
+  .gf-inn__acts { bottom: calc(10px + var(--kit-safe-bottom, 0px)); gap: 12px; width: min(560px, 80%); }
+  .gf-inn .gf-cap { bottom: calc(74px + var(--kit-safe-bottom, 0px)); }
+
+  /* ── battle (data-phone; placeHud owns the positions) ── */
+  .gf-battle[data-phone] .gf-bin { border-radius: 12px 12px 14px 14px; }
+  .gf-battle[data-phone] .gf-bin::before, .gf-battle[data-phone] .gf-bin::after { display: none; }
+  .gf-battle[data-phone] .gf-bin__num { font-size: 24px; }
+  .gf-battle[data-phone] .gf-bin__rate { font-size: 13px; line-height: 1.1; white-space: nowrap; }
+  .gf-battle[data-phone] .gf-bin.is-belt .gf-bin__num { width: 52px; height: 28px; }
+  .gf-battle[data-phone] .gf-tray { gap: 5px; }
+  .gf-battle[data-phone] .gf-tray--rack { outline-width: 4px; border-radius: 10px; }
+  .gf-battle[data-phone] .gf-card { width: var(--cw, 62px); height: var(--ch, 56px); border-radius: 10px; }
+  .gf-battle[data-phone] .gf-card::before { width: 7px; }
+  .gf-battle[data-phone] .gf-card canvas { margin: 0 0 0 11px; }
+  .gf-battle[data-phone] .gf-card__cost { font-size: 13px; min-width: 24px; padding: 0 4px; right: 2px; bottom: 2px; border-radius: 6px; }
+  .gf-battle[data-phone] .gf-card__short { bottom: 3px; padding: 1px 5px 2px; gap: 2px; }
+  .gf-battle[data-phone] .gf-card__short small { font-size: 13px; } .gf-battle[data-phone] .gf-card__short b { font-size: 15px; }
+  .gf-battle[data-phone] .gf-card__new { font-size: 13px; padding: 1px 3px; right: 1px; top: 1px; }
+  .gf-battle[data-phone] .gf-card.is-late::after { left: 9px; top: 2px; width: 15px; height: 15px; }
+  .gf-battle[data-phone] .gf-card.is-sel { transform: translateX(6px); }
+  .gf-battle[data-phone] .gf-tool { border-radius: 12px; }
+  .gf-battle[data-phone] .gf-box { border-radius: 12px; padding: 4px 0; gap: 2px; }
+  .gf-battle[data-phone] .gf-box__ring { width: 30px; height: 30px; }
+  .gf-battle[data-phone] .gf-box__tokens { gap: 1px; flex-wrap: nowrap; } .gf-battle[data-phone] .gf-box__tokens i { width: 16px; height: 16px; font-size: 13px; border-width: 1px; }
+  .gf-battle[data-phone] .gf-scroll { border-radius: 8px; border-width: 1.5px; }
+  .gf-battle[data-phone] .gf-scroll__hand { width: 18px; height: 18px; top: -3px; } .gf-battle[data-phone] .gf-scroll__hand::after { left: 6px; top: 15px; width: 5px; height: 7px; }
+  .gf-battle[data-phone] .gf-scroll__drum { width: 20px; height: 20px; top: -3px; }
+  .gf-battle[data-phone] .gf-scroll__m { width: 20px; height: 20px; } .gf-battle[data-phone] .gf-scroll__m canvas { width: 18px !important; height: 18px !important; }
+  .gf-battle[data-phone] .gf-bubble { font-size: 15px; line-height: 1.25; padding: 4px 10px; border-radius: 14px; border-width: 2px; }
+  .gf-battle[data-phone] .gf-bubble--luban, .gf-battle[data-phone].has-boss .gf-bubble--luban { font-size: 15px; line-height: 1.25; padding: 4px 10px; max-width: none; }
+  .gf-battle[data-phone] .gf-star3 { padding: 3px 6px; gap: 2px 4px; border-radius: 9px; }
+  .gf-battle[data-phone] .gf-star3__seal { width: 20px; height: 20px; font-size: 13px; border-radius: 4px; }
+  .gf-battle[data-phone] .gf-star3__t { font-size: 13px; line-height: 1.1; }
+  .gf-battle[data-phone] .gf-star3__n { font-size: 13px; padding-left: 24px; }
+  .gf-battle[data-phone] .gf-star3__logs i { width: 14px; height: 7px; }
+  .gf-battle[data-phone] .gf-star3__ok, .gf-battle[data-phone] .gf-star3.is-ok .gf-star3__ok { width: 16px; height: 16px; }
+  .gf-battle[data-phone] .gf-speed { flex-direction: column; border-radius: 12px; }
+  .gf-battle[data-phone] .gf-speed__b { font-size: 16px; border-right: 0; border-bottom: 1px solid rgba(42,27,18,.35); min-height: 44px; }
+  .gf-battle[data-phone] .gf-speed__b .gf-new { right: 2px; top: -4px; }
+  .gf-battle[data-phone] .gf-ghostbar { font-size: 16px; border-radius: 13px; gap: 4px; } .gf-battle[data-phone] .gf-ghostbar .xg-icon { font-size: 18px; }
+  .gf-battle[data-phone] .gf-pzgo { font-size: 18px !important; --h: 50px; --px: 12px; justify-content: center; }
+  .gf-battle[data-phone] .gf-boss { gap: 4px; border-radius: 9px; }
+  .gf-battle[data-phone] .gf-boss__face { width: 30px; height: 30px; margin: -4px 0; border-width: 2px; }
+  .gf-battle[data-phone] .gf-boss__dots i { width: 9px; height: 9px; }
+  .gf-battle[data-phone] .gf-boss__won { font-size: 13px; padding: 2px 6px; }
+  .gf-battle[data-phone] .gf-boss__only.is-on { font-size: 13px; padding: 1px 6px; } .gf-battle[data-phone] .gf-boss__only span { width: 22px; height: 22px; }
+  .gf-battle[data-phone] .gf-boss__cloud { font-size: 13px; top: -14px; }
+  /* pause layer: two columns of buttons */
+  .gf-battle[data-phone] .gf-pausel__panel { width: min(560px, calc(100vw - 32px)); grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 18px; border-radius: 22px; }
+  .gf-battle[data-phone] .gf-pausel__title, .gf-battle[data-phone] .gf-pausel__speed, .gf-battle[data-phone] .gf-pausel__home { grid-column: 1 / -1; }
+  .gf-battle[data-phone] .gf-pausel__title { font-size: 26px; }
+  .gf-battle[data-phone] .gf-pausel .gf-pausel__speed { height: 48px; min-height: 48px; flex-direction: row; }
+  .gf-battle[data-phone] .gf-pausel .gf-pausel__speed .gf-speed__b { min-height: 44px; font-size: 18px; border-bottom: 0; }
+  .gf-battle[data-phone] .gf-pausel__panel > .xg-btn { --h: 52px; --fs: 18px; --px: 10px; height: 52px; min-height: 52px; font-size: 18px; padding: 0 10px; }
+  .gf-battle[data-phone] .gf-pausel__home { gap: 8px; } .gf-battle[data-phone] .gf-pausel__home b { font-size: 24px; } .gf-battle[data-phone] .gf-pausel__home span { font-size: 16px; }
+  .gf-battle[data-phone] .gf-pausel__home .xg-btn { --h: 52px; --fs: 18px; height: 52px; }
+}

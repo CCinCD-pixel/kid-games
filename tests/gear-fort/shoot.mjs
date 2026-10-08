@@ -10,15 +10,25 @@ import { webkit, devices } from '@playwright/test';
 
 const args = process.argv.slice(2);
 const opt = (k, d) => args.find((a) => a.startsWith(`--${k}=`))?.split('=').slice(1).join('=') ?? d;
-const PORT = opt('port', '5311'); const ONLY = opt('only', ''); const STEPS = opt('steps', '');
-const OUT = path.join(os.homedir(), 'kid-games-work/shots/gear-fort');
+const PORT = opt('port', '5311'); const ONLY = opt('only', ''); const STEPS = opt('steps', ''); const SET = opt('set', 'ipad');
+const OUT = opt('out', path.join(os.homedir(), 'kid-games-work/shots/gear-fort'));
 const free = Number((execSync('memory_pressure -Q | tail -1').toString().match(/(\d+)%/) || [0, 100])[1]);
 if (free < 25) { console.error(`memory free ${free}% < 25% — not starting a browser`); process.exit(2); }
 const URL = `http://localhost:${PORT}/gear-fort/?test=1`;
+// --set=phone: Dad's phone too (2026-10-08) — landscape 844×390 / 667×375 is the phone layout, portrait shows 把手机横过来玩
+const phone = (w, h) => ({ viewport: { width: w, height: h }, deviceScaleFactor: 3, isMobile: true, hasTouch: true, userAgent: devices['iPhone 13'].userAgent });
 const projects = [
-  { name: 'landscape', ctx: { ...devices['iPad (gen 7)'], viewport: { width: 1080, height: 810 } } },
-  { name: 'portrait', ctx: { ...devices['iPad (gen 7)'], viewport: { width: 810, height: 1080 } } },
-].filter((p) => !ONLY || p.name.startsWith(ONLY));
+  ...(SET === 'phone' ? [] : [
+    { name: 'landscape', ctx: { ...devices['iPad (gen 7)'], viewport: { width: 1080, height: 810 } } },
+    { name: 'portrait', ctx: { ...devices['iPad (gen 7)'], viewport: { width: 810, height: 1080 } } },
+  ]),
+  ...(SET === 'ipad' ? [] : [
+    { name: 'land844', ctx: phone(844, 390) },
+    { name: 'land667', ctx: phone(667, 375) },
+    { name: 'iphone13', ctx: phone(390, 664) },
+    { name: 'iphonese', ctx: phone(320, 568) },
+  ]),
+].filter((p) => !ONLY || ONLY.split(',').some((o) => p.name.startsWith(o)));
 const won0 = (ids) => JSON.stringify({ v: 1, updatedAt: Date.now(), data: { ...{}, levels: Object.fromEntries(ids.map((id) => [id, { best: 2, attempts: 1, firstTry: 'win', wins: 1, lastAt: '' }])), current: '1-' + (ids.length + 1), counters: { walker: { shooter: 5 }, shielder: { lobber: 3 }, ram: { spikes: 2 } } } });
 const won = (ids, extra = {}) => { const o = JSON.parse(won0(ids)); Object.assign(o.data, extra); return JSON.stringify(o); };
 const V1 = ['1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '1-7', '1-8', '1-9', '1-10'];
@@ -225,7 +235,7 @@ try {
     const info = await page.evaluate(() => ({ calls: window.__gf?.stage?.drawCalls, w: innerWidth, h: innerHeight, sw: document.documentElement.scrollWidth })).catch(() => ({}));
     console.log(p.name, JSON.stringify(info), errors.length ? 'ERRORS:\n  ' + errors.slice(0, 12).join('\n  ') : 'no errors');
     if (taken.length) { // one contact sheet per orientation, to review many shots at once
-      const sp = await context.newPage(); const cols = p.name === 'landscape' ? 3 : 4; const tw = p.name === 'landscape' ? 520 : 380;
+      const sp = await context.newPage(); const wide = p.ctx.viewport.width > p.ctx.viewport.height; const cols = wide ? 3 : 4; const tw = wide ? 520 : 380;
       const cells = taken.map((n) => `<figure><img src="data:image/png;base64,${fs.readFileSync(path.join(dir, n + '.png')).toString('base64')}"><figcaption>${n}</figcaption></figure>`).join('');
       await sp.setViewportSize({ width: cols * (tw + 12) + 12, height: 800 });
       await sp.setContent(`<style>body{margin:0;background:#222;color:#eee;font:14px sans-serif;display:grid;grid-template-columns:repeat(${cols},${tw}px);gap:12px;padding:12px}figure{margin:0}img{width:${tw}px;display:block}</style>${cells}`);

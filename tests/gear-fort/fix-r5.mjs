@@ -65,8 +65,8 @@ try {
       await page.waitForTimeout(800);
       await page.evaluate(() => window.__gfApp.win('1-1', 2));
       await page.getByRole('button', { name: '下一关' }).click();
-      await page.locator('.gf-story--prologue').waitFor(); await page.locator('.gf-skip').click();
-      await page.locator('.gf-story--dock').waitFor(); await page.waitForTimeout(400); await page.locator('.gf-skip').click();
+      await page.locator('.gf-story--prologue').waitFor(); await page.locator('.gf-story .xg-skip').click();
+      await page.locator('.gf-story--dock').waitFor(); await page.waitForTimeout(400); await page.locator('.gf-story .xg-skip').click();
       await page.waitForTimeout(1500); await shot(page, dir, 'b-after-chain');
       R.firstwin = await page.evaluate(() => ({ map: !!document.querySelector('.gf-map'), preview: !!document.querySelector('.gf-pv__table') }));
     });

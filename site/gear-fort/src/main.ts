@@ -6,6 +6,7 @@ import './styles.css';
 import { loadSave, store } from './save';
 import { createVoice } from './voice';
 import { startApp } from './app';
+import { installRotateGate } from './screens/rotate';
 import type { AppCtx } from './ctx';
 
 const root = document.getElementById('app')!;
@@ -30,6 +31,8 @@ ctx.shell = initShell({
   onLayout: (l) => { ctx.layout = l; ctx.dpr = Math.min(2, l.dpr || window.devicePixelRatio || 1); appApi?.layout(l); },
 });
 const shell = ctx.shell;
+// phones held upright: 把手机横过来玩 over everything (the start gate too); a running battle pauses under it
+installRotateGate(ctx.dpr, () => appApi?.pause());
 
 
 // ?dev=replay — the kernel alone, for the WebKit determinism check (site/gear-fort/tests/determinism.spec.ts):

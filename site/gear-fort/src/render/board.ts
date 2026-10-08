@@ -5,6 +5,9 @@ import { shift } from '../art/shade';
 
 export interface Geo {
   W: number; H: number; dpr: number; landscape: boolean;
+  /** phone landscape (shorter side < 600 px, Dad's phone 2026-10-08): tray column left, tools column right, the board
+   *  between them under a thin top bar (spec §2.2 has the iPad grid; phones held upright get 把手机横过来玩) */
+  phone: boolean;
   w: number; h: number;            // tile width / lane height (CSS px)
   bx: number; by: number;          // board top-left (the wall strip starts here)
   wallW: number; spawnW: number; x0: number; // x0 = column 0 left edge
@@ -18,19 +21,34 @@ export const laneTop = (g: Geo, l: number): number => g.by + l * g.h;
 export const feetY = (g: Geo, l: number): number => g.by + l * g.h + g.h * 0.8;
 export const cellCx = (g: Geo, c: number): number => g.x0 + (c + 0.5) * g.w;
 
-export function makeGeo(W: number, H: number, T: number, dpr: number): Geo {
+/** phone landscape columns (CSS px): the tray column (1 or 2 cards wide) and the tools column */
+export const PHONE = { card: 62, card2: 56, gap: 5, tools: 56, top: 78 } as const;
+export const phoneTrayW = (cols: number): number => (cols > 1 ? 2 * PHONE.card2 + PHONE.gap : PHONE.card);
+export interface PhoneInsets { l: number; r: number; b: number; trayCols: number }
+export function makeGeo(W: number, H: number, T: number, dpr: number, ph?: PhoneInsets): Geo {
   const landscape = W >= H;
   let w: number, h: number, bx: number, by: number;
+  if (landscape && H < 600 && ph) {
+    // the board as big as it goes between the tray column and the tools column, under the top bar + bamboo scroll
+    const fw = 8; const x0 = Math.max(8, ph.l + 4) + phoneTrayW(ph.trayCols) + 8; const x1 = W - Math.max(8, ph.r + 4) - PHONE.tools - 8;
+    const top = T + PHONE.top; const availW = x1 - x0 - 2 * fw, availH = H - Math.max(6, ph.b) - top - 2 * fw;
+    w = Math.max(20, Math.floor(Math.min(availW / 9.52, availH / (5 * 0.86))));
+    h = Math.max(Math.round(0.86 * w), Math.min(w, Math.floor(availH / 5))); // a little taller lane when the height allows (portrait uses 0.95)
+    const bw = Math.round(9.52 * w); bx = Math.round((x0 + x1 - bw) / 2); by = top + fw + Math.max(0, Math.floor((availH - 5 * h) / 2));
+    const wallW = Math.round(0.62 * w), spawnW = Math.round(0.9 * w);
+    return { W, H, dpr, landscape, phone: true, w, h, bx, by, wallW, spawnW, x0: bx + wallW, bw, bh: 5 * h, k: w / 100 };
+  }
   if (landscape) {
-    w = Math.min(Math.floor((W - 24) / 9.52), Math.floor((H - T - 104 - 36 - 150) / (5 * 0.86)));
+    w = Math.max(12, Math.min(Math.floor((W - 24) / 9.52), Math.floor((H - T - 104 - 36 - 150) / (5 * 0.86))));
     h = Math.round(0.86 * w); by = T + 144 + Math.max(0, Math.floor((H - T - 144 - 5 * h - 150) / 2));
   } else {
-    w = Math.min(Math.floor((W - 24) / 9.52), Math.floor((H - T - 72 - 60 - 268 - 120 - 148) / (5 * 0.95)));
+    // (never below 12 px: a phone held upright is covered by 把手机横过来玩, but the battle under it must stay sane)
+    w = Math.max(12, Math.min(Math.floor((W - 24) / 9.52), Math.floor((H - T - 72 - 60 - 268 - 120 - 148) / (5 * 0.95))));
     h = Math.round(0.95 * w); by = T + 172;
   }
   const bw = Math.round(9.52 * w); bx = Math.round((W - bw) / 2);
   const wallW = Math.round(0.62 * w), spawnW = Math.round(0.9 * w);
-  return { W, H, dpr, landscape, w, h, bx, by, wallW, spawnW, x0: bx + wallW, bw, bh: 5 * h, k: w / 100 };
+  return { W, H, dpr, landscape, phone: false, w, h, bx, by, wallW, spawnW, x0: bx + wallW, bw, bh: 5 * h, k: w / 100 };
 }
 
 function rnd(seed: number): () => number { let s = seed >>> 0 || 1; return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; }; }

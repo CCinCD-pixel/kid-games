@@ -12,7 +12,7 @@ import { TPS, T as TILE, ASSIST, ASSIST2 } from '../lane/rules';
 import { FEARS } from '../lane/tags';
 import { learned } from '../lane/learn';
 import type { Action, Level, SimEvent, SimState } from '../lane/types';
-import { makeGeo, drawBoard, cellCx, feetY, laneTop, type Geo } from '../render/board';
+import { makeGeo, drawBoard, cellCx, feetY, laneTop, PHONE, type Geo, type PhoneInsets } from '../render/board';
 import { Stage } from '../render/stage';
 import { drawStats } from '../render/atlas';
 import { FrameProbe, Ring, type Degrade } from '../render/perf';
@@ -23,7 +23,7 @@ import { atlasFor, type AppCtx } from '../ctx';
 import * as sfx from '../audio/sfx';
 import { stinger } from '../audio/music';
 import { BossBar, WarnHands, horseDelivery, namePlate, star3State, HORSE_SVG } from './hud';
-import { icon } from '@kit/ui';
+import { icon, mountSkipButton, shouldAutoSkip } from '@kit/ui';
 import { takeReads } from '../pointread';
 import type { LayoutInfo } from '@kit/shell';
 
@@ -35,6 +35,8 @@ export interface BattleOpts {
   /** a 战鼓 checkpoint already passed before a suspend: 接着推演 keeps 「从第 N 面战鼓重来」 (spec §8.4) */
   checkpoint?: { snap: Snapshot; flag: number } | null;
   ghost?: GhostRun | null;
+  /** 设置 → 新手教学: 1-1 with its lesson again, even after it was won or skipped (Dad, 2026-10-08) */
+  tutorial?: boolean;
   /** 锦囊谜题 (static drill, spec §3.18): place everything first, then 开始推演; no cooldowns / economy / logs */
   puzzle?: PuzzleRun | null;
   /** pause/leave (suspend) and each 战鼓 (checkpoint): the caller writes it to IndexedDB on an idle frame */
@@ -99,6 +101,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   const star3 = h('button', 'gf-star3', `<span class="gf-star3__seal">附</span><span class="gf-star3__t"></span><span class="gf-star3__n"></span><span class="gf-star3__logs"><i></i><i></i></span><span class="gf-star3__ok"></span>`);
   hud.append(bin, tray, shovel, box, pauseB, scroll, moziA, moziB, replay, lubanA, lubanB, speed, star3);
   const ghostBar = ghost ? h('div', 'gf-ghostbar', `${icon('eye')}<span>看墨子怎么守</span>`) : null; if (ghostBar) hud.appendChild(ghostBar);
+  if (ghost) star3.style.display = 'none'; // the bonus is the player's; the replay's 跳过 takes its slot
+  /** the kit's 跳过 pill (1-1's lesson, the ghost replay) and its spot on this layout (see placeSkip) */
+  let skipOff: (() => void) | null = null; let skipEl: HTMLElement | null = null;
   // drill pieces: 开始推演 button, the budget plate and 鲁班's queue of machines per lane (the whole script laid out, §3.18)
   const goB = pz ? h('button', 'xg-btn xg-btn--primary xg-btn--lg gf-pzgo', `${icon('play')}开始推演`) : null;
   const pzQ = pz ? h('div', 'gf-pzq') : null;
@@ -117,7 +122,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   }
 
   // ── geometry / layers ──
-  let geo: Geo = makeGeo(app.layout.width, app.layout.height, app.layout.safe.top, app.dpr);
+  /** phone landscape: the safe insets + how many card columns the tray column needs (makeGeo sizes the board between) */
+  const phIns = (l: LayoutInfo): PhoneInsets => ({ l: l.safe.left, r: l.safe.right, b: l.safe.bottom, trayCols: trayCount() > 5 ? 2 : 1 });
+  let geo: Geo = makeGeo(app.layout.width, app.layout.height, app.layout.safe.top, app.dpr, phIns(app.layout));
   let atlas = atlasFor(geo.w, app.dpr);
   const stage = new Stage(stageC, atlas, geo);
   stage.setShake(app.save.settings.shake);
@@ -160,8 +167,28 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   }
   function placeHud(): void {
     const g = geo; const Ts = app.layout.safe.top; const W = g.W, H = g.H; const n = trayCount();
-    el.dataset.orient = g.landscape ? 'landscape' : 'portrait';
-    if (g.landscape) {
+    el.dataset.orient = g.landscape ? 'landscape' : 'portrait'; el.toggleAttribute('data-phone', g.phone);
+    if (g.phone) { // phone landscape (Dad's phone, 2026-10-08): tray column · board · tools column, a thin top bar
+      const sf = app.layout.safe; const lx = Math.max(8, sf.left + 4); const rx = W - Math.max(8, sf.right + 4) - PHONE.tools; const yb = H - Math.max(6, sf.bottom);
+      // top bar: [🏠 kit][粮斗][墨子][his bubble …][再听][附加题], the bamboo scroll under it
+      const tb0 = Math.max(12, sf.left) + 56 + 8, tb1 = rx - 6; const s3W = W >= 780 ? 176 : 150; const bx0 = tb0 + 142;
+      px(bin, tb0, Ts + 6, 84, 46); px(moziA, tb0 + 90, Ts + 6, 46, 46);
+      px(star3, tb1 - s3W, Ts + 6, s3W, 46); px(replay, tb1 - s3W - 6 - 44, Ts + 7, 44, 44);
+      px(moziB, bx0, Ts + 6, Math.max(110, tb1 - s3W - 56 - bx0), 46); moziB.style.height = ''; moziB.style.minHeight = '46px';
+      px(scroll, tb0, Ts + 56, tb1 - tb0, 16);
+      // tools column: 鲁班 · ⏸ · 机关匣 · 铲子 … the speed at the bottom
+      px(lubanA, rx + 4, Ts + 6, 48, 48); px(pauseB, rx + 4, Ts + 60, 48, 48); px(box, rx, Ts + 114, PHONE.tools, 62); px(shovel, rx + 4, Ts + 182, 48, 48);
+      px(speed, rx, yb - 132, PHONE.tools, 132); // three 44-px buttons
+      // 鲁班's bubble opens beside him over the board's top-right (his machines' side): no taps, gone after a few seconds
+      const lbw = Math.min(320, rx - 8 - bx0); px(lubanB, rx - 8 - lbw, Ts + 56, lbw, 46); lubanB.style.height = ''; lubanB.style.minHeight = '46px';
+      // the tray column under the 🏠: one card wide, two when the deck has more than five
+      const cols = n > 5 ? 2 : 1; const cw = cols > 1 ? PHONE.card2 : PHONE.card; const rows = Math.ceil(Math.max(n, 1) / cols); const top0 = Math.max(12, Ts) + 56 + 8;
+      const ch = Math.max(44, Math.min(56, Math.floor((yb - top0 + PHONE.gap) / rows) - PHONE.gap)); const th = rows * ch + (rows - 1) * PHONE.gap;
+      px(tray, lx, top0 + Math.max(0, Math.floor((yb - top0 - th) / 2)), cols * cw + (cols - 1) * PHONE.gap, th); tray.style.transform = '';
+      tray.style.setProperty('--cw', cw + 'px'); tray.style.setProperty('--ch', ch + 'px');
+      if (ghostBar) px(ghostBar, Math.round(g.bx + g.bw / 2 - 110), Ts + 51, 220, 26);
+      if (goB) px(goB, tb1 - s3W, Ts + 4, s3W, 50); // 开始推演 takes the 附加题 slot (hidden in a drill)
+    } else if (g.landscape) {
       px(bin, 84, Ts + 8, 120, 96);
       const cw = 84, gap = 6; px(tray, 212, Ts + 8, Math.max(n, 1) * (cw + gap) - gap, 96); tray.style.transform = '';
       const right = W - 8; px(pauseB, right - 64, Ts + 24, 64, 64); px(box, right - 64 - 6 - 88, Ts + 8, 88, 96); px(shovel, right - 64 - 6 - 88 - 6 - 64, Ts + 24, 64, 64);
@@ -194,7 +221,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       if (ghostBar) px(ghostBar, 220, Ts + 24, W - 300, 40);
     }
     if (bossBar) { const r = scroll.style; px(bossBar.el, parseFloat(r.left), parseFloat(r.top), parseFloat(r.width), parseFloat(r.height)); }
-    if (goB) { // the 开始推演 button takes the speed + 附加题 slot while laying out (speed is hidden until the drill runs)
+    if (goB && !g.phone) { // the 开始推演 button takes the speed + 附加题 slot while laying out (speed is hidden until the drill runs)
       if (g.landscape) { const sp = speed.style, sr = star3.style; const x0 = parseFloat(sp.left), x1 = parseFloat(sr.left) + parseFloat(sr.width); const bw = Math.min(280, x1 - x0); px(goB, Math.round((x0 + x1 - bw) / 2), parseFloat(sp.top) - 6, bw, 72); }
       else px(goB, Math.round(W / 2 - 120), Ts + 86, 240, 66);
     }
@@ -203,7 +230,15 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     lubanA.replaceChildren(portrait('luban', lubanA.offsetWidth || 88, geo.dpr, 'think'));
     stage.partsBox = { x: box.offsetLeft + box.offsetWidth / 2, y: box.offsetTop + box.offsetHeight / 2 };
     stage.grainBin = { x: bin.offsetLeft + bin.offsetWidth / 2, y: bin.offsetTop + bin.offsetHeight / 2 };
-    buildTray();
+    buildTray(); placeSkip();
+  }
+  /** 跳过's spot: in 1-1 on the boarded-up 第 5 路 at the board's right end (the HUD keeps its corners); in the ghost
+   *  replay on the 附加题 slot (hidden there) */
+  function placeSkip(): void {
+    if (!skipEl) return; const g = geo; let top: number, right: number;
+    if (ghost) { const r = star3.style; top = parseFloat(r.top) + (parseFloat(r.height) - 56) / 2; right = g.W - parseFloat(r.left) - parseFloat(r.width); }
+    else { top = laneTop(g, 4) + (g.h - 56) / 2; right = g.W - (g.bx + g.bw) + Math.round(g.w * 0.2); }
+    skipEl.style.setProperty('--xg-skip-top', `${Math.round(top)}px`); skipEl.style.setProperty('--xg-skip-right', `${Math.round(right)}px`);
   }
   // the rack (1-6 驿马 levels) always shows its 6 pegs; normal levels show the deck
   function trayCount(): number { return L.belt ? (L.belt.cap || 6) : S.loadout.length; }
@@ -211,7 +246,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   let beltSeen = S.beltI; let beltKey = '';
   function buildTray(): void {
     tray.replaceChildren(); for (const k in cards) delete cards[k]; cardEls = [];
-    const g = geo; const size = g.landscape ? 64 : 88; const list = trayCards();
+    const g = geo; const size = g.phone ? 40 : g.landscape ? 64 : 88; const list = trayCards();
     for (let i = 0; i < trayCount(); i++) {
       const c = list[i];
       if (!c) { tray.appendChild(h('div', 'gf-card gf-card--peg')); continue; }
@@ -257,10 +292,14 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   const seenKinds = new Set<string>(); let kills = 0; let lubanQuietUntil = 0; let asked = 0;
   const hintTicks: number[] = [];
   let s3ok = false, s3lost = false; let beltFullSeen = S.stats.beltFull; let beltFullSaidAt = -1e9;
-  const tut = o.level.id === '1-1' && !o.resume && !ghost ? { phase: 0, at: 0, placedAt: -1, collected: false, firstGone: false, idle: 0, pulse: false } : null;
+  // 1-1's lesson (spec §2.4) runs until 1-1 has been won once or the lesson was skipped (跳过, Dad 2026-10-08); 设置 →
+  // 新手教学 plays it again; the parent's 跳过开场和教学 turns it off. The level itself always stays: it is the first puzzle.
+  const lesson = o.level.id === '1-1' && !o.resume && !ghost && !pz && (!!o.tutorial || (!app.save.story.includes('tut.1-1') && !shouldAutoSkip()));
+  let tut = lesson ? { phase: 0, at: 0, placedAt: -1, collected: false, firstGone: false, idle: 0, pulse: false } : null;
   let actLog: [number, Action[]][] = []; let logFrom = S.tick; let curSeed = o.seed;
   let firstHintTick = -1, firstPlaceTick = -1; let deferred: { l: CoachLine; at: number } | null = null;
-  const fastHands = !!app.save.fastTrack && o.level.type === 'teach' && !tier && !ghost;
+  // (跳过开场和教学 counts as the fast track: teaching levels show the hand only after 5 s of hesitation)
+  let fastHands = (!!app.save.fastTrack || shouldAutoSkip()) && o.level.type === 'teach' && !tier && !ghost;
   let hooking = false; let hookDone: (() => void) | null = null;
 
   // ── voice / bubbles ──
@@ -654,7 +693,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     if (tut.phase === 2 && tut.placedAt < 0 && t - tut.at >= 8 * TPS) { tut.idle++; showHint({ type: 'lane', key: 't', card: 'shooter', lane: 2, col: 1 }); mozi('fort.lvl.1-1.again'); tut.at = t; if (tut.idle >= 2) pulseOn(); }
     if (tut.phase === 2 && tut.placedAt >= 0) tut.phase = 3;
     if (tut.phase === 3 && S.drops.length && tut.firstGone) { tut.phase = 4; mozi('fort.lvl.1-1.collect'); const d = S.drops[0]; const p = stage.dropRestXY(S, d); handTap(p.x, p.y + 4); }
-    if (tut.phase === 4 && S.grain >= 80 && S.tick >= (S.cdReady.shooter ?? 0)) { tut.phase = 5; mozi('fort.lvl.1-1.more'); cards.shooter?.classList.add('is-hint'); setTimeout(() => cards.shooter?.classList.remove('is-hint'), 5000); }
+    if (tut.phase === 4 && S.grain >= 80 && S.tick >= (S.cdReady.shooter ?? 0)) { tut.phase = 5; skipOff?.(); skipOff = null; skipEl = null; mozi('fort.lvl.1-1.more'); cards.shooter?.classList.add('is-hint'); setTimeout(() => cards.shooter?.classList.remove('is-hint'), 5000); }
   }
   function updateHud(): void {
     if (L.belt && S.belt.join() !== beltKey) {
@@ -749,7 +788,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   }
   function finish(r: BattleEnd | null): void { if (destroyed) return; destroy(); done(r); }
   function destroy(): void {
-    hookDone?.(); destroyed = true; drawStats.measure = false; cancelAnimationFrame(raf); clearInterval(lubanTimer); clearTimeout(bubbleTimer); clearTimeout(tipTimer); if (press) clearTimeout(press.timer);
+    hookDone?.(); skipOff?.(); destroyed = true; drawStats.measure = false; cancelAnimationFrame(raf); clearInterval(lubanTimer); clearTimeout(bubbleTimer); clearTimeout(tipTimer); if (press) clearTimeout(press.timer);
     window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); window.removeEventListener('pointercancel', onCancel); window.removeEventListener('click', onHome, true);
     app.voice.stop(); sfx.resetSfx(); el.remove();
     delete (window as unknown as { __gf?: unknown }).__gf; // never keep the destroyed battle (S, stage, canvases) reachable
@@ -828,6 +867,15 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   else if (pz) { mozi(pz.p.group === 1 ? 'fort.pz.g1' : pz.p.group === 2 ? 'fort.pz.g2' : 'fort.pz.g4'); setTimeout(() => !destroyed && setup && mozi('fort.pz.budget', false, { n: pz.p.budget }), 2600); }
   else if (!tut && !o.resume) { const v = o.level.voice; if (v) { mozi(v.intro[0]); setTimeout(() => !destroyed && mozi(v.intro[1]), 2600); } }
   if (tut) hook();
+  // 跳过 (kit pill, after 1.5 s): ends 1-1's lesson — no more demo hand, pulses or scripted lines, the level plays on with
+  // 墨子's coach (hand only after 5 s of hesitation) and the lesson counts as seen — or ends the ghost replay (back to 复盘)
+  function skipTutorial(): void {
+    if (!tut) return; hookDone?.(); stopHand(); pulseOff(); hideMozi(); app.voice.stop(); cards.shooter?.classList.remove('is-hint');
+    tut = null; fastHands = !tier; deferred = null;
+    if (!app.save.story.includes('tut.1-1')) { app.save.story.push('tut.1-1'); app.persist(); }
+    app.mark('gf-tut', { id: '1-1', skipped: true, tick: S.tick });
+  }
+  if (tut || ghost) { skipOff = mountSkipButton(el, () => { skipOff = null; skipEl = null; if (ghost) finish(null); else skipTutorial(); }, { className: 'gf-skipbtn' }); skipEl = el.querySelector<HTMLElement>('.gf-skipbtn'); placeSkip(); }
   if (o.startPaused && !ghost) openPause();
   // 🏠 mid-battle (spec §2.1): one tap asks first — "回游戏大厅？这一局会存好" — the 2nd tap on 回大厅 leaves for real
   let homeOK = false;
@@ -851,7 +899,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     resetPerf: () => { perf.n = 0; perf.i = 0; work.reset(); fill.reset(); stepMs = 0; stepN = 0; }, degrade: (d: number) => applyDegrade(d), place: tryPlace, collectAll: () => { for (const d of S.drops) queue.push({ t: 'collect', id: d.id }); }, token: (lane: number, col: number) => queue.push({ t: 'token', lane, col }), mark: (id: number) => queue.push({ t: 'mark', id }), setSpeed: (s: number) => { speedSel = s; }, pause: openPause, skipHook: () => hookDone?.(), get hooking() { return hooking; }, go: startDrill, placed: () => placed.slice(), tile: TILE, cell: (l: number, c: number) => ({ x: cellCx(geo, c), y: feetY(geo, l) }), ghost: !!ghost, tier };
 
   return {
-    layout(l: LayoutInfo): void { geo = makeGeo(l.width, l.height, l.safe.top, app.dpr); atlas = atlasFor(geo.w, app.dpr); stage.setGeo(stageGeo(), atlas); warn.clear(); paintBoard(); placeHud(); paintHover(stage.hover); kick(); },
+    layout(l: LayoutInfo): void { geo = makeGeo(l.width, l.height, l.safe.top, app.dpr, phIns(l)); atlas = atlasFor(geo.w, app.dpr); stage.setGeo(stageGeo(), atlas); warn.clear(); paintBoard(); placeHud(); paintHover(stage.hover); kick(); },
     destroy, pause: () => { if (!paused && !ended) openPause(true); },
     leave: () => suspend(true),
   };

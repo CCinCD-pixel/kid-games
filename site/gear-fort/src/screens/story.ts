@@ -1,10 +1,11 @@
 // Narrative scenes (spec §6.3b, §4.13, §5.8): 序幕 · 墨子号码头 · 卷一尾 · 卷二开 · 卷二尾 and the 8 驿站 by the campfire.
 // Lacquered peg dolls + the battle rigs on paper-cut parallax layers (far layers move slower); the camera only pans and
-// pushes. Every scene ≤ 6 shots / ≤ 30 s, a tap jumps to the next shot, 跳过 bottom-right ends it. Lines speak through
+// pushes. Every scene ≤ 6 shots / ≤ 30 s, a tap jumps to the next shot, the kit's 跳过 (top-right, after 1.5 s) ends it
+// and the parent's 跳过开场和教学 skips it outright (Dad, 2026-10-08; a skipped scene counts as seen). Lines speak through
 // the game's voice (subtitles before audio exists); 鲁班 speaks in his own voice (role luban clips; before they load he types out with his wooden babble).
 import { cost } from '../render/perf';
 import { mount as mountCompanion, type Companion } from '@kit/companion';
-import { icon, bindPress } from '@kit/ui';
+import { icon, bindPress, mountSkipButton, shouldAutoSkip } from '@kit/ui';
 import { Atlas, drawRig } from '../render/atlas';
 import { poseOf, type Pose, type PoseState } from '../art/rigs';
 import { portrait } from '../art/icons';
@@ -131,17 +132,22 @@ class Stage {
   destroy(): void { this.dead = true; clearInterval(this.typeT); window.removeEventListener('resize', this.fit); this.bot?.destroy(); this.app.voice.stop(); this.el.remove(); this.atlas = null; }
 }
 
-/** play a scene; resolves when it ends or 跳过 is pressed (recorded in save.story) */
-export function playStory(root: HTMLElement, app: AppCtx, id: StoryId): Promise<void> {
+/** play a scene; resolves when it ends or 跳过 is pressed (recorded in save.story). `replay`: asked for from 设置 —
+ *  plays even under the parent's 跳过开场和教学. */
+export function playStory(root: HTMLElement, app: AppCtx, id: StoryId, o: { replay?: boolean } = {}): Promise<void> {
+  if (!o.replay && shouldAutoSkip()) { // 跳过开场和教学: exactly as if 跳过 had been tapped at once
+    if (!app.save.story.includes(id)) { app.save.story.push(id); app.persist(); }
+    app.mark('gf-story', { id, skipped: true, shot: -1, auto: true }); return Promise.resolve();
+  }
   const shots = SCENES[id](); const st = new Stage(root, app, 'gf-story--' + id); st.castPortrait = 1.45;
   // the prologue plays after 1-1 is won, and 鲁班's challenge (story.0.4) was already woven into that battle (§2.4):
   // here he concedes the round instead of repeating the challenge (QA r4: the child heard it twice in a minute)
   if (id === 'prologue' && (app.save.levels['1-1']?.wins ?? 0) > 0) for (const sh of shots) if (sh.line === 'fort.story.0.4') sh.line = 'fort.luban.win';
-  const skip = document.createElement('button'); skip.className = 'gf-skip xg-btn xg-btn--secondary'; skip.innerHTML = `跳过${icon('next')}`; st.el.appendChild(skip); bindPress(st.el);
+  bindPress(st.el);
   playTheme('story');
   return new Promise((resolve) => {
     let i = -1; let t0 = 0; let lineDone = true; let raf = 0; const T0 = performance.now(); const timers: number[] = []; let ended = false;
-    const finish = (skipped: boolean): void => { if (ended) return; ended = true; cancelAnimationFrame(raf); timers.forEach(clearTimeout); st.destroy(); if (!app.save.story.includes(id)) { app.save.story.push(id); app.persist(); } app.mark('gf-story', { id, skipped, shot: i }); resolve(); };
+    const finish = (skipped: boolean): void => { if (ended) return; ended = true; unskip(); cancelAnimationFrame(raf); timers.forEach(clearTimeout); st.destroy(); if (!app.save.story.includes(id)) { app.save.story.push(id); app.persist(); } app.mark('gf-story', { id, skipped, shot: i }); resolve(); };
     const next = (): void => {
       i++; timers.forEach(clearTimeout); timers.length = 0; if (i >= shots.length) { finish(false); return; }
       const sh = shots[i]; t0 = performance.now(); lineDone = !sh.line; const me = i;
@@ -164,7 +170,8 @@ export function playStory(root: HTMLElement, app: AppCtx, id: StoryId): Promise<
       if (ss < 0.32) { st.c.setTransform(1, 0, 0, 1, 0, 0); st.c.fillStyle = `rgba(10,12,28,${0.55 * (1 - ss / 0.32)})`; st.c.fillRect(0, 0, st.cv.width, st.cv.height); }
     };
     st.cv.addEventListener('click', () => { app.voice.stop(); lineDone = true; t0 = Math.min(t0, performance.now() - shots[i].dur * 1000); });
-    skip.addEventListener('click', () => { app.ui('ui-tap', 0.4); finish(true); });
+    // the kit's 跳过 (top-right, after 1.5 s so a child tapping through the shots does not hit it; its tap never reaches the canvas)
+    const unskip = mountSkipButton(st.el, () => finish(true), { theme: 'night', className: 'gf-storyskip' });
     next(); raf = requestAnimationFrame(frame);
     if (app.test) (window as unknown as { __gfStory?: unknown }).__gfStory = { id, shot: () => i, jump: (n: number) => { i = n - 1; next(); }, seek: (n: number, sec: number) => { if (n !== i) { i = n - 1; next(); } t0 = performance.now() - sec * 1000; lineDone = false; }, dur: () => shots[i]?.dur ?? 0, n: shots.length, end: () => finish(true) };
   });
