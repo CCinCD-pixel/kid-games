@@ -10,6 +10,7 @@ import type { App } from '../app';
 import { EASE, d } from '../view/anim';
 import { ruleArt } from '../view/rule-art';
 import { BaseScreen, abs, button, div } from './base';
+import { phraseWrap } from '../view/phrase';
 
 
 const TITLES = ['大吃小', '炸弹和地雷', '公路和山界', '行营和大本营', '铁路和工兵', '扛军旗', '布阵', '翻翻棋'];
@@ -93,7 +94,7 @@ export class RulesScreen extends BaseScreen {
         ? portrait ? ruleArt(this.k + 1, cw - 28, Math.round(Math.min(290, ch * 0.56))) : ruleArt(this.k + 1, Math.round(ch * 0.98), Math.round(ch * 0.66))
         : portrait ? ruleArt(this.k + 1, cw - 60, 440) : ruleArt(this.k + 1, 440, 400);
       const note = FRONT_NOTES[this.k] ? `<p class="mc-rulecard__front-note" data-testid="rule-note">${FRONT_NOTES[this.k]}</p>` : '';
-      card.innerHTML = `<div class="mc-rulecard__n">${this.k + 1}</div><h2>${TITLES[this.k]}</h2><div class="mc-rulecard__art">${art}</div><p class="mc-rulecard__t">${text}</p>${note}`;
+      card.innerHTML = `<div class="mc-rulecard__n">${this.k + 1}</div><h2>${TITLES[this.k]}</h2><div class="mc-rulecard__art">${art}</div><p class="mc-rulecard__t">${phraseWrap(text)}</p>${note}`;
       if (!portrait) card.classList.add('is-row');
       if (ph && !portrait) card.style.gridTemplateColumns = `${Math.round(ch * 0.98)}px 1fr`;
     } else {

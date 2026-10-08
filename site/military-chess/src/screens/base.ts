@@ -63,7 +63,7 @@ const livePills = new Set<() => void>();
 const pillClass = (): void => {
   document.documentElement.classList.toggle('mc-pill-on', livePills.size > 0);
 };
-export function skipPill(onSkip: () => void): () => void {
+export function skipPill(onSkip: () => void, delayMs?: number): () => void {
   const dispose = (): void => {
     livePills.delete(dispose);
     pillClass();
@@ -73,7 +73,7 @@ export function skipPill(onSkip: () => void): () => void {
     livePills.delete(dispose);
     pillClass();
     onSkip();
-  });
+  }, delayMs === undefined ? {} : { delayMs });
   livePills.add(dispose);
   pillClass();
   return dispose;
@@ -137,9 +137,12 @@ export abstract class BaseScreen implements Screen {
   constructor(protected app: App) {
     this.el = document.createElement('div');
     this.el.className = 'mc-screen';
-    this.caption = new Caption(app.voice);
+    this.caption = new Caption(app.voice, { onShow: () => this.captionShown(true), onHide: () => this.captionShown(false) });
     app.voice.setTarget(this.caption);
   }
+
+  /** the caption bubble came up (a line is said) / went away */
+  protected captionShown(_on: boolean): void {}
 
   /** (re)mount the guide robot in a host element */
   protected placeGuide(host: HTMLElement, size: number, o: { variant?: 'full' | 'head'; mood?: Mood; referee?: boolean } = {}): Guide {

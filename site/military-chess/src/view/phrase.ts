@@ -43,7 +43,8 @@ function words(clause: string): string[] {
   return out;
 }
 
-export function phraseChunks(text: string): string[] {
+/** `short`: clauses up to this many characters stay whole (narrow boxes pass a smaller number) */
+export function phraseChunks(text: string, short = SHORT): string[] {
   const clauses: string[] = [];
   let cur = '';
   for (const ch of text) {
@@ -62,7 +63,7 @@ export function phraseChunks(text: string): string[] {
   }
   const out: string[] = [];
   for (const c of merged) {
-    if ([...c].length <= SHORT) out.push(c);
+    if ([...c].length <= short) out.push(c);
     else out.push(...words(c));
   }
   return out;
@@ -71,6 +72,37 @@ export function phraseChunks(text: string): string[] {
 const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /** HTML: every chunk in an unbreakable span */
-export function phraseWrap(text: string): string {
-  return phraseChunks(text).map((c) => `<span class="mc-nb">${esc(c)}</span>`).join('');
+export function phraseWrap(text: string, short = SHORT): string {
+  return phraseChunks(text, short).map((c) => `<span class="mc-nb">${esc(c)}</span>`).join('');
+}
+
+/**
+ * Narrow boxes (phone 战报 moment cards): chunks of at most `cpl` characters — a longer word is cut —
+ * so no unbreakable span is wider than the box. Returns the chunks (the caller wraps them).
+ */
+export function narrowChunks(text: string, cpl: number): string[] {
+  const out: string[] = [];
+  for (const c of phraseChunks(text, Math.min(SHORT, cpl))) {
+    const ch = [...c];
+    for (let i = 0; i < ch.length; i += cpl) out.push(ch.slice(i, i + cpl).join(''));
+  }
+  return out;
+}
+
+/** lines a greedy wrap of `chunks` takes at `cpl` characters per line */
+export function chunkLines(chunks: string[], cpl: number): number {
+  let lines = 1, cur = 0;
+  for (const c of chunks) {
+    const n = [...c].length;
+    if (cur && cur + n > cpl) {
+      lines++;
+      cur = 0;
+    }
+    cur += n;
+  }
+  return lines;
+}
+
+export function chunksHtml(chunks: string[]): string {
+  return chunks.map((c) => `<span class="mc-nb">${esc(c)}</span>`).join('');
 }

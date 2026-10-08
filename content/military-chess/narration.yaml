@@ -92,7 +92,7 @@ lines:
   - {"id":"mc.l1.intro","role":"narrator","text":"数字越大，官越大","pinyin":{"数字":"shù zì"}}
   - {"id":"mc.l1.rule","role":"companion","text":"大吃小，一样大一起下场","pinyin":{"下场":"xià chǎng","一样大":"yí yàng dà"}}
   - {"id":"mc.l2.intro","role":"narrator","text":"这几个子很特别"}
-  - {"id":"mc.l2.rule","role":"companion","text":"炸弹碰谁都一起下场，地雷只怕工兵","pinyin":{"下场":"xià chǎng","炸弹":"zhà dàn"}}
+  - {"id":"mc.l2.rule","role":"companion","text":"炸弹碰谁都一起下场，地雷只怕工兵和炸弹","pinyin":{"下场":"xià chǎng","炸弹":"zhà dàn"}}
   - {"id":"mc.lF.intro","role":"narrator","text":"翻翻棋：翻开棋子再打"}
   - {"id":"mc.lF.rule","role":"companion","text":"挖光它的地雷，才能扛旗","pinyin":{"扛旗":"káng qí"}}
   - {"id":"mc.l3.intro","role":"narrator","text":"公路上一次走一格"}
@@ -309,7 +309,7 @@ lines:
   - {"id":"mc.opp.3","role":"companion","text":"这是雷达，最会找你的工兵"}
   - {"id":"mc.opp.4","role":"companion","text":"这是老将，会守旗也会换子"}
   - {"id":"mc.rule.1","role":"narrator","text":"数字大的官大，大吃小","pinyin":{"数字":"shù zì"}}
-  - {"id":"mc.rule.2","role":"narrator","text":"炸弹一起下场，地雷只怕工兵","pinyin":{"下场":"xià chǎng","炸弹":"zhà dàn"}}
+  - {"id":"mc.rule.2","role":"narrator","text":"炸弹碰谁都一起下场，地雷只怕工兵和炸弹","pinyin":{"下场":"xià chǎng","炸弹":"zhà dàn"}}
   - {"id":"mc.rule.3","role":"narrator","text":"公路一次一格，三个路口过山界"}
   - {"id":"mc.rule.4","role":"narrator","text":"行营里打不到，大本营里不能动","pinyin":{"行营":"xíng yíng"}}
   - {"id":"mc.rule.5","role":"narrator","text":"铁路直着开，工兵能拐弯"}

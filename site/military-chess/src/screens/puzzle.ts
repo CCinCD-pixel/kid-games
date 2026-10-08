@@ -842,8 +842,10 @@ export class PuzzleScreen extends BaseScreen {
   // ------------------------------------------------------------------ scenes (翻翻棋入门 F-1–F-3)
   private async runScene(): Promise<void> {
     const sc = this.scene!;
-    // 跳过 (Dad, 2026-10-08): the scripted 翻翻棋入门 scenes are tutorials — skipping counts as done (1★)
-    this.scenePill = skipPill(() => this.skipScene());
+    // 跳过 (Dad, 2026-10-08): the scripted 翻翻棋入门 scenes are tutorials — skipping counts as done (1★).
+    // With the parent's 跳过开场和教学 they never stand in the way (对战 opens without them); a scene the
+    // child opens on purpose from 学堂 still plays, with 跳过 there from the start (QA fb1).
+    this.scenePill = skipPill(() => this.skipScene(), shouldAutoSkip() ? 0 : undefined);
     await this.say(this.instruction());
     while (this.sceneStep < sc.steps.length && !this.finished) {
       const st = sc.steps[this.sceneStep];
@@ -881,10 +883,16 @@ export class PuzzleScreen extends BaseScreen {
     wake?.();
     this.deselect(true);
     this.board.setGoalMarks([]);
+    this.board.pulse([]);
+    // QA fb1: the step instruction ("点亮的暗子，翻开它") must not stay up — the scene's point instead
+    // (after the stopped line's own caption has finished)
+    const teach = this.scene?.teaches;
+    this.caption.hide();
     const save = this.app.save;
     recordItem(save, this.itemId, 1, { hintMax: 0 });
     awardCards(save);
     const promos = promote(save);
+    if (teach && !promos.length) this.bag.timeout(() => this.caption.show(teach), 300);
     this.app.persist();
     this.app.hub();
     this.app.mark('intro-skip', { id: this.itemId, scene: true });

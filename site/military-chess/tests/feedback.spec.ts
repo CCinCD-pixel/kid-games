@@ -50,6 +50,32 @@ test.describe('陆战棋 · 跳过', () => {
     await page.locator(PILL).click();
     await page.waitForFunction(() => ((window as any).__mc.app.save.items['F-1']?.stars ?? 0) >= 1, null, { timeout: 5_000 });
     await expect(page.locator(PILL)).toHaveCount(0);
+    // QA fb1: no step instruction or lit target left behind — the scene's point instead
+    await page.waitForTimeout(800);
+    const caption = await page.locator('[data-testid="caption"]').getAttribute('data-text');
+    expect(caption).toBe('第一个翻开的子是什么颜色，你就是哪一方');
+    expect(await page.locator('.mc-board g.mc-goal').count()).toBe(0); // the reticle on the lit piece
+    expect(await page.locator('.mc-board circle[stroke="#f6b934"]').count()).toBe(0); // its pulse ring
+  });
+
+  test('first launch: the first-time flow and its 跳过 wait for the 开始 gate (QA fb1)', async ({ page }) => {
+    await page.goto('/military-chess/?test=1&fast=1&gate=1');
+    await page.waitForSelector('#app[data-ready]');
+    await go(page, { name: 'ft' });
+    await page.waitForTimeout(2_500);
+    await expect(page.locator('.xg-skip')).toHaveCount(0);
+    await page.locator('.kit-start__go').click();
+    await page.waitForTimeout(700);
+    await expect(page.locator(PILL)).toHaveCount(0);
+    await page.locator(PILL).waitFor({ timeout: 4_000 });
+  });
+
+  test('parent switch on: a 翻翻棋 scene opened from 学堂 still plays, with 跳过 there at once', async ({ page }) => {
+    await open(page);
+    await page.evaluate(() => localStorage.setItem('kg:settings:v1', JSON.stringify({ ...JSON.parse(localStorage.getItem('kg:settings:v1') || '{}'), skipIntros: true })));
+    await go(page, { name: 'item', id: 'F-1' });
+    await page.locator(PILL).waitFor({ timeout: 900 });
+    expect(await page.evaluate(() => (window as any).__mc.app.save.items['F-1']?.stars ?? 0)).toBe(0);
   });
 
   test('parent switch 跳过开场和教学: the first-time flow does not start; without it, it does', async ({ page }) => {
@@ -122,6 +148,20 @@ test.describe('陆战棋 · 地雷和军旗', () => {
     // no move was made: still the child's turn (the robot is not thinking)
     await page.waitForTimeout(600);
     expect(await page.evaluate(() => (window as any).__mc.phase())).toBe('idle');
+  });
+
+  test('portrait: while the coach speaks, the 情报板 under the bubble fades out and comes back (QA fb1)', async ({ page }) => {
+    await open(page);
+    await match(page, FAN);
+    const portrait = await page.evaluate(() => innerHeight > innerWidth);
+    await page.evaluate(() => (window as any).__mc.app.voice.say('mc.rule.1'));
+    await page.waitForTimeout(400);
+    const op = await page.evaluate(() => Number(getComputedStyle(document.querySelector('.mc-intel-panel')!).opacity));
+    if (portrait) expect(op).toBeLessThan(0.05);
+    else expect(op).toBeGreaterThan(0.95);
+    await page.waitForFunction(() => !document.querySelector('[data-testid="caption"]')!.classList.contains('is-on'), null, { timeout: 12_000 });
+    await page.waitForTimeout(400);
+    expect(await page.evaluate(() => Number(getComputedStyle(document.querySelector('.mc-intel-panel')!).opacity))).toBeGreaterThan(0.95);
   });
 
   test('the same warning in a family game, for whoever moves', async ({ page }) => {

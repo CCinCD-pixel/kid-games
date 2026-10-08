@@ -63,10 +63,16 @@ export class FtScreen extends BaseScreen {
       { onTap: (at) => this.tap(at), onDrop: (pid, at) => this.drop(pid, at), canDrag: (pid) => this.canDrag(pid), onTouch: () => this.touched() },
       { viewer: RED, numbers: true },
     );
-    this.bag.timeout(() => void this.run(), 200);
-    this.pillOff = skipPill(() => this.skipAll());
+    // QA fb1: the flow (and its 跳过 pill, 1.5 s later) starts once the kit 开始 gate is gone, not behind it
+    const start = (): void => {
+      if (!this.alive) return;
+      this.bag.timeout(() => void this.run(), 200);
+      this.pillOff = skipPill(() => this.skipAll());
+    };
+    if (app.shell.started) start();
+    else void app.shell.ready.then(start);
   }
-  private pillOff: () => void;
+  private pillOff: () => void = () => {};
 
   /** 跳过: straight to the camp with everything the flow would have given */
   private skipAll(): void {

@@ -310,12 +310,21 @@ export class MatchScreen extends BaseScreen {
     return this.o === 'portrait' ? { x: 105, y: 380, w: 600, h: 0 } : { x: 240, y: 260, w: 600, h: 0 };
   }
 
+  /** portrait (side seats, phones too): the caption bubble comes up over the 情报板 */
+  private capOverIntel = false;
+  /** QA fb1: the bubble used to cover half of the 情报板 — the 情报板 fades out under it, back when it goes */
+  protected captionShown(on: boolean): void {
+    this.el.classList.toggle('is-capover', on && this.capOverIntel);
+  }
+
   protected render(): void {
     const o = this.o, st = this.safeTop;
     const face = this.seating() === 'face';
     this.el.replaceChildren();
     this.el.classList.add('mc-match');
     this.el.classList.toggle('is-phone', this.phone);
+    this.capOverIntel = o === 'portrait' && !face;
+    this.captionShown(this.caption.el.classList.contains('is-on'));
     if (this.phone) return this.renderPhone();
     this.boardBox = boardGeom(o, st).rect;
     const g = stageGeom(o, st);

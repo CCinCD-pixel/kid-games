@@ -220,7 +220,7 @@ export function mastered(save: SaveV1, concept: string): boolean {
   });
 }
 export const CONCEPT_NAMES: Record<string, string> = {
-  rank: '军衔大小', combat: '大吃小、一样大一起下场', bomb: '炸弹碰谁都一起下场', mine: '地雷只怕工兵（和炸弹）', flag: '谁都能扛旗、扛到立刻获胜',
+  rank: '军衔大小', combat: '大吃小、一样大一起下场', bomb: '炸弹碰谁都一起下场', mine: '地雷只怕工兵和炸弹', flag: '谁都能扛旗、扛到立刻获胜',
   fanflip: '翻开定颜色、暗子不能打', fanlock: '翻翻棋：挖光地雷才能扛旗', road: '公路一次一步、三个路口过山界', camp: '行营：斜线进出、里面打不到',
   hq: '大本营：进去就不能动', rail: '铁路直行、不限格', railblock: '铁路不能越子、先碰到谁', railturn: '非工兵不能拐弯', engturn: '工兵在铁路上能拐弯',
   engdig: '工兵挖雷开路', defend: '守住自己的军旗', nomoves: '对方没棋可走也算赢', deploy: '布阵规矩', infer: '从裁判结果推理', reveal: '司令下场亮军旗',

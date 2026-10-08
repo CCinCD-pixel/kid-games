@@ -695,7 +695,7 @@ html[data-orientation="landscape"] body { background-image: url("@kit/textures/s
 .mc-rulecard__n { position: absolute; left: 20px; top: 18px; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--xg-army); color: #fff; font: 800 26px/1 var(--xg-font-num); box-shadow: 0 3px 0 var(--xg-army-deep); }
 .mc-rulecard__art { line-height: 0; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 0 rgba(94, 58, 28, .35); }
 .mc-ruleart { display: block; }
-.mc-rulecard__t { margin: 0; font: 500 32px/1.35 var(--xg-font-read); color: var(--xg-ink-900); }
+.mc-rulecard__t { margin: 0; font: 500 32px/1.35 var(--xg-font-read); color: var(--xg-ink-900); text-wrap: balance; }
 .mc-rulecard__back { margin: 18px 0 0; text-align: left; font: 500 22px/1.6 var(--xg-font-ui); color: var(--xg-ink-800); }
 .mc-rulecard__note { margin: 0; font: 500 18px/1.4 var(--xg-font-ui); color: var(--xg-ink-500); }
 .mc-rulecard__flip { position: absolute !important; bottom: 18px; left: 50%; transform: translateX(-50%); }
@@ -905,6 +905,8 @@ html[data-mc-phone="1"] .mc-board-glyph { font-size: 23px; transform: translateY
 .mc-match.is-phone .mc-sheet .xg-btn { min-height: 48px; font-size: 18px; }
 /* phones: the 情报板 is one tap target (the nearest cell answers, see Intel.cellFor) */
 .mc-match.is-phone .mc-intel__cell { pointer-events: none; }
+.mc-match .mc-intel-panel { transition: opacity 220ms ease-out; }
+.mc-match.is-capover .mc-intel-panel { opacity: 0; pointer-events: none; }
 .mc-match.is-phone .mc-intel-panel { cursor: pointer; }
 
 /* ---- phones: every screen (Dad, 2026-10-08). Stage units ≈ CSS px on an iPhone 13, × 0.82 on an SE:
@@ -1057,6 +1059,22 @@ html[data-mc-phone="1"] .mc-board-glyph { font-size: 23px; transform: translateY
 .mc-result.is-phone .mc-result__acts { gap: 8px; }
 .mc-result.is-phone .mc-result__acts.is-grid { display: grid; grid-template-columns: 1fr 1fr; }
 .mc-result.is-phone .mc-result__acts .xg-btn { font-size: 19px; padding: 0 8px; --h: 54px; }
+/* 战报 reward tiles on phones (QA fb1 major): one size, as many rows as they need (≤ 2), each row centred */
+.mc-result.is-phone .mc-result__info.is-tiles { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 8px; }
+.mc-rtile { box-sizing: border-box; display: flex; align-items: center; gap: 5px; width: var(--tile-w, 119px); height: 54px; padding: 0 6px; border-radius: 16px; background: #fffaf0; box-shadow: 0 4px 0 rgba(94, 58, 28, .4); overflow: hidden; }
+.mc-rtile__art { flex: none; line-height: 0; }
+.mc-rtile__art .mc-cardart { width: 48px; height: 32px; border-radius: 6px; }
+.mc-rtile__t { display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0; }
+.mc-rtile__t em { font: 800 16px/1 var(--xg-font-ui); font-style: normal; color: var(--xg-army, #4a6b2f); white-space: nowrap; }
+.mc-rtile__t b { font: 800 18px/1 var(--xg-font-ui); color: var(--xg-ink-800); white-space: nowrap; }
+.mc-rtile.is-card { cursor: pointer; box-shadow: 0 4px 0 var(--xg-army-700, #3a5424), 0 0 0 3px var(--xg-army, #4a6b2f); }
+.mc-rtile.is-unlock { box-shadow: 0 4px 0 var(--xg-gold-700), 0 0 0 3px var(--xg-gold-500); }
+.mc-rtile.is-unlock em { color: var(--xg-gold-700); }
+.mc-rtile.is-guess > .mc-icon { flex: none; width: 26px; height: 26px; color: var(--xg-army); }
+.mc-rtile.is-more { justify-content: center; }
+.mc-rtile.is-more .mc-rtile__t { align-items: center; }
+/* moment captions: short chunks, lines balanced ("最后一步 / 在这里", QA fb1 minor) */
+.mc-result.is-phone .mc-moment__cap { text-wrap: balance; max-width: 100%; }
 /* 复盘 */
 .mc-review__bar.is-phone { padding: 0; border-radius: 28px; }
 .mc-review__bar.is-phone .xg-iconbtn { --size: 54px; }
