@@ -13,6 +13,9 @@
  *   bindPress(document);                                 // press/squash + sounds on every .xg-btn/.xg-card…
  *   const choice = await showResult({ ribbon: '过关啦', stars: 2, actions: [{ id: 'next', label: '下一关', kind: 'primary' }] });
  *
+ * Intros / cutscenes / tutorials: `mountSkipButton(container, onSkip)` shows the shared 跳过 (top-right,
+ * after 1.5 s; returns a disposer) and `shouldAutoSkip()` is the parent's 跳过开场和教学 — see skip.ts.
+ *
  * Sounds: call `installKitSfx()` from '@kit/ui/sfx-bridge' after the start-gate tap so the kit's
  * semantic sounds (ui-tap, star-1 …) play through kit/audio's single AudioContext.
  * Per-game colour: <body data-xg-game="mars|moon|rabbit|story|lab|porter|chess|army|snake|match|defense">;
@@ -33,6 +36,8 @@ export {
   toast as xgToast, UI_ICONS, GAME_EMBLEMS,
 } from './xg';
 export type { UiIconName, GameEmblemId, MapNode, ResultOptions, ResultAction, KeypadOptions, NodeMapOptions, DragHandle } from './xg';
+export { mountSkipButton, shouldAutoSkip, createSkipController, SKIP_DELAY_MS } from './skip';
+export type { SkipButtonOptions, SkipController, SkipState } from './skip';
 
 type Child = Node | string | number | null | undefined | false;
 

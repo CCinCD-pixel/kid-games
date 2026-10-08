@@ -2,15 +2,19 @@
  * Family settings set on the parent page (/parent/) and read by every page. Local only; included
  * in the progress export (all `kg:*` keys are).
  *
- *   import { getSettings, onSettingsChange } from '@kit/settings';
+ *   import { getSettings, onSettingsChange, skipIntros } from '@kit/settings';
  *   const { displayName, pinyin } = getSettings();     // '小步步', false
  *   onSettingsChange((s) => relabel(s.displayName));   // another tab / the parent page changed them
+ *   if (skipIntros()) startPlaying();                  // 跳过开场和教学 (games use shouldAutoSkip() from @kit/ui)
  *
  * Narration on/off is applied by kit/narration itself (lines are still shown as subtitles; an
  * explicit 再听一遍 still speaks). Games read `pinyin` to show pinyin above reading text and
  * `displayName` wherever the child is addressed in text (voice lines that contain the default
  * name have a name-free variant; see the hub). Hidden games disappear from the hub only — their
- * URLs and saves are untouched. There are deliberately no time limits or locks (Dad's rule).
+ * URLs and saves are untouched. `skipIntros` (跳过开场和教学, default off) makes every intro,
+ * cutscene, onboarding and tutorial auto-skip as if 跳过 had been tapped — for testing or a fresh
+ * browser (private windows forget what was seen); tutorials stay replayable from each game's menu.
+ * There are deliberately no time limits or locks (Dad's rule).
  *
  * The parent PIN is a soft gate against a curious six-year-old, not security: 4–6 digits, stored
  * as a salted FNV-1a hash (works on plain-http LAN previews where crypto.subtle is unavailable).
@@ -30,9 +34,11 @@ export interface Settings {
   pinyin: boolean;
   /** registry ids hidden from the hub */
   hiddenGames: string[];
+  /** 跳过开场和教学: intros / cutscenes / tutorials auto-skip (marked seen) — default off */
+  skipIntros: boolean;
 }
 
-export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [] as string[] });
+export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [] as string[], skipIntros: false });
 
 function storage(s?: Storage): Storage | undefined {
   if (s) return s;
@@ -56,6 +62,7 @@ function normalize(raw: unknown): Settings {
     narration: typeof o.narration === 'boolean' ? o.narration : DEFAULT_SETTINGS.narration,
     pinyin: typeof o.pinyin === 'boolean' ? o.pinyin : DEFAULT_SETTINGS.pinyin,
     hiddenGames: Array.isArray(o.hiddenGames) ? [...new Set(o.hiddenGames.filter((g): g is string => typeof g === 'string' && /^[a-z0-9-]+$/.test(g)))] : [],
+    skipIntros: typeof o.skipIntros === 'boolean' ? o.skipIntros : DEFAULT_SETTINGS.skipIntros,
   };
 }
 
@@ -96,6 +103,13 @@ export function onSettingsChange(cb: (s: Settings) => void): () => void {
 
 /** True when a line should be voiced (parent setting). */
 export const narrationEnabled = (store?: Storage): boolean => getSettings(store).narration;
+
+/**
+ * True when the parent turned on 跳过开场和教学: every intro, cutscene, onboarding and tutorial
+ * should be skipped as if 跳过 had been tapped (and marked seen). Read it when the intro would
+ * start, not once at load — the parent page may change it in another tab.
+ */
+export const skipIntros = (store?: Storage): boolean => getSettings(store).skipIntros;
 
 // ---------------------------------------------------------------- parent PIN
 

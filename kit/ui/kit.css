@@ -497,7 +497,45 @@
 .xg-confetti i { position: absolute; top: -20px; width: 12px; height: 16px; border-radius: 2px; animation: xg-fall var(--d, 2.4s) cubic-bezier(.3, .4, .6, 1) var(--delay, 0s) forwards; }
 @keyframes xg-fall { 0% { transform: translate3d(0, 0, 0) rotate(0) rotateY(0); opacity: 1; } 85% { opacity: 1; } 100% { transform: translate3d(var(--dx, 0), 110vh, 0) rotate(var(--rot, 540deg)) rotateY(720deg); opacity: 0; } }
 
+/* ========================================================================== SKIP
+   跳过 for intros / cutscenes / tutorials (kit/ui/skip.ts mountSkipButton). Top-right, mirrors the
+   🏠 button (same top, height and paper); quieter ink so it does not compete with the scene; fades
+   in after ~1.5 s. Move it with --xg-skip-top / --xg-skip-right; the JS sets --xg-skip-drop when it
+   has to sit below the 🏠 button. */
+.xg-skip {
+  position: fixed; z-index: var(--xg-z-skip, calc(var(--xg-z-modal) + 30));
+  top: calc(var(--xg-skip-top, max(12px, env(safe-area-inset-top))) + var(--xg-skip-drop, 0px));
+  right: var(--xg-skip-right, max(12px, env(safe-area-inset-right)));
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box;
+  min-width: 96px; max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  height: var(--xg-hit-back, 56px); min-height: 48px; margin: 0; padding: 0 16px 0 20px;
+  border: 0; border-radius: var(--xg-r-pill); cursor: pointer;
+  font: 800 18px/1 var(--xg-font-ui); letter-spacing: .12em; color: var(--xg-ink-700); white-space: nowrap;
+  background: linear-gradient(180deg, var(--xg-paper-0), var(--xg-paper-100));
+  box-shadow: 0 5px 0 var(--xg-paper-400), 0 10px 14px -6px rgba(var(--xg-shadow-color), .35), inset 0 2px 0 rgba(255, 255, 255, .6);
+  -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation;
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-10px) scale(.9);
+  transition: opacity .3s var(--xg-ease-out), transform .45s var(--xg-ease-spring), visibility 0s linear .45s, box-shadow var(--xg-dur-press) var(--xg-ease-press);
+}
+.xg-skip[data-state="shown"] {
+  opacity: .95; visibility: visible; pointer-events: auto; transform: none;
+  transition: opacity .3s var(--xg-ease-out), transform .45s var(--xg-ease-spring), visibility 0s, box-shadow var(--xg-dur-press) var(--xg-ease-press);
+}
+.xg-skip[data-state="leaving"] { opacity: 0; visibility: visible; transform: translateY(-6px) scale(.94); transition: opacity .2s var(--xg-ease-out), transform .2s var(--xg-ease-out); }
+.xg-skip.is-pressed { transform: translateY(4px) scale(.97); box-shadow: 0 1px 0 var(--xg-paper-400), inset 0 2px 0 rgba(255, 255, 255, .5); transition-duration: var(--xg-dur-press); }
+.xg-skip:focus-visible { outline: none; box-shadow: var(--xg-focus-ring), 0 5px 0 var(--xg-paper-400); }
+.xg-skip__label { min-width: 0; padding-top: 1px; overflow: hidden; text-overflow: ellipsis; }
+.xg-skip__icon { font-size: 22px; opacity: .75; }
+.xg-skip[data-theme="night"] {
+  color: var(--xg-moon-200);
+  background: radial-gradient(120% 100% at 30% 15%, var(--xg-night-500), var(--xg-night-700));
+  box-shadow: 0 5px 0 var(--xg-night-950), 0 10px 14px -6px rgba(3, 5, 22, .55), inset 0 1.5px 0 rgba(255, 255, 255, .18);
+}
+.xg-skip[data-theme="night"].is-pressed { box-shadow: 0 1px 0 var(--xg-night-950), inset 0 1.5px 0 rgba(255, 255, 255, .14); }
+.xg-skip[data-theme="night"]:focus-visible { box-shadow: var(--xg-focus-ring), 0 5px 0 var(--xg-night-950); }
+
 @media (prefers-reduced-motion: reduce) {
+  .xg-skip, .xg-skip[data-state], .xg-skip.is-pressed { transform: none !important; }
   .xg-progress__fill::after, .xg-node--current::before, .xg-node--current::after, .xg-start__btn::before, .xg-start__btn::after,
   .xg-hint[data-state="ready"]::before, .xg-hint[data-state="ready"]::after, .xg-hint .xg-icon, .xg-node__marker { animation: none !important; }
 }

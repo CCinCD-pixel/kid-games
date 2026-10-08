@@ -3,9 +3,9 @@
  * PIN gate (set on first use; a soft gate for a six-year-old, kit/settings), then four tabs:
  *   概览  play-log stats: last 7 / 30 days, a 14-day chart by place, how games were opened, domains
  *   进度  every game: status, progress, parent note, ability domains, last played
- *   设置  display name, narration, pinyin, sound, which games the hub shows, change PIN
+ *   设置  display name, narration, pinyin, sound, 跳过开场和教学, which games the hub shows, change PIN
  *   备份  export / import progress + play log (one JSON file), credits
- * Deliberately NO time budgets, timers or locks (Dad's rule 10). Everything stays on this iPad.
+ * Deliberately NO time budgets, timers or locks (Dad's rule 10). Everything stays on this device.
  */
 import registry, { type HubEntry } from 'virtual:kg-registry';
 import { isMuted, setMuted } from '@kit/audio';
@@ -153,7 +153,7 @@ function showMain(tab: Tab = 'overview') {
   const body = h('main', { class: 'pg-body', id: 'pg-body' });
   const credits = h('a', { class: 'pg-credits', href: '/credits/' }, '素材与致谢');
   const head = h('header', { class: 'pg-head' },
-    h('div', { class: 'pg-head__title' }, h('h1', null, '家长中心'), h('span', { class: 'pg-head__sub' }, '记录只保存在这台 iPad 上')),
+    h('div', { class: 'pg-head__title' }, h('h1', null, '家长中心'), h('span', { class: 'pg-head__sub' }, '记录只保存在这台设备上')),
     credits);
   app.replaceChildren(h('div', { class: 'pg' }, head, h('nav', { class: 'pg-nav' }, tabsEl), body));
   const render = (t: Tab) => {
@@ -350,7 +350,7 @@ function settingsPanel(): Node[] {
   });
   const nameRow = h('div', { class: 'pg-row' },
     h('div', { class: 'pg-field' }, name, save),
-    h('p', { class: 'pg-small' }, `大厅和游戏里怎么称呼他（最多 ${NAME_MAX} 个字，默认「${DEFAULT_NAME}」）。语音里只会说「${DEFAULT_NAME}」；换成别的名字后，带名字的语音会换成不带名字的版本。只存在这台 iPad 上。`));
+    h('p', { class: 'pg-small' }, `大厅和游戏里怎么称呼他（最多 ${NAME_MAX} 个字，默认「${DEFAULT_NAME}」）。语音里只会说「${DEFAULT_NAME}」；换成别的名字后，带名字的语音会换成不带名字的版本。只存在这台设备上。`));
 
   const hiddenSet = new Set(s.hiddenGames);
   const listed = registry.filter((g) => g.status !== 'hidden');
@@ -374,6 +374,9 @@ function settingsPanel(): Node[] {
       toggle('旁白语音', s.narration, (v) => updateSettings({ narration: v }), '关掉后，游戏里的话只显示字幕；孩子点「再听一遍」时仍会读出来。'),
       toggle('拼音', s.pinyin, (v) => updateSettings({ pinyin: v }), '支持拼音的游戏（如山海故事匣）会在字上方显示拼音。'),
       toggle('声音', !isMuted(), (v) => setMuted(!v), '全部音效和语音的总开关（大厅右上角的喇叭也是它）。')),
+    section('开场和教学',
+      toggle('跳过开场和教学', s.skipIntros, (v) => updateSettings({ skipIntros: v }), '测试或换浏览器时用；孩子平时建议关着。'),
+      h('p', { class: 'pg-small' }, '打开后，各游戏的开场、新手引导和教学都会直接跳过（算作看过），教学仍可从游戏菜单里重看。关着时，开场开始 1.5 秒后右上角会出现「跳过」。')),
     section('大厅里显示的游戏', h('p', { class: 'pg-small' }, '隐藏只影响大厅卡片，进度和记录都保留。'), gameToggles),
     section('家长 PIN', h('div', { class: 'pg-row' }, changePin, h('p', { class: 'pg-small' }, '进入家长中心：在大厅长按右上角的家长按钮（或「星港」两个字）3 秒。'))),
     h('p', { class: 'pg-note' }, '没有时长预算、倒计时或锁屏——这是爸爸的决定。'),
@@ -438,7 +441,7 @@ async function doImport(input: HTMLInputElement) {
   const n = entries ? Object.keys(entries).length : 0;
   const choice = await showModal({
     title: '恢复备份？',
-    body: h('p', null, `文件里有 ${n} 项进度和记录（${(bundle as { exportedAt?: string }).exportedAt?.slice(0, 10) ?? '日期未知'}）。恢复后，这台 iPad 上同名的内容会被替换。`),
+    body: h('p', null, `文件里有 ${n} 项进度和记录（${(bundle as { exportedAt?: string }).exportedAt?.slice(0, 10) ?? '日期未知'}）。恢复后，这台设备上同名的内容会被替换。`),
     actions: [{ id: 'cancel', label: '取消' }, { id: 'ok', label: '恢复', primary: true }],
   });
   if (choice !== 'ok') return;

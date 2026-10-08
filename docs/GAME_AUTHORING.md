@@ -144,7 +144,16 @@ narrator.say('mars.intro.1');
 
 Layout: both orientations, **no scrolling**, everything inside the safe area. Use the shell's
 `onLayout` (or CSS on `html[data-orientation]`, `--kit-vw`, `--kit-vh`). The 🏠 button occupies the
-top-left 56×56 (+12 px margin + safe area): keep that corner free.
+top-left 56×56 (+12 px margin + safe area): keep that corner free. During an intro / cutscene /
+tutorial the top-right corner (same size) belongs to the kit's 跳过 (see §4 ui).
+
+Phones (Dad plays on his phone too, 2026-10-08): besides the iPad (810×1080 / 1080×810) a page
+must work in phone portrait (390×664 iPhone 13 Safari, 320×568 iPhone SE) and phone landscape
+(844×390) — no truncated titles, no overlapping text, tap targets ≥ 44 px. "Phone" = the shorter
+side is < 600 px: `@media (orientation: portrait) and (max-width: 599px)` /
+`(orientation: landscape) and (max-height: 599px)` (the hub and the parent page use exactly these).
+A game that cannot be played in phone portrait shows a full-screen "把手机横过来玩" prompt there
+instead, and must be fully playable in phone landscape.
 
 ## 4. Kit API (import from `@kit/<module>`)
 
@@ -233,12 +242,45 @@ const id = await showResult({ ribbon: '过关啦', stars: 2, title: '…', actio
 nodeMap(el, nodes, { onPick }) ; mountKeypad(el, { maxLength: 3, onSubmit }) ; segmented(el, { options, onChange })
 ghostTap(el) ; ghostDrag(from, to) ; startDrag(src, ev, targets) ; confetti() ; icon('hint') ; emblem('mars')
 replayButton() ; setPlaying(btn, true) ; setHintReady(btn, true) ; xgToast('已保存', { tone: 'ok' })
+const unmount = mountSkipButton(container, onSkip, { delayMs: 1500, label: '跳过' }) ; shouldAutoSkip()   // see below
 await showModal({ … }) ; toast(…) ; createSubtitleBar() ; starRow(2, 3)                 // base components
 const bot = mount(hostEl, { size: 140, bubble: 'right', sfx: (n) => sfx.play(n) }); bot.setMood('thinking'); bot.react('hop')
 await sayLine(bot, narrator, 'mars.hint.1', { mood: 'encouraging' })
 chime(combo)                                            // pentatonic ladder for chains (eat, cascade)
 ```
 Style with `--xg-*` tokens and `.xg-*` / `.kit-*` classes; don't depend on kit DOM internals.
+
+**跳过 — every intro, cutscene, onboarding and tutorial must be skippable** (Dad, 2026-10-08):
+```ts
+import { mountSkipButton, shouldAutoSkip } from '@kit/ui';
+
+async function runIntro() {
+  const finish = () => { save.introSeen = true; store.save(save); startPlaying(); };   // skipped = seen
+  if (save.introSeen) return startPlaying();
+  if (shouldAutoSkip()) return finish();                            // parent switch 跳过开场和教学
+  let skipped = false;
+  const unmount = mountSkipButton(document.body, () => {            // the child (or Dad) tapped 跳过
+    skipped = true; narrator.stop(); cutscene.stop(); finish();
+  });
+  await cutscene.play();                                            // …or the intro ended by itself
+  if (skipped) return;
+  unmount(); finish();
+}
+```
+- `mountSkipButton(container, onSkip, { delayMs = 1500, label = '跳过', theme?: 'auto' | 'paper' | 'night', className? })`
+  returns a disposer. The pill sits top-right (safe-area aware, 56 px tall like the 🏠 button, night
+  pill inside `[data-xg-theme="night"]`), appears after `delayMs` so a child tapping through the scene
+  does not hit it by accident (invisible and untappable until then), calls `onSkip` **once**, then
+  leaves. Its taps do not reach the page under it (a "tap anywhere to continue" scene does not also
+  advance). The disposer is idempotent and safe after a skip. If the 🏠 button would touch it, it
+  drops below it. Move it with `--xg-skip-top` / `--xg-skip-right` if your HUD needs the corner.
+- `shouldAutoSkip()` is the parent page's 跳过开场和教学 (`getSettings().skipIntros`, default off). Check it
+  when the intro would start (not once at load) and skip exactly as if 跳过 had been tapped — mark it
+  seen, start playing. The button never auto-skips by itself.
+- Skipping marks the intro/tutorial as seen; tutorials stay replayable from the game's menu / help.
+- Games that draw their own control can use `createSkipController(onSkip, { delayMs, onShow })`
+  (the same timing / once-only logic, DOM-free).
+
 Fonts: `--xg-font-read` (霞鹜文楷, reading/instructions), `--xg-font-title` (站酷快乐体, big titles
 only), `--xg-font-num` (Baloo 2, numbers). The subsets hold 3500 common characters + extras; if your
 text needs a rarer character, ask the platform to re-run the subsetter. The companion has no sad
@@ -246,8 +288,9 @@ mood and never guilt-trips (lint-enforced). Catalogue: /dev/kit/ and assets-src/
 
 ### settings / hub progress
 ```ts
-import { getSettings, onSettingsChange } from '@kit/settings';
+import { getSettings, onSettingsChange, skipIntros } from '@kit/settings';
 const { displayName, pinyin } = getSettings();          // parent page; narration on/off is applied by kit/narration
+skipIntros()                                            // 跳过开场和教学 (games call shouldAutoSkip() from @kit/ui)
 import { setHubProgress } from '@kit/progress';
 setHubProgress('mars-base', { label: '第 2 章', value: 0.45 });   // the line under your hub card (a place in the story, never a score)
 ```
@@ -295,7 +338,9 @@ missing file or breaks the tone rules (tools/check-content.mjs TONE_RULES): proc
   `tests/smoke/helpers.ts` (`instrument`, `watch`, `probe`, `shot`). Play through level 1 at least.
 - The platform smoke test already checks your page loads cleanly in WebKit at 810×1080 and
   1080×810 with no console errors, no horizontal overflow, a ≥56 px back button and ≤1 AudioContext.
-- Screenshot review: look at your screens in **both orientations** before saying "done".
+- Screenshot review: look at your screens in **both orientations** before saying "done" — on the iPad
+  (810×1080, 1080×810) and on phones (Playwright WebKit `devices['iPhone 13']`, `devices['iPhone SE']`,
+  and an 844×390 `isMobile`/`hasTouch` landscape context).
 
 ## 9. Definition of done (abridged from plan §6.8)
 

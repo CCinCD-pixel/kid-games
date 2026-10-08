@@ -182,12 +182,30 @@ showPlace(place);
 
 // ------------------------------------------------------------------ companion + narration
 const narrator = new Narrator({ manifestUrl: '/audio/hub/audio-manifest.json' });
-const portrait = () => innerHeight > innerWidth;
+// Same breakpoints as hub.css: a phone is any window whose shorter side is < 600 px.
+const phonePortrait = matchMedia('(orientation: portrait) and (max-width: 599px)');
+const phoneLandscape = matchMedia('(orientation: landscape) and (max-height: 599px)');
+/** Companion size and bubble width for this layout (phone numbers mirror hub.css). */
+function botLayout(): { size: number; bubbleMax: number } {
+  const w = innerWidth;
+  if (phonePortrait.matches) {
+    const size = w < 360 ? 70 : 80;
+    return { size, bubbleMax: w - size - 44 }; // bubble opens left over the sky, never off-screen
+  }
+  if (phoneLandscape.matches) {
+    const size = innerHeight < 380 ? 70 : 76;
+    return { size, bubbleMax: Math.round(Math.max(w * 0.36, 280) - size - 36) }; // stays in the sky column (--hub-side)
+  }
+  return innerHeight > w ? { size: 132, bubbleMax: 600 } : { size: 118, bubbleMax: 560 };
+}
 let bot: Companion | null = null;
+let botKey = '';
 const botHost = document.getElementById('hub-bot')!;
 function mountBot() {
+  const l = botLayout();
+  botKey = `${l.size}/${l.bubbleMax}`;
   bot?.destroy();
-  bot = mount(botHost, { size: portrait() ? 132 : 118, mood: 'idle', bubble: 'left', bubbleMax: portrait() ? 600 : 560, sfx: (n) => sfx.play(n) });
+  bot = mount(botHost, { size: l.size, mood: 'idle', bubble: 'left', bubbleMax: l.bubbleMax, sfx: (n) => sfx.play(n) });
 }
 mountBot();
 
@@ -335,8 +353,8 @@ onSettingsChange((s) => {
   renderCards();
 });
 shell.on('layout', () => {
-  const want = portrait() ? 132 : 118;
-  if (bot && Math.abs(bot.el.getBoundingClientRect().width - want) > 4) mountBot();
+  const l = botLayout();
+  if (`${l.size}/${l.bubbleMax}` !== botKey) mountBot();
 });
 
 // ------------------------------------------------------------------ sounds (decoded now, audible after the first tap)

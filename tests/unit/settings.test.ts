@@ -1,16 +1,30 @@
 import { describe, expect, it } from 'vitest';
-import { checkPin, cleanName, clearPin, DEFAULT_NAME, getSettings, hashPin, hasPin, PIN_KEY, setPin, SETTINGS_KEY, updateSettings } from '@kit/settings';
+import { checkPin, cleanName, clearPin, DEFAULT_NAME, getSettings, hashPin, hasPin, PIN_KEY, setPin, SETTINGS_KEY, skipIntros, updateSettings } from '@kit/settings';
 import { HUB_PROGRESS_KEY, readHubProgress, setHubProgress } from '@kit/progress';
 import { MemoryStorage } from '../helpers/memory-storage';
 
 describe('family settings (parent page)', () => {
   it('defaults, normalises and persists', () => {
     const st = new MemoryStorage();
-    expect(getSettings(st)).toEqual({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [] });
+    expect(getSettings(st)).toEqual({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [], skipIntros: false });
     updateSettings({ displayName: '  小 步  ', narration: false, hiddenGames: ['chess', 'chess', 'Bad Id'] }, st);
-    expect(getSettings(st)).toEqual({ displayName: '小 步', narration: false, pinyin: false, hiddenGames: ['chess'] });
+    expect(getSettings(st)).toEqual({ displayName: '小 步', narration: false, pinyin: false, hiddenGames: ['chess'], skipIntros: false });
     st.setItem(SETTINGS_KEY, '{broken');
     expect(getSettings(st).displayName).toBe(DEFAULT_NAME);
+  });
+
+  it('跳过开场和教学 (skipIntros): off by default, persists, ignores junk, survives other edits', () => {
+    const st = new MemoryStorage();
+    expect(skipIntros(st)).toBe(false);
+    updateSettings({ skipIntros: true }, st);
+    expect(skipIntros(st)).toBe(true);
+    updateSettings({ pinyin: true }, st); // another setting changes; skipIntros stays
+    expect(getSettings(st)).toMatchObject({ pinyin: true, skipIntros: true });
+    st.setItem(SETTINGS_KEY, JSON.stringify({ displayName: '小步步', skipIntros: 'yes' }));
+    expect(skipIntros(st)).toBe(false);
+    // settings saved before the field existed read as off
+    st.setItem(SETTINGS_KEY, JSON.stringify({ displayName: '小步步', narration: false, pinyin: false, hiddenGames: [] }));
+    expect(getSettings(st)).toMatchObject({ narration: false, skipIntros: false });
   });
 
   it('caps the display name and falls back to the default when empty', () => {
