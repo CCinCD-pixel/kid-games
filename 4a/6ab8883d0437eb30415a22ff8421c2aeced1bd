@@ -1,0 +1,50 @@
+site/sokoban/src/app/boot.ts
+  s_0eb5d4e8842e10::t_2459a7bca6ccc2 157
+site/sokoban/tests/phone.spec.ts
+  s_0eb5d4e8842e10::t_703ef0eed012db 206-207,210-213,215-216
+  s_0eb5d4e8842e10::t_22d539ccaf8c97 10-11
+  s_0eb5d4e8842e10::t_238b81ac92fa56 152
+  s_0eb5d4e8842e10::t_425004ab88dcd4 138-151,153-160
+  s_0eb5d4e8842e10::t_3c027b76389741 280-284,287-297,300-309
+  s_0eb5d4e8842e10::t_c1c854857e58e4 285-286,298-299
+site/sokoban/src/screens/map.ts
+  s_0eb5d4e8842e10::t_e1dab4cbc57aac 148-151
+  s_0eb5d4e8842e10::t_b972245fc4780a 216-229
+  s_0eb5d4e8842e10::t_85cc4ab53992e2 274
+  s_0eb5d4e8842e10::t_dcb89f6fb535f5 271
+site/sokoban/src/screens/play.ts
+  s_0eb5d4e8842e10::t_ad8dfa3d7ce268 1185-1187,1189-1215,1217
+  s_0eb5d4e8842e10::t_bb6f9bf9f3fcb3 1221-1222
+  s_0eb5d4e8842e10::t_55dc7b40f25a21 1317-1321
+  s_0eb5d4e8842e10::t_8937d06f8a3a6f 131
+  s_0eb5d4e8842e10::t_2b7281c38efd71 254-256
+  s_0eb5d4e8842e10::t_67747f64fb0b55 314,1420
+  s_0eb5d4e8842e10::t_272ae7ecb7ee4a 104-105
+  s_0eb5d4e8842e10::t_9d0d37540e36b8 1359
+  s_0eb5d4e8842e10::t_899fe945abade6 25,1216
+  s_0eb5d4e8842e10::t_e5b4bc66062e9d 51-52
+  s_0eb5d4e8842e10::t_3c6769808f96bb 292,303
+site/sokoban/src/app/context.ts
+  s_0eb5d4e8842e10::t_2649065b1c1888 13-14
+site/sokoban/src/styles.css
+  s_0eb5d4e8842e10::t_6e0e97cac226f7 569-571
+  s_0eb5d4e8842e10::t_afb9a21c05291b 572-574
+site/sokoban/src/screens/hangar.ts
+  s_0eb5d4e8842e10::t_8f694e00a58f29 415-416
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "4a6ab8883d0437eb30415a22ff8421c2aeced1bd",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
