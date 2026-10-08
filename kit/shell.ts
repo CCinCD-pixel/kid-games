@@ -297,6 +297,21 @@ export function initShell(opts: ShellOptions): Shell {
       void requestPersistence();
       gate.dataset.leaving = '';
       setTimeout(() => gate.remove(), 450);
+      // A finger's tap starts the game on pointerup; the click WebKit synthesizes right after is hit-tested
+      // again, and with the fading gate already pointer-events:none it would land on whatever lies under
+      // 「开始」 (a route stop, a card…). Eat that one click. stopPropagation (not Immediate) so a game's own
+      // window listener for the same click still sees it.
+      if (e.type === 'pointerup') {
+        const eat = (c: MouseEvent) => {
+          off();
+          if ((c.target as Element | null)?.closest?.('.kit-start')) return;
+          c.preventDefault();
+          c.stopPropagation();
+        };
+        const timer = window.setTimeout(() => off(), 800);
+        const off = () => { window.removeEventListener('click', eat, true); window.clearTimeout(timer); };
+        window.addEventListener('click', eat, true);
+      }
       session?.mark('start');
       resolveReady();
     };
