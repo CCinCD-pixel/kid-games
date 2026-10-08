@@ -5,8 +5,10 @@
  * paper certificate drops in (outBack 500 ms) and the three route stamps are pressed (`place-piece`,
  * 300 ms apart) → confetti + `chapter-complete`; the companion says sok.finale.1 and sok.finale.2.
  * 好 can be tapped after 2 s. Reduced motion: the certificate simply fades in.
+ * 跳过 (Dad's feedback 2026-10-08): the kit pill jumps straight to the certificate with 好 ready (the
+ * certificate is the reward: it is never skipped); the parent switch 跳过开场和教学 starts there.
  */
-import { confetti, icon } from '@kit/ui';
+import { confetti, icon, mountSkipButton, shouldAutoSkip } from '@kit/ui';
 import { getSettings } from '@kit/settings';
 import { playMusic } from '../audio/music';
 import { playSfx } from '../audio/sfx';
@@ -45,7 +47,14 @@ export function showFinale(ctx: AppCtx): Promise<void> {
     document.body.append(el);
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const g = cv.getContext('2d')!;
-    const quick = ctx.reduced || ctx.instant;
+    const quick = ctx.reduced || ctx.instant || shouldAutoSkip();
+    let unskip: () => void = () => {};
+    let certTimer: ReturnType<typeof setTimeout> | null = null;
+    const ready = () => {
+      unskip();
+      ok.disabled = false;
+      ok.classList.add('is-ready');
+    };
     let raf = 0;
     let left = false;
     let sprites: RocketSprite[] = [];
@@ -226,33 +235,41 @@ export function showFinale(ctx: AppCtx): Promise<void> {
       });
       if (t < 5200) raf = requestAnimationFrame(draw);
     };
-    const showCert = () => {
+    const showCert = (fast = quick) => {
+      if (cert.classList.contains('is-in')) return;
       cert.classList.add('is-in');
       playSfx('chapter-complete');
       const stamps = Array.from(cert.querySelectorAll<HTMLElement>('.sok-stamp'));
       stamps.forEach((s, i) => setTimeout(() => {
         s.classList.add('is-stamped');
         playSfx('place-piece', { volume: 0.7 });
-      }, quick ? 0 : 500 + i * 300));
+      }, fast ? 0 : 500 + i * 300));
       setTimeout(() => {
-        if (!quick) confetti(80);
-      }, quick ? 0 : 1500);
+        if (!fast) confetti(80);
+      }, fast ? 0 : 1500);
       void sayChain(ctx.voice, ['sok.finale.1', 'sok.finale.2'], () => !left);
-      setTimeout(() => {
-        ok.disabled = false;
-        ok.classList.add('is-ready');
-      }, ctx.test ? 0 : 2000);
+      setTimeout(ready, ctx.test || fast ? 0 : 2000);
     };
     if (quick) {
       el.classList.add('is-quick');
       showCert();
     } else {
       raf = requestAnimationFrame(draw);
-      setTimeout(showCert, 4200);
+      certTimer = setTimeout(() => showCert(), 4200);
+      unskip = mountSkipButton(document.body, () => {
+        ctx.marks.add('skip', { id: 'finale' });
+        ctx.marks.flush();
+        if (certTimer) clearTimeout(certTimer);
+        cancelAnimationFrame(raf);
+        el.classList.add('is-quick');
+        showCert(true);
+        ready();
+      });
     }
     ok.addEventListener('click', () => {
       if (ok.disabled) return;
       left = true;
+      unskip();
       cancelAnimationFrame(raf);
       for (const s of sprites) s.dispose();
       cv.width = cv.height = 0;

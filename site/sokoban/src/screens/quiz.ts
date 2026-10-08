@@ -34,6 +34,13 @@ import { CompanionStrip } from './companion';
 import { ceremonies, follow } from './flow';
 import { setPhraseText } from './wrap';
 
+/** The play grid; on a phone in portrait the instruction bar takes a row under the board. */
+function quizLayout(l: LayoutInfo) {
+  const g = playLayout(l.width, l.height, l.safe.top, l.safe);
+  if (g.phone && g.orientation === 'portrait') g.board = { ...g.board, h: g.board.h - 70 };
+  return g;
+}
+
 const TYPE_NAME: Record<DeadKind, string> = { corner: '墙角', wall: '墙边', pair: '并排', square: '四方块' };
 
 export class QuizScreen implements Screen {
@@ -135,17 +142,30 @@ export class QuizScreen implements Screen {
   }
 
   private get geom() {
-    const l = this.ctx.layout();
-    return playLayout(l.width, l.height, l.safe.top);
+    return quizLayout(this.ctx.layout());
   }
 
   layout(l: LayoutInfo): void {
-    const g = playLayout(l.width, l.height, l.safe.top);
+    const g = quizLayout(l);
     const place = (el: HTMLElement, r: Rect) => Object.assign(el.style, { left: `${r.x}px`, top: `${r.y}px`, width: `${r.w}px`, height: `${r.h}px` });
     this.el.dataset.orient = g.orientation;
+    this.el.toggleAttribute('data-phone', g.phone);
     place(this.hud, g.hud);
     place(this.inputLayer, g.board);
-    if (g.orientation === 'portrait') {
+    if (g.phone && g.orientation === 'portrait') {
+      // phone portrait: 检查 + 地图 on the key row, the instruction bar full width over the strip
+      const y = g.actions.map.y;
+      place(this.checkBtn, { x: 16, y, w: g.actions.map.x - 12 - 16, h: g.actions.map.h });
+      place(this.mapBtn, g.actions.map);
+      place(this.bar, { x: g.side.x, y: g.board.y + g.board.h + 6, w: g.side.w, h: 64 });
+      this.strip.layout(g.side, g.stripMode);
+    } else if (g.phone) {
+      const col = g.side;
+      place(this.bar, { x: col.x, y: g.actions.restart.y, w: col.w - g.actions.map.w - 8, h: g.actions.map.h });
+      place(this.checkBtn, { x: col.x, y: g.actions.undo.y, w: col.w, h: g.actions.undo.h });
+      place(this.mapBtn, g.actions.map);
+      this.strip.layout(col, g.stripMode);
+    } else if (g.orientation === 'portrait') {
       const y = g.actions.undo.y;
       place(this.bar, { x: 16, y, w: l.width - 16 - 92 - 8 - 176 - 8, h: 76 });
       place(this.checkBtn, { x: l.width - 92 - 8 - 176, y, w: 176, h: 76 });

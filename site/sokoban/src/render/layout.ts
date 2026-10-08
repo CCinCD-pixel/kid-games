@@ -23,8 +23,22 @@ export interface BoardGeom {
   oy: number;
 }
 
+/** A phone (Dad's feedback 2026-10-08): the shorter side is under 600 px (GAME_AUTHORING §3). */
+export const isPhone = (width: number, height: number): boolean => Math.min(width, height) < 600;
+
+/** Safe-area insets other than the top (phones: the notch side in landscape, the home bar). */
+export interface SideInsets {
+  left?: number;
+  right?: number;
+  bottom?: number;
+}
+
 export interface PlayLayout {
   orientation: 'portrait' | 'landscape';
+  /** shorter side < 600 px: compact HUD, 60 px buttons, the level plate on its own row in portrait */
+  phone: boolean;
+  /** how the companion strip lays out inside `side` (phones in landscape use the compact head + bubble) */
+  stripMode: 'portrait' | 'landscape';
   width: number;
   height: number;
   top: number;
@@ -48,8 +62,12 @@ export const SHADOW_PAD_X = 18;
 export const SHADOW_PAD_BOTTOM = 26;
 export const MAX_CELL = 96;
 
-export function playLayout(width: number, height: number, safeTop = 0): PlayLayout {
+/** Phone button edge (≥ 44 px tap target, still a thumb-sized key). */
+export const PHONE_BTN = 60;
+
+export function playLayout(width: number, height: number, safeTop = 0, inset: SideInsets = {}): PlayLayout {
   const T = Math.max(0, Math.round(safeTop));
+  if (isPhone(width, height)) return phonePlayLayout(width, height, T, inset);
   if (width >= height) {
     const boardW = Math.max(200, width - 272);
     const colX = 16 + boardW + 16;
@@ -58,7 +76,7 @@ export function playLayout(width: number, height: number, safeTop = 0): PlayLayo
     const row1 = bottom - 76;
     const row2 = row1 - 8 - 76;
     return {
-      orientation: 'landscape', width, height, top: T,
+      orientation: 'landscape', phone: false, stripMode: 'landscape', width, height, top: T,
       hud: { x: 0, y: T, w: width, h: 76 },
       board: { x: 16, y: T + 84, w: boardW, h: bottom - (T + 84) },
       side: { x: colX, y: T + 84, w: colW, h: row2 - 8 - (T + 84) },
@@ -73,7 +91,7 @@ export function playLayout(width: number, height: number, safeTop = 0): PlayLayo
   const barY = height - 96;
   const sideY = barY - 84;
   return {
-    orientation: 'portrait', width, height, top: T,
+    orientation: 'portrait', phone: false, stripMode: 'portrait', width, height, top: T,
     hud: { x: 0, y: T, w: width, h: 76 },
     board: { x: 16, y: T + 84, w: width - 32, h: sideY - 8 - (T + 84) },
     side: { x: 16, y: sideY, w: width - 32, h: 72 },
@@ -82,6 +100,56 @@ export function playLayout(width: number, height: number, safeTop = 0): PlayLayo
       redo: { x: 196, y: barY + 10, w: 76, h: 76 },
       restart: { x: 284, y: barY + 10, w: 76, h: 76 },
       map: { x: width - 92, y: barY + 10, w: 76, h: 76 },
+    },
+  };
+}
+
+/**
+ * Phones (390×664 iPhone 13 Safari, 320×568 iPhone SE, 844×390 landscape): 64 px HUD row, 60 px keys.
+ *  - portrait: HUD row (🏠 · pushes · 💡), the level plate on a row of its own under it (CSS), the
+ *    board, the companion strip, then one key row: 撤销 (icon only when narrow) · 重做 · 重来 … 地图;
+ *  - landscape: HUD row with the plate in the middle; board left; a 232 px column on the right with
+ *    the strip (compact head + bubble) over two key rows.
+ */
+function phonePlayLayout(width: number, height: number, T: number, inset: SideInsets): PlayLayout {
+  const B = PHONE_BTN;
+  const L = 12 + Math.max(0, Math.round(inset.left ?? 0));
+  const R = 12 + Math.max(0, Math.round(inset.right ?? 0));
+  const bottom = height - Math.max(10, Math.round(inset.bottom ?? 0));
+  if (width >= height) {
+    const colW = 232;
+    const colX = width - R - colW;
+    const row1 = bottom - B;
+    const row2 = row1 - 8 - B;
+    // clear of the 🏠 button (12 + 56 px) on the left
+    const top = T + 72;
+    return {
+      orientation: 'landscape', phone: true, stripMode: 'portrait', width, height, top: T,
+      hud: { x: 0, y: T, w: width, h: 60 },
+      board: { x: L, y: top, w: colX - 12 - L, h: bottom - top },
+      side: { x: colX, y: top, w: colW, h: row2 - 8 - top },
+      actions: {
+        undo: { x: colX, y: row1, w: colW - B - 10, h: B },
+        redo: { x: colX + colW - B, y: row1, w: B, h: B },
+        restart: { x: colX, y: row2, w: B, h: B },
+        map: { x: colX + colW - B, y: row2, w: B, h: B },
+      },
+    };
+  }
+  const barY = bottom - B;
+  const sideY = barY - 8 - 64;
+  const top = T + 116;
+  const undoW = Math.max(B, Math.min(150, width - 32 - 3 * B - 8 * 2 - 16));
+  return {
+    orientation: 'portrait', phone: true, stripMode: 'portrait', width, height, top: T,
+    hud: { x: 0, y: T, w: width, h: 64 },
+    board: { x: 12, y: top, w: width - 24, h: sideY - 6 - top },
+    side: { x: 12, y: sideY, w: width - 24, h: 64 },
+    actions: {
+      undo: { x: 16, y: barY, w: undoW, h: B },
+      redo: { x: 16 + undoW + 8, y: barY, w: B, h: B },
+      restart: { x: 16 + undoW + 8 + B + 8, y: barY, w: B, h: B },
+      map: { x: width - 16 - B, y: barY, w: B, h: B },
     },
   };
 }
@@ -102,17 +170,49 @@ export function topWallPixel(g: BoardGeom): number {
 
 export interface MapLayout {
   orientation: 'portrait' | 'landscape';
+  phone: boolean;
+  /** phones: where the companion strip goes (and its compact mode); iPad: placed by the map screen */
+  strip?: Rect;
   hud: Rect;
   card: Rect;
   road: Rect;
   tabs: Rect;
 }
 
-export function mapLayout(width: number, height: number, safeTop = 0): MapLayout {
+export function mapLayout(width: number, height: number, safeTop = 0, inset: SideInsets = {}): MapLayout {
   const T = Math.max(0, Math.round(safeTop));
+  if (isPhone(width, height)) {
+    const L = 12 + Math.max(0, Math.round(inset.left ?? 0));
+    const R = 12 + Math.max(0, Math.round(inset.right ?? 0));
+    const bottom = height - Math.max(8, Math.round(inset.bottom ?? 0));
+    if (width >= height) {
+      // left column: chapter card, the tabs (3 × 2 keys), the companion; the road fills the right
+      const colW = 236;
+      const tabsY = T + 72 + 92 + 8;
+      return {
+        orientation: 'landscape', phone: true,
+        hud: { x: 0, y: T, w: width, h: 60 },
+        card: { x: L, y: T + 72, w: colW, h: 92 },
+        tabs: { x: L, y: tabsY, w: colW, h: 118 },
+        strip: { x: L, y: tabsY + 118 + 4, w: colW, h: Math.max(60, bottom - (tabsY + 122)) },
+        road: { x: L + colW + 12, y: T + 64, w: width - R - (L + colW + 12), h: bottom - (T + 64) },
+      };
+    }
+    const tabsH = 68;
+    const roadY = T + 68 + 88 + 8;
+    const tabsY = bottom - tabsH;
+    return {
+      orientation: 'portrait', phone: true,
+      hud: { x: 0, y: T, w: width, h: 64 },
+      card: { x: 12, y: T + 68, w: width - 24, h: 88 },
+      road: { x: 12, y: roadY, w: width - 24, h: tabsY - 76 - roadY },
+      strip: { x: 12, y: tabsY - 72, w: width - 24, h: 64 },
+      tabs: { x: 0, y: tabsY, w: width, h: tabsH },
+    };
+  }
   if (width >= height) {
     return {
-      orientation: 'landscape',
+      orientation: 'landscape', phone: false,
       hud: { x: 0, y: T, w: width, h: 76 },
       tabs: { x: 16, y: T + 84, w: 76, h: height - 16 - (T + 84) },
       card: { x: 108, y: T + 84, w: width - 124, h: 100 },
@@ -120,7 +220,7 @@ export function mapLayout(width: number, height: number, safeTop = 0): MapLayout
     };
   }
   return {
-    orientation: 'portrait',
+    orientation: 'portrait', phone: false,
     hud: { x: 0, y: T, w: width, h: 76 },
     card: { x: 16, y: T + 84, w: width - 32, h: 120 },
     road: { x: 16, y: T + 212, w: width - 32, h: height - 108 - (T + 212) },

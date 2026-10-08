@@ -49,7 +49,9 @@ export async function showCertOffer(ctx: AppCtx): Promise<'go' | 'learn'> {
       const host = document.createElement('div');
       host.className = 'sok-offer__bot';
       panel.prepend(host);
-      bot = mount(host, { size: 120, mood: 'happy', variant: 'full', sfx: (n) => playSfx(n, { volume: 0.5 }), name: '领航员' });
+      // phones: a smaller companion so the question stays under him (Dad's feedback 2026-10-08)
+      const phone = Math.min(window.innerWidth, window.innerHeight) < 600;
+      bot = mount(host, { size: phone ? 76 : 120, mood: 'happy', variant: 'full', sfx: (n) => playSfx(n, { volume: 0.5 }), name: '领航员' });
       bot.react('hop');
       void lines();
     },

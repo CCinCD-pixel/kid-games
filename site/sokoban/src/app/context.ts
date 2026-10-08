@@ -12,7 +12,7 @@ export type Route =
   | { name: 'map'; tab?: number | 'classic'; opened?: number; focus?: 'coming' | 'cert'; say?: string }
   | { name: 'play'; id: string; fresh?: boolean; newChapter?: number; def?: LevelDef }
   | { name: 'hangar'; back?: Route }
-  | { name: 'opening' };
+  | { name: 'opening'; replay?: Route };
 
 export interface Screen {
   readonly el: HTMLElement;

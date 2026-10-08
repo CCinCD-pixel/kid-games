@@ -22,3 +22,12 @@ Dev-only query flags (also with `?test=1`): `slowmo=N` (board animations N× slo
 Screenshots go to `~/kid-games-work/shots/sokoban/<project>/`. Pages are silent under automation
 (kit/automute.ts). One browser at a time; every script closes it.
 - `fix-r2-shots.mjs` — QA r2 fix screenshots (result-card sentences, portrait launch caption, hangar, order delivery beat, finale panorama, 维修中 node) → `~/kid-games-work/shots/sokoban/fix-r2/`. QA r2 regressions live in `site/sokoban/tests/r2.spec.ts` (undo/restart mid-push race, 维修中) and `stage2.spec.ts` ("voice (QA r2)").
+
+## Phones + 跳过 (Dad's feedback 2026-10-08)
+- `site/sokoban/tests/phone.spec.ts` — phone portrait (390×664, 320×568) and landscape (844×390) fit checks
+  for levels, map, hangar, 侦探题, result card and every modal moment; the 跳过 pill on the opening, 0-1's
+  teaching, chapter intro lines, the 自动绕路 upgrade show, long launches and the finale; the parent's
+  跳过开场和教学; 机库 → 本领 → 再看一遍. Runs once (iPad portrait project).
+- `node tests/sokoban/phone-shots.mjs [--port=5301] [--tag=after] [--only=iphone13,se,phone-land,ipad-p,ipad-l] [--screens=…]`
+  — screenshot sweep of every screen → `~/kid-games-work/shots/fb1/sokoban/<tag>/<device>/`, printing small
+  tap targets, clipped controls, tiny text and truncation.

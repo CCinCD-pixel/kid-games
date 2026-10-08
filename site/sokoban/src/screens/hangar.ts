@@ -192,7 +192,38 @@ export class HangarScreen implements Screen {
     const T = Math.round(l.safe.top);
     const portrait = l.height > l.width;
     this.el.dataset.orient = portrait ? 'portrait' : 'landscape';
-    const place = (el: HTMLElement, x: number, y: number, w: number, h: number) => Object.assign(el.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` });
+    const place = (el: HTMLElement, x: number, y: number, w: number, h: number) => {
+      Object.assign(el.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` });
+      // the 本领 panel shrinks to its content but never past the room it was given
+      if (el === this.panel) el.style.setProperty('--sok-panel-max', `${h}px`);
+    };
+    const phone = Math.min(l.width, l.height) < 600;
+    this.el.toggleAttribute('data-phone', phone);
+    if (phone) {
+      // phones: a smaller 小推 on the turntable, the companion over him, the panel scrolls
+      const L = 12 + Math.round(l.safe.left || 0);
+      const R = 12 + Math.round(l.safe.right || 0);
+      const bottom = l.height - Math.max(8, Math.round(l.safe.bottom || 0));
+      place(this.hud, 0, T, l.width, portrait ? 64 : 60);
+      if (portrait) {
+        const stageH = Math.round(Math.min(240, l.height * 0.32));
+        this.setRobotSize(Math.round(Math.max(110, Math.min(200, (stageH - 30) / 1.25))));
+        place(this.stage, L, T + 68, l.width - L - R, stageH);
+        place(this.tabsEl, L, T + 72 + stageH, l.width - L - R, 60);
+        place(this.panel, L, T + 140 + stageH, l.width - L - R, bottom - (T + 140 + stageH));
+        this.strip.layout({ x: L, y: T + 68, w: l.width - L - R, h: 64 }, 'portrait');
+      } else {
+        const stageW = 236;
+        this.setRobotSize(Math.round(Math.max(100, Math.min(170, (bottom - T - 64 - 110) / 1.12))));
+        place(this.stage, L, T + 72, stageW, bottom - (T + 72));
+        place(this.tabsEl, L + stageW + 12, T + 64, l.width - R - (L + stageW + 12), 60);
+        place(this.panel, L + stageW + 12, T + 132, l.width - R - (L + stageW + 12), bottom - (T + 132));
+        this.strip.layout({ x: L, y: T + 72, w: stageW, h: 64 }, 'portrait');
+      }
+      this.render();
+      return;
+    }
+    this.setRobotSize(256);
     place(this.hud, 0, T, l.width, 76);
     if (portrait) {
       place(this.stage, 16, T + 84, l.width - 32, 362);
@@ -207,6 +238,16 @@ export class HangarScreen implements Screen {
       this.strip.layout({ x: 16, y: T + 84, w: 360, h: 230 }, 'landscape');
     }
     this.render();
+  }
+
+  /** 小推's size on the turntable (phones get a smaller one); redrawn only when it changes. */
+  private setRobotSize(n: number): void {
+    if (n === this.robotSize) return;
+    this.robotSize = n;
+    const next = robotCanvas(n, n * 1.12, n * 0.74, { facing: this.facing, cosmetics: cosmeticsOf(this.ctx.save.data) }, n * 1.06, 'sok-hangar__robot');
+    this.robot.replaceWith(next);
+    this.robot = next;
+    this.el.style.setProperty('--sok-robot', `${n}px`);
   }
 
   private turn(): void {
@@ -364,6 +405,15 @@ export class HangarScreen implements Screen {
       });
       this.panel.append(auto);
     }
+    // 再看一遍 (Dad's feedback 2026-10-08: the opening and the first lesson can be skipped, so they
+    // stay replayable here): the opening scene, and 0-1 with its ghost-hand teaching
+    const again = document.createElement('div');
+    again.className = 'sok-skill sok-skill--again';
+    again.dataset.testid = 'skill-again';
+    again.innerHTML = `<span class="sok-skill__name sok-skill__name--static">${icon('restart')}<span>再看一遍</span></span><div class="sok-again"><button type="button" class="xg-btn xg-btn--secondary xg-btn--sm" data-again="opening" data-testid="again-opening">${icon('play')}<span>开场</span></button><button type="button" class="xg-btn xg-btn--secondary xg-btn--sm" data-again="lesson" data-testid="again-lesson">${icon('hand')}<span>第一课</span></button></div>`;
+    again.querySelector('[data-again="opening"]')!.addEventListener('click', () => this.ctx.go({ name: 'opening', replay: { name: 'hangar', back: this.back } }));
+    again.querySelector('[data-again="lesson"]')!.addEventListener('click', () => this.ctx.go({ name: 'play', id: '0-1', fresh: true }));
+    this.panel.append(again);
     this.panel.querySelectorAll<HTMLElement>('[data-line]').forEach((b) => b.addEventListener('click', () => void this.strip.say(b.dataset.line!, { mood: 'happy', interrupt: true })));
   }
 

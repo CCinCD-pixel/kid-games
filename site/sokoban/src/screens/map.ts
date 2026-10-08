@@ -180,11 +180,21 @@ export class MapScreen implements Screen {
   }
 
   layout(l: LayoutInfo): void {
-    const g = mapLayout(l.width, l.height, l.safe.top);
+    const g = mapLayout(l.width, l.height, l.safe.top, l.safe);
     const place = (el: HTMLElement, r: Rect) => Object.assign(el.style, { left: `${r.x}px`, top: `${r.y}px`, width: `${r.w}px`, height: `${r.h}px` });
     this.el.dataset.orient = g.orientation;
+    this.el.toggleAttribute('data-phone', g.phone);
     place(this.hud, g.hud);
     place(this.card, g.card);
+    if (g.phone && g.strip) {
+      // phones: the road fills its box (nodes are smaller, CSS), the companion has its own band
+      place(this.road, g.road);
+      place(this.tabs, g.tabs);
+      this.strip.layout(g.strip, 'portrait');
+      mountSky(document.body, 'earth', 'map');
+      this.render();
+      return;
+    }
     // portrait: a narrower road box (taller than wide → the kit draws a vertical zig-zag) and the
     // companion strip in the band above the tabs; landscape: a wave and the companion at the right
     const road = g.orientation === 'portrait'
@@ -240,7 +250,7 @@ export class MapScreen implements Screen {
     const goal = isClassic ? (TRACKS.classic.goal ?? '') : chapter!.goal;
     const dest = isClassic ? 'tiangong' : chapter!.dest;
     this.card.innerHTML = `<span class="sok-chcard__emblem">${chapterEmblem(isClassic ? 'classic' : `ch${this.tab}`, 84)}</span>
-      <span class="sok-chcard__text"><span class="sok-chcard__name">${isClassic ? '' : `第 ${this.tab} 章 · `}${name}</span><span class="sok-chcard__goal">${goal}</span>
+      <span class="sok-chcard__text"><span class="sok-chcard__name">${isClassic ? '' : `<span class="sok-chcard__ch">第 ${this.tab} 章 ·</span> `}<span class="sok-chcard__nm">${name}</span></span><span class="sok-chcard__goal">${goal}</span>
       <span class="xg-pips" aria-label="通过 ${passed} / ${levels.length}">${levels.map((l) => `<i class="${levelPassed(save, l.id) ? 'on' : ''}"></i>`).join('')}</span></span>
       <span class="sok-chcard__dest">${destIcon(dest)}<span>${DEST_NAME[dest]}</span>${levels.length ? `<span class="sok-chcard__stars">${icon('star')}<b>${stars}</b><small>/${levels.length * 3}</small></span>` : ''}</span>`;
     // road
@@ -268,7 +278,7 @@ export class MapScreen implements Screen {
     const marker = robotMarker(save);
     const btns = nodeMap(this.road, nodes, {
       marker,
-      pad: this.road.clientWidth >= this.road.clientHeight ? 70 : 64,
+      pad: this.el.hasAttribute('data-phone') ? 40 : this.road.clientWidth >= this.road.clientHeight ? 70 : 64,
       waves: this.road.clientWidth >= this.road.clientHeight ? 1.25 : 1.5,
       onPick: (n) => this.pick(n),
     });

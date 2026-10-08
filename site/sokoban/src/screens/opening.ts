@@ -2,8 +2,11 @@
  * S1 开场 (spec §2.1, ≤ 6 s, tap anywhere to skip): the design-system night scene with the launch
  * tower, a conveyor bringing supply crates, 小推 driving in and waving, the companion's line
  * "小步步调度员，火箭等着装货！". Then straight into 0-1.
+ * 跳过 (Dad's feedback 2026-10-08): the kit's pill appears after 1.5 s; skipping (or the parent switch
+ * 跳过开场和教学, handled by the router) counts as seen. Replayable from 机库 → 本领 → 看开场.
  */
 import type { LayoutInfo } from '@kit/shell';
+import { mountSkipButton } from '@kit/ui';
 import { playMusic } from '../audio/music';
 import { playSfx } from '../audio/sfx';
 import type { AppCtx, Screen } from '../app/context';
@@ -24,6 +27,7 @@ export class OpeningScreen implements Screen {
   private t0 = performance.now();
   private done = false;
   private timers: ReturnType<typeof setTimeout>[] = [];
+  private readonly unskip: () => void;
 
   constructor(private readonly ctx: AppCtx, private readonly next: () => void) {
     this.el = document.createElement('div');
@@ -48,7 +52,12 @@ export class OpeningScreen implements Screen {
     playSfx('sok-conveyor', { volume: 0.4 });
     playMusic();
     this.timers.push(setTimeout(() => void this.strip.say('sok.open.1', { mood: 'happy', hold: 6000 }), 900));
-    this.timers.push(setTimeout(() => this.finish(), ctx.test ? 50 : 6000));
+    this.timers.push(setTimeout(() => this.finish(), ctx.instant ? 50 : 6000));
+    this.unskip = ctx.instant ? () => {} : mountSkipButton(document.body, () => {
+      ctx.marks.add('skip', { id: 'opening' });
+      ctx.marks.flush();
+      this.finish();
+    });
     const tick = () => {
       this.drawBot();
       if (!this.done) this.raf = requestAnimationFrame(tick);
@@ -78,12 +87,19 @@ export class OpeningScreen implements Screen {
     this.bg.style.backgroundImage = `url(${portrait ? scenePortrait : sceneLandscape})`;
     this.el.dataset.orient = portrait ? 'portrait' : 'landscape';
     const dpr = Math.min(2, l.dpr || 1);
-    const size = portrait ? 220 : 190;
+    const phone = Math.min(l.width, l.height) < 600;
+    this.el.toggleAttribute('data-phone', phone);
+    const size = phone ? (portrait ? Math.min(180, Math.round(l.width * 0.46)) : 130) : portrait ? 220 : 190;
     this.bot.width = size * dpr;
     this.bot.height = size * 1.25 * dpr;
     this.bot.style.width = `${size}px`;
     this.bot.style.height = `${size * 1.25}px`;
     // landscape: lower-right quadrant above the conveyor, clear of the moon (QA r3: the bubble covered it)
+    if (phone) {
+      // phones: the line under the 跳过 corner (portrait: above the belt; landscape: upper right)
+      this.strip.layout(portrait ? { x: 12, y: Math.round(l.height * 0.5) - 120, w: l.width - 24, h: 72 } : { x: l.width - 340 - Math.round(l.safe.right || 0), y: 76, w: 320, h: 72 }, 'portrait');
+      return;
+    }
     this.strip.layout(portrait ? { x: 16, y: l.height - 190, w: l.width - 32, h: 72 } : { x: l.width - 260, y: Math.round(l.height * 0.4), w: 224, h: 260 }, portrait ? 'portrait' : 'landscape');
   }
 
@@ -113,14 +129,17 @@ export class OpeningScreen implements Screen {
   finish(): void {
     if (this.done) return;
     this.done = true;
+    this.unskip();
     cancelAnimationFrame(this.raf);
     for (const t of this.timers) clearTimeout(t);
+    this.strip.hide();
     this.el.classList.add('is-leaving');
     setTimeout(() => this.next(), this.ctx.test ? 0 : 320);
   }
 
   destroy(): void {
     this.done = true;
+    this.unskip();
     cancelAnimationFrame(this.raf);
     for (const t of this.timers) clearTimeout(t);
     this.strip.destroy();

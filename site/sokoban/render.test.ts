@@ -106,6 +106,35 @@ describe('layout (spec §2.2)', () => {
       }
     }
   });
+  it('phones (Dad 2026-10-08): keys ≥ 44 px, inside the view, never on each other or the board', () => {
+    type R = { x: number; y: number; w: number; h: number };
+    const hit = (a: R, b: R) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+    const inside = (r: R, w: number, h: number) => r.x >= 0 && r.y >= 0 && r.x + r.w <= w && r.y + r.h <= h;
+    for (const [w, h] of [[390, 664], [320, 568], [844, 390], [667, 375]]) {
+      const g = playLayout(w, h, 0);
+      expect(g.phone).toBe(true);
+      const keys = Object.values(g.actions);
+      for (const k of keys) {
+        expect(Math.min(k.w, k.h)).toBeGreaterThanOrEqual(44);
+        expect(inside(k, w, h)).toBe(true);
+        expect(hit(k, g.board)).toBe(false);
+        expect(hit(k, g.side)).toBe(false);
+      }
+      for (let i = 0; i < keys.length; i += 1) for (let j = i + 1; j < keys.length; j += 1) expect(hit(keys[i], keys[j])).toBe(false);
+      expect(hit(g.side, g.board)).toBe(false);
+      // the board clears the 🏠 button (12 + 56 px) and the HUD row
+      expect(g.board.y).toBeGreaterThanOrEqual(g.orientation === 'portrait' ? 112 : 70);
+      // a 9×7 warehouse still gets thumb-sized cells
+      expect(boardGeom(g.board, 9, 7).s).toBeGreaterThanOrEqual(w === 320 ? 28 : 34);
+      const m = mapLayout(w, h, 0);
+      expect(m.phone).toBe(true);
+      for (const r of [m.card, m.road, m.tabs, m.strip!]) expect(inside(r, w, h)).toBe(true);
+      expect(hit(m.card, m.road) || hit(m.tabs, m.road) || hit(m.strip!, m.road) || hit(m.card, m.tabs)).toBe(false);
+    }
+    // the iPad is not a phone
+    expect(playLayout(810, 1080, T).phone).toBe(false);
+    expect(mapLayout(1080, 810, T).phone).toBe(false);
+  });
   it('map layout keeps the tab bar inside the screen', () => {
     const p = mapLayout(810, 1080, T);
     expect(p.tabs.y + p.tabs.h).toBe(1080);

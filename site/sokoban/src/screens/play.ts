@@ -7,7 +7,7 @@
  * 跳级考试, 经典仓库, 镜子仓库 twins and 随机新仓库 orders all play here.
  */
 import type { LayoutInfo } from '@kit/shell';
-import { icon, showResult, type ResultAction } from '@kit/ui';
+import { icon, mountSkipButton, shouldAutoSkip, showResult, type ResultAction } from '@kit/ui';
 import { detectAll } from '@engines/puzzle/src/deadlock';
 import { TIERS } from '@engines/puzzle/src/generator';
 import { nb } from '@engines/puzzle/src/level';
@@ -95,6 +95,12 @@ export class PlayScreen implements Screen {
   private lastActive = performance.now();
   private undoToStart = 0;
   private tutorTimers: ReturnType<typeof setTimeout>[] = [];
+  /** 跳过 pills on screen (Dad's feedback 2026-10-08): removed when their moment ends or the screen goes */
+  private readonly skipOffs = new Set<() => void>();
+  /** the child (or Dad) skipped 0-1's ghost-hand teaching: no more hands or 先走到… lines this run */
+  private tutorSkipped = false;
+  /** the 0-1 teaching's 跳过 pill (gone at the first push) */
+  private tutorSkipOff: (() => void) | null = null;
   /** a `level-leave {hidden}` was written for the current hide (spec §8.8) */
   private hiddenLeave = false;
   private finished = false;
@@ -240,21 +246,27 @@ export class PlayScreen implements Screen {
     if (this.session.marks.size) void this.board.showDead([...this.session.marks.keys()]);
     this.locked = false;
     this.refreshHud();
+    // the parent switch 跳过开场和教学: every intro line and teaching demo is skipped as if 跳过 was tapped
+    const auto = shouldAutoSkip();
     // 0-1: the ghost hand comes 1–4 s after the board lands, while the chapter line plays (spec §2.3)
-    if (def.id === '0-1') this.tutor();
+    if (def.id === '0-1') {
+      if (auto) this.skipTutorial('auto');
+      else this.tutor();
+    }
     const save = this.ctx.save.data;
-    // chapter intro (first time), the level line on first entry of key levels, the arrows upgrade
+    // chapter intro (first time), the level line on first entry of key levels, the arrows upgrade;
+    // each intro line can be skipped (0-1's own 跳过 already covers its chapter line) and is seen then
     const chN = typeof def.ch === 'number' ? def.ch : -1;
     if (chN >= 0 && !save.chaptersSeen.includes(chN)) {
       this.ctx.save.update((s) => s.chaptersSeen.push(chN));
       const c = chapterOf(chN);
-      if (c?.introLine) await this.strip.say(c.introLine, { mood: 'encouraging', polite: true });
+      if (c?.introLine && !auto) await this.introLine(c.introLine, { mood: 'encouraging', polite: true }, def.id !== '0-1');
     } else if (def.track === 'classic' && !this.onceKey('sok.classic.intro')) {
       this.once('sok.classic.intro');
-      await this.strip.say('sok.classic.intro', { mood: 'happy' });
+      if (!auto) await this.introLine('sok.classic.intro', { mood: 'happy' });
     } else if (def.track === 'random' && !this.onceKey('sok.random.intro')) {
       this.once('sok.random.intro');
-      await this.strip.say('sok.random.intro', { mood: 'happy' });
+      if (!auto) await this.introLine('sok.random.intro', { mood: 'happy' });
     }
     if (this.slowStart && !this.destroyed) await this.strip.say('sok.tip.slow', { mood: 'encouraging', polite: true });
     if (this.destroyed || this.finished) return;
@@ -265,9 +277,64 @@ export class PlayScreen implements Screen {
     this.ladder?.prefetch();
   }
 
+  // ------------------------------------------------------------------ 跳过 (Dad's feedback 2026-10-08)
+
+  /**
+   * The kit's 跳过 pill for a teaching moment (appears after 1.5 s, top-right; the 💡 key steps
+   * aside meanwhile). Returns its disposer; every pill also goes with the screen.
+   */
+  private skipOffer(onSkip: () => void): () => void {
+    // tests (instant) never get a pill over the 💡 key; ?anim=real tests do
+    if (this.destroyed || this.ctx.instant) return () => {};
+    let off: () => void = () => {};
+    const dispose = () => {
+      if (!this.skipOffs.delete(dispose)) return;
+      off();
+      if (!this.skipOffs.size) delete this.el.dataset.skipping;
+    };
+    off = mountSkipButton(document.body, () => {
+      dispose();
+      this.ctx.marks.add('skip', { id: this.def.id });
+      this.ctx.marks.flush();
+      onSkip();
+    });
+    this.skipOffs.add(dispose);
+    this.el.dataset.skipping = '';
+    return dispose;
+  }
+
+  /** A chapter / track intro line with its 跳过 (the line stops; the chapter is seen either way). */
+  private async introLine(id: string, o: { mood: 'encouraging' | 'happy'; polite?: boolean }, offer = true): Promise<void> {
+    const off = offer ? this.skipOffer(() => this.strip.hide()) : () => {};
+    await this.strip.say(id, o);
+    off();
+  }
+
+  /**
+   * 0-1's ghost-hand teaching skipped (跳过, or the parent switch): no more hands, footprints or
+   * 先走到… lines; the level itself stays to be played, and the opening counts as done.
+   */
+  private skipTutorial(why: 'tap' | 'auto'): void {
+    this.tutorSkipped = true;
+    for (const t of this.tutorTimers) clearTimeout(t);
+    this.tutorTimers = [];
+    this.stopGhost();
+    hideGhostHand();
+    this.board.releaseFootprint();
+    if (why === 'tap') this.strip.hide();
+    this.tutorSkipOff?.();
+    this.tutorSkipOff = null;
+    if (!this.ctx.save.data.tutorialDone && !this.ctx.save.readOnly) {
+      this.ctx.save.update((s) => {
+        s.tutorialDone = true;
+      });
+    }
+  }
+
   layout(l: LayoutInfo): void {
-    const g = playLayout(l.width, l.height, l.safe.top);
+    const g = playLayout(l.width, l.height, l.safe.top, l.safe);
     this.el.dataset.orient = g.orientation;
+    this.el.toggleAttribute('data-phone', g.phone);
     const place = (el: HTMLElement, r: Rect) => Object.assign(el.style, { left: `${r.x}px`, top: `${r.y}px`, width: `${r.w}px`, height: `${r.h}px` });
     place(this.hud, g.hud);
     place(this.inputLayer, g.board);
@@ -275,10 +342,13 @@ export class PlayScreen implements Screen {
     place(this.btn.redo, g.actions.redo);
     place(this.btn.restart, g.actions.restart);
     place(this.btn.map, g.actions.map);
-    this.strip.layout(g.side, g.orientation);
+    // a narrow phone: 撤销 shows its icon only (the key keeps its colour and place)
+    this.btn.undo.toggleAttribute('data-compact', g.actions.undo.w < 110);
+    this.strip.layout(g.side, g.stripMode);
+    const sbW = Math.min(340, g.board.w);
     const sb = g.orientation === 'portrait'
-      ? { x: g.board.x + g.board.w / 2 - 170, y: g.board.y + g.board.h - 76, w: 340, h: 64 }
-      : { x: g.side.x, y: g.side.y + g.side.h - 70, w: g.side.w, h: 64 };
+      ? { x: g.board.x + g.board.w / 2 - sbW / 2, y: g.board.y + g.board.h - (g.phone ? 60 : 76), w: sbW, h: g.phone ? 52 : 64 }
+      : { x: g.side.x, y: g.side.y + g.side.h - (g.phone ? 56 : 70), w: g.side.w, h: g.phone ? 52 : 64 };
     place(this.stuckBtn, sb);
     this.board.layout(g.board);
     mountSky(document.body, HALLS[hallFor(this.def)].sky, this.def.id);
@@ -341,6 +411,7 @@ export class PlayScreen implements Screen {
       this.ctx.marks.flush();
     }
     for (const t of this.tutorTimers) clearTimeout(t);
+    for (const off of [...this.skipOffs]) off();
     if (this.pendingTimer) clearTimeout(this.pendingTimer);
     if (this.stuck?.timer) clearTimeout(this.stuck.timer);
     if (this.holdTimer) clearTimeout(this.holdTimer);
@@ -670,6 +741,9 @@ export class PlayScreen implements Screen {
       this.trackActive();
       this.firstPushMs = Math.round(this.activeMs);
     }
+    // he pushed by himself: 0-1's teaching (and its 跳过) is over
+    this.tutorSkipOff?.();
+    this.tutorSkipOff = null;
     this.ladder?.noteMove('push');
     this.afterMove();
     const gen = this.gen;
@@ -1027,6 +1101,8 @@ export class PlayScreen implements Screen {
     if (this.finished) return;
     this.finished = true;
     this.stopGhost();
+    for (const off of [...this.skipOffs]) off();
+    this.tutorSkipOff = null;
     if (this.demo) this.board.abortDemo();
     this.locked = true;
     this.queued = null;
@@ -1102,11 +1178,14 @@ export class PlayScreen implements Screen {
     if (this.destroyed) return;
     // S4: the launch (spec §3.5): every route's first launch and a boss's first pass cannot be skipped
     const boss = def.role === 'boss' && def.track !== 'twin';
+    // the long launches (a route's first, a boss's first pass) are not tap-to-skip, but they carry the
+    // kit's 跳过 (Dad's feedback 2026-10-08); with the parent switch they become tap-to-skip ones
+    const longLaunch = (o.firstOnRoute || (boss && o.firstPass)) && !shouldAutoSkip();
     this.launch = new LaunchSequence({
       kind: dest,
       boss,
       firstOnRoute: o.firstOnRoute,
-      locked: o.firstOnRoute || (boss && o.firstPass),
+      locked: longLaunch,
       reduced: ctx.reduced,
       instant: ctx.instant,
       boardRect: () => this.board.gridRectPage(),
@@ -1123,7 +1202,12 @@ export class PlayScreen implements Screen {
     // portrait: the rocket rises through the caption strip under the board — the strip steps
     // aside during the flight instead of being covered (QA r2); the voice goes on
     this.el.dataset.launchFly = '1';
+    const offLaunch = longLaunch ? this.skipOffer(() => {
+      this.launch?.finish();
+      this.strip.hide();
+    }) : () => {};
     await this.launch.run();
+    offLaunch();
     this.launch = null;
     delete this.el.dataset.launch;
     delete this.el.dataset.launchFly;
@@ -1227,18 +1311,32 @@ export class PlayScreen implements Screen {
   // ------------------------------------------------------------------ the 自动绕行 upgrade (spec §6.6)
 
   private async upgradeCelebration(): Promise<void> {
+    // the upgrade is granted first: skipping the show (跳过 / the parent switch) never loses it
+    this.ctx.save.update((s) => {
+      s.arrows = 'on';
+    });
+    if (shouldAutoSkip()) return;
     this.locked = true;
     playSfx('unlock');
     playSfx('powerup', { volume: 0.8 });
-    this.ctx.save.update((s) => {
-      s.arrows = 'on';
+    let skipped = false;
+    const off = this.skipOffer(() => {
+      skipped = true;
+      this.stopGhost();
+      hideGhostHand();
+      this.board.hideArrows();
+      this.strip.hide();
+      this.board.robot.pose.eyes = 'normal';
+      this.board.requestFrame();
+      this.locked = false;
     });
     // 2.5 s: the visor lights a route pictogram in a ring of LEDs while the companion tells it
     const line = this.strip.say('sok.tut.upgrade', { mood: 'celebrating' });
     await this.board.upgradeFlourish();
-    await Promise.race([line, new Promise((r) => setTimeout(r, this.ctx.test ? 0 : 1600))]);
-    if (!this.destroyed && !this.ctx.instant) await this.arrowDemo();
-    if (this.destroyed) return;
+    if (!skipped) await Promise.race([line, new Promise((r) => setTimeout(r, this.ctx.test ? 0 : 1600))]);
+    if (!skipped && !this.destroyed && !this.ctx.instant) await this.arrowDemo();
+    off();
+    if (this.destroyed || skipped) return;
     this.board.robot.pose.eyes = 'normal';
     this.board.requestFrame();
     this.locked = false;
@@ -1290,6 +1388,9 @@ export class PlayScreen implements Screen {
     const id = this.def.id;
     const s = this.session;
     if (id === '0-1') {
+      if (this.tutorSkipped) return;
+      // 跳过 for the teaching (it goes at his first push)
+      if (s.pushes === 0) this.tutorSkipOff = this.skipOffer(() => this.skipTutorial('tap'));
       // the ghost shows where to stand (spec §2.3); only while he has not started himself
       const stand = s.standFor(0, 2);
       const fresh = () => s.pushes === 0 && s.player === s.level.start.player;
@@ -1329,7 +1430,7 @@ export class PlayScreen implements Screen {
   }
 
   private tutorOnWalk(): void {
-    if (this.def.id !== '0-1') return;
+    if (this.def.id !== '0-1' || this.tutorSkipped) return;
     if (this.session.player !== this.session.level.start.player) this.board.releaseFootprint();
     if (this.session.pushes > 0) return;
     const stand = this.session.standFor(0, 2);

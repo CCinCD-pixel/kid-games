@@ -20,6 +20,7 @@ import { MarkBuffer } from '../log';
 import { HangarScreen } from '../screens/hangar';
 import { MapScreen } from '../screens/map';
 import { OpeningScreen } from '../screens/opening';
+import { shouldAutoSkip } from '@kit/ui';
 import { PlayScreen } from '../screens/play';
 import { QuizScreen } from '../screens/quiz';
 import { hubLine } from './collection';
@@ -111,10 +112,26 @@ export function boot(app: HTMLElement, params: URLSearchParams): void {
     app.dataset.screen = route.name;
     touchVisit(owned);
     if (route.name === 'opening') {
-      screen = new OpeningScreen(ctx, () => {
+      // replayed from 机库 → 本领: back there afterwards
+      if (route.replay) {
+        const back = route.replay;
+        screen = new OpeningScreen(ctx, () => go(back));
+        return;
+      }
+      const seen = () => {
+        if (save.readOnly) return;
         save.update((s) => {
           s.tutorialDone = true;
         });
+      };
+      // the parent switch 跳过开场和教学 (Dad's feedback 2026-10-08): as if 跳过 had been tapped
+      if (shouldAutoSkip()) {
+        seen();
+        go({ name: 'play', id: '0-1' });
+        return;
+      }
+      screen = new OpeningScreen(ctx, () => {
+        seen();
         go({ name: 'play', id: '0-1' });
       });
       return;
