@@ -7,7 +7,7 @@
  * blanks glow, H2 one piece is placed for him, H3 everything is placed and he swaps any two pieces
  * (still legal) to finish — max 2★.
  */
-import { ghostDrag, icon, setHintReady } from '@kit/ui';
+import { ghostDrag, icon, setHintReady, shouldAutoSkip } from '@kit/ui';
 import type { App } from '../app';
 import { SLOTS } from '../core/board';
 import { placementRule, placementVerdict, slotOf, swapSlots, validateLayout } from '../core/layout';
@@ -18,7 +18,7 @@ import { TEMPLATES, type DeployItem } from '../content';
 import { EASE, MS, d, dm } from '../view/anim';
 import type { Pt, Rect } from '../view/layout';
 import { TILE, tileSvg } from '../view/pieces-svg';
-import { BaseScreen, IntroSkip, abs, button, div } from './base';
+import { BaseScreen, IntroSkip, abs, button, demoSeen, div, markDemo, pillRoom } from './base';
 import { deployBoardGeom, halfBoardSvg, K, type DeployGeom } from './deploy';
 import { afterItem, bookItem, flyStars, goalBarHtml } from './item-common';
 
@@ -91,16 +91,69 @@ export class DeployItemScreen extends BaseScreen {
     return { x: r.x + r.w / 2 + (c - 1) * 112, y: r.y + r.h / 2 + (rr - (rows - 1) / 2) * 140 };
   }
 
+  readonly phoneReady = true;
+  /** phones: the board + tray are drawn at the iPad geometry inside this container, which is scaled */
+  private body: HTMLElement = this.el;
+  private nextSlot: Rect | null = null;
+
+  /** phones (Dad, 2026-10-08): goal bar, scaled board + tray, guide + caption + 💡 around them */
+  private phoneFrame(gh: HTMLElement): void {
+    const W = this.W, H = this.H, tb = this.app.topBand, sr = this.app.safeR, portrait = this.o === 'portrait';
+    const g = this.geom(), t = this.trayRect();
+    const rx = Math.min(g.x, t.x), ry = Math.min(g.y, t.y);
+    const rw = Math.max(g.x + g.w, t.x + t.w) - rx, rh = Math.max(g.y + g.h, t.y + t.h) - ry;
+    let k: number, x: number, y: number;
+    this.goalEl.classList.remove('is-col');
+    this.goalEl.classList.add('is-phone');
+    if (portrait) {
+      abs(this.goalEl, { x: tb, y: 4, w: W - tb - 6, h: tb - 10 });
+      this.goalEl.style.setProperty('--gw-pill', `${W - tb - pillRoom(this.app)}px`);
+      k = Math.min((W - 8) / rw, (H - tb - 6 - 84) / rh);
+      x = (W - rw * k) / 2;
+      y = tb + Math.max(0, (H - tb - 6 - 84 - rh * k) / 2);
+      abs(this.hintBtn, { x: W - 6 - sr - 54, y: H - 6 - 54, w: 54, h: 54 });
+      this.nextSlot = { x: 70, y: H - 6 - 58, w: W - 76, h: 58 };
+      this.el.append(this.hintBtn);
+      this.phoneFoot({ mood: 'happy', right: 54 + 8 });
+    } else {
+      // landscape: board + tray left, a column right for the guide, the caption and 💡
+      const x0 = this.phoneCol + 4, colW = 220;
+      abs(this.goalEl, { x: x0, y: 4, w: W - x0 - 6 - sr, h: 56 });
+      this.goalEl.style.setProperty('--gw-pill', `${W - x0 - sr - pillRoom(this.app)}px`);
+      k = Math.min((W - x0 - 6 - sr - colW - 8) / rw, (H - 66 - 6) / rh);
+      x = x0;
+      y = 66;
+      const cx = x0 + rw * k + 8, cw = W - sr - 6 - cx;
+      abs(gh, { x: cx, y: 70, w: 62, h: 62 });
+      abs(this.hintBtn, { x: cx + cw - 54, y: H - 6 - 54, w: 54, h: 54 });
+      this.phoneCaption(cx, 6 + 54 + 8);
+      this.nextSlot = { x: cx, y: H - 6 - 58, w: cw, h: 58 };
+      this.el.append(gh, this.caption.el, this.hintBtn);
+      this.placeGuide(gh, 58, { mood: 'happy', variant: 'head' });
+    }
+    const dw = portrait ? 810 : 1080, dh = portrait ? 1080 : 810;
+    Object.assign(this.body.style, { position: 'absolute', left: '0', top: '0', width: `${dw}px`, height: `${dh}px`, transformOrigin: '0 0', transform: `translate(${x - rx * k}px, ${y - ry * k}px) scale(${k})`, pointerEvents: 'none' });
+  }
+
   protected render(): void {
     const portrait = this.o === 'portrait', st = this.safeTop;
     this.el.replaceChildren();
     this.el.classList.add('mc-deploy-item');
+    this.body = this.el;
+    if (this.phone) {
+      this.body = div('mc-dbody');
+      this.el.appendChild(this.body);
+    }
     // goal bar
     this.goalEl = div('mc-goal');
     this.goalEl.dataset.testid = 'goal-bar';
     this.goalEl.innerHTML = goalBarHtml(this.app, { cur: this.item.id, ico: 'shield', text: this.app.voice.text(`mc.i.${this.item.id}`), twin: this.usedH3 });
     this.goalEl.addEventListener('click', () => void this.say(`mc.i.${this.item.id}`));
     abs(this.goalEl, portrait ? { x: 84, y: st + 6, w: 642, h: 80 } : { x: 720, y: st + 6, w: 348, h: 130 });
+    if (portrait && !this.phone) {
+      this.goalEl.classList.add('is-pillable');
+      this.goalEl.style.setProperty('--gw-pill', `${810 - 84 - pillRoom(this.app)}px`);
+    }
     if (!portrait) this.goalEl.classList.add('is-col');
     this.el.appendChild(this.goalEl);
 
@@ -110,7 +163,7 @@ export class DeployItemScreen extends BaseScreen {
     this.boardEl.dataset.testid = 'deploy-board';
     abs(this.boardEl, { x: g.x, y: g.y, w: g.w, h: g.h });
     this.boardEl.innerHTML = halfBoardSvg(portrait, g.w, g.h, 0);
-    this.el.appendChild(this.boardEl);
+    this.body.appendChild(this.boardEl);
     const lay = this.layoutNow();
     const t = TILE[portrait ? 'wide' : 'tall'];
     for (let k = 0; k < 25; k++) {
@@ -143,7 +196,7 @@ export class DeployItemScreen extends BaseScreen {
     // tray
     const trayBox = div('mc-tray');
     abs(trayBox, this.trayRect());
-    this.el.appendChild(trayBox);
+    this.body.appendChild(trayBox);
     this.tray.forEach((code, i) => {
       if (!code) return;
       const p = this.trayXY(i);
@@ -156,12 +209,17 @@ export class DeployItemScreen extends BaseScreen {
       svg.setAttribute('width', String(w));
       svg.setAttribute('height', String(h));
       this.bindTrayDrag(el, i);
-      this.el.appendChild(el);
+      this.body.appendChild(el);
     });
 
     // guide, caption, hint
     const gh = div('');
     this.hintBtn = button('xg-iconbtn mc-hint-btn', icon('hint'), () => void this.onHint(), 'hint');
+    if (this.phone) {
+      this.phoneFrame(gh);
+      if (this.finished) this.hintBtn.style.visibility = 'hidden';
+      return;
+    }
     if (portrait) {
       abs(gh, { x: 20, y: 1080 - 16 - 140, w: 120, h: 140 });
       abs(this.caption.el, { x: 150, y: 1080 - 16 - 96, w: 548, h: 84 });
@@ -181,7 +239,8 @@ export class DeployItemScreen extends BaseScreen {
   private bindTrayDrag(el: HTMLDivElement, i: number): void {
     let start: { x: number; y: number; id: number } | null = null;
     let moved = false;
-    const k0 = (): number => this.el.getBoundingClientRect().width / (this.o === 'portrait' ? 810 : 1080) || 1;
+    // screen px per design unit (phones: the scaled board container)
+    const k0 = (): number => this.body.getBoundingClientRect().width / (this.body === this.el ? this.W : this.o === 'portrait' ? 810 : 1080) || 1;
     el.addEventListener('pointerdown', (ev) => {
       if (this.busy || this.finished || this.swapStage) return;
       start = { x: ev.clientX, y: ev.clientY, id: ev.pointerId };
@@ -373,8 +432,14 @@ export class DeployItemScreen extends BaseScreen {
 
   // ------------------------------------------------------------------ intro, hints
   private async intro(): Promise<void> {
-    const ghost = !!this.item.ghost && !this.app.save.items[this.item.id];
+    let ghost = !!this.item.ghost && !this.app.save.items[this.item.id] && !demoSeen(this.app, this.item.id);
+    // the parent's 跳过开场和教学: no demo (as if 跳过 had been tapped)
+    if (ghost && shouldAutoSkip()) {
+      markDemo(this.app, this.item.id);
+      ghost = false;
+    }
     if (ghost) {
+      markDemo(this.app, this.item.id);
       // the first touch takes over from the demo (QA r1: intro demos swallowed taps)
       const gate = new IntroSkip(this.el, () => {
         this.app.voice.stop();
@@ -502,7 +567,7 @@ export class DeployItemScreen extends BaseScreen {
       portrait,
       say: (l) => void this.say(l, 'celebrating'),
       wait: (ms) => this.bag.wait(ms),
-      nextRect: portrait ? { x: 205, y: this.trayRect().y + 26, w: 400, h: 80 } : { x: 720, y: 810 - 16 - 80, w: 348, h: 76 },
+      nextRect: this.phone && this.nextSlot ? this.nextSlot : portrait ? { x: 205, y: this.trayRect().y + 26, w: 400, h: 80 } : { x: 720, y: 810 - 16 - 80, w: 348, h: 76 },
       teaches: this.item.teaches,
       caption: this.caption,
     });

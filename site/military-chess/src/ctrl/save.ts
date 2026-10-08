@@ -53,7 +53,11 @@ export interface LadderTrack {
 }
 
 export interface SaveV1 {
-  firstRun: { ft: boolean; seenHqTip: boolean; seenRefereeIntro: boolean; fanCoach: string[]; /** the compare-card buttons were read out once (S4) */ seenCmpButtons: boolean };
+  firstRun: {
+    ft: boolean; seenHqTip: boolean; seenRefereeIntro: boolean; fanCoach: string[]; /** the compare-card buttons were read out once (S4) */ seenCmpButtons: boolean;
+    /** item ids whose intro demo (ghost hand) was shown or skipped — it does not replay by itself (跳过, 2026-10-08) */
+    demos: string[];
+  };
   rank: number;
   items: Record<string, { stars: 0 | 1 | 2 | 3; best: number; tries: number; hintMax: 0 | 1 | 2 | 3; at: number; last?: 0 | 1 | 2 | 3; lastHint?: 0 | 1 | 2 | 3 }>;
   ladder: Record<LadderMode, LadderTrack>;
@@ -111,7 +115,7 @@ const track = (): LadderTrack => ({
 
 export function defaultSave(): SaveV1 {
   return {
-    firstRun: { ft: false, seenHqTip: false, seenRefereeIntro: false, fanCoach: [], seenCmpButtons: false },
+    firstRun: { ft: false, seenHqTip: false, seenRefereeIntro: false, fanCoach: [], seenCmpButtons: false, demos: [] },
     /** −1 until the first-time flow gives the first shoulder board (工兵 = 0) */
     rank: -1,
     items: {},
@@ -127,7 +131,7 @@ export function defaultSave(): SaveV1 {
       draws: 0,
       physicalGames: 0,
       physicalVerdicts: 0,
-      lastMode: 'ming',
+      lastMode: 'fan',
       seating: 'side',
       dadName: '爸爸',
       firstMover: 'kid',
@@ -195,6 +199,7 @@ export function normalizeSave(raw: unknown): SaveV1 {
     // stage-1 saves stored rank 0 before the first-time flow existed: that means "no rank yet"
     rank: typeof rawRank === 'number' && Number.isFinite(rawRank) && (firstRunFt || rawRank > 0) ? Math.max(firstRunFt ? 0 : -1, rawRank) : -1,
     items,
+    firstRun: { ...r.firstRun, demos: r.firstRun.demos.filter((x) => typeof x === 'string') },
     cards: r.cards.filter((c) => typeof c === 'string'),
     resume,
     puzzleResume,

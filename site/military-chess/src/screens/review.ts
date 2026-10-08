@@ -44,24 +44,42 @@ export class ReviewScreen extends BaseScreen {
     return true;
   }
 
+  readonly phoneReady = true;
+
   protected render(): void {
     const portrait = this.o === 'portrait';
     const st = this.safeTop;
     this.el.replaceChildren();
     this.el.classList.add('mc-review');
-    const g = boardGeom(this.o, st);
+    const g = boardGeom(this.o, this.phone ? 0 : st);
     this.board.setGeom(g);
     this.el.appendChild(this.board.el);
+    const box = this.phone ? this.phoneBoard(this.board.el, g, { bottom: 6 + 54 + 6 }) : g.rect;
     const bar = div('mc-review__bar');
     const prev = button('xg-iconbtn xg-iconbtn--lg', icon('back'), () => this.step(-1), 'review-prev');
     const next = button('xg-iconbtn xg-iconbtn--lg', icon('next'), () => this.step(1), 'review-next');
     this.counter = div('mc-review__n');
     this.counter.dataset.testid = 'review-n';
     bar.append(prev, this.counter, next);
-    abs(bar, portrait ? { x: 205, y: 1080 - 16 - 76 - 70, w: 400, h: 76 } : { x: 840, y: 810 / 2 - 38, w: 228, h: 76 });
-    this.el.appendChild(bar);
     const done = button('xg-btn xg-btn--secondary', `${icon('check')}<span>看完了</span>`, () => this.back(), 'review-done');
-    abs(done, portrait ? { x: 280, y: 1080 - 16 - 64, w: 250, h: 60 } : { x: 856, y: 810 - 16 - 64, w: 200, h: 60 });
+    if (this.phone) {
+      // phones: ◀ n ▶ + 看完了 under the board (portrait) / in the column right of it (landscape)
+      const W = this.W, H = this.H, sr = this.app.safeR;
+      if (portrait) {
+        const y = Math.min(H - 6 - 54, box.y + box.h + 6);
+        abs(bar, { x: 8, y, w: W - 16 - 140, h: 54 });
+        abs(done, { x: W - 8 - 132, y, w: 132, h: 54 });
+      } else {
+        const px = box.x + box.w + 8, pw = W - sr - 6 - px;
+        abs(bar, { x: px, y: H / 2 - 27, w: pw, h: 54 });
+        abs(done, { x: px, y: H - 6 - 54, w: pw, h: 54 });
+      }
+      bar.classList.add('is-phone');
+    } else {
+      abs(bar, portrait ? { x: 205, y: 1080 - 16 - 76 - 70, w: 400, h: 76 } : { x: 840, y: 810 / 2 - 38, w: 228, h: 76 });
+      abs(done, portrait ? { x: 280, y: 1080 - 16 - 64, w: 250, h: 60 } : { x: 856, y: 810 - 16 - 64, w: 200, h: 60 });
+    }
+    this.el.appendChild(bar);
     this.el.appendChild(done);
     this.show();
   }

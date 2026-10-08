@@ -7,7 +7,7 @@
  * 翻翻棋 first-game teaching points, knowledge-card events.
  */
 import { isMuted, setMuted } from '@kit/audio';
-import { icon } from '@kit/ui';
+import { icon, shouldAutoSkip } from '@kit/ui';
 import type { App } from '../app';
 import { BLUE, RED, adj, isCamp, isHQ, isRail, isRailEdge, type Side } from '../core/board';
 import { badgeOf, certainDead, observe, type Knowledge } from '../core/belief';
@@ -27,7 +27,7 @@ import { newMatchId, type SavedMatch } from '../ctrl/save';
 import { countsOf, knowledgeFor, matchFromSave, startState, controllersFor } from '../ctrl/setup';
 import { AiClient } from '../ai/client';
 import type { Level } from '../ai/levels';
-import { MS, d, dm } from '../view/anim';
+import { EASE, MS, d, dm } from '../view/anim';
 import { BoardView } from '../view/board-view';
 import * as fx from '../view/fx';
 import { opponentBadge } from '../view/hats';
@@ -104,7 +104,8 @@ export class MatchScreen extends BaseScreen {
     const ca = app.save.settings.coachAlerts;
     this.coachOn = this.level !== null && !m.free && (ca === 'on' || (ca === 'auto' && this.level <= 2));
     this.notesOn = app.save.settings.coachNotes;
-    this.fanTeach = m.mode === 'fan' && this.level !== null && !m.free && !route.start && app.save.firstRun.fanCoach.length < 5;
+    // the first ladder 翻翻棋's teaching points stay quiet when the parent switched 跳过开场和教学 on
+    this.fanTeach = m.mode === 'fan' && this.level !== null && !m.free && !route.start && app.save.firstRun.fanCoach.length < 5 && !shouldAutoSkip();
     const coach = this.level !== null && !m.free ? (s: GameState, a: Action) => this.coachFor(s, a) : null;
     this.startState = route.start ?? startState(m, { fanFlagLock });
     this.ctx = route.resume ? matchFromSave(m, { fanFlagLock, coach }) : createMatch(m.id, this.startState, controllersFor(m), coach);
@@ -144,6 +145,8 @@ export class MatchScreen extends BaseScreen {
 
   // ------------------------------------------------------------------ seats & helpers
   private seating(): 'side' | 'face' {
+    // a phone is too small to share across a table: face-to-face games are shown side by side there
+    if (this.phone) return 'side';
     return this.m.opponent.kind === 'family' ? this.m.opponent.seating : 'side';
   }
   /** which player plays `colour` (翻翻棋: by the first flip; −1 while undecided) */
@@ -217,11 +220,104 @@ export class MatchScreen extends BaseScreen {
   }
 
   // ------------------------------------------------------------------ layout
+  readonly phoneReady = true;
+
+  /**
+   * Phones (Dad, 2026-10-08): the board as large as the screen allows — the whole board element is
+   * scaled (its 652×810 / 808×672 geometry and hit-testing stay the same), the HUD packs around it.
+   * Portrait: 🏠 · turn capsule · 💡 ⋯ on top, the board full width, guide + caption over the 情报板 below.
+   * Landscape: the board left (after the 🏠 column), the panel on the right.
+   */
+  private renderPhone(): void {
+    const o = this.o, W = this.W, H = this.H, st = this.safeTop, top = this.app.topBand;
+    const bg = boardGeom(o, 0);
+    this.board.setGeom(bg);
+    this.el.appendChild(this.board.el);
+    const near = new TurnBar('turn');
+    this.bars = [near];
+    near.el.addEventListener('click', () => {
+      const c = this.ctx.state.colorOf[0];
+      if (this.m.mode === 'fan' && c !== -1) void this.say(c === 0 ? 'mc.ref.youare.red' : 'mc.ref.youare.blue');
+    });
+    near.el.classList.add('is-narrow', 'is-phone');
+    const place = (k: number, x: number, y: number) => {
+      Object.assign(this.board.el.style, { left: `${x}px`, top: `${y}px`, transformOrigin: '0 0', transform: `scale(${k})` });
+      this.boardBox = { x, y, w: bg.rect.w * k, h: bg.rect.h * k };
+    };
+    let menuRect: Rect, hintRect: Rect, intelRect: Rect, guideRect: Rect, capRect: Rect;
+    if (o === 'portrait') {
+      const bw = W - 8, k = bw / bg.rect.w, bh = bg.rect.h * k;
+      const by = Math.max(top, st + 66);
+      place(k, 4, by);
+      const btn = 54;
+      menuRect = { x: W - 6 - btn, y: by - btn - 8, w: btn, h: btn };
+      hintRect = { x: menuRect.x - 6 - btn, y: menuRect.y, w: btn, h: btn };
+      abs(near.el, { x: 76, y: menuRect.y + 2, w: hintRect.x - 8 - 76, h: 48 });
+      abs(this.quiet.el, { x: 76, y: menuRect.y + 50, w: hintRect.x - 8 - 76, h: 8 });
+      const py = by + bh + 6, ph = Math.max(84, H - py - 6);
+      guideRect = { x: 2, y: py, w: 62, h: Math.min(ph, 96) };
+      intelRect = { x: 66, y: py, w: W - 66 - 4, h: ph };
+      capRect = { x: 66, y: py, w: W - 66 - 4, h: 0 };
+    } else {
+      const sl = this.app.safeL, sr = this.app.safeR;
+      const bh = H - 8, k = bh / bg.rect.h, bw = bg.rect.w * k;
+      const bx = Math.max(sl + 4, 76);
+      place(k, bx, 4);
+      const px = bx + bw + 8, pw = W - sr - 6 - px;
+      const btn = 54;
+      menuRect = { x: px + pw - btn, y: H - 6 - btn, w: btn, h: btn };
+      hintRect = { x: menuRect.x - 8 - btn, y: menuRect.y, w: btn, h: btn };
+      abs(near.el, { x: px, y: st + 6, w: pw, h: 46 });
+      abs(this.quiet.el, { x: px, y: st + 54, w: pw, h: 8 });
+      intelRect = { x: px, y: st + 64, w: pw, h: Math.min(170, Math.round((H - st - 64 - 6 - btn - 8) * 0.66)) };
+      guideRect = { x: px, y: menuRect.y - 4, w: 58, h: btn + 8 };
+      capRect = { x: px, y: intelRect.y + intelRect.h + 6, w: pw, h: 0 };
+    }
+    this.el.appendChild(near.el);
+    abs(this.intel.el, intelRect);
+    this.el.appendChild(this.intel.el);
+    this.el.appendChild(this.quiet.el);
+    const gh = div('mc-match__guide');
+    abs(gh, guideRect);
+    this.el.appendChild(gh);
+    this.placeGuide(gh, 58, { mood: 'happy', variant: 'head' });
+    abs(this.caption.el, capRect);
+    this.caption.el.style.height = 'auto';
+    // not docked: the bubble shows while a line is said, then leaves the 情报板 free
+    this.caption.el.classList.remove('is-tall', 'is-slim', 'is-dock');
+    this.caption.el.classList.add('is-phone');
+    this.el.appendChild(this.caption.el);
+    const menu = button('xg-iconbtn mc-menu-btn', icon('grid'), () => this.openMenu(), 'menu');
+    menu.setAttribute('aria-label', '菜单');
+    abs(menu, menuRect);
+    const hb = button('xg-iconbtn mc-hint-btn', icon('hint'), () => this.onHint(), 'hint');
+    hb.setAttribute('aria-label', '提示');
+    abs(hb, hintRect);
+    this.el.append(hb, menu);
+    this.hintBtn = hb;
+    this.youAre = [];
+    this.board.render(this.ctx.state, true);
+    this.refreshNotes();
+    this.refreshHud();
+  }
+
+  /** the board as drawn on the stage (it may be scaled): banners and sheets centre on it */
+  private boardBox: Rect = { x: 0, y: 0, w: 0, h: 0 };
+
+  /** a modal sheet's rectangle (height auto) */
+  private sheetRect(): Rect {
+    if (this.phone) return this.o === 'portrait' ? { x: 12, y: Math.round(this.H * 0.3), w: this.W - 24, h: 0 } : { x: Math.round((this.W - 470) / 2), y: 40, w: 470, h: 0 };
+    return this.o === 'portrait' ? { x: 105, y: 380, w: 600, h: 0 } : { x: 240, y: 260, w: 600, h: 0 };
+  }
+
   protected render(): void {
     const o = this.o, st = this.safeTop;
     const face = this.seating() === 'face';
     this.el.replaceChildren();
     this.el.classList.add('mc-match');
+    this.el.classList.toggle('is-phone', this.phone);
+    if (this.phone) return this.renderPhone();
+    this.boardBox = boardGeom(o, st).rect;
     const g = stageGeom(o, st);
     const bg = boardGeom(o, st);
     this.board.setGeom(bg);
@@ -342,13 +438,14 @@ export class MatchScreen extends BaseScreen {
     if (s.mode === 'fan') {
       const me: number = p >= 0 && s.colorOf[p as 0 | 1] !== -1 ? s.colorOf[p as 0 | 1] : RED;
       const kid = this.level ? (s.colorOf[0] === -1 ? RED : s.colorOf[0]) : me;
-      if (this.fanOwn) this.intel.renderFan(s, kid, 1 - kid, { cols: this.o === 'portrait' ? 7 : 2, compact: this.o === 'landscape' || this.seating() === 'face' });
-      else this.intel.renderFan(s, 1 - kid, kid, { cols: this.o === 'portrait' ? 7 : 2, compact: this.o === 'landscape' || this.seating() === 'face' });
+      const lay = { cols: this.o === 'portrait' ? 7 : this.phone ? 5 : 2, compact: (this.o === 'landscape' && !this.phone) || this.seating() === 'face' };
+      if (this.fanOwn) this.intel.renderFan(s, kid, 1 - kid, lay);
+      else this.intel.renderFan(s, 1 - kid, kid, lay);
       this.showYouAre();
     } else if (s.mode === 'an' && this.know) {
       const kid = this.m.kidSide;
       const k = this.know[kid];
-      this.intel.renderAn(1 - kid, this.enemyCounts(kid), certainDead(k, s), { cols: this.o === 'portrait' ? 6 : 2, compact: this.o === 'landscape' });
+      this.intel.renderAn(1 - kid, this.enemyCounts(kid), certainDead(k, s), { cols: this.o === 'portrait' ? 6 : this.phone ? 5 : 2, compact: !this.phone && this.o === 'landscape' });
     } else {
       const names: [string, string] = this.m.opponent.kind === 'family' ? [this.m.opponent.names[0], this.m.opponent.names[1]] : ['我们', this.nameOf(1)];
       this.intel.renderLosses(s, names, 8);
@@ -370,6 +467,8 @@ export class MatchScreen extends BaseScreen {
     for (const el of this.youAre) el.remove();
     this.youAre = [];
     if (s.colorOf[0] === -1) return;
+    // phones: the turn capsule carries the colour and the name ("轮到爸爸了" on blue; tap it to hear the side)
+    if (this.phone) return;
     const face = this.seating() === 'face';
     const family = this.m.opponent.kind === 'family';
     const chip = (player: number, text: string, rect: Rect, rot: number) => {
@@ -569,7 +668,8 @@ export class MatchScreen extends BaseScreen {
   }
 
   private showCoach(alert: CoachAlert): Promise<void> {
-    if (alert.code !== 'C1') this.coachUsed++;
+    // C1 (flag in danger) and C6 (a known mine) are never capped
+    if (alert.code !== 'C1' && alert.code !== 'C6') this.coachUsed++;
     this.m.coachWarnings++;
     this.board.pulse(alert.marks, 3);
     void this.say(alert.line, 'thinking');
@@ -587,7 +687,13 @@ export class MatchScreen extends BaseScreen {
         this.dispatch({ type: 'confirm', yes: true });
       } },
       { label: '再想想', kind: 'primary', act: () => this.dispatch({ type: 'confirm', yes: false }) },
-    ]);
+    ], () => this.moverSeatRot());
+  }
+
+  /** face to face: the sheet that asks the player to move faces that player */
+  private moverSeatRot(): number {
+    if (this.seating() !== 'face') return 0;
+    return seatRotation(this.o, 'face', playerToAct(this.ctx.state) === 0 ? 'near' : 'far');
   }
 
   // ------------------------------------------------------------------ 💡 hint (two levels, never moves)
@@ -978,10 +1084,25 @@ export class MatchScreen extends BaseScreen {
         else void fx.sparks(b.fxLayer, at, 10);
         void b.gleam(att);
         void this.say('mc.ref.flag', kidWon || this.m.opponent.kind === 'family' ? 'celebrating' : 'encouraging');
+        this.flagBanner(after);
         await this.wait(d(MS.flagCapture / 2));
         return;
       }
     }
+  }
+
+  /**
+   * Dad, 2026-10-08 ("扛了军旗之后呢，要怎么算赢呢？"): say it in words the moment the flag goes — any piece
+   * that can move may take it, the game ends at once, and in 翻翻棋 the owner's mines had to go first.
+   */
+  private flagBanner(s: GameState): void {
+    const lock = s.mode === 'fan' && s.rules.fanFlagLock;
+    const el = div('mc-flagwin', `<b>扛到军旗，立刻获胜！</b><span>哪个子扛都一样${lock ? '<br>翻翻棋要先挖光对方地雷' : ''}</span>`);
+    el.dataset.testid = 'flag-win';
+    const r = this.boardBox, bh = this.phone ? 140 : 180;
+    abs(el, { x: r.x + (this.phone ? 8 : 20), y: r.y + r.h / 2 - bh / 2, w: r.w - (this.phone ? 16 : 40), h: bh });
+    this.el.appendChild(el);
+    el.animate([{ opacity: 0, transform: 'scale(.86)' }, { opacity: 1, transform: 'none' }], { duration: d(260), easing: EASE.back, fill: 'backwards' });
   }
 
   /** flags shown after a 司令 went down, auto flips, quiet warning */
@@ -1118,6 +1239,7 @@ export class MatchScreen extends BaseScreen {
       const res = recordLadder(save, { mode: this.m.mode, level: this.level as 1 | 2 | 3 | 4, outcome, handicap: !!this.m.setup.handicap?.blue, undo: this.ctx.undos > 0 });
       out.unlocked = res.unlocked;
       out.offer = res.offer;
+      if (this.m.mode === 'fan') this.events.add('ladder-fan');
       if (this.m.mode === 'an') {
         this.events.add('ladder-an');
         // the first finished ladder 暗棋 switches the referee to "fast" (big moments only, §3.8)
@@ -1244,7 +1366,10 @@ export class MatchScreen extends BaseScreen {
     });
     scrim.appendChild(sheet);
     const drop = this.keepOverlay(scrim, () => {
-      abs(sheet, this.o === 'portrait' ? { x: 205, y: 200, w: 400, h: 0 } : { x: 340, y: 60, w: 400, h: 0 });
+      // phones: a centred column (portrait) / two columns of items (landscape)
+      if (this.phone) abs(sheet, this.o === 'portrait' ? { x: 30, y: Math.max(this.app.topBand, 80), w: this.W - 60, h: 0 } : { x: Math.round((this.W - 520) / 2), y: 12, w: 520, h: 0 });
+      else abs(sheet, this.o === 'portrait' ? { x: 205, y: 200, w: 400, h: 0 } : { x: 340, y: 60, w: 400, h: 0 });
+      sheet.classList.toggle('is-phone-land', this.phone && this.o === 'landscape');
       sheet.style.height = 'auto';
     });
     this.menuOpen = scrim;
@@ -1295,7 +1420,7 @@ export class MatchScreen extends BaseScreen {
       sheet.appendChild(row);
       scrim.appendChild(sheet);
       const drop = this.keepOverlay(scrim, () => {
-        abs(sheet, this.o === 'portrait' ? { x: 105, y: 380, w: 600, h: 0 } : { x: 240, y: 260, w: 600, h: 0 });
+        abs(sheet, this.sheetRect());
         sheet.style.height = 'auto';
         const r = rot();
         sheet.style.transform = r ? `rotate(${r}deg)` : '';

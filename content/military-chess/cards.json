@@ -10,5 +10,5 @@
  { "id": "hq", "title": "大本营", "line": "mc.card.hq", "art": "hq", "unlock": { "kind": "event", "id": "flag-capture" } },
  { "id": "referee", "title": "裁判", "line": "mc.card.referee", "art": "referee", "unlock": { "kind": "event", "id": "ladder-an" } },
  { "id": "family", "title": "一家人", "line": "mc.card.family", "art": "family", "unlock": { "kind": "event", "id": "family" } },
- { "id": "fair", "title": "守规矩", "line": "mc.card.fair", "art": "fair", "unlock": { "kind": "event", "id": "physical-game" } }
+ { "id": "fair", "title": "守规矩", "line": "mc.card.fair", "art": "fair", "unlock": { "kind": "event", "id": "ladder-fan" } }
 ]

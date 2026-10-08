@@ -295,6 +295,11 @@
   "text": "那里可能是地雷，换工兵试试？"
  },
  {
+  "id": "mc.coach.knownmine",
+  "role": "companion",
+  "text": "这是地雷，碰了会牺牲"
+ },
+ {
   "id": "mc.coach.flip",
   "role": "companion",
   "text": "翻开它，旁边可能藏着大敌人"

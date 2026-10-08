@@ -11,8 +11,8 @@ import { loadSounds, play } from './audio/sound';
 import { startAmbience, stopAmbience } from './audio/ambience';
 import { normalizeSave, openStore, type SaveV1 } from './ctrl/save';
 import { configureMotion } from './view/anim';
-import { STAGE, fitStage, type Orientation } from './view/layout';
-import { installPieceDefs } from './view/pieces-svg';
+import { STAGE, fitStage, isPhone, phoneStage, type Orientation } from './view/layout';
+import { installPieceDefs, setBigPieceText } from './view/pieces-svg';
 import { RANK_NAMES } from './view/insignia';
 import { Voice } from './voice';
 import { makeScreen } from './router';
@@ -20,6 +20,8 @@ import { makeScreen } from './router';
 export interface Screen {
   readonly name: string;
   readonly el: HTMLElement;
+  /** true when the screen has its own phone layouts (else phones get the iPad stage, letterboxed) */
+  readonly phoneReady?: boolean;
   layout(o: Orientation, safeTop: number): void;
   /** 🏠 pressed: return true when handled (went back a level) */
   back?(): boolean;
@@ -60,6 +62,19 @@ export interface App {
   o: Orientation;
   safeTop: number;
   scale: number;
+  /**
+   * Phones (Dad, 2026-10-08; the shorter side < 600 CSS px): screens with `phoneReady` get a stage that
+   * fills the screen — 390 units across in portrait, 390 tall in landscape (≈ 1 unit per CSS px on an
+   * iPhone 13, 0.82 on an SE) — instead of the letterboxed iPad stage. `W × H` is the current stage.
+   */
+  phone: boolean;
+  W: number;
+  H: number;
+  /** stage units hidden under the left / right safe areas (phone landscape notch) */
+  safeL: number;
+  safeR: number;
+  /** stage units taken at the top by the kit 🏠 (and the 跳过 pill): keep the corners free above this */
+  topBand: number;
   go(r: Route): void;
   screen(): Screen | null;
   play(name: string, o?: { volume?: number; rate?: number; step?: number }): void;
@@ -125,6 +140,12 @@ export function boot(root: HTMLElement): App {
     o: 'portrait',
     safeTop: 20,
     scale: 1,
+    phone: false,
+    W: STAGE.portrait.w,
+    H: STAGE.portrait.h,
+    safeL: 0,
+    safeR: 0,
+    topBand: 88,
     go,
     screen: () => screen,
     play,
@@ -138,15 +159,36 @@ export function boot(root: HTMLElement): App {
 
   function applyLayout(l: LayoutInfo): void {
     const o: Orientation = l.width >= l.height ? 'landscape' : 'portrait';
-    const fit = fitStage(o, l.width, l.height);
-    const s = STAGE[o];
+    const phone = isPhone(l.width, l.height) && !!screen?.phoneReady;
+    let w: number, h: number, scale: number, ox = 0, oy = 0;
+    if (phone) {
+      const st = phoneStage(o, l.width, l.height);
+      ({ w, h, scale } = st);
+      // phones: the safe areas are real (notch / home bar); a Safari tab reports 0
+      app.safeTop = Math.round(l.safe.top / scale);
+      app.safeL = Math.round(l.safe.left / scale);
+      app.safeR = Math.round(l.safe.right / scale);
+    } else {
+      const fit = fitStage(o, l.width, l.height);
+      ({ w, h } = STAGE[o]);
+      ({ scale, ox, oy } = fit);
+      // iPad home-screen app: safe top ≈20 (spec §2.2); a browser tab reports 0 → keep the same 20 band
+      app.safeTop = l.safe.top > 0 ? Math.round(l.safe.top / scale) : 20;
+      app.safeL = app.safeR = 0;
+    }
     app.o = o;
-    app.scale = fit.scale;
-    // iPad home-screen app: safe top ≈20 (spec §2.2); a browser tab reports 0 → keep the same 20 band
-    app.safeTop = l.safe.top > 0 ? Math.round(l.safe.top / fit.scale) : 20;
-    Object.assign(stage.style, { width: `${s.w}px`, height: `${s.h}px`, transform: `translate(${fit.ox}px, ${fit.oy}px) scale(${fit.scale})` });
+    app.phone = phone;
+    setBigPieceText(phone);
+    app.W = w;
+    app.H = h;
+    app.scale = scale;
+    // the kit 🏠 is 56 CSS px at max(12, safe top): its band in stage units (+ 8 px air)
+    app.topBand = Math.ceil((Math.max(12, l.safe.top) + 56 + 8) / scale);
+    Object.assign(stage.style, { width: `${w}px`, height: `${h}px`, transform: `translate(${ox}px, ${oy}px) scale(${scale})` });
     stage.dataset.o = o;
+    stage.dataset.phone = phone ? '1' : '';
     document.documentElement.dataset.mcO = o;
+    document.documentElement.dataset.mcPhone = phone ? '1' : '';
     screen?.layout(o, app.safeTop);
   }
 
@@ -167,7 +209,8 @@ export function boot(root: HTMLElement): App {
     try {
       screen = makeScreen(app, r);
       stage.appendChild(screen.el);
-      screen.layout(app.o, app.safeTop);
+      // the stage form depends on the screen (phone layouts or the iPad stage): lays the screen out too
+      applyLayout(shell.layout());
     } catch (err) {
       // a resume that no longer rebuilds (corrupted storage / a future format change) must never leave a
       // blank stage: drop it, persist, and land on the camp (QA r3)
@@ -181,7 +224,7 @@ export function boot(root: HTMLElement): App {
       root.dataset.screen = 'home';
       screen = makeScreen(app, { name: 'home', skipFt: true });
       stage.appendChild(screen.el);
-      screen.layout(app.o, app.safeTop);
+      applyLayout(shell.layout());
     }
     backBtn.style.display = r.name === 'style' ? 'none' : '';
     music();

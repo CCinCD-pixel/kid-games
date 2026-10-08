@@ -20,8 +20,9 @@ describe('narration lines (spec §7.3)', () => {
     expect(entries.map((e) => ({ id: e.id, role: e.role, text: e.text }))).toEqual(L.map((l) => ({ id: l.id, role: l.role, text: l.text })));
     expect(YAML).toMatch(/^game: military-chess$/m);
   });
-  test('342 lines (the spec 340 + 2 for the 残局 locks), unique ids, roles narrator / companion / word', () => {
-    expect(L.length).toBe(342);
+  test('343 lines (the spec 340 + 2 for the 残局 locks + the known-mine warning C6), unique ids, roles narrator / companion / word', () => {
+    expect(L.length).toBe(343);
+    expect(L.find((l) => l.id === 'mc.coach.knownmine')?.text).toBe('这是地雷，碰了会牺牲');
     expect(new Set(L.map((l) => l.id)).size).toBe(L.length);
     for (const l of L) expect(['narrator', 'companion', 'word']).toContain(l.role);
   });

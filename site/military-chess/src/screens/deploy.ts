@@ -16,9 +16,9 @@ import { deployStars } from '../core/progress';
 import { afterItem, bookItem, flyStars, goalBarHtml } from './item-common';
 import { EASE, MS, dm } from '../view/anim';
 import { mcIcon } from '../view/icons';
-import type { Pt } from '../view/layout';
+import type { Pt, Rect } from '../view/layout';
 import { TILE, tileSvg } from '../view/pieces-svg';
-import { BaseScreen, abs, button, div } from './base';
+import { BaseScreen, abs, button, div, pillRoom } from './base';
 
 export interface DeployNext {
   match: SavedMatch;
@@ -95,11 +95,14 @@ export class DeployScreen extends BaseScreen {
     return this.next.who === 'dad' ? -90 : 90;
   }
 
+  readonly phoneReady = true;
+
   protected render(): void {
     this.el.replaceChildren();
     this.tiles = [];
     this.selected = -1;
-    this.rot = this.rotation();
+    // phones: always side by side (the seat rotation is an iPad-on-the-table thing)
+    this.rot = this.phone ? 0 : this.rotation();
     // a ±90° rotation in landscape lays the portrait design out and turns it toward the seat
     const designPortrait = this.o === 'portrait' || Math.abs(this.rot) === 90;
     const root = div('mc-deploy');
@@ -207,6 +210,59 @@ export class DeployScreen extends BaseScreen {
     }
     root.append(gh, this.caption.el);
     this.placeGuide(gh, 100);
+    if (this.phone) this.phoneLayout(root, g, bar, saveBtn, go, gh);
+  }
+
+  /**
+   * Phones (Dad, 2026-10-08): the board stays in the design-size root (input measures it on screen),
+   * scaled into place; the goal / title, the formation chips, the buttons and the guide + caption move
+   * out of the root and are laid out for the phone. Portrait: chips under the 🏠 band, the board full
+   * width, buttons under it, the foot below; landscape: the board left, a column right.
+   */
+  private phoneLayout(root: HTMLElement, g: DeployGeom, bar: HTMLElement, saveBtn: HTMLElement, go: HTMLElement, gh: HTMLElement): void {
+    const W = this.W, H = this.H, tb = this.app.topBand, sr = this.app.safeR, portrait = this.o === 'portrait';
+    const head = (this.goalEl && root.contains(this.goalEl) ? this.goalEl : root.querySelector<HTMLElement>('.mc-h2'))!;
+    const btns = [saveBtn, go].filter((b) => root.contains(b));
+    gh.remove();
+    this.el.append(head, bar, ...btns);
+    head.classList.add('is-phone');
+    head.classList.remove('is-compact');
+    bar.classList.add('is-phone');
+    let k: number, x: number, y: number;
+    if (portrait) {
+      if (head.classList.contains('mc-goal')) abs(head, { x: tb, y: 4, w: W - tb - 6, h: tb - 10 });
+      else this.phoneTitle(head);
+      abs(bar, { x: 6, y: tb, w: W - 12, h: 54 });
+      k = Math.min((W - 8) / g.w, (H - tb - 60 - 6 - 64 - 84) / g.h);
+      x = (W - g.w * k) / 2;
+      y = tb + 60;
+      const by = y + g.h * k + 8;
+      if (btns.length === 2) {
+        abs(saveBtn, { x: 8, y: by, w: 130, h: 56 });
+        abs(go, { x: 146, y: by, w: W - 154, h: 56 });
+      } else if (btns.length) abs(btns[0], { x: 40, y: by, w: W - 80, h: 56 });
+      this.phoneFoot({});
+    } else {
+      k = (H - 8) / g.h;
+      x = Math.max(this.app.safeL + 4, tb);
+      y = 4;
+      const cx = x + g.w * k + 8, cw = W - sr - 6 - cx;
+      if (head.classList.contains('mc-goal')) abs(head, { x: cx, y: 4, w: cw - Math.max(0, pillRoom(this.app) - sr - 6), h: 56 });
+      else abs(head, { x: cx, y: 4, w: cw, h: 44 });
+      abs(bar, { x: cx, y: 66, w: cw, h: 2 * 54 + 6 });
+      if (btns.length === 2) {
+        abs(saveBtn, { x: cx, y: H - 6 - 56, w: 120, h: 56 });
+        abs(go, { x: cx + 128, y: H - 6 - 56, w: cw - 128, h: 56 });
+      } else if (btns.length) abs(btns[0], { x: cx, y: H - 6 - 56, w: cw, h: 56 });
+      this.phoneFoot({ x: cx, lift: 56 + 6 });
+    }
+    Object.assign(root.style, { left: '0', top: '0', transformOrigin: '0 0', transform: `translate(${x - g.x * k}px, ${y - g.y * k}px) scale(${k})`, pointerEvents: 'none' });
+    root.querySelectorAll<HTMLElement>(':scope > *').forEach((c) => (c.style.pointerEvents = 'auto'));
+  }
+
+  private sheetRect(): Rect {
+    if (this.phone) return this.o === 'portrait' ? { x: 8, y: Math.max(this.app.topBand, Math.round((this.H - 360) / 2)), w: this.W - 16, h: 360 } : { x: Math.round((this.W - 560) / 2), y: 15, w: 560, h: 360 };
+    return this.o === 'portrait' ? { x: 60, y: 300, w: 690, h: 360 } : { x: 195, y: 200, w: 690, h: 360 };
   }
 
   private geom(portrait: boolean): DeployGeom {
@@ -420,7 +476,7 @@ export class DeployScreen extends BaseScreen {
       if (e.target === scrim) drop();
     });
     scrim.appendChild(sheet);
-    const drop = this.keepOverlay(scrim, () => abs(sheet, this.o === 'portrait' ? { x: 60, y: 300, w: 690, h: 360 } : { x: 195, y: 200, w: 690, h: 360 }));
+    const drop = this.keepOverlay(scrim, () => abs(sheet, this.sheetRect()));
   }
 
   private async pickFormation(layout: string | null, line: string): Promise<void> {
@@ -487,7 +543,7 @@ export class DeployScreen extends BaseScreen {
       drop();
     }));
     scrim.appendChild(sheet);
-    const drop = this.keepOverlay(scrim, () => abs(sheet, this.o === 'portrait' ? { x: 60, y: 300, w: 690, h: 360 } : { x: 195, y: 200, w: 690, h: 360 }));
+    const drop = this.keepOverlay(scrim, () => abs(sheet, this.sheetRect()));
   }
 
   private finish(): void {

@@ -61,6 +61,7 @@ lines:
   - {"id":"mc.coach.flag","role":"companion","text":"小心！军旗下一步会被扛走","pinyin":{"扛走":"káng zǒu"}}
   - {"id":"mc.coach.hang","role":"companion","text":"这个子会被对方的大子吃掉"}
   - {"id":"mc.coach.mine","role":"companion","text":"那里可能是地雷，换工兵试试？"}
+  - {"id":"mc.coach.knownmine","role":"companion","text":"这是地雷，碰了会牺牲"}
   - {"id":"mc.coach.flip","role":"companion","text":"翻开它，旁边可能藏着大敌人"}
   - {"id":"mc.coach.guard","role":"companion","text":"军旗旁边空着，留个子守着吧"}
   - {"id":"mc.coach.go","role":"narrator","text":"还是走这步","pinyin":{"还是":"hái shì"}}

@@ -37,31 +37,44 @@ export class EndgamesScreen extends BaseScreen {
     return null;
   }
 
+  readonly phoneReady = true;
+
   protected render(): void {
     const portrait = this.o === 'portrait', st = this.safeTop;
-    const W = portrait ? 810 : 1080;
+    const ph = this.phone;
+    const W = ph ? this.W : portrait ? 810 : 1080, H = this.H, tb = this.app.topBand, col = this.phoneCol, sr = this.app.safeR;
     this.el.replaceChildren();
     this.el.classList.add('mc-endgames');
     const title = div('mc-h1 mc-center', '残局挑战');
-    abs(title, { x: 100, y: st + 10, w: W - 200, h: 56 });
-    this.el.appendChild(title);
+    if (ph) this.phoneTitle(title);
+    else {
+      abs(title, { x: 100, y: st + 10, w: W - 200, h: 56 });
+      this.el.appendChild(title);
+    }
+    // phones: the two tiers stacked above the foot (portrait) / side by side (landscape), 4 × 2 each
+    const foot = H - 6 - 72 - 6;
+    const pTier = (tier: number) => portrait
+      ? { x: 6, y: tb - 4 + (tier - 1) * ((foot - tb + 4) / 2), w: W - 12, h: (foot - tb + 4) / 2 - 8 }
+      : { x: col + 4 + (tier - 1) * ((W - col - 4 - 6 - sr + 8) / 2), y: 50, w: (W - col - 4 - 6 - sr + 8) / 2 - 8, h: H - 50 - 6 - 64 };
     const next = this.nextId();
     for (const tier of [1, 2] as const) {
       const open = endgameTierUnlocked(this.app.save, tier);
       const box = div(`mc-tier${open ? '' : ' is-locked'}`);
       box.dataset.testid = `tier-${tier}`;
-      const r = portrait ? { x: 24, y: st + 76 + (tier - 1) * 404, w: 762, h: 390 } : { x: 16 + (tier - 1) * 532, y: st + 76, w: 516, h: 560 };
+      const r = ph ? pTier(tier) : portrait ? { x: 24, y: st + 76 + (tier - 1) * 404, w: 762, h: 390 } : { x: 16 + (tier - 1) * 532, y: st + 76, w: 516, h: 560 };
       abs(box, r);
       const done = endgamesDone(this.app.save, tier);
       box.innerHTML = `<div class="mc-tier__head"><span class="mc-tier__badge">${tier}</span><b>${TIER_NAMES[String(tier)]}</b><span class="mc-tier__count">${mcIcon('star')}${done}/8</span>${open ? '' : `<span class="mc-tier__lock">${icon('lock')}</span>`}</div>`;
       const list = ENDGAMES.filter((e) => e.tier === tier);
-      const cols = portrait ? 4 : 2;
-      const cw = portrait ? 176 : 238, ch = portrait ? 150 : 110, gx = portrait ? 12 : 12, gy = portrait ? 14 : 12;
-      const x0 = (r.w - cols * cw - (cols - 1) * gx) / 2, y0 = portrait ? 66 : 62;
+      const cols = ph || portrait ? 4 : 2;
+      const gx = ph ? 6 : 12, gy = ph ? 6 : portrait ? 14 : 12;
+      const y0 = ph ? 50 : portrait ? 66 : 62;
+      const cw = ph ? (r.w - 12 - 3 * gx) / 4 : portrait ? 176 : 238, ch = ph ? (r.h - y0 - 8 - gy) / 2 : portrait ? 150 : 110;
+      const x0 = (r.w - cols * cw - (cols - 1) * gx) / 2;
       list.forEach((e, k) => {
         const c = k % cols, row = Math.floor(k / cols);
         const s = starsOf(this.app.save, e.id);
-        const node = button(`mc-eg${portrait ? '' : ' is-compact'}${s ? ' is-done' : ''}${e.id === next ? ' is-next' : ''}${open ? '' : ' is-locked'}`, `
+        const node = button(`mc-eg${portrait && !ph ? '' : ' is-compact'}${s ? ' is-done' : ''}${e.id === next ? ' is-next' : ''}${open ? '' : ' is-locked'}`, `
           <span class="mc-eg__n">${k + 1}</span>
           <span class="mc-eg__ico">${mcIcon(IDEA_ICON[e.idea] ?? 'flag')}</span>
           <span class="mc-eg__t">${e.title}</span>
@@ -70,6 +83,10 @@ export class EndgamesScreen extends BaseScreen {
         box.appendChild(node);
       });
       this.el.appendChild(box);
+    }
+    if (ph) {
+      this.phoneFoot();
+      return;
     }
     const gh = div('');
     if (portrait) {

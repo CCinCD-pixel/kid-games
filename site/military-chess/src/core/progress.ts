@@ -93,6 +93,12 @@ export const endgamesDone = (save: SaveV1, tier: 1 | 2): number => ENDGAMES.filt
 
 // ------------------------------------------------------------------ 天梯 (§4.4)
 export const MODE_LESSON: Record<LadderMode, string> = { fan: 'F', ming: 'L7', an: 'L8' };
+/**
+ * The modes 对战 and 和爸爸下 offer (Dad, 2026-10-08: the family only plays 翻翻棋). 明棋 / 暗棋 and the
+ * 实体棋裁判 stay in the code (engine, AI, saves, tests) — add them back here to show them again.
+ */
+export const PLAY_MODES: readonly LadderMode[] = ['fan'];
+export const modeShown = (m: LadderMode): boolean => PLAY_MODES.includes(m);
 export function ladderModeUnlocked(save: SaveV1, mode: LadderMode): boolean {
   return save.settings.unlockAll || lessonPassed(save, lessonById(MODE_LESSON[mode]));
 }
@@ -188,7 +194,8 @@ export function promote(save: SaveV1): number[] {
 }
 
 // ------------------------------------------------------------------ cards (§5.5)
-export type CardEvent = 'bomb-trade' | 'camp-save' | 'flag-capture' | 'ladder-an' | 'family' | 'physical-game';
+/** 'ladder-fan' = the first finished ladder 翻翻棋 (守规矩: 输赢都握握手) — it used to wait for a 实体棋裁判 game */
+export type CardEvent = 'bomb-trade' | 'camp-save' | 'flag-capture' | 'ladder-an' | 'ladder-fan' | 'family' | 'physical-game';
 /** award lesson cards (L2–L7 complete) and event cards; returns the new card ids */
 export function awardCards(save: SaveV1, events: CardEvent[] = []): string[] {
   const out: string[] = [];
@@ -213,7 +220,7 @@ export function mastered(save: SaveV1, concept: string): boolean {
   });
 }
 export const CONCEPT_NAMES: Record<string, string> = {
-  rank: '军衔大小', combat: '大吃小、一样大一起下场', bomb: '炸弹碰谁都一起下场', mine: '地雷只怕工兵（和炸弹）', flag: '谁都能扛旗',
+  rank: '军衔大小', combat: '大吃小、一样大一起下场', bomb: '炸弹碰谁都一起下场', mine: '地雷只怕工兵（和炸弹）', flag: '谁都能扛旗、扛到立刻获胜',
   fanflip: '翻开定颜色、暗子不能打', fanlock: '翻翻棋：挖光地雷才能扛旗', road: '公路一次一步、三个路口过山界', camp: '行营：斜线进出、里面打不到',
   hq: '大本营：进去就不能动', rail: '铁路直行、不限格', railblock: '铁路不能越子、先碰到谁', railturn: '非工兵不能拐弯', engturn: '工兵在铁路上能拐弯',
   engdig: '工兵挖雷开路', defend: '守住自己的军旗', nomoves: '对方没棋可走也算赢', deploy: '布阵规矩', infer: '从裁判结果推理', reveal: '司令下场亮军旗',

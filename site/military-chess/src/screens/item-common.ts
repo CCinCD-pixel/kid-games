@@ -66,7 +66,8 @@ export function flyStars(app: App, host: HTMLElement, from: Element, goal: Eleme
   const target = goal.querySelector('.mc-pdot.is-cur') ?? goal;
   const tr = target.getBoundingClientRect();
   const sr = host.getBoundingClientRect();
-  const k = sr.width / (o.portrait ? 810 : 1080) || 1;
+  // the stage width (phones: 390 / ~844; iPad: 810 / 1080)
+  const k = sr.width / app.W || 1;
   const src = { x: (br.left + br.width / 2 - sr.left) / k, y: (br.top + br.height / 2 - sr.top) / k };
   const dst = { x: (tr.left + tr.width / 2 - sr.left) / k, y: (tr.top + tr.height / 2 - sr.top) / k };
   let arrived = false;

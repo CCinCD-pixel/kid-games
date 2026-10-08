@@ -1,3 +1,4 @@
+import { shouldAutoSkip } from '@kit/ui';
 import type { App, Route, Screen } from './app';
 import { itemById, endgameById } from './content';
 import { AcademyScreen } from './screens/academy';
@@ -6,7 +7,7 @@ import { DeployScreen, lessonDeployNext } from './screens/deploy';
 import { DeployItemScreen } from './screens/deploy-item';
 import { EndgamesScreen } from './screens/endgames';
 import { FamilyScreen } from './screens/family';
-import { FtScreen } from './screens/ft';
+import { FtScreen, completeFt } from './screens/ft';
 import { HomeScreen } from './screens/home';
 import { LadderScreen } from './screens/ladder';
 import { MatchScreen } from './screens/match';
@@ -23,7 +24,11 @@ export function makeScreen(app: App, r: Route): Screen {
   switch (r.name) {
     case 'home':
       // the first-time flow runs once, before the camp (spec §2.6)
-      if (!app.save.firstRun.ft && !app.test && !r.skipFt) return new FtScreen(app);
+      if (!app.save.firstRun.ft && !app.test && !r.skipFt) {
+        // the parent's 跳过开场和教学: as if 跳过 had been tapped (FT done, first shoulder board)
+        if (shouldAutoSkip()) return new HomeScreen(app, { ftPromos: completeFt(app, { skipped: true, auto: true }) });
+        return new FtScreen(app);
+      }
       return new HomeScreen(app, { ftPromos: r.ftPromos });
     case 'ft':
       return new FtScreen(app);

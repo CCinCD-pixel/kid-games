@@ -22,6 +22,25 @@ export class Intel {
     this.el.dataset.testid = 'intel';
   }
 
+  /**
+   * The cell a tap meant. On phones the cells are too small to be tap targets of their own (≥ 44 px rule):
+   * they ignore pointers and the whole panel takes the tap, which goes to the cell nearest the finger.
+   */
+  private cellFor(e: MouseEvent): HTMLElement | null {
+    const hit = (e.target as HTMLElement).closest<HTMLElement>('[data-cell]');
+    if (hit) return hit;
+    let best: HTMLElement | null = null, bestD = Infinity;
+    for (const c of this.el.querySelectorAll<HTMLElement>('[data-cell]')) {
+      const r = c.getBoundingClientRect();
+      const d = (e.clientX - (r.left + r.width / 2)) ** 2 + (e.clientY - (r.top + r.height / 2)) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = c;
+      }
+    }
+    return best;
+  }
+
   /** 明棋 (and family 翻翻棋 fallback): pieces down per side */
   renderLosses(s: GameState, names: [string, string], cols: number): void {
     this.el.className = 'mc-panel mc-intel-panel is-trays';
@@ -62,7 +81,7 @@ export class Intel {
     }
     this.el.innerHTML = `<div class="mc-intel" style="grid-template-columns: repeat(${layout.cols}, 1fr)">${cells.join('')}</div>`;
     this.el.onclick = (e) => {
-      const c = (e.target as HTMLElement).closest<HTMLElement>('[data-cell]');
+      const c = this.cellFor(e);
       if (!c) return;
       this.h.onCell('mc.intel.an', `mc.w.${NAMES[Number(c.dataset.cell!.slice(1))]}`);
     };
@@ -90,7 +109,7 @@ export class Intel {
     }
     this.el.innerHTML = `<div class="mc-intel" style="grid-template-columns: repeat(${layout.cols}, 1fr)">${cells.join('')}</div>`;
     this.el.onclick = (e) => {
-      const c = (e.target as HTMLElement).closest<HTMLElement>('[data-cell]');
+      const c = this.cellFor(e);
       if (!c) return;
       const id = c.dataset.cell!;
       if (id === 'mines') this.h.onCell('mc.intel.fan.mines');

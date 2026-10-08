@@ -4,11 +4,12 @@
  * Tapping a lesson slides out its item strip (5–9 blocks with stars); tapping a block starts the item.
  */
 import { icon, starRating, type MapNode } from '@kit/ui';
-import { lessonMap } from '../view/rowmap';
+import { lessonMap, rowMap } from '../view/rowmap';
 import type { App } from '../app';
 import { LESSONS, type Lesson, type LessonItem } from '../content';
 import { lessonComplete, lessonUnlocked, nextItem, starsOf } from '../core/progress';
 import { mcIcon, type McIcon } from '../view/icons';
+import type { Rect } from '../view/layout';
 import { BaseScreen, abs, button, div } from './base';
 
 const LESSON_ICON: Record<string, McIcon> = { rank: 'star', bomb: 'bomb', flip: 'flipcard', road: 'mountain', rail: 'train', shovel: 'shovel', flag: 'flag', deploy: 'dice', eye: 'eye' };
@@ -37,6 +38,19 @@ export class AcademyScreen extends BaseScreen {
     return true;
   }
 
+  readonly phoneReady = true;
+
+  /** phones: the map and the item strip share the area above the foot (portrait) / side by side */
+  private phoneRects(): { map: Rect; strip: Rect } {
+    const W = this.W, H = this.H, tb = this.app.topBand, col = this.phoneCol, sr = this.app.safeR;
+    if (this.o === 'portrait') {
+      const foot = H - 6 - 72 - 6, sh = this.open ? 194 : 0;
+      return { map: { x: 6, y: tb - 4, w: W - 12, h: foot - (tb - 4) - sh }, strip: { x: 6, y: foot - sh + 4, w: W - 12, h: sh - 4 } };
+    }
+    const x0 = col + 4, w = W - x0 - 6 - sr, mw = this.open ? Math.round(w * 0.56) : w;
+    return { map: { x: x0, y: 50, w: mw, h: H - 50 - 6 }, strip: { x: x0 + mw + 8, y: 50, w: w - mw - 8, h: H - 50 - 6 } };
+  }
+
   protected render(): void {
     const portrait = this.o === 'portrait';
     const st = this.safeTop;
@@ -44,12 +58,15 @@ export class AcademyScreen extends BaseScreen {
     this.el.classList.add('mc-academy');
     const save = this.app.save;
     const title = div('mc-h1 mc-center', '军棋学堂');
-    abs(title, portrait ? { x: 100, y: st + 10, w: 610, h: 56 } : { x: 100, y: st + 8, w: 500, h: 56 });
-    this.el.appendChild(title);
+    if (this.phone) this.phoneTitle(title);
+    else {
+      abs(title, portrait ? { x: 100, y: st + 10, w: 610, h: 56 } : { x: 100, y: st + 8, w: 500, h: 56 });
+      this.el.appendChild(title);
+    }
 
     const mapBox = div('mc-map');
     mapBox.dataset.testid = 'academy-map';
-    const mapRect = portrait ? { x: 20, y: st + 70, w: 770, h: this.open ? 560 : 800 } : { x: 20, y: st + 64, w: this.open ? 600 : 1040, h: 600 };
+    const mapRect = this.phone ? this.phoneRects().map : portrait ? { x: 20, y: st + 70, w: 770, h: this.open ? 560 : 800 } : { x: 20, y: st + 64, w: this.open ? 600 : 1040, h: 600 };
     abs(mapBox, mapRect);
     this.el.appendChild(mapBox);
     const next = nextItem(save);
@@ -61,7 +78,8 @@ export class AcademyScreen extends BaseScreen {
       return { id: l.id, label: l.id === 'F' ? '翻' : l.id.slice(1), state, stars };
     });
     // nodeMap measures the box: lay it out once it is attached
-    const els = lessonMap(mapBox, nodes, { onPick: (n) => this.pickLesson(n.id), pad: portrait ? 64 : 78 });
+    // phones: always the serpentine (3 × 3) — the sine road crowds the labels in a short box
+    const els = this.phone ? rowMap(mapBox, nodes, { onPick: (n) => this.pickLesson(n.id), pad: 50, above: -14, below: 6 }) : lessonMap(mapBox, nodes, { onPick: (n) => this.pickLesson(n.id), pad: portrait ? 64 : 78 });
     els.forEach((b, i) => {
       b.dataset.testid = `lesson-${LESSONS[i].id}`;
       const ico = LESSON_ICON[LESSONS[i].icon] ?? 'star';
@@ -70,6 +88,16 @@ export class AcademyScreen extends BaseScreen {
     });
 
     if (this.open) this.renderStrip(LESSONS.find((l) => l.id === this.open)!, portrait);
+    if (this.phone) {
+      this.phoneFoot({ mood: 'happy' });
+      if (!portrait) {
+        // landscape: the bubble drops in over the title band, never over a lesson or an item
+        const x = this.phoneCol + 4, map = this.phoneRects().map;
+        abs(this.caption.el, { x, y: 4, w: this.open ? map.w : this.W - x - 6 - this.app.safeR, h: 0 });
+        Object.assign(this.caption.el.style, { height: 'auto', bottom: '' });
+      }
+      return;
+    }
 
     const gh = div('');
     if (portrait) {
@@ -88,7 +116,7 @@ export class AcademyScreen extends BaseScreen {
     const idx = LESSONS.indexOf(l);
     const strip = div(`mc-strip${portrait ? '' : ' is-narrow'}`);
     strip.dataset.testid = 'item-strip';
-    const rect = portrait ? { x: 20, y: this.safeTop + 640, w: 770, h: 300 } : { x: 636, y: this.safeTop + 64, w: 424, h: 620 };
+    const rect = this.phone ? this.phoneRects().strip : portrait ? { x: 20, y: this.safeTop + 640, w: 770, h: 300 } : { x: 636, y: this.safeTop + 64, w: 424, h: 620 };
     abs(strip, rect);
     const head = div('mc-strip__head', `<span class="mc-strip__ico">${mcIcon(LESSON_ICON[l.icon] ?? 'star')}</span><b>${l.title}</b><span class="mc-strip__teach">${l.teaches}</span>`);
     strip.appendChild(head);

@@ -4,10 +4,10 @@
  * dots show 让 / 悔). Tap a robot → it is introduced (mc.opp.N) and selected; 开始 starts the game
  * (明棋 / 暗棋 go through 布阵 first). `free` = Dad vs the computer: every mode and robot, nothing booked.
  */
-import { icon, segmented } from '@kit/ui';
+import { icon, segmented, shouldAutoSkip } from '@kit/ui';
 import type { App } from '../app';
 import type { Mode } from '../core/state';
-import { MODE_LESSON, ladderModeUnlocked, ladderOpen, type LadderMode } from '../core/progress';
+import { MODE_LESSON, PLAY_MODES, ladderModeUnlocked, ladderOpen, type LadderMode } from '../core/progress';
 import { LESSONS } from '../content';
 import { newLadderMatch } from '../ctrl/ladder';
 import type { Level } from '../ai/levels';
@@ -16,11 +16,13 @@ import { mountOpponent, OPPONENTS } from '../view/hats';
 import type { Companion } from '@kit/companion';
 import { BaseScreen, abs, button, div } from './base';
 
-const MODES: Array<{ id: LadderMode; label: string; line: string; lesson: string }> = [
+const ALL_MODES: Array<{ id: LadderMode; label: string; line: string; lesson: string }> = [
   { id: 'fan', label: '翻翻棋', line: 'mc.lad.fan', lesson: 'F' },
   { id: 'ming', label: '明棋', line: 'mc.lad.ming', lesson: 'L7' },
   { id: 'an', label: '暗棋', line: 'mc.lad.an', lesson: 'L8' },
 ];
+/** Dad, 2026-10-08: only 翻翻棋 is offered (PLAY_MODES); with one mode the tabs become a title line */
+const MODES = ALL_MODES.filter((m) => PLAY_MODES.includes(m.id));
 
 export class LadderScreen extends BaseScreen {
   readonly name = 'ladder';
@@ -32,15 +34,16 @@ export class LadderScreen extends BaseScreen {
   constructor(app: App, o: { mode?: Mode; free?: boolean } = {}) {
     super(app);
     this.free = !!o.free;
-    const firstOpen = MODES.find((m) => this.modeOpen(m.id))?.id ?? 'fan';
-    this.mode = o.mode && this.modeOpen(o.mode) ? o.mode : firstOpen;
+    const firstOpen = MODES.find((m) => this.modeOpen(m.id))?.id ?? MODES[0].id;
+    this.mode = o.mode && MODES.some((m) => m.id === o.mode) && this.modeOpen(o.mode) ? o.mode : firstOpen;
     const open = this.open();
     this.pick = open as Level;
     this.bag.timeout(() => void this.say('mc.lad.pick'), 300);
   }
 
   private modeOpen(m: LadderMode): boolean {
-    return this.free || ladderModeUnlocked(this.app.save, m);
+    // the parent's 跳过开场和教学 also skips the 翻翻棋入门 lesson that opens the 翻翻棋 ladder
+    return this.free || ladderModeUnlocked(this.app.save, m) || (m === 'fan' && shouldAutoSkip());
   }
   private open(): number {
     return this.free ? 4 : ladderOpen(this.app.save, this.mode);
@@ -51,22 +54,30 @@ export class LadderScreen extends BaseScreen {
     return true;
   }
 
+  readonly phoneReady = true;
+
   protected render(): void {
     for (const h of this.heads) h.destroy();
     this.heads = [];
     const portrait = this.o === 'portrait';
     const st = this.safeTop;
-    const W = portrait ? 810 : 1080, H = portrait ? 1080 : 810;
+    const ph = this.phone;
+    const W = ph ? this.W : portrait ? 810 : 1080, H = ph ? this.H : portrait ? 1080 : 810;
+    const tb = this.app.topBand, sr = this.app.safeR, col = this.phoneCol;
     this.el.replaceChildren();
     this.el.classList.add('mc-ladder');
     const title = div('mc-h1 mc-center', this.free ? '和电脑下' : '对战');
-    abs(title, { x: 100, y: st + 10, w: W - 200, h: 56 });
-    this.el.appendChild(title);
+    if (ph) this.phoneTitle(title);
+    else {
+      abs(title, { x: 100, y: st + 10, w: W - 200, h: 56 });
+      this.el.appendChild(title);
+    }
 
-    // mode tabs
-    const tabs = div('mc-tabs');
+    // mode tabs (one mode → a quiet title line instead)
+    const tabs = div(MODES.length > 1 ? 'mc-tabs' : 'mc-tabs mc-mode-line');
     tabs.dataset.testid = 'mode-tabs';
-    segmented(tabs, {
+    if (MODES.length === 1) tabs.innerHTML = `<b>${MODES[0].label}</b><span>翻开才知道是谁 · 扛到军旗就赢</span>`;
+    else segmented(tabs, {
       options: MODES.map((m) => ({ id: m.id, label: m.label + (this.modeOpen(m.id) ? '' : ' ') })),
       value: this.mode,
       night: true,
@@ -77,13 +88,23 @@ export class LadderScreen extends BaseScreen {
       if (b && !this.modeOpen(m.id)) b.insertAdjacentHTML('afterbegin', icon('lock'));
       if (b) b.dataset.testid = `tab-${m.id}`;
     }
-    abs(tabs, portrait ? { x: 105, y: st + 76, w: 600, h: 64 } : { x: 240, y: st + 72, w: 600, h: 64 });
+    // phones: portrait under the 🏠 band; landscape beside the title is too tight → a line under it
+    if (ph) abs(tabs, portrait ? { x: 8, y: tb, w: W - 16, h: 56 } : { x: col + 4, y: 60, w: W - col - 10 - sr, h: 28 });
+    else abs(tabs, portrait ? { x: 105, y: st + 76, w: 600, h: 64 } : { x: 240, y: st + 72, w: 600, h: 64 });
+    if (ph && !portrait) tabs.classList.add('is-flat');
     this.el.appendChild(tabs);
 
     // opponent cards
     const open = this.open();
     const t = this.app.save.ladder[this.mode];
-    const cardRect = (k: number) => (portrait ? { x: 60, y: st + 160 + k * 170, w: 690, h: 156 } : { x: 32 + k * 258, y: st + 160, w: 244, h: 420 });
+    // phones: 4 rows above the 开始 foot (portrait) / 4 columns (landscape)
+    // portrait keeps a caption band (60) between the robots and 开始: the bubble never covers a robot
+    const pTop = tb + 60, pFoot = H - 6 - 58 - 6 - 72, pGap = 8;
+    const pH = Math.floor((pFoot - pTop - 3 * pGap) / 4);
+    const lTop = 92, lW = (W - col - 4 - 6 - sr - 3 * 10) / 4, lH = H - 6 - 58 - 14 - lTop;
+    const cardRect = (k: number) => (ph
+      ? portrait ? { x: 8, y: pTop + k * (pH + pGap), w: W - 16, h: pH } : { x: col + 4 + k * (lW + 10), y: lTop, w: lW, h: lH }
+      : portrait ? { x: 60, y: st + 160 + k * 170, w: 690, h: 156 } : { x: 32 + k * 258, y: st + 160, w: 244, h: 420 });
     OPPONENTS.forEach((op, k) => {
       const lvl = (k + 1) as Level;
       const locked = lvl > open;
@@ -105,13 +126,15 @@ export class LadderScreen extends BaseScreen {
       if (!portrait) card.classList.add('is-col');
       this.el.appendChild(card);
       const host = card.querySelector<HTMLElement>('.mc-opp-card__head')!;
-      this.heads.push(mountOpponent(host, lvl, portrait ? 120 : 150, locked ? 'idle' : this.pick === lvl ? 'happy' : 'idle'));
+      this.heads.push(mountOpponent(host, lvl, ph ? (portrait ? Math.min(76, pH - 12) : Math.min(96, lH - 120)) : portrait ? 120 : 150, locked ? 'idle' : this.pick === lvl ? 'happy' : 'idle'));
     });
 
     // start
     // start (a flag, not crossed swords: those read as ✕) — or, while the mode is shut, a lock card that
     // names the lesson that opens it instead of a greyed button under a lit opponent (QA r1)
-    const startRect = portrait ? { x: 255, y: 1080 - 16 - 96, w: 400, h: 76 } : { x: 600, y: 810 - 16 - 84, w: 400, h: 76 };
+    const startRect = ph
+      ? portrait ? { x: 70, y: H - 6 - 58, w: W - 76, h: 58 } : { x: W - 6 - sr - 280, y: H - 6 - 58, w: 280, h: 58 }
+      : portrait ? { x: 255, y: 1080 - 16 - 96, w: 400, h: 76 } : { x: 600, y: 810 - 16 - 84, w: 400, h: 76 };
     if (this.modeOpen(this.mode)) {
       const start = button('xg-btn xg-btn--primary xg-btn--lg mc-start', `${mcIcon('flag')}<span>开始演习</span>`, () => this.start(), 'ladder-start');
       abs(start, startRect);
@@ -124,6 +147,11 @@ export class LadderScreen extends BaseScreen {
       this.el.appendChild(lock);
     }
 
+    if (ph) {
+      this.phoneFoot(portrait ? { lift: 58 + 6 } : { right: 280 + 8 });
+      if (!portrait) this.caption.el.style.bottom = '6px';
+      return;
+    }
     const gh = div('');
     if (portrait) {
       abs(gh, { x: 24, y: 1080 - 16 - 120, w: 110, h: 120 });

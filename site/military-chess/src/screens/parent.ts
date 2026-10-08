@@ -8,7 +8,7 @@
 import { downloadProgress } from '@kit/progress';
 import { icon, segmented } from '@kit/ui';
 import { LESSONS } from '../content';
-import { CONCEPT_NAMES, academyDone, bestBeaten, mastered, steadyWin } from '../core/progress';
+import { CONCEPT_NAMES, PLAY_MODES, academyDone, bestBeaten, mastered, modeShown, steadyWin } from '../core/progress';
 import { defaultSave, type SaveV1 } from '../ctrl/save';
 import { OPPONENTS } from '../view/hats';
 import { BaseScreen, abs, button, div } from './base';
@@ -31,14 +31,20 @@ export class ParentScreen extends BaseScreen {
     this.render();
   }
 
+  readonly phoneReady = true;
+
   protected render(): void {
     const portrait = this.o === 'portrait', st = this.safeTop;
-    const W = portrait ? 810 : 1080, H = portrait ? 1080 : 810;
+    const ph = this.phone;
+    const W = ph ? this.W : portrait ? 810 : 1080, H = ph ? this.H : portrait ? 1080 : 810;
     this.el.replaceChildren();
     this.el.classList.add('mc-parent');
-    const title = div('mc-h2 mc-center', `${icon('parent')}<span>家长面板 · 陆战棋</span>`);
-    abs(title, { x: 100, y: st + 10, w: W - 200, h: 52 });
-    this.el.appendChild(title);
+    const title = div('mc-h2 mc-center', `${icon('parent')}<span>${ph ? '家长面板' : '家长面板 · 陆战棋'}</span>`);
+    if (ph) this.phoneTitle(title);
+    else {
+      abs(title, { x: 100, y: st + 10, w: W - 200, h: 52 });
+      this.el.appendChild(title);
+    }
     const save = this.app.save;
     const s = save.settings;
 
@@ -47,7 +53,7 @@ export class ParentScreen extends BaseScreen {
     stats.dataset.testid = 'parent-stats';
     const n = LESSONS.reduce((a, l) => a + l.items.length, 0);
     const month = (save.family.log ?? []).filter((t) => Date.now() - t < 30 * 864e5).length;
-    const modes = [['fan', '翻翻棋'], ['ming', '明棋'], ['an', '暗棋']] as const;
+    const modes = ([['fan', '翻翻棋'], ['ming', '明棋'], ['an', '暗棋']] as const).filter(([m]) => PLAY_MODES.includes(m));
     const best = modes.map(([m, label]) => {
       const b = bestBeaten(save, m);
       const steady = [1, 2, 3, 4].filter((l) => steadyWin(save, m, l)).pop();
@@ -60,13 +66,14 @@ export class ParentScreen extends BaseScreen {
       <h3>孩子的进度</h3>
       <div class="mc-pstat"><span>学堂（题 ≥1★）</span><b data-testid="metric-academy">${academyDone(save)} / ${n}</b></div>
       <div class="mc-pstat is-col"><span>天梯最高战胜</span><div class="mc-pstat__modes" data-testid="metric-ladder">${best}</div></div>
-      <div class="mc-pstat"><span>家庭对局（近 30 天）</span><b data-testid="metric-family">${month} 盘</b><i>合计 ${save.family.games} 盘（孩子胜 ${save.family.kidWins} · 爸爸胜 ${save.family.dadWins} · 和 ${save.family.draws}）；实体棋裁判 ${save.family.physicalVerdicts} 次</i></div>
+      <div class="mc-pstat"><span>家庭对局（近 30 天）</span><b data-testid="metric-family">${month} 盘</b><i>合计 ${save.family.games} 盘（孩子胜 ${save.family.kidWins} · 爸爸胜 ${save.family.dadWins} · 和 ${save.family.draws}）${modeShown('an') ? `；实体棋裁判 ${save.family.physicalVerdicts} 次` : ''}</i></div>
       <div class="mc-pstat is-col"><span>掌握的概念 ${mast.length} / ${concepts.length}</span><div class="mc-pstat__chips">${concepts.map((c) => `<em class="${mast.includes(c) ? 'is-on' : ''}">${CONCEPT_NAMES[c]}</em>`).join('')}</div></div>
-      <div class="mc-pstat"><span>暗棋侦察便签猜中</span><b>${tag}</b></div>`;
+      ${modeShown('an') ? `<div class="mc-pstat"><span>暗棋侦察便签猜中</span><b>${tag}</b></div>` : ''}`;
 
     // ---------------------------------------------------------------- settings
     const form = div('mc-pform');
-    form.innerHTML = '<h3>家规与设置</h3>';
+    // Dad, 2026-10-08: what the game plays now, in one place
+    form.innerHTML = `<h3>家规与设置</h3><p class="mc-pnote" data-testid="parent-rules">对战和和爸爸下只下<b>翻翻棋</b>（明棋、暗棋先收起来了）。任何能走的子都能扛军旗，<b>扛到军旗立刻获胜</b>；翻翻棋要先挖光对方 3 颗地雷。地雷是标准规则：工兵挖得掉，炸弹一起下场，别的子碰了会牺牲——碰已经翻开的地雷之前，参谋会先问一声。</p>`;
     const row = (label: string, note: string, control: HTMLElement): void => {
       const r = div('mc-prow');
       r.innerHTML = `<span class="mc-prow__l"><b>${label}</b>${note ? `<i>${note}</i>` : ''}</span>`;
@@ -80,10 +87,10 @@ export class ParentScreen extends BaseScreen {
       return el;
     };
     row('棋子数字角标', '关掉更像家里的实体棋', seg('set-numbers', [[1, '开'], [0, '关']], s.numberBadges ? 1 : 0, (v) => this.set('numberBadges', v === 1)));
-    row('参谋提醒', '自动 = 1–2 档对手开', seg('set-coach', [['auto', '自动'], ['on', '开'], ['off', '关']], s.coachAlerts, (v) => this.set('coachAlerts', v)));
-    row('暗棋参谋笔记', '对方子上的推理角标', seg('set-notes', [[1, '开'], [0, '关']], s.coachNotes ? 1 : 0, (v) => this.set('coachNotes', v === 1)));
-    row('家规：翻翻棋扛旗', '标准 = 先挖光地雷才能扛旗；只用于和爸爸下（对战机器人始终用标准）', seg('set-fanflag', [['standard', '标准'], ['easy', '随时能扛']], s.fanFlagRule, (v) => this.set('fanFlagRule', v)));
-    row('家规：不碰子判和', '明棋家庭局', seg('set-quiet', [[40, '40 步'], [80, '80 步'], [120, '120 步']], s.familyQuiet, (v) => this.set('familyQuiet', v)));
+    row('参谋提醒', '自动 = 1–2 档对手开（碰已知地雷的提醒一直开）', seg('set-coach', [['auto', '自动'], ['on', '开'], ['off', '关']], s.coachAlerts, (v) => this.set('coachAlerts', v)));
+    if (modeShown('an')) row('暗棋参谋笔记', '对方子上的推理角标', seg('set-notes', [[1, '开'], [0, '关']], s.coachNotes ? 1 : 0, (v) => this.set('coachNotes', v === 1)));
+    row('家规：翻翻棋扛旗', '标准 = 先挖光对方地雷才能扛旗；只用于和爸爸下（对战机器人始终用标准）', seg('set-fanflag', [['standard', '标准'], ['easy', '随时能扛']], s.fanFlagRule, (v) => this.set('fanFlagRule', v)));
+    if (modeShown('ming')) row('家规：不碰子判和', '明棋家庭局', seg('set-quiet', [[40, '40 步'], [80, '80 步'], [120, '120 步']], s.familyQuiet, (v) => this.set('familyQuiet', v)));
     row('家规：来回走最多', '同一个子', seg('set-shuttle', [[3, '3 次'], [4, '4 次'], [5, '5 次']], s.shuttleMax, (v) => this.set('shuttleMax', v)));
     row('机器人强度', '覆盖天梯对手的档位', seg('set-ai', [[0, '不覆盖'], [1, '1'], [2, '2'], [3, '3'], [4, '4']], s.aiOverride ?? 0, (v) => this.set('aiOverride', v === 0 ? null : (v as 1 | 2 | 3 | 4))));
     row('全部打开', '学堂、天梯、残局都能直接进', seg('set-unlock', [[0, '关'], [1, '开']], s.unlockAll ? 1 : 0, (v) => this.set('unlockAll', v === 1)));
@@ -109,6 +116,22 @@ export class ParentScreen extends BaseScreen {
     );
     form.appendChild(data);
 
+    if (ph) {
+      // phones: grown-up pages scroll inside their panel (the page itself never scrolls)
+      const tb = this.app.topBand, col = this.phoneCol, sr = this.app.safeR;
+      if (portrait) {
+        const scroller = div('mc-pscroll');
+        abs(scroller, { x: 6, y: tb, w: W - 12, h: H - tb - 6 });
+        scroller.append(stats, form);
+        this.el.appendChild(scroller);
+      } else {
+        const w = W - col - 4 - 6 - sr, sw = Math.round(w * 0.42);
+        abs(stats, { x: col + 4, y: 50, w: sw, h: H - 56 });
+        abs(form, { x: col + 4 + sw + 8, y: 50, w: w - sw - 8, h: H - 56 });
+        this.el.append(stats, form);
+      }
+      return;
+    }
     if (portrait) {
       abs(stats, { x: 24, y: st + 66, w: 762, h: 318 });
       abs(form, { x: 24, y: st + 394, w: 762, h: H - st - 394 - 12 });

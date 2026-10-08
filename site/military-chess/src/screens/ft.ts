@@ -7,6 +7,9 @@
  *     (5 < 7) and the position is restored; the 军长 wins (8 > 7). 5 s idle → the ghost points at 军长;
  *  5. gold sparks, then the camp: the 学堂 card glows, the first shoulder board (工兵) drops, quietly.
  * Logged as `ft` { firstSuccessMs, deadTaps, helpCount }. Runs once (save.firstRun.ft).
+ * 跳过 (Dad, 2026-10-08): the kit pill (after 1.5 s) ends it at once with the same result — FT done and
+ * the first shoulder board — and the parent's 跳过开场和教学 skips it before it starts (router). It
+ * replays from the 规则卡 page (再玩一次开场).
  */
 import { ghostTap } from '@kit/ui';
 import type { App } from '../app';
@@ -20,9 +23,20 @@ import { BoardView } from '../view/board-view';
 import * as fx from '../view/fx';
 import { boardGeom, stageGeom } from '../view/layout';
 import { animateMove } from '../view/move-anim';
-import { BaseScreen, IntroSkip, abs, div } from './base';
+import { BaseScreen, IntroSkip, abs, div, skipPill } from './base';
 
 type Step = 'intro' | 'first' | 'second' | 'end';
+
+/** the first-time flow is done (played, skipped or auto-skipped): the first shoulder board; returns new ranks */
+export function completeFt(app: App, log: Record<string, unknown>): number[] {
+  const save = app.save;
+  save.firstRun.ft = true;
+  const promos = promote(save);
+  app.persist();
+  app.hub();
+  app.mark('ft', log);
+  return promos;
+}
 
 export class FtScreen extends BaseScreen {
   readonly name = 'ft';
@@ -50,6 +64,18 @@ export class FtScreen extends BaseScreen {
       { viewer: RED, numbers: true },
     );
     this.bag.timeout(() => void this.run(), 200);
+    this.pillOff = skipPill(() => this.skipAll());
+  }
+  private pillOff: () => void;
+
+  /** 跳过: straight to the camp with everything the flow would have given */
+  private skipAll(): void {
+    if (this.step === 'end') return;
+    this.step = 'end';
+    clearTimeout(this.idle);
+    this.app.voice.stop();
+    const promos = completeFt(this.app, { skipped: true, firstSuccessMs: this.firstSuccessMs, deadTaps: this.deadTaps, helpCount: this.helpCount });
+    this.app.go({ name: 'home', ftPromos: promos });
   }
 
   back(): boolean {
@@ -58,15 +84,30 @@ export class FtScreen extends BaseScreen {
     return true;
   }
 
+  readonly phoneReady = true;
+
   protected render(): void {
     const o = this.o, st = this.safeTop;
     this.el.replaceChildren();
     this.el.classList.add('mc-ft');
     const g = stageGeom(o, st);
-    this.board.setGeom(boardGeom(o, st));
+    this.board.setGeom(boardGeom(o, this.phone ? 0 : st));
     this.el.appendChild(this.board.el);
     const gh = div('mc-match__guide');
-    if (o === 'portrait') {
+    if (this.phone) {
+      // phones: the board as large as it gets; the guide + caption under it (portrait) / beside it
+      const W = this.W, sr = this.app.safeR, bg = boardGeom(o, 0);
+      if (o === 'portrait') {
+        const box = this.phoneBoard(this.board.el, bg, { bottom: 6 + 74 });
+        abs(gh, { x: 2, y: box.y + box.h + 6, w: 62, h: 66 });
+        this.phoneCaption(66, 6);
+      } else {
+        const box = this.phoneBoard(this.board.el, bg);
+        const px = box.x + box.w + 8;
+        abs(gh, { x: px, y: 70, w: W - sr - 6 - px, h: 120 });
+        this.phoneCaption(px, 6);
+      }
+    } else if (o === 'portrait') {
       abs(gh, { x: 12, y: g.intel.y, w: 150, h: g.intel.h });
       abs(this.caption.el, { x: 182, y: g.intel.y + 30, w: 616, h: 84 });
       this.caption.el.classList.remove('is-tall', 'is-dock');
@@ -77,11 +118,14 @@ export class FtScreen extends BaseScreen {
       this.caption.el.classList.add('is-tall', 'is-dock');
     }
     this.el.append(gh, this.caption.el);
-    this.placeGuide(gh, o === 'portrait' ? 120 : 150, { mood: 'happy' });
+    if (this.phone) this.placeGuide(gh, o === 'portrait' ? 58 : 110, { mood: 'happy', variant: o === 'portrait' ? 'head' : 'full' });
+    else this.placeGuide(gh, o === 'portrait' ? 120 : 150, { mood: 'happy' });
     this.board.render(this.state, true);
     if (!this.slid) {
       this.slid = true;
-      this.board.el.animate([{ transform: 'translateY(520px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: d(420), easing: EASE.spring });
+      // phones scale the board element: slide it in with its scale kept
+      const tf = this.board.el.style.transform || 'none';
+      this.board.el.animate([{ transform: `translateY(520px) ${tf === 'none' ? '' : tf}`.trim(), opacity: 0 }, { transform: tf, opacity: 1 }], { duration: d(420), easing: EASE.spring });
       gh.style.visibility = 'hidden';
     }
   }
@@ -106,7 +150,7 @@ export class FtScreen extends BaseScreen {
     const gate = new IntroSkip(this.el, () => {
       this.app.voice.stop();
       this.app.play('ui-pick');
-    });
+    }, { pill: false });
     try {
       // the ghost: 团长 → 营长 (shown, not played)
       if (await gate.step(this.say('mc.ft.1', 'happy'))) {
@@ -281,16 +325,12 @@ export class FtScreen extends BaseScreen {
   }
 
   private async finish(): Promise<void> {
+    this.pillOff();
     const at = this.board.center(parseSq('b7'));
     this.app.play('correct-big');
     void fx.sparks(this.board.fxLayer, at, 8);
     this.guide?.react('hop');
-    const save = this.app.save;
-    save.firstRun.ft = true;
-    const promos = promote(save);
-    this.app.persist();
-    this.app.hub();
-    this.app.mark('ft', { firstSuccessMs: this.firstSuccessMs, deadTaps: this.deadTaps, helpCount: this.helpCount });
+    const promos = completeFt(this.app, { firstSuccessMs: this.firstSuccessMs, deadTaps: this.deadTaps, helpCount: this.helpCount });
     await this.bag.wait(d(1100));
     this.app.go({ name: 'home', ftPromos: promos });
   }

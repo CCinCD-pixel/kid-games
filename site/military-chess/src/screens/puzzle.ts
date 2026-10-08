@@ -6,10 +6,11 @@
  * ladder goes up. Done: stars fly to the progress dots, process praise, [下一题] — the last item of a
  * lesson is a milestone (showResult + the lesson's wrap line).
  */
-import { ghostTap, icon, setHintReady, showResult } from '@kit/ui';
+import { ghostTap, icon, setHintReady, shouldAutoSkip, showResult } from '@kit/ui';
 import type { App } from '../app';
 import { BLUE, RED, parseSq } from '../core/board';
 import { whyImmobile, whyNot, WHY_LINE } from '../core/explain';
+import { knownMineAttack } from '../core/coach';
 import { isFlip, isMove, pieceCanMove, pieceMoves, type Action } from '../core/movegen';
 import { parseNote, toNote } from '../core/notation';
 import { NAMES } from '../core/pieces';
@@ -24,10 +25,10 @@ import { CARDS, ENDGAMES, LESSONS, itemById, lessonOf, loadBook, endgameById, ty
 import { promotionCeremony } from '../view/promo';
 import { MS, d } from '../view/anim';
 import { BoardView } from '../view/board-view';
-import { boardGeom, stageGeom } from '../view/layout';
+import { boardGeom, stageGeom, type Rect } from '../view/layout';
 import { animateMove } from '../view/move-anim';
 import { mcIcon } from '../view/icons';
-import { BaseScreen, IntroSkip, abs, button, div } from './base';
+import { pillRoom, BaseScreen, IntroSkip, abs, button, demoSeen, div, markDemo, skipPill } from './base';
 
 type Kind = 'board' | 'scene';
 
@@ -126,9 +127,15 @@ export class PuzzleScreen extends BaseScreen {
     await this.loading;
     if (this.kind === 'scene') return this.runScene();
     const it = this.endgame ? null : (itemById(this.itemId) as BoardItem);
-    const ghost = !!it?.ghost && !this.resumeRed && !this.twin;
-    // intro items: the ghost shows the first move before he plays ("我做" → "你做")
+    let ghost = !!it?.ghost && !this.resumeRed && !this.twin && !demoSeen(this.app, this.itemId);
+    // the parent's 跳过开场和教学: no demo (as if 跳过 had been tapped)
+    if (ghost && shouldAutoSkip()) {
+      markDemo(this.app, this.itemId);
+      ghost = false;
+    }
+    // intro items: the ghost shows the first move before he plays ("我做" → "你做"); shown once (or skipped)
     if (ghost) {
+      markDemo(this.app, this.itemId);
       // a touch takes over from the demo at once (QA r1: the 6 s demo swallowed taps)
       const gate = new IntroSkip(this.el, () => this.introSkipped());
       this.busy++;
@@ -171,12 +178,16 @@ export class PuzzleScreen extends BaseScreen {
     this.app.persist();
   }
 
+  readonly phoneReady = true;
+  /** phones: where the button row (and later [下一题]) sits */
+  private btnRect: Rect | null = null;
+
   protected render(): void {
     const o = this.o, st = this.safeTop;
     this.el.replaceChildren();
     this.el.classList.add('mc-puzzle');
     const g = stageGeom(o, st);
-    this.board.setGeom(boardGeom(o, st));
+    this.board.setGeom(boardGeom(o, this.phone ? 0 : st));
     this.el.appendChild(this.board.el);
     this.goalEl = div('mc-goal');
     this.goalEl.dataset.testid = 'goal-bar';
@@ -189,8 +200,36 @@ export class PuzzleScreen extends BaseScreen {
     this.hintBtn.setAttribute('aria-label', '提示');
     this.panelBtns.append(undo, restart, this.hintBtn);
     const gh = div('mc-match__guide');
-    if (o === 'portrait') {
+    this.btnRect = null;
+    if (this.phone) {
+      // phones (Dad, 2026-10-08): the goal bar beside the 🏠, the board as large as it gets, the
+      // guide + caption and the [↶][⟲][💡] row under it (portrait) / in the column right of it (landscape)
+      const W = this.W, H = this.H, tb = this.app.topBand, sr = this.app.safeR, bg = boardGeom(o, 0);
+      this.goalEl.classList.add('is-phone');
+      if (o === 'portrait') {
+        const box = this.phoneBoard(this.board.el, bg, { bottom: 6 + 54 + 6 + 62 });
+        abs(this.goalEl, { x: tb, y: 4, w: W - tb - 6, h: tb - 10 });
+        this.goalEl.style.setProperty('--gw-pill', `${W - tb - 6 - pillRoom(this.app) + 6}px`);
+        abs(gh, { x: 2, y: box.y + box.h + 4, w: 62, h: 62 });
+        this.phoneCaption(66, 6 + 54 + 6);
+        this.btnRect = { x: 8, y: H - 6 - 54, w: W - 16, h: 54 };
+      } else {
+        const box = this.phoneBoard(this.board.el, bg);
+        const px = box.x + box.w + 8, pw = W - sr - 6 - px;
+        abs(this.goalEl, { x: px, y: 6, w: pw, h: 112 });
+        this.goalEl.style.setProperty('--gw-pill', `${pw - pillRoom(this.app) + 6 + sr}px`);
+        this.goalEl.classList.add('is-col');
+        abs(gh, { x: px, y: 124, w: 62, h: 62 });
+        this.phoneCaption(px, 6 + 54 + 8);
+        this.btnRect = { x: px, y: H - 6 - 54, w: pw, h: 54 };
+        this.panelBtns.classList.add('is-row3');
+      }
+      abs(this.panelBtns, this.btnRect);
+    } else if (o === 'portrait') {
       abs(this.goalEl, { x: 84, y: st + 6, w: 642, h: 80 });
+      // the 跳过 pill (demos / scenes) takes the top-right corner: the bar gives it room while it is up
+      this.goalEl.classList.add('is-pillable');
+      this.goalEl.style.setProperty('--gw-pill', `${810 - 84 - pillRoom(this.app)}px`);
       const panelY = g.intel.y;
       abs(gh, { x: 12, y: panelY, w: 150, h: g.intel.h });
       abs(this.caption.el, { x: 182, y: panelY, w: 616, h: 64 });
@@ -207,7 +246,8 @@ export class PuzzleScreen extends BaseScreen {
       this.panelBtns.classList.add('is-row3');
     }
     this.el.append(this.goalEl, gh, this.caption.el, this.panelBtns);
-    this.placeGuide(gh, o === 'portrait' ? 120 : 88, { mood: 'happy' });
+    if (this.phone) this.placeGuide(gh, 58, { mood: 'happy', variant: 'head' });
+    else this.placeGuide(gh, o === 'portrait' ? 120 : 88, { mood: 'happy' });
     if (this.kind === 'scene') {
       undo.style.visibility = 'hidden';
       restart.style.visibility = 'hidden';
@@ -361,6 +401,19 @@ export class PuzzleScreen extends BaseScreen {
   // ------------------------------------------------------------------ a move
   private async commit(a: Action, dragged: boolean): Promise<void> {
     if (!this.pc || this.busy) return;
+    // 残局 are real games: a piece that would be lost on a mine it can see asks first (C6, Dad 2026-10-08).
+    // 学堂 items teach mines through what happens, so they never ask.
+    if (this.endgame && isMove(a) && knownMineAttack(this.state, a, RED, null)) {
+      this.busy++;
+      const go = await this.confirmMine();
+      this.busy--;
+      if (!go) {
+        if (dragged) void this.board.springBack(a.pid);
+        this.deselect(true);
+        this.armIdle();
+        return;
+      }
+    }
     this.busy++;
     clearTimeout(this.idleTimer);
     const before = this.state;
@@ -572,6 +625,38 @@ export class PuzzleScreen extends BaseScreen {
     this.busy--;
   }
 
+  /** C6 sheet: "这是地雷，碰了会牺牲" → 还是走这步 (true) / 再想想 (false) */
+  private confirmMine(): Promise<boolean> {
+    return new Promise((res) => {
+      const scrim = div('mc-scrim');
+      const sheet = div('mc-sheet');
+      sheet.dataset.testid = 'sheet';
+      sheet.innerHTML = `<p class="mc-ask">${this.app.voice.text('mc.coach.knownmine')}</p>`;
+      const row = div('mc-row');
+      const pick = (yes: boolean) => () => {
+        this.app.play('ui-tap');
+        drop();
+        if (yes) void this.say('mc.coach.ok');
+        res(yes);
+      };
+      row.append(
+        button('xg-btn xg-btn--secondary xg-btn--lg', '<span>还是走这步</span>', pick(true), 'sheet-secondary'),
+        button('xg-btn xg-btn--primary xg-btn--lg', '<span>再想想</span>', pick(false), 'sheet-primary'),
+      );
+      sheet.appendChild(row);
+      scrim.appendChild(sheet);
+      const drop = this.keepOverlay(scrim, () => this.placeSheet(sheet));
+      void this.say('mc.coach.knownmine', 'thinking');
+    });
+  }
+
+  /** a centred modal sheet (both orientations, phones too) */
+  private placeSheet(sheet: HTMLElement): void {
+    if (this.phone) abs(sheet, this.o === 'portrait' ? { x: 12, y: Math.round(this.H * 0.3), w: this.W - 24, h: 0 } : { x: Math.round((this.W - 470) / 2), y: 40, w: 470, h: 0 });
+    else abs(sheet, this.o === 'portrait' ? { x: 105, y: 400, w: 600, h: 0 } : { x: 240, y: 280, w: 600, h: 0 });
+    sheet.style.height = 'auto';
+  }
+
   private async offerShow(): Promise<void> {
     const scrim = div('mc-scrim');
     const sheet = div('mc-sheet');
@@ -586,10 +671,7 @@ export class PuzzleScreen extends BaseScreen {
     row.append(no, go);
     sheet.appendChild(row);
     scrim.appendChild(sheet);
-    const drop = this.keepOverlay(scrim, () => {
-      abs(sheet, this.o === 'portrait' ? { x: 105, y: 400, w: 600, h: 0 } : { x: 240, y: 280, w: 600, h: 0 });
-      sheet.style.height = 'auto';
-    });
+    const drop = this.keepOverlay(scrim, () => this.placeSheet(sheet));
     void this.say('mc.hint.show', 'happy');
   }
 
@@ -661,7 +743,7 @@ export class PuzzleScreen extends BaseScreen {
     const target = this.goalEl.querySelector<HTMLElement>('.mc-pdot.is-cur') ?? this.goalEl;
     const tr = target.getBoundingClientRect();
     const sr = this.el.getBoundingClientRect();
-    const k = sr.width / (this.o === 'portrait' ? 810 : 1080);
+    const k = sr.width / this.W;
     const from = { x: (br.left + br.width / 2 - sr.left) / k, y: (br.top + br.height / 2 - sr.top) / k };
     const to = { x: (tr.left + tr.width / 2 - sr.left) / k, y: (tr.top + tr.height / 2 - sr.top) / k };
     for (let i = 0; i < 3; i++) {
@@ -697,7 +779,8 @@ export class PuzzleScreen extends BaseScreen {
     const next = this.nextId();
     const label = next ? '下一题' : '回去看看';
     const b = button('xg-btn xg-btn--primary xg-btn--lg mc-next', `<span>${label}</span>${icon('next')}`, () => this.goNext(), 'next');
-    if (this.o === 'portrait') abs(b, { x: 300, y: 1068 - 80, w: 400, h: 76 });
+    if (this.btnRect) abs(b, this.btnRect);
+    else if (this.o === 'portrait') abs(b, { x: 300, y: 1068 - 80, w: 400, h: 76 });
     else abs(b, { x: 832, y: 810 - 12 - 76, w: 236, h: 76 });
     this.el.appendChild(b);
     this.nextBtn = b;
@@ -759,6 +842,8 @@ export class PuzzleScreen extends BaseScreen {
   // ------------------------------------------------------------------ scenes (翻翻棋入门 F-1–F-3)
   private async runScene(): Promise<void> {
     const sc = this.scene!;
+    // 跳过 (Dad, 2026-10-08): the scripted 翻翻棋入门 scenes are tutorials — skipping counts as done (1★)
+    this.scenePill = skipPill(() => this.skipScene());
     await this.say(this.instruction());
     while (this.sceneStep < sc.steps.length && !this.finished) {
       const st = sc.steps[this.sceneStep];
@@ -784,6 +869,27 @@ export class PuzzleScreen extends BaseScreen {
     if (!this.finished) this.sceneDone();
   }
   private sceneWait: (() => void) | null = null;
+  private scenePill: () => void = () => undefined;
+
+  /** 跳过 a scene: it counts as done (1★ unless better before), the lesson moves on — replay it from the map */
+  private skipScene(): void {
+    if (this.finished) return;
+    this.finished = true;
+    this.app.voice.stop();
+    const wake = this.sceneWait;
+    this.sceneWait = null;
+    wake?.();
+    this.deselect(true);
+    this.board.setGoalMarks([]);
+    const save = this.app.save;
+    recordItem(save, this.itemId, 1, { hintMax: 0 });
+    awardCards(save);
+    const promos = promote(save);
+    this.app.persist();
+    this.app.hub();
+    this.app.mark('intro-skip', { id: this.itemId, scene: true });
+    void this.afterDone(promos);
+  }
 
   private lightScene(): void {
     const st = this.scene!.steps[this.sceneStep];
@@ -896,6 +1002,7 @@ export class PuzzleScreen extends BaseScreen {
   }
 
   private sceneDone(): void {
+    this.scenePill();
     this.finished = true;
     const save = this.app.save;
     const stars = cardStars(this.sceneCorrections);

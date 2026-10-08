@@ -11,7 +11,7 @@
  * answer and then gives the twin (reshuffled, max 2★). Intro cards start with the ghost hand.
  */
 import { createRng } from '@kit/rng';
-import { ghostDrag, ghostTap, icon, setHintReady } from '@kit/ui';
+import { ghostDrag, ghostTap, icon, setHintReady, shouldAutoSkip } from '@kit/ui';
 import type { App } from '../app';
 import { inferMask, optionConsistent } from '../core/belief';
 import { resolve, type Outcome } from '../core/combat';
@@ -24,7 +24,7 @@ import * as fx from '../view/fx';
 import { mcIcon, type McIcon } from '../view/icons';
 import type { Pt, Rect } from '../view/layout';
 import { tileSvg } from '../view/pieces-svg';
-import { BaseScreen, IntroSkip, abs, button, div } from './base';
+import { BaseScreen, IntroSkip, abs, button, demoSeen, div, markDemo, pillRoom } from './base';
 import { afterItem, bookItem, flyStars, goalBarHtml } from './item-common';
 
 type CardItem = OrderItem | CompareItem | InferItem;
@@ -141,13 +141,57 @@ export class CardScreen extends BaseScreen {
     return this.o === 'portrait' ? { x: 25, y: this.safeTop + 100, w: 760, h: 790 } : { x: 60, y: this.safeTop + 84, w: 960, h: 580 };
   }
 
+  readonly phoneReady = true;
+  /** phones: the scaled activity panel's box and the [下一题] slot */
+  private nextSlot: Rect | null = null;
+
+  /**
+   * Phones (Dad, 2026-10-08): the activity panel keeps its iPad geometry (drags and hit-tests measure
+   * the panel on screen) and is scaled into the free area; goal bar, guide, caption and 💡 are laid
+   * out for the phone around it. Portrait: panel full width under the goal bar, the foot below;
+   * landscape: panel left, a column for the guide + caption + 💡 at the right.
+   */
+  private phoneFrame(): void {
+    const r = this.panelRect(), W = this.W, H = this.H, tb = this.app.topBand, sr = this.app.safeR;
+    const gh = div('mc-cards__guide');
+    if (this.o === 'portrait') {
+      abs(this.goalEl, { x: tb, y: 4, w: W - tb - 6, h: tb - 10 });
+      this.goalEl.style.setProperty('--gw-pill', `${W - tb - pillRoom(this.app)}px`);
+      const k = Math.min((W - 8) / r.w, (H - tb - 6 - 84) / r.h);
+      const x = (W - r.w * k) / 2, y = tb + Math.max(0, (H - tb - 6 - 84 - r.h * k) / 2);
+      Object.assign(this.panel.style, { left: `${x}px`, top: `${y}px`, transformOrigin: '0 0', transform: `scale(${k})` });
+      abs(this.hintBtn, { x: W - 6 - sr - 54, y: H - 6 - 54, w: 54, h: 54 });
+      this.nextSlot = { x: 70, y: H - 6 - 58, w: W - 76, h: 58 };
+      this.el.append(this.hintBtn);
+      this.phoneFoot({ mood: 'happy', right: 54 + 8 });
+      return;
+    }
+    const x0 = this.phoneCol + 4, colW = 224;
+    abs(this.goalEl, { x: x0, y: 4, w: W - x0 - 6 - sr, h: 56 });
+    this.goalEl.style.setProperty('--gw-pill', `${W - x0 - sr - pillRoom(this.app)}px`);
+    const k = Math.min((W - x0 - 6 - sr - colW - 8) / r.w, (H - 66 - 6) / r.h);
+    Object.assign(this.panel.style, { left: `${x0}px`, top: '66px', transformOrigin: '0 0', transform: `scale(${k})` });
+    const cx = x0 + r.w * k + 8, cw = W - sr - 6 - cx;
+    abs(gh, { x: cx, y: 70, w: 62, h: 62 });
+    abs(this.hintBtn, { x: cx + cw - 54, y: H - 6 - 54, w: 54, h: 54 });
+    this.phoneCaption(cx, 6 + 54 + 8);
+    this.nextSlot = { x: cx, y: H - 6 - 58, w: cw, h: 58 };
+    this.el.append(gh, this.caption.el, this.hintBtn);
+    this.placeGuide(gh, 58, { mood: 'happy', variant: 'head' });
+  }
+
   protected render(): void {
     const portrait = this.o === 'portrait', st = this.safeTop;
     this.el.replaceChildren();
     this.el.classList.add('mc-cards');
     this.goalEl = div('mc-goal');
     this.goalEl.dataset.testid = 'goal-bar';
+    if (this.phone) this.goalEl.classList.add('is-phone');
     abs(this.goalEl, portrait ? { x: 84, y: st + 6, w: 642, h: 80 } : { x: 84, y: st + 6, w: 912, h: 70 });
+    if (portrait && !this.phone) {
+      this.goalEl.classList.add('is-pillable');
+      this.goalEl.style.setProperty('--gw-pill', `${810 - 84 - pillRoom(this.app)}px`);
+    }
     this.goalEl.addEventListener('click', () => void this.say(this.instruction()));
     this.el.appendChild(this.goalEl);
     this.renderGoal();
@@ -163,7 +207,8 @@ export class CardScreen extends BaseScreen {
     // guide, caption, hint
     const gh = div('mc-cards__guide');
     this.hintBtn = button('xg-iconbtn mc-hint-btn', icon('hint'), () => void this.onHint(), 'hint');
-    if (portrait) {
+    if (this.phone) this.phoneFrame();
+    else if (portrait) {
       abs(gh, { x: 20, y: 1080 - 12 - 130, w: 112, h: 130 });
       abs(this.caption.el, { x: 140, y: 1080 - 12 - 84, w: 560, h: 76 });
       abs(this.hintBtn, { x: 810 - 24 - 72, y: 1080 - 12 - 80, w: 72, h: 72 });
@@ -172,8 +217,10 @@ export class CardScreen extends BaseScreen {
       abs(this.caption.el, { x: 150, y: 810 - 12 - 90, w: 760, h: 78 });
       abs(this.hintBtn, { x: 1080 - 24 - 72, y: 810 - 12 - 84, w: 72, h: 72 });
     }
-    this.el.append(gh, this.caption.el, this.hintBtn);
-    this.placeGuide(gh, portrait ? 108 : 104, { mood: 'happy' });
+    if (!this.phone) {
+      this.el.append(gh, this.caption.el, this.hintBtn);
+      this.placeGuide(gh, portrait ? 108 : 104, { mood: 'happy' });
+    }
 
     if (this.item.type === 'order') this.renderOrder();
     else if (this.item.type === 'compare') this.renderCompare();
@@ -717,8 +764,17 @@ export class CardScreen extends BaseScreen {
   private async intro(): Promise<void> {
     // an intro card is shown first ("我做"): input is held while the ghost does its step, but the
     // first touch takes over at once (QA r1: a 9.5 s read-through swallowed taps)
-    const hold = !!this.item.ghost && !this.twin && !this.ghostDone;
-    const readButtons = this.item.type === 'compare' && !this.twin && !this.app.save.firstRun.seenCmpButtons;
+    let hold = !!this.item.ghost && !this.twin && !this.ghostDone && !demoSeen(this.app, this.item.id);
+    let readButtons = this.item.type === 'compare' && !this.twin && !this.app.save.firstRun.seenCmpButtons;
+    // the parent's 跳过开场和教学: no demo, no button read-through (as if 跳过 had been tapped)
+    if ((hold || readButtons) && shouldAutoSkip()) {
+      if (hold) markDemo(this.app, this.item.id);
+      if (readButtons) this.app.save.firstRun.seenCmpButtons = true;
+      this.app.persist();
+      this.ghostDone = this.ghostDone || hold;
+      hold = readButtons = false;
+    }
+    if (hold) markDemo(this.app, this.item.id);
     const gate = hold || readButtons ? new IntroSkip(this.el, () => this.introSkipped()) : null;
     if (gate) this.busy++;
     try {
@@ -934,6 +990,7 @@ export class CardScreen extends BaseScreen {
     this.hintBtn.style.visibility = 'hidden';
     const stars = cardStars(this.corrections, this.twin);
     const info = bookItem(this.app, this.item.id, stars, { hintMax: this.hintLevel, extra: { corrections: this.corrections, twin: this.twin } });
+    if (this.phone) this.hintBtn.style.visibility = 'hidden';
     flyStars(this.app, this.el, this.panel, this.goalEl, stars, { portrait: this.o === 'portrait', onArrive: () => this.renderGoal() });
     this.bag.timeout(() => {
       void this.say(praiseLine({ kind: this.item.type, retried: this.corrections > 0 || this.twin }), 'celebrating');
@@ -945,7 +1002,7 @@ export class CardScreen extends BaseScreen {
       portrait,
       say: (l) => void this.say(l, 'celebrating'),
       wait: (ms) => this.bag.wait(ms),
-      nextRect: portrait ? { x: 205, y: this.panelRect().y + this.panelRect().h - 110, w: 400, h: 80 } : { x: 1080 - 24 - 72 - 16 - 320, y: 810 - 12 - 84, w: 320, h: 76 },
+      nextRect: this.phone && this.nextSlot ? this.nextSlot : portrait ? { x: 205, y: this.panelRect().y + this.panelRect().h - 110, w: 400, h: 80 } : { x: 1080 - 24 - 72 - 16 - 320, y: 810 - 12 - 84, w: 320, h: 76 },
       teaches: this.item.teaches,
       caption: this.caption,
     });

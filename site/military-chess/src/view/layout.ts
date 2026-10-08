@@ -186,6 +186,19 @@ export function seatRotation(o: Orientation, seating: 'side' | 'face', seat: 'ne
   return seat === 'near' ? 90 : -90;
 }
 
+/** a phone = the shorter side under 600 CSS px (docs/GAME_AUTHORING.md §3) */
+export const isPhone = (vw: number, vh: number): boolean => Math.min(vw, vh) < 600;
+/** the phone stage: 390 units across (portrait) or 390 tall (landscape), filling the viewport */
+export const PHONE_UNIT = 390;
+export function phoneStage(o: Orientation, vw: number, vh: number): { w: number; h: number; scale: number } {
+  if (o === 'portrait') {
+    const scale = vw / PHONE_UNIT;
+    return { w: PHONE_UNIT, h: Math.round(vh / scale), scale };
+  }
+  const scale = vh / PHONE_UNIT;
+  return { w: Math.round(vw / scale), h: PHONE_UNIT, scale };
+}
+
 /** scale + offset that fit a design stage into a viewport (letterboxed, centred) */
 export function fitStage(o: Orientation, vw: number, vh: number): { scale: number; ox: number; oy: number } {
   const s = STAGE[o];

@@ -15,6 +15,16 @@ export type Face = 'up' | 'back' | 'fan';
 export const PAD = 6;
 export const TILE: Record<Shape, { w: number; h: number }> = { wide: { w: 92, h: 50 }, tall: { w: 52, h: 88 } };
 
+/**
+ * Phones (Dad, 2026-10-08): the board is scaled to ≈0.57–0.6 there, so the engraved names grow (26–28
+ * instead of 22–24, a smaller badge) to stay ≥ 14 CSS px on a 390-px-wide phone. Set by the app per layout.
+ */
+let big = false;
+export function setBigPieceText(v: boolean): void {
+  big = v;
+}
+export const bigPieceText = (): boolean => big;
+
 export function installPieceDefs(): void {
   if (document.getElementById('mc-piece-defs')) return;
   const host = document.createElement('div');
@@ -47,18 +57,29 @@ function engraved(x: number, y: number, txt: string, size: number, cls = 'mc-tx'
     `<text class="${cls} mc-tx-f" x="${x}" y="${y}" font-size="${size}">${txt}</text>`;
 }
 
-function badge(cx: number, cy: number, type: number): string {
-  const disc = `<circle cx="${cx}" cy="${cy + 1.2}" r="13" fill="#000" opacity=".25"/><circle cx="${cx}" cy="${cy}" r="13" fill="url(#mc-badge)" stroke="#8a5a00" stroke-opacity=".55" stroke-width="1"/>`;
+function badge(cx: number, cy: number, type: number, r = 13, fs = 20): string {
+  const disc = `<circle cx="${cx}" cy="${cy + 1.2}" r="${r}" fill="#000" opacity=".25"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#mc-badge)" stroke="#8a5a00" stroke-opacity=".55" stroke-width="1"/>`;
+  const k = r / 13;
   if (type === BOMB || type === MINE || type === FLAG) {
     const name = type === BOMB ? 'bomb' : type === MINE ? 'mine' : 'flag';
-    return disc + `<g transform="translate(${cx - 10} ${cy - 10}) scale(${20 / 32})" color="#3a2606">${iconPaths(name)}</g>`;
+    return disc + `<g transform="translate(${cx - 10 * k} ${cy - 10 * k}) scale(${(20 * k) / 32})" color="#3a2606">${iconPaths(name)}</g>`;
   }
-  return disc + `<text class="mc-rank" x="${cx}" y="${cy + 7.2}" font-size="20">${rankOf(type)}</text>`;
+  return disc + `<text class="mc-rank" x="${cx}" y="${cy + 0.36 * fs}" font-size="${fs}">${rankOf(type)}</text>`;
 }
 
 /** content (name + badge) laid out in a cw × ch box (wide or tall layout) */
 function content(type: number, layout: Shape, cw: number, ch: number, numbers: boolean): string {
   const name = NAMES[type];
+  if (big) {
+    // phones: bigger engraving, a slimmer badge (see setBigPieceText)
+    if (!numbers) {
+      if (layout === 'wide') return engraved(cw / 2, ch / 2 + 10, name, 29);
+      return engraved(cw / 2, ch / 2 - 6, name[0], 28) + engraved(cw / 2, ch / 2 + 25, name[1], 28);
+    }
+    if (layout === 'wide') return engraved(3 + 28, ch / 2 + 9.5, name, 28) + badge(cw - 2.5 - 12.5, ch / 2, type, 12.5, 23);
+    const cx = cw / 2;
+    return engraved(cx, 3 + 24, name[0], 27) + engraved(cx, 3 + 24 + 25, name[1], 27) + badge(cx, ch - 2.5 - 12.5, type, 12.5, 23);
+  }
   if (!numbers) {
     if (layout === 'wide') return engraved(cw / 2, ch / 2 + 8.5, name, 24);
     return engraved(cw / 2, ch / 2 - 4, name[0], 24) + engraved(cw / 2, ch / 2 + 22, name[1], 24);

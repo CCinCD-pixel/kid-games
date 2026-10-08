@@ -13,7 +13,7 @@ import { EASE, MS, d, dm, railDuration, run } from './anim';
 import { cachedBoardSvg } from './board-svg';
 import { mcIcon } from './icons';
 import { nearestStation, stationAt, stationLocal, type BoardGeom, type Pt } from './layout';
-import { PAD, TILE, tileSvg, type Face } from './pieces-svg';
+import { PAD, TILE, bigPieceText, tileSvg, type Face } from './pieces-svg';
 
 export interface ViewOpts {
   /** whose eyes: 0/1 = that side's own pieces are visible in 暗棋; −1 = everything visible (review) */
@@ -221,7 +221,7 @@ export class BoardView {
     const face = this.faceOf(s, pid);
     // a hidden enemy piece's markup must not depend on its type (no leak in the DOM)
     const type = face === 'up' ? s.ptype[pid] : -1;
-    return `${this.g.tile.shape}|${s.pside[pid]}|${type}|${face}|${this.opts.numbers ? 1 : 0}|${face === 'up' ? this.opts.rotOf(pid) : 0}`;
+    return `${this.g.tile.shape}|${s.pside[pid]}|${type}|${face}|${this.opts.numbers ? 1 : 0}|${face === 'up' ? this.opts.rotOf(pid) : 0}|${bigPieceText() ? 1 : 0}`;
   }
 
   private paint(pe: PieceEl, s: GameState, pid: number): void {

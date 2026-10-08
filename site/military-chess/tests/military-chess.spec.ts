@@ -288,8 +288,18 @@ test.describe('陆战棋', () => {
 
   test('deployment: an illegal swap is refused (layout stays legal), a legal swap goes through', async ({ page }) => {
     await open(page);
-    await page.evaluate(() => (window as any).__mc.app.go({ name: 'family' }));
-    await page.click('[data-testid="start"]');
+    // 和爸爸下 offers only 翻翻棋 now (Dad, 2026-10-08); the 明棋 deployment stays in the code: open it directly
+    await page.evaluate(() => (window as any).__mc.app.go({
+      name: 'deploy',
+      next: {
+        who: 'kid',
+        match: {
+          v: 1, id: 'deploy-test', mode: 'ming', setup: { firstMover: 0 }, actions: [], kidSide: 0, kidSeat: 'near', tags: {},
+          opponent: { kind: 'family', seating: 'side', names: ['小步步', '爸爸'] }, hints: 0, coachWarnings: 0, coachOverrides: 0, undos: 0,
+          startedAt: 0, ladder: false, house: { fanFlagLock: true, quietLimit: 80, shuttleMax: 3 },
+        },
+      },
+    }));
     await page.waitForFunction(() => (window as any).__mc.screen() === 'deploy');
     const layout = () => page.evaluate(() => (window as any).__mc.deploy().layout() as string);
     const tapSlot = async (k: number) => {

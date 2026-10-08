@@ -9,7 +9,7 @@ import { getSettings, hasPin, checkPin } from '@kit/settings';
 import { icon, mountKeypad } from '@kit/ui';
 import type { App } from '../app';
 import { ENDGAMES, LESSONS } from '../content';
-import { academyDone, bestBeaten, endgameTierUnlocked, endgamesDone, lessonById, lessonPassed, nextItem } from '../core/progress';
+import { PLAY_MODES, academyDone, bestBeaten, endgameTierUnlocked, endgamesDone, lessonById, lessonPassed, modeShown, nextItem } from '../core/progress';
 import { RANK_NAMES, insignia } from '../view/insignia';
 import { art, type ArtId } from '../view/cards-art';
 import { mcIcon } from '../view/icons';
@@ -44,8 +44,9 @@ export function todayCard(app: App): CardId {
   const wins = (m: 'fan' | 'ming' | 'an') => s.ladder[m].wins.reduce((a, b) => a + b, 0);
   if (lessonPassed(s, lessonById('F')) && wins('fan') === 0) return 'battle';
   if (lessonPassed(s, lessonById('L5')) && endgamesDone(s, 1) < 5 && !lessonPassed(s, lessonById('L6'))) return 'puzzle';
-  if (lessonPassed(s, lessonById('L7')) && wins('ming') === 0) return 'battle';
-  if (lessonPassed(s, lessonById('L8')) && wins('an') === 0) return 'battle';
+  // 明棋 / 暗棋 are not offered (PLAY_MODES, Dad 2026-10-08): their lessons no longer point at 对战
+  if (modeShown('ming') && lessonPassed(s, lessonById('L7')) && wins('ming') === 0) return 'battle';
+  if (modeShown('an') && lessonPassed(s, lessonById('L8')) && wins('an') === 0) return 'battle';
   if (nextItem(s)) return 'academy';
   for (const tier of [1, 2] as const) if (endgameTierUnlocked(s, tier) && endgamesDone(s, tier) < 8) return 'puzzle';
   return 'battle';
@@ -75,8 +76,9 @@ export class HomeScreen extends BaseScreen {
       return { value: done / n, label: `${done} / ${n}` };
     }
     if (id === 'battle') {
-      const best = (['fan', 'ming', 'an'] as const).reduce((a, m) => a + bestBeaten(s, m), 0);
-      return { value: best / 12, label: `${best} / 12` };
+      const best = PLAY_MODES.reduce((a, m) => a + bestBeaten(s, m), 0);
+      const all = PLAY_MODES.length * 4;
+      return { value: best / all, label: `${best} / ${all}` };
     }
     if (id === 'puzzle') {
       const done = endgamesDone(s, 1) + endgamesDone(s, 2);
@@ -85,9 +87,12 @@ export class HomeScreen extends BaseScreen {
     return { value: -1, label: s.family.games ? `下过 ${s.family.games} 盘` : '' };
   }
 
+  readonly phoneReady = true;
+
   protected render(): void {
     const portrait = this.o === 'portrait';
     const st = this.safeTop;
+    const ph = this.phone, W = this.W, H = this.H, tb = this.app.topBand, sr = this.app.safeR;
     this.el.replaceChildren();
     this.el.classList.add('mc-home');
     const save = this.app.save;
@@ -97,9 +102,24 @@ export class HomeScreen extends BaseScreen {
     const head = div('mc-home__head');
     head.dataset.testid = 'home-head';
     const showRank = save.firstRun.ft && !(this.ftPromos.length && !this.el.dataset.ftShown);
-    head.innerHTML = `<span class="mc-home__rank">${showRank ? insignia(save.rank, portrait ? 116 : 110) : ''}</span><div class="mc-home__who"><b>${name}</b><span>${showRank ? RANK_NAMES[save.rank] : ''}</span></div>`;
+    head.innerHTML = `<span class="mc-home__rank">${showRank ? insignia(save.rank, ph ? 64 : portrait ? 116 : 110) : ''}</span><div class="mc-home__who"><b>${name}</b><span>${showRank ? RANK_NAMES[save.rank] : ''}</span></div>`;
     let cardRects: Rect[];
-    if (portrait) {
+    // phones (Dad, 2026-10-08): 🏠 · tools on top, the header under them, the cards 2×2 (portrait) or in one
+    // row (landscape), the guide + caption + 继续 banner at the foot
+    const tool = ph ? 54 : 64, tgap = ph ? 6 : 10;
+    const toolsW = 3 * tool + 2 * tgap;
+    const resumeH = save.resume ? 62 : 0;
+    if (ph && portrait) {
+      abs(head, { x: 8, y: tb - 2, w: W - 16, h: 66 });
+      const gap = 10, w = (W - 12 - gap) / 2, y0 = tb + 70, foot = H - 6 - 72 - 6 - resumeH;
+      const h = Math.floor((foot - y0 - gap) / 2);
+      cardRects = [0, 1, 2, 3].map((k) => ({ x: 6 + (k % 2) * (w + gap), y: y0 + Math.floor(k / 2) * (h + gap), w, h }));
+    } else if (ph) {
+      const x0 = this.phoneCol + 4, gap = 10, w = (W - x0 - 6 - sr - 3 * gap) / 4, y0 = 6 + tool + 6;
+      abs(head, { x: x0, y: 4, w: W - x0 - toolsW - 12 - sr, h: tool + 4 });
+      const h = H - y0 - 6 - resumeH;
+      cardRects = [0, 1, 2, 3].map((k) => ({ x: x0 + k * (w + gap), y: y0, w, h }));
+    } else if (portrait) {
       abs(head, { x: 90, y: st + 16, w: 470, h: 110 });
       const w = 360, h = 340, gap = 18, x0 = (810 - 2 * w - gap) / 2, y0 = st + 150; // QA r2: cards fill the old empty band
       cardRects = [0, 1, 2, 3].map((k) => ({ x: x0 + (k % 2) * (w + gap), y: y0 + Math.floor(k / 2) * (h + gap), w, h }));
@@ -118,35 +138,42 @@ export class HomeScreen extends BaseScreen {
     const gear = button('xg-iconbtn mc-tool-btn mc-gear', `${icon('settings')}<svg class="mc-gear__ring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" pathLength="176"/></svg>`, () => this.gearTap(), 'gear');
     this.bindGear(gear);
     tools.append(medals, rules, gear);
-    abs(tools, portrait ? { x: 810 - 16 - 3 * 64 - 2 * 10, y: st + 12, w: 3 * 64 + 2 * 10, h: 64 } : { x: 1080 - 16 - 3 * 64 - 2 * 10, y: st - 6, w: 3 * 64 + 2 * 10, h: 64 });
+    if (ph) abs(tools, { x: W - 6 - sr - toolsW, y: portrait ? Math.max(6, Math.round(tb - (8 + 28) / (this.app.scale || 1) - tool / 2)) : 6, w: toolsW, h: tool });
+    else abs(tools, portrait ? { x: 810 - 16 - 3 * 64 - 2 * 10, y: st + 12, w: 3 * 64 + 2 * 10, h: 64 } : { x: 1080 - 16 - 3 * 64 - 2 * 10, y: st - 6, w: 3 * 64 + 2 * 10, h: 64 });
     this.el.appendChild(tools);
 
     CARDS.forEach((c, k) => {
       const pr = this.progress(c.id);
+      const r = cardRects[k];
+      const artSize = ph ? Math.max(48, Math.min(portrait ? 92 : 104, Math.round(r.h - 128))) : portrait ? 160 : 120;
       const bar = pr.value >= 0 ? `<span class="mc-cardbar"><i style="width:${Math.round(Math.min(1, pr.value) * 100)}%"></i></span><span class="mc-cardbar__t">${pr.label}</span>` : pr.label ? `<span class="mc-cardbar__t is-solo">${mcIcon('hands')}${pr.label}</span>` : '';
       const b = button(`xg-card mc-camp-card${this.today === c.id ? ' is-today' : ''}`, `
-        <span class="mc-camp-card__art">${art(c.art, portrait ? 160 : 120)}</span>
+        <span class="mc-camp-card__art">${art(c.art, artSize)}</span>
         <span class="mc-camp-card__title">${c.title}</span>
         <span class="mc-camp-card__sub">${c.sub}</span>
         <span class="mc-camp-card__bar">${bar}</span>`, () => this.pick(c), `card-${c.id}`);
-      abs(b, cardRects[k]);
+      abs(b, r);
       this.el.appendChild(b);
     });
 
     // guide + caption
     const guideHost = div('mc-home__guide');
-    if (portrait) {
-      abs(guideHost, { x: 24, y: 1080 - 16 - 150, w: 120, h: 150 });
-      abs(this.caption.el, { x: 170, y: 1080 - 16 - 100, w: 624, h: 84 });
+    if (ph) {
+      this.phoneFoot({ lift: resumeH, mood: 'happy' });
     } else {
-      abs(guideHost, { x: 56, y: 810 - 16 - 150, w: 120, h: 150 });
-      // QA r2: the bubble fits its text and sits right above the robot (bottom-anchored)
-      abs(this.caption.el, { x: 16, y: 0, w: 220, h: 0 });
-      Object.assign(this.caption.el.style, { top: 'auto', bottom: `${16 + 150 + 10}px`, height: 'auto', maxHeight: '230px' });
-      this.caption.el.classList.add('is-tall');
+      if (portrait) {
+        abs(guideHost, { x: 24, y: 1080 - 16 - 150, w: 120, h: 150 });
+        abs(this.caption.el, { x: 170, y: 1080 - 16 - 100, w: 624, h: 84 });
+      } else {
+        abs(guideHost, { x: 56, y: 810 - 16 - 150, w: 120, h: 150 });
+        // QA r2: the bubble fits its text and sits right above the robot (bottom-anchored)
+        abs(this.caption.el, { x: 16, y: 0, w: 220, h: 0 });
+        Object.assign(this.caption.el.style, { top: 'auto', bottom: `${16 + 150 + 10}px`, height: 'auto', maxHeight: '230px' });
+        this.caption.el.classList.add('is-tall');
+      }
+      this.el.append(guideHost, this.caption.el);
+      this.placeGuide(guideHost, 120, { mood: 'happy' });
     }
-    this.el.append(guideHost, this.caption.el);
-    this.placeGuide(guideHost, 120, { mood: 'happy' });
 
     // resume banner
     if (save.resume) {
@@ -156,7 +183,10 @@ export class HomeScreen extends BaseScreen {
         this.app.play('ui-confirm');
         this.app.go({ name: 'match', resume: true });
       }, 'resume');
-      if (portrait) abs(banner, { x: 170, y: 1080 - 16 - 64 - 100 - 12, w: 624, h: 64 });
+      if (ph) {
+        const x0 = portrait ? 70 : this.phoneCol + 4;
+        abs(banner, { x: x0, y: H - 6 - 56, w: W - x0 - 6 - sr, h: 56 });
+      } else if (portrait) abs(banner, { x: 170, y: 1080 - 16 - 64 - 100 - 12, w: 624, h: 64 });
       else abs(banner, { x: 1080 - 16 - 816, y: st + 64 + 576 + 16, w: 816, h: 64 });
       this.el.appendChild(banner);
     }
@@ -285,7 +315,8 @@ export class HomeScreen extends BaseScreen {
       // the finger that held the gear lifts over the new scrim: ignore that first click
       if (e.target === scrim && Date.now() - openedAt > 600) close();
     });
-    abs(sheet, this.o === 'portrait' ? { x: 165, y: 220, w: 480, h: 0 } : { x: 300, y: 60, w: 480, h: 0 });
+    if (this.phone) abs(sheet, this.o === 'portrait' ? { x: 10, y: Math.max(this.app.topBand, 60), w: this.W - 20, h: 0 } : { x: Math.round((this.W - 420) / 2), y: 6, w: 420, h: 0 });
+    else abs(sheet, this.o === 'portrait' ? { x: 165, y: 220, w: 480, h: 0 } : { x: 300, y: 60, w: 480, h: 0 });
     sheet.style.height = 'auto';
     scrim.appendChild(sheet);
     this.el.appendChild(scrim);

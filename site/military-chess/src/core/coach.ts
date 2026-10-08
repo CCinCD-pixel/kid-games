@@ -7,6 +7,10 @@
  *  C3 暗: a ≥ 师长 attacks a never-moved enemy piece that started in the enemy's back two rows
  *  C4 翻: flipping next to my face-up ≥ 旅长 while a bigger enemy (or a bomb) is still face down
  *  C5 the last mobile piece walks into a 大本营 (E4)
+ *  C6 (Dad, 2026-10-08) a piece that is neither 工兵 nor 炸弹 attacks a mine it can see (明棋 / a face-up
+ *     翻翻棋 mine / a 暗棋 piece the mover's notes pin down as a mine). The rules stay standard (the
+ *     attacker is lost), but nobody walks into a mine they know is there: ask first. Like C5 it shows
+ *     even with the alerts switched off, for whoever is moving (family games too), and is not capped.
  */
 import { adj, half, indexToSlot, isCamp, isHQ, type Side } from './board';
 import { bit, type Knowledge } from './belief';
@@ -16,7 +20,7 @@ import { BOMB, ENG, FLAG, MINE, isMobileType, rankOf } from './pieces';
 import { apply } from './rules';
 import type { GameState } from './state';
 
-export type CoachCode = 'C1' | 'C2' | 'C3' | 'C4' | 'C5';
+export type CoachCode = 'C1' | 'C2' | 'C3' | 'C4' | 'C5' | 'C6';
 export interface CoachAlert {
   code: CoachCode;
   line: string;
@@ -151,6 +155,18 @@ function c5(s: GameState, m: Move): CoachAlert | null {
   return { code: 'C5', line: 'mc.ref.enterhq', marks: [m.to] };
 }
 
+/** C6: a known mine in front of an attacker that would be lost on it (see the header) */
+export function knownMineAttack(s: GameState, m: Move, me: Side, k: Knowledge | null): CoachAlert | null {
+  if (m.kind !== 'attack') return null;
+  const att = s.ptype[m.pid];
+  if (att === ENG || att === BOMB) return null;
+  const d = s.board[m.to];
+  if (d < 0 || s.pside[d] === me) return null;
+  // 暗棋: only what the mover's own notes prove (never the true identity); 翻翻棋: face-up pieces only
+  const known = s.mode === 'an' ? !!k && k.mask[d] === bit(MINE) : s.ptype[d] === MINE && (s.mode !== 'fan' || !!s.pup[d]);
+  return known ? { code: 'C6', line: 'mc.coach.knownmine', marks: [m.to] } : null;
+}
+
 export interface CoachOpts {
   me: Side;
   knowledge: Knowledge | null;
@@ -160,11 +176,13 @@ export interface CoachOpts {
   enabled: boolean;
 }
 
-/** the alert for a move the child is about to commit, or null. C1 ignores the cap; C5 always shows. */
+/** the alert for a move the child is about to commit, or null. C1 ignores the cap; C5 and C6 always show. */
 export function coachCheck(s: GameState, a: Action, o: CoachOpts): CoachAlert | null {
   if (isMove(a)) {
     const m5 = c5(s, a);
     if (m5) return m5;
+    const m6 = knownMineAttack(s, a, o.me, o.knowledge);
+    if (m6) return m6;
   }
   if (!o.enabled) return null;
   const danger = flagDangerAfter(s, a, o.me, o.knowledge);

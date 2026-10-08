@@ -4,10 +4,10 @@
  */
 import { describe, expect, test } from 'vitest';
 import { BLUE, RED, parseSq, type Side } from '../src/core/board';
-import { newKnowledge } from '../src/core/belief';
+import { bit, newKnowledge } from '../src/core/belief';
 import { coachCheck, flagDangerNow, type CoachCode } from '../src/core/coach';
 import { parseNote } from '../src/core/notation';
-import { typeFromCode } from '../src/core/pieces';
+import { MINE, typeFromCode } from '../src/core/pieces';
 import { addPiece, newState, type GameState, type Mode } from '../src/core/state';
 
 /** { sq: 'r7' } face up; 翻翻棋: 'r7~' = face down */
@@ -104,5 +104,32 @@ describe('coach C5: the last mobile piece walks into a 大本营 (E4)', () => {
     expect(check(pos({ a1: 'rM', b2: 'r5', e5: 'r2', c1: 'rM', e12: 'bF', a12: 'b3' }), 'b2-b1')).toBeNull();
     expect(check(pos({ a1: 'rM', b2: 'r5', c1: 'rM', e12: 'bF', a12: 'b3' }), 'b2-b3')).not.toBe('C5');
     expect(check(pos({ a1: 'rF', d11: 'r4', d12: 'b2', e12: 'bF', a12: 'b3' }), 'd11xd12')).not.toBe('C5');
+  });
+});
+
+describe('coach C6: a known mine in front of a piece that would be lost on it (Dad, 2026-10-08)', () => {
+  test('positives: 明棋, a face-up 翻翻棋 mine, a 暗棋 piece the notes pin down — even with alerts off and the cap used up', () => {
+    expect(check(pos({ c6: 'r5', c7: 'bM', a1: 'rF', e12: 'bF' }), 'c6xc7')).toBe('C6');
+    expect(check(pos({ c6: 'r9', c7: 'bM', a1: 'rF', e12: 'bF' }), 'c6xc7', { enabled: false, used: 3 })).toBe('C6');
+    expect(check(pos({ c6: 'r5', c7: 'bM', b1: 'rF', d12: 'bF', a12: 'b3' }, 'fan'), 'c6xc7')).toBe('C6');
+    const s = pos({ c6: 'r5', c7: 'bM', a1: 'rF', e12: 'bF' }, 'an');
+    const k = newKnowledge(s, RED);
+    const mine = s.board[parseSq('c7')];
+    k.mask[mine] = bit(MINE);
+    const a = parseNote(s, 'c6xc7')!;
+    expect(coachCheck(s, a, { me: RED, knowledge: k, hidden: null, used: 3, enabled: false })?.code).toBe('C6');
+    expect(coachCheck(s, a, { me: RED, knowledge: k, hidden: null, used: 3, enabled: false })?.line).toBe('mc.coach.knownmine');
+  });
+  test('negatives: 工兵 digs it, a 炸弹 trades with it, an unproven 暗棋 piece, not a mine, a plain move', () => {
+    expect(check(pos({ c6: 'r1', c7: 'bM', a1: 'rF', e12: 'bF' }), 'c6xc7')).toBeNull();
+    expect(check(pos({ c6: 'rB', c7: 'bM', a1: 'rF', e12: 'bF' }), 'c6xc7')).toBeNull();
+    expect(check(pos({ c6: 'r5', c7: 'bM', a1: 'rF', e12: 'bF' }, 'an'), 'c6xc7')).not.toBe('C6');
+    expect(check(pos({ c6: 'r5', c7: 'b4', a1: 'rF', e12: 'bF' }), 'c6xc7')).not.toBe('C6');
+    expect(check(pos({ c6: 'r5', c8: 'bM', a1: 'rF', e12: 'bF' }), 'c6-c7')).not.toBe('C6');
+  });
+  test('family games (no coach): the controller fallback still asks, for whoever is moving', () => {
+    const s = pos({ c6: 'r5', c7: 'bM', a1: 'rF', e12: 'bF', c4: 'b5', c3: 'rM' }, 'ming', BLUE);
+    const a = parseNote(s, 'c4xc3')!;
+    expect(coachCheck(s, a, { me: BLUE, knowledge: null, hidden: null, used: 0, enabled: false })?.code).toBe('C6');
   });
 });
