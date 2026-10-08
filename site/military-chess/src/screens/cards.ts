@@ -680,7 +680,7 @@ export class CardScreen extends BaseScreen {
       const inner = parts.map((c) => `<span class="mc-opt__t">${tileOf(c, 1, 'wide')}</span>`).join('<i class="mc-opt__or">或</i>');
       const isAnswer = opt === it.answer;
       const crossed = this.crossed.has(opt);
-      const b = button(`mc-opt${parts.length > 1 ? ' is-combo' : ''}${crossed ? ' is-crossed' : ''}${this.solved && isAnswer ? ' is-right' : ''}`, `${inner}${crossed ? `<span class="mc-opt__x">${icon('close')}</span>` : ''}${this.solved && isAnswer ? `<span class="mc-opt__ok">${icon('check')}</span>` : ''}`, () => void this.pickOption(opt), `opt-${k}`);
+      const b = button(`mc-opt${parts.length > 1 ? ' is-combo' : ''}${parts.length > 1 && this.phone && portrait ? ' is-stack' : ''}${crossed ? ' is-crossed' : ''}${this.solved && isAnswer ? ' is-right' : ''}`, `${inner}${crossed ? `<span class="mc-opt__x">${icon('close')}</span>` : ''}${this.solved && isAnswer ? `<span class="mc-opt__ok">${icon('check')}</span>` : ''}`, () => void this.pickOption(opt), `opt-${k}`);
       b.dataset.opt = opt;
       abs(b, { x: ox0 + k * (ow + gap), y: oy, w: ow, h: oh });
       this.panel.appendChild(b);

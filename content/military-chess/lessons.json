@@ -2851,7 +2851,7 @@
    "id": "L7",
    "title": "布阵",
    "icon": "deploy",
-   "wrap": "和爸爸比一比：谁的阵摆得好",
+   "wrap": "考考爸爸：军旗要放在哪里？",
    "teaches": "军旗在大本营；地雷在最后两排；炸弹不在第一排；行营空着",
    "unlocks": "ladder:ming",
    "items": [

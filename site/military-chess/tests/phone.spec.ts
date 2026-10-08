@@ -134,6 +134,63 @@ test.describe('陆战棋 · phones', () => {
     expect(sheet!.y + sheet!.height).toBeLessThanOrEqual(vw.height + 1);
   });
 
+  test('规则卡: the read-aloud bubble never covers the card, 翻过来 or the dots; the art stays under the title (QA fb1 r2)', async ({ page }) => {
+    await open(page);
+    await go(page, { name: 'rules', from: 'home' });
+    const bad: string[] = [];
+    // a landscape phone is also checked at the iPhone SE's 568×320 (the narrowest card)
+    const sizes = page.viewportSize()!.width > page.viewportSize()!.height ? [null, { width: 568, height: 320 }] : [null];
+    for (const size of sizes) {
+    if (size) {
+      await page.setViewportSize(size);
+      await page.waitForTimeout(600);
+    }
+    for (let k = 1; k <= 8; k++) {
+      for (const back of [false, true]) {
+        await page.evaluate(([kk, bb]) => {
+          const s = (window as any).__mc.app.screen();
+          s.k = kk - 1;
+          s.flipped = bb;
+          s.render();
+          // the longest rule line, shown as it is while a card is read
+          s.caption.show('炸弹碰谁都一起下场，地雷只怕工兵和炸弹');
+        }, [k, back] as const);
+        await page.waitForTimeout(350);
+        const out = await page.evaluate(() => {
+          const res: string[] = [];
+          const R = (sel: string): DOMRect | null => document.querySelector(sel)?.getBoundingClientRect() ?? null;
+          const hit = (p: DOMRect | null, q: DOMRect | null): boolean => !!p && !!q && p.left < q.right - 1 && q.left < p.right - 1 && p.top < q.bottom - 1 && q.top < p.bottom - 1;
+          const card = R('[data-testid="rule-card"]')!, cap = R('.mc-caption.is-on'), flip = R('[data-testid="rule-flip"]')!;
+          const h2 = R('.mc-rulecard h2')!, art = R('.mc-rulecard__art'), dots = R('.mc-ruledots'), words = R('.mc-rulecard__t');
+          const inside = (r: DOMRect): boolean => r.left >= card.left - 1 && r.right <= card.right + 1 && r.top >= card.top - 1 && r.bottom <= card.bottom + 1;
+          if (!cap) res.push('no caption');
+          if (hit(cap, card)) res.push('caption over the card');
+          if (hit(cap, flip)) res.push('caption over 翻过来');
+          if (hit(cap, dots)) res.push('caption over the dots');
+          for (const id of ['rule-prev', 'rule-next']) if (hit(cap, R(`[data-testid="${id}"]`))) res.push(`caption over ${id}`);
+          if (!inside(flip)) res.push('翻过来 outside the card');
+          if (art && art.top < h2.bottom + 2) res.push(`art up into the title (${Math.round(art.top)} < ${Math.round(h2.bottom)})`);
+          if (art && !inside(art)) res.push('art outside the card');
+          if (hit(art, words)) res.push('art over the words');
+          if (hit(dots, h2)) res.push('dots over the title');
+          if (hit(R('.mc-rules > .mc-h1'), card)) res.push('card over the screen title');
+          if (hit(R('.mc-rulecard__n'), art) || hit(R('.mc-rulecard__n'), R('.mc-rulecard__back'))) res.push('number badge over the art / words');
+          if (hit(flip, words) || hit(flip, R('.mc-rulecard__front-note')) || hit(flip, R('.mc-rulecard__back'))) res.push('翻过来 over the words');
+          for (const sel of ['.mc-rulecard__t', '.mc-rulecard__front-note', '.mc-rulecard__back', '.mc-rulecard__note']) {
+            const e = document.querySelector(sel);
+            if (e && !inside(e.getBoundingClientRect())) res.push(`${sel} outside the card`);
+            if (e && (e.scrollHeight > e.clientHeight + 1 || e.scrollWidth > e.clientWidth + 1)) res.push(`${sel} spills out of its box`);
+          }
+          return res;
+        });
+        for (const o of out) bad.push(`${size ? '568×320 ' : ''}card ${k}${back ? ' (back)' : ''}: ${o}`);
+      }
+    }
+    }
+    expect(bad).toEqual([]);
+    expect(await audit(page)).toEqual([]);
+  });
+
   test('the result screen fits (flag win: rule line and actions on screen)', async ({ page }) => {
     await open(page);
     await page.evaluate(() => { (window as any).__mc.app.save.settings.coachAlerts = 'off'; });

@@ -7,7 +7,7 @@
 import { icon, showResult } from '@kit/ui';
 import type { App } from '../app';
 import { CARDS, ENDGAMES, LESSONS, lessonOf, endgameById, type Lesson } from '../content';
-import { awardCards, endgameTierUnlocked, promote, recordItem, starsOf, type Stars } from '../core/progress';
+import { awardCards, endgameTierUnlocked, modeShown, promote, recordItem, starsOf, type Stars } from '../core/progress';
 import { MS, d } from '../view/anim';
 import { mcIcon, type McIcon } from '../view/icons';
 import { promotionCeremony } from '../view/promo';
@@ -111,9 +111,10 @@ export async function lessonMilestone(app: App, host: HTMLElement, l: Lesson, in
   app.mark('lesson-complete', { lesson: l.id, stars });
   io.say(`mc.wrap.${l.id}`);
   const unlocks: string[] = [];
-  if (l.unlocks === 'ladder:fan') unlocks.push('翻翻棋对战开放了');
-  if (l.unlocks === 'ladder:ming') unlocks.push('明棋对战开放了');
-  if (l.unlocks === 'ladder:an') unlocks.push('暗棋对战开放了');
+  // only the modes 对战 offers (Dad, 2026-10-08: 翻翻棋 only — 明棋 / 暗棋 are put away, not announced)
+  if (l.unlocks === 'ladder:fan' && modeShown('fan')) unlocks.push('翻翻棋对战开放了');
+  if (l.unlocks === 'ladder:ming' && modeShown('ming')) unlocks.push('明棋对战开放了');
+  if (l.unlocks === 'ladder:an' && modeShown('an')) unlocks.push('暗棋对战开放了');
   if (l.id === 'L5' && endgameTierUnlocked(save, 1)) unlocks.push('残局开放了');
   const nextLesson = LESSONS[LESSONS.indexOf(l) + 1];
   const act = await showResult({

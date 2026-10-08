@@ -79,9 +79,14 @@ export class RulesScreen extends BaseScreen {
       this.el.appendChild(again);
     }
 
-    // phones: the card fills the area between the band and the paging row (portrait) / the paging buttons
+    // phones: the card fills the area between the band and the paging row (portrait). Landscape (QA fb1 r2
+    // major): it ends above the narration strip — the guide and the caption bubble bottom-left, 70 units
+    // tall — so a line being read never covers 翻过来; the page dots move into the card's title row.
+    const pland = ph && !portrait;
     const foot = H - 6 - 72 - 6;
-    const pc = portrait ? { x: 8, y: tb, w: W - 16, h: foot - 60 - tb } : { x: col + 4 + 62, y: 62, w: W - (col + 4 + 62) - 6 - sr - 62, h: H - 62 - 30 };
+    // landscape: the card starts under the title box (phoneTitle: 62 units on a 390-high phone, more on a smaller one)
+    const top = Math.max(62, Math.round(tb - 36 / (this.app.scale || 1) + 22));
+    const pc = portrait ? { x: 8, y: tb, w: W - 16, h: foot - 60 - tb } : { x: col + 4 + 62, y: top, w: W - (col + 4 + 62) - 6 - sr - 62, h: H - 6 - 70 - 6 - top };
     const cw = ph ? pc.w : portrait ? 620 : 760, ch = ph ? pc.h : portrait ? 760 : 560;
     const cx = ph ? pc.x : (W - cw) / 2, cy = ph ? pc.y : st + 74;
     const card = div(`mc-rulecard${this.flipped ? ' is-back' : ''}`);
@@ -89,18 +94,32 @@ export class RulesScreen extends BaseScreen {
     card.dataset.k = String(this.k + 1);
     abs(card, { x: cx, y: cy, w: cw, h: ch });
     const text = this.app.voice.text(`mc.rule.${this.k + 1}`);
+    const dotsHtml = Array.from({ length: 8 }, (_, i) => `<i class="${i === this.k ? 'is-cur' : ''}"></i>`).join('');
+    const head = `<div class="mc-rulecard__n">${this.k + 1}</div>${pland ? `<div class="mc-ruledots is-in" data-testid="rule-dots">${dotsHtml}</div>` : ''}<h2>${TITLES[this.k]}</h2>`;
     if (!this.flipped) {
-      const art = ph
-        ? portrait ? ruleArt(this.k + 1, cw - 28, Math.round(Math.min(290, ch * 0.56))) : ruleArt(this.k + 1, Math.round(ch * 0.98), Math.round(ch * 0.66))
-        : portrait ? ruleArt(this.k + 1, cw - 60, 440) : ruleArt(this.k + 1, 440, 400);
-      const note = FRONT_NOTES[this.k] ? `<p class="mc-rulecard__front-note" data-testid="rule-note">${FRONT_NOTES[this.k]}</p>` : '';
-      card.innerHTML = `<div class="mc-rulecard__n">${this.k + 1}</div><h2>${TITLES[this.k]}</h2><div class="mc-rulecard__art">${art}</div><p class="mc-rulecard__t">${phraseWrap(text)}</p>${note}`;
-      if (!portrait) card.classList.add('is-row');
-      if (ph && !portrait) card.style.gridTemplateColumns = `${Math.round(ch * 0.98)}px 1fr`;
+      const note = FRONT_NOTES[this.k] ? `<p class="mc-rulecard__front-note" data-testid="rule-note">${FRONT_NOTES[this.k].split(' · ').map((t) => phraseWrap(t)).join(' · ')}</p>` : '';
+      if (pland) {
+        // the art fills the row under the title (never up into it); the words, the note and 翻过来 beside it
+        const ah = ch - 56;
+        const aw = Math.min(Math.round(ah * 1.48), Math.round((cw - 42) * (cw < 560 ? 0.5 : 0.55)));
+        card.innerHTML = `${head}<div class="mc-rulecard__art">${ruleArt(this.k + 1, aw, ah)}</div><div class="mc-rulecard__side"><p class="mc-rulecard__t">${phraseWrap(text)}</p>${note}</div>`;
+        card.classList.add('is-row', 'is-pland');
+        card.style.gridTemplateColumns = `${aw}px minmax(0, 1fr)`;
+      } else {
+        const art = ph ? ruleArt(this.k + 1, cw - 28, Math.round(Math.min(290, ch * 0.56))) : portrait ? ruleArt(this.k + 1, cw - 60, 440) : ruleArt(this.k + 1, 440, 400);
+        card.innerHTML = `${head}<div class="mc-rulecard__art">${art}</div><p class="mc-rulecard__t">${phraseWrap(text)}</p>${note}`;
+        if (!portrait) card.classList.add('is-row');
+      }
     } else {
-      card.innerHTML = `<div class="mc-rulecard__n">${this.k + 1}</div><h2>${TITLES[this.k]}</h2><p class="mc-rulecard__back">${BACKS[this.k]}</p><p class="mc-rulecard__note">谜题和残局永远按标准规则；家规在家长面板里改。</p>`;
+      const back = `<p class="mc-rulecard__back">${BACKS[this.k]}</p>`;
+      const fine = '<p class="mc-rulecard__note">谜题和残局永远按标准规则；家规在家长面板里改。</p>';
+      card.innerHTML = pland ? `${head}${back}<div class="mc-rulecard__foot">${fine}</div>` : `${head}${back}${fine}`;
+      if (pland) card.classList.add('is-pland');
     }
-    card.appendChild(button('xg-btn xg-btn--ghost mc-rulecard__flip', `${icon('swap')}<span>${this.flipped ? '翻回来' : '翻过来'}</span>`, () => this.flip(), 'rule-flip'));
+    const flipBtn = button('xg-btn xg-btn--ghost mc-rulecard__flip', `${icon('swap')}<span>${this.flipped ? '翻回来' : '翻过来'}</span>`, () => this.flip(), 'rule-flip');
+    // a finger-sized target on the smallest landscape phone too (44 CSS px, the stage is scaled)
+    if (pland) flipBtn.style.minHeight = `${Math.ceil(44 / (this.app.scale || 1))}px`;
+    (card.querySelector('.mc-rulecard__side, .mc-rulecard__foot') ?? card).appendChild(flipBtn);
     card.addEventListener('click', (e) => {
       if ((e.target as HTMLElement).closest('button')) return;
       if (!this.flipped) void this.say(`mc.rule.${this.k + 1}`);
@@ -117,7 +136,7 @@ export class RulesScreen extends BaseScreen {
     const next = button('xg-iconbtn mc-page-btn', icon('next'), () => this.page(1), 'rule-next');
     prev.disabled = this.k === 0;
     next.disabled = this.k === 7;
-    const dots = div('mc-ruledots', Array.from({ length: 8 }, (_, i) => `<i class="${i === this.k ? 'is-cur' : ''}"></i>`).join(''));
+    const dots = div('mc-ruledots', dotsHtml);
     if (ph && portrait) {
       abs(prev, { x: 8, y: cy + ch + 4, w: 54, h: 54 });
       abs(next, { x: W - 8 - 54, y: cy + ch + 4, w: 54, h: 54 });
@@ -125,7 +144,6 @@ export class RulesScreen extends BaseScreen {
     } else if (ph) {
       abs(prev, { x: col + 4, y: cy + ch / 2 - 27, w: 54, h: 54 });
       abs(next, { x: W - 6 - sr - 54, y: cy + ch / 2 - 27, w: 54, h: 54 });
-      abs(dots, { x: cx, y: cy + ch + 6, w: cw, h: 20 });
     } else if (portrait) {
       abs(prev, { x: 24, y: cy + ch + 20, w: 72, h: 72 });
       abs(next, { x: W - 24 - 72, y: cy + ch + 20, w: 72, h: 72 });
@@ -135,7 +153,8 @@ export class RulesScreen extends BaseScreen {
       abs(next, { x: W - 24 - 72, y: cy + ch / 2 - 36, w: 72, h: 72 });
       abs(dots, { x: cx, y: cy + ch + 14, w: cw, h: 24 });
     }
-    this.el.append(prev, next, dots);
+    this.el.append(prev, next);
+    if (!pland) this.el.appendChild(dots);
     if (ph) {
       this.phoneFoot(portrait ? {} : { x: cx });
       return;

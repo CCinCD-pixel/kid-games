@@ -143,7 +143,7 @@ html[data-orientation="landscape"] body { background-image: url("@kit/textures/s
 .mc-tray__label i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
 
 /* ------------------------------------------------------------ companion + caption */
-.mc-bot { position: absolute; }
+.mc-bot { position: absolute; z-index: 49; } /* its own layer under the sheets' scrim (z 50): the kit bot is z 60 (QA fb1 r2: the guide sat on 接着下) */
 .mc-bot .kit-companion { position: absolute; left: 0; top: 0; }
 .mc-armband { position: absolute; pointer-events: none; z-index: 61; }
 .mc-caption {
@@ -969,7 +969,7 @@ html[data-mc-phone="1"] .mc-board-glyph { font-size: 23px; transform: translateY
 .mc-screen.is-phone .mc-seg { gap: 8px; }
 .mc-screen.is-phone .mc-seg__b { height: 54px; font-size: 19px; border-radius: 14px; }
 .mc-screen.is-phone .mc-seg__b .mc-icon { width: 24px; height: 24px; }
-.mc-screen.is-phone .mc-cpu-btn { font-size: 18px !important; }
+.mc-screen.is-phone .mc-cpu-btn { font-size: 18px !important; background: rgba(16, 20, 54, .66) !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); } /* ghost links over the moon / rocket art stay legible (QA fb1 r2) */
 /* 学堂 */
 .mc-academy.is-phone .xg-node { --s: 58px; font-size: 26px; }
 .mc-academy.is-phone .xg-node--current { --s: 66px; font-size: 30px; }
@@ -1023,6 +1023,23 @@ html[data-mc-phone="1"] .mc-board-glyph { font-size: 23px; transform: translateY
 .mc-rules.is-phone .mc-page-btn { --size: 54px; }
 .mc-rules.is-phone .mc-ruledots { gap: 8px; }
 .mc-rules.is-phone .mc-ruledots i { width: 11px; height: 11px; }
+/* phones, landscape (QA fb1 r2): the card ends above the narration strip. The art fills the row under the
+   title, 翻过来 stands in the words column (front) or the foot (back), the page dots in the title row. */
+.mc-rules.is-phone .mc-rulecard.is-pland { padding: 10px 14px; gap: 6px; column-gap: 14px; grid-template-rows: 30px minmax(0, 1fr); align-items: center; }
+.mc-rules.is-phone .mc-rulecard.is-pland h2 { line-height: 30px; }
+.mc-rulecard.is-pland .mc-rulecard__art { grid-row: 2; justify-self: center; }
+.mc-rulecard__side { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; min-width: 0; }
+.mc-rulecard.is-pland .mc-rulecard__front-note { margin: 0; text-align: left; }
+.mc-rules.is-phone .mc-rulecard.is-pland .mc-rulecard__flip { position: static !important; transform: none; flex: none; min-height: 44px; }
+.mc-rules.is-phone .mc-rulecard.is-pland.is-back { display: flex; flex-direction: column; align-items: stretch; }
+.mc-rulecard.is-pland.is-back h2 { align-self: center; }
+.mc-rules.is-phone .mc-rulecard.is-pland .mc-rulecard__back { margin: 4px 0 0; flex: 1; min-height: 0; font-size: 16px; line-height: 1.45; }
+.mc-rules.is-phone .mc-rulecard.is-pland .mc-rulecard__n { top: 8px; width: 34px; height: 34px; font-size: 19px; }
+.mc-rulecard__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.mc-rulecard__foot .mc-rulecard__note { text-align: left; }
+.mc-rules.is-phone .mc-ruledots.is-in { position: absolute; right: 14px; top: 10px; height: 30px; gap: 6px; }
+.mc-rules.is-phone .mc-ruledots.is-in i { width: 9px; height: 9px; background: rgba(94, 58, 28, .22); }
+.mc-rules.is-phone .mc-ruledots.is-in i.is-cur { background: var(--xg-army); }
 /* 家长面板 */
 .mc-pscroll { position: absolute; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 10px; border-radius: 18px; }
 .mc-pscroll .mc-pform { position: relative !important; left: auto !important; top: auto !important; width: auto !important; height: auto !important; overflow: visible; flex: none; }
@@ -1128,4 +1145,11 @@ html[data-mc-o="landscape"] .mc-formations.is-phone .mc-form { flex: 1 1 30%; }
 .mc-medals.is-phone .mc-kcard__how, .mc-medals.is-phone .mc-kcard__how b { font-size: 17px; }
 .mc-screen.is-phone .mc-dot-more { font-size: 17px; }
 .mc-parent.is-phone .mc-pform > * { flex: none; }
-.mc-screen.is-phone .mc-mode-line span, .mc-screen.is-phone .mc-sub { text-shadow: 0 1px 2px rgba(0, 0, 0, .6); }
+/* phones (QA fb1 r2): subtitles over the scenery (the moon, a satellite) sit on a soft night-blue backing */
+.mc-screen.is-phone .mc-mode-line span, .mc-screen.is-phone .mc-sub { text-shadow: 0 1px 2px rgba(0, 0, 0, .6); padding: 1px 10px; border-radius: 12px; background: rgba(12, 16, 44, .6); }
+/* phones (QA fb1 r2): the 或 of a pair answer and the = of a clue stay readable at the panel's scale;
+   in portrait the pair stacks, so both pieces can be bigger */
+.mc-screen.is-phone .mc-opt__or { font-size: 34px; }
+.mc-screen.is-phone .mc-ev__eq { font-size: 40px; }
+.mc-opt.is-stack { flex-direction: column; gap: 0; }
+.mc-opt.is-stack .mc-opt__t svg { width: 116px; }

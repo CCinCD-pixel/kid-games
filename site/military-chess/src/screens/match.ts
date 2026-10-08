@@ -389,9 +389,10 @@ export class MatchScreen extends BaseScreen {
       this.bars.push(far);
       this.el.appendChild(far.el);
       const px = bx + bw + 12, pw = 1068 - 52 - 12 - px;
-      intelRect = { x: px, y: st + 12, w: pw, h: 330 };
-      guideRect = { x: px, y: st + 360, w: 80, h: 100 };
-      capRect = { x: px, y: st + 466, w: pw, h: 150 };
+      // the 2-column 情报板 is 7 rows tall (358): its box fits it (QA fb1 r2: the 军旗 row was cut in half)
+      intelRect = { x: px, y: st + 12, w: pw, h: 364 };
+      guideRect = { x: px, y: st + 386, w: 80, h: 100 };
+      capRect = { x: px, y: st + 492, w: pw, h: 150 };
       menuRect = { x: px + pw - 56, y: 810 - 12 - 56, w: 56, h: 56 };
       hintRect = { x: px + pw - 56 - 12 - 56, y: 810 - 12 - 56, w: 56, h: 56 };
       abs(this.quiet.el, { x: px, y: st + 346, w: pw, h: 12 });

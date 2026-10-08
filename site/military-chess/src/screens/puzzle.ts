@@ -18,7 +18,7 @@ import { apply } from '../core/rules';
 import type { GameState } from '../core/state';
 import type { FailReason } from '../core/puzzle';
 import { praiseLine } from '../core/praise';
-import { awardCards, boardStars, cardStars, endgameTierUnlocked, promote, recordItem, starsOf } from '../core/progress';
+import { awardCards, boardStars, cardStars, endgameTierUnlocked, modeShown, promote, recordItem, starsOf } from '../core/progress';
 import { backToTree, bestNow, demoLine, redMove, replayPuzzle, startPuzzle, undoMove, type PuzzleCtx, type PuzzleSpec, type StepResult } from '../ctrl/puzzle-ctrl';
 import { sceneAction, sceneStart, sceneTargets } from '../ctrl/scene-ctrl';
 import { CARDS, ENDGAMES, LESSONS, itemById, lessonOf, loadBook, endgameById, type BoardItem, type Endgame, type SceneItem, type Lesson } from '../content';
@@ -817,9 +817,10 @@ export class PuzzleScreen extends BaseScreen {
     this.app.mark('lesson-complete', { lesson: l.id, stars });
     void this.say(`mc.wrap.${l.id}`, 'celebrating');
     const unlocks: string[] = [];
-    if (l.unlocks === 'ladder:fan') unlocks.push('翻翻棋对战开放了');
-    if (l.unlocks === 'ladder:ming') unlocks.push('明棋对战开放了');
-    if (l.unlocks === 'ladder:an') unlocks.push('暗棋对战开放了');
+    // only the modes 对战 offers (Dad, 2026-10-08: 翻翻棋 only — 明棋 / 暗棋 are put away, not announced)
+    if (l.unlocks === 'ladder:fan' && modeShown('fan')) unlocks.push('翻翻棋对战开放了');
+    if (l.unlocks === 'ladder:ming' && modeShown('ming')) unlocks.push('明棋对战开放了');
+    if (l.unlocks === 'ladder:an' && modeShown('an')) unlocks.push('暗棋对战开放了');
     if (l.id === 'L5' && endgameTierUnlocked(save, 1)) unlocks.push('残局开放了');
     const nextLesson = LESSONS[LESSONS.indexOf(l) + 1];
     const act = await showResult({

@@ -220,7 +220,7 @@ lines:
   - {"id":"mc.wrap.L4","role":"narrator","text":"告诉爸爸：火车只走直线，拐弯要分两步"}
   - {"id":"mc.wrap.L5","role":"narrator","text":"问问爸爸：哪个子能在铁路上拐弯？"}
   - {"id":"mc.wrap.L6","role":"narrator","text":"告诉爸爸：军旗旁边有敌人，先赶走它"}
-  - {"id":"mc.wrap.L7","role":"narrator","text":"和爸爸比一比：谁的阵摆得好"}
+  - {"id":"mc.wrap.L7","role":"narrator","text":"考考爸爸：军旗要放在哪里？"}
   - {"id":"mc.wrap.L8","role":"narrator","text":"考考爸爸：一步拐了弯的是谁？"}
   - {"id":"mc.ok.1","role":"companion","text":"这步想得很周全"}
   - {"id":"mc.ok.2","role":"companion","text":"你先看了铁路，再出发"}
