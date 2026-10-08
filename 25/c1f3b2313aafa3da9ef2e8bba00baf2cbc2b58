@@ -1,0 +1,54 @@
+site/military-chess/src/core/progress.ts
+  s_0eb5d4e8842e10::t_1103378845a186 223
+content/military-chess/stamp.json
+  s_0eb5d4e8842e10::t_26c6b1a0a51586 3-4
+content/military-chess/lessons.json
+  s_0eb5d4e8842e10::t_1103378845a186 373
+site/military-chess/src/view/phrase.ts
+  s_0eb5d4e8842e10::t_6afe07f3376ebf 46-47,66,75-107
+site/military-chess/src/screens/rules.ts
+  s_0eb5d4e8842e10::t_27afb829fe98e1 13,97
+site/military-chess/src/screens/result.ts
+  s_0eb5d4e8842e10::t_346c7602f9e6af 28,30,130,143-144,155-157,160-164,170-173,175,188,190,192-221,226,228-230,233,237-238,241-328,331,333-363,365-366,368-369,372
+site/military-chess/src/styles.css
+  s_0eb5d4e8842e10::t_27afb829fe98e1 698
+  s_0eb5d4e8842e10::t_0aa43fa0951816 908-909,1062,1064-1077
+  s_0eb5d4e8842e10::t_03dd4533a398eb 1063
+content/military-chess/lines.json
+  s_0eb5d4e8842e10::t_1103378845a186 455,1540
+site/military-chess/src/screens/puzzle.ts
+  s_0eb5d4e8842e10::t_c81a2c9ac054ca 895
+  s_0eb5d4e8842e10::t_27350dc60cb424 845-848,886-890
+site/military-chess/src/screens/ft.ts
+  s_0eb5d4e8842e10::t_105a56e0976ed6 66-73,75
+site/military-chess/tests/phone.spec.ts
+  s_0eb5d4e8842e10::t_8facf1679f561c 50-54,148-196
+site/military-chess/tests/feedback.spec.ts
+  s_0eb5d4e8842e10::t_0217891ba9aca6 53-56,61-74,76-78,153-164
+  s_0eb5d4e8842e10::t_eb6dd59033dfed 57-58
+  s_0eb5d4e8842e10::t_592d7f0e5a338e 75
+site/military-chess/src/screens/base.ts
+  s_0eb5d4e8842e10::t_27350dc60cb424 66,76
+  s_0eb5d4e8842e10::t_0aa43fa0951816 140,144-145
+content/military-chess/narration.yaml
+  s_0eb5d4e8842e10::t_1103378845a186 95,312
+site/military-chess/src/screens/match.ts
+  s_0eb5d4e8842e10::t_0aa43fa0951816 313-314,316-319,326-327
+  s_0eb5d4e8842e10::t_1ce627b5cec906 315
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "25c1f3b2313aafa3da9ef2e8bba00baf2cbc2b58",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
