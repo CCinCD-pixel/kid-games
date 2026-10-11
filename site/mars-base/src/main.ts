@@ -7,6 +7,8 @@ import { orbitStore, updateHub, type OrbitSave } from './orbit/save';
 import { openNumericPad } from './ui/pad';
 import { C1_NODES } from './cert/c1';
 import { renderC1Chapter, renderC1Feedback, renderC1Mission, renderC1Wrap, startC1Node, type C1Context } from './cert/ui';
+import { ADDITION_NODES } from './addition/model';
+import { renderAdditionChapter, renderAdditionFeedback, renderAdditionMission, renderAdditionWrap, startAdditionNode, type AdditionContext } from './addition/ui';
 import './styles.css';
 
 const root = document.getElementById('app')!;
@@ -16,7 +18,7 @@ let save: OrbitSave = orbitStore.load();
 let line: NumberLineControl | null = null;
 let answer = '';
 let subtitle: HTMLElement | null = null;
-type Route = 'onboarding' | 'map' | 'chapter' | 'mission' | 'feedback' | 'wrap' | 'certChapter' | 'certMission' | 'certFeedback' | 'certWrap';
+type Route = 'onboarding' | 'map' | 'chapter' | 'mission' | 'feedback' | 'wrap' | 'certOverview' | 'certChapter' | 'certMission' | 'certFeedback' | 'certWrap' | 'addChapter' | 'addMission' | 'addFeedback' | 'addWrap';
 let route: Route = 'map';
 let currentZone = 'orbit';
 let wrappedNode: OrbitNode | null = null;
@@ -81,6 +83,15 @@ const c1Context: C1Context = {
   mark: (name, data) => { shell.session?.mark(name, data); },
   replay: () => { void voice.replay(); },
 };
+const additionContext: AdditionContext = {
+  root,
+  get save() { return save; },
+  persist,
+  speak,
+  go: (screen) => show(screen),
+  mark: (name, data) => { shell.session?.mark(name, data); },
+  replay: () => { void voice.replay(); },
+};
 
 function show(next: Route): void {
   line?.destroy();
@@ -95,10 +106,15 @@ function show(next: Route): void {
   if (next === 'mission') renderMission();
   if (next === 'feedback') renderFeedback();
   if (next === 'wrap') renderWrap();
+  if (next === 'certOverview') renderCertOverview();
   if (next === 'certChapter') renderC1Chapter(c1Context);
   if (next === 'certMission') renderC1Mission(c1Context);
   if (next === 'certFeedback') renderC1Feedback(c1Context);
   if (next === 'certWrap') renderC1Wrap(c1Context);
+  if (next === 'addChapter') renderAdditionChapter(additionContext);
+  if (next === 'addMission') renderAdditionMission(additionContext);
+  if (next === 'addFeedback') renderAdditionFeedback(additionContext);
+  if (next === 'addWrap') renderAdditionWrap(additionContext);
 }
 
 function renderOnboarding(): void {
@@ -121,12 +137,32 @@ function nextOrbitNode(): OrbitNode | undefined {
   return ORBIT_NODES.find((node) => !save.completed.includes(node.id) && !save.skipped.includes(node.id));
 }
 
+function renderCertOverview(): void {
+  const main = document.createElement('main');
+  main.className = 'mb-chapter mb-cert-overview';
+  main.append(head('认证站', () => show('map')), text('p', '在练习舱里建好位值牌和加法牌。', 'mb-chapter__intro'));
+  const choices = document.createElement('div');
+  choices.className = 'mb-cert-choices';
+  const chapters = [
+    { title: '位值牌', detail: '读数、搭数、换着拆', done: save.cert.completed.length, total: 6, route: 'certChapter' as Route },
+    { title: '加法牌', detail: '合晶、进位、凑整十', done: save.addition.completed.length, total: 8, route: 'addChapter' as Route },
+  ];
+  for (const chapter of chapters) {
+    const choice = makeButton('', () => show(chapter.route), 'mb-cert-choice');
+    choice.append(text('strong', chapter.title), text('span', chapter.detail), text('span', `${chapter.done}/${chapter.total} 座设施`));
+    choices.append(choice);
+  }
+  main.append(choices);
+  root.append(main);
+  speak('这里有位值牌和加法牌。你想先做哪一块？');
+}
+
 function renderMap(): void {
   const main = document.createElement('main');
   main.className = 'mb-map';
   const top = document.createElement('div');
   top.className = 'mb-map__top';
-  top.append(head('祝融基地'), text('p', `${save.completed.length} 座轨道设施已建成`, 'mb-map__status'));
+  top.append(head('祝融基地'), text('p', `${save.completed.length + save.cert.completed.length + save.addition.completed.length} 座基地设施已建成`, 'mb-map__status'));
   const landscape = document.createElement('div');
   landscape.className = 'mb-landscape';
   const sky = document.createElement('div');
@@ -137,7 +173,7 @@ function renderMap(): void {
   zones.className = 'mb-zones';
   Object.keys(zoneNames).forEach((id) => {
     const available = id === 'orbit' || id === 'cert';
-    const button = makeButton('', () => { if (available) { currentZone = id; show(id === 'cert' ? 'certChapter' : 'chapter'); } }, `mb-zone mb-zone--${id}`);
+    const button = makeButton('', () => { if (available) { currentZone = id; show(id === 'cert' ? 'certOverview' : 'chapter'); } }, `mb-zone mb-zone--${id}`);
     button.disabled = !available;
     button.setAttribute('aria-label', `${zoneNames[id]}${available ? '' : '建设中'}`);
     button.append(text('span', zoneSymbols[id], 'mb-zone__symbol'), text('span', zoneNames[id], 'mb-zone__name'));
@@ -180,6 +216,7 @@ function renderChapter(): void {
 }
 
 function startNode(node: OrbitNode): void {
+  save.activeArea = 'orbit';
   if (!save.active || save.active.nodeId !== node.id) {
     save.active = { nodeId: node.id, seed: Math.floor(Math.random() * 0x7fffffff), index: 0, attempts: 0, estimates: [], firstTry: [] };
     persist();
@@ -346,6 +383,7 @@ function finishNode(node: OrbitNode): void {
   if (!save.completed.includes(node.id)) save.completed.push(node.id);
   shell.session?.mark('mission-end', { node: node.id, firstTry: active.firstTry.filter(Boolean).length, hints: 0 });
   save.active = undefined;
+  save.activeArea = undefined;
   wrappedNode = node;
   persist();
   show('wrap');
@@ -372,9 +410,14 @@ void shell.ready.then(() => {
     if (node) { startNode(node); return; }
     const c1 = C1_NODES.find((entry) => entry.id === params.get('node'));
     if (c1) { startC1Node(c1Context, c1); return; }
+    const addition = ADDITION_NODES.find((entry) => entry.id === params.get('node'));
+    if (addition) { startAdditionNode(additionContext, addition); return; }
   }
-  if (save.active && ORBIT_NODES.some((node) => node.id === save.active?.nodeId)) show('mission');
+  if (save.activeArea === 'addition' && save.addition.active && ADDITION_NODES.some((node) => node.id === save.addition.active?.nodeId)) show('addMission');
+  else if (save.activeArea === 'cert' && save.cert.active && C1_NODES.some((node) => node.id === save.cert.active?.nodeId)) show('certMission');
+  else if (save.active && ORBIT_NODES.some((node) => node.id === save.active?.nodeId)) show('mission');
   else if (save.cert.active && C1_NODES.some((node) => node.id === save.cert.active?.nodeId)) show('certMission');
+  else if (save.addition.active && ADDITION_NODES.some((node) => node.id === save.addition.active?.nodeId)) show('addMission');
   else show(save.onboardingDone ? 'map' : 'onboarding');
 });
 

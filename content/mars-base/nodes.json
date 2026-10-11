@@ -583,7 +583,12 @@
    "items": [
     {
      "fam": "add.2d2d",
-     "count": 6
+     "count": 3
+    },
+    {
+     "fam": "add.2d2d",
+     "count": 3,
+     "band": 2
     }
    ],
    "di": 4,

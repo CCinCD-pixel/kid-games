@@ -48,6 +48,7 @@ function nextC1Node(save: OrbitSave): C1Node | undefined {
 }
 
 export function startC1Node(ctx: C1Context, node: C1Node): void {
+  ctx.save.activeArea = 'cert';
   if (ctx.save.cert.active?.nodeId !== node.id) {
     ctx.save.cert.active = { nodeId: node.id, seed: Math.floor(Math.random() * 0x7fffffff), index: 0, draft: '', attempts: 0, firstTry: [] };
     ctx.persist();
@@ -325,6 +326,7 @@ function finishC1(ctx: C1Context, node: C1Node): void {
   if (!ctx.save.cert.completed.includes(node.id)) ctx.save.cert.completed.push(node.id);
   ctx.mark('mission-end', { node: node.id, firstTry: active.firstTry.filter(Boolean).length, hints: 0 });
   ctx.save.cert.active = undefined;
+  ctx.save.activeArea = undefined;
   lastFinished = node;
   ctx.persist();
   ctx.go('certWrap');

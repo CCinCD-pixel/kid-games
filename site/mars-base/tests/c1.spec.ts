@@ -48,6 +48,7 @@ test('read crystals, build numbers, resume, and complete the first C1 station', 
   await expect(page.locator('#app[data-screen="certWrap"]')).toBeVisible();
   await page.getByRole('button', { name: '回基地' }).click();
   await page.getByRole('button', { name: '认证站' }).click();
+  await page.getByRole('button', { name: /位值牌/ }).click();
   await expect(page.locator('.mb-node--done')).toHaveCount(1);
   expect(errors).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
@@ -92,8 +93,9 @@ test('v1 orbit progress migrates without losing completed nodes', async ({ page 
   });
   await page.goto('/mars-base/?test=1&mute=1');
   const data = await page.evaluate(() => JSON.parse(localStorage.getItem('kg:v1:mars-base') ?? '{}'));
-  expect(data.v).toBe(2);
+  expect(data.v).toBe(3);
   expect(data.data.completed).toEqual(['orbit.O1.0']);
   expect(data.data.skipped).toEqual(['orbit.O1.1']);
   expect(data.data.cert.completed).toEqual([]);
+  expect(data.data.addition.completed).toEqual([]);
 });

@@ -16,6 +16,23 @@ export interface ActiveC1 {
   lastCorrect?: boolean;
 }
 
+export interface ActiveAddition {
+  nodeId: string;
+  seed: number;
+  index: number;
+  draft: string;
+  firstPart?: number;
+  secondPart?: number;
+  carry?: number;
+  method?: 'place' | 'round';
+  methodReady?: boolean;
+  tray?: TrayState;
+  trayBefore?: TrayState;
+  attempts: number;
+  firstTry: boolean[];
+  lastCorrect?: boolean;
+}
+
 export interface ActiveOrbit {
   nodeId: string;
   seed: number;
@@ -29,24 +46,28 @@ export interface ActiveOrbit {
 
 export interface OrbitSave {
   onboardingDone: boolean;
+  activeArea?: 'orbit' | 'cert' | 'addition';
   completed: string[];
   skipped: string[];
   active?: ActiveOrbit;
   calibrations: { nodeId: string; at: number; score: CalibrationScore }[];
   cert: { completed: string[]; active?: ActiveC1 };
+  addition: { completed: string[]; active?: ActiveAddition };
 }
 
 export const orbitStore = createStore<OrbitSave>('mars-base', {
-  version: 2,
-  defaults: () => ({ onboardingDone: false, completed: [], skipped: [], calibrations: [], cert: { completed: [] } }),
+  version: 3,
+  defaults: () => ({ onboardingDone: false, completed: [], skipped: [], calibrations: [], cert: { completed: [] }, addition: { completed: [] } }),
   migrate: (old, from) => {
-    if (from !== 1 || !old || typeof old !== 'object') throw new Error('Unsupported Mars save');
-    const previous = old as Omit<OrbitSave, 'cert'>;
-    return { ...previous, cert: { completed: [] } };
+    if (!old || typeof old !== 'object') throw new Error('Unsupported Mars save');
+    if (from === 1) return { ...(old as Omit<OrbitSave, 'cert' | 'addition'>), cert: { completed: [] }, addition: { completed: [] } };
+    if (from === 2) return { ...(old as Omit<OrbitSave, 'addition'>), addition: { completed: [] } };
+    throw new Error('Unsupported Mars save');
   },
 });
 
 export function updateHub(save: OrbitSave): void {
   const finished = save.completed.length;
-  setHubProgress('mars-base', { label: finished || save.cert.completed.length ? `轨道 ${finished}/11 · 位值 ${save.cert.completed.length}/6` : '基地待建造', value: (finished + save.cert.completed.length) / 17 });
+  const built = finished + save.cert.completed.length + save.addition.completed.length;
+  setHubProgress('mars-base', { label: built ? `轨道 ${finished}/11 · 位值 ${save.cert.completed.length}/6 · 加法 ${save.addition.completed.length}/8` : '基地待建造', value: built / 25 });
 }
