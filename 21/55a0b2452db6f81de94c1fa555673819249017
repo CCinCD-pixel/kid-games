@@ -1,0 +1,21 @@
+site/_hub/main.ts
+  s_e8836c6d1c92e0::t_795e47d2897808 227-229
+tests/smoke/smoke.spec.ts
+  s_e8836c6d1c92e0::t_795e47d2897808 65-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "2155a0b2452db6f81de94c1fa555673819249017",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
