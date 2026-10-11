@@ -1,0 +1,58 @@
+site/snake-battle/src/input/touch-router.ts
+  s_e8836c6d1c92e0::t_65cc569cde39bd 21,49-52
+site/snake-battle/src/match.ts
+  s_e8836c6d1c92e0::t_ea873bd72d2422 9
+  s_e8836c6d1c92e0::t_65cc569cde39bd 46-48,78,80,101,105,112,208-215,222
+  s_e8836c6d1c92e0::t_bf6d6d113def43 106-111
+site/snake-battle/src/styles.css
+  s_e8836c6d1c92e0::t_39dd28e39fc96c 92,95-96
+  s_e8836c6d1c92e0::t_36bb7a589d8b00 94
+  s_e8836c6d1c92e0::t_e572a0e1279c8a 62,85
+  s_e8836c6d1c92e0::t_ea873bd72d2422 69
+  s_e8836c6d1c92e0::t_a906bbc3db081b 93
+  s_e8836c6d1c92e0::t_6652f8cc1425b8 63-68,70-84,86-91
+site/snake-battle/tests/versus.spec.ts
+  s_e8836c6d1c92e0::t_d408e1ca904253 73-76
+  s_e8836c6d1c92e0::t_1f1beb660d669c 87-90,92-102,112-129
+  s_e8836c6d1c92e0::t_c39d62ce9fab2a 91,111
+  s_e8836c6d1c92e0::t_5263e60d18a78f 103-110
+  s_e8836c6d1c92e0::t_bf1aaea99857aa 1-21,23-24,26-52,68-72,77-86
+  s_e8836c6d1c92e0::t_bf6d6d113def43 22,25
+  s_e8836c6d1c92e0::t_ea873bd72d2422 53-67
+site/snake-battle/src/versus.ts
+  s_e8836c6d1c92e0::t_31b4be27d5ae32 1-6,9-21,24-27,29-70,72-97,99-102,105,111-118,120-121,123-139,141-165,167-170
+  s_e8836c6d1c92e0::t_6652f8cc1425b8 7
+  s_e8836c6d1c92e0::t_7d4b4204c87043 8,22-23,28,71,98,140,166
+  s_e8836c6d1c92e0::t_1691d65548554b 103-104,108-109
+  s_e8836c6d1c92e0::t_ea873bd72d2422 106-107,110,119,122
+site/snake-battle/src/render/view.ts
+  s_e8836c6d1c92e0::t_1691d65548554b 106
+  s_e8836c6d1c92e0::t_65cc569cde39bd 53-54,56,60,72,74,77-78,140,176
+  s_e8836c6d1c92e0::t_ea873bd72d2422 13,138
+site/snake-battle/src/screens.ts
+  s_e8836c6d1c92e0::t_36bb7a589d8b00 218
+  s_e8836c6d1c92e0::t_31b4be27d5ae32 165,219-220
+site/snake-battle/src/app.ts
+  s_e8836c6d1c92e0::t_1691d65548554b 182
+  s_e8836c6d1c92e0::t_7d4b4204c87043 187
+  s_e8836c6d1c92e0::t_31b4be27d5ae32 15,70,130,153,179-181,183-186,188-190,545,604
+  s_e8836c6d1c92e0::t_d408e1ca904253 136
+site/snake-battle/validate/versus.test.ts
+  s_e8836c6d1c92e0::t_fdf1742ac8366b 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "252a7f992f07b5196d6ab785836cdc47f0f55610",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
