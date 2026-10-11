@@ -8,6 +8,7 @@ import { puzzleStars, costOf, type Puzzle } from '../lane/puzzle';
 import { coachLine, makeCoachMemory, followed, askLine, conceptLineId, type CoachLine, type CoachMemory } from '../lane/coach';
 import { starsOf } from '../lane/stars';
 import { UNITS } from '../lane/tables';
+import { campaignBalance } from '../lane/balance';
 import { TPS, T as TILE, ASSIST, ASSIST2 } from '../lane/rules';
 import { FEARS } from '../lane/tags';
 import { learned } from '../lane/learn';
@@ -66,7 +67,8 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   const pz = ghost ? null : o.puzzle ?? null; let setup = !!pz; const placed: Placed[] = pz ? pz.placed.map((q) => ({ ...q })) : [];
   const tier = ghost ? 0 : (o.assist ?? 0);
   const L: Level = { ...o.level, loadout: ghost ? (ghost.loadout.length ? ghost.loadout : o.level.loadout) : o.loadout };
-  const simOpt = { events: true, assist: tier, extraStart: tier === 2 ? ASSIST2.startGrain : tier ? ASSIST.startGrain : 0, logCap: tier === 2 ? ASSIST2.logs : 1 };
+  const simOpt = { events: true, assist: tier, extraStart: tier === 2 ? ASSIST2.startGrain : tier ? ASSIST.startGrain : 0, logCap: tier === 2 ? ASSIST2.logs : 1,
+    ...(ghost || pz ? {} : campaignBalance(L)) };
   const fresh = (seed: number): SimState => createSim(L, seed, simOpt);
   sfx.prepareLevel(L, L.loadout); // only this level's sounds stay synthesized (spec §8.6 audio budget)
   let S: SimState;
@@ -724,16 +726,16 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     const inc = (S.skyNext >= 0 && !night ? 20 / 8 : 0) + S.units.reduce((a, u) => a + (u.k === 'farm' ? (night ? 10 : 20) / 18 : u.k === 'bank' && S.tick >= (u.armAt || 0) ? 50 / 16 : 0), 0);
     const isHeld = speedSel > 1 && held(S, hold); const key = [S.grain, S.tick >> 3, S.parts, S.tokens, speedSel, S.belt.length, S.stats.logsUsed, isHeld].join('|'); if (key === lastHud) return; lastHud = key;
     if (L.belt) { if (!bin.classList.contains('is-belt')) { bin.classList.add('is-belt'); (bin.firstElementChild as HTMLElement).innerHTML = HORSE_SVG; } } else (bin.firstElementChild as HTMLElement).textContent = String(S.grain);
-    if ((S.tick & 31) === 0 || !bin.lastElementChild!.textContent) (bin.lastElementChild as HTMLElement).textContent = L.belt ? '驿马送牒' : pz ? `预算 ${pz.p.budget}` : `每分钟 +${Math.floor(60 * inc)}`;
+    if ((S.tick & 31) === 0 || !bin.lastElementChild!.textContent) (bin.lastElementChild as HTMLElement).textContent = L.belt ? '驿马送牒' : pz ? `预算 ${pz.p.budget}` : `每分钟 +${Math.floor(60 * inc * S.im / 100)}`;
     if (pzQ) for (const m of pzQ.querySelectorAll<HTMLElement>('.gf-pzq__m')) m.classList.toggle('is-out', S.tick >= Math.round(+m.dataset.t! * TPS));
     const left = Math.max(0, (S.flags.length ? S.flags[S.flags.length - 1] : S.endTick) - S.tick) / TPS; // 沙漏: counted to the last 战鼓 (rev d)
     for (const b of cardEls) {
       if (pz) { const c = b.dataset.card!; const short = UNITS[c].cost - S.grain; b.classList.toggle('is-poor', setup && short > 0); b.classList.toggle('is-ready', setup && short <= 0); setShort(b.querySelector('.gf-card__short') as HTMLElement, setup ? short : 0); continue; }
-      const c = b.dataset.card!; const cd = L.belt ? 0 : Math.max(0, (S.cdReady[c] ?? 0) - S.tick); const full = UNITS[c].cd || 1;
+      const c = b.dataset.card!; const cd = L.belt ? 0 : Math.max(0, (S.cdReady[c] ?? 0) - S.tick); const full = Math.round((UNITS[c].cd * S.cooldownPct) / 100) || 1;
       (b.querySelector('.gf-card__cd') as HTMLElement).style.height = `${Math.min(100, (cd / full) * 100)}%`;
       const short = L.belt ? 0 : UNITS[c].cost - S.grain; b.classList.toggle('is-poor', short > 0); b.classList.toggle('is-ready', cd === 0 && short <= 0);
       setShort(b.querySelector('.gf-card__short') as HTMLElement, short);
-      const payback = c === 'farm' ? (night ? 63 : 27) : c === 'bank' ? 42 : 0; b.classList.toggle('is-late', payback > 0 && left < payback);
+      const payback = c === 'farm' ? (night ? 63 : 27) : c === 'bank' ? 42 : 0; b.classList.toggle('is-late', payback > 0 && left < Math.ceil(payback * 100 / S.im));
     }
     const ring = box.querySelector('.fg') as SVGCircleElement; ring.style.strokeDashoffset = String(100.5 * (1 - Math.min(20, S.parts) / 20));
     box.classList.toggle('is-ready', S.tokens > 0); box.classList.toggle('is-full', S.tokens >= 3);

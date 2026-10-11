@@ -40,7 +40,7 @@ export function createSim(level: Level, seed = 1, opt: SimOptions = {}): SimStat
     smokeHard: [0, 0, 0, 0, 0], waterNow: [0, 0, 0, 0, 0], water: [0, 0, 0, 0, 0], rock: [], highg: [],
     nextId: 1, si: 0, spawns: [], result: null, cdReady: {}, mark: 0,
     belt: [], beltNext: 0, beltI: 0, skyNext: -1, endTick: 0,
-    im: opt.incomePct ?? L.incomePct ?? 100, imr: 0, assist: opt.assist ? (opt.assist === 2 ? 2 : 1) : 0,
+    im: opt.incomePct ?? L.incomePct ?? 100, imr: 0, cooldownPct: opt.cooldownPct ?? 100, assist: opt.assist ? (opt.assist === 2 ? 2 : 1) : 0,
     flags: (L.flags || []).slice(), dawnAt: L.env?.dawnAt ?? null, loadout: (L.loadout || []).slice(), drumUsed: [],
     logCap: opt.logCap ?? 1,
     flood: [0, 0, 0, 0, 0], floodI: 0, boss: null, wood: 0,
@@ -62,9 +62,9 @@ export function createSim(level: Level, seed = 1, opt: SimOptions = {}): SimStat
   }).sort((a, b) => a.t - b.t || a.i - b.i);
   const lastSpawn = S.spawns.length ? S.spawns[S.spawns.length - 1].t : 0;
   S.endTick = (L.endTick ?? lastSpawn + GRACE);
-  for (const c of L.loadout || []) S.cdReady[c] = UNITS[c]?.startCd ?? 0;
+  for (const c of L.loadout || []) S.cdReady[c] = Math.round(((UNITS[c]?.startCd ?? 0) * S.cooldownPct) / 100);
   if (L.sky !== false) S.skyNext = L.skyAfterKill ? -2 : SKY.first; // -2: 1-1 — the first sky drop waits for the first dismantle
-  if (L.belt) { S.beltNext = L.belt.first; S.beltPeriod = opt.assist ? Math.round((L.belt.period * 4) / 5) : L.belt.period; }
+  if (L.belt) { S.beltNext = L.belt.first; S.beltPeriod = Math.round(L.belt.period * (opt.assist ? 80 : 100) * (opt.beltPeriodPct ?? 100) / 10000); }
   if (L.boss) BOSS.init(S, L.boss);
   if (L.family) { S.wood = (L.family.start || 0) * 10; }
   if (L.puzzle) S.logs = [1, 1, 1, 1, 1]; // 锦囊谜题: no 檑木
@@ -271,7 +271,7 @@ function place(S: SimState, card: CardId, lane: number, col: number): boolean {
   if (why) { ev(S, 'reject', { card, lane, col, why }); return false; }
   const D = UNITS[card];
   if (S.L.belt) S.belt.splice(S.belt.indexOf(card), 1);
-  else { S.grain -= D.cost; S.stats.spent += D.cost; S.cdReady[card] = S.tick + D.cd; }
+  else { S.grain -= D.cost; S.stats.spent += D.cost; S.cdReady[card] = S.tick + Math.round((D.cd * S.cooldownPct) / 100); }
   S.stats.placed++; S.stats.placedByCard[card] = (S.stats.placedByCard[card] || 0) + 1;
   if (card === 'pit') { S.stats.pitsIn = S.stats.pitsIn || [0, 0, 0, 0, 0]; S.stats.pitsIn[lane]++; }
   if (card === 'strike') { S.strikes.push({ lane, col, at: S.tick + D.delay! }); ev(S, 'strike', { lane, col }); return true; }

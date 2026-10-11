@@ -1,6 +1,7 @@
 // V8 evaluation (validators only) — port of the batch / chain parts of proto/v1/worker2.mjs + report-v1d.mjs.
 // Same seeds (1..N), same options, same bots → the same numbers as the prototype's out/v1/report.json (V4b).
 import { ASSIST, ASSIST2, TPS, T } from '../lane/rules';
+import { campaignBalance } from '../lane/balance';
 import { createSim, step, snapshot, restore, type Snapshot } from '../lane/sim';
 import { starsOf } from '../lane/stars';
 import { failCause, checkFacts, LESSON_CAUSES } from '../lane/failcause';
@@ -11,14 +12,15 @@ import type { Level, SimState } from '../lane/types';
 const MAXT = 20 * 60 * 12;
 const tierOf = (bot: string): number => (bot === 'Kb' ? 2 : bot === 'Ka' || bot === 'Kr' ? 1 : 0);
 /** batch options = the prototype's `m.opt` (goes to levelFor AND makeBot) */
-export type EvalOpt = LevelForOptions & MakeBotOptions;
+export type EvalOpt = LevelForOptions & MakeBotOptions & { campaign?: boolean };
 // the level's 怕什么 pair the child should learn there (review B4: ≥ 90 % of K2 wins) — proto worker2 LEARN_PAIR
 export const LEARN_PAIR: Record<string, [string, string[]]> = { '1-1': ['walker', ['shooter']], '1-4': ['shielder', ['lobber']], '1-5': ['ram', ['spikes']], '1-7': ['ant', ['burner']], '1-9': ['brute', ['beam']],
   '2-2': ['flyer', ['radial']], '2-3': ['flyer', ['gust']], '2-4': ['smoker', ['gust', 'lobber']], '2-6': ['ladder', ['hook']], '2-8': ['drummer', ['strike', 'lobber']], '2-10': ['shielder_m', ['lobber', 'burner', 'beam']] };
 
 export function play(base: Level, bot: string, seed: number, coachLifetime?: Record<string, number>, opt: EvalOpt = {}, incomePct?: number): { S: SimState; coach?: Record<string, number> } {
   const lv = levelFor(base, bot, seed, opt); const tier = tierOf(bot);
-  const S = createSim(lv, seed, { incomePct, extraStart: tier === 2 ? ASSIST2.startGrain : tier ? ASSIST.startGrain : 0, assist: tier, events: true, logCap: tier === 2 ? ASSIST2.logs : 1 });
+  const S = createSim(lv, seed, { ...(opt.campaign ? campaignBalance(lv) : {}), ...(incomePct == null ? {} : { incomePct }),
+    extraStart: tier === 2 ? ASSIST2.startGrain : tier ? ASSIST.startGrain : 0, assist: tier, events: true, logCap: tier === 2 ? ASSIST2.logs : 1 });
   const b = makeBot(bot, lv, seed, { ...opt, coachLifetime });
   while (!S.result && S.tick < MAXT) step(S, b(S));
   if (!S.result) S.result = 'timeout';

@@ -45,7 +45,7 @@ export function previewKinds(lv: Level): string[] {
 export const nameOf = (k: string): string => UNIT_INFO[k]?.name ?? ENEMY_INFO[k]?.name ?? BOSS_INFO[k]?.name ?? k;
 
 /** kernel build number: bump when src/lane/** changes behaviour (old snapshots are then discarded, spec §3.14) */
-export const KERNEL_BUILD = 'lane-k1-revd';
+export const KERNEL_BUILD = 'lane-k2-campaign-pace';
 const fnv = (s: string): string => { let x = 0x811c9dc5; for (let i = 0; i < s.length; i++) { x ^= s.charCodeAt(i); x = Math.imul(x, 0x01000193) >>> 0; } return x.toString(16).padStart(8, '0'); };
 /** FNV of rules/units/enemies/bosses JSON + the kernel build (stored in the save and with every snapshot) */
 export const KERNEL_VERSION = fnv(JSON.stringify([RULES_RAW, UNITS_RAW, ENEMIES_RAW, BOSSES_RAW]) + KERNEL_BUILD);

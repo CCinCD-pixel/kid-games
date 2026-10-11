@@ -179,7 +179,7 @@ export interface SimState {
   nextId: number; si: number; spawns: ScriptedSpawn[]; result: null | 'win' | 'lose' | 'timeout';
   cdReady: Record<string, number>; mark: number;
   belt: CardId[]; beltNext: number; beltI: number; beltPeriod?: number; skyNext: number; endTick: number;
-  im: number; imr: number; assist: number;
+  im: number; imr: number; cooldownPct: number; assist: number;
   flags: number[]; dawnAt: number | null; loadout: CardId[]; drumUsed: number[]; logCap: number;
   flood: number[]; floodI: number; boss: BossCtl | null; wood: number;
   ev: SimEvent[] | null; byLane: Enemy[][];
@@ -189,6 +189,8 @@ export interface SimState {
 
 export interface SimOptions {
   incomePct?: number;
+  cooldownPct?: number;
+  beltPeriodPct?: number;
   assist?: number;
   logCap?: number;
   events?: boolean;
