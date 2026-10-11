@@ -6,7 +6,7 @@
  */
 import { TICK, viewScaleOf, type Snake, type KillTag } from './sim/core';
 import type { World, SimEvent } from './sim/world';
-import { VENUES, MATCH_SEC, BATTLE_RADIUS_SCALE, arenaRoster, setupTimed, setupEndless, rosterColors, AI_NAMES, type VenueId } from './sim/venues';
+import { VENUES, MATCH_SEC, BATTLE_RADIUS_SCALE, RESPAWN, arenaRoster, setupTimed, setupEndless, rosterColors, AI_NAMES, type VenueId } from './sim/venues';
 import { MissionRun, CHAPTER_FLOOR, aiCountOf, type Mission, type MissionResult } from './sim/mission';
 
 export type Mode = 'timed' | 'endless' | 'mission';
@@ -43,6 +43,9 @@ const MILESTONES = [100, 200, 300, 500, 800, 1000, 1500, 2000];
 
 export class Match {
   world: World; me: Snake; mode: Mode; venue: VenueId; seed: number;
+  versus = false;
+  other: Snake | null = null;
+  otherInput = { target: null as number | null, boost: false };
   /** 挑战关 attempt (mode 'mission'); the floor look and arena radius for the renderer */
   run: MissionRun | null = null; floor: string; arenaR: number;
   /** the bot drives him (H3 领航员示范 / H2 看一招) */
@@ -72,8 +75,9 @@ export class Match {
   private cd3Sent = false;
   realT = 0;
 
-  constructor(o: { mode: Mode; venue: VenueId; seed: number; heat?: number; name: string; skin: string; avoidColors?: string[]; stress?: number; countdown?: boolean; mission?: Mission; twin?: boolean; demo?: { tier: string; persona: string }; waitTouch?: boolean }) {
+  constructor(o: { mode: Mode; venue: VenueId; seed: number; heat?: number; name: string; skin: string; avoidColors?: string[]; stress?: number; countdown?: boolean; mission?: Mission; twin?: boolean; demo?: { tier: string; persona: string }; waitTouch?: boolean; versus?: boolean }) {
     this.mode = o.mode; this.venue = o.venue; this.seed = o.seed;
+    this.versus = !!o.versus;
     const v = VENUES[o.venue];
     this.floor = o.venue; this.arenaR = v.R;
     if (o.mode === 'mission' && o.mission) {
@@ -94,10 +98,18 @@ export class Match {
       const baseCount = Object.values(arenaRoster(v, BATTLE_RADIUS_SCALE)).reduce((sum, n) => sum + n, 1);
       const extra = o.stress && o.stress > baseCount ? ['hunter', 'forager', 'daredevil'].slice(0, o.stress - baseCount) : [];
       const setup = o.mode === 'timed'
-        ? setupTimed(v, o.seed, { heat: o.heat, name: o.name, skin: o.skin, avoidColors: o.avoidColors, extraAi: extra, radiusScale: BATTLE_RADIUS_SCALE })
+        ? setupTimed(v, o.seed, { heat: this.versus ? 0 : o.heat, name: o.name, skin: o.skin, avoidColors: o.avoidColors, extraAi: extra, radiusScale: this.versus ? BATTLE_RADIUS_SCALE * 1.2 : BATTLE_RADIUS_SCALE })
         : setupEndless(v, o.seed, { name: o.name, skin: o.skin, avoidColors: o.avoidColors, radiusScale: BATTLE_RADIUS_SCALE });
       this.world = setup.world; this.me = setup.me;
       this.arenaR = this.world.R;
+      if (this.versus) {
+        const at = Array.from({ length: 8 }, (_, i) => {
+          const a = this.me.angle + Math.PI / 2 + i * Math.PI / 4;
+          return [this.me.x + Math.cos(a) * 650, this.me.y + Math.sin(a) * 650, this.me.angle] as [number, number, number];
+        }).find(([x, y]) => Math.hypot(x, y) < this.world.R - 100 && !this.world.inObstacle(x, y, 80) &&
+          this.world.snakes.every((s) => Math.hypot(s.x - x, s.y - y) > 350));
+        this.other = this.world.addSnake({ persona: 'kid', tier: 'KID', isPlayer: true, name: '二号玩家', respawn: RESPAWN.timed, skin: 'comet' }, v.startMass, at ?? null);
+      }
     }
     this.world.keepEvents = false;
     const n = this.world.snakes.length + 4;
@@ -193,15 +205,21 @@ export class Match {
 
   private applyInput() {
     const me = this.me;
-    if (!me.alive || this.demo) return;
-    if (this.input.target !== null) me.target = this.input.target;
-    me.wantBoost = this.input.boost;
+    if (me.alive && !this.demo) {
+      if (this.input.target !== null) me.target = this.input.target;
+      me.wantBoost = this.input.boost;
+    }
+    if (this.other?.alive) {
+      if (this.otherInput.target !== null) this.other.target = this.otherInput.target;
+      this.other.wantBoost = this.otherInput.boost;
+    }
   }
 
   private afterStep() {
     const w = this.world, me = this.me;
     w.drainEvents((e) => {
       if (e.type === 'kill' && e.victim === me.id) {
+        if (this.versus) { this.onEvent({ kind: 'sim', e }); return; }
         const killer = e.killer >= 0 ? w.byId.get(e.killer) ?? null : null;
         this.lastDeath = { tag: e.tag, killer, x: me.cause?.x ?? me.x, y: me.cause?.y ?? me.y, t: w.t };
         this.respawnAt = w.t + (me.respawn?.delay ?? 0);

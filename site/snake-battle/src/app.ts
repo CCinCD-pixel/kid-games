@@ -12,6 +12,7 @@ import type { Shell, LayoutInfo } from '@kit/shell';
 import { Match, type MatchEvent } from './match';
 import type { Renderer } from './render/gl';
 import { WorldView } from './render/view';
+import { VersusSession } from './versus';
 import { menuMusic } from './menu-music';
 import { Hud } from './hud';
 import { TouchRouter } from './input/touch-router';
@@ -66,6 +67,7 @@ export class App {
   venue: VenueId = 'moon';
   private lobby: ReturnType<typeof renderLobby> | null = null;
   match: Match | null = null; view: WorldView | null = null; hud: Hud | null = null; router: TouchRouter | null = null;
+  versus: VersusSession | null = null;
   private canvas: HTMLCanvasElement | null = null; private raf = 0; private last = 0;
   private pad = new MatchPad(); private boostLoop: BoostLoop | null = null;
   private card: HTMLElement | null = null; private pausePanel: HTMLElement | null = null;
@@ -125,11 +127,13 @@ export class App {
     s.setProperty('--sb-st', `${l.safe.top}px`); s.setProperty('--sb-sb', `${l.safe.bottom}px`); s.setProperty('--sb-sl', `${l.safe.left}px`); s.setProperty('--sb-sr', `${l.safe.right}px`);
     s.setProperty('--sb-H', `${l.height - l.safe.top - l.safe.bottom}px`);
     if (this.view) { this.view.resize(l.width, l.height, this.renderScale()); this.wakeLoop(); }   // a sleeping loop redraws the resized canvas
+    this.versus?.resize();
     if (this.orientation && this.orientation !== l.orientation && this.match && this.match.state !== 'over') {
       // rotation: pause → relayout → automatic 3-2-1 after 300 ms (spec §3.18)
       const m = this.match;
       if (m.state !== 'paused' && m.state !== 'dying' && m.state !== 'dead') { m.pause(); setTimeout(() => { if (this.match === m && m.state === 'paused' && !this.pausePanel) m.resume(true); }, 300); }
     }
+    if (this.orientation && this.orientation !== l.orientation) this.versus?.pause();
     this.orientation = l.orientation;
   }
   private renderScale() { const q = this.view?.R.quality ?? 2; return Math.min(devicePixelRatio || 1, q === 2 ? 1.5 : q === 1 ? 1.25 : 1); }
@@ -146,6 +150,7 @@ export class App {
     const name = displayName(getSettings().displayName);
     this.lobby = renderLobby(this.root, this.save, this.venue, name, {
       onPlay: (mode, v) => { this.venue = v; void this.startMatch(mode, v); },
+      onVersus: (v) => this.startVersus(v),
       onVenue: (v, locked) => {
         if (locked) { void this.say(`snake.venue.locked.${v}`).then(() => this.say('snake.venue.locked.or')); return; }
         this.venue = v;
@@ -169,6 +174,18 @@ export class App {
     const sr = this.save.data.session;
     if (sr.matchesInRow >= 3 && !this.save.seen(`rest:${today()}`)) { this.save.markSeen(`rest:${today()}`); void this.say('snake.lobby.rest'); }
     setHubProgress('snake-battle', { label: `${VENUES[this.venue].name}` });
+  }
+
+  startVersus(venue: VenueId) {
+    this.lobby?.dispose(); this.lobby = null;
+    this.closeMenus(); this.teardownMatch();
+    void loadSfx();
+    menuMusic(false); this.voice.inMatch = true;
+    document.body.classList.add('sb-playing');
+    document.getElementById('sb-back')?.setAttribute('hidden', '');
+    this.venue = venue;
+    this.versus = new VersusSession(this.root, venue, () => this.startVersus(venue), () => this.showLobby(), this.save.data.settings.matchMusic);
+    if (this.test) (window as unknown as { __sbVersus: VersusSession }).__sbVersus = this.versus;
   }
 
   // ---------------------------------------------------------------- match
@@ -525,7 +542,7 @@ export class App {
   }
 
   /** background: pause + commit the counter increment (spec §3.18) */
-  onBackground() { const m = this.match; if (!m || m.state === 'over') return; this.save.commitProgress(m.counters(), m.lifeSec()); this.showPause(); }
+  onBackground() { if (this.versus) { this.versus.pause(); return; } const m = this.match; if (!m || m.state === 'over') return; this.save.commitProgress(m.counters(), m.lifeSec()); this.showPause(); }
   private markLeave(m: Match) {
     const base = { durationSec: Math.round((performance.now() - this.perf.t0) / 1000), deaths: this.perf.causes.length, left: true };
     if (m.run) this.shell?.session?.mark('mission-leave', { id: m.run.m.id, ...base }); else this.shell?.session?.mark('match-end', { mode: m.mode, venue: m.venue, ...base });
@@ -584,6 +601,7 @@ export class App {
   /** one WebGL canvas for the whole session (see WorldView) */
   private glCanvas: HTMLCanvasElement | null = null; private glR: Renderer | null = null;
   teardownMatch() {
+    this.versus?.dispose(); this.versus = null;
     cancelAnimationFrame(this.raf); this.raf = 0;
     this.router?.dispose(); this.router = null;
     this.hud?.dispose(); this.hud = null;

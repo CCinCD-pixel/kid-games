@@ -18,6 +18,7 @@ export interface RouterOpts {
   onBoostLocked: () => void;
   canBoost: () => boolean;
   stickEl: HTMLElement;
+  keyboard?: boolean;
 }
 
 export class TouchRouter {
@@ -45,8 +46,10 @@ export class TouchRouter {
     on(o.surface, 'pointermove', (e) => this.move(e));
     on(o.surface, 'pointerup', (e) => this.up(e));
     on(o.surface, 'pointercancel', (e) => this.up(e, true));
-    on(window, 'keydown', (e) => this.key(e, true));
-    on(window, 'keyup', (e) => this.key(e, false));
+    if (o.keyboard !== false) {
+      on(window, 'keydown', (e) => this.key(e, true));
+      on(window, 'keyup', (e) => this.key(e, false));
+    }
   }
   dispose() { for (const f of this.off) f(); this.off = []; }
 

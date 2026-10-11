@@ -162,7 +162,7 @@ export class Showcase {
 }
 
 // ---------------------------------------------------------------- lobby
-export interface LobbyHandlers { onPlay: (mode: 'timed' | 'endless', v: VenueId) => void; onVenue: (v: VenueId, locked: boolean) => void; onSettings: () => void; onSoon: (what: string) => void; onMissions: () => void; onCollection: () => void; onRecords: () => void }
+export interface LobbyHandlers { onPlay: (mode: 'timed' | 'endless', v: VenueId) => void; onVersus: (v: VenueId) => void; onVenue: (v: VenueId, locked: boolean) => void; onSettings: () => void; onSoon: (what: string) => void; onMissions: () => void; onCollection: () => void; onRecords: () => void }
 
 export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, name: string, hd: LobbyHandlers) {
   const d = save.data;
@@ -215,6 +215,9 @@ export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, na
     venues,
     h('div', { class: 'sb-showcase' }, showcaseCanvas),
     modes, records, botHost);
+  const versus = h('button', { class: 'sb-versus-entry xg-btn', type: 'button', 'data-sfx': 'ui-confirm', 'aria-label': '双人分屏对战', title: '双人分屏对战' }, h('span', { class: 'sb-versus-entry__label' }, '双人分屏对战'));
+  versus.addEventListener('click', () => hd.onVersus(sel()));
+  lobby.querySelector('.sb-showcase')?.append(versus);
   root.append(lobby);
   bindPress(lobby);
   lobby.addEventListener('pointerdown', () => show.poke());

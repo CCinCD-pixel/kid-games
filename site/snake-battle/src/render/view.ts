@@ -10,7 +10,7 @@ import { Fx, rnd, FX_KEYFRAMES as KF, pulse } from './fx';
 import { buildAtlas, addColorSprites, aiBodyOn, skinBaseOn, hex2rgb, skinById, segVariant, ballOf, STAR_COLORS, mix, type Rgb, type Atlas, type AtlasColor, type SkinDef } from './art';
 import { HEAD_HS, EYE_SPOT, eyeLayout, extrasOf, DECO, DECO_K, spawnTrail, TRAIL_FOOD, TRAIL_EVERY, type EyeSpot } from './skins';
 import { FLOORS } from '../sim/venues';
-import { angDiff, type Snake, type Food } from '../sim/core';
+import { angDiff, viewScaleOf, type Snake, type Food } from '../sim/core';
 import type { Match } from '../match';
 
 const KIND: Record<string, number> = { moon: 0, mars: 1, jupiter: 2, saturn: 4, blackhole: 3 };
@@ -50,12 +50,14 @@ export class WorldView {
 
   /** `renderer`: the app keeps ONE canvas + WebGL context for the whole session (WebKit kills the oldest
    *  context past 16 per page — a new context per match would eventually kill the live one) */
-  constructor(canvas: HTMLCanvasElement, private match: Match, o: { trail?: string; crown?: boolean; renderer?: Renderer } = {}) {
+  private follow: Snake;
+  constructor(canvas: HTMLCanvasElement, private match: Match, o: { trail?: string; crown?: boolean; renderer?: Renderer; follow?: Snake; atlas?: Atlas } = {}) {
     const w = match.world;
+    this.follow = o.follow ?? match.me;
     this.trail = o.trail ?? 'stardust'; this.crownMe = !!o.crown;
     const colors: AtlasColor[] = [];
     for (const s of w.snakes) { const [look, col] = this.makeLook(s); this.looks.set(s.id, look); if (!colors.some((c) => c.key === col.key)) colors.push(col); }
-    this.atlas = buildAtlas(colors, match.floor, { trail: this.trail });
+    this.atlas = o.atlas ?? buildAtlas(colors, match.floor, { trail: this.trail });
     if (o.renderer) { o.renderer.setAtlas(this.atlas); this.R = o.renderer; } else this.R = new Renderer(canvas, this.atlas);
     const v = { R: match.arenaR };
     const fl = FLOORS[match.floor].map((h) => hex2rgb(h).map((c) => c / 255) as [number, number, number]);
@@ -67,10 +69,12 @@ export class WorldView {
     for (let i = 0; i < nDec; i++) { const rr = (v.R - 80) * Math.sqrt(r()), a = r() * Math.PI * 2; this.decals.push({ x: Math.cos(rr ? a : 0) * rr, y: Math.sin(a) * rr, s: 30 + r() * 70, r: r() * 6.28 }); }
     const nL = Math.round((2 * Math.PI * v.R) / 200);
     for (let i = 0; i < nL; i++) { const a = (i / nL) * Math.PI * 2; this.lanterns.push({ x: Math.cos(a) * (v.R + 26), y: Math.sin(a) * (v.R + 26) }); }
-    const me = match.me; this.camX = me.x; this.camY = me.y;
+    const me = this.follow; this.camX = me.x; this.camY = me.y;
     // presentation hook: suction of every eaten food toward that snake's mouth + swallow bulge
-    w.onEat = (s, f) => this.onEat(s, f);
+    if (!o.follow) w.onEat = (s, f) => this.onEat(s, f);
   }
+
+  handleEat(s: Snake, f: Food) { this.onEat(s, f); }
 
   lookOf(s: Snake): Look {
     let l = this.looks.get(s.id);
@@ -99,7 +103,7 @@ export class WorldView {
     if (!this.onScreen(f.x, f.y, 40)) return;
     const col = this.foodColor(f);
     this.fx.suck(f.x, f.y, this.foodR(f), col, () => (s.alive ? [s.x + Math.cos(s.angle) * s.r * 0.6, s.y + Math.sin(s.angle) * s.r * 0.6] : null));
-    if (big && s.isPlayer) { this.fx.burst(f.x, f.y, [255, 216, 77], 6, 160, 7, 'spark', 0.5); this.happyUntil = this.time + 0.6; }
+    if (big && s === this.follow) { this.fx.burst(f.x, f.y, [255, 216, 77], 6, 160, 7, 'spark', 0.5); this.happyUntil = this.time + 0.6; }
   }
 
   foodColor(f: Food): Rgb {
@@ -131,9 +135,9 @@ export class WorldView {
 
   updateCamera(dt: number, hx: number, hy: number, ang: number) {
     const m = this.match;
-    const vs = m.viewScale();
+    const vs = m.versus ? viewScaleOf(this.follow.mass) : m.viewScale();
     let targetZ = (1.25 / vs) * this.zoomMul * this.screenK;
-    if (m.me.boost) targetZ /= 1.06;
+    if (this.follow.boost) targetZ /= 1.06;
     if (this.focus) targetZ *= this.fx.reduced ? 1 : 1.25;
     // critically damped springs: zoom ω=3, position ω=8 (spec §3.14)
     const sz = 3, sp = 8;
@@ -169,7 +173,7 @@ export class WorldView {
   frame(dt: number) {
     this.time += dt;
     const m = this.match, w = m.world, R = this.R, al = m.alpha;
-    const me = m.me;
+    const me = this.follow;
     const hxOf = (s: Snake) => { const i = s.id, px = m.prevX[i], py = m.prevY[i]; return Math.abs(px - s.x) + Math.abs(py - s.y) > 60 ? s.x : px + (s.x - px) * al; };
     const hyOf = (s: Snake) => { const i = s.id, px = m.prevX[i], py = m.prevY[i]; return Math.abs(px - s.x) + Math.abs(py - s.y) > 60 ? s.y : py + (s.y - py) * al; };
     if (me.alive) this.updateCamera(dt, hxOf(me), hyOf(me), me.angle);
