@@ -42,7 +42,9 @@ export function direct(ev: Ev[], ctx: DirectCtx, t0 = 0): number {
   const cellPx = board.cell;
   const vx = (i: number) => ctx.panelX + board.cx(i % W);
   const vy = (i: number) => ctx.panelY + board.cy(Math.floor(i / W));
-  const spriteOf = (uid: number): Sprite | undefined => scene.sprites.get(uid);
+  // Later cascades are scheduled before earlier spawns have entered scene.sprites.
+  const planned = new Map(scene.sprites);
+  const spriteOf = (uid: number): Sprite | undefined => planned.get(uid);
   const uidAt = new Map<number, number>(); // cell -> uid currently standing there (tracked through the replay)
   for (const s of scene.sprites.values()) uidAt.set(Math.round(s.y) * W + Math.round(s.x), s.uid);
   let flights = 0;
@@ -310,6 +312,7 @@ export function direct(ev: Ev[], ctx: DirectCtx, t0 = 0): number {
       const at = T0 + ANT + 140 * sp;
       const x = c.i % W, y = Math.floor(c.i / W);
       const s: Sprite = { uid: c.uid, kind: c.k, color: -1, x, y, sx: 0, sy: 0, rot: 0, alpha: 0, flash: 0, z: 1, phase: (c.uid * 7) % 13 };
+      planned.set(c.uid, s);
       uidAt.set(c.i, c.uid);
       tl.at(at, () => { s.alpha = 1; scene.sprites.set(s.uid, s); fx.ring(vx(c.i), vy(c.i), cellPx * 0.95, 'rgba(255,244,200,.95)', 320, 5); fx.sparks(vx(c.i), vy(c.i), '#FFF3C4', 10, 0.7); hooks.sfx('em-special-make'); hooks.mood('happy'); });
       tl.tween(at, 260 * sp, (p) => { s.sx = s.sy = p < 0.6 ? (p / 0.6) * 1.25 : 1.25 - 0.25 * ((p - 0.6) / 0.4); }, ease.outQuad);
@@ -326,6 +329,7 @@ export function direct(ev: Ev[], ctx: DirectCtx, t0 = 0): number {
           const n = (spawnN.get(e.i) ?? 0) + 1; spawnN.set(e.i, n);
           const x = e.i % W, y = Math.floor(e.i / W);
           const s: Sprite = { uid: e.uid, kind: e.pod ? 8 : PIECE, color: e.pod ? -1 : e.col, x, y: y - n, sx: 1, sy: 1, rot: 0, alpha: 1, flash: 0, z: 0, phase: (e.uid * 7) % 13 };
+          planned.set(e.uid, s);
           fresh.set(e.uid, s);
           paths.set(e.uid, [{ x, y: y - n, diag: false }, { x, y, diag: false }]);
           uidAt.set(e.i, e.uid);

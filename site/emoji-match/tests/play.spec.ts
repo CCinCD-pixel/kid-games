@@ -12,6 +12,38 @@ import { boot, drag, goPlay, overlap, playOut, press, settle, shot, tapCell, wat
 const LESSONS = ['1-01', '1-02', '1-03', '1-04', '1-05', '1-07', '1-08', '2-06', '2-07', '3-06', '3-07', '4-07'];
 const COMBO_LESSONS = ['1-08', '2-06', '2-07', '3-06', '3-07', '4-07'];
 
+test('cascade clears old sprites before refills occupy their cells', async ({ page }) => {
+  await boot(page, { scale: 1 });
+  await goPlay(page, '1-02', { seed: 1 });
+  for (let turn = 0; turn < 3; turn += 1) {
+    const longestOverlap = await page.evaluate(async () => {
+      const move = window.__em.lessonMove() ?? window.__em.bestMove();
+      if (!move) return 0;
+      const starts = new Map<string, number>();
+      let longest = 0;
+      let active = true;
+      const frame = (now: number) => {
+        const sprites = window.__em.sprites().filter((s) => s.alpha > 0.5);
+        const seen = new Set<string>();
+        for (let i = 0; i < sprites.length; i += 1) for (let j = i + 1; j < sprites.length; j += 1) {
+          if (Math.hypot(sprites[i].x - sprites[j].x, sprites[i].y - sprites[j].y) >= 0.4) continue;
+          const pair = `${sprites[i].uid}:${sprites[j].uid}`;
+          seen.add(pair);
+          if (!starts.has(pair)) starts.set(pair, now);
+          longest = Math.max(longest, now - starts.get(pair)!);
+        }
+        for (const pair of starts.keys()) if (!seen.has(pair)) starts.delete(pair);
+        if (active) requestAnimationFrame(frame);
+      };
+      requestAnimationFrame(frame);
+      await window.__em.play(move);
+      active = false;
+      return longest;
+    });
+    expect(longestOverlap, `turn ${turn + 1}: two visible gems occupy one cell`).toBeLessThan(400);
+  }
+});
+
 test.describe('first run and teaching levels', () => {
   test('1-01 first run: 4-cell mask, ghost hand, no tools, only the lesson move counts; win → 3 stars', async ({ page }, info) => {
     const errors = watchErrors(page);

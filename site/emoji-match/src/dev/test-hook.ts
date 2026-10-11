@@ -44,6 +44,7 @@ export function installTestHook(ctx: AppCtx, app: () => App | null): void {
     save: () => JSON.parse(JSON.stringify(ctx.save.data)),
     rects: () => play()?.rects() ?? null,
     board: () => { const p = play(); return p ? boardString(p.st) : null; },
+    sprites: () => { const p = play(); return p ? [...p.scene.sprites.values()].map(({ uid, x, y, alpha, kind }) => ({ uid, x, y, alpha, kind })) : []; },
     width: () => play()?.L.W ?? 0,
     voiceLog: () => ctx.voice.log.slice(),
     marks: () => JSON.parse(JSON.stringify(marks)),

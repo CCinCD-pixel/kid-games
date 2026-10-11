@@ -33,6 +33,7 @@ export interface EmHook {
   save(): Record<string, any>;
   rects(): Record<string, any> | null;
   board(): string | null;
+  sprites(): { uid: number; x: number; y: number; alpha: number; kind: number }[];
   width(): number;
   voiceLog(): string[];
   marks(): { name: string; data?: Record<string, unknown> }[];
