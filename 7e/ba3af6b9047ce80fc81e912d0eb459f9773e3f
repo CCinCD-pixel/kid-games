@@ -1,0 +1,25 @@
+site/emoji-match/src/view/director.ts
+  s_e8836c6d1c92e0::t_82f61f8330abfe 45-47,315,332
+site/emoji-match/src/dev/test-hook.ts
+  s_e8836c6d1c92e0::t_84e987984bef79 47
+site/emoji-match/tests/play.spec.ts
+  s_e8836c6d1c92e0::t_7b5fe34dac0041 15-45
+site/emoji-match/tests/em.ts
+  s_e8836c6d1c92e0::t_84e987984bef79 36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "7eba3af6b9047ce80fc81e912d0eb459f9773e3f",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
