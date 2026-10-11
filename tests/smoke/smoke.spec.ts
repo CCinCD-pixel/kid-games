@@ -62,6 +62,18 @@ test.describe('every page', () => {
 test.describe('hub', () => {
   const listed = games.filter((g) => g.status !== 'hidden');
 
+  test('first touch voices the initially selected place', async ({ page }) => {
+    const clips: string[] = [];
+    page.on('request', (request) => {
+      if (request.url().includes('/audio/hub/hub.place.base.')) clips.push(request.url());
+    });
+    await page.goto('/');
+    await expect(page.locator('#hub-bot .xg-bot-bubble')).toContainText('这里是基地');
+    expect(clips).toHaveLength(0);
+    await page.locator('#hub-brand').tap();
+    await expect.poll(() => clips.length).toBe(1);
+  });
+
   /** Visit every place tab and collect the cards it shows. */
   async function cardsByTab(page: import('@playwright/test').Page) {
     const out: Record<string, string[]> = {};

@@ -224,9 +224,9 @@ try {
 const greeting = () => greetingId(new Date().getHours(), returning, settings.displayName === DEFAULT_NAME);
 let greeted = false;
 void narrator.ready().then(() => {
-  // arrival: bubble only (iOS allows sound only after a tap); the first tap on the robot voices it
-  const text = narrator.text(greeting());
-  if (text) setTimeout(() => void bot?.say(text, { hold: 5200, mood: 'happy' }), 450);
+  // Queue the current place while audio is locked; iOS plays it after the first gesture.
+  spokenPlaces.add(place);
+  speak(`hub.place.${place}`, 'happy');
 });
 
 const pokes = ['hub.poke.1', 'hub.poke.2', 'hub.poke.3'];
