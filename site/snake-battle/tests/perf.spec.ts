@@ -1,10 +1,9 @@
 /**
  * perf.spec (spec §8.11, §9.3; SB_PERF=1 only, portrait project only): what can be measured automatically.
- *  1. 黑洞场 22 snakes, him m=1000, Q2 — the app's own per-frame main-thread work p95 ≤ 12 ms; rAF p95 ≤ 20 ms.
- *  2. stress 25 (?stress) — work p95 ≤ 14 ms; the quality tier may drop to Q1, never Q0.
- *  3. A13 proxy: Chromium + CDP CPU throttling ×5, 黑洞场 60 s — work p95 ≤ 14 ms; > 33 ms frames ≤ 1 per minute.
- *  4. still menu: after 20 s in the lobby, 0 requestAnimationFrame calls in the next 3 s.
- *  5. first playable: page → ready ≤ 3 s (local server); 开始 → c1m1 running ≤ 1.5 s.
+ *  1. 扩场后的黑洞场 25 snakes, him m=1000, Q2 — main-thread work p95 ≤ 14 ms; rAF p95 ≤ 20 ms.
+ *  2. A13 proxy: Chromium + CDP CPU throttling ×5, 黑洞场 60 s — work p95 ≤ 14 ms; > 33 ms frames ≤ 1 per minute.
+ *  3. still menu: after 20 s in the lobby, 0 requestAnimationFrame calls in the next 3 s.
+ *  4. first playable: page → ready ≤ 3 s (local server); 开始 → c1m1 running ≤ 1.5 s.
  * Pages load the kit → muted under automation; Chromium also gets --mute-audio. Numbers go to the test output.
  */
 import { expect, test, chromium, type Page } from '@playwright/test';
@@ -25,16 +24,15 @@ test.describe('snake-battle perf', () => {
   test.skip(process.env.SB_PERF !== '1', 'SB_PERF=1 only');
   test.beforeEach(({}, ti) => { test.skip(ti.project.name !== 'portrait-810x1080', 'portrait only'); });
 
-  test('WebKit: 黑洞场 22 snakes and stress 25, him m=1000', async ({ page }) => {
+  test('WebKit: expanded blackhole with 25 snakes, him m=1000', async ({ page }) => {
     test.setTimeout(120_000);
     await page.goto('/snake-battle/?test=1&nogate'); await page.waitForSelector('#app[data-ready]');
     const a = await measure(page, 15);
-    console.log('[perf webkit 22]', JSON.stringify({ snakes: a.snakes, work95: q(a.work, 0.95), iv95: q(a.iv, 0.95), long: a.iv.filter((x) => x > 50).length, qMin: Math.min(...a.q) }));
-    expect(q(a.work, 0.95)).toBeLessThanOrEqual(12); expect(q(a.iv, 0.95)).toBeLessThanOrEqual(20);
-    await page.goto('/snake-battle/?test=1&nogate'); await page.waitForSelector('#app[data-ready]');
-    const b = await measure(page, 15, 25);
-    console.log('[perf webkit 25]', JSON.stringify({ snakes: b.snakes, work95: q(b.work, 0.95), iv95: q(b.iv, 0.95), long: b.iv.filter((x) => x > 50).length, qMin: Math.min(...b.q) }));
-    expect(q(b.work, 0.95)).toBeLessThanOrEqual(14); expect(Math.min(...b.q)).toBeGreaterThanOrEqual(1);
+    console.log('[perf webkit 25]', JSON.stringify({ snakes: a.snakes, work95: q(a.work, 0.95), iv95: q(a.iv, 0.95), long: a.iv.filter((x) => x > 50).length, qMin: Math.min(...a.q) }));
+    expect(a.snakes).toBe(25);
+    expect(q(a.work, 0.95)).toBeLessThanOrEqual(14);
+    expect(q(a.iv, 0.95)).toBeLessThanOrEqual(20);
+    expect(Math.min(...a.q)).toBeGreaterThanOrEqual(1);
   });
 
   test('A13 proxy: Chromium CPU ×5, 黑洞场 60 s', async ({ baseURL }) => {

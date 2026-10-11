@@ -14,8 +14,10 @@ const MODELS = [['NOVICE', 'novice'], ['KID', 'kid'], ['EXPERT', 'expert']] as c
 describe.skipIf(!FULL)('V2 venue ladder', () => {
   it('KID podium bands, ordering, week-one reach', () => {
     const N = N_OVERRIDE || 120; const t0 = Date.now();
+    const venueIds = process.env.SB_VENUES ? VENUE_IDS.filter((id) => process.env.SB_VENUES!.split(',').includes(id)) : VENUE_IDS;
+    expect(venueIds.length).toBeGreaterThan(0);
     const res: Record<string, Record<string, { k: number; n: number; p: number; ci: [number, number] }>> = {};
-    for (const v of VENUE_IDS) {
+    for (const v of venueIds) {
       res[v] = {};
       for (const [model, persona] of MODELS) {
         let k = 0;
@@ -24,16 +26,16 @@ describe.skipIf(!FULL)('V2 venue ladder', () => {
       }
     }
     const gates: [boolean, string][] = [];
-    for (const v of VENUE_IDS) {
+    for (const v of venueIds) {
       const K = res[v].KID, E = res[v].EXPERT, No = res[v].NOVICE;
       gates.push([ciInBand(K.ci, BAND[v]), `${v} KID top3 ${P(K.p)} [${P(K.ci[0])}–${P(K.ci[1])}] in ${P(BAND[v][0])}–${P(BAND[v][1])} (N ${N})`]);
       gates.push([!(No.ci[0] > K.ci[1]) && !(K.ci[0] > E.ci[1]), `${v} V0 order NOVICE ${P(No.p)} ≤ KID ${P(K.p)} ≤ EXPERT ${P(E.p)} (no non-overlapping inversion)`]);
       const best = Math.max(No.p, K.p, E.p), bestCi = [No, K, E].find((x) => x.p === best)!.ci;
       gates.push([bestCi[1] >= 0.25, `${v} best-bot top3 ${P(best)} ≥ 25%`]);
     }
-    for (let i = 1; i < VENUE_IDS.length; i++) { const a = res[VENUE_IDS[i - 1]].KID, b = res[VENUE_IDS[i]].KID; gates.push([!(b.ci[0] > a.ci[1]), `KID top3 does not rise ${VENUE_IDS[i - 1]} ${P(a.p)} → ${VENUE_IDS[i]} ${P(b.p)}`]); }
-    gates.push([res.moon.NOVICE.ci[1] >= 0.15, `moon NOVICE top3 ${P(res.moon.NOVICE.p)} ≥ 15% (week one can reach the podium)`]);
-    gates.push([res.blackhole.NOVICE.ci[0] <= 0.15, `blackhole NOVICE top3 ${P(res.blackhole.NOVICE.p)} ≤ 15% (endgame is not trivial)`]);
+    for (let i = 1; i < venueIds.length; i++) { const a = res[venueIds[i - 1]].KID, b = res[venueIds[i]].KID; gates.push([!(b.ci[0] > a.ci[1]), `KID top3 does not rise ${venueIds[i - 1]} ${P(a.p)} → ${venueIds[i]} ${P(b.p)}`]); }
+    if (res.moon) gates.push([res.moon.NOVICE.ci[1] >= 0.15, `moon NOVICE top3 ${P(res.moon.NOVICE.p)} ≥ 15% (week one can reach the podium)`]);
+    if (res.blackhole) gates.push([res.blackhole.NOVICE.ci[0] <= 0.15, `blackhole NOVICE top3 ${P(res.blackhole.NOVICE.p)} ≤ 15% (endgame is not trivial)`]);
     writeReport('v2-venues', { N, sec: Math.round((Date.now() - t0) / 1000), res, gates: gates.map(([ok, s]) => `${ok ? '✓' : '✗'} ${s}`) });
     const bad = gates.filter(([ok]) => !ok).map(([, s]) => s);
     expect(bad, bad.join('\n')).toEqual([]);

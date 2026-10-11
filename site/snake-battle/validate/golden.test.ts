@@ -31,7 +31,7 @@ describe('V1b golden event streams (timed)', () => {
   for (const c of cases) {
     it(`${c.id} ${c.model} seed ${c.seed}`, () => {
       const states: string[] = [];
-      const r = runVenueMatch(VENUES[c.id as VenueId], c.model, PERS[c.model], c.seed, { probe: (w) => states.push(stateOf(w)) });
+      const r = runVenueMatch(VENUES[c.id as VenueId], c.model, PERS[c.model], c.seed, { radiusScale: 1, probe: (w) => states.push(stateOf(w)) });
       const st = c.fast ? states : states.slice(-1);
       // first divergence (helps debugging a port mistake)
       const firstBad = st.findIndex((h, i) => h !== c.stateHash[i]);

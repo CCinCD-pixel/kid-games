@@ -6,7 +6,7 @@
  */
 import { TICK, viewScaleOf, type Snake, type KillTag } from './sim/core';
 import type { World, SimEvent } from './sim/world';
-import { VENUES, MATCH_SEC, setupTimed, setupEndless, rosterColors, AI_NAMES, type VenueId } from './sim/venues';
+import { VENUES, MATCH_SEC, BATTLE_RADIUS_SCALE, arenaRoster, setupTimed, setupEndless, rosterColors, AI_NAMES, type VenueId } from './sim/venues';
 import { MissionRun, CHAPTER_FLOOR, aiCountOf, type Mission, type MissionResult } from './sim/mission';
 
 export type Mode = 'timed' | 'endless' | 'mission';
@@ -91,11 +91,13 @@ export class Match {
       this.floor = CHAPTER_FLOOR[ms.ch - 1]; this.arenaR = ms.arena.R;
       this.demo = !!o.demo; this.waitTouch = !!o.waitTouch;
     } else {
-      const extra = o.stress && o.stress > 22 ? ['hunter', 'forager', 'daredevil'].slice(0, o.stress - 22) : [];
+      const baseCount = Object.values(arenaRoster(v, BATTLE_RADIUS_SCALE)).reduce((sum, n) => sum + n, 1);
+      const extra = o.stress && o.stress > baseCount ? ['hunter', 'forager', 'daredevil'].slice(0, o.stress - baseCount) : [];
       const setup = o.mode === 'timed'
-        ? setupTimed(v, o.seed, { heat: o.heat, name: o.name, skin: o.skin, avoidColors: o.avoidColors, extraAi: extra })
-        : setupEndless(v, o.seed, { name: o.name, skin: o.skin, avoidColors: o.avoidColors });
+        ? setupTimed(v, o.seed, { heat: o.heat, name: o.name, skin: o.skin, avoidColors: o.avoidColors, extraAi: extra, radiusScale: BATTLE_RADIUS_SCALE })
+        : setupEndless(v, o.seed, { name: o.name, skin: o.skin, avoidColors: o.avoidColors, radiusScale: BATTLE_RADIUS_SCALE });
       this.world = setup.world; this.me = setup.me;
+      this.arenaR = this.world.R;
     }
     this.world.keepEvents = false;
     const n = this.world.snakes.length + 4;

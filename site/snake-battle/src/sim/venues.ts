@@ -9,7 +9,7 @@ import { createRng, type Snake, type RespawnRule } from './core';
 
 export type VenueId = 'moon' | 'mars' | 'jupiter' | 'blackhole';
 export const VENUE_IDS: VenueId[] = ['moon', 'mars', 'jupiter', 'blackhole'];
-export interface Venue { id: VenueId; name: string; tier: string; R: number; startMass: number; ai: Record<string, number> }
+export interface Venue { id: VenueId; name: string; tier: string; R: number; startMass: number; ai: Record<string, number>; expandedAi?: Record<string, number>; expandedSkill?: number }
 export const VENUES = venuesJson.venues as unknown as Record<VenueId, Venue>;
 export interface Trophy { id: string; name: string; icon: string; cond: { rankLE?: number; killsGE?: number; cutGE?: number; peakGE?: number } }
 export const TROPHIES = venuesJson.trophies as unknown as Record<VenueId, Trophy[]>;
@@ -19,6 +19,7 @@ export const UNLOCK = venuesJson.unlock as Record<VenueId, null | { mission: str
 export const ENDLESS = venuesJson.endless as { venues: VenueId[]; playerStart: number; aiStart: [number, number]; nudgeMin: number };
 export const HEAT = venuesJson.heat;
 export const FOOD_DENSITY = 1 / 9000;
+export const BATTLE_RADIUS_SCALE = 2;
 export const MATCH_SEC = venuesJson.matchSec as number;
 export const RESPAWN = venuesJson.respawn as unknown as { timed: RespawnRule; endlessAi: { delay: number; keep: number; min: [number, number] } };
 
@@ -27,6 +28,17 @@ export function venueWorldCfg(v: Pick<Venue, 'R' | 'tier'>): WorldCfg {
     R: v.R, foodCount: Math.round(Math.PI * v.R * v.R * FOOD_DENSITY),
     pu: { max: v.tier === 'T1' ? 3 : 4, delay: [8, 12] }, meteors: { max: 2, delay: [10, 16] },
   };
+}
+
+export function arenaRoster(venue: Venue, radiusScale = 1): Record<string, number> {
+  const roster = { ...venue.ai };
+  if (radiusScale > 1) for (const [persona, count] of Object.entries(venue.expandedAi ?? {})) roster[persona] = (roster[persona] ?? 0) + count;
+  return roster;
+}
+
+function arenaTier(venue: Venue, heat: number, radiusScale = 1) {
+  const boost = radiusScale > 1 ? venue.expandedSkill ?? 0 : 0;
+  return heatTier(venue.tier, Math.max(-2, Math.min(4, heat + boost)));
 }
 
 /** 赛场热度的阵容杠杆 (spec §3.17): identical to the prototype `heatRoster` (G28). */
@@ -79,16 +91,17 @@ export function rosterColors(personas: string[], seed: number | string, avoid: s
 export interface TimedSetup { world: World; me: Snake; roster: string[] }
 
 /**
- * Build a 限时赛 world exactly like the prototype's runVenueMatch (same rng forks, same order: AIs first,
- * then the player gets a clear spawn). `playerBrain` only for validators / demos; the page drives him.
+ * Build a 限时赛 world with the prototype's ordering and RNG streams. The live match passes the
+ * expanded radius; the golden test passes radiusScale=1 to validate the unchanged simulation core.
+ * `playerBrain` is only for validators / demos; the page drives him.
  */
-export function setupTimed(venue: Venue, seed: number, o: { heat?: number; playerTier?: string; playerPersona?: string; playerBrain?: boolean; name?: string; skin?: string; avoidColors?: string[]; extraAi?: string[]; hook?: (s: Snake) => ((s: Snake, w: World, b: Brain) => GoalHook | null) | null } = {}): TimedSetup {
-  const w = new World(venueWorldCfg(venue), seed);
+export function setupTimed(venue: Venue, seed: number, o: { heat?: number; playerTier?: string; playerPersona?: string; playerBrain?: boolean; name?: string; skin?: string; avoidColors?: string[]; extraAi?: string[]; radiusScale?: number; hook?: (s: Snake) => ((s: Snake, w: World, b: Brain) => GoalHook | null) | null } = {}): TimedSetup {
+  const w = new World(venueWorldCfg({ ...venue, R: venue.R * (o.radiusScale ?? 1) }), seed);
   const rng = createRng(`brains:${seed}`);
   const respawn = RESPAWN.timed;
   const roster: string[] = [];
-  const h = o.heat ?? 0; const tierObj = heatTier(venue.tier, h);
-  for (const [persona, n] of Object.entries(heatRoster(venue.ai, h))) for (let i = 0; i < n; i++) roster.push(persona);
+  const h = o.heat ?? 0; const tierObj = arenaTier(venue, h, o.radiusScale);
+  for (const [persona, n] of Object.entries(heatRoster(arenaRoster(venue, o.radiusScale), h))) for (let i = 0; i < n; i++) roster.push(persona);
   for (const p of o.extraAi ?? []) roster.push(p);   // perf stress only (?stress=25)
   const cols = rosterColors(roster, seed, o.avoidColors);
   roster.forEach((persona, i) => {
@@ -104,14 +117,14 @@ export function setupTimed(venue: Venue, seed: number, o: { heat?: number; playe
 }
 
 /** 无尽 (spec §4.3): one life; AIs respawn 2 s later at a random 10–90 length, AI count constant. */
-export function setupEndless(venue: Venue, seed: number, o: { name?: string; skin?: string; avoidColors?: string[] } = {}): TimedSetup {
-  const w = new World(venueWorldCfg(venue), seed);
+export function setupEndless(venue: Venue, seed: number, o: { name?: string; skin?: string; avoidColors?: string[]; radiusScale?: number } = {}): TimedSetup {
+  const w = new World(venueWorldCfg({ ...venue, R: venue.R * (o.radiusScale ?? 1) }), seed);
   const rng = createRng(`brains:${seed}`);
   const sizeRng = createRng(`endless-size:${seed}`);
   const roster: string[] = [];
-  for (const [persona, n] of Object.entries(venue.ai)) for (let i = 0; i < n; i++) roster.push(persona);
+  for (const [persona, n] of Object.entries(arenaRoster(venue, o.radiusScale))) for (let i = 0; i < n; i++) roster.push(persona);
   const cols = rosterColors(roster, seed, o.avoidColors);
-  const tierObj = heatTier(venue.tier, 0);
+  const tierObj = arenaTier(venue, 0, o.radiusScale);
   roster.forEach((persona, i) => {
     const color = cols[i];
     const m0 = Math.round(ENDLESS.aiStart[0] + (ENDLESS.aiStart[1] - ENDLESS.aiStart[0]) * sizeRng.next());
@@ -124,8 +137,8 @@ export function setupEndless(venue: Venue, seed: number, o: { name?: string; ski
 }
 
 /** validators: one full 限时赛 with a player model (= prototype runVenueMatch's core loop) */
-export function runVenueMatch(venue: Venue, playerTier: string, playerPersona: string, seed: number, opts: { heat?: number; sec?: number; probe?: (w: World, me: Snake) => void } = {}) {
-  const { world: w, me } = setupTimed(venue, seed, { heat: opts.heat, playerTier, playerPersona, playerBrain: true });
+export function runVenueMatch(venue: Venue, playerTier: string, playerPersona: string, seed: number, opts: { heat?: number; sec?: number; radiusScale?: number; probe?: (w: World, me: Snake) => void } = {}) {
+  const { world: w, me } = setupTimed(venue, seed, { heat: opts.heat, playerTier, playerPersona, playerBrain: true, radiusScale: opts.radiusScale ?? BATTLE_RADIUS_SCALE });
   const ticks = Math.round((opts.sec ?? MATCH_SEC) * 60);
   for (let i = 0; i < ticks; i++) {
     w.step();

@@ -81,6 +81,12 @@
     "skittish": 2,
     "scavenger": 1
    },
+   "expandedAi": {
+    "forager": 7,
+    "skittish": 1,
+    "scavenger": 1
+   },
+   "expandedSkill": 2,
    "world": {
     "R": 1600,
     "foodCount": 894,
@@ -113,6 +119,13 @@
     "hunter": 2,
     "daredevil": 1
    },
+   "expandedAi": {
+    "forager": 6,
+    "scavenger": 3,
+    "skittish": 1,
+    "hunter": 1
+   },
+   "expandedSkill": 3,
    "world": {
     "R": 1900,
     "foodCount": 1260,
@@ -146,6 +159,12 @@
     "coiler": 2,
     "daredevil": 3
    },
+   "expandedAi": {
+    "forager": 1,
+    "skittish": 1,
+    "hunter": 1,
+    "coiler": 1
+   },
    "world": {
     "R": 2150,
     "foodCount": 1614,
@@ -177,6 +196,11 @@
     "hunter": 7,
     "coiler": 3,
     "daredevil": 3
+   },
+   "expandedAi": {
+    "forager": 1,
+    "skittish": 1,
+    "hunter": 1
    },
    "world": {
     "R": 2300,
