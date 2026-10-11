@@ -39,6 +39,8 @@ describe('progress store', () => {
     storage.setItem('kg:v1:mars-base', raw);
     const store = createStore<V1>('mars-base', { version: 1, defaults: () => ({ level: 1 }), storage });
     expect(store.load()).toEqual({ level: 1 });
+    expect(store.save({ level: 2 })).toBe(false);
+    expect(store.update((s) => ({ level: s.level + 1 }))).toEqual({ level: 2 });
     expect(storage.getItem('kg:v1:mars-base')).toBe(raw);
   });
 

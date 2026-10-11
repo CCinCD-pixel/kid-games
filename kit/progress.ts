@@ -82,6 +82,8 @@ export function createStore<T>(game: string, opts: StoreOptions<T>): Store<T> {
     const s = storage();
     if (!s) return false;
     try {
+      const existing = safeParse(s.getItem(key)) as StoredEnvelope<unknown> | null;
+      if (existing && typeof existing === 'object' && typeof existing.v === 'number' && existing.v > opts.version) return false;
       s.setItem(key, JSON.stringify({ v: opts.version, updatedAt: now(), data } satisfies StoredEnvelope<T>));
       return true;
     } catch {
