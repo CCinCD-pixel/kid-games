@@ -116,10 +116,11 @@ test('v2 progress gains an addition chapter without losing an unfinished C1 miss
   await page.goto('/mars-base/?test=1&mute=1');
   await expect(page.locator('#app[data-screen="certMission"]')).toBeVisible();
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('kg:v1:mars-base') ?? '{}'));
-  expect(stored.v).toBe(3);
+  expect(stored.v).toBe(4);
   expect(stored.data.cert.completed).toEqual(['cert.C1.1']);
   expect(stored.data.cert.active.index).toBe(1);
   expect(stored.data.addition.completed).toEqual([]);
+  expect(stored.data.subtraction.completed).toEqual([]);
 });
 
 test('addition controls fit phone landscape and iPad portrait', async ({ page }, testInfo) => {

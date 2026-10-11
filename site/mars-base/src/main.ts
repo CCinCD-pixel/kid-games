@@ -9,6 +9,8 @@ import { C1_NODES } from './cert/c1';
 import { renderC1Chapter, renderC1Feedback, renderC1Mission, renderC1Wrap, startC1Node, type C1Context } from './cert/ui';
 import { ADDITION_NODES } from './addition/model';
 import { renderAdditionChapter, renderAdditionFeedback, renderAdditionMission, renderAdditionWrap, startAdditionNode, type AdditionContext } from './addition/ui';
+import { SUBTRACTION_NODES } from './subtraction/model';
+import { renderSubtractionChapter, renderSubtractionFeedback, renderSubtractionMission, renderSubtractionWrap, startSubtractionNode, type SubtractionContext } from './subtraction/ui';
 import './styles.css';
 
 const root = document.getElementById('app')!;
@@ -18,7 +20,7 @@ let save: OrbitSave = orbitStore.load();
 let line: NumberLineControl | null = null;
 let answer = '';
 let subtitle: HTMLElement | null = null;
-type Route = 'onboarding' | 'map' | 'chapter' | 'mission' | 'feedback' | 'wrap' | 'certOverview' | 'certChapter' | 'certMission' | 'certFeedback' | 'certWrap' | 'addChapter' | 'addMission' | 'addFeedback' | 'addWrap';
+type Route = 'onboarding' | 'map' | 'chapter' | 'mission' | 'feedback' | 'wrap' | 'certOverview' | 'certChapter' | 'certMission' | 'certFeedback' | 'certWrap' | 'addChapter' | 'addMission' | 'addFeedback' | 'addWrap' | 'subChapter' | 'subMission' | 'subFeedback' | 'subWrap';
 let route: Route = 'map';
 let currentZone = 'orbit';
 let wrappedNode: OrbitNode | null = null;
@@ -92,6 +94,15 @@ const additionContext: AdditionContext = {
   mark: (name, data) => { shell.session?.mark(name, data); },
   replay: () => { void voice.replay(); },
 };
+const subtractionContext: SubtractionContext = {
+  root,
+  get save() { return save; },
+  persist,
+  speak,
+  go: (screen) => show(screen),
+  mark: (name, data) => { shell.session?.mark(name, data); },
+  replay: () => { void voice.replay(); },
+};
 
 function show(next: Route): void {
   line?.destroy();
@@ -115,6 +126,10 @@ function show(next: Route): void {
   if (next === 'addMission') renderAdditionMission(additionContext);
   if (next === 'addFeedback') renderAdditionFeedback(additionContext);
   if (next === 'addWrap') renderAdditionWrap(additionContext);
+  if (next === 'subChapter') renderSubtractionChapter(subtractionContext);
+  if (next === 'subMission') renderSubtractionMission(subtractionContext);
+  if (next === 'subFeedback') renderSubtractionFeedback(subtractionContext);
+  if (next === 'subWrap') renderSubtractionWrap(subtractionContext);
 }
 
 function renderOnboarding(): void {
@@ -140,12 +155,13 @@ function nextOrbitNode(): OrbitNode | undefined {
 function renderCertOverview(): void {
   const main = document.createElement('main');
   main.className = 'mb-chapter mb-cert-overview';
-  main.append(head('认证站', () => show('map')), text('p', '在练习舱里建好位值牌和加法牌。', 'mb-chapter__intro'));
+  main.append(head('认证站', () => show('map')), text('p', '一步一步，把数和运算装进基地。', 'mb-chapter__intro'));
   const choices = document.createElement('div');
   choices.className = 'mb-cert-choices';
   const chapters = [
     { title: '位值牌', detail: '读数、搭数、换着拆', done: save.cert.completed.length, total: 6, route: 'certChapter' as Route },
     { title: '加法牌', detail: '合晶、进位、凑整十', done: save.addition.completed.length, total: 8, route: 'addChapter' as Route },
+    { title: '减法牌', detail: '取货、切棒、想加算减', done: save.subtraction.completed.length, total: 8, route: 'subChapter' as Route },
   ];
   for (const chapter of chapters) {
     const choice = makeButton('', () => show(chapter.route), 'mb-cert-choice');
@@ -154,7 +170,7 @@ function renderCertOverview(): void {
   }
   main.append(choices);
   root.append(main);
-  speak('这里有位值牌和加法牌。你想先做哪一块？');
+  speak('这里有位值牌、加法牌和减法牌。你想先做哪一块？');
 }
 
 function renderMap(): void {
@@ -162,7 +178,7 @@ function renderMap(): void {
   main.className = 'mb-map';
   const top = document.createElement('div');
   top.className = 'mb-map__top';
-  top.append(head('祝融基地'), text('p', `${save.completed.length + save.cert.completed.length + save.addition.completed.length} 座基地设施已建成`, 'mb-map__status'));
+  top.append(head('祝融基地'), text('p', `${save.completed.length + save.cert.completed.length + save.addition.completed.length + save.subtraction.completed.length} 座基地设施已建成`, 'mb-map__status'));
   const landscape = document.createElement('div');
   landscape.className = 'mb-landscape';
   const sky = document.createElement('div');
@@ -412,12 +428,16 @@ void shell.ready.then(() => {
     if (c1) { startC1Node(c1Context, c1); return; }
     const addition = ADDITION_NODES.find((entry) => entry.id === params.get('node'));
     if (addition) { startAdditionNode(additionContext, addition); return; }
+    const subtraction = SUBTRACTION_NODES.find((entry) => entry.id === params.get('node'));
+    if (subtraction) { startSubtractionNode(subtractionContext, subtraction); return; }
   }
-  if (save.activeArea === 'addition' && save.addition.active && ADDITION_NODES.some((node) => node.id === save.addition.active?.nodeId)) show('addMission');
+  if (save.activeArea === 'subtraction' && save.subtraction.active && SUBTRACTION_NODES.some((node) => node.id === save.subtraction.active?.nodeId)) show('subMission');
+  else if (save.activeArea === 'addition' && save.addition.active && ADDITION_NODES.some((node) => node.id === save.addition.active?.nodeId)) show('addMission');
   else if (save.activeArea === 'cert' && save.cert.active && C1_NODES.some((node) => node.id === save.cert.active?.nodeId)) show('certMission');
   else if (save.active && ORBIT_NODES.some((node) => node.id === save.active?.nodeId)) show('mission');
   else if (save.cert.active && C1_NODES.some((node) => node.id === save.cert.active?.nodeId)) show('certMission');
   else if (save.addition.active && ADDITION_NODES.some((node) => node.id === save.addition.active?.nodeId)) show('addMission');
+  else if (save.subtraction.active && SUBTRACTION_NODES.some((node) => node.id === save.subtraction.active?.nodeId)) show('subMission');
   else show(save.onboardingDone ? 'map' : 'onboarding');
 });
 

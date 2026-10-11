@@ -93,9 +93,10 @@ test('v1 orbit progress migrates without losing completed nodes', async ({ page 
   });
   await page.goto('/mars-base/?test=1&mute=1');
   const data = await page.evaluate(() => JSON.parse(localStorage.getItem('kg:v1:mars-base') ?? '{}'));
-  expect(data.v).toBe(3);
+  expect(data.v).toBe(4);
   expect(data.data.completed).toEqual(['orbit.O1.0']);
   expect(data.data.skipped).toEqual(['orbit.O1.1']);
   expect(data.data.cert.completed).toEqual([]);
   expect(data.data.addition.completed).toEqual([]);
+  expect(data.data.subtraction.completed).toEqual([]);
 });

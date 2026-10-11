@@ -37,7 +37,7 @@ test('orbit calibration, progress and resumed placement', async ({ page }) => {
   await expect(page.locator('.mb-order__target')).toHaveText(target);
   await expect(page.locator('.mb-line__lens')).toHaveText('432');
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('kg:v1:mars-base') ?? '{}'));
-  expect(saved.v).toBe(2);
+  expect(saved.v).toBe(4);
   expect(saved.data.active.index).toBe(0);
   expect(saved.data.active.draft).toBe(432);
   expect(errors).toEqual([]);
