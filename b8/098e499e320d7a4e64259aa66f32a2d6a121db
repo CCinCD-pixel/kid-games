@@ -1,0 +1,63 @@
+site/mars-base/src/addition/model.ts
+  s_e8836c6d1c92e0::t_536a96c9e6d8c7 1-81
+site/mars-base/src/cert/ui.ts
+  s_e8836c6d1c92e0::t_eccb8f9edc43d8 51
+  s_e8836c6d1c92e0::t_251d5e3627d7f4 329
+site/mars-base/src/addition/model.test.ts
+  s_e8836c6d1c92e0::t_fd7ddd172a55af 1-35
+site/mars-base/src/orbit/save.ts
+  s_e8836c6d1c92e0::t_69a4389bbb1537 27
+  s_e8836c6d1c92e0::t_eccb8f9edc43d8 49
+  s_e8836c6d1c92e0::t_251d5e3627d7f4 63-64
+  s_e8836c6d1c92e0::t_536a96c9e6d8c7 19-26,29-35,55,59-60,62,65,71-72
+  s_e8836c6d1c92e0::t_fa4dbfeb7d4c73 28
+site/mars-base/src/addition/ui.ts
+  s_e8836c6d1c92e0::t_f81e8f31102e35 233-235
+  s_e8836c6d1c92e0::t_fa4dbfeb7d4c73 226,244-249,265-269,287,326
+  s_e8836c6d1c92e0::t_eccb8f9edc43d8 1-217,253-264,270-280,282-285,288,291-306,308-324,327-354
+  s_e8836c6d1c92e0::t_69a4389bbb1537 218-225,227-232,236-243,250-252,281,286,289-290,307,325
+site/mars-base/src/main.ts
+  s_e8836c6d1c92e0::t_50877210c41ba7 10-11,21,86-94,109,114-117,140-142,144-151,153-159,165,176,219,413-414,416-418,420
+  s_e8836c6d1c92e0::t_251d5e3627d7f4 152,386
+  s_e8836c6d1c92e0::t_15b4f158b2f209 143
+site/mars-base/src/styles.css
+  s_e8836c6d1c92e0::t_f8b8b33206882f 202-205,207
+  s_e8836c6d1c92e0::t_e7ea7edbf4c481 80-84,109-116,118-125,173-185
+  s_e8836c6d1c92e0::t_fa4dbfeb7d4c73 130-131
+  s_e8836c6d1c92e0::t_6149271ee28fb3 117
+  s_e8836c6d1c92e0::t_f81e8f31102e35 126-129
+  s_e8836c6d1c92e0::t_22ec0f1dbfcd98 206
+site/mars-base/tests/addition.spec.ts
+  s_e8836c6d1c92e0::t_c3b9f5e70dee5e 86
+  s_e8836c6d1c92e0::t_4fdbd2b461e440 64,66-67,69
+  s_e8836c6d1c92e0::t_daaf0f69df379c 62,65
+  s_e8836c6d1c92e0::t_6149271ee28fb3 43-46
+  s_e8836c6d1c92e0::t_0387534c5c5a8c 1-17,19-20,29-42,47-61,63,68,79-85,87-91,94-123
+  s_e8836c6d1c92e0::t_f81e8f31102e35 21-23,28
+  s_e8836c6d1c92e0::t_fa4dbfeb7d4c73 24
+  s_e8836c6d1c92e0::t_5edff2858ddc9f 18,25-27,92-93
+  s_e8836c6d1c92e0::t_15b4f158b2f209 70-73
+  s_e8836c6d1c92e0::t_08cc111bbb2cf0 74-78
+  s_e8836c6d1c92e0::t_b79a789e1900df 124-135,138-142,149-152
+  s_e8836c6d1c92e0::t_f8b8b33206882f 136-137,143-148
+site/mars-base/tests/c1.spec.ts
+  s_e8836c6d1c92e0::t_e7ea7edbf4c481 51,96,100
+content/mars-base/nodes.json
+  s_e8836c6d1c92e0::t_fd7ddd172a55af 586-591
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "b8098e499e320d7a4e64259aa66f32a2d6a121db",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
