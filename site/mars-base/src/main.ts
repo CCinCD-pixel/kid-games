@@ -4,6 +4,9 @@ import { bindPress, icon, shouldAutoSkip } from '@kit/ui';
 import { createNumberLine, type NumberLineControl } from '@engines/manip/numberline';
 import { ORBIT_NODES, evaluateOrbitItem, makeOrbitItems, scoreCalibration, type OrbitItem, type OrbitNode } from './orbit/model';
 import { orbitStore, updateHub, type OrbitSave } from './orbit/save';
+import { openNumericPad } from './ui/pad';
+import { C1_NODES } from './cert/c1';
+import { renderC1Chapter, renderC1Feedback, renderC1Mission, renderC1Wrap, startC1Node, type C1Context } from './cert/ui';
 import './styles.css';
 
 const root = document.getElementById('app')!;
@@ -13,7 +16,8 @@ let save: OrbitSave = orbitStore.load();
 let line: NumberLineControl | null = null;
 let answer = '';
 let subtitle: HTMLElement | null = null;
-let route: 'onboarding' | 'map' | 'chapter' | 'mission' | 'feedback' | 'wrap' = 'map';
+type Route = 'onboarding' | 'map' | 'chapter' | 'mission' | 'feedback' | 'wrap' | 'certChapter' | 'certMission' | 'certFeedback' | 'certWrap';
+let route: Route = 'map';
 let currentZone = 'orbit';
 let wrappedNode: OrbitNode | null = null;
 const voice = new Narrator({ onCue: (cue) => { if (subtitle && cue) subtitle.textContent = cue.text; } });
@@ -68,7 +72,17 @@ function text(tag: 'div' | 'p' | 'h2' | 'span' | 'strong', value: string, classN
   element.textContent = value;
   return element;
 }
-function show(next: typeof route): void {
+const c1Context: C1Context = {
+  root,
+  get save() { return save; },
+  persist,
+  speak,
+  go: (screen) => show(screen),
+  mark: (name, data) => { shell.session?.mark(name, data); },
+  replay: () => { void voice.replay(); },
+};
+
+function show(next: Route): void {
   line?.destroy();
   line = null;
   route = next;
@@ -81,6 +95,10 @@ function show(next: typeof route): void {
   if (next === 'mission') renderMission();
   if (next === 'feedback') renderFeedback();
   if (next === 'wrap') renderWrap();
+  if (next === 'certChapter') renderC1Chapter(c1Context);
+  if (next === 'certMission') renderC1Mission(c1Context);
+  if (next === 'certFeedback') renderC1Feedback(c1Context);
+  if (next === 'certWrap') renderC1Wrap(c1Context);
 }
 
 function renderOnboarding(): void {
@@ -118,8 +136,8 @@ function renderMap(): void {
   const zones = document.createElement('div');
   zones.className = 'mb-zones';
   Object.keys(zoneNames).forEach((id) => {
-    const available = id === 'orbit';
-    const button = makeButton('', () => { if (available) { currentZone = id; show('chapter'); } }, `mb-zone mb-zone--${id}`);
+    const available = id === 'orbit' || id === 'cert';
+    const button = makeButton('', () => { if (available) { currentZone = id; show(id === 'cert' ? 'certChapter' : 'chapter'); } }, `mb-zone mb-zone--${id}`);
     button.disabled = !available;
     button.setAttribute('aria-label', `${zoneNames[id]}${available ? '' : '建设中'}`);
     button.append(text('span', zoneSymbols[id], 'mb-zone__symbol'), text('span', zoneNames[id], 'mb-zone__name'));
@@ -137,6 +155,7 @@ function renderMap(): void {
 }
 
 function renderChapter(): void {
+  if (currentZone === 'cert') { renderC1Chapter(c1Context); return; }
   const main = document.createElement('main');
   main.className = 'mb-chapter';
   main.append(head(zoneNames[currentZone], () => show('map')));
@@ -232,33 +251,17 @@ function renderMission(): void {
 }
 
 function openReadPad(display: HTMLButtonElement, active: NonNullable<OrbitSave['active']>): void {
-  const overlay = document.createElement('div');
-  overlay.className = 'mb-pad-overlay';
-  const pad = document.createElement('div');
-  pad.className = 'mb-pad';
-  const top = document.createElement('div');
-  top.className = 'mb-pad__top';
-  const readout = text('strong', answer || '?', 'mb-pad__readout');
-  top.append(readout, makeButton('关闭', () => overlay.remove(), 'mb-pad__close'));
-  const keys = document.createElement('div');
-  keys.className = 'mb-pad__keys';
-  for (const digit of ['1', '2', '3', '4', '5', '6', '7', '8', '9', '⌫', '0', '✓']) {
-    const key = makeButton(digit, () => {
-      if (digit === '✓') { overlay.remove(); submit(); return; }
-      if (digit === '⌫') answer = answer.slice(0, -1);
-      else if (answer.length < 4) answer = answer === '0' ? digit : answer + digit;
-      readout.textContent = answer || '?';
+  openNumericPad(root, {
+    value: answer,
+    onChange(value) {
+      answer = value;
       display.textContent = answer || '填数字';
       display.setAttribute('aria-label', `旗子所在的位置，当前${answer || '未填写'}`);
       active.draft = answer === '' ? undefined : Number(answer);
       persist();
-    }, digit === '✓' ? 'mb-button--primary' : '');
-    key.setAttribute('aria-label', digit === '⌫' ? '删除' : digit === '✓' ? '交付' : digit);
-    keys.append(key);
-  }
-  pad.append(top, keys);
-  overlay.append(pad);
-  root.append(overlay);
+    },
+    onSubmit: submit,
+  });
 }
 
 function submit(): void {
@@ -367,8 +370,11 @@ void shell.ready.then(() => {
   if (params.get('node') && test) {
     const node = ORBIT_NODES.find((entry) => entry.id === params.get('node'));
     if (node) { startNode(node); return; }
+    const c1 = C1_NODES.find((entry) => entry.id === params.get('node'));
+    if (c1) { startC1Node(c1Context, c1); return; }
   }
   if (save.active && ORBIT_NODES.some((node) => node.id === save.active?.nodeId)) show('mission');
+  else if (save.cert.active && C1_NODES.some((node) => node.id === save.cert.active?.nodeId)) show('certMission');
   else show(save.onboardingDone ? 'map' : 'onboarding');
 });
 
