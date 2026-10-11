@@ -11,7 +11,7 @@ import { litByBeam } from '../lane/tags';
 import { BODY } from '../lane/rules';
 import type { Enemy, SimEvent, SimState, Unit } from '../lane/types';
 
-interface Vis { seen: number; walk: number; lastX: number; atk: number; atkOn: number; hurt: number; lastHp: number; lastSh: number; lastNext: number; dings: number; shut: number }
+interface Vis { seen: number; walk: number; lastX: number; atk: number; atkOn: number; hurt: number; lastHp: number; lastSh: number; lastNext: number; dings: number; shut: number; numberAt?: number; lastCrack?: number }
 interface Particle { on: boolean; kind: number; x: number; y: number; vx: number; vy: number; r: number; vr: number; life: number; age: number; size: number; color: string; part: string; ground: number }
 interface Flyer { on: boolean; x0: number; y0: number; x1: number; y1: number; t0: number; dur: number; part: string; kind: 'gear' | 'grain'; arrive?: () => void }
 export interface Hover { lane: number; col: number; ok: boolean; /** 1-1: breathe until he places the card (spec §2.4) */ pulse?: boolean }
@@ -94,7 +94,7 @@ export class Stage {
 
   private visOf(e: Enemy, now: number): Vis {
     let v = this.vis.get(e.id);
-    if (!v) { v = { seen: now, walk: 0, lastX: e.x, atk: 0, atkOn: 0, hurt: 0, lastHp: e.hp, lastSh: e.sh, lastNext: 0, dings: e.dings || 0, shut: 0 }; this.vis.set(e.id, v); }
+    if (!v) { v = { seen: now, walk: 0, lastX: e.x, atk: 0, atkOn: 0, hurt: 0, lastHp: e.hp, lastSh: e.sh, lastNext: 0, dings: e.dings || 0, shut: 0, lastCrack: e.boss?.crack ?? 0 }; this.vis.set(e.id, v); }
     return v;
   }
   /** call before each kernel step: remembers x for interpolation */
@@ -111,8 +111,20 @@ export class Stage {
         if (e.sh <= 0 && v.lastSh > 0) { const p = this.enemyXY(e, 1); const y = p.y - g.h * 0.32; this.spawn(P_PART, p.x - g.w * 0.3, y, -150, -170, 1.1, 1, '', 'shieldL', p.y + 4); this.spawn(P_PART, p.x - g.w * 0.18, y, 120, -210, 1.1, 1, '', 'shieldR', p.y + 4); this.dust(p.x - g.w * 0.25, p.y, 5); }
         if (now - v.hurt > 120) { v.hurt = now; const p = this.enemyXY(e, 1); this.chips(p.x - g.w * 0.2, p.y - g.h * 0.4, e.k === 'ant' ? 1 : 3, e.mat === 'metal' ? ['#ffd968', '#c9a23a'] : WOOD_CHIPS); }
       }
+      const bodyDamage = Math.max(0, v.lastHp - e.hp);
+      const shieldDamage = Math.max(0, v.lastSh - e.sh);
+      const crack = e.boss?.crack ?? 0;
+      const crackDamage = Math.max(0, crack - (v.lastCrack ?? crack));
+      if ((bodyDamage || shieldDamage || crackDamage) && (v.numberAt == null || now - v.numberAt >= 220)) {
+        const p = this.enemyXY(e, 1);
+        const value = bodyDamage || shieldDamage || crackDamage;
+        this.spawn(P_TEXT, p.x, p.y - g.h * 0.48, 0, -36, 0.65, Math.max(12, Math.min(18, g.w * 0.22)),
+          crackDamage && !bodyDamage ? '#ffe08a' : shieldDamage && !bodyDamage ? '#a5e3f5' : '#fff2df',
+          crackDamage && !bodyDamage ? `裂 +${value}` : `-${value}`);
+        v.numberAt = now;
+      }
       if ((e.dings || 0) > v.dings) { if (now - v.atkOn > 400) { this.onFx?.('ding', e); const p = this.enemyXY(e, 1); this.sparks(p.x - g.w * 0.25, p.y - g.h * 0.5); this.ding(p.x - g.w * 0.1, p.y - g.h * 0.85); v.atkOn = now; } v.dings = e.dings || 0; }
-      v.lastHp = e.hp; v.lastSh = e.sh;
+      v.lastHp = e.hp; v.lastSh = e.sh; v.lastCrack = crack;
     }
     for (const u of S.units) {
       let v = this.uvis.get(u.id);
@@ -419,10 +431,32 @@ export class Stage {
     if (e.burnUntil > S.tick) { this.spawnFlame(p.x, p.y - lift - g.h * 0.4); }
     const flash = now - v.hurt < 60 ? 0.8 : 0;
     drawRig(ctx, this.atlas, kind, this.pose, p.x + sx, p.y + sy - lift, g.k * scale, g.dpr, { white: flash, alpha: enter });
+    this.drawEnemyHealth(S, e, p.x + sx, p.y + sy - lift - rig.height * g.k * scale - 9, enter);
     if (e.k === 'rhino' && e.boss && (e.boss.tele ?? 0) > 0) this.chargeWarn(p.x + sx, e.lane, now); // 铜犀蓄力: the lane it will charge down glows (§3.13)
     if (e.k === 'rhino' && e.boss && e.boss.phase === 2) this.drawShellCracks(p.x + sx, p.y + sy, (e.boss.crack ?? 0) / (e.crackMax || 100));
     if (e.stuckUntil > S.tick || e.stunUntil > S.tick) this.dizzy(p.x + sx, p.y + sy - rig.height * g.k * scale - 6, now);
     if (S.mark === e.id) { ctx.setTransform(g.dpr, 0, 0, g.dpr, (p.x + sx) * g.dpr, (p.y + sy) * g.dpr); ctx.strokeStyle = FB.mark; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(0, 0, rig.shadow * g.k * 1.2, rig.shadow * g.k * 0.3, 0, 0, Math.PI * 2); ctx.stroke(); }
+  }
+  private drawEnemyHealth(S: SimState, e: Enemy, x: number, y: number, alpha: number): void {
+    if (e.k === 'ant' && e.hp === e.max && S.mark !== e.id) return;
+    const g = this.geo; const ctx = this.ctx;
+    const shell = e.k === 'rhino' && e.boss?.phase === 2;
+    const value = shell ? (e.boss?.crack ?? 0) / Math.max(1, e.crackMax ?? 1) : e.hp / Math.max(1, e.max);
+    const width = Math.max(e.k === 'ant' ? 13 : 20, g.w * (e.boss ? 0.9 : e.k === 'ant' ? 0.32 : 0.66));
+    const height = g.phone ? 4 : 5;
+    const top = Math.max(laneTop(g, e.lane) + 2, y);
+    ctx.setTransform(g.dpr, 0, 0, g.dpr, (x - width / 2) * g.dpr, top * g.dpr);
+    ctx.globalAlpha = Math.min(1, alpha);
+    ctx.fillStyle = '#302820'; ctx.fillRect(-1, -1, width + 2, height + 2);
+    ctx.fillStyle = '#f4e4c8'; ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = shell ? '#e8b54d' : value < 0.3 ? '#d94c42' : value < 0.6 ? '#e49c3f' : '#299d80';
+    ctx.fillRect(0, 0, width * Math.max(0, Math.min(1, value)), height);
+    if (e.sh > 0) {
+      const maxShield = ENEMIES[e.k]?.shield || e.sh;
+      ctx.fillStyle = '#274456'; ctx.fillRect(0, -4, width, 2);
+      ctx.fillStyle = '#77d6ef'; ctx.fillRect(0, -4, width * Math.min(1, e.sh / maxShield), 2);
+    }
+    ctx.globalAlpha = 1;
   }
   /** a volume-2 card just acted (橐 blew, 钩拒 swung, 转射机 shot) — the battle plays its sound */
   onAct?: (u: Unit) => void;
