@@ -208,6 +208,10 @@ export function initShell(opts: ShellOptions): Shell {
 
   // ---- leaving
   let leaving = false;
+  const onPageShow = (event: PageTransitionEvent) => {
+    if (event.persisted) leaving = false;
+  };
+  window.addEventListener('pageshow', onPageShow);
   const leave = async (href = (opts.back && opts.back.href) || '/') => {
     if (leaving) return;
     leaving = true;
@@ -351,6 +355,7 @@ export function initShell(opts: ShellOptions): Shell {
       window.removeEventListener('orientationchange', onOrientation);
       window.visualViewport?.removeEventListener('resize', scheduleLayout);
       document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pageshow', onPageShow);
       if (layoutRaf) cancelAnimationFrame(layoutRaf);
       backEl?.remove();
       gateEl?.remove();
