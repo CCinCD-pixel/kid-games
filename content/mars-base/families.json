@@ -1,0 +1,1141 @@
+{
+ "families": [
+  {
+   "id": "nl.calib",
+   "tag": null,
+   "bands": 1,
+   "answer": "place",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "note": "12 fixed targets, unscored"
+  },
+  {
+   "id": "nl.place",
+   "tag": "nl.est",
+   "bands": 2,
+   "answer": "place",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "offByTen"
+   ]
+  },
+  {
+   "id": "nl.read",
+   "tag": "nl.est",
+   "bands": 2,
+   "answer": "read",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "offByTen"
+   ]
+  },
+  {
+   "id": "nl.zoom",
+   "tag": "nl.zoom",
+   "bands": 1,
+   "answer": "place",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "pv2.read",
+   "tag": "pv2.rep",
+   "bands": 2,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "pvConcat",
+    "digitReversal",
+    "unitAsOne"
+   ]
+  },
+  {
+   "id": "pv2.build",
+   "tag": "pv2.rep",
+   "bands": 2,
+   "answer": "build",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "pv2.compare",
+   "tag": "pv2.cmp",
+   "bands": 3,
+   "answer": "compare2",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "digitReversal"
+   ]
+  },
+  {
+   "id": "pv2.step",
+   "tag": "pv2.step",
+   "bands": 3,
+   "answer": "int",
+   "stage": "hundred",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "offByOne",
+    "offByTen"
+   ]
+  },
+  {
+   "id": "pv2.split",
+   "tag": "pv2.split",
+   "bands": 3,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "canonicalOnly"
+   ]
+  },
+  {
+   "id": "add.tens",
+   "tag": "add.tens",
+   "bands": 2,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "opReversed"
+   ]
+  },
+  {
+   "id": "add.carry1",
+   "tag": "add.carry",
+   "bands": 2,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "noCarry",
+    "countOnInclusive"
+   ]
+  },
+  {
+   "id": "add.2d2d",
+   "tag": "add.2d",
+   "bands": 3,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "noCarry"
+   ]
+  },
+  {
+   "id": "add.compensate",
+   "tag": "add.comp",
+   "bands": 2,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "noCarry"
+   ]
+  },
+  {
+   "id": "sub.tens",
+   "tag": "sub.tens",
+   "bands": 2,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "opReversed"
+   ]
+  },
+  {
+   "id": "sub.borrow1",
+   "tag": "sub.borrow",
+   "bands": 2,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "smallerFromLarger"
+   ]
+  },
+  {
+   "id": "sub.thinkAdd",
+   "tag": "sub.think",
+   "bands": 1,
+   "answer": "int",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "smallerFromLarger"
+   ]
+  },
+  {
+   "id": "sub.2d2d",
+   "tag": "sub.2d",
+   "bands": 3,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "smallerFromLarger"
+   ]
+  },
+  {
+   "id": "sub.compensate",
+   "tag": "sub.comp",
+   "bands": 1,
+   "answer": "int",
+   "stage": "tray2",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "smallerFromLarger"
+   ]
+  },
+  {
+   "id": "col.align",
+   "tag": "col.calc",
+   "bands": 1,
+   "answer": "build",
+   "stage": "column",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "col.add",
+   "tag": "col.calc",
+   "bands": 2,
+   "answer": "multi",
+   "stage": "column",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "noCarry"
+   ]
+  },
+  {
+   "id": "col.sub",
+   "tag": "col.calc",
+   "bands": 2,
+   "answer": "multi",
+   "stage": "column",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "smallerFromLarger"
+   ]
+  },
+  {
+   "id": "col.findError",
+   "tag": "col.check",
+   "bands": 2,
+   "answer": "findError",
+   "stage": "column",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "col.audit",
+   "tag": "col.check",
+   "bands": 1,
+   "answer": "findError",
+   "stage": "column",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "note": "3 sums, 0 or 1 wrong; \"都对\" option; not pure choice (must also locate + fix)"
+  },
+  {
+   "id": "rel.partWhole",
+   "tag": "rel.pw",
+   "bands": 3,
+   "answer": "int",
+   "stage": "bar",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "opReversed"
+   ]
+  },
+  {
+   "id": "rel.unknownAny",
+   "tag": "rel.unknown",
+   "bands": 2,
+   "answer": "int",
+   "stage": "bar",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "opReversed"
+   ]
+  },
+  {
+   "id": "rel.compare",
+   "tag": "rel.cmp",
+   "bands": 3,
+   "answer": "int",
+   "stage": "bar",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "keywordOp"
+   ]
+  },
+  {
+   "id": "rel.family",
+   "tag": "rel.family",
+   "bands": 1,
+   "answer": "multi",
+   "stage": "bar",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "rel.twoStep",
+   "tag": "rel.two",
+   "bands": 1,
+   "answer": "int",
+   "stage": "bar",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "pv3.pack",
+   "tag": "pv3.rep",
+   "bands": 2,
+   "answer": "build",
+   "stage": "tray3",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "pv3.read",
+   "tag": "pv3.rep",
+   "bands": 3,
+   "answer": "int",
+   "stage": "tray3",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "zeroOmit",
+    "pvConcat",
+    "unitAsOne"
+   ]
+  },
+  {
+   "id": "pv3.build",
+   "tag": "pv3.rep",
+   "bands": 2,
+   "answer": "build",
+   "stage": "tray3",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "pv3.counter",
+   "tag": "pv3.rep",
+   "bands": 2,
+   "answer": "build",
+   "stage": "counter",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "zeroOmit"
+   ]
+  },
+  {
+   "id": "pv3.dictation",
+   "tag": "pv3.say",
+   "bands": 2,
+   "answer": "int",
+   "stage": "dictation",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "zeroOmit",
+    "extraZero"
+   ]
+  },
+  {
+   "id": "pv3.compare",
+   "tag": "pv3.cmp",
+   "bands": 3,
+   "answer": "compare2",
+   "stage": "tray3",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "digitReversal"
+   ]
+  },
+  {
+   "id": "pv3.order",
+   "tag": "pv3.cmp",
+   "bands": 2,
+   "answer": "order",
+   "stage": "orderBelt",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "pv3.step",
+   "tag": "pv3.step",
+   "bands": 3,
+   "answer": "int",
+   "stage": "counter",
+   "choice": false,
+   "factSpace": true,
+   "diag": [
+    "offByOne",
+    "offByTen"
+   ]
+  },
+  {
+   "id": "pv3.addHund",
+   "tag": "pv3.add",
+   "bands": 3,
+   "answer": "int",
+   "stage": "tray3",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "noCarry"
+   ]
+  },
+  {
+   "id": "pv3.skip",
+   "tag": "pv3.step",
+   "bands": 2,
+   "answer": "int",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "offByTen"
+   ]
+  },
+  {
+   "id": "pv3.round",
+   "tag": "pv3.round",
+   "bands": 2,
+   "answer": "int",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "mul.groups",
+   "tag": "mul.groups",
+   "bands": 3,
+   "answer": "int",
+   "stage": "pods",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "mulAsAdd"
+   ],
+   "asks": [
+    "total",
+    "count",
+    "size"
+   ]
+  },
+  {
+   "id": "mul.write",
+   "tag": "mul.groups",
+   "bands": 1,
+   "answer": "int2",
+   "stage": "pods",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "asks": [
+    "sum",
+    "times"
+   ]
+  },
+  {
+   "id": "mul.equalCheck",
+   "tag": "mul.groups",
+   "bands": 1,
+   "answer": "multi",
+   "stage": "pods",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "note": "能→写出 □×□；不能→点\"不能\"。first-try needs both parts"
+  },
+  {
+   "id": "mul.skip",
+   "tag": "mul.skip",
+   "bands": 3,
+   "answer": "int",
+   "stage": "numberline",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "offByStep"
+   ]
+  },
+  {
+   "id": "mul.array",
+   "tag": "mul.array",
+   "bands": 2,
+   "answer": "int",
+   "stage": "array",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "mulAsAdd"
+   ],
+   "asks": [
+    "total",
+    "rotate"
+   ]
+  },
+  {
+   "id": "mul.commute",
+   "tag": "mul.array",
+   "bands": 2,
+   "answer": "int",
+   "stage": "array",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "mul.missingFactor",
+   "tag": "mul.struct",
+   "bands": 1,
+   "answer": "int",
+   "stage": "array",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "asks": [
+    "cols",
+    "rows"
+   ]
+  },
+  {
+   "id": "mul.split",
+   "tag": "mul.struct",
+   "bands": 2,
+   "answer": "multi",
+   "stage": "array",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "mul.compareArr",
+   "tag": "mul.array",
+   "bands": 2,
+   "answer": "multi",
+   "stage": "array",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "note": "哪块多 + 多几块（键盘）; not pure choice"
+  },
+  {
+   "id": "mul.family",
+   "tag": "mul.struct",
+   "bands": 1,
+   "answer": "multi",
+   "stage": "array",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "div.share",
+   "tag": "div.share",
+   "bands": 3,
+   "answer": "int",
+   "stage": "share",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "opReversed"
+   ],
+   "asks": [
+    "each",
+    "parts"
+   ]
+  },
+  {
+   "id": "div.group",
+   "tag": "div.group",
+   "bands": 2,
+   "answer": "int",
+   "stage": "pods",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "opReversed"
+   ]
+  },
+  {
+   "id": "bal.equal",
+   "tag": "bal.eq",
+   "bands": 3,
+   "answer": "int",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "equalAsOperator"
+   ]
+  },
+  {
+   "id": "bal.open",
+   "tag": "bal.eq",
+   "bands": 2,
+   "answer": "open",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "bal.removeBoth",
+   "tag": "bal.ops",
+   "bands": 1,
+   "answer": "multi",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "bal.addBoth",
+   "tag": "bal.ops",
+   "bands": 1,
+   "answer": "multi",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "bal.box1",
+   "tag": "bal.box",
+   "bands": 3,
+   "answer": "int",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "bal.box2",
+   "tag": "bal.box2",
+   "bands": 2,
+   "answer": "int",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": true,
+   "diag": []
+  },
+  {
+   "id": "bal.boxBoth",
+   "tag": "bal.box2",
+   "bands": 2,
+   "answer": "int",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "bal.stepCards",
+   "tag": "bal.ops",
+   "bands": 2,
+   "answer": "steps",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "note": "pick a card → balance executes it (an illegal card tilts = consequence) → type the weight"
+  },
+  {
+   "id": "money.denom",
+   "tag": "money.value",
+   "bands": 2,
+   "answer": "build",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "money.exchange",
+   "tag": "money.value",
+   "bands": 2,
+   "answer": "int",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "money.count",
+   "tag": "money.value",
+   "bands": 2,
+   "answer": "int2",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "money.pay",
+   "tag": "money.pay",
+   "bands": 2,
+   "answer": "build",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "money.payMin",
+   "tag": "money.pay",
+   "bands": 2,
+   "answer": "int",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "money.yuanJiao",
+   "tag": "money.value",
+   "bands": 2,
+   "answer": "int2",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "money.change",
+   "tag": "money.change",
+   "bands": 3,
+   "answer": "int2",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "offByOne"
+   ]
+  },
+  {
+   "id": "money.budget",
+   "tag": "money.budget",
+   "bands": 2,
+   "answer": "open",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.readHour",
+   "tag": "clock.read",
+   "bands": 1,
+   "answer": "int",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.setHour",
+   "tag": "clock.read",
+   "bands": 1,
+   "answer": "clockSet",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.readHalf",
+   "tag": "clock.read",
+   "bands": 1,
+   "answer": "int2",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "hourHandHalf"
+   ]
+  },
+  {
+   "id": "clock.setHalf",
+   "tag": "clock.read",
+   "bands": 1,
+   "answer": "clockSet",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.mixed",
+   "tag": "clock.read",
+   "bands": 1,
+   "answer": "int2",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.elapsed",
+   "tag": "clock.elapsed",
+   "bands": 2,
+   "answer": "int",
+   "stage": "timeline",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "offByOne"
+   ]
+  },
+  {
+   "id": "clock.endTime",
+   "tag": "clock.elapsed",
+   "bands": 1,
+   "answer": "int",
+   "stage": "timeline",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.min5",
+   "tag": "clock.min",
+   "bands": 1,
+   "answer": "int",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.read5",
+   "tag": "clock.min",
+   "bands": 1,
+   "answer": "int2",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": [
+    "hourHandHalf"
+   ]
+  },
+  {
+   "id": "clock.set5",
+   "tag": "clock.min",
+   "bands": 1,
+   "answer": "clockSet",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "clock.elapsedMin",
+   "tag": "clock.elapsedMin",
+   "bands": 1,
+   "answer": "int",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.pv3",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "tray3",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.pv3cmp",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "tray3",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.groups",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "pods",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.arrays",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "array",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.share",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "share",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.balance",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.level",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.equation",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "balance",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.shop",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "money",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.day",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "timeline",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  },
+  {
+   "id": "open.clock5",
+   "tag": null,
+   "bands": 1,
+   "answer": "open",
+   "stage": "clock",
+   "choice": false,
+   "factSpace": false,
+   "diag": []
+  }
+ ],
+ "tagPrereq": {
+  "nl.est": [],
+  "nl.zoom": [
+   "nl.est"
+  ],
+  "pv2.rep": [],
+  "pv2.cmp": [
+   "pv2.rep"
+  ],
+  "pv2.step": [
+   "pv2.rep"
+  ],
+  "pv2.split": [
+   "pv2.rep"
+  ],
+  "add.tens": [
+   "pv2.rep"
+  ],
+  "add.carry": [
+   "pv2.rep"
+  ],
+  "add.2d": [
+   "add.carry"
+  ],
+  "add.comp": [
+   "add.2d"
+  ],
+  "sub.tens": [
+   "pv2.rep"
+  ],
+  "sub.borrow": [
+   "pv2.split"
+  ],
+  "sub.think": [
+   "add.carry"
+  ],
+  "sub.2d": [
+   "sub.borrow"
+  ],
+  "sub.comp": [
+   "sub.2d"
+  ],
+  "col.calc": [
+   "add.2d",
+   "sub.2d"
+  ],
+  "col.check": [
+   "col.calc"
+  ],
+  "rel.pw": [
+   "add.2d"
+  ],
+  "rel.unknown": [
+   "rel.pw"
+  ],
+  "rel.cmp": [
+   "sub.2d"
+  ],
+  "rel.family": [
+   "rel.pw"
+  ],
+  "rel.two": [
+   "rel.cmp"
+  ],
+  "pv3.rep": [
+   "pv2.rep"
+  ],
+  "pv3.say": [
+   "pv3.rep"
+  ],
+  "pv3.cmp": [
+   "pv3.rep"
+  ],
+  "pv3.step": [
+   "pv3.rep"
+  ],
+  "pv3.add": [
+   "pv3.rep",
+   "add.tens"
+  ],
+  "pv3.round": [
+   "pv3.cmp",
+   "nl.est"
+  ],
+  "mul.groups": [
+   "add.tens"
+  ],
+  "mul.skip": [
+   "mul.groups"
+  ],
+  "mul.array": [
+   "mul.groups"
+  ],
+  "mul.struct": [
+   "mul.array"
+  ],
+  "div.share": [
+   "mul.groups"
+  ],
+  "div.group": [
+   "mul.groups"
+  ],
+  "bal.eq": [
+   "add.carry"
+  ],
+  "bal.ops": [
+   "bal.eq"
+  ],
+  "bal.box": [
+   "bal.ops"
+  ],
+  "bal.box2": [
+   "bal.box"
+  ],
+  "money.value": [
+   "pv2.rep"
+  ],
+  "money.pay": [
+   "money.value"
+  ],
+  "money.change": [
+   "money.pay",
+   "sub.borrow"
+  ],
+  "money.budget": [
+   "money.pay"
+  ],
+  "clock.read": [],
+  "clock.elapsed": [
+   "clock.read"
+  ],
+  "clock.min": [
+   "clock.read",
+   "mul.skip"
+  ],
+  "clock.elapsedMin": [
+   "clock.min"
+  ]
+ }
+}

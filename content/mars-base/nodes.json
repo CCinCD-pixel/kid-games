@@ -1,0 +1,3424 @@
+{
+ "chapters": {
+  "O1": "百里轨道",
+  "O2": "千里轨道",
+  "C1": "位值牌",
+  "C2": "加法牌",
+  "C3": "减法牌",
+  "C4": "竖式牌",
+  "C5": "关系牌",
+  "K1": "晶箱入库",
+  "K2": "星际货运",
+  "P1": "装舱车间",
+  "P2": "太阳能阵列",
+  "P3": "配送中心",
+  "B1": "天平入门",
+  "B2": "神秘箱",
+  "B3": "总工程师的秤",
+  "S1": "补给站",
+  "T1": "整时半时",
+  "T2": "几时几分"
+ },
+ "nodes": [
+  {
+   "id": "orbit.O1.0",
+   "zone": "orbit",
+   "chapter": "O1",
+   "kind": "calib",
+   "title": "百里校准",
+   "teaches": "0–100 只看两端，画出你的轨道",
+   "newElement": "插旗、放大镜",
+   "items": [
+    {
+     "fam": "nl.calib",
+     "count": 12,
+     "L": 100
+    }
+   ],
+   "di": 3,
+   "buildingPart": {
+    "id": "orbit.part1",
+    "name": "信号灯"
+   }
+  },
+  {
+   "id": "orbit.O1.1",
+   "zone": "orbit",
+   "chapter": "O1",
+   "kind": "normal",
+   "title": "十格锚点",
+   "teaches": "用每 10 一个的刻度来定位",
+   "newElement": "容差带",
+   "items": [
+    {
+     "fam": "nl.place",
+     "count": 6,
+     "band": 1,
+     "L": 100,
+     "anchors": "every10",
+     "tol": 2
+    }
+   ],
+   "di": 2.5,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "orbit.part2",
+    "name": "卫星模型"
+   }
+  },
+  {
+   "id": "orbit.O1.2",
+   "zone": "orbit",
+   "chapter": "O1",
+   "kind": "normal",
+   "title": "半程锚点",
+   "teaches": "只有 0、50、100 时怎么估",
+   "items": [
+    {
+     "fam": "nl.place",
+     "count": 4,
+     "band": 1,
+     "L": 100,
+     "anchors": "half",
+     "tol": 4
+    },
+    {
+     "fam": "nl.read",
+     "count": 2,
+     "band": 1,
+     "L": 100,
+     "anchors": "half",
+     "tol": 4
+    }
+   ],
+   "di": 3,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "orbit.part3",
+    "name": "电缆盘"
+   }
+  },
+  {
+   "id": "orbit.O1.3",
+   "zone": "orbit",
+   "chapter": "O1",
+   "kind": "normal",
+   "title": "只看两端",
+   "teaches": "只用 0 和 100 估计；从位置读数",
+   "newElement": "反向读数",
+   "items": [
+    {
+     "fam": "nl.place",
+     "count": 4,
+     "band": 1,
+     "L": 100,
+     "anchors": "ends",
+     "tol": 5
+    },
+    {
+     "fam": "nl.read",
+     "count": 2,
+     "band": 1,
+     "L": 100,
+     "anchors": "ends",
+     "tol": 5
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "orbit.part4",
+    "name": "旗杆"
+   }
+  },
+  {
+   "id": "orbit.O1.4",
+   "zone": "orbit",
+   "chapter": "O1",
+   "kind": "calib",
+   "title": "百里复测",
+   "teaches": "再画一次轨道，看看变直了没有",
+   "items": [
+    {
+     "fam": "nl.calib",
+     "count": 12,
+     "L": 100
+    }
+   ],
+   "di": 3.6,
+   "buildingPart": {
+    "id": "orbit.part5",
+    "name": "望远镜"
+   }
+  },
+  {
+   "id": "orbit.O2.1",
+   "zone": "orbit",
+   "chapter": "O2",
+   "kind": "normal",
+   "title": "百格锚点",
+   "teaches": "0–1000 用每 100 的刻度定位",
+   "newElement": "千里轨道",
+   "items": [
+    {
+     "fam": "nl.place",
+     "count": 6,
+     "band": 2,
+     "L": 1000,
+     "anchors": "every100",
+     "tol": 20
+    }
+   ],
+   "di": 3.9,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "orbit.part6",
+    "name": "小雷达"
+   }
+  },
+  {
+   "id": "orbit.O2.2",
+   "zone": "orbit",
+   "chapter": "O2",
+   "kind": "normal",
+   "title": "千里半程",
+   "teaches": "0、500、1000 时怎么估",
+   "items": [
+    {
+     "fam": "nl.place",
+     "count": 6,
+     "band": 2,
+     "L": 1000,
+     "anchors": "half",
+     "tol": 40
+    }
+   ],
+   "di": 4.5,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "orbit.part7",
+    "name": "太阳能翼"
+   }
+  },
+  {
+   "id": "orbit.O2.3",
+   "zone": "orbit",
+   "chapter": "O2",
+   "kind": "normal",
+   "title": "行星订单",
+   "teaches": "两端估计；把行星放上轨道（单位：百万千米）",
+   "newElement": "行星",
+   "items": [
+    {
+     "fam": "nl.place",
+     "count": 4,
+     "band": 2,
+     "L": 1000,
+     "anchors": "ends",
+     "tol": 50
+    },
+    {
+     "fam": "nl.place",
+     "count": 2,
+     "band": 2,
+     "L": 1000,
+     "anchors": "ends",
+     "tol": 50,
+     "ask": "planet"
+    }
+   ],
+   "di": 5.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "orbit.part8",
+    "name": "气象站"
+   }
+  },
+  {
+   "id": "orbit.O2.4",
+   "zone": "orbit",
+   "chapter": "O2",
+   "kind": "normal",
+   "title": "反向读千",
+   "teaches": "从千里轨道上的位置读数",
+   "items": [
+    {
+     "fam": "nl.read",
+     "count": 6,
+     "band": 2,
+     "L": 1000,
+     "anchors": "ends",
+     "tol": 50
+    }
+   ],
+   "di": 5.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "orbit.part9",
+    "name": "天线罩"
+   }
+  },
+  {
+   "id": "orbit.O2.5",
+   "zone": "orbit",
+   "chapter": "O2",
+   "kind": "normal",
+   "title": "放大镜段",
+   "teaches": "一段 100 里还有 10 个 10：在放大段里精确定位",
+   "newElement": "嵌套数轴",
+   "items": [
+    {
+     "fam": "nl.zoom",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "orbit.part10",
+    "name": "观测台阶"
+   }
+  },
+  {
+   "id": "orbit.O2.6",
+   "zone": "orbit",
+   "chapter": "O2",
+   "kind": "calib",
+   "title": "千里校准",
+   "teaches": "0–1000 只看两端，画出你的轨道",
+   "items": [
+    {
+     "fam": "nl.calib",
+     "count": 12,
+     "L": 1000
+    }
+   ],
+   "di": 6,
+   "buildingPart": {
+    "id": "orbit.part11",
+    "name": "环形灯带"
+   }
+  },
+  {
+   "id": "cert.C1.1",
+   "zone": "cert",
+   "chapter": "C1",
+   "kind": "normal",
+   "title": "棒和颗",
+   "teaches": "几个十几个一，读数和搭数",
+   "newElement": "棒车",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv2.read",
+     "count": 3,
+     "band": 1
+    },
+    {
+     "fam": "pv2.build",
+     "count": 3,
+     "band": 1
+    }
+   ],
+   "di": 2,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "cert.lamp1",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C1.2",
+   "zone": "cert",
+   "chapter": "C1",
+   "kind": "normal",
+   "title": "谁多",
+   "teaches": "比两位数，先看十位",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv2.compare",
+     "count": 3
+    },
+    {
+     "fam": "pv2.read",
+     "count": 3,
+     "band": 1
+    }
+   ],
+   "di": 2.4,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "cert.lamp2",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C1.3",
+   "zone": "cert",
+   "chapter": "C1",
+   "kind": "normal",
+   "title": "百数表",
+   "teaches": "在百数表上 ±1、±10，跨整十",
+   "newElement": "百数表",
+   "items": [
+    {
+     "fam": "pv2.step",
+     "count": 6
+    }
+   ],
+   "di": 2.8,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "cert.lamp3",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C1.4",
+   "zone": "cert",
+   "chapter": "C1",
+   "kind": "normal",
+   "title": "切棒",
+   "teaches": "一根棒能切成 10 颗：63=5 个十 13 个一",
+   "newElement": "切割机",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv2.split",
+     "count": 6,
+     "band": 2
+    }
+   ],
+   "di": 3.4,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp4",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C1.5",
+   "zone": "cert",
+   "chapter": "C1",
+   "kind": "normal",
+   "title": "换着拆",
+   "teaches": "拆开两个十；读非标准的货",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv2.split",
+     "count": 3,
+     "band": 3
+    },
+    {
+     "fam": "pv2.read",
+     "count": 3,
+     "band": 2
+    }
+   ],
+   "explain": [
+    5
+   ],
+   "di": 3.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp5",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C1.6",
+   "zone": "cert",
+   "chapter": "C1",
+   "kind": "boss",
+   "title": "盘点",
+   "teaches": "位值综合",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv2.read",
+     "count": 2
+    },
+    {
+     "fam": "pv2.compare",
+     "count": 2
+    },
+    {
+     "fam": "pv2.step",
+     "count": 2
+    },
+    {
+     "fam": "pv2.split",
+     "count": 2
+    }
+   ],
+   "di": 3.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp6",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.1",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "normal",
+   "title": "整十加",
+   "teaches": "棒加棒：30+40、34+20",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "add.tens",
+     "count": 6
+    }
+   ],
+   "di": 2.6,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "cert.lamp7",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.2",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "normal",
+   "title": "进位",
+   "teaches": "第 10 颗放不进槽，要压成棒",
+   "newElement": "加法里的压棒",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "add.carry1",
+     "count": 6
+    }
+   ],
+   "di": 3.2,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "cert.lamp8",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.3",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "normal",
+   "title": "凑整十",
+   "teaches": "38+7：先补 2 凑成 40，再加 5",
+   "newElement": "凑整十",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "add.carry1",
+     "count": 6,
+     "variant": "makeTen"
+    }
+   ],
+   "di": 3.4,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "cert.lamp9",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.4",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "normal",
+   "title": "两位加两位",
+   "teaches": "36+27：棒加棒、颗加颗、满十压棒",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "add.2d2d",
+     "count": 6
+    }
+   ],
+   "di": 4,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "cert.lamp10",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.5",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "normal",
+   "title": "补偿法",
+   "teaches": "39+26：当成 40+26，再拿走 1",
+   "newElement": "补偿",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "add.compensate",
+     "count": 6
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp11",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.6",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "normal",
+   "title": "怎么算快",
+   "teaches": "同一题两种算法比一比；讲给爸爸听",
+   "newElement": "策略比较",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "add.2d2d",
+     "count": 6,
+     "band": 2
+    }
+   ],
+   "explain": [
+    3,
+    5
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "cert.lamp12",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.7",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "normal",
+   "title": "竖式现身",
+   "teaches": "进位的小\"1\"就是刚压出来的那根棒",
+   "newElement": "竖式",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "col.add",
+     "count": 6
+    }
+   ],
+   "di": 4.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp13",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C2.8",
+   "zone": "cert",
+   "chapter": "C2",
+   "kind": "boss",
+   "title": "加法订单会",
+   "teaches": "加法综合",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "add.tens",
+     "count": 2
+    },
+    {
+     "fam": "add.carry1",
+     "count": 2
+    },
+    {
+     "fam": "add.2d2d",
+     "count": 2
+    },
+    {
+     "fam": "add.compensate",
+     "count": 2
+    }
+   ],
+   "di": 4.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp14",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.1",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "normal",
+   "title": "整十减",
+   "teaches": "70−30、56−20",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "sub.tens",
+     "count": 6
+    }
+   ],
+   "di": 2.8,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "cert.lamp15",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.2",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "normal",
+   "title": "退位",
+   "teaches": "42−7：颗不够，切开一根棒",
+   "newElement": "退位（切棒）",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "sub.borrow1",
+     "count": 6
+    }
+   ],
+   "di": 3.4,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "cert.lamp16",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.3",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "normal",
+   "title": "想加算减",
+   "teaches": "53−48：从 48 往上数到 53",
+   "newElement": "想加算减",
+   "items": [
+    {
+     "fam": "sub.thinkAdd",
+     "count": 6
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "cert.lamp17",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.4",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "normal",
+   "title": "两位减两位",
+   "teaches": "63−27",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "sub.2d2d",
+     "count": 6
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp18",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.5",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "normal",
+   "title": "减法补偿",
+   "teaches": "62−29：当成减 30，再还回 1",
+   "newElement": "减法补偿",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "sub.compensate",
+     "count": 6
+    }
+   ],
+   "di": 4.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp19",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.6",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "normal",
+   "title": "多多少",
+   "teaches": "两堆货相差多少",
+   "newElement": "比多少",
+   "items": [
+    {
+     "fam": "rel.compare",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 4.6,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "cert.lamp20",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.7",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "normal",
+   "title": "减法竖式",
+   "teaches": "退位点就是切开的那根棒",
+   "newElement": "减法竖式",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "col.sub",
+     "count": 6
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp21",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C3.8",
+   "zone": "cert",
+   "chapter": "C3",
+   "kind": "boss",
+   "title": "减法订单会",
+   "teaches": "减法综合",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "sub.tens",
+     "count": 2
+    },
+    {
+     "fam": "sub.borrow1",
+     "count": 2
+    },
+    {
+     "fam": "sub.2d2d",
+     "count": 2
+    },
+    {
+     "fam": "sub.thinkAdd",
+     "count": 2
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp22",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C4.1",
+   "zone": "cert",
+   "chapter": "C4",
+   "kind": "normal",
+   "title": "对齐",
+   "teaches": "个位对个位、十位对十位",
+   "newElement": "对齐",
+   "items": [
+    {
+     "fam": "col.align",
+     "count": 6
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "cert.lamp23",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C4.2",
+   "zone": "cert",
+   "chapter": "C4",
+   "kind": "normal",
+   "title": "加法竖式",
+   "teaches": "从个位算起，满十进一",
+   "items": [
+    {
+     "fam": "col.add",
+     "count": 6
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "cert.lamp24",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C4.3",
+   "zone": "cert",
+   "chapter": "C4",
+   "kind": "normal",
+   "title": "减法竖式",
+   "teaches": "不够减向十位借一",
+   "items": [
+    {
+     "fam": "col.sub",
+     "count": 6
+    }
+   ],
+   "di": 4.6,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "cert.lamp25",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C4.4",
+   "zone": "cert",
+   "chapter": "C4",
+   "kind": "normal",
+   "title": "验单·加",
+   "teaches": "领航员的加法货单：找出不对的那一位",
+   "newElement": "找错单",
+   "items": [
+    {
+     "fam": "col.findError",
+     "count": 6,
+     "band": 1,
+     "ask": "add"
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp26",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C4.5",
+   "zone": "cert",
+   "chapter": "C4",
+   "kind": "normal",
+   "title": "验单·减",
+   "teaches": "减法货单：大减小、忘了退位",
+   "items": [
+    {
+     "fam": "col.findError",
+     "count": 6,
+     "band": 2,
+     "ask": "sub"
+    }
+   ],
+   "di": 5.4,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp27",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C4.6",
+   "zone": "cert",
+   "chapter": "C4",
+   "kind": "boss",
+   "title": "质检员",
+   "teaches": "一张单 3 道，最多 1 道有错",
+   "items": [
+    {
+     "fam": "col.audit",
+     "count": 4
+    },
+    {
+     "fam": "col.add",
+     "count": 2
+    },
+    {
+     "fam": "col.sub",
+     "count": 2
+    }
+   ],
+   "di": 5.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp28",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C5.1",
+   "zone": "cert",
+   "chapter": "C5",
+   "kind": "normal",
+   "title": "部分和整体",
+   "teaches": "两部分合起来是整体",
+   "newElement": "线段图",
+   "items": [
+    {
+     "fam": "rel.partWhole",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 3,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "cert.lamp29",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C5.2",
+   "zone": "cert",
+   "chapter": "C5",
+   "kind": "normal",
+   "title": "求一部分",
+   "teaches": "整体减一部分",
+   "items": [
+    {
+     "fam": "rel.partWhole",
+     "count": 6,
+     "band": 2
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "cert.lamp30",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C5.3",
+   "zone": "cert",
+   "chapter": "C5",
+   "kind": "normal",
+   "title": "□ 在哪都行",
+   "teaches": "□+25=61，61−□=25",
+   "newElement": "未知数任意位置",
+   "items": [
+    {
+     "fam": "rel.unknownAny",
+     "count": 6
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp31",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C5.4",
+   "zone": "cert",
+   "chapter": "C5",
+   "kind": "normal",
+   "title": "比多少的图",
+   "teaches": "多几、少几，求多的",
+   "items": [
+    {
+     "fam": "rel.compare",
+     "count": 3,
+     "band": 1
+    },
+    {
+     "fam": "rel.compare",
+     "count": 3,
+     "band": 2
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "cert.lamp32",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C5.5",
+   "zone": "cert",
+   "chapter": "C5",
+   "kind": "normal",
+   "title": "小心\"多\"字",
+   "teaches": "\"B 比 A 少 8\"：先画图再定加减",
+   "newElement": "反向陈述",
+   "items": [
+    {
+     "fam": "rel.compare",
+     "count": 6,
+     "band": 3
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp33",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C5.6",
+   "zone": "cert",
+   "chapter": "C5",
+   "kind": "normal",
+   "title": "一图四式",
+   "teaches": "一个图写出四个算式",
+   "items": [
+    {
+     "fam": "rel.family",
+     "count": 6
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "cert.lamp34",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "cert.C5.7",
+   "zone": "cert",
+   "chapter": "C5",
+   "kind": "boss",
+   "title": "两步订单",
+   "teaches": "关系综合；2 题是 L6 两步题",
+   "items": [
+    {
+     "fam": "rel.partWhole",
+     "count": 2
+    },
+    {
+     "fam": "rel.unknownAny",
+     "count": 2
+    },
+    {
+     "fam": "rel.compare",
+     "count": 2
+    },
+    {
+     "fam": "rel.twoStep",
+     "count": 2
+    }
+   ],
+   "di": 5.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "cert.lamp35",
+    "name": "练习舱灯"
+   }
+  },
+  {
+   "id": "vault.K1.1",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "normal",
+   "title": "装箱",
+   "teaches": "10 根棒装 1 箱，1 箱就是 100",
+   "newElement": "晶箱、装箱机、棒车",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.pack",
+     "count": 6
+    }
+   ],
+   "di": 3,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "vault.part1",
+    "name": "箱堆"
+   }
+  },
+  {
+   "id": "vault.K1.2",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "normal",
+   "title": "读货",
+   "teaches": "几箱几棒几颗读成三位数",
+   "newElement": "三位数",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.read",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 3.4,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "vault.part2",
+    "name": "叉车"
+   }
+  },
+  {
+   "id": "vault.K1.3",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "normal",
+   "title": "按单装货",
+   "teaches": "三位数搭出来",
+   "newElement": "箱车",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.build",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "vault.part3",
+    "name": "顶灯"
+   }
+  },
+  {
+   "id": "vault.K1.4",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "normal",
+   "title": "零的位置",
+   "teaches": "306 和 360 不一样：0 占住空位",
+   "newElement": "0 占位",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.read",
+     "count": 3,
+     "band": 2
+    },
+    {
+     "fam": "pv3.build",
+     "count": 3,
+     "band": 2
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "vault.part4",
+    "name": "门牌"
+   }
+  },
+  {
+   "id": "vault.K1.5",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "normal",
+   "title": "计数器",
+   "teaches": "百位、十位、个位三根杆",
+   "newElement": "计数器",
+   "items": [
+    {
+     "fam": "pv3.counter",
+     "count": 6
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "vault.part5",
+    "name": "货架"
+   }
+  },
+  {
+   "id": "vault.K1.6",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "normal",
+   "title": "听写",
+   "teaches": "听\"三百零六\"写 306；读出 360",
+   "newElement": "读法",
+   "items": [
+    {
+     "fam": "pv3.dictation",
+     "count": 6
+    }
+   ],
+   "di": 4.6,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "vault.part6",
+    "name": "吊钩"
+   }
+  },
+  {
+   "id": "vault.K1.7",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "normal",
+   "title": "拆箱换算",
+   "teaches": "2 箱 13 棒 5 颗是多少",
+   "newElement": "非标准",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.read",
+     "count": 6,
+     "band": 3
+    }
+   ],
+   "explain": [
+    5
+   ],
+   "di": 5.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "vault.part7",
+    "name": "称重地磅"
+   }
+  },
+  {
+   "id": "vault.K1.8",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "boss",
+   "title": "大订单",
+   "teaches": "三位数综合",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.read",
+     "count": 2
+    },
+    {
+     "fam": "pv3.build",
+     "count": 2
+    },
+    {
+     "fam": "pv3.counter",
+     "count": 2
+    },
+    {
+     "fam": "pv3.dictation",
+     "count": 2
+    }
+   ],
+   "di": 5.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "vault.part8",
+    "name": "传送带"
+   }
+  },
+  {
+   "id": "vault.K1.9",
+   "zone": "vault",
+   "chapter": "K1",
+   "kind": "breather",
+   "title": "自选货单",
+   "teaches": "自己定一个三位数，搭出来、读出来",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "open.pv3",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "vault.part9",
+    "name": "仓库旗"
+   }
+  },
+  {
+   "id": "vault.K2.1",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "normal",
+   "title": "哪仓多",
+   "teaches": "先比百位，再比十位",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.compare",
+     "count": 6
+    }
+   ],
+   "di": 4,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "vault.part10",
+    "name": "扫描门"
+   }
+  },
+  {
+   "id": "vault.K2.2",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "normal",
+   "title": "排队",
+   "teaches": "三个数从小到大",
+   "newElement": "排序",
+   "items": [
+    {
+     "fam": "pv3.order",
+     "count": 6
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "vault.part11",
+    "name": "货箱塔"
+   }
+  },
+  {
+   "id": "vault.K2.3",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "normal",
+   "title": "进一位",
+   "teaches": "399 再来 1 颗会怎样；1000",
+   "newElement": "千晶舱",
+   "items": [
+    {
+     "fam": "pv3.step",
+     "count": 6
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "vault.part12",
+    "name": "小吊车"
+   }
+  },
+  {
+   "id": "vault.K2.4",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "normal",
+   "title": "整百整十",
+   "teaches": "300+400、340+50、420−50",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "pv3.addHund",
+     "count": 6
+    }
+   ],
+   "di": 5.4,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "vault.part13",
+    "name": "信号塔"
+   }
+  },
+  {
+   "id": "vault.K2.5",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "normal",
+   "title": "跳着数",
+   "teaches": "10 个 10 个、100 个 100 个，跨百",
+   "items": [
+    {
+     "fam": "pv3.skip",
+     "count": 6
+    }
+   ],
+   "di": 5.4,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "vault.part14",
+    "name": "装卸台"
+   }
+  },
+  {
+   "id": "vault.K2.6",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "normal",
+   "title": "大约几百",
+   "teaches": "离哪个整百近",
+   "newElement": "近似",
+   "items": [
+    {
+     "fam": "pv3.round",
+     "count": 6
+    }
+   ],
+   "di": 5.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "vault.part15",
+    "name": "晶体窗"
+   }
+  },
+  {
+   "id": "vault.K2.7",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "boss",
+   "title": "星际货运",
+   "teaches": "比较 + 数轴定位 + 整百整十加减",
+   "items": [
+    {
+     "fam": "pv3.compare",
+     "count": 2
+    },
+    {
+     "fam": "pv3.addHund",
+     "count": 2
+    },
+    {
+     "fam": "pv3.step",
+     "count": 2
+    },
+    {
+     "fam": "nl.place",
+     "count": 2,
+     "band": 2,
+     "L": 1000,
+     "anchors": "half",
+     "tol": 40
+    }
+   ],
+   "di": 6.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "vault.part16",
+    "name": "卷帘门"
+   }
+  },
+  {
+   "id": "vault.K2.8",
+   "zone": "vault",
+   "chapter": "K2",
+   "kind": "breather",
+   "title": "仓库清点",
+   "teaches": "自己搭两个数，比一比",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "cart.box",
+    "press",
+    "packer",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "open.pv3cmp",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "vault.part17",
+    "name": "屋顶天线"
+   }
+  },
+  {
+   "id": "factory.P1.1",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "两颗一舱",
+   "teaches": "每舱 2 颗，几舱一共几颗：2、4、6 地数",
+   "newElement": "货舱（等组）",
+   "items": [
+    {
+     "fam": "mul.groups",
+     "count": 6,
+     "band": 1,
+     "n": [
+      2
+     ]
+    }
+   ],
+   "di": 2.4,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "factory.part1",
+    "name": "货舱"
+   }
+  },
+  {
+   "id": "factory.P1.2",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "五颗十颗",
+   "teaches": "每舱 5 颗、10 颗；10 颗一舱就是一根棒",
+   "items": [
+    {
+     "fam": "mul.groups",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 2.8,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "factory.part2",
+    "name": "齿轮"
+   }
+  },
+  {
+   "id": "factory.P1.3",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "写成连加",
+   "teaches": "4 个 5 写成 5+5+5+5",
+   "newElement": "连加算式",
+   "items": [
+    {
+     "fam": "mul.write",
+     "count": 6,
+     "band": 1,
+     "ask": "sum"
+    }
+   ],
+   "di": 3.2,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "factory.part3",
+    "name": "烟囱"
+   }
+  },
+  {
+   "id": "factory.P1.4",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "乘号登场",
+   "teaches": "4 个 5 也能写成 5×4 或 4×5",
+   "newElement": "乘号",
+   "items": [
+    {
+     "fam": "mul.write",
+     "count": 6,
+     "band": 1,
+     "ask": "times"
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "factory.part4",
+    "name": "管道"
+   }
+  },
+  {
+   "id": "factory.P1.5",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "能不能乘",
+   "teaches": "每舱一样多才能用乘法",
+   "newElement": "等组判断",
+   "items": [
+    {
+     "fam": "mul.equalCheck",
+     "count": 2
+    },
+    {
+     "fam": "mul.groups",
+     "count": 4,
+     "band": 1
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "factory.part5",
+    "name": "控制台"
+   }
+  },
+  {
+   "id": "factory.P1.6",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "三颗四颗",
+   "teaches": "每舱 3 颗、4 颗",
+   "items": [
+    {
+     "fam": "mul.groups",
+     "count": 6,
+     "band": 2
+    }
+   ],
+   "di": 4,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "factory.part6",
+    "name": "指示灯"
+   }
+  },
+  {
+   "id": "factory.P1.7",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "跳着数",
+   "teaches": "在数轴上 2、5、10 地跳",
+   "newElement": "跳数数轴",
+   "items": [
+    {
+     "fam": "mul.skip",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "factory.part7",
+    "name": "传送带"
+   }
+  },
+  {
+   "id": "factory.P1.8",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "normal",
+   "title": "跳 3 跳 4",
+   "teaches": "3、4 地跳；不从头开始也能跳",
+   "items": [
+    {
+     "fam": "mul.skip",
+     "count": 3,
+     "band": 2
+    },
+    {
+     "fam": "mul.skip",
+     "count": 3,
+     "band": 3
+    }
+   ],
+   "di": 4.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part8",
+    "name": "机械臂"
+   }
+  },
+  {
+   "id": "factory.P1.9",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "boss",
+   "title": "工厂订单",
+   "teaches": "几个几综合",
+   "items": [
+    {
+     "fam": "mul.groups",
+     "count": 2
+    },
+    {
+     "fam": "mul.write",
+     "count": 2
+    },
+    {
+     "fam": "mul.equalCheck",
+     "count": 2
+    },
+    {
+     "fam": "mul.skip",
+     "count": 2
+    }
+   ],
+   "di": 4.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part9",
+    "name": "储料罐"
+   }
+  },
+  {
+   "id": "factory.P1.10",
+   "zone": "factory",
+   "chapter": "P1",
+   "kind": "breather",
+   "title": "自由装舱",
+   "teaches": "自己定几舱几颗，写出算式",
+   "items": [
+    {
+     "fam": "open.groups",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "factory.part10",
+    "name": "太阳能板 1"
+   }
+  },
+  {
+   "id": "factory.P2.1",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "normal",
+   "title": "太阳能板",
+   "teaches": "按几行几列摆板",
+   "newElement": "阵列",
+   "items": [
+    {
+     "fam": "mul.array",
+     "count": 6,
+     "band": 1,
+     "mode": "build"
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "factory.part11",
+    "name": "太阳能板 2"
+   }
+  },
+  {
+   "id": "factory.P2.2",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "normal",
+   "title": "一行一行数",
+   "teaches": "每行一样多：一行一行跳着数",
+   "items": [
+    {
+     "fam": "mul.array",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 3.9,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "factory.part12",
+    "name": "太阳能板 3"
+   }
+  },
+  {
+   "id": "factory.P2.3",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "normal",
+   "title": "转一转",
+   "teaches": "3 行 5 列转 90° 变 5 行 3 列，总数不变",
+   "newElement": "交换律",
+   "items": [
+    {
+     "fam": "mul.commute",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "factory.part13",
+    "name": "配电箱"
+   }
+  },
+  {
+   "id": "factory.P2.4",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "normal",
+   "title": "交换伙伴",
+   "teaches": "知道 3×5 就知道 5×3",
+   "items": [
+    {
+     "fam": "mul.commute",
+     "count": 6,
+     "band": 2
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "factory.part14",
+    "name": "电缆"
+   }
+  },
+  {
+   "id": "factory.P2.5",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "normal",
+   "title": "缺几列",
+   "teaches": "□×4=12：补齐阵列",
+   "newElement": "求因数",
+   "items": [
+    {
+     "fam": "mul.missingFactor",
+     "count": 6
+    }
+   ],
+   "di": 4.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part15",
+    "name": "阵列支架"
+   }
+  },
+  {
+   "id": "factory.P2.6",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "normal",
+   "title": "拆开算",
+   "teaches": "6×4 切成 5×4 和 1×4",
+   "newElement": "拆阵列",
+   "items": [
+    {
+     "fam": "mul.split",
+     "count": 6
+    }
+   ],
+   "explain": [
+    5
+   ],
+   "di": 5.4,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part16",
+    "name": "检修梯"
+   }
+  },
+  {
+   "id": "factory.P2.7",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "normal",
+   "title": "哪块板大",
+   "teaches": "比两个阵列",
+   "items": [
+    {
+     "fam": "mul.compareArr",
+     "count": 2
+    },
+    {
+     "fam": "mul.array",
+     "count": 4,
+     "band": 2
+    }
+   ],
+   "di": 5.4,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "factory.part17",
+    "name": "风向标"
+   }
+  },
+  {
+   "id": "factory.P2.8",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "boss",
+   "title": "铺满地基",
+   "teaches": "阵列综合",
+   "items": [
+    {
+     "fam": "mul.array",
+     "count": 2
+    },
+    {
+     "fam": "mul.commute",
+     "count": 2
+    },
+    {
+     "fam": "mul.missingFactor",
+     "count": 2
+    },
+    {
+     "fam": "mul.split",
+     "count": 2
+    }
+   ],
+   "di": 5.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part18",
+    "name": "分拣机"
+   }
+  },
+  {
+   "id": "factory.P2.9",
+   "zone": "factory",
+   "chapter": "P2",
+   "kind": "breather",
+   "title": "设计电站",
+   "teaches": "24 块板能拼出哪些长方形",
+   "items": [
+    {
+     "fam": "open.arrays",
+     "count": 4,
+     "band": 1,
+     "total": 24
+    }
+   ],
+   "di": 2.4,
+   "buildingPart": {
+    "id": "factory.part19",
+    "name": "配送车"
+   }
+  },
+  {
+   "id": "factory.P3.1",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "normal",
+   "title": "平均分",
+   "teaches": "12 颗分给 3 辆车，一车一颗轮着发",
+   "newElement": "平均分",
+   "items": [
+    {
+     "fam": "div.share",
+     "count": 6,
+     "band": 1,
+     "mode": "build"
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "factory.part20",
+    "name": "车库门"
+   }
+  },
+  {
+   "id": "factory.P3.2",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "normal",
+   "title": "除号登场",
+   "teaches": "12÷3=4",
+   "newElement": "除号",
+   "items": [
+    {
+     "fam": "div.share",
+     "count": 3,
+     "band": 1
+    },
+    {
+     "fam": "div.share",
+     "count": 3,
+     "band": 2
+    }
+   ],
+   "di": 4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "factory.part21",
+    "name": "无人机"
+   }
+  },
+  {
+   "id": "factory.P3.3",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "normal",
+   "title": "每舱几颗",
+   "teaches": "12 颗、每舱 4 颗，要几舱",
+   "newElement": "包含除",
+   "items": [
+    {
+     "fam": "div.group",
+     "count": 6
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "factory.part22",
+    "name": "起落坪"
+   }
+  },
+  {
+   "id": "factory.P3.4",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "normal",
+   "title": "两种分法",
+   "teaches": "同一个算式，两个故事",
+   "items": [
+    {
+     "fam": "div.share",
+     "count": 3
+    },
+    {
+     "fam": "div.group",
+     "count": 3
+    }
+   ],
+   "explain": [
+    5
+   ],
+   "interleave": true,
+   "di": 4.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part23",
+    "name": "货架"
+   }
+  },
+  {
+   "id": "factory.P3.5",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "normal",
+   "title": "切棒来分",
+   "teaches": "30 颗（3 根棒）分给 2 车：要切开一根",
+   "newElement": "切棒平分",
+   "parts": [
+    "cart.crystal",
+    "cart.rod",
+    "press",
+    "cutter"
+   ],
+   "items": [
+    {
+     "fam": "div.share",
+     "count": 6,
+     "band": 3
+    }
+   ],
+   "di": 5.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part24",
+    "name": "旗"
+   }
+  },
+  {
+   "id": "factory.P3.6",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "normal",
+   "title": "乘除一家",
+   "teaches": "一个阵列，四个算式",
+   "newElement": "乘除关系",
+   "items": [
+    {
+     "fam": "mul.family",
+     "count": 6
+    }
+   ],
+   "di": 5.4,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "factory.part25",
+    "name": "探照灯"
+   }
+  },
+  {
+   "id": "factory.P3.7",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "boss",
+   "title": "配送调度",
+   "teaches": "乘除综合",
+   "items": [
+    {
+     "fam": "div.share",
+     "count": 2
+    },
+    {
+     "fam": "div.group",
+     "count": 2
+    },
+    {
+     "fam": "mul.family",
+     "count": 2
+    },
+    {
+     "fam": "mul.array",
+     "count": 2
+    }
+   ],
+   "di": 5.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "factory.part26",
+    "name": "冷却塔"
+   }
+  },
+  {
+   "id": "factory.P3.8",
+   "zone": "factory",
+   "chapter": "P3",
+   "kind": "breather",
+   "title": "分货大会",
+   "teaches": "自己定总数和车数，看能不能分完",
+   "items": [
+    {
+     "fam": "open.share",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "factory.part27",
+    "name": "徽标牌"
+   }
+  },
+  {
+   "id": "balance.B1.1",
+   "zone": "balance",
+   "chapter": "B1",
+   "kind": "normal",
+   "title": "放平它",
+   "teaches": "加砝码让天平平：两边一样重",
+   "newElement": "天平",
+   "items": [
+    {
+     "fam": "bal.equal",
+     "count": 6,
+     "band": 1,
+     "mode": "build"
+    }
+   ],
+   "di": 3,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "balance.part1",
+    "name": "砝码架"
+   }
+  },
+  {
+   "id": "balance.B1.2",
+   "zone": "balance",
+   "chapter": "B1",
+   "kind": "normal",
+   "title": "等号是天平",
+   "teaches": "3+4=□+5：等号两边一样重",
+   "newElement": "等号两边",
+   "items": [
+    {
+     "fam": "bal.equal",
+     "count": 3,
+     "band": 1
+    },
+    {
+     "fam": "bal.equal",
+     "count": 3,
+     "band": 2
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part2",
+    "name": "顶灯"
+   }
+  },
+  {
+   "id": "balance.B1.3",
+   "zone": "balance",
+   "chapter": "B1",
+   "kind": "normal",
+   "title": "好多种放法",
+   "teaches": "两边都是 10，有很多种放法",
+   "items": [
+    {
+     "fam": "bal.open",
+     "count": 4,
+     "band": 1
+    },
+    {
+     "fam": "bal.open",
+     "count": 2,
+     "band": 2
+    }
+   ],
+   "di": 3.6,
+   "buildingPart": {
+    "id": "balance.part3",
+    "name": "旗"
+   }
+  },
+  {
+   "id": "balance.B1.4",
+   "zone": "balance",
+   "chapter": "B1",
+   "kind": "normal",
+   "title": "两边同拿",
+   "teaches": "两边拿走一样的，还是平的",
+   "newElement": "同拿",
+   "items": [
+    {
+     "fam": "bal.removeBoth",
+     "count": 6
+    }
+   ],
+   "di": 4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "balance.part4",
+    "name": "吊钩"
+   }
+  },
+  {
+   "id": "balance.B1.5",
+   "zone": "balance",
+   "chapter": "B1",
+   "kind": "normal",
+   "title": "两边同加",
+   "teaches": "两边加上一样的，还是平的",
+   "newElement": "同加",
+   "items": [
+    {
+     "fam": "bal.addBoth",
+     "count": 6
+    }
+   ],
+   "di": 4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "balance.part5",
+    "name": "刻度牌"
+   }
+  },
+  {
+   "id": "balance.B1.6",
+   "zone": "balance",
+   "chapter": "B1",
+   "kind": "boss",
+   "title": "平衡挑战",
+   "teaches": "等号与同拿同加",
+   "items": [
+    {
+     "fam": "bal.equal",
+     "count": 2
+    },
+    {
+     "fam": "bal.open",
+     "count": 2
+    },
+    {
+     "fam": "bal.removeBoth",
+     "count": 2
+    },
+    {
+     "fam": "bal.addBoth",
+     "count": 2
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part6",
+    "name": "小天平"
+   }
+  },
+  {
+   "id": "balance.B1.7",
+   "zone": "balance",
+   "chapter": "B1",
+   "kind": "breather",
+   "title": "自由放平",
+   "teaches": "自己往两边放砝码，放出一个平的天平",
+   "items": [
+    {
+     "fam": "open.level",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "balance.part7",
+    "name": "台秤"
+   }
+  },
+  {
+   "id": "balance.B2.1",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "normal",
+   "title": "神秘箱",
+   "teaches": "□+3=7：拿走两边的 3，箱子就露出来",
+   "newElement": "神秘箱",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 6,
+     "band": 1,
+     "variant": "presplit"
+    }
+   ],
+   "bandCap": 1,
+   "di": 3.8,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "balance.part8",
+    "name": "工具箱"
+   }
+  },
+  {
+   "id": "balance.B2.2",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "normal",
+   "title": "切砝码",
+   "teaches": "□+5=12：先把 12 切出一个 5",
+   "newElement": "切",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "bandCap": 1,
+   "di": 4.4,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "balance.part9",
+    "name": "平衡锤"
+   }
+  },
+  {
+   "id": "balance.B2.3",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "normal",
+   "title": "箱子换位置",
+   "teaches": "3+□=9、9=□+3",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 6,
+     "band": 1,
+     "variant": "anyPosition"
+    }
+   ],
+   "bandCap": 1,
+   "di": 4.4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "balance.part10",
+    "name": "指针盘"
+   }
+  },
+  {
+   "id": "balance.B2.4",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "normal",
+   "title": "两边都有砝码",
+   "teaches": "□+4=2+9",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 6,
+     "band": 3
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part11",
+    "name": "吊秤"
+   }
+  },
+  {
+   "id": "balance.B2.5",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "normal",
+   "title": "双胞胎箱",
+   "teaches": "□+□=10：一人一半",
+   "newElement": "平分",
+   "items": [
+    {
+     "fam": "bal.box2",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "balance.part12",
+    "name": "链条轮"
+   }
+  },
+  {
+   "id": "balance.B2.6",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "normal",
+   "title": "双胞胎加砝码",
+   "teaches": "□+□+3=11",
+   "items": [
+    {
+     "fam": "bal.box2",
+     "count": 6,
+     "band": 2
+    }
+   ],
+   "di": 5.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part13",
+    "name": "信号灯"
+   }
+  },
+  {
+   "id": "balance.B2.7",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "boss",
+   "title": "连环秤",
+   "teaches": "神秘箱综合，夹一道等号复习",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 2,
+     "band": 1
+    },
+    {
+     "fam": "bal.box1",
+     "count": 2,
+     "band": 3
+    },
+    {
+     "fam": "bal.box2",
+     "count": 2,
+     "band": 2
+    },
+    {
+     "fam": "bal.equal",
+     "count": 2,
+     "band": 3
+    }
+   ],
+   "di": 5.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part14",
+    "name": "台阶"
+   }
+  },
+  {
+   "id": "balance.B2.8",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "breather",
+   "title": "我来出秤",
+   "teaches": "自己放箱子和砝码，领航员来称（领航员一步步演示）",
+   "items": [
+    {
+     "fam": "open.balance",
+     "count": 4
+    }
+   ],
+   "di": 2.4,
+   "buildingPart": {
+    "id": "balance.part15",
+    "name": "箱子堆"
+   }
+  },
+  {
+   "id": "balance.B3.1",
+   "zone": "balance",
+   "chapter": "B3",
+   "kind": "normal",
+   "title": "写下来",
+   "teaches": "天平旁边的算式跟着每一步变",
+   "newElement": "算式面板",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 3,
+     "band": 2,
+     "panel": true
+    },
+    {
+     "fam": "bal.box2",
+     "count": 3,
+     "band": 2,
+     "panel": true
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "balance.part16",
+    "name": "控制台"
+   }
+  },
+  {
+   "id": "balance.B3.2",
+   "zone": "balance",
+   "chapter": "B3",
+   "kind": "normal",
+   "title": "选步骤卡",
+   "teaches": "选\"两边 −3\"这样的步骤卡，天平跟着动",
+   "newElement": "步骤卡",
+   "items": [
+    {
+     "fam": "bal.stepCards",
+     "count": 6
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "balance.part17",
+    "name": "天线"
+   }
+  },
+  {
+   "id": "balance.B3.3",
+   "zone": "balance",
+   "chapter": "B3",
+   "kind": "normal",
+   "title": "两边都有箱",
+   "teaches": "□+□+2=□+7：两边各拿走一个箱",
+   "newElement": "两边有箱",
+   "items": [
+    {
+     "fam": "bal.boxBoth",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 5.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part18",
+    "name": "大砝码"
+   }
+  },
+  {
+   "id": "balance.B3.4",
+   "zone": "balance",
+   "chapter": "B3",
+   "kind": "normal",
+   "title": "只看算式",
+   "teaches": "天平藏起来，需要时点开看",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 2,
+     "band": 3,
+     "rep": "A"
+    },
+    {
+     "fam": "bal.box2",
+     "count": 2,
+     "band": 2,
+     "rep": "A"
+    },
+    {
+     "fam": "bal.boxBoth",
+     "count": 2,
+     "band": 1,
+     "rep": "A"
+    }
+   ],
+   "di": 6.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part19",
+    "name": "围栏"
+   }
+  },
+  {
+   "id": "balance.B3.5",
+   "zone": "balance",
+   "chapter": "B3",
+   "kind": "boss",
+   "title": "总工程师的秤",
+   "teaches": "综合，含 3 箱对 1 箱",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 2,
+     "band": 3
+    },
+    {
+     "fam": "bal.box2",
+     "count": 2,
+     "band": 2
+    },
+    {
+     "fam": "bal.stepCards",
+     "count": 2
+    },
+    {
+     "fam": "bal.boxBoth",
+     "count": 2,
+     "band": 2
+    }
+   ],
+   "di": 6.6,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "balance.part20",
+    "name": "灯带"
+   }
+  },
+  {
+   "id": "balance.B3.6",
+   "zone": "balance",
+   "chapter": "B3",
+   "kind": "breather",
+   "title": "我出算式",
+   "teaches": "自己写一个带神秘箱的算式，领航员摆成天平来称",
+   "items": [
+    {
+     "fam": "open.equation",
+     "count": 4
+    }
+   ],
+   "di": 2.4,
+   "buildingPart": {
+    "id": "balance.part21",
+    "name": "星形徽标"
+   }
+  },
+  {
+   "id": "supply.S1.1",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "认识练习币",
+   "teaches": "角和元，面额是几",
+   "newElement": "钱币",
+   "items": [
+    {
+     "fam": "money.denom",
+     "count": 6
+    }
+   ],
+   "di": 2,
+   "expectedFirstTry": 0.88,
+   "buildingPart": {
+    "id": "supply.part1",
+    "name": "货箱"
+   }
+  },
+  {
+   "id": "supply.S1.2",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "兑换机",
+   "teaches": "10 个 1 角换 1 元，像 10 颗压成一根棒",
+   "newElement": "兑换机",
+   "items": [
+    {
+     "fam": "money.exchange",
+     "count": 6
+    }
+   ],
+   "di": 2.6,
+   "expectedFirstTry": 0.82,
+   "buildingPart": {
+    "id": "supply.part2",
+    "name": "招牌"
+   }
+  },
+  {
+   "id": "supply.S1.3",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "数钱包",
+   "teaches": "先数大的，再数小的",
+   "items": [
+    {
+     "fam": "money.count",
+     "count": 6
+    }
+   ],
+   "di": 3.2,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "supply.part3",
+    "name": "遮阳棚"
+   }
+  },
+  {
+   "id": "supply.S1.4",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "正好付钱",
+   "teaches": "拿出正好的钱",
+   "newElement": "柜台",
+   "items": [
+    {
+     "fam": "money.pay",
+     "count": 6
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "supply.part4",
+    "name": "货架"
+   }
+  },
+  {
+   "id": "supply.S1.5",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "张数最少",
+   "teaches": "用最少的张数付",
+   "items": [
+    {
+     "fam": "money.payMin",
+     "count": 6
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "supply.part5",
+    "name": "收银台"
+   }
+  },
+  {
+   "id": "supply.S1.6",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "几元几角",
+   "teaches": "35 角就是 3 元 5 角",
+   "items": [
+    {
+     "fam": "money.yuanJiao",
+     "count": 6
+    }
+   ],
+   "di": 4.6,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "supply.part6",
+    "name": "小推车"
+   }
+  },
+  {
+   "id": "supply.S1.7",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "往上数找零",
+   "teaches": "付 10 元买 7 元的东西：8、9、10，找 3 元",
+   "newElement": "找零",
+   "items": [
+    {
+     "fam": "money.change",
+     "count": 3,
+     "band": 1
+    },
+    {
+     "fam": "money.change",
+     "count": 3,
+     "band": 2
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "supply.part7",
+    "name": "灯笼"
+   }
+  },
+  {
+   "id": "supply.S1.8",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "normal",
+   "title": "预算采购",
+   "teaches": "20 元能买哪两样",
+   "newElement": "预算",
+   "items": [
+    {
+     "fam": "money.budget",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 5.2,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "supply.part8",
+    "name": "价签牌"
+   }
+  },
+  {
+   "id": "supply.S1.9",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "boss",
+   "title": "补给大采购",
+   "teaches": "买、付、找零（含角）",
+   "items": [
+    {
+     "fam": "money.count",
+     "count": 2
+    },
+    {
+     "fam": "money.payMin",
+     "count": 2
+    },
+    {
+     "fam": "money.yuanJiao",
+     "count": 2
+    },
+    {
+     "fam": "money.change",
+     "count": 2,
+     "band": 3
+    }
+   ],
+   "di": 5.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "supply.part9",
+    "name": "兑换机"
+   }
+  },
+  {
+   "id": "supply.S1.10",
+   "zone": "supply",
+   "chapter": "S1",
+   "kind": "breather",
+   "title": "我来开店",
+   "teaches": "孩子当店主定价，爸爸来买，孩子找零",
+   "items": [
+    {
+     "fam": "open.shop",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "supply.part10",
+    "name": "补给车"
+   }
+  },
+  {
+   "id": "clock.T1.1",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "normal",
+   "title": "认整时",
+   "teaches": "分针指 12，时针指几就是几时",
+   "newElement": "钟面",
+   "items": [
+    {
+     "fam": "clock.readHour",
+     "count": 6
+    }
+   ],
+   "di": 2,
+   "expectedFirstTry": 0.88,
+   "buildingPart": {
+    "id": "clock.part1",
+    "name": "钟面灯"
+   }
+  },
+  {
+   "id": "clock.T1.2",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "normal",
+   "title": "拨整时",
+   "teaches": "拖分针转一圈，时针走一格",
+   "newElement": "拨钟",
+   "items": [
+    {
+     "fam": "clock.setHour",
+     "count": 6
+    }
+   ],
+   "di": 2.4,
+   "expectedFirstTry": 0.85,
+   "buildingPart": {
+    "id": "clock.part2",
+    "name": "旗"
+   }
+  },
+  {
+   "id": "clock.T1.3",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "normal",
+   "title": "认半时",
+   "teaches": "分针指 6；时针在两个数中间",
+   "newElement": "半时",
+   "items": [
+    {
+     "fam": "clock.readHalf",
+     "count": 6
+    }
+   ],
+   "di": 3,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "clock.part3",
+    "name": "齿轮"
+   }
+  },
+  {
+   "id": "clock.T1.4",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "normal",
+   "title": "拨半时",
+   "teaches": "拨出几时半：分针转到 6，时针跟着走到两个数中间",
+   "items": [
+    {
+     "fam": "clock.setHalf",
+     "count": 6
+    }
+   ],
+   "di": 3.4,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "clock.part4",
+    "name": "铃铛"
+   }
+  },
+  {
+   "id": "clock.T1.5",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "normal",
+   "title": "整时半时",
+   "teaches": "混合读和拨",
+   "items": [
+    {
+     "fam": "clock.mixed",
+     "count": 6
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "clock.part5",
+    "name": "发射灯 1"
+   }
+  },
+  {
+   "id": "clock.T1.6",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "normal",
+   "title": "几小时以后",
+   "teaches": "3 时发射，现在 1 时，还有几小时",
+   "newElement": "时间轴",
+   "items": [
+    {
+     "fam": "clock.elapsed",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "clock.part6",
+    "name": "发射灯 2"
+   }
+  },
+  {
+   "id": "clock.T1.7",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "normal",
+   "title": "跨过 12",
+   "teaches": "11 时到 2 时是几小时；几小时后是几时",
+   "newElement": "跨 12",
+   "items": [
+    {
+     "fam": "clock.elapsed",
+     "count": 3,
+     "band": 2
+    },
+    {
+     "fam": "clock.endTime",
+     "count": 3
+    }
+   ],
+   "di": 4.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "clock.part7",
+    "name": "日晷"
+   }
+  },
+  {
+   "id": "clock.T1.8",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "boss",
+   "title": "发射时刻表",
+   "teaches": "时刻综合",
+   "items": [
+    {
+     "fam": "clock.mixed",
+     "count": 2
+    },
+    {
+     "fam": "clock.setHalf",
+     "count": 2
+    },
+    {
+     "fam": "clock.elapsed",
+     "count": 2
+    },
+    {
+     "fam": "clock.endTime",
+     "count": 2
+    }
+   ],
+   "di": 5,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "clock.part8",
+    "name": "时刻牌"
+   }
+  },
+  {
+   "id": "clock.T1.9",
+   "zone": "clock",
+   "chapter": "T1",
+   "kind": "breather",
+   "title": "基地的一天",
+   "teaches": "给基地排一天：起床、工作、发射",
+   "items": [
+    {
+     "fam": "open.day",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "clock.part9",
+    "name": "风向标"
+   }
+  },
+  {
+   "id": "clock.T2.1",
+   "zone": "clock",
+   "chapter": "T2",
+   "kind": "normal",
+   "title": "五分一格",
+   "teaches": "分针每走一大格是 5 分：5、10、15 地数",
+   "newElement": "分",
+   "items": [
+    {
+     "fam": "clock.min5",
+     "count": 6
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "clock.part10",
+    "name": "钟摆"
+   }
+  },
+  {
+   "id": "clock.T2.2",
+   "zone": "clock",
+   "chapter": "T2",
+   "kind": "normal",
+   "title": "读几时几分",
+   "teaches": "7 时 25 分",
+   "items": [
+    {
+     "fam": "clock.read5",
+     "count": 6
+    }
+   ],
+   "di": 4.4,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "clock.part11",
+    "name": "指针模型"
+   }
+  },
+  {
+   "id": "clock.T2.3",
+   "zone": "clock",
+   "chapter": "T2",
+   "kind": "normal",
+   "title": "拨几时几分",
+   "teaches": "先拨分针到几分，再看时针停在哪两个数之间",
+   "items": [
+    {
+     "fam": "clock.set5",
+     "count": 6
+    }
+   ],
+   "di": 4.8,
+   "expectedFirstTry": 0.76,
+   "buildingPart": {
+    "id": "clock.part12",
+    "name": "小天线"
+   }
+  },
+  {
+   "id": "clock.T2.4",
+   "zone": "clock",
+   "chapter": "T2",
+   "kind": "normal",
+   "title": "经过几分钟",
+   "teaches": "同一小时里过了几分钟",
+   "newElement": "经过分钟",
+   "items": [
+    {
+     "fam": "clock.elapsedMin",
+     "count": 6
+    }
+   ],
+   "di": 5.4,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "clock.part13",
+    "name": "台阶"
+   }
+  },
+  {
+   "id": "clock.T2.5",
+   "zone": "clock",
+   "chapter": "T2",
+   "kind": "boss",
+   "title": "精确发射",
+   "teaches": "几时几分综合",
+   "items": [
+    {
+     "fam": "clock.min5",
+     "count": 2
+    },
+    {
+     "fam": "clock.read5",
+     "count": 2
+    },
+    {
+     "fam": "clock.set5",
+     "count": 2
+    },
+    {
+     "fam": "clock.elapsedMin",
+     "count": 2
+    }
+   ],
+   "di": 5.8,
+   "expectedFirstTry": 0.75,
+   "buildingPart": {
+    "id": "clock.part14",
+    "name": "灯带"
+   }
+  },
+  {
+   "id": "clock.T2.6",
+   "zone": "clock",
+   "chapter": "T2",
+   "kind": "breather",
+   "title": "我的发射计划",
+   "teaches": "自己定发射时刻，拨出来",
+   "items": [
+    {
+     "fam": "open.clock5",
+     "count": 4
+    }
+   ],
+   "di": 2,
+   "buildingPart": {
+    "id": "clock.part15",
+    "name": "倒计时牌（装饰）"
+   }
+  }
+ ]
+}
