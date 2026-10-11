@@ -1,0 +1,26 @@
+site/snake-battle/tests/confetti.spec.ts
+  s_e8836c6d1c92e0::t_a37d4efd5455b4 32-46
+  s_e8836c6d1c92e0::t_28334caa8933fc 1-6,8-17,21-31,47-50
+  s_e8836c6d1c92e0::t_2cd31269041599 18-20
+  s_e8836c6d1c92e0::t_ff54e192c6b446 7
+kit/ui/xg.ts
+  s_e8836c6d1c92e0::t_e756feba2dde7a 10,131-133
+kit/particles.ts
+  s_e8836c6d1c92e0::t_e756feba2dde7a 108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "eec286c54d4fff2624d1beff5dc7021b1984479d",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
