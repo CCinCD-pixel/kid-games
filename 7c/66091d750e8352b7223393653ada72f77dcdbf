@@ -1,0 +1,25 @@
+kit/audio.ts
+  s_e8836c6d1c92e0::t_23c7568dfcbe2c 8-9,144,151,159-162,168-171
+tests/unit/audio.test.ts
+  s_e8836c6d1c92e0::t_a9ba7dd2b4bd64 1-7,34-78
+tests/smoke/smoke.spec.ts
+  s_e8836c6d1c92e0::t_e24189f275de06 226-227,237-242
+  s_e8836c6d1c92e0::t_c86080fc6c40c5 234
+  s_e8836c6d1c92e0::t_f6cb826ad5ea95 220-225,228-233,235-236,243-246
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "7c66091d750e8352b7223393653ada72f77dcdbf",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
