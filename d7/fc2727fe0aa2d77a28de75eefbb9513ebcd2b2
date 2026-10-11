@@ -1,0 +1,23 @@
+kit/progress.ts
+  s_e8836c6d1c92e0::t_86d66cab1b1ea1 85-86
+tests/unit/progress.test.ts
+  s_e8836c6d1c92e0::t_94f1bb3e7d0b7e 42-43
+tests/smoke/storage-upgrade.spec.ts
+  s_e8836c6d1c92e0::t_12fc3f90479a86 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "d7fc2727fe0aa2d77a28de75eefbb9513ebcd2b2",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
