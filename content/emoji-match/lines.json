@@ -71,12 +71,12 @@
  },
  "em.intro.prop.1": {
   "role": "companion",
-  "text": "四个凑成方块，变成无人机。",
+  "text": "四个拼成田字格，变小火箭！",
   "kind": "sub"
  },
  "em.intro.prop.2": {
   "role": "companion",
-  "text": "无人机会飞去帮你做目标。",
+  "text": "小火箭制导，炸一个目标。",
   "kind": "sub"
  },
  "em.intro.bomb.1": {
@@ -176,12 +176,12 @@
  },
  "em.intro.comboPP.1": {
   "role": "companion",
-  "text": "两架无人机：编队出发！",
+  "text": "两枚小火箭：三发齐射！",
   "kind": "sub"
  },
  "em.intro.comboP.1": {
   "role": "companion",
-  "text": "无人机会把火箭带过去。",
+  "text": "小火箭把大火箭带去目标。",
   "kind": "sub"
  },
  "em.intro.ice.1": {

@@ -1,6 +1,6 @@
 /**
  * Colourless specials (spec §6.4) and blockers (§6.5) as SVG sprites (same padded viewBox as gems).
- * Idle frames: rocket highlight sweep (5), drone rotors (4), bomb spark (3). The orb is drawn on a
+ * Idle frames: rocket highlight sweep (5), guided-rocket exhaust (4), bomb spark (3). The orb is drawn on a
  * canvas with a conic gradient (orbFrame) — SVG has no conic gradient (review B24).
  */
 import { SPRITE_VIEWBOX } from './gems';
@@ -39,28 +39,25 @@ export function rocketSvg(vertical: boolean, sweep = -1): string {
   return wrap(art, defs);
 }
 
-/** drone with the companion's cyan LED eyes; frame 0..3 = rotor phase; bob = px offset (viewBox units) */
+/** Single-target guided rocket; frame 0..3 = exhaust phase; bob = px offset (viewBox units). */
 export function propSvg(frame = 0, bob = 0): string {
   const s = id('s'), body = id('b'), glow = id('g');
-  const rotor = (cx: number, cy: number) => {
-    const a = frame * 22.5;
-    return `<g transform="translate(${cx} ${cy})"><circle r="13" fill="#8C97AE" opacity=".35"/><circle r="13" fill="none" stroke="#C7D0E2" stroke-width="1.5" opacity=".7"/>
-      <g transform="rotate(${a})"><rect x="-12" y="-2" width="24" height="4" rx="2" fill="#E9EEF7" opacity=".9"/><rect x="-2" y="-12" width="4" height="24" rx="2" fill="#E9EEF7" opacity=".55"/></g>
-      <circle r="3.4" fill="#5B6680" stroke="#fff" stroke-width="1"/></g>`;
-  };
-  const eye = (x: number) => [0, 1].map((r) => [0, 1].map((c) => `<rect x="${x + c * 5.5}" y="${44 + r * 5.5}" width="4.4" height="4.4" rx="1.2" fill="#5FE3F0"/>`).join('')).join('');
+  const flame = [11, 17, 13, 20][frame % 4];
   return wrap(`
-    <ellipse cx="50" cy="95" rx="26" ry="4" fill="#050818" opacity=".45" filter="url(#${s})"/>
+    <ellipse cx="50" cy="88" rx="31" ry="4" fill="#050818" opacity=".45" filter="url(#${s})"/>
     <g transform="translate(0 ${bob})">
-    <path d="M24 24L76 76M76 24L24 76" stroke="#7D879E" stroke-width="6" stroke-linecap="round"/>
-    <rect x="28" y="30" width="44" height="40" rx="12" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="7" filter="url(#${glow})"/>
-    ${rotor(22, 22)}${rotor(78, 22)}${rotor(22, 78)}${rotor(78, 78)}
-    <rect x="28" y="30" width="44" height="40" rx="12" fill="url(#${body})" stroke="#BFC6D4" stroke-width="2"/>
-    <rect x="33" y="38" width="34" height="22" rx="7" fill="#0E1838"/>
-    <g filter="url(#${glow})" opacity=".8">${eye(36.5)}${eye(52.5)}</g>${eye(36.5)}${eye(52.5)}
-    <rect x="32" y="32" width="36" height="4" rx="2" fill="#fff" opacity=".8"/>
-    <rect x="44" y="64" width="12" height="3" rx="1.5" fill="#5FE3F0" opacity=".8"/></g>`,
-  `${blur(s)}${blur(glow, 1.6)}<linearGradient id="${body}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D3D9E6"/></linearGradient>`);
+    <path d="M24 50L${24 - flame} 42L18 50L${24 - flame} 58Z" fill="#FFAF46" filter="url(#${glow})"/>
+    <path d="M25 50L${24 - flame * 0.55} 46L21 50L${24 - flame * 0.55} 54Z" fill="#FFF0AD"/>
+    <path d="M32 40L19 30L22 48L33 52ZM32 60L19 70L22 52L33 48Z" fill="#E97547" stroke="#B54A37" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M38 38Q66 31 83 43L96 50L83 57Q66 69 38 62Q28 58 28 50Q28 42 38 38Z" fill="url(#${body})" stroke="#E5F8F8" stroke-width="3"/>
+    <path d="M54 38L43 27L39 39ZM54 62L43 73L39 61Z" fill="#27A9B5" stroke="#0B6577" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M71 37Q83 40 96 50Q83 60 71 63Q78 50 71 37Z" fill="#E97547" stroke="#FFE1B9" stroke-width="2"/>
+    <circle cx="55" cy="50" r="11" fill="#17465E" stroke="#F2FFFF" stroke-width="2.5"/>
+    <circle cx="55" cy="50" r="6" fill="#5FE3F0"/>
+    <circle cx="53" cy="48" r="2.4" fill="#FFFFFF"/>
+    <path d="M34 43Q53 36 71 40" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".75" stroke-linecap="round"/>
+    </g>`,
+  `${blur(s)}${blur(glow, 3)}<linearGradient id="${body}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#C7EFF0"/><stop offset="1" stop-color="#71BDC5"/></linearGradient>`);
 }
 
 /** star-burst bomb; spark frame 0..2 */

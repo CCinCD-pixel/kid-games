@@ -137,7 +137,7 @@
    "par": 2,
    "trick": "makeAndUse",
    "maxDepth": 1,
-   "teach": "两步：拼一个方块做无人机，再用它开铁箱",
+   "teach": "两步：拼田字格做制导小火箭，再用它开铁箱",
    "colors": "rgb",
    "grid": [
     "______",

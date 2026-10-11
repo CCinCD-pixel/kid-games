@@ -44,7 +44,7 @@ export async function mountStyleBoard(root: HTMLElement): Promise<void> {
   const sp = sec('道具与待机动画');
   for (let f = -1; f < 5; f += 1) tile(sp, `横火箭 ${f}`, (c) => at(c, `rh${f}`));
   tile(sp, '竖火箭', (c) => at(c, 'rv-1'));
-  for (let f = 0; f < 4; f += 1) tile(sp, `无人机 ${f}`, (c) => at(c, `prop${f}`));
+  for (let f = 0; f < 4; f += 1) tile(sp, `制导小火箭 ${f}`, (c) => at(c, `prop${f}`));
   for (let f = 0; f < 3; f += 1) tile(sp, `星爆弹 ${f}`, (c) => at(c, `bomb${f}`));
   for (let f = 0; f < 8; f += 2) tile(sp, `星核 ${f}`, (c) => at(c, `orb${f}`));
   const bl = sec('障碍与格子层');

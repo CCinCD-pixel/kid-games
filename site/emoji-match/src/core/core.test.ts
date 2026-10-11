@@ -147,20 +147,19 @@ describe('golden G1–G16 (prototype)', () => {
 });
 
 describe('golden G31–G36 (prototype v1.1)', () => {
-  it('G31 a propeller never targets a cell inside its own blast cross', () => {
+  it('G31 a guided rocket hits exactly one objective cell, without a launch-site cross', () => {
     const st = newGame(lv(['rgbyo', 'gb+2r', 'byrog', 'yorgb'], { objectives: [{ crate: true }] }), 1, { log: true });
     applyMove(st, { t: 'tap', a: at(st, 1, 2) });
     expect(st.hp[at(st, 1, 3)]).toBe(1);
     const fly = st.log!.find((e) => e.e === 'fly');
-    const cross = new Set([at(st, 1, 2), at(st, 0, 2), at(st, 2, 2), at(st, 1, 1), at(st, 1, 3)]);
-    expect(fly && !cross.has(fly.to)).toBe(true);
+    expect(fly?.to).toBe(at(st, 1, 3));
+    expect(blasts(st)[0].cells).toEqual([at(st, 1, 3)]);
     const st2 = newGame(lv(['rgbyor', 'gb++ry', 'byrogb', 'yorgbr'], { objectives: [{ collect: 'r', n: 50 }] }), 1, { log: true });
     applyMove(st2, { t: 'swap', a: at(st2, 1, 2), b: at(st2, 1, 3) });
     const flies = st2.log!.filter((e) => e.e === 'fly').map((e) => e.to as number);
-    const cross2 = new Set([at(st2, 1, 3), at(st2, 0, 3), at(st2, 2, 3), at(st2, 1, 2), at(st2, 1, 4)]);
     expect(flies.length).toBe(3);
     expect(new Set(flies).size).toBe(3);
-    for (const t of flies) expect(cross2.has(t)).toBe(false);
+    expect(blasts(st2)[0].cells).toEqual(flies);
   });
   it('G32 special+special: the combo fires at b (directions differ)', () => {
     const g = ['rgbyo', 'gbyor', 'by>^g', 'yorgb', 'orgby'];
@@ -213,7 +212,7 @@ describe('golden G31–G36 (prototype v1.1)', () => {
 });
 
 describe('golden G17–G30 (port additions, spec §8.10)', () => {
-  it('G17 combo coverage: RR 9x9 = 17 cells, BB = 49, PP = cross + 3 drones, OR converts the most common colour, OO = whole board', () => {
+  it('G17 combo coverage: RR 9x9 = 17 cells, BB = 49, PP = 3 targets, OR converts the most common colour, OO = whole board', () => {
     const g9 = Array.from({ length: 9 }, (_, r) => Array.from({ length: 9 }, (_, c) => 'rgbyp'[(r * 2 + c) % 5]).join(''));
     const rr = g9.slice(); rr[4] = rr[4].slice(0, 3) + '>^' + rr[4].slice(5);
     let st = newGame(lv(rr), 1, { log: true });
@@ -226,7 +225,7 @@ describe('golden G17–G30 (port additions, spec §8.10)', () => {
     const pp = g9.slice(); pp[4] = pp[4].slice(0, 3) + '++' + pp[4].slice(5);
     st = newGame(lv(pp), 1, { log: true });
     applyMove(st, { t: 'swap', a: at(st, 4, 3), b: at(st, 4, 4) });
-    expect(blasts(st)[0].k).toBe('PP'); expect(blasts(st)[0].cells.length).toBe(5 + 3);
+    expect(blasts(st)[0].k).toBe('PP'); expect(blasts(st)[0].cells.length).toBe(3);
     const or = g9.slice(); or[4] = or[4].slice(0, 3) + '&>' + or[4].slice(5);
     st = newGame(lv(or), 1, { log: true });
     const before = new Int32Array(6); for (let i = 0; i < st.N; i += 1) if (st.kind[i] === PIECE) before[st.color[i]] += 1;
@@ -244,6 +243,16 @@ describe('golden G17–G30 (port additions, spec §8.10)', () => {
     applyMove(st, { t: 'tap', a: at(st, 1, 2) });
     const fly = st.log!.find((e) => e.e === 'fly')!;
     expect(fly.to).toBe(at(st, 4, 0)); // the only 'p'
+  });
+  it('guided rocket carrying a row rocket fires only at the landing cell', () => {
+    const st = newGame(lv(['rgbyo', 'gb+>r', 'byrog', 'yorgb'], { objectives: [{ collect: 'r', n: 20 }] }), 1, { log: true });
+    expect(applyMove(st, { t: 'swap', a: at(st, 1, 2), b: at(st, 1, 3) }).ok).toBe(true);
+    const [carrier, payload] = blasts(st);
+    expect(carrier.k).toBe('P+');
+    expect(carrier.cells).toEqual([]);
+    expect(carrier.flights).toHaveLength(1);
+    expect(payload.k).toBe(RH);
+    expect(payload.at).toBe(carrier.flights[0].to);
   });
   it('G19 orb tap takes the most common free colour; ties go to the earlier level colour', () => {
     const st = newGame(lv(['&rr', 'bgb', 'ygy'], { colors: 'rgby' }), 1, { log: true });

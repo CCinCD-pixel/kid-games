@@ -12,6 +12,26 @@ import { boot, drag, goPlay, overlap, playOut, press, settle, shot, tapCell, wat
 const LESSONS = ['1-01', '1-02', '1-03', '1-04', '1-05', '1-07', '1-08', '2-06', '2-07', '3-06', '3-07', '4-07'];
 const COMBO_LESSONS = ['1-08', '2-06', '2-07', '3-06', '3-07', '4-07'];
 
+test('1-04 guided rocket: make a square, tap the new rocket, hit a goal', async ({ page }, info) => {
+  const errors = watchErrors(page);
+  await boot(page, { save: { intros: ['swap', 'rocket', 'tap', 'prop'] } });
+  await goPlay(page, '1-04', { seed: 1 });
+  const move = await page.evaluate(() => window.__em.lessonMove());
+  expect(move?.t).toBe('swap');
+  await drag(page, move!.a, move!.b!);
+  await settle(page);
+  const board = await page.evaluate(() => window.__em.board());
+  const rocket = board!.replaceAll('\n', '').indexOf('+');
+  expect(rocket, 'the 2x2 square created a guided rocket').toBeGreaterThanOrEqual(0);
+  await shot(page, info, 'guided-rocket-ready');
+  const before = Number((await page.evaluate(() => window.__em.goals()))[0]);
+  await tapCell(page, rocket);
+  await settle(page);
+  expect(await page.evaluate(() => window.__em.state()?.movesUsed)).toBe(2);
+  expect(Number((await page.evaluate(() => window.__em.goals()))[0])).toBeLessThan(before);
+  expect(errors).toEqual([]);
+});
+
 test('cascade clears old sprites before refills occupy their cells', async ({ page }) => {
   await boot(page, { scale: 1 });
   await goPlay(page, '1-02', { seed: 1 });

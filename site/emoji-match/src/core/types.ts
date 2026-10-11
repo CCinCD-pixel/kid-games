@@ -5,12 +5,12 @@
  */
 export const EMPTY = 0, PIECE = 1, RH = 2, RV = 3, BOMB = 4, PROP = 5, ORB = 6, CRATE = 7, POD = 8, GOO = 9;
 export type Kind = number;
-export const KIND_NAMES = ['empty', 'piece', 'rocketH', 'rocketV', 'bomb', 'prop', 'orb', 'crate', 'pod', 'goo'] as const;
+export const KIND_NAMES = ['empty', 'piece', 'rocketH', 'rocketV', 'bomb', 'guidedRocket', 'orb', 'crate', 'pod', 'goo'] as const;
 export const PALETTE = ['r', 'o', 'y', 'g', 'b', 'p'] as const; // 0..5 = 火晶 环星 太阳晶 叶晶 钻晶 月牙
 export const isSpecial = (k: number): boolean => k >= RH && k <= ORB;
 
 /** rule-engine version: bump on any rule change (resume snapshots are discarded on mismatch, §8.7) */
-export const ENGINE_VERSION = 2;
+export const ENGINE_VERSION = 3;
 
 export type Cell2 = [number, number];
 export type ObjectiveDef =

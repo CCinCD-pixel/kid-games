@@ -15,7 +15,7 @@ import { bonusRocket, chime, coin, initAudio, play, routeMusic, textureCount } f
 const GROUPS: { title: string; names: string[] }[] = [
   { title: '界面（设计系统）', names: ['ui-tap', 'ui-press', 'ui-open', 'ui-close', 'ui-back', 'ui-locked', 'ui-notify', 'ui-select', 'ui-confirm'] },
   { title: '棋盘基本', names: ['em-select', 'em-swap', 'em-swap-bad', 'match-clear', 'em-land', 'shuffle', 'hint'] },
-  { title: '道具与组合技', names: ['em-special-make', 'em-rocket', 'em-bomb', 'em-drone', 'em-orb', 'em-combo', 'em-board-clear'] },
+  { title: '道具与组合技', names: ['em-special-make', 'em-rocket', 'em-bomb', 'em-guided', 'em-orb', 'em-combo', 'em-board-clear'] },
   { title: '障碍与目标', names: ['em-crate-paper', 'em-crate-metal', 'em-crate-break', 'em-ice-crack', 'em-ice-break', 'em-dust', 'coin', 'em-goal-done'] },
   { title: '工具', names: ['em-drill', 'em-ion', 'em-tractor'] },
   { title: '结果与到站', names: ['star-1', 'star-2', 'star-3', 'level-complete', 'jingle-win', 'jingle-round-over', 'chapter-complete', 'unlock', 'lock-in', 'em-bonus-rocket'] },

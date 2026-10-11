@@ -1,4 +1,4 @@
-/** hits, blasts, propeller targeting and the cascade loop (core.mjs 1:1). */
+/** hits, blasts, guided-rocket targeting and the cascade loop. */
 import { settle } from './gravity';
 import { findGroups } from './match';
 import { dropUid, takeSpecial } from './moves';
@@ -64,11 +64,10 @@ export function areaCells(st: GameState, at: number, rad: number, cheb: boolean)
 }
 export function crossCells(st: GameState, at: number): number[] { return areaCells(st, at, 1, false); }
 
-// propeller target: first objective (level order) that still has candidates; rng among them.
-// `exclude` = the firing propeller's own blast cross (v1.1, B0).
-export function propTarget(st: GameState, taken: Set<number>, exclude: Set<number> | null = null): number {
+// Guided rocket: first objective (level order) that still has candidates; rng among them.
+export function propTarget(st: GameState, taken: Set<number>): number {
   const cand: number[] = [];
-  const ok = (i: number) => st.mask[i] && !taken.has(i) && !(exclude && exclude.has(i));
+  const ok = (i: number) => st.mask[i] && !taken.has(i);
   for (const o of st.L.objectives) {
     if (remaining(st, o) === 0) continue;
     cand.length = 0;
@@ -80,7 +79,7 @@ export function propTarget(st: GameState, taken: Set<number>, exclude: Set<numbe
       else if (o.t === 'goo' && k === GOO) cand.push(i);
       else if (o.t === 'dust' && st.dust[i] > 0 && (k === PIECE && st.ice[i] === 0)) cand.push(i);
       else if (o.t === 'collect' && k === PIECE && st.ice[i] === 0 && st.color[i] === o.c) cand.push(i);
-      else if (o.t === 'pod' && k === POD) { const j = i + st.W; if (j < st.N && st.mask[j] && st.kind[j] === PIECE && st.ice[j] === 0 && !taken.has(j) && !(exclude && exclude.has(j))) cand.push(j); }
+      else if (o.t === 'pod' && k === POD) { const j = i + st.W; if (j < st.N && st.mask[j] && st.kind[j] === PIECE && st.ice[j] === 0 && !taken.has(j)) cand.push(j); }
     }
     if (cand.length) return cand[rngBelow(st.rProp, cand.length)];
   }
@@ -102,9 +101,7 @@ export function fire(st: GameState, act: Act, queue: Act[], taken: Set<number>):
     case RV: add(colCells(st, c)); break;
     case BOMB: add(areaCells(st, act.at, 2, false)); break;
     case PROP: {
-      const cross = crossCells(st, act.at);
-      add(cross);
-      const t = propTarget(st, taken, new Set(cross)); if (t >= 0) { taken.add(t); hits.push(t); log(st, { e: 'fly', from: act.at, to: t }); flights.push({ to: t }); }
+      const t = propTarget(st, taken); if (t >= 0) { taken.add(t); hits.push(t); log(st, { e: 'fly', from: act.at, to: t }); flights.push({ to: t }); }
       break;
     }
     case ORB: {
@@ -119,16 +116,11 @@ export function fire(st: GameState, act: Act, queue: Act[], taken: Set<number>):
       break;
     case 'BB': add(areaCells(st, act.at, 3, true)); break;
     case 'PP': {
-      const cross = crossCells(st, act.at);
-      add(cross);
-      const ex = new Set(cross);
-      for (let n = 0; n < 3; n += 1) { const t = propTarget(st, taken, ex); if (t >= 0) { taken.add(t); hits.push(t); log(st, { e: 'fly', from: act.at, to: t }); flights.push({ to: t }); } }
+      for (let n = 0; n < 3; n += 1) { const t = propTarget(st, taken); if (t >= 0) { taken.add(t); hits.push(t); log(st, { e: 'fly', from: act.at, to: t }); flights.push({ to: t }); } }
       break;
     }
     case 'P+': {
-      const cross = crossCells(st, act.at);
-      add(cross);
-      const t = propTarget(st, taken, new Set(cross));
+      const t = propTarget(st, taken);
       if (t >= 0) {
         taken.add(t); log(st, { e: 'fly', from: act.at, to: t, carry: act.carry }); flights.push({ to: t, carry: act.carry });
         const carried: Act = { k: act.carry!, at: t, col: null, carried: true };

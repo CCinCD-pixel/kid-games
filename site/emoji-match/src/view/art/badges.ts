@@ -16,7 +16,7 @@ export type BadgeId = 'p1' | 'p2' | 'p3' | 'p4' | 'veteran';
 export const BADGES: { id: BadgeId; name: string; how: string }[] = [
   { id: 'p1', name: '想想谁会掉下来', how: '解开第 1 站的星图谜题' },
   { id: 'p2', name: '横火箭擦一排', how: '解开第 2 站的星图谜题' },
-  { id: 'p3', name: '无人机开铁箱', how: '解开第 3 站的星图谜题' },
+  { id: 'p3', name: '制导火箭开铁箱', how: '解开第 3 站的星图谜题' },
   { id: 'p4', name: '让同色的来找冰壳', how: '解开第 4 站的星图谜题' },
   { id: 'veteran', name: '老玩家', how: '玩过旧版的消消乐' },
 ];

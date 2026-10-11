@@ -14,8 +14,8 @@ lines:
   - {id: em.intro.rocket.2, role: companion, text: 横着连，火箭就横着飞。, pinyin: {横着: héng zhe}}
   - {id: em.intro.tap.1, role: companion, text: 点一下道具，它就发射。}
   - {id: em.intro.tap.2, role: companion, text: 发射也要用掉一步。}
-  - {id: em.intro.prop.1, role: companion, text: 四个凑成方块，变成无人机。}
-  - {id: em.intro.prop.2, role: companion, text: 无人机会飞去帮你做目标。}
+  - {id: em.intro.prop.1, role: companion, text: 四个拼成田字格，变小火箭！}
+  - {id: em.intro.prop.2, role: companion, text: 小火箭制导，炸一个目标。}
   - {id: em.intro.bomb.1, role: companion, text: L形或T形，变成星爆弹。, pinyin: {星爆弹: xīng bào dàn}, norm: 艾尔形或T形，变成星爆弹。, seed: 5000, notes: 'voice: Qwen3 0.6B says the bare letter L as lao/liu (ASR, 11 seeds); 艾尔 is how the letter is said aloud'}
   - {id: em.intro.bomb.2, role: companion, text: 星爆弹会炸开一大片。, pinyin: {星爆弹: xīng bào dàn}}
   - {id: em.intro.energy.1, role: companion, text: 消得越多，电池越满。, pinyin: {消得: xiāo de}}
@@ -35,8 +35,8 @@ lines:
   - {id: em.intro.boosterTractor.1, role: companion, text: 你得到了牵引臂！, pinyin: {得到: dé dào}, speed: 0.92}
   - {id: em.intro.boosterTractor.2, role: companion, text: 把挨着的两颗换个位置。, pinyin: {挨着: āi zhe}}
   - {id: em.intro.crate2.1, role: companion, text: 铁箱要打两下。}
-  - {id: em.intro.comboPP.1, role: companion, text: 两架无人机：编队出发！}
-  - {id: em.intro.comboP.1, role: companion, text: 无人机会把火箭带过去。}
+  - {id: em.intro.comboPP.1, role: companion, text: 两枚小火箭：三发齐射！}
+  - {id: em.intro.comboP.1, role: companion, text: 小火箭把大火箭带去目标。}
   - {id: em.intro.ice.1, role: companion, text: 冻住的晶石不能动。}
   - {id: em.intro.ice.2, role: companion, text: 但它能在原地参加消除。}
   - {id: em.intro.boosterIon.1, role: companion, text: 你得到了离子炮！, pinyin: {得到: dé dào}}

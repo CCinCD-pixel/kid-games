@@ -86,13 +86,7 @@ const SYNTH: Record<string, Gen> = {
   'em-special-make': layer([pluck(P(5), 0.3), 0.6], [pluck(P(7), 0.3), 0.6, 70], [pluck(P(10), 0.45), 0.8, 140], [whoosh(0.3, 500, 3000, 1.1), 0.4]),
   'em-rocket': layer([whoosh(0.32, 400, 3200, 1.3, 0.02), 1], [crackle(0.08, 2500, 0.7), 0.35], [pluck(P(9), 0.25, 1.4), 0.28, 20]),
   'em-bomb': layer([thump(140, 52, 0.38), 1], [crackle(0.14, 900, 0.6), 0.75], [whoosh(0.3, 1800, 300, 0.8, 0.005), 0.4]),
-  'em-drone': (sr) => {
-    const sec = 0.42, x = buf(sec, sr); let ph = 0;
-    for (let n = 0; n < x.length; n += 1) { const t = n / sr; ph += (TAU * (110 + 9 * Math.sin(TAU * 4 * t) + 60 * t)) / sr; const saw = ((ph / TAU) % 1) * 2 - 1; x[n] = saw * Math.min(1, t / 0.04) * (1 - t / sec); }
-    const y = lowpass1(lowpass1(x, sr, 2000), sr, 2400);
-    mixInto(y, whoosh(0.35, 600, 1600, 1)(sr), 0.25);
-    return fade(normalize(y, 0.7), sr);
-  },
+  'em-guided': layer([whoosh(0.48, 550, 3600, 1.4, 0.015), 1], [pluck(P(12), 0.35, 1.2), 0.22, 90]),
   'em-orb': layer([bell(P(5), 0.7), 0.5], [bell(P(7), 0.7), 0.5, 60], [bell(P(9), 0.7), 0.5, 120], [bell(P(10), 0.7), 0.5, 180], [bell(P(12), 0.9), 0.55, 240], [whoosh(0.5, 200, 900, 0.9, 0.05), 0.35]),
   'em-combo': layer([pluck(P(5), 0.6), 0.55], [pluck(P(7), 0.6), 0.55], [pluck(P(9), 0.6), 0.55], [bell(P(12), 0.8), 0.4, 40], [whoosh(0.4, 300, 2500, 1), 0.3]),
   'em-ice-crack': layer([crackle(0.09, 4200, 1.2), 1], [bell(P(14), 0.15), 0.2]),
@@ -118,7 +112,7 @@ const TEXTURE: Record<string, [string, number, number?][]> = {
   'em-special-make': [['whoosh-up', 0.5]],
   'em-rocket': [['k-laser', 0.4]],                      // −8 dB
   'em-bomb': [['k-plate', 0.7]],
-  'em-drone': [['k-phase', 0.32]],                      // −10 dB
+  'em-guided': [['k-phase', 0.22]],
   'em-orb': [['powerup', 0.3]],
   'em-combo': [['jingle-magic', 0.45]],
   'em-board-clear': [['jingle-magic', 0.8], ['bell', 0.6]],

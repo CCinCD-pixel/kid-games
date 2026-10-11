@@ -10,7 +10,7 @@ import { cloneState, isWon, newGame, remaining } from './state';
 import { hint1Move } from './hints';
 import { BOMB, CRATE, GOO, ORB, PIECE, POD, PROP, RH, RV, isSpecial, type GameState, type Level, type Move, type RngState } from './types';
 
-const SPECIAL_VALUE: Record<number, number> = { [RH]: 14, [RV]: 14, [PROP]: 12, [BOMB]: 20, [ORB]: 32 };
+const SPECIAL_VALUE: Record<number, number> = { [RH]: 14, [RV]: 14, [PROP]: 5, [BOMB]: 20, [ORB]: 32 };
 
 export interface Measure { crateHp: number; ice: number; dust: number; goo: number; podDepth: number; spec: number; rem: number[]; cleared: number; rem0?: number[]; rv?: number; firedV?: number }
 

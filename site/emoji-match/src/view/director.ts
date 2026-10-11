@@ -30,7 +30,7 @@ export interface DirectCtx {
   energy0: number; energy1: number;
   lessFx: boolean;
 }
-export const COMBO_NAMES: Record<string, string> = { RR: '十字火箭', RB: '星爆火箭', BB: '大星爆', PP: '无人机编队', 'P+': '无人机快递', OR: '火箭雨', OB: '满屏开花', OP: '无人机大队', OO: '全屏清空' };
+export const COMBO_NAMES: Record<string, string> = { RR: '十字火箭', RB: '星爆火箭', BB: '大星爆', PP: '三点齐发', 'P+': '制导快递', OR: '火箭雨', OB: '满屏开花', OP: '制导火箭雨', OO: '全屏清空' };
 
 interface Blast { idx: number; k: number | string; at: number; start: number; hit: Map<number, number>; arrive: Map<number, number> }
 
@@ -477,9 +477,7 @@ export function direct(ev: Ev[], ctx: DirectCtx, t0 = 0): number {
         hooks.shake(kk === 'BB' ? 10 : 6, kk === 'BB' ? 320 : 220);
       });
     } else if (kk === PROP || kk === 'PP' || kk === 'P+') {
-      const cross = new Set([at, at - W, at + W, ...(ax > 0 ? [at - 1] : []), ...(ax < W - 1 ? [at + 1] : [])]);
-      for (const c of cells) if (cross.has(c)) setHit(c, start + 120 * sp);
-      tl.at(start, () => { hooks.sfx('em-drone'); fx.ring(cx, cy, cellPx * 1.5, 'rgba(160,240,255,.9)', 260, 5); });
+      tl.at(start, () => { hooks.sfx('em-guided'); fx.ring(cx, cy, cellPx * 0.8, 'rgba(160,240,255,.9)', 220, 4); });
       flys.forEach((f, n) => {
         const to = f.to as number, tx = vx(to), ty = vy(to);
         const dep = start + (120 + n * 70) * sp, life = 450 * sp, arrive = dep + life;
@@ -489,7 +487,7 @@ export function direct(ev: Ev[], ctx: DirectCtx, t0 = 0): number {
         const mx = (cx + tx) / 2 + (ty - cy) * 0.25, my = (cy + ty) / 2 - cellPx * (1.4 + n * 0.3);
         const carryKey = f.carry === RH ? 'rh-1' : f.carry === RV ? 'rv-1' : f.carry === BOMB ? 'bomb0' : f.carry === ORB ? 'orb0' : f.carry === PROP ? 'prop0' : '';
         tl.at(dep, () => {
-          fx.fly('prop0', cellPx * 0.95, life, (p) => { const q = 1 - p; return { x: q * q * cx + 2 * q * p * mx + p * p * tx, y: q * q * cy + 2 * q * p * my + p * p * ty, s: cellPx * (0.95 + 0.25 * Math.sin(p * Math.PI)) }; }, { frames: ['prop0', 'prop1', 'prop2', 'prop3'], ease: ease.inOutSine, trail: '#7FE3F0', onEnd: () => { fx.ring(tx, ty, cellPx * 0.8, 'rgba(160,240,255,.95)', 220, 4); } });
+          fx.fly('prop0', cellPx * 0.95, life, (p) => { const q = 1 - p; return { x: q * q * cx + 2 * q * p * mx + p * p * tx, y: q * q * cy + 2 * q * p * my + p * p * ty, s: cellPx * (0.95 + 0.18 * Math.sin(p * Math.PI)), rot: Math.atan2(q * (my - cy) + p * (ty - my), q * (mx - cx) + p * (tx - mx)) }; }, { frames: ['prop0', 'prop1', 'prop2', 'prop3'], ease: ease.inOutSine, trail: '#FFB45C', onEnd: () => { fx.flashAt(tx, ty, cellPx * 0.75, 'rgba(255,221,160,.95)', 180); fx.ring(tx, ty, cellPx * 0.65, 'rgba(160,240,255,.95)', 220, 4); } });
           if (carryKey) fx.fly(carryKey, cellPx * 0.6, life, (p) => { const q = 1 - p; return { x: q * q * cx + 2 * q * p * mx + p * p * tx, y: q * q * cy + 2 * q * p * my + p * p * ty + cellPx * 0.35 }; }, { ease: ease.inOutSine });
         });
       });
