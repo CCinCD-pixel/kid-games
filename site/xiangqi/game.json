@@ -1,0 +1,15 @@
+{
+  "id": "xiangqi",
+  "title": "楚河棋院",
+  "subtitle": "和小军师研究下一步",
+  "place": "base",
+  "order": 78,
+  "status": "live",
+  "accent": "--xg-army",
+  "theme": "army",
+  "icon": "/icons/games/xiangqi.svg",
+  "domains": ["strategy", "planning", "social"],
+  "parentNote": "标准中国象棋：同屏对弈、儿童 AI、一步将死残局。练习观察棋路、保护棋子和提前想一步。",
+  "orientation": "any",
+  "smoke": { "waitFor": "#app[data-ready]" }
+}
