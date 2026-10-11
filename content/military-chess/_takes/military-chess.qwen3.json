@@ -600,16 +600,18 @@
    ]
   },
   "mc.i.L7-3": {
-   "seed": 1235,
+   "seed": 1237,
    "base": 1234,
-   "sig": "9f8111b018bf0c9e8348a3ac9ef6e65e0a8cdc39",
+   "sig": "e322628b5ef83e030e83f38d2dfc85beff99a1aa",
    "score": 0.715,
    "flags": [
     "cer(asr-homophone)"
    ],
    "tried": [
     1234,
-    1235
+    1235,
+    1236,
+    1237
    ]
   },
   "mc.i.L7-4": {
@@ -932,6 +934,17 @@
     1237
    ]
   },
+  "mc.rep.bomb": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b045f54a6c3290724f7b9bd29a40225fa93eb32c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
   "mc.rep.bomb.kid": {
    "seed": 1236,
    "base": 1234,
@@ -1047,6 +1060,18 @@
     1236
    ]
   },
+  "mc.why.bomb": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "307c7fa37112ab8a6827238c94da4e3bbe865ac3",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
   "mc.why.budget": {
    "seed": 1235,
    "base": 1234,
@@ -1084,16 +1109,14 @@
    ]
   },
   "mc.why.deploy.bomb": {
-   "seed": 1237,
+   "seed": 1235,
    "base": 1234,
-   "sig": "e4828655057d4de4db4553662da487679f46dafa",
+   "sig": "8dd29a7c0666f2f9a1b196ae7d2382859c89f82f",
    "score": 0.0,
    "flags": [],
    "tried": [
     1234,
-    1235,
-    1236,
-    1237
+    1235
    ]
   },
   "mc.why.deploy.flag": {

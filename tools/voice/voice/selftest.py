@@ -23,6 +23,8 @@ def run() -> int:
     assert pinyin.render("他长大了", lk, "homophone") == "他长大了"
     assert pinyin.render("他长大了", lk, "homophone", forced=set(lk)) == "他掌大了"
     assert pinyin.render("这是长城", {2: "zhang3"}, "homophone") == "这是掌城"   # context says cháng
+    bomb = pinyin.resolve("炸弹", {"炸弹": "zhà dàn"})
+    assert pinyin.render("炸弹", bomb, "homophone", forced=set(bomb)) == "诈蛋"
     assert pinyin.render("衔", {0: "xian2"}, "homophone", forced={0}) == "衔"      # monophonic: never
     assert 'ph="huan 2"' in pinyin.render("还书", {0: "huan2"}, "ssml")
     assert pinyin.to_tone3("lǜ") == "lv4" and pinyin.to_marked("huan2") == "huán"

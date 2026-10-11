@@ -153,7 +153,7 @@ def _homophone_table():
 
 # hand-picked substitutes where the frequency pick is awkward / ambiguous in context
 HOMOPHONE_FIXED = {"le5": "了", "liao3": "瞭", "zhang3": "掌", "chang2": "常", "hang2": "航", "xing2": "形",
-                   "zhong4": "众", "chong2": "虫", "hai2": "孩", "huan2": "环"}
+                   "zhong4": "众", "chong2": "虫", "hai2": "孩", "huan2": "环", "zha4": "诈"}
 
 
 def homophone(sy: str, avoid: str = "") -> str:

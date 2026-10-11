@@ -39,6 +39,12 @@ describe('narration lines (spec §7.3)', () => {
     const ids = new Set(L.map((l) => l.id));
     for (const l of L) if (l.text.includes('小步步')) expect(ids.has(l.id + '.plain'), l.id).toBe(true);
   });
+  test('every spoken 炸 has a fourth-tone lock', () => {
+    const entries = YAML.split('\n').filter((l) => l.trim().startsWith('- {')).map((l) => JSON.parse(l.trim().slice(2)) as { id: string; text: string; pinyin?: Record<string, string> });
+    for (const line of entries.filter((l) => l.text.includes('炸'))) {
+      expect(Object.entries(line.pinyin || {}).some(([word, reading]) => word.includes('炸') && reading.includes('zhà')), line.id).toBe(true);
+    }
+  });
   test('every line id referenced by the game code exists', () => {
     const ids = new Set(L.map((l) => l.id));
     const files = walk(path.join(ROOT, 'site/military-chess/src'));

@@ -136,7 +136,7 @@ lines:
   - {"id":"mc.i.L2-5","role":"narrator","text":"派谁去碰地雷？"}
   - {"id":"mc.i.L2-6","role":"narrator","text":"扛走军旗！","pinyin":{"扛走":"káng zǒu"}}
   - {"id":"mc.i.L2-7","role":"narrator","text":"派最近的子去扛旗","pinyin":{"扛旗":"káng qí"}}
-  - {"id":"mc.i.L2-8","role":"narrator","text":"炸开大门，扛走军旗","pinyin":{"扛走":"káng zǒu"}}
+  - {"id":"mc.i.L2-8","role":"narrator","text":"炸开大门，扛走军旗","pinyin":{"炸开":"zhà kāi","扛走":"káng zǒu"}}
   - {"id":"mc.i.F-1","role":"narrator","text":"翻开一个暗子"}
   - {"id":"mc.i.F-2","role":"narrator","text":"去吃掉那个蓝子"}
   - {"id":"mc.i.F-3","role":"narrator","text":"翻开团长旁边的暗子","pinyin":{"长":"zhǎng"}}
@@ -167,7 +167,7 @@ lines:
   - {"id":"mc.i.L5-4","role":"narrator","text":"挖掉地雷，扛走军旗","pinyin":{"扛走":"káng zǒu"}}
   - {"id":"mc.i.L5-5","role":"narrator","text":"绕过司令，扛走军旗","pinyin":{"扛走":"káng zǒu"}}
   - {"id":"mc.i.L5-6","role":"narrator","text":"绕过军长，扛走军旗","pinyin":{"军长":"jūn zhǎng","扛走":"káng zǒu"}}
-  - {"id":"mc.i.L5-7","role":"narrator","text":"炸开路，挖地雷，扛旗","pinyin":{"扛旗":"káng qí"}}
+  - {"id":"mc.i.L5-7","role":"narrator","text":"炸开路，挖地雷，扛旗","pinyin":{"炸开":"zhà kāi","扛旗":"káng qí"}}
   - {"id":"mc.i.L6-1","role":"narrator","text":"军旗危险！守住它"}
   - {"id":"mc.i.L6-2","role":"narrator","text":"打不过它？守住军旗"}
   - {"id":"mc.i.L6-3","role":"narrator","text":"军旗危险！快回来救"}
