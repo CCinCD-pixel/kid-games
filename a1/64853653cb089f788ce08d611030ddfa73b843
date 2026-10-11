@@ -1,0 +1,24 @@
+site/gear-fort/src/render/stage.ts
+  s_e8836c6d1c92e0::t_8fc817b0601b1f 14,97,114-125,127,434,440-459
+site/gear-fort/tests/health-feedback.spec.ts
+  s_e8836c6d1c92e0::t_05689213f92d2e 20
+  s_e8836c6d1c92e0::t_8f96ebfb04fb13 19,25
+  s_e8836c6d1c92e0::t_92a9ea9b4776fb 22,38-39
+  s_e8836c6d1c92e0::t_be3e0ce662d48c 1-18,21,23-24,26-37,40-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "a164853653cb089f788ce08d611030ddfa73b843",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
