@@ -1,0 +1,54 @@
+site/gear-fort/src/lane/coach.ts
+  s_e8836c6d1c92e0::t_743fd2f6e22f04 141,146
+  s_e8836c6d1c92e0::t_c7746aeeba0e23 143-144
+  s_e8836c6d1c92e0::t_82fc176adb9e81 139-140,142,152-153,155
+  s_e8836c6d1c92e0::t_f5b532a46d7a01 145,147-150
+site/gear-fort/src/lane/types.ts
+  s_e8836c6d1c92e0::t_9a30c2875a545f 4,189,200-202
+site/gear-fort/tests/balance.spec.ts
+  s_e8836c6d1c92e0::t_175e49947a31ef 12
+  s_e8836c6d1c92e0::t_29353269737352 6-9,13
+  s_e8836c6d1c92e0::t_d4eb7e6357abb7 3,5,18-24
+  s_e8836c6d1c92e0::t_8f3747338b6e54 4,10-11,14-17,25-26
+  s_e8836c6d1c92e0::t_a346f0ee4ca31c 27-41
+site/gear-fort/src/lane/balance.test.ts
+  s_e8836c6d1c92e0::t_9723a193403aa9 6,55-59,61
+  s_e8836c6d1c92e0::t_8f3747338b6e54 60
+  s_e8836c6d1c92e0::t_c8efa5e5da17bd 4,33-34,43-54
+site/gear-fort/tools/balance.report.test.ts
+  s_e8836c6d1c92e0::t_4a140c13af1b50 10-13
+  s_e8836c6d1c92e0::t_08211e38bceb13 19
+  s_e8836c6d1c92e0::t_c4ed0125a16d60 6-9,14-18
+site/gear-fort/src/lane/coach.test.ts
+  s_e8836c6d1c92e0::t_9723a193403aa9 45-48,50-55,57-58,62
+  s_e8836c6d1c92e0::t_c7746aeeba0e23 56,59-61
+  s_e8836c6d1c92e0::t_82fc176adb9e81 9,49
+site/gear-fort/src/bots/loadout.ts
+  s_e8836c6d1c92e0::t_f5b532a46d7a01 73
+site/gear-fort/src/theme/mozi.ts
+  s_e8836c6d1c92e0::t_a346f0ee4ca31c 34
+site/gear-fort/src/lane/boss.ts
+  s_e8836c6d1c92e0::t_9a30c2875a545f 33,70,232
+site/gear-fort/src/lane/balance.ts
+  s_e8836c6d1c92e0::t_82fc176adb9e81 2-9,12,14-17
+site/gear-fort/src/lane/sim.ts
+  s_e8836c6d1c92e0::t_9a30c2875a545f 49,161-162,569,877-879
+site/gear-fort/src/voice.test.ts
+  s_e8836c6d1c92e0::t_a346f0ee4ca31c 9,35-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "8aa202d05ea77c63ee65ff67e65dce2ea2c9e74b",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
