@@ -268,10 +268,11 @@ const panelsEl = document.getElementById('hub-panels')!;
 let leaving = false;
 panelsEl.addEventListener('click', (e) => {
   const card = (e.target as Element | null)?.closest<HTMLElement>('.hub-card');
-  if (!card || leaving) return;
+  if (!card) return;
+  e.preventDefault();
+  if (leaving) return;
   const g = byId.get(card.dataset.game!);
   if (!g) return;
-  e.preventDefault();
   if (g.status === 'wip' && !dev) {
     card.classList.remove('is-shaking');
     void card.offsetWidth;
@@ -289,6 +290,8 @@ panelsEl.addEventListener('keydown', (e) => {
 
 function launch(g: HubEntry, card: HTMLElement) {
   leaving = true;
+  panelsEl.classList.add('is-leaving');
+  card.setAttribute('aria-busy', 'true');
   const source: LaunchSource = g.id === continueId ? 'resume' : g.id === suggestedId ? 'suggested' : 'hub';
   recordLaunch(g.id, source);
   if (g.newContent) {
@@ -309,7 +312,11 @@ function launch(g: HubEntry, card: HTMLElement) {
 window.addEventListener('pageshow', (e) => {
   if (!(e as PageTransitionEvent).persisted) return;
   leaving = false;
-  for (const c of cards) c.classList.remove('is-launching');
+  panelsEl.classList.remove('is-leaving');
+  for (const c of cards) {
+    c.classList.remove('is-launching');
+    c.removeAttribute('aria-busy');
+  }
   renderCards();
 });
 

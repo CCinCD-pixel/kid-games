@@ -74,6 +74,27 @@ test.describe('hub', () => {
     await expect.poll(() => clips.length).toBe(1);
   });
 
+  test('one launch locks the cards during repeated taps', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForSelector('body[data-ready]');
+    const target = await page.locator('.hub-panel:not([hidden]) .hub-card[href]').first().getAttribute('href');
+    expect(target).toBeTruthy();
+    const state = await page.evaluate(() => {
+      const cards = document.querySelectorAll<HTMLElement>('.hub-panel:not([hidden]) .hub-card[href]');
+      cards[0].click();
+      cards[0].click();
+      cards[1]?.click();
+      return {
+        locked: document.getElementById('hub-panels')!.classList.contains('is-leaving'),
+        selected: document.querySelectorAll('.hub-card.is-launching').length,
+        busy: cards[0].getAttribute('aria-busy'),
+        pointerEvents: getComputedStyle(document.getElementById('hub-panels')!).pointerEvents,
+      };
+    });
+    expect(state).toEqual({ locked: true, selected: 1, busy: 'true', pointerEvents: 'none' });
+    await page.waitForURL(`**${target}`);
+  });
+
   /** Visit every place tab and collect the cards it shows. */
   async function cardsByTab(page: import('@playwright/test').Page) {
     const out: Record<string, string[]> = {};
