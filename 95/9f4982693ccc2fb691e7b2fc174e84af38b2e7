@@ -1,0 +1,25 @@
+site/_hub/hub.css
+  s_e8836c6d1c92e0::t_f0a37dd9158092 177-184,384
+site/_hub/main.ts
+  s_e8836c6d1c92e0::t_52cce1e205279e 271-273
+  s_e8836c6d1c92e0::t_f0a37dd9158092 293-294,315-319
+tests/smoke/smoke.spec.ts
+  s_e8836c6d1c92e0::t_f0a37dd9158092 77-81,83-86,93,95-97
+  s_e8836c6d1c92e0::t_388d1a5e576bb5 82,87-92,94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "959f4982693ccc2fb691e7b2fc174e84af38b2e7",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
