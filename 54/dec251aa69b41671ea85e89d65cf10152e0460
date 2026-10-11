@@ -1,0 +1,53 @@
+engines/manip/numberline.ts
+  s_e8836c6d1c92e0::t_9eb7c555b0586d 1-72,74-79,81-102
+  s_e8836c6d1c92e0::t_5bce452f39b328 73,80
+site/mars-base/src/orbit/model.test.ts
+  s_e8836c6d1c92e0::t_4c83083e9f8e25 1-18,20-29
+  s_e8836c6d1c92e0::t_06c3e444145a6e 19
+site/mars-base/src/orbit/save.ts
+  s_e8836c6d1c92e0::t_d062f9cfe23ff3 1-9,11-31
+  s_e8836c6d1c92e0::t_c2f49446ee2893 10
+content/mars-base/lines.json
+  s_e8836c6d1c92e0::t_6cad784b3fe96c 1-9925
+content/mars-base/cards.json
+  s_e8836c6d1c92e0::t_6cad784b3fe96c 1-294
+content/mars-base/nodes.json
+  s_e8836c6d1c92e0::t_6cad784b3fe96c 1-3424
+content/mars-base/families.json
+  s_e8836c6d1c92e0::t_6cad784b3fe96c 1-1141
+site/mars-base/src/orbit/model.ts
+  s_e8836c6d1c92e0::t_4c83083e9f8e25 1-89,91-97,99-109
+  s_e8836c6d1c92e0::t_06c3e444145a6e 90,98
+site/mars-base/src/main.ts
+  s_e8836c6d1c92e0::t_d062f9cfe23ff3 1-4,6-7,9-17,19-28,30-51,53-60,62-64,66-197,200-201,203-208,213-217,221-225,227-230,262-271,284-314,316-345,347-351,353-375
+  s_e8836c6d1c92e0::t_bed51e0a73cee4 202,218-220,232-261
+  s_e8836c6d1c92e0::t_c2f49446ee2893 18,29,198-199,209-212,226,231,272-283,315,346,352
+  s_e8836c6d1c92e0::t_5439d18528236c 5,52,61,65
+site/mars-base/src/styles.css
+  s_e8836c6d1c92e0::t_c2f49446ee2893 67
+  s_e8836c6d1c92e0::t_e517469ab14290 1-66,68-70,79-88,90-126
+  s_e8836c6d1c92e0::t_5bce452f39b328 89
+  s_e8836c6d1c92e0::t_bed51e0a73cee4 71-78
+site/mars-base/tests/orbit.spec.ts
+  s_e8836c6d1c92e0::t_0c74f67ce35789 3,46,48,53,57
+  s_e8836c6d1c92e0::t_06c3e444145a6e 62-78
+  s_e8836c6d1c92e0::t_629a0292874a70 79-97
+  s_e8836c6d1c92e0::t_26eda362f9c075 47
+  s_e8836c6d1c92e0::t_15c45aa7b54228 1-2,4-45,49-52,54-56,58-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "54dec251aa69b41671ea85e89d65cf10152e0460",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
