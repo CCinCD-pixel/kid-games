@@ -217,6 +217,33 @@ test.describe('kit playground', () => {
     expect(errors).toEqual([]);
   });
 
+  test('audio resumes after repeated background and foreground transitions', async ({ page }) => {
+    const { errors } = watch(page);
+    await page.goto('/dev/kit/');
+    await page.locator('.kit-start__go').tap({ force: true });
+    await expect.poll(() => page.evaluate(() => (window as any).__kitDemo.audio.state())).toBe('running');
+
+    for (const size of [page.viewportSize()!, { width: 390, height: 664 }, { width: 844, height: 390 }]) {
+      await page.setViewportSize(size);
+      await page.evaluate(() => {
+        let state = 'hidden';
+        Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => state });
+        document.dispatchEvent(new Event('visibilitychange'));
+        state = 'visible';
+        document.dispatchEvent(new Event('visibilitychange'));
+        Reflect.deleteProperty(document, 'visibilityState');
+      });
+      await expect.poll(() => page.evaluate(() => (window as any).__kitDemo.audio.state())).toBe('running');
+      const before = await page.evaluate(() => (window as any).__kitDemo.cues.filter(Boolean).length);
+      await page.locator('#say-hello').tap();
+      await expect.poll(() => page.evaluate((count) => {
+        const cues = (window as any).__kitDemo.cues.filter(Boolean);
+        return cues.length > count ? cues.at(-1)?.source : null;
+      }, before)).toBe('clip');
+    }
+    expect(errors).toEqual([]);
+  });
+
   test('missing clip falls back and still shows the subtitle; replay repeats', async ({ page }) => {
     await page.goto('/dev/kit/');
     await page.locator('.kit-start__go').tap({ force: true }); // the button breathes forever: skip the stability wait

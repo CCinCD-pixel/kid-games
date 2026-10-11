@@ -5,8 +5,8 @@
  *    gesture via `unlockAudio()` (the kit shell's start gate calls it; `installAudioAutoUnlock()`
  *    also resumes on any later tap). Before that, sounds are dropped and narration waits.
  *  - `navigator.audioSession.type = 'playback'` so sound plays with the hardware mute switch on.
- *  - Interruption recovery: suspended when the page is hidden; resumed on return (or on the next
- *    tap when iOS leaves the context "interrupted").
+ *  - Interruption recovery: music pauses while hidden; the context resumes on return (or on the
+ *    next tap when iOS leaves it "interrupted").
  *  - Buses: master → { sfx, voice, music }. Narration plays on `voice`; music is ducked under it.
  *  - SFX: short AAC (.m4a) files decoded once to AudioBuffers, played with per-sound voice pooling.
  *  - Music: streamed with an <audio> element routed through a GainNode (iOS: element.volume is
@@ -141,13 +141,14 @@ export function whenAudioUnlocked(): Promise<void> {
 
 /**
  * Resume audio on every user gesture (capture phase) — covers the first tap on pages without a
- * start gate and recovery after iOS "interrupted" states. Also suspends audio while hidden.
+ * start gate and recovery after iOS "interrupted" states. Music pauses while hidden.
  * Idempotent; the kit shell calls it.
  */
 export function installAudioAutoUnlock(): void {
   if (autoUnlockInstalled || typeof document === 'undefined') return;
   autoUnlockInstalled = true;
   const onGesture = () => {
+    setPlaybackSession();
     if (!unlocked || (ctx && ctx.state !== 'running')) unlockAudio();
   };
   for (const type of ['pointerup', 'touchend', 'click', 'keydown']) {
@@ -155,14 +156,19 @@ export function installAudioAutoUnlock(): void {
   }
   // Back-forward cache restore (swipe back into a game): the context comes back suspended.
   window.addEventListener('pageshow', (e) => {
-    if ((e as PageTransitionEvent).persisted && ctx && unlocked) void ctx.resume().then(() => music.resumeIfWanted(), () => {});
+    if ((e as PageTransitionEvent).persisted && ctx && unlocked) {
+      setPlaybackSession();
+      void ctx.resume().then(() => music.resumeIfWanted(), () => {});
+    }
   });
   document.addEventListener('visibilitychange', () => {
     if (!ctx) return;
     if (document.visibilityState === 'hidden') {
       music.pauseForBackground();
-      void ctx.suspend().catch(() => {});
-    } else {
+      // Safari manages background interruption itself. An explicit suspend() can finish after the
+      // foreground resume() and leave the context suspended until another gesture.
+    } else if (unlocked) {
+      setPlaybackSession();
       // May fail while iOS keeps the context "interrupted"; the next tap resumes it.
       void ctx.resume().then(() => music.resumeIfWanted(), () => {});
     }
