@@ -105,6 +105,7 @@ export function createParticles(options: { container?: HTMLElement; zIndex?: num
   };
 
   const frame = (now: number) => {
+    if (!canvas.isConnected) { raf = 0; parts = []; return; }
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
     last = now;
     ctx.clearRect(0, 0, w, h);

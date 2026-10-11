@@ -7,6 +7,7 @@
    ============================================================================= */
 import { UI_ICONS, type UiIconName } from './icons.generated';
 import { GAME_EMBLEMS, type GameEmblemId } from './emblems.generated';
+import { createParticles } from '../particles';
 
 export { UI_ICONS, GAME_EMBLEMS };
 export type { UiIconName, GameEmblemId };
@@ -126,21 +127,10 @@ export function toast(text: string, o: { icon?: UiIconName; tone?: 'ok' | 'try' 
 export function confetti(n = 60, colors = ['#f6b934', '#e4513d', '#1aa892', '#8a73ee', '#3f7be6', '#fff6e3', '#eb6a3c']): void {
   const layer = document.createElement('div');
   layer.className = 'xg-confetti';
-  for (let i = 0; i < n; i++) {
-    const c = document.createElement('i');
-    c.style.left = `${Math.random() * 100}%`;
-    c.style.background = colors[i % colors.length];
-    c.style.setProperty('--dx', `${(Math.random() - 0.5) * 240}px`);
-    c.style.setProperty('--rot', `${(Math.random() - 0.5) * 1080}deg`);
-    c.style.setProperty('--d', `${2 + Math.random() * 1.6}s`);
-    c.style.setProperty('--delay', `${Math.random() * 0.5}s`);
-    const s = 0.7 + Math.random() * 0.7;
-    c.style.width = `${10 * s}px`; c.style.height = `${14 * s}px`;
-    if (i % 4 === 0) c.style.borderRadius = '50%';
-    layer.appendChild(c);
-  }
   document.body.appendChild(layer);
-  window.setTimeout(() => layer.remove(), 4400);
+  const fx = createParticles({ container: layer, zIndex: 1, maxParticles: n });
+  fx.confetti({ count: n, colors, shapes: ['ribbon', 'square', 'circle'], speed: [80, 180], gravity: 700, life: [2.8, 3.8] });
+  window.setTimeout(() => { fx.destroy(); layer.remove(); }, 4400);
 }
 
 /* ------------------------------------------------------------------ modal / result */

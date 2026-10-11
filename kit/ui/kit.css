@@ -494,8 +494,6 @@
 
 /* ============================================================ CONFETTI (paper) */
 .xg-confetti { position: fixed; inset: 0; pointer-events: none; z-index: calc(var(--xg-z-modal) + 1); overflow: hidden; }
-.xg-confetti i { position: absolute; top: -20px; width: 12px; height: 16px; border-radius: 2px; animation: xg-fall var(--d, 2.4s) cubic-bezier(.3, .4, .6, 1) var(--delay, 0s) forwards; }
-@keyframes xg-fall { 0% { transform: translate3d(0, 0, 0) rotate(0) rotateY(0); opacity: 1; } 85% { opacity: 1; } 100% { transform: translate3d(var(--dx, 0), 110vh, 0) rotate(var(--rot, 540deg)) rotateY(720deg); opacity: 0; } }
 
 /* ========================================================================== SKIP
    跳过 for intros / cutscenes / tutorials (kit/ui/skip.ts mountSkipButton). Top-right, mirrors the
