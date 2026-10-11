@@ -30,7 +30,7 @@ export function spawnBoss(S: SimState, type: string, _lane: number, API: SimApi)
   const B = S.boss as BossCtl; B.spawned = true;
   const hp = (v: number): number => (S.assist ? Math.round((v * (S.assist === 2 ? ASSIST2_BOSS_PCT : ASSIST_BOSS_PCT)) / 100) : v);
   if (type === 'rhino') {
-    const C = CFG.rhino;
+    const C = S.rhinoCfg ?? CFG.rhino;
     const e = API.spawnEnemy(S, 'walker', C.lane, SPAWN_X, { k: 'rhino', hp: hp(C.hp), max: hp(C.hp), mat: 'metal', armor: C.armor, wt: 'heavy', body: C.body, parts: 10, spd: C.speed[1], p2At: hp(C.p2At), crackMax: hp(C.crackMax) });
     e.boss = { type, phase: 1, crack: 0, hornNext: 0, chargeNext: 0, tele: 0, dash: 0, hatchNext: 0, hatchI: 0 };
     B.id = e.id; API.ev(S, 'bossIn', { k: type });
@@ -67,7 +67,7 @@ export function tickPart(S: SimState, e: Enemy, API: SimApi): void {
 
 // ───────── 铜犀冲车 ─────────
 function rhinoTick(S: SimState, e: Enemy, API: SimApi): void {
-  const C = CFG.rhino; const B = e.boss!;
+  const C = S.rhinoCfg ?? CFG.rhino; const B = e.boss!;
   if (e.stunUntil > S.tick) return;
   const b = API.blockerFor(S, e); const face = b ? b.col * T + FACE : -1e9;
   if (B.phase === 3) {
@@ -229,7 +229,7 @@ export function hurt(S: SimState, e: Enemy, dmg: number, dtype: string, src: Src
   if (e.proxy) { const h = S.enemies.find((x) => x.id === e.proxy); return h && !h.untargetable ? API.hurtRaw(S, h, dmg, dtype, src) : 0; }
   if (e.untargetable) return 0;
   if (t === 'rhino') {
-    const B = e.boss!; const C = CFG.rhino;
+    const B = e.boss!; const C = S.rhinoCfg ?? CFG.rhino;
     if (B.phase === 2) {
       let c = 0;
       if (dtype === 'blunt') c = Math.ceil(dmg / C.crackBlunt);

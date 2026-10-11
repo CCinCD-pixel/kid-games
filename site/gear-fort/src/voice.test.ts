@@ -6,6 +6,7 @@ import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 import { LINES } from './content';
 import { textManifest } from './voice';
+import { coachLineId } from './theme/mozi';
 
 const ROOT = path.resolve(__dirname, '../../..');
 const MAN = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/audio/gear-fort/audio-manifest.json'), 'utf8')) as Record<string, { src: string; text: string; role?: string; durationMs: number }>;
@@ -29,6 +30,12 @@ describe('voice: 鲁班 speaks in his own voice', () => {
     const tm = textManifest();
     expect(luban.filter((id) => id in tm)).toEqual([]);
   });
+});
+
+it('the early rhino hint resolves to an existing voiced line', () => {
+  const id = coachLineId({ type: 'boss', key: 'boss:prepare', card: 'lobber', lane: 2, col: 1, kind: 'rhino' });
+  expect(id).toBe('fort.coach.boss.shell');
+  expect(MAN[id!]?.role).toBe('dad');
 });
 
 // QA r5 major (spec §8.6 audio buffers ≤6 MB): decoded narration is released outside a ~20 s window.

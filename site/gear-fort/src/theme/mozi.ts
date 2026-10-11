@@ -31,7 +31,7 @@ export function coachLineId(l: CoachLine): string | null {
     case 'night': return first('fort.coach.night');
     case 'boss': {
       const k = l.key.split(':')[1];
-      const m: Record<string, string> = { shell: l.swap ? 'fort.coach.boss.swap' : 'fort.coach.boss.shell', charge: 'fort.coach.boss.charge', owl: 'fort.coach.boss.owlhigh', owldown: 'fort.coach.boss.owldown', swoop: 'fort.coach.boss.owlswoop' };
+      const m: Record<string, string> = { prepare: 'fort.coach.boss.shell', shell: l.swap ? 'fort.coach.boss.swap' : 'fort.coach.boss.shell', charge: 'fort.coach.boss.charge', owl: 'fort.coach.boss.owlhigh', owldown: 'fort.coach.boss.owldown', swoop: 'fort.coach.boss.owlswoop' };
       return first(m[k] ?? '');
     }
     default: return null;

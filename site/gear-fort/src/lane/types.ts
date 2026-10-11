@@ -1,6 +1,7 @@
 // 机关守城 · lane core — data types (theme-agnostic: ids, tags and integers only).
 // The kernel is a 1:1 port of the prototype (lane-defense-tools/proto/sim.mjs, boss.mjs); field names
 // follow it so the per-flag state hashes stay bit-identical (spec §8.9).
+import type { RhinoCfg } from './tables';
 
 export type CardId = string;
 export type EnemyKind = string;
@@ -185,6 +186,7 @@ export interface SimState {
   ev: SimEvent[] | null; byLane: Enemy[][];
   stats: Stats;
   fires?: FireWall[]; smokeSeen?: number[]; restored?: number;
+  ramHpPct?: number; ramImpactPct?: number; rhinoCfg?: RhinoCfg;
 }
 
 export interface SimOptions {
@@ -195,6 +197,9 @@ export interface SimOptions {
   logCap?: number;
   events?: boolean;
   extraStart?: number;
+  ramHpPct?: number;
+  ramImpactPct?: number;
+  rhinoCfg?: RhinoCfg;
 }
 
 /** Functions sim.ts hands to boss.ts (avoids an import cycle, same as the prototype). */

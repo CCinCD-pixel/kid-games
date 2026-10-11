@@ -6,6 +6,7 @@ import { createSim, step, spawnEnemy, addUnit, hash } from './sim';
 import { T, TPS } from './rules';
 import { coachLine, askLine, makeCoachMemory, COACH_GAP, COACH_RETIRE } from './coach';
 import type { Level } from './types';
+import { BOSS_CFG } from './tables';
 
 const lv = (o: Partial<Level> = {}): Level => ({ id: 't', lanes: [1, 1, 1, 1, 1], start: 500, loadout: ['shooter', 'wall', 'farm'], sky: false, spawns: [], flags: [], noEnd: true, newEnemy: 'shielder', ...o } as unknown as Level);
 const ready = (o: Partial<Level> = {}) => { const S = createSim(lv(o), 1); S.cdReady = {}; return S; };
@@ -40,5 +41,23 @@ describe('V11 coach', () => {
     const S = ready({ flags: [600] }); const mem = makeCoachMemory(); let n = 0;
     while (S.tick < 600) { const l = coachLine(S, mem); if (l?.type === 'flag') n++; step(S); }
     expect(n).toBe(1); expect(12 * TPS).toBe(240);
+  });
+  it('repeats a rhino counter hint until a usable counter is placed', () => {
+    const S = ready({ loadout: ['farm', 'shooter', 'lobber', 'beam', 'spikes', 'wall'] });
+    const boss = spawnEnemy(S, 'walker', 2, 9 * T, { k: 'rhino', boss: { type: 'rhino', phase: 1 } });
+    S.boss = { type: 'rhino', cfg: { type: 'rhino' }, done: false, spawned: true, id: boss.id };
+    S.rhinoCfg = BOSS_CFG.rhino;
+    const mem = makeCoachMemory();
+    expect(coachLine(S, mem)?.card).toBe('lobber');
+    S.tick = 6 * TPS;
+    expect(coachLine(S, mem)).toBeNull();
+    S.tick = 15 * TPS;
+    expect(coachLine(S, mem)?.card).toBe('lobber');
+    const counter = addUnit(S, 'lobber', 2, 1);
+    S.tick = 21 * TPS;
+    expect(coachLine(S, mem)).toBeNull();
+    counter.dead = true;
+    S.tick = 30 * TPS;
+    expect(coachLine(S, mem)?.card).toBe('lobber');
   });
 });

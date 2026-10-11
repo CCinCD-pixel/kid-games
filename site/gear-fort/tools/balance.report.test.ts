@@ -3,6 +3,20 @@ import { LEVELS, PLAYABLE_VOLUMES, CAMPAIGN } from '../src/content';
 import { batch, pct } from '../src/bots/evaluate';
 
 describe.runIf(!!process.env.GF_BALANCE)('live campaign balance', () => {
+  it('reports pressure points for child play', () => {
+    for (const id of ['1-5', '1-10', '1-11', '2-3', '2-7', '2-11']) {
+      const rows = (['K', 'K+', 'C'] as const).map((bot) => {
+        const o = batch(LEVELS[id], bot, 40, { campaign: true }, true);
+        if (id === '1-11' && bot === 'K+') {
+          expect(pct(o)).toBeGreaterThanOrEqual(90);
+          expect(o.dur / o.n).toBeLessThanOrEqual(240);
+        }
+        return `${bot} ${pct(o)}% ${Math.round(o.dur / o.n)}s, logs ${(o.logs / o.n).toFixed(1)}, causes ${JSON.stringify(o.causes)}`;
+      });
+      console.log(`${id}: ${rows.join(' | ')}`);
+    }
+  }, 180_000);
+
   it('measures child and expert wins against the authored rules', () => {
     const rows: string[] = [];
     let before = 0; let after = 0; let expert = 0;

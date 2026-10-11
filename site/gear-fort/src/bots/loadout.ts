@@ -70,7 +70,7 @@ export function chooseK(level: Level, r: () => number): string[] {
   return out;
 }
 
-const BOSS_REC: Record<string, string[]> = { rhino: ['lobber', 'spikes'], owl: ['radial', 'gust'], ship: ['hook', 'lobber'], fortress: ['wall', 'burner', 'radial'] };
+const BOSS_REC: Record<string, string[]> = { rhino: ['lobber', 'beam', 'spikes', 'wall'], owl: ['radial', 'gust'], ship: ['hook', 'lobber'], fortress: ['wall', 'burner', 'radial'] };
 /** 墨子推荐: counters for every previewed machine + the boss's lesson cards (the loadout screen's seals) */
 export function recommend(level: Level): string[] {
   const pool = level.pool || []; const pv = previewOf(level); const isN = night(level); const out: string[] = [];

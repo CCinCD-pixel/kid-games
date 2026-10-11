@@ -136,11 +136,23 @@ export function coachLine(S: SimState, mem: CoachMemory, opt: CoachOptions = {})
 /** Boss tips (one per boss state; not subject to the 20 s gap; never retired) */
 function bossLine(S: SimState, mem: CoachMemory): CoachLine | null {
   const cards = cardsOf(S);
-  const b = S.enemies.find((e) => e.boss && e.hp > 0 && !e.gone && e.x < COLS * T);
+  const live = !!S.rhinoCfg;
+  const b = S.enemies.find((e) => e.boss && e.hp > 0 && !e.gone && (e.x < COLS * T || (live && e.k === 'rhino')));
+  const due = (key: string): boolean => S.tick - (mem.said.get(key) ?? -Infinity) >= 15 * TPS;
+  if (live && b && b.k === 'rhino' && b.boss!.phase === 1) {
+    const hasCounter = S.units.some((u) => !u.dead && u.lane === b.lane && (u.k === 'lobber' || u.k === 'beam'));
+    const c = hasCounter ? undefined : ['lobber', 'beam'].find((k) => cards.includes(k));
+    const key = 'boss:prepare';
+    if (c && due(key)) {
+      const col = cellFor(S, c, b.lane);
+      if (col >= 0) return { type: 'boss', key, card: c, lane: b.lane, col, kind: 'rhino' };
+    }
+  }
   if (b && b.k === 'rhino' && b.boss!.phase === 2) {
-    const c = ['lobber', 'beam'].find((k) => cards.includes(k) && !(k === 'beam' && isNight(S)) && !S.units.some((u) => !u.dead && u.k === k && u.lane === b.lane));
+    const hasCounter = live && S.units.some((u) => !u.dead && u.lane === b.lane && (u.k === 'lobber' || (!isNight(S) && u.k === 'beam')));
+    const c = hasCounter ? undefined : ['lobber', 'beam'].find((k) => cards.includes(k) && !(k === 'beam' && isNight(S)) && (live || !S.units.some((u) => !u.dead && u.k === k && u.lane === b.lane)));
     const key = 'boss:shell';
-    if (c && !mem.said.has(key)) {
+    if (c && (live ? due(key) : !mem.said.has(key))) {
       const col = cellFor(S, c, b.lane); if (col >= 0) return { type: 'boss', key, card: c, lane: b.lane, col, kind: 'rhino' };
       // the lane is full: swap the front-most crossbow for the counter
       const sw = S.units.filter((u) => !u.dead && u.lane === b.lane && u.k === 'shooter' && b.x - (u.col * T + FACE) >= 15000).sort((a, b2) => b2.col - a.col)[0];

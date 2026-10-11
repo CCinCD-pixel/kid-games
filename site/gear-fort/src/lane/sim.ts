@@ -46,6 +46,7 @@ export function createSim(level: Level, seed = 1, opt: SimOptions = {}): SimStat
     flood: [0, 0, 0, 0, 0], floodI: 0, boss: null, wood: 0,
     ev: opt.events ? [] : null, byLane: [[], [], [], [], []],
     stats: newStats(),
+    ramHpPct: opt.ramHpPct, ramImpactPct: opt.ramImpactPct, rhinoCfg: opt.rhinoCfg,
   };
   S.water = (L.water || [0, 0, 0, 0, 0]).map((w) => (w ? 1 : 0));
   S.waterNow = S.water.slice();
@@ -157,7 +158,8 @@ function removeUnit(S: SimState, u: Unit, why: string, by?: string): void {
 // ───────────────────────── enemies ─────────────────────────
 export function spawnEnemy(S: SimState, k: string, lane: number, x: number = SPAWN_X, extra?: Partial<Enemy>): Enemy {
   const D = ENEMIES[k];
-  const e: Enemy = { id: S.nextId++, k, lane, x, hp: D.hp, max: D.hp, sh: D.shield || 0, armor: D.armor || 0, mat: D.mat, wt: D.wt,
+  const hp = k === 'ram' ? Math.round(D.hp * (S.ramHpPct ?? 100) / 100) : D.hp;
+  const e: Enemy = { id: S.nextId++, k, lane, x, hp, max: hp, sh: D.shield || 0, armor: D.armor || 0, mat: D.mat, wt: D.wt,
     layer: D.layer, spd: D.speed, biteNext: 0, contact: 0, stuckUntil: 0, stunUntil: 0, burnUntil: 0, burnAt: 0,
     run: 0, mode: 0, recoilLeft: 0, lad: 0, ladHp: D.ladderHp || 0, ladT: 0, ladOn: 0, pinId: 0,
     perchId: 0, downUntil: 0, cloudNext: 0, revealed: 0, digUntil: 0, sumNext: 0, sumN: 0, hookUntil: 0,
@@ -564,7 +566,7 @@ function enemyTick(S: SimState, e: Enemy): void {
     if (b && e.x - vv <= face) {
       const moved = Math.max(0, e.x - face); e.x = face;
       if (slow === 100 && !jammed) e.run = Math.min(D.runFull!, e.run + moved);
-      const dmg = Math.floor(((D.impactMin! + Math.floor(((D.impactMax! - D.impactMin!) * e.run) / D.runFull!)) * aura) / 100);
+      const dmg = Math.floor(((D.impactMin! + Math.floor(((D.impactMax! - D.impactMin!) * e.run) / D.runFull!)) * aura * (S.ramImpactPct ?? 100)) / 10000);
       biteUnit(S, e, b, dmg); ev(S, 'impact', { id: e.id, dmg, run: e.run });
       e.run = 0; e.mode = 1; e.recoilLeft = D.recoilTicks!; return;
     }
@@ -872,6 +874,9 @@ export function hash(S: SimState): string {
   for (const u of S.units) { mix(u.id); mix(u.col + u.lane * 16); mix(u.hp); mix(u.next); mix(u.pin); }
   for (const e of S.enemies) { mix(e.id); mix(e.lane); mix(e.x); mix(e.hp); mix(e.sh); mix(e.run || 0); mix(e.lad || 0); }
   for (const d of S.drops) { mix(d.id); mix(d.v); }
+  if (S.ramHpPct != null) mix(S.ramHpPct);
+  if (S.ramImpactPct != null) mix(S.ramImpactPct);
+  if (S.rhinoCfg) for (const v of [S.rhinoCfg.hp, S.rhinoCfg.p2At, S.rhinoCfg.crackMax, S.rhinoCfg.shellClose, S.rhinoCfg.hatchN, S.rhinoCfg.hatchEvery, S.rhinoCfg.chargeEvery, S.rhinoCfg.tele, S.rhinoCfg.dashDist, S.rhinoCfg.dashWallDmg, ...S.rhinoCfg.hornDmg]) mix(v);
   return (h >>> 0).toString(16).padStart(8, '0');
 }
 
