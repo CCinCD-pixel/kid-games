@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <rect x="2" y="2" width="92" height="92" rx="18" fill="#d8bd87" stroke="#5c533f" stroke-width="3"/>
+  <path d="M12 24h72M12 48h72M12 72h72M24 12v72M48 12v72M72 12v72" stroke="#73644b" stroke-width="2" opacity=".65"/>
+  <circle cx="50" cy="49" r="32" fill="#805744" opacity=".35"/>
+  <circle cx="48" cy="46" r="32" fill="#fff7e8" stroke="#a43d32" stroke-width="5"/>
+  <circle cx="48" cy="46" r="26" fill="none" stroke="#c66851" stroke-width="2"/>
+  <text x="48" y="62" text-anchor="middle" font-family="serif" font-size="43" font-weight="bold" fill="#a43d32">帅</text>
+</svg>
