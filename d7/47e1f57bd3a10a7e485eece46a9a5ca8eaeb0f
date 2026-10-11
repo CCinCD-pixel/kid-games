@@ -1,0 +1,23 @@
+kit/shell.ts
+  s_e8836c6d1c92e0::t_fe88b2ca73bd9b 211-214,358
+tests/smoke/bfcache.spec.ts
+  s_e8836c6d1c92e0::t_7683ad2e67ea45 1-17,19-27
+  s_e8836c6d1c92e0::t_0e52b8a13d8c8b 28-45
+  s_e8836c6d1c92e0::t_425d86a37ce8af 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "d747e1f57bd3a10a7e485eece46a9a5ca8eaeb0f",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
