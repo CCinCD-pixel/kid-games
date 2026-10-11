@@ -1,0 +1,49 @@
+site/snake-battle/tests/arena-radius.spec.ts
+  s_e8836c6d1c92e0::t_69d60ddbe350f2 1-15,17,19-20,24-32,34,36-38
+  s_e8836c6d1c92e0::t_cf34d4ca974211 16,18,21-23,33,35
+site/snake-battle/src/match.ts
+  s_e8836c6d1c92e0::t_4eb6ad254d0678 97-98,100
+  s_e8836c6d1c92e0::t_bfcfd96d430a1d 9,94-95
+content/snake-battle/venues.json
+  s_e8836c6d1c92e0::t_40dc7222086789 89,128
+  s_e8836c6d1c92e0::t_bfcfd96d430a1d 84,86-88,122,125-126,162-167,200-203
+  s_e8836c6d1c92e0::t_143d4f8e472ae6 85,123-124
+site/snake-battle/validate/arena-radius.test.ts
+  s_e8836c6d1c92e0::t_4eb6ad254d0678 1-2,4,6-15,18-26,32-33
+  s_e8836c6d1c92e0::t_bfcfd96d430a1d 16-17
+  s_e8836c6d1c92e0::t_cc1c930234ba71 3,27-30
+  s_e8836c6d1c92e0::t_822524e254ad42 5,31
+site/snake-battle/validate/golden.test.ts
+  s_e8836c6d1c92e0::t_3911fd68588819 34
+site/snake-battle/src/sim/venues.ts
+  s_e8836c6d1c92e0::t_40dc7222086789 12
+  s_e8836c6d1c92e0::t_3911fd68588819 141
+  s_e8836c6d1c92e0::t_cc1c930234ba71 39-43,103,127
+  s_e8836c6d1c92e0::t_bfcfd96d430a1d 33-38,104,125
+  s_e8836c6d1c92e0::t_8a77079775d913 94-96
+  s_e8836c6d1c92e0::t_4eb6ad254d0678 22,98-99,120-121,140
+docs/specs/snake-battle.md
+  s_e8836c6d1c92e0::t_cc1c930234ba71 656-657
+site/snake-battle/tests/perf.spec.ts
+  s_e8836c6d1c92e0::t_84eb672aad0c77 4-6
+  s_e8836c6d1c92e0::t_1176c59693e0ab 3,27,31-35
+site/snake-battle/validate/v2-venues.test.ts
+  s_e8836c6d1c92e0::t_8a77079775d913 18
+  s_e8836c6d1c92e0::t_339b8bd91adc33 17,20,29,36-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "dbbc4bd0eccbc1049c794a107d51e1a3ed399e04",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
