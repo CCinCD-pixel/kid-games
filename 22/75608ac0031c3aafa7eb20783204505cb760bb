@@ -1,0 +1,45 @@
+site/mars-base/tests/orbit.spec.ts
+  s_e8836c6d1c92e0::t_bb75dfc2b68dfa 40
+site/mars-base/src/subtraction/model.test.ts
+  s_e8836c6d1c92e0::t_ec86486f8f418b 2,21-43
+  s_e8836c6d1c92e0::t_16b5e87d279721 1,3-20,44-47
+site/mars-base/src/styles.css
+  s_e8836c6d1c92e0::t_bb75dfc2b68dfa 144
+  s_e8836c6d1c92e0::t_5fa50bdae69222 132-143,197-198,223
+  s_e8836c6d1c92e0::t_12fef689d891dd 225-229
+site/mars-base/src/orbit/save.ts
+  s_e8836c6d1c92e0::t_be7b1df21e657c 36-49,63,70,74-75,78-80,87-88
+site/mars-base/tests/addition.spec.ts
+  s_e8836c6d1c92e0::t_be7b1df21e657c 119,123
+site/mars-base/tests/subtraction.spec.ts
+  s_e8836c6d1c92e0::t_9aaa1b137c0f09 66,69
+  s_e8836c6d1c92e0::t_8f1455f6c176a0 1-65,68,70-123
+  s_e8836c6d1c92e0::t_bb75dfc2b68dfa 124-132,136-139
+  s_e8836c6d1c92e0::t_12fef689d891dd 133-135
+  s_e8836c6d1c92e0::t_1c9f4c27807ad8 67
+site/mars-base/tests/c1.spec.ts
+  s_e8836c6d1c92e0::t_bb75dfc2b68dfa 96,101
+site/mars-base/src/main.ts
+  s_e8836c6d1c92e0::t_0cec707524c607 435
+  s_e8836c6d1c92e0::t_85816ead006787 12-13,23,97-105,129-132,158,164,173,181,431-432,434,440
+site/mars-base/src/subtraction/model.ts
+  s_e8836c6d1c92e0::t_16b5e87d279721 1-83
+site/mars-base/src/subtraction/ui.ts
+  s_e8836c6d1c92e0::t_e45be2238285dc 1-319
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "2275608ac0031c3aafa7eb20783204505cb760bb",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
