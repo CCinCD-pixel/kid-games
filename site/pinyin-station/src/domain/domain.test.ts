@@ -1,0 +1,56 @@
+import { describe, expect, it } from 'vitest';
+import { parseSyllable, displayPinyin, validateBank } from './pinyin';
+import { bank } from './content';
+import { initialSave, recordAttempt, mastery, schedule, nextQuestion, rebuildAtoms } from './learning';
+
+describe('pinyin content', () => {
+  it('preserves umlauts, neutral tones and places tones on the right vowel', () => {
+    expect(['lv2', 'liu2', 'gui4', 'di0'].map(displayPinyin)).toEqual(['lǘ', 'liú', 'guì', 'di']);
+    expect(parseSyllable('bv2')).toBeNull();
+    expect(parseSyllable('lve4')).toMatchObject({ initial: 'l', final: 've', tone: 4 });
+  });
+  it('validates the exact content consumed by the page', () => expect(validateBank(bank)).toEqual([]));
+  it('includes the newly deciphered exam words and both sentences', () => {
+    for (const id of ['pubu', 'lv', 'futi', 'didi-milu', 'baba-pati']) expect(bank.words.some(w => w.id === id)).toBe(true);
+  });
+});
+
+describe('supportive practice and session-based review', () => {
+  it('keeps trial AI and self assessment out of mastery', () => {
+    const s = initialSave();
+    recordAttempt(s, { skill: 'syl:ba2:say', kind: 'D', correct: false, judge: 'ai', session: 1, id: 'a' });
+    recordAttempt(s, { skill: 'syl:ba2:say', kind: 'D', correct: true, judge: 'self', session: 1, id: 'b' });
+    expect(s.atoms).toEqual({});
+  });
+  it('requires two modalities on separate sessions before mastery', () => {
+    const s = initialSave();
+    for (let i = 0; i < 8; i++) recordAttempt(s, { skill: 'word:ditu:decode', kind: 'E', correct: true, judge: 'deterministic', session: i + 1, id: `e${i}` });
+    expect(mastery(s, 'word:ditu')).toBe(false);
+    recordAttempt(s, { skill: 'word:ditu:spell', kind: 'F', correct: true, judge: 'deterministic', session: 9, id: 'f' });
+    expect(mastery(s, 'word:ditu')).toBe(true);
+    expect(s.atoms['word:ditu:decode'].due).toBeGreaterThan(1);
+  });
+  it('rebuilds parent corrections without double counting', () => {
+    const s = initialSave();
+    recordAttempt(s, { skill: 'syl:ba2:say', kind: 'D', correct: false, judge: 'parent', session: 1, id: 'r' });
+    recordAttempt(s, { skill: 'syl:ba2:say', kind: 'D', correct: true, judge: 'parent', session: 1, id: 'r' });
+    rebuildAtoms(s);
+    expect(s.atoms['syl:ba2:say'].box).toBe(1);
+  });
+  it('reserves most main-program slots for meaning and spelling, within the selected lesson', () => {
+    const s = initialSave(); s.settings.lesson = 3;
+    const qs = schedule(s, bank, 'today', 13);
+    const main = qs.filter(q => q.phase === 'main');
+    expect(main.filter(q => q.kind === 'E' || q.kind === 'F').length / main.length).toBeGreaterThanOrEqual(.5);
+    expect(qs.every(q => q.lesson <= 3)).toBe(true);
+    expect(qs.every((q, i) => i < 2 || q.id !== qs[i-1].id || q.id !== qs[i-2].id)).toBe(true);
+  });
+  it('demonstrates after three tries and schedules a spaced twin', () => {
+    const s = initialSave(); const qs = schedule(s, bank, 'today', 4);
+    expect(nextQuestion(qs, 0, 2, false).action).toBe('hint');
+    const result = nextQuestion(qs, 0, 3, false);
+    expect(result.action).toBe('demonstrate');
+    expect(result.queue[1].id).not.toBe(qs[0].id);
+    expect(result.queue.slice(3).some(q => q.skill === qs[0].skill)).toBe(true);
+  });
+});
