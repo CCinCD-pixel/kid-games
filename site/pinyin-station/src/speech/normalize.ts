@@ -10,12 +10,13 @@ export function normalize(raw: unknown, latencyMs: number, strictness: keyof typ
   const sentenceSets = Array.isArray(result.SentenceInfoSet) ? result.SentenceInfoSet : [];
   const words = Array.isArray(result.Words) ? result.Words : sentenceSets.flatMap(s=>Array.isArray(object(s).Words)?object(s).Words as unknown[]:[]);
   if(!words.length) return verdict;
+  if(words.some(w=>typeof object(w).MatchTag==='number'&&object(w).MatchTag!==0))return verdict;
   const dimensions:{initial:number[];final:number[]}={initial:[],final:[]}; let obvious=false, toneMismatch=false, toneSeen=false;
   for(const value of words) {
     const w=object(value), phones=Array.isArray(w.PhoneInfos)?w.PhoneInfos:[];
     for(const phone of phones) {
       const p=object(phone), letter=String(p.ReferenceLetter || p.ReferencePhone || '').toLowerCase();
-      if(!letter || typeof p.PronAccuracy!=='number' || typeof p.MatchTag!=='number') continue;
+      if(!letter || typeof p.PronAccuracy!=='number' || !Number.isFinite(p.PronAccuracy) || typeof p.MatchTag!=='number') continue;
       const dim:Dim=/^(zh|ch|sh|[bpmfdtnlgkhjqxzcsr])$/.test(letter)?'initial':'final';
       dimensions[dim].push(p.PronAccuracy);
       if(p.MatchTag===3 && p.PronAccuracy<cfg.obviousMismatch) obvious=true;
@@ -24,7 +25,7 @@ export function normalize(raw: unknown, latencyMs: number, strictness: keyof typ
     // Neutral tones and invalid/missing detection cannot produce a negative judgement.
     if(tone.Valid===true && Number(tone.RefTone)>=1 && Number(tone.RefTone)<=4 && Number(tone.HypothesisTone)>=1 && Number(tone.HypothesisTone)<=4) {
       toneSeen=true;
-      if(tone.RefTone!==tone.HypothesisTone) toneMismatch=true;
+      if(Number(tone.RefTone)!==Number(tone.HypothesisTone)) toneMismatch=true;
     }
   }
   for(const dim of ['initial','final'] as const) if(dimensions[dim].length) {

@@ -9,7 +9,7 @@ describe('conservative pronunciation feedback',()=>{
   });
   it('keeps missing/extra words and empty audio unjudged',()=>{
     expect(normalize({code:0,result:{}},1).status).toBe('unsure');
-    expect(normalize({Words:[{MatchTag:2}]},1).status).toBe('unsure');
+    expect(normalize({Words:[{MatchTag:2,PhoneInfos:[{ReferenceLetter:'b',PronAccuracy:99,MatchTag:0}],Tone:{Valid:true,RefTone:1,HypothesisTone:1}}]},1)).toMatchObject({status:'unsure',dims:{}});
   });
   it('only suggests tone practice when the engine returns valid detection',()=>{
     const v=normalize({Words:[{Tone:{Valid:true,RefTone:2,HypothesisTone:3}}]},1);
