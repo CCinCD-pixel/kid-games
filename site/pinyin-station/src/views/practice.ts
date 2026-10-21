@@ -108,7 +108,14 @@ export class Practice {
     if(this.locked)return;
     const confusion=this.q.kind==='B'?this.q.skill.split(':')[1]:this.q.kind==='A'&&choice?[this.q.target,choice].sort().join('|'):undefined;
     this.remember(correct,correct?undefined:confusion);
-    if(correct){this.locked=true;this.el.classList.add('is-resolved');const praise=this.ctx.bank.praise[this.index%this.ctx.bank.praise.length];this.feedback.replaceChildren(glyph('star'),h('span',null,praise));this.feedback.classList.add('is-lit');this.speak(`py.praise.${this.index%this.ctx.bank.praise.length}`);this.actions.replaceChildren(button('接下一条',()=>this.advance(),'primary','next'));}
+    if(correct){
+      this.locked=true;this.el.classList.add('is-resolved');
+      const choices={A:[2,13],B:[5],C:[3],D:[19],E:[0,16],F:[7,9,12,17],G:[18,7]}[this.q.kind];
+      const praiseId=this.tries>0?8:choices[this.index%choices.length];
+      this.feedback.replaceChildren(glyph('star'),h('span',null,this.ctx.bank.praise[praiseId]));
+      this.feedback.classList.add('is-lit');this.speak(`py.praise.${praiseId}`);
+      this.actions.replaceChildren(button('接下一条',()=>this.advance(),'primary','next'));
+    }
     else {
       this.tries++;const next=nextQuestion(this.queue,this.index,this.tries,false);this.queue=next.queue;
       if(next.action==='demonstrate'){this.locked=true;this.feedback.replaceChildren(h('span',null,'一起看示范，再接下一条信号'));this.demonstrate();this.speak('py.demo');this.actions.replaceChildren(button('接下一条',()=>this.advance(),'primary','next'));}

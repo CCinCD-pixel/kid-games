@@ -91,6 +91,7 @@ async function prefetchMedia(){
   }catch{/* The saved lesson remains available without AI. */}
 }
 home();if(location.pathname.includes('/lab/'))void showParent();void narrator.ready();
-void shell.ready.then(()=>say('py.welcome'));
+const welcomeView=viewVersion;
+void shell.ready.then(()=>{if(viewVersion===welcomeView&&!location.pathname.includes('/lab/'))return say('py.welcome');});
 if('serviceWorker' in navigator)void navigator.serviceWorker.ready.then(prefetchMedia);
 window.addEventListener('pagehide',()=>{practice?.stop();stopAudio();cleanUrls();persist();});
