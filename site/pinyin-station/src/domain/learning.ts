@@ -76,7 +76,12 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
     }
     const warmPool = familiarWords.length ? familiarWords : shuffled;
     const word = i < 3 ? warmPool[i % warmPool.length] : review.length && (mode === 'repair' || mainWord++ % 2 === 0) ? review[reviewWord++ % review.length] : shuffled[freshWord++ % shuffled.length];
-    return { id: `${kind}:${word.id}`, kind, target: word.id, skill: `word:${word.id}:${kind === 'F' ? 'spell' : kind === 'D' ? 'say' : 'decode'}`, lesson: word.lesson, phase, choices: rng.shuffle([word.id, ...rng.shuffle(words.filter(w => w.id !== word.id)).slice(0, 3).map(w => w.id)]) };
+    const pictures=new Set([word.picture]), meanings=new Set([word.hanzi]);
+    const distractors=rng.shuffle(words.filter(w=>w.id!==word.id)).filter(w=>{
+      if(pictures.has(w.picture)||meanings.has(w.hanzi))return false;
+      pictures.add(w.picture);meanings.add(w.hanzi);return true;
+    }).slice(0,3).map(w=>w.id);
+    return { id: `${kind}:${word.id}`, kind, target: word.id, skill: `word:${word.id}:${kind === 'F' ? 'spell' : kind === 'D' ? 'say' : 'decode'}`, lesson: word.lesson, phase, choices: rng.shuffle([word.id, ...distractors]) };
   });
 }
 export function nextQuestion(queue: Question[], index: number, tries: number, correct: boolean) {

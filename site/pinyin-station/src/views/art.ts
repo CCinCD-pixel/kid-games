@@ -30,7 +30,7 @@ function drawing(id:string):string {
     case 'didi':return `<g transform="translate(20 25) scale(.8)">${person(90,90,GOLD)}</g>`;
     case 'ba-target':return `<circle cx="90" cy="81" r="58" fill="${PAPER}"/><circle cx="90" cy="81" r="38" fill="${BLUE}"/><circle cx="90" cy="81" r="17" fill="${GOLD}"/><path d="M90 139v24m0-80 57-53m-6 3 6-3-2 9"/>`;
     case 'ti':return person(65,84)+`<circle cx="140" cy="133" r="21" fill="${PAPER}"/><path d="M73 109 118 128m-36-18-9 38m47-43 18 8-7 17m27-4-9 15"/>`;
-    case 'pu':return `<g transform="rotate(42 90 90)">${person(90,90)}</g><circle cx="143" cy="129" r="20" fill="${GOLD}"/><path d="m40 40 14 5m-25 9 17 5"/>`;
+    case 'pu':return `<path d="M134 28h35v124h-35m35-102h-22m22 25h-22m22 50h-22" stroke="#b0956a"/><circle cx="104" cy="67" r="13" fill="#e8b990"/><path d="m57 82 20-17 23 22-13 20Z" fill="${TEAL}"/><path d="m62 85-24-17-16 4m46 27-21 17-24-4m67-29 27 15 17 1m-46-3 25 17 22-7"/><circle cx="149" cy="103" r="16" fill="${GOLD}"/><path d="m144 95 9-1 5 8-6 8-9-4Zm-113-50 19 3m-31 10 17 2M19 151h131"/>`;
     case 'la':return person(116,88)+`<path d="M84 82 20 108m0 0 18-3m-18 3 14-15" stroke="${GOLD}" stroke-width="7"/>`;
     case 'ba':return person(112,76)+`<path d="m64 117 22 11-28 27Z" fill="${GOLD}"/><path d="m71 121 1-19m0 17-14-13m13 15 13-15M25 156h129"/>`;
     case 'pa':return `<path d="M45 30v133m69-133v133M45 46h69m-69 26h69m-69 26h69m-69 26h69m-69 26h69" stroke="#b0956a" stroke-width="8"/>`+`<g transform="translate(42 -3) scale(.8)">${person(90,90)}</g>`;

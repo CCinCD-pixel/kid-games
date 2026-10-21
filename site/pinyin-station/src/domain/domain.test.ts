@@ -61,6 +61,17 @@ describe('supportive practice and session-based review', () => {
     expect(qs[1].target).toBe('nitu');
     expect(qs.slice(3,5).some(q=>q.target==='muma')).toBe(true);
   });
+  it('keeps picture choices distinct when a family word reuses a library picture', () => {
+    const s=initialSave();s.customWords=[{...bank.words.find(w=>w.id==='muma')!,id:'family-muma',custom:true}];
+    const words=[...bank.words,...s.customWords];
+    for(let session=1;session<=20;session++){
+      s.sessions=session;
+      for(const q of schedule(s,bank,'today').filter(q=>q.kind==='E')){
+        const pictures=q.choices.map(id=>words.find(w=>w.id===id)!.picture);
+        expect(new Set(pictures).size).toBe(pictures.length);
+      }
+    }
+  });
   it('demonstrates after three tries and schedules a spaced twin', () => {
     const s = initialSave(); const qs = schedule(s, bank, 'today', 4);
     expect(nextQuestion(qs, 0, 2, false).action).toBe('hint');

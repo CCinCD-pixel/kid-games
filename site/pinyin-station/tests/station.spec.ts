@@ -54,6 +54,8 @@ test('three attempts lead to demonstration, without trapping the child',async({p
 
 test('spell on four-line grid, view the album and reject microphone gracefully',async({page},info)=>{
   await open(page);await page.getByRole('button',{name:'图画拼搭',exact:false}).click();
+  await expect(page.locator('.kit-subtitle__text')).toContainText('看图');
+  expect(await page.locator('.kit-subtitle__text').evaluate(el=>el.getBoundingClientRect().width)).toBeGreaterThan(80);
   await expect(page.locator('.grid-slot')).not.toHaveCount(0);await fits(page);await shot(page,info.project.name,'pinyin-spelling');
   await page.getByRole('button',{name:'收好电台',exact:true}).click();await page.getByRole('button',{name:'收好电台',exact:true}).click();
   await page.getByRole('button',{name:'信号卡册',exact:true}).click();await fits(page);await shot(page,info.project.name,'pinyin-album');
@@ -69,7 +71,12 @@ test('parent gate, add a local practice word, and keep trial AI out of mastery',
   await page.getByLabel('设置家长 PIN').fill('2468');await page.getByRole('button',{name:'进入家长页'}).click();
   await expect(page.getByRole('heading',{name:'电台值班室'})).toBeVisible();
   await page.getByRole('textbox',{name:'练习词汉字'}).fill('木马');await expect(page.getByRole('textbox',{name:'数字声调拼音'})).toHaveValue('mu4 ma3');
+  await expect(page.getByRole('combobox',{name:'选择图库'})).toHaveValue('muma');
   await page.getByRole('button',{name:'加入练习',exact:true}).click();await expect(page.getByText('已加入待接通信号，图片保存在本机')).toBeVisible();
+  const overflow=await page.locator('.parent-scroll').evaluate(el=>({width:el.clientWidth,content:el.scrollWidth,outside:[...el.querySelectorAll('input,select,button')].filter(control=>{const r=control.getBoundingClientRect();return r.left<0||r.right>innerWidth+1;}).map(control=>control.getAttribute('aria-label')??control.textContent)}));
+  expect(overflow.content).toBeLessThanOrEqual(overflow.width+1);expect(overflow.outside).toEqual([]);
+  await page.getByRole('heading',{name:'补充练习词',exact:true}).scrollIntoViewIfNeeded();await shot(page,info.project.name,'pinyin-parent-word');
+  await page.locator('.parent-scroll').evaluate(el=>el.scrollTop=0);
   await shot(page,info.project.name,'pinyin-parent');
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('kg:v1:pinyin-station')??'{}').data);
   expect(saved.customWords).toHaveLength(1);expect(saved.settings.ai).toBe(false);

@@ -55,3 +55,21 @@
 .calibration-summary{max-width:100%;overflow:auto;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}.recording-list>select{max-width:100%;min-height:48px;margin:8px}.parent-card .station-btn{margin:4px}
 .is-resolved .spelling-keys{display:none}
 @media(orientation:portrait) and (max-width:599px){.has-recording .reading-picture{display:none}.has-recording .type-D{gap:12px}}
+/* Native file/select controls must not set a grid column's minimum width. */
+.parent-panel,.parent-scroll,.parent-card,.parent-field{min-width:0}
+.parent-card{overflow-wrap:anywhere}
+.parent-field>input,.parent-field>select{flex:1;width:100%}
+.parent-field>input[type=checkbox]{flex:none;width:26px}
+.pin-gate{width:min(100%,360px)}.pin-gate input{width:100%;min-width:0}
+body:has(.parent-panel) .kit-subtitle{display:none!important}
+@media(max-width:599px),(orientation:landscape) and (max-height:599px){
+  .station-brand{display:none}.header-tools{margin-left:auto}
+}
+@media(orientation:landscape) and (max-height:599px){.program-board .start-show{width:200px;white-space:nowrap}}
+@media(orientation:portrait) and (max-width:599px){
+  .kit-subtitle{width:95vw}
+  .parent-scroll{grid-template-columns:minmax(0,1fr)}
+  .parent-field{flex-direction:column;align-items:stretch}
+  .parent-field>span{max-width:none}
+  .parent-field>input,.parent-field>select{max-width:100%}
+}
