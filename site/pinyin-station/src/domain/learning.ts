@@ -52,7 +52,8 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   return Array.from({ length: count }, (_, i) => {
     let kind = pattern[i % pattern.length];
     if (kind === 'G' && !sentences.length) kind = 'E';
-    if (!words.length && ['D','E','F','G'].includes(kind)) kind = i % 2 ? 'C' : 'A';
+    if (!words.length && ['D','E','F','G'].includes(kind)) kind = i % 2 ? 'B' : 'A';
+    if (kind === 'C' && !syllables.some(sy=>sy.initial&&!['y','w'].includes(sy.initial))) kind = 'B';
     const phase = i < 3 ? 'warmup' as const : 'main' as const;
     if (kind === 'A') {
       const known = letters.filter(l => (s.atoms[`letter:${l.id}:hear`]?.successes.length ?? 0) > 0);
