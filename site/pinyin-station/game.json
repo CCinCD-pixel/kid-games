@@ -1,7 +1,7 @@
 {
   "id": "pinyin-station", "title": "拼音电台", "subtitle": "接通星际信号，播出你的声音",
   "place": "base", "order": 35, "status": "wip", "accent": "--xg-story", "theme": "story",
-  "icon": "/icons/games/story-box.svg", "domains": ["literacy"], "orientation": "any",
+  "icon": "/icons/games/pinyin-station.svg", "domains": ["literacy"], "orientation": "any",
   "parentNote": "把拼音与意思连起来：读词找图、看图拼音、连词成句；以一年级拼音和日常词语为基础，语音评测先试运行。",
   "smoke": { "waitFor": "#app[data-ready]" }
 }
