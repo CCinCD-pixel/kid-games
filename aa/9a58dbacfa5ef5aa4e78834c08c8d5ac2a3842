@@ -1,0 +1,23 @@
+site/pinyin-station/src/domain/learning.ts
+  s_df862b152d7dcf::t_688cbf0d427117 43-47,55,58-60,64-66,69-70,76-77
+site/pinyin-station/src/domain/content.ts
+  s_df862b152d7dcf::t_6b25710bd145af 1
+site/pinyin-station/tools/seed-content.mjs
+  s_df862b152d7dcf::t_94a8950d5749e2 46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "aa9a58dbacfa5ef5aa4e78834c08c8d5ac2a3842",
+  "prompts": {},
+  "sessions": {
+    "s_df862b152d7dcf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15f1c-71e8-7d53-a0c2-033d2254b5ce",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
