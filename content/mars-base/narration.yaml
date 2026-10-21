@@ -1,0 +1,1164 @@
+# GENERATED from content/mars-base/lines.json (scope v1, sentences + fragments) by tools/mars-base/emit-narration.mjs — do not edit
+game: mars-base
+lines:
+  - id: mars.onb.1
+    role: companion
+    text: "卫星要入轨，旗插在三十。"
+  - id: mars.onb.2
+    role: companion
+    text: "该你了，插在六十二。"
+  - id: mars.onb.3
+    role: companion
+    text: "再来一颗，四十五。"
+  - id: mars.onb.4
+    role: companion
+    text: "基地亮灯了！"
+  - id: mars.onb.again
+    role: companion
+    text: "我再做一遍，看好哦。"
+  - id: mars.map.welcome
+    role: companion
+    text: "欢迎回来，总工程师！"
+  - id: mars.map.pick
+    role: companion
+    text: "今天去哪儿？"
+  - id: mars.map.locked
+    role: companion
+    text: "这里还在建设中。"
+  - id: mars.map.allDone
+    role: companion
+    text: "主线订单都交完了，新的区域还在建。"
+  - id: mars.chal.title
+    role: companion
+    text: "挑战订单"
+  - id: mars.chal.start
+    role: companion
+    text: "把学过的混在一起，来一轮！"
+  - id: mars.chal.done
+    role: companion
+    text: "挑战订单交完了！"
+  - id: mars.map.new
+    role: companion
+    text: "新地方开放了！"
+  - id: mars.mis.start
+    role: companion
+    text: "新订单来了！"
+  - id: mars.mis.warm
+    role: companion
+    text: "先热热身。"
+  - id: mars.mis.main
+    role: companion
+    text: "正式开工！"
+  - id: mars.mis.last
+    role: companion
+    text: "最后一单！"
+  - id: mars.mis.resume
+    role: companion
+    text: "接着上次的订单。"
+  - id: mars.mis.long
+    role: companion
+    text: "这批货先交了吧？"
+  - id: mars.mis.longKeep
+    role: companion
+    text: "好，接着干！"
+  - id: mars.mis.done
+    role: companion
+    text: "这批订单全交了！"
+  - id: mars.mis.explain
+    role: companion
+    text: "搭出来，讲给爸爸听。"
+  - id: mars.mis.direct
+    role: companion
+    text: "想跳过下一个订单吗？"
+  - id: mars.mis.direct.yes
+    role: narrator
+    text: "跳过下一个订单"
+  - id: mars.mis.direct.no
+    role: narrator
+    text: "按顺序走"
+  - id: mars.mis.bridge
+    role: companion
+    text: "这站我们再练一次。"
+  - id: mars.mis.deliverNudge
+    role: companion
+    text: "暂存盘里还有晶体。"
+  - id: mars.mis.empty
+    role: companion
+    text: "先输入你的答案。"
+  - id: mars.ord.read
+    role: companion
+    text: "这批货一共几颗？"
+  - id: mars.ord.build
+    role: companion
+    text: "照订单装货。"
+  - id: mars.ord.compare
+    role: companion
+    text: "哪边多？"
+  - id: mars.ord.step
+    role: companion
+    text: "走一步是几？"
+  - id: mars.ord.split
+    role: companion
+    text: "换成这样拆，是几？"
+  - id: mars.ord.add
+    role: companion
+    text: "一共要几颗？"
+  - id: mars.ord.sub
+    role: companion
+    text: "还剩几颗？"
+  - id: mars.ord.col
+    role: companion
+    text: "从个位算起。"
+  - id: mars.ord.more
+    role: companion
+    text: "多多少？"
+  - id: mars.ord.less
+    role: companion
+    text: "少多少？"
+  - id: mars.ord.pack
+    role: companion
+    text: "把棒装进箱子。"
+  - id: mars.ord.vaultRead
+    role: companion
+    text: "仓库里一共几颗？"
+  - id: mars.ord.counterSet
+    role: companion
+    text: "拨出这个数。"
+  - id: mars.ord.counterRead
+    role: companion
+    text: "计数器上是几？"
+  - id: mars.ord.dictation
+    role: companion
+    text: "听好，写下来。"
+  - id: mars.ord.vaultCmp
+    role: companion
+    text: "哪个仓库多？"
+  - id: mars.ord.order
+    role: companion
+    text: "从小到大排好。"
+  - id: mars.ord.hundSub
+    role: companion
+    text: "还剩多少？"
+  - id: mars.ord.relBig
+    role: companion
+    text: "大的是几？"
+  - id: mars.ord.relSmall
+    role: companion
+    text: "小的是几？"
+  - id: mars.ord.hund
+    role: companion
+    text: "一共是多少？"
+  - id: mars.ord.skip
+    role: companion
+    text: "下一个是几？"
+  - id: mars.ord.round
+    role: companion
+    text: "大约是几百？"
+  - id: mars.ord.groupsTotal
+    role: companion
+    text: "一共几颗？"
+  - id: mars.ord.groupsCount
+    role: companion
+    text: "有几个货舱？"
+  - id: mars.ord.groupsSize
+    role: companion
+    text: "每舱几颗？"
+  - id: mars.ord.write
+    role: companion
+    text: "写成算式。"
+  - id: mars.ord.equalCheck
+    role: companion
+    text: "能用乘法吗？"
+  - id: mars.ord.skipJump
+    role: companion
+    text: "接着跳，是几？"
+  - id: mars.ord.array
+    role: companion
+    text: "一共几块板？"
+  - id: mars.ord.rotate
+    role: companion
+    text: "转一转，还是几块？"
+  - id: mars.ord.missing
+    role: companion
+    text: "要摆几列？"
+  - id: mars.ord.splitArr
+    role: companion
+    text: "拆开算一算。"
+  - id: mars.ord.cmpArr
+    role: companion
+    text: "哪块板大？"
+  - id: mars.ord.balEq
+    role: companion
+    text: "放几才平？"
+  - id: mars.ord.balOpen
+    role: companion
+    text: "找出三种放法。"
+  - id: mars.ord.balStill
+    role: companion
+    text: "还平吗？"
+  - id: mars.ord.balBox
+    role: companion
+    text: "神秘箱有多重？"
+  - id: mars.ord.nlRead
+    role: companion
+    text: "旗子在几？"
+  - id: mars.ord.calib
+    role: companion
+    text: "帮卫星找位置。"
+  - id: mars.ord.open
+    role: companion
+    text: "你来定一个数。"
+  - id: mars.ord.openZero
+    role: companion
+    text: "装一个带零的数。"
+  - id: mars.ord.openOver
+    role: companion
+    text: "装一个比五百大的数。"
+  - id: mars.ord.openUnder
+    role: companion
+    text: "装一个比三百小的数。"
+  - id: mars.ord.openCmpGt
+    role: companion
+    text: "装两仓，左边比右边多。"
+  - id: mars.ord.openCmpLt
+    role: companion
+    text: "装两仓，左边没有右边多。"
+  - id: mars.ord.openGroups
+    role: companion
+    text: "分成一样多的几舱，你来定。"
+  - id: mars.ord.openArrays
+    role: companion
+    text: "把所有长方形都摆出来。"
+  - id: mars.cell.tens
+    role: companion
+    text: "再填十位。"
+  - id: mars.ok.first
+    role: companion
+    text: "第一单就交对了！"
+  - id: mars.ok.streak3
+    role: companion
+    text: "连着三单都对！"
+  - id: mars.ok.streak6
+    role: companion
+    text: "六单全对，真稳！"
+  - id: mars.ok.makeTen
+    role: companion
+    text: "先凑整十，好快。"
+  - id: mars.ok.comp
+    role: companion
+    text: "先凑成整十再改回来，好办法。"
+  - id: mars.ok.thinkAdd
+    role: companion
+    text: "往上数，好办法。"
+  - id: mars.ok.rotate
+    role: companion
+    text: "转一转就知道了。"
+  - id: mars.ok.split
+    role: companion
+    text: "拆开再算，好方法。"
+  - id: mars.ok.check
+    role: companion
+    text: "验得真仔细。"
+  - id: mars.ok.fix
+    role: companion
+    text: "改过来了！"
+  - id: mars.ok.estimate
+    role: companion
+    text: "估得真准。"
+  - id: mars.ok.steady
+    role: companion
+    text: "一步一步，算对了。"
+  - id: mars.try.noCarry
+    role: companion
+    text: "满十要压成一根棒。"
+  - id: mars.try.sfl
+    role: companion
+    text: "颗不够，切开一根棒。"
+  - id: mars.try.rev
+    role: companion
+    text: "十位和个位换位置了。"
+  - id: mars.try.zero
+    role: companion
+    text: "没有棒，要写个零。"
+  - id: mars.try.concat
+    role: companion
+    text: "这些颗里藏着一根棒。"
+  - id: mars.try.canon
+    role: companion
+    text: "切开一根棒再数。"
+  - id: mars.try.mul
+    role: companion
+    text: "是几个几，不是几加几。"
+  - id: mars.try.eq
+    role: companion
+    text: "两边要一样重。"
+  - id: mars.try.kw
+    role: companion
+    text: "先画图，看谁多。"
+  - id: mars.try.one
+    role: companion
+    text: "就差一个。"
+  - id: mars.try.ten
+    role: companion
+    text: "差了一根棒那么多。"
+  - id: mars.try.op
+    role: companion
+    text: "看看是加还是减。"
+  - id: mars.try.gen
+    role: companion
+    text: "你的在这，订单在这。"
+  - id: mars.try.retry
+    role: companion
+    text: "再试一次。"
+  - id: mars.try.far
+    role: companion
+    text: "离得有点远，看这里。"
+  - id: mars.h1.read
+    role: companion
+    text: "先数箱，再数棒，最后数颗。"
+  - id: mars.h1.build
+    role: companion
+    text: "看订单的每一位。"
+  - id: mars.h1.split
+    role: companion
+    text: "切开一根棒试试。"
+  - id: mars.h1.step
+    role: companion
+    text: "哪一位会变？"
+  - id: mars.h1.carry
+    role: companion
+    text: "个位槽还装得下吗？"
+  - id: mars.h1.comp
+    role: companion
+    text: "它离整十差几？"
+  - id: mars.h1.borrow
+    role: companion
+    text: "颗够不够拿？"
+  - id: mars.h1.think
+    role: companion
+    text: "从小的往上数到大的。"
+  - id: mars.h1.subcomp
+    role: companion
+    text: "先减整十，再还回去。"
+  - id: mars.h1.col
+    role: companion
+    text: "从个位开始。"
+  - id: mars.h1.find
+    role: companion
+    text: "一位一位验。"
+  - id: mars.h1.bar
+    role: companion
+    text: "哪一段是整体？"
+  - id: mars.h1.groups
+    role: companion
+    text: "几个几？"
+  - id: mars.h1.array
+    role: companion
+    text: "一行几块？有几行？"
+  - id: mars.h1.share
+    role: companion
+    text: "一车一颗，轮着发。"
+  - id: mars.h1.bal
+    role: companion
+    text: "两边拿一样的。"
+  - id: mars.h1.money
+    role: companion
+    text: "先数大的。"
+  - id: mars.h1.countUp
+    role: companion
+    text: "往上数到付的钱。"
+  - id: mars.h1.clock
+    role: companion
+    text: "先看短针。"
+  - id: mars.h1.nl
+    role: companion
+    text: "先找中间在哪。"
+  - id: mars.h1.cmp
+    role: companion
+    text: "先比最高的那一位。"
+  - id: mars.h1.tens
+    role: companion
+    text: "只看有几根棒。"
+  - id: mars.h1.pack
+    role: companion
+    text: "十根棒装一箱。"
+  - id: mars.h1.dict
+    role: companion
+    text: "先听有几百。"
+  - id: mars.h1.round
+    role: companion
+    text: "离哪个整百近？"
+  - id: mars.h1.equal
+    role: companion
+    text: "每舱一样多吗？"
+  - id: mars.h1.puz.pyramid
+    role: companion
+    text: "上面等于下面两块相加。"
+  - id: mars.h2.intro
+    role: companion
+    text: "我先帮你做一半。"
+  - id: mars.h3.intro
+    role: companion
+    text: "看我做一遍。"
+  - id: mars.h3.twin
+    role: companion
+    text: "再来一单一样的。"
+  - id: mars.h3.go
+    role: companion
+    text: "现在轮到你，点对勾。"
+  - id: mars.h3.wait
+    role: companion
+    text: "我还没摆完，等一下。"
+  - id: mars.hint.again1
+    role: companion
+    text: "再看一眼订单上的数。"
+  - id: mars.hint.again2
+    role: companion
+    text: "先找最近的刻度，再挪一挪。"
+  - id: mars.hint.slow
+    role: companion
+    text: "慢慢来，不着急。"
+  - id: mars.hint.idle
+    role: companion
+    text: "需要帮忙就点我。"
+  - id: mars.cert.wall
+    role: companion
+    text: "这里有三块徽章牌。"
+  - id: mars.cert.start
+    role: companion
+    text: "领徽章，一单一单来。"
+  - id: mars.cert.calm
+    role: companion
+    text: "慢慢来，你可以的。"
+  - id: mars.cert.more
+    role: companion
+    text: "再验两件货。"
+  - id: mars.cert.pass
+    role: companion
+    text: "徽章亮了！"
+  - id: mars.cert.practice
+    role: companion
+    text: "这块牌还差一点点。"
+  - id: mars.cert.again
+    role: companion
+    text: "练好了，再验一次货？"
+  - id: mars.orbit.calib
+    role: companion
+    text: "帮卫星找轨道位置。"
+  - id: mars.orbit.calibDone
+    role: companion
+    text: "轨道画好了！"
+  - id: mars.orbit.mag
+    role: companion
+    text: "放大镜帮你看清。"
+  - id: mars.orbit.open1000
+    role: companion
+    text: "千里轨道开通了！"
+  - id: mars.orbit.saturn
+    role: companion
+    text: "土星在轨道外面！"
+  - id: mars.orbit.zoom
+    role: companion
+    text: "一大段里有十小段。"
+  - id: mars.race.who
+    role: companion
+    text: "和谁比？"
+  - id: mars.race.dad
+    role: companion
+    text: "和爸爸比。"
+  - id: mars.race.bot
+    role: companion
+    text: "和领航员比。"
+  - id: mars.race.lv1
+    role: narrator
+    text: "练习"
+  - id: mars.race.lv2
+    role: narrator
+    text: "对手"
+  - id: mars.race.lv3
+    role: narrator
+    text: "高手"
+  - id: mars.race.track
+    role: companion
+    text: "选一条赛道。"
+  - id: mars.race.t100
+    role: narrator
+    text: "百赛道"
+  - id: mars.race.t1000
+    role: narrator
+    text: "千赛道"
+  - id: mars.race.pick
+    role: companion
+    text: "选一张牌。"
+  - id: mars.race.where
+    role: companion
+    text: "落在几？"
+  - id: mars.race.go
+    role: companion
+    text: "起飞！"
+  - id: mars.race.supply
+    role: companion
+    text: "补给！往前飞。"
+  - id: mars.race.meteor
+    role: companion
+    text: "陨石！往后退。"
+  - id: mars.race.caught
+    role: companion
+    text: "被你抓到了，谢谢！"
+  - id: mars.race.verify
+    role: companion
+    text: "一起验一验。"
+  - id: mars.race.oops
+    role: companion
+    text: "哎呀，我算得不对。"
+  - id: mars.race.youWin
+    role: companion
+    text: "你先到站！"
+  - id: mars.race.botWin
+    role: companion
+    text: "领航员先到站！"
+  - id: mars.race.dadWin
+    role: companion
+    text: "爸爸先到站！"
+  - id: mars.race.again
+    role: companion
+    text: "再来一局？"
+  - id: mars.race.dadTurn
+    role: companion
+    text: "爸爸的回合。"
+  - id: mars.race.kidTurn
+    role: companion
+    text: "小步步的回合。"
+  - id: mars.race.tryHarder
+    role: companion
+    text: "试试高手？"
+  - id: mars.puz.pick
+    role: companion
+    text: "选一张谜题卡。"
+  - id: mars.puz.pyramid
+    role: companion
+    text: "上面是下面两块的和。"
+  - id: mars.puz.solved
+    role: companion
+    text: "解开了！"
+  - id: mars.puz.check
+    role: companion
+    text: "检查一下。"
+  - id: mars.bal.both
+    role: companion
+    text: "两边要一起拿。"
+  - id: mars.bal.add
+    role: companion
+    text: "两边一起加。"
+  - id: mars.bal.cut
+    role: companion
+    text: "切出几？"
+  - id: mars.bal.half
+    role: companion
+    text: "一人一半。"
+  - id: mars.bal.found
+    role: companion
+    text: "称出来了！"
+  - id: mars.bal.tilt
+    role: companion
+    text: "歪了，两边不一样重。"
+  - id: mars.bal.level
+    role: companion
+    text: "平了！"
+  - id: mars.bal.panel
+    role: companion
+    text: "算式也跟着变。"
+  - id: mars.bal.mine
+    role: companion
+    text: "你来放，我来称。"
+  - id: mars.build.part
+    role: companion
+    text: "基地多了新部件！"
+  - id: mars.wrap.home
+    role: companion
+    text: "回基地吧。"
+  - id: mars.sand.hi
+    role: companion
+    text: "随便搭，没有订单。"
+  - id: mars.sand.clear
+    role: companion
+    text: "清空了。"
+  - id: mars.zone.orbit
+    role: narrator
+    text: "轨道站"
+  - id: mars.zone.puzzle
+    role: narrator
+    text: "谜题舱"
+  - id: mars.zone.cert
+    role: narrator
+    text: "徽章站"
+  - id: mars.zone.vault
+    role: narrator
+    text: "千晶大仓"
+  - id: mars.zone.race
+    role: narrator
+    text: "火箭赛道"
+  - id: mars.zone.factory
+    role: narrator
+    text: "生产线"
+  - id: mars.zone.balance
+    role: narrator
+    text: "称重台"
+  - id: mars.badge.C1
+    role: narrator
+    text: "数位牌"
+  - id: mars.badge.C2
+    role: narrator
+    text: "加法牌"
+  - id: mars.badge.C3
+    role: narrator
+    text: "减法牌"
+  - id: mars.planet.mercury
+    role: narrator
+    text: "水星"
+  - id: mars.planet.venus
+    role: narrator
+    text: "金星"
+  - id: mars.planet.earth
+    role: narrator
+    text: "地球"
+  - id: mars.planet.mars
+    role: narrator
+    text: "火星"
+  - id: mars.planet.ceres
+    role: narrator
+    text: "谷神星"
+  - id: mars.planet.jupiter
+    role: narrator
+    text: "木星"
+  - id: mars.item.1
+    role: narrator
+    text: "太空水袋"
+  - id: mars.item.2
+    role: narrator
+    text: "种子包"
+  - id: mars.item.3
+    role: narrator
+    text: "螺丝盒"
+  - id: mars.item.4
+    role: narrator
+    text: "电池"
+  - id: mars.item.5
+    role: narrator
+    text: "太阳能小板"
+  - id: mars.item.6
+    role: narrator
+    text: "冻干水果"
+  - id: mars.item.7
+    role: narrator
+    text: "望远镜"
+  - id: mars.item.8
+    role: narrator
+    text: "钻头"
+  - id: mars.item.9
+    role: narrator
+    text: "绳子"
+  - id: mars.item.10
+    role: narrator
+    text: "手电"
+  - id: mars.item.11
+    role: narrator
+    text: "火星车模型"
+  - id: mars.item.12
+    role: narrator
+    text: "星图"
+  - id: mars.chapter.O1
+    role: narrator
+    text: "百里轨道"
+  - id: mars.chapter.O2
+    role: narrator
+    text: "千里轨道"
+  - id: mars.chapter.C1
+    role: narrator
+    text: "数位牌"
+  - id: mars.chapter.C2
+    role: narrator
+    text: "加法牌"
+  - id: mars.chapter.C3
+    role: narrator
+    text: "减法牌"
+  - id: mars.chapter.K1
+    role: narrator
+    text: "晶箱入库"
+  - id: mars.chapter.K2
+    role: narrator
+    text: "星际货运"
+  - id: mars.chapter.P1
+    role: narrator
+    text: "装舱车间"
+  - id: mars.chapter.P2
+    role: narrator
+    text: "太阳能阵列"
+  - id: mars.chapter.B1
+    role: narrator
+    text: "天平入门"
+  - id: mars.chapter.B2
+    role: narrator
+    text: "神秘箱"
+  - id: mars.try.unit
+    role: companion
+    text: "一根棒是十颗。"
+  - id: mars.try.countOn
+    role: companion
+    text: "第一跳落在下一个数。"
+  - id: mars.try.extraZero
+    role: companion
+    text: "百位十位个位，只有三位。"
+  - id: mars.try.skip
+    role: companion
+    text: "每一跳都一样长。"
+  - id: mars.race.deckBasic
+    role: narrator
+    text: "基础牌"
+  - id: mars.race.deckPro
+    role: narrator
+    text: "进阶牌"
+  - id: mars.node.O1.0
+    role: narrator
+    text: "百里校准"
+  - id: mars.node.O1.1
+    role: narrator
+    text: "十格锚点"
+  - id: mars.node.O1.2
+    role: narrator
+    text: "半程锚点"
+  - id: mars.node.O1.3
+    role: narrator
+    text: "只看两端"
+  - id: mars.node.O1.4
+    role: narrator
+    text: "百里复测"
+  - id: mars.node.O2.1
+    role: narrator
+    text: "百格锚点"
+  - id: mars.node.O2.2
+    role: narrator
+    text: "千里半程"
+  - id: mars.node.O2.3
+    role: narrator
+    text: "行星订单"
+  - id: mars.node.O2.4
+    role: narrator
+    text: "反向读千"
+  - id: mars.node.O2.5
+    role: narrator
+    text: "放大镜段"
+  - id: mars.node.O2.6
+    role: narrator
+    text: "千里校准"
+  - id: mars.node.C1.1
+    role: narrator
+    text: "棒和颗"
+  - id: mars.node.C1.2
+    role: narrator
+    text: "谁多"
+  - id: mars.node.C1.3
+    role: narrator
+    text: "百数表"
+  - id: mars.node.C1.4
+    role: narrator
+    text: "切棒"
+  - id: mars.node.C1.5
+    role: narrator
+    text: "换着拆"
+  - id: mars.node.C1.6
+    role: narrator
+    text: "数位盘点"
+  - id: mars.node.C2.1
+    role: narrator
+    text: "整十加"
+  - id: mars.node.C2.2
+    role: narrator
+    text: "进位"
+  - id: mars.node.C2.3
+    role: narrator
+    text: "凑整十"
+  - id: mars.node.C2.4
+    role: narrator
+    text: "两位加两位"
+  - id: mars.node.C2.5
+    role: narrator
+    text: "补偿法"
+  - id: mars.node.C2.6
+    role: narrator
+    text: "怎么算快"
+  - id: mars.node.C2.7
+    role: narrator
+    text: "竖式现身"
+  - id: mars.node.C2.8
+    role: narrator
+    text: "加法订单会"
+  - id: mars.node.C3.1
+    role: narrator
+    text: "整十减"
+  - id: mars.node.C3.2
+    role: narrator
+    text: "退位"
+  - id: mars.node.C3.3
+    role: narrator
+    text: "想加算减"
+  - id: mars.node.C3.4
+    role: narrator
+    text: "两位减两位"
+  - id: mars.node.C3.5
+    role: narrator
+    text: "减法补偿"
+  - id: mars.node.C3.6
+    role: narrator
+    text: "多多少"
+  - id: mars.node.C3.7
+    role: narrator
+    text: "减法竖式"
+  - id: mars.node.C3.8
+    role: narrator
+    text: "减法订单会"
+  - id: mars.node.K1.1
+    role: narrator
+    text: "装箱"
+  - id: mars.node.K1.2
+    role: narrator
+    text: "读货"
+  - id: mars.node.K1.3
+    role: narrator
+    text: "按单装货"
+  - id: mars.node.K1.4
+    role: narrator
+    text: "零的位置"
+  - id: mars.node.K1.5
+    role: narrator
+    text: "计数器"
+  - id: mars.node.K1.6
+    role: narrator
+    text: "听写"
+  - id: mars.node.K1.7
+    role: narrator
+    text: "拆箱换算"
+  - id: mars.node.K1.8
+    role: narrator
+    text: "大订单"
+  - id: mars.node.K1.9
+    role: narrator
+    text: "自选货单"
+  - id: mars.node.K2.1
+    role: narrator
+    text: "哪仓多"
+  - id: mars.node.K2.2
+    role: narrator
+    text: "排队"
+  - id: mars.node.K2.3
+    role: narrator
+    text: "进一位"
+  - id: mars.node.K2.4
+    role: narrator
+    text: "整百整十"
+  - id: mars.node.K2.5
+    role: narrator
+    text: "跳着数"
+  - id: mars.node.K2.6
+    role: narrator
+    text: "大约几百"
+  - id: mars.node.K2.7
+    role: narrator
+    text: "星际货运"
+  - id: mars.node.K2.8
+    role: narrator
+    text: "仓库清点"
+  - id: mars.node.P1.1
+    role: narrator
+    text: "两颗一舱"
+  - id: mars.node.P1.3
+    role: narrator
+    text: "写成连加"
+  - id: mars.node.P1.4
+    role: narrator
+    text: "乘号登场"
+  - id: mars.node.P1.5
+    role: narrator
+    text: "能不能乘"
+  - id: mars.node.P1.6
+    role: narrator
+    text: "三颗四颗"
+  - id: mars.node.P1.7
+    role: narrator
+    text: "跳着数"
+  - id: mars.node.P1.8
+    role: narrator
+    text: "跳 3 跳 4"
+  - id: mars.node.P1.9
+    role: narrator
+    text: "工厂订单"
+  - id: mars.node.P1.10
+    role: narrator
+    text: "自由装舱"
+  - id: mars.node.P2.1
+    role: narrator
+    text: "太阳能板"
+  - id: mars.node.P2.2
+    role: narrator
+    text: "一行一行数"
+  - id: mars.node.P2.3
+    role: narrator
+    text: "转一转"
+  - id: mars.node.P2.4
+    role: narrator
+    text: "交换伙伴"
+  - id: mars.node.P2.5
+    role: narrator
+    text: "缺几列"
+  - id: mars.node.P2.6
+    role: narrator
+    text: "拆开算"
+  - id: mars.node.P2.7
+    role: narrator
+    text: "哪块板大"
+  - id: mars.node.P2.8
+    role: narrator
+    text: "铺满地基"
+  - id: mars.node.P2.9
+    role: narrator
+    text: "设计电站"
+  - id: mars.node.B1.1
+    role: narrator
+    text: "放平它"
+  - id: mars.node.B1.2
+    role: narrator
+    text: "等号是天平"
+  - id: mars.node.B1.3
+    role: narrator
+    text: "好多种放法"
+  - id: mars.node.B1.4
+    role: narrator
+    text: "两边同拿"
+  - id: mars.node.B1.5
+    role: narrator
+    text: "两边同加"
+  - id: mars.node.B1.6
+    role: narrator
+    text: "平衡挑战"
+  - id: mars.node.B1.7
+    role: narrator
+    text: "自由放平"
+  - id: mars.node.B2.1
+    role: narrator
+    text: "神秘箱"
+  - id: mars.c.place
+    role: companion
+    text: "把旗插在"
+  - id: mars.c.zoom
+    role: companion
+    text: "放大看，插在"
+  - id: mars.c.botSay
+    role: companion
+    text: "我落在"
+  - id: mars.c.botAsk
+    role: companion
+    text: "对吗？"
+  - id: mars.c.diff
+    role: companion
+    text: "差了"
+  - id: mars.c.close
+    role: companion
+    text: "很接近，差"
+  - id: mars.c.best
+    role: companion
+    text: "最准的只差"
+  - id: mars.c.orders
+    role: companion
+    text: "交付了"
+  - id: mars.c.ordersTail
+    role: companion
+    text: "张订单。"
+  - id: mars.c.rods
+    role: companion
+    text: "压出了"
+  - id: mars.c.rodsTail
+    role: companion
+    text: "根棒。"
+  - id: mars.c.flags
+    role: companion
+    text: "插了"
+  - id: mars.c.flagsTail
+    role: companion
+    text: "面旗。"
+  - id: mars.c.stars
+    role: companion
+    text: "拿到"
+  - id: mars.c.starsTail
+    role: companion
+    text: "颗星。"
+  - id: mars.c.level
+    role: companion
+    text: "基地升到"
+  - id: mars.c.levelTail
+    role: companion
+    text: "级了！"
+  - id: mars.c.stepD.pre
+    role: companion
+    text: "再来"
+  - id: mars.c.stepD.tail
+    role: companion
+    text: "颗是几？"
+  - id: mars.c.stepDm.pre
+    role: companion
+    text: "拿走"
+  - id: mars.c.arr.pre
+    role: companion
+    text: "摆"
+  - id: mars.c.arr.rows
+    role: companion
+    text: "行"
+  - id: mars.c.arr.cols
+    role: companion
+    text: "列。"
+  - id: mars.c.planet
+    role: companion
+    text: "把这颗星放上轨道："
+  - id: mars.u.ke
+    role: narrator
+    text: "颗"
+  - id: mars.u.gen
+    role: narrator
+    text: "根"
+  - id: mars.u.xiang
+    role: narrator
+    text: "箱"
+  - id: mars.u.liang
+    role: narrator
+    text: "两"
+  - id: mars.onb.nudge
+    role: companion
+    text: "还能再微调一下。"
+  - id: mars.onb.far
+    role: companion
+    text: "再靠近一点点。"
+  - id: mars.onb.go
+    role: companion
+    text: "先去轨道站看看。"
+  - id: mars.orbit.blind
+    role: companion
+    text: "这次不用放大镜，凭感觉。"
+  - id: mars.orbit.launch
+    role: companion
+    text: "发射十二颗卫星！"
+  - id: mars.orbit.landed
+    role: companion
+    text: "卫星入轨了！"
+  - id: mars.cert.alone
+    role: companion
+    text: "这一单你来，我在旁边。"
+  - id: mars.cert.recv
+    role: companion
+    text: "收到！"
+  - id: mars.cert.sheet
+    role: companion
+    text: "验货单，最后一件。"
+  - id: mars.cert.half.1
+    role: companion
+    text: "差一点点，练一单。"
+  - id: mars.cert.half.2
+    role: companion
+    text: "差一点点，练两单。"
+  - id: mars.cert.lit.C1
+    role: companion
+    text: "数位牌亮了！"
+  - id: mars.cert.lit.C2
+    role: companion
+    text: "加法牌亮了！"
+  - id: mars.cert.lit.C3
+    role: companion
+    text: "减法牌亮了！"
+  - id: mars.hint.touchFirst
+    role: companion
+    text: "先试试看，我在这。"
+  - id: mars.hint.fill
+    role: companion
+    text: "先把数填上。"
+  - id: mars.hint.needTry
+    role: companion
+    text: "再填一次，我陪你。"
+  - id: mars.map.probe
+    role: companion
+    text: "先测一测，再进去。"
+  - id: mars.mis.probe
+    role: companion
+    text: "先试三单，会的直接去后面。"
+  - id: mars.mis.probeDone
+    role: companion
+    text: "好，从这里开始！"
+  - id: mars.cert.practiceFrom
+    role: companion
+    text: "从这里开始练。"
+  - id: mars.h1.nl.ten
+    role: companion
+    text: "先找离它最近的整十。"
+  - id: mars.h1.nl.hund
+    role: companion
+    text: "先找离它最近的整百。"
+  - id: mars.h1.nl.half
+    role: companion
+    text: "先找中间，再看偏左偏右。"
+  - id: mars.h1.nl.end
+    role: companion
+    text: "先找中间，再找一半的一半。"
+  - id: mars.h2.mul
+    role: companion
+    text: "先标出第一舱。"
+  - id: mars.h2.array
+    role: companion
+    text: "第一行已经标好。"
+  - id: mars.mul.predict
+    role: companion
+    text: "转一转，总数会变吗？"
+  - id: mars.mul.same
+    role: companion
+    text: "总数没变，只是换了摆法。"
+  - id: mars.bal.box.1
+    role: companion
+    text: "箱子里装了多重？"
+  - id: mars.bal.box.2
+    role: companion
+    text: "两边一起拿走三个。"
+  - id: mars.bal.box.3
+    role: companion
+    text: "箱子露出来了！"
+  - id: mars.bal.box.4
+    role: companion
+    text: "把箱子单独称出来。"
+  - id: mars.try.box
+    role: companion
+    text: "箱子盖着，别当成总重。"
+  - id: mars.bal.box.5
+    role: companion
+    text: "打开看看，里面是几？"
+  - id: mars.mis.dream
+    role: companion
+    text: "我在这儿，慢慢来。"
+  - id: mars.try.far2
+    role: companion
+    text: "差得有点远，看这里。"
+  - id: mars.race.deck2
+    role: companion
+    text: "二档牌组，数更大！"
+  - id: mars.map.recommend
+    role: companion
+    text: "今天去闪光的地方。"
+  - id: mars.wrap.cert
+    role: narrator
+    text: "徽章在这里。"
+  - id: mars.cert.reopenOne
+    role: companion
+    text: "这一单再看看。"
+  - id: mars.zone.puzzle.hi
+    role: companion
+    text: "谜题舱，动动脑筋。"
+  - id: mars.node.Z1.1
+    role: narrator
+    text: "数字金字塔"
+  - id: mars.chapter.Z1
+    role: narrator
+    text: "谜题舱"

@@ -1,0 +1,118 @@
+# content/memory-matrix/narration.yaml  (v1.1; format: content/narration/README.md; playback rules: voice-policy.json)
+# role: narrator = N (short prompts, facts), companion = C (领航员). One subtitle line <= 15 characters; card facts <= 20.
+game: memory-matrix
+lines:
+  # ---- station (mm.st)
+  - { id: mm.st.1, role: companion, text: 欢迎来到星图记忆站！ }
+  - { id: mm.st.2, role: companion, text: 流星雨把星图弄乱了。 }
+  - { id: mm.st.3, role: companion, text: 小步步，帮我复原星图吧！ }
+  - { id: mm.st.home, role: companion, text: 今晚想去哪个星区？ }
+  - { id: mm.st.locked, role: companion, text: 再往前走一点，这里就亮啦。 }
+  - { id: mm.st.open, role: companion, text: 新的星区亮起来了！ }
+  - { id: mm.st.back, role: companion, text: 欢迎回来，观测员！ }
+  - { id: mm.st.flight, role: companion, text: 夜航开始，六张星图等你。 }
+  - { id: mm.st.flightend, role: companion, text: 夜航结束，星图更完整了。 }
+  - { id: mm.st.vet, role: companion, text: 记忆方块的老朋友，欢迎回来！ }
+  - { id: mm.st.wall, role: companion, text: 星墙又亮了一颗。 }
+  - { id: mm.st.upgrade, role: companion, text: 星图站升级啦！ }
+  - { id: mm.st.bridge, role: companion, text: 这一关你飞越过啦，想补玩吗？ }
+  # ---- sector names (kid-facing; the long names live on the parent page)
+  - { id: mm.sec.s1, role: narrator, text: 记星星：看一眼，再点出来。 }
+  - { id: mm.sec.s2, role: narrator, text: 追流星：跟着流星的顺序。 }
+  - { id: mm.sec.s3, role: narrator, text: 送回家：谁住在哪一间？ }
+  - { id: mm.sec.s4, role: narrator, text: 照镜子：影子在哪一边？ }
+  # ---- s1 记星星
+  - { id: mm.s1.t1, role: companion, text: 看，星星亮起来了。 }
+  - { id: mm.s1.t2, role: companion, text: 记住它们的位置。 }
+  - { id: mm.s1.t3, role: companion, text: 云雾盖住了，点出星星。 }
+  - { id: mm.s1.t4, role: companion, text: 对啦，就是这几颗！ }
+  - { id: mm.s1.prompt, role: narrator, text: 记住亮起的星星。 }
+  - { id: mm.s1.fog, role: narrator, text: 云雾来了，点出星星。 }
+  - { id: mm.s1.cluster, role: companion, text: 挨在一起的星星，可以看成一组。 }
+  - { id: mm.s1.words, role: companion, text: 小声说说位置，比如左上、中间。 }
+  # ---- s2 追流星
+  - { id: mm.s2.t1, role: companion, text: 流星飞过，会点亮星星。 }
+  - { id: mm.s2.t2, role: companion, text: 记住它飞过的顺序。 }
+  - { id: mm.s2.t3, role: companion, text: 现在，按顺序点亮它们。 }
+  - { id: mm.s2.prompt, role: narrator, text: 顺着流星追。 }
+  - { id: mm.s2.back1, role: companion, text: 这次要倒着追哦。 }
+  - { id: mm.s2.promptb, role: narrator, text: 倒着追：最后一颗最先点。 }
+  # ---- s3 送回家
+  - { id: mm.s3.t1, role: companion, text: 星球上住着几位外星朋友。 }
+  - { id: mm.s3.t2, role: companion, text: 看看谁住在哪一间。 }
+  - { id: mm.s3.t3, role: companion, text: 屋顶盖上啦，送他们回家。 }
+  - { id: mm.s3.t4, role: companion, text: 点一位朋友，再点他的家。 }
+  - { id: mm.s3.prompt, role: narrator, text: 记住谁住在哪里。 }
+  - { id: mm.s3.visit, role: companion, text: 有的朋友只是路过，不住这儿。 }
+  - { id: mm.s3.lure, role: companion, text: 它只是路过的访客。 }
+  - { id: mm.s3.tip, role: companion, text: 把颜色和样子一起记住。 }
+  # ---- s4 照镜子 (mirror only in v1; the turn-about-a-pivot lines come with the stretch tier)
+  - { id: mm.s4.t1, role: companion, text: 镜子立在中间，影子在另一边。 }
+  - { id: mm.s4.t2, role: companion, text: 离镜子多远，影子就多远。 }
+  - { id: mm.s4.t3, role: companion, text: 在镜子另一边，点出影子。 }
+  - { id: mm.s4.t4, role: companion, text: 看，影子翻过去啦。 }
+  - { id: mm.s4.axis.LR, role: narrator, text: 左右镜像。 }
+  - { id: mm.s4.axis.UD, role: narrator, text: 上下镜像。 }
+  - { id: mm.s4.ex.LR, role: companion, text: 左边的星星，影子在右边。 }
+  - { id: mm.s4.ex.UD, role: companion, text: 上面的星星，影子在下面。 }
+  - { id: mm.s4.peek, role: companion, text: 原图会躲起来，记在心里哦。 }
+  - { id: mm.s4.copy, role: companion, text: 影子是翻过去的，不是搬过去。 }
+  - { id: mm.s4.flip, role: companion, text: 镜子竖着左右翻，横着上下翻。 }
+  - { id: mm.s4.primer, role: companion, text: 先跟着影子点一点。 }
+  # ---- feedback
+  - { id: mm.fb.ok1, role: companion, text: 记得真清楚！ }
+  - { id: mm.fb.ok2, role: companion, text: 星星都找到啦！ }
+  - { id: mm.fb.ok3, role: companion, text: 这个方法很好用！ }
+  - { id: mm.fb.slip1, role: companion, text: 这颗不是，再想想。 }
+  - { id: mm.fb.reveal, role: companion, text: 答案在这里，一起看看。 }
+  - { id: mm.fb.miss1, role: companion, text: 没关系，看看答案在哪里。 }
+  - { id: mm.fb.miss2, role: companion, text: 我们换一片新的夜空。 }
+  - { id: mm.fb.rewatch1, role: companion, text: 再看一眼，没问题。 }
+  - { id: mm.fb.rewatch3, role: companion, text: 想试试一眼就记住吗？ }
+  - { id: mm.fb.hint0, role: companion, text: 慢慢想，点点看。 }
+  - { id: mm.fb.hint2, role: companion, text: 我先帮你亮一颗。 }
+  - { id: mm.fb.hint3, role: companion, text: 我演示一遍，你再试。 }
+  - { id: mm.fb.up, role: companion, text: 升到新的一档啦！ }
+  - { id: mm.fb.down, role: companion, text: 换一档轻松点的。 }
+  - { id: mm.fb.mercy, role: companion, text: 来一个轻松的，稳一稳。 }
+  - { id: mm.fb.break, role: companion, text: 要不要换个星区玩玩？ }
+  - { id: mm.fb.soft, role: companion, text: 换了新规则，先熟悉一下。 }
+  - { id: mm.res.3, role: companion, text: 第一次就点亮，三颗星！ }
+  - { id: mm.res.2, role: companion, text: 两颗星，很稳！ }
+  - { id: mm.res.1, role: companion, text: 一颗星，也是收获。 }
+  # ---- gates
+  - { id: mm.g.intro, role: companion, text: 星门出现了，连过五关。 }
+  - { id: mm.g.rule, role: companion, text: 五关里过四关，星门就打开。 }
+  - { id: mm.g.nohint, role: companion, text: 星门里不能提示哦。 }
+  - { id: mm.g.open, role: companion, text: 星门打开啦！ }
+  - { id: mm.g.retry, role: companion, text: 星门还在，练一练再来。 }
+  # ---- card facts (narrator reads the fact; the card title is UI text)
+  - { id: mm.card.s1.first, role: narrator, text: 北斗七星像一把大勺子，在大熊座里。 }
+  - { id: mm.card.s1.d4, role: narrator, text: 小熊座的尾巴尖上，就是北极星。 }
+  - { id: mm.card.s1.g5, role: narrator, text: 北极星几乎不动，能帮我们找到北方。 }
+  - { id: mm.card.s1.d7, role: narrator, text: 猎户座的腰带，是三颗排成一行的亮星。 }
+  - { id: mm.card.s1.g10, role: narrator, text: 天蝎座的心宿二，是一颗红色的大星。 }
+  - { id: mm.card.s2.first, role: narrator, text: 流星是小石子冲进空气，热得发光。 }
+  - { id: mm.card.s2.d4, role: narrator, text: 每年八月，英仙座流星雨最热闹。 }
+  - { id: mm.card.s2.g5, role: narrator, text: 哈雷彗星大约每七十六年回来一次。 }
+  - { id: mm.card.s2.d7, role: narrator, text: 狮子座流星雨，在十一月出现。 }
+  - { id: mm.card.s2.g10, role: narrator, text: 彗星的尾巴，总是背着太阳。 }
+  - { id: mm.card.s3.first, role: narrator, text: 水星是离太阳最近、最小的行星。 }
+  - { id: mm.card.s3.d4, role: narrator, text: 地球表面，大约七成是海洋。 }
+  - { id: mm.card.s3.g5, role: narrator, text: 火星红红的，因为地面像生锈的铁。 }
+  - { id: mm.card.s3.d7, role: narrator, text: 海王星离太阳最远，是一颗蓝色的星球。 }
+  - { id: mm.card.s3.g10, role: narrator, text: 木星是最大的行星，有一个大红斑。 }
+  - { id: mm.card.s4.first, role: narrator, text: 金星是倒着转的，太阳从西边升起。 }
+  - { id: mm.card.s4.d4, role: narrator, text: 月亮总是同一面朝着地球。 }
+  - { id: mm.card.s4.g5, role: narrator, text: 韦伯望远镜的大镜子，由十八块小镜子拼成。 }
+  - { id: mm.card.s4.d7, role: narrator, text: 地球自转一圈，大约是一天。 }
+  - { id: mm.card.s4.g10, role: narrator, text: 天王星几乎是躺着转的，像在地上滚。 }
+  - { id: mm.card.n1, role: narrator, text: 银河系里有几千亿颗恒星，太阳是其中一颗。 }
+  - { id: mm.card.n2, role: narrator, text: 昴星团，眼睛就能看到六七颗星。 }
+  - { id: mm.card.n3, role: narrator, text: 天狼星是夜空中最亮的恒星。 }
+  - { id: mm.card.n4, role: narrator, text: 土星的光环，是冰块和碎石组成的。 }
+  - { id: mm.card.n5, role: narrator, text: 仙后座的五颗亮星，连起来像一条折线。 }
+  - { id: mm.card.n6, role: narrator, text: 牛郎星和织女星，隔着银河遥遥相望。 }
+  - { id: mm.card.n7, role: narrator, text: 天鹅座像一只大天鹅，正飞过银河。 }
+  - { id: mm.card.n8, role: narrator, text: 南十字座主要在南半球，水手靠它认方向。 }
+  - { id: mm.card.vet, role: narrator, text: 你在记忆方块里得过星星！ }

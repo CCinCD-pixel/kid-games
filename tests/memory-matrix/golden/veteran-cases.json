@@ -1,0 +1,131 @@
+[
+ {
+  "name": "no data anywhere",
+  "live": null,
+  "snapshot": null,
+  "prev": null,
+  "expect": {
+   "stars": 0,
+   "cleared": 0,
+   "awardNow": false,
+   "source": "none"
+  }
+ },
+ {
+  "name": "pre-Phase-0 save (speed stars + bestScore)",
+  "live": "{\"ladders\":{\"sprout\":{\"unlocked\":13,\"solved\":{\"1\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"2\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"3\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"4\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"5\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"6\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"7\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"8\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"9\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"10\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"11\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"12\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100}}},\"explore\":{\"unlocked\":4,\"solved\":{\"1\":{\"stars\":2,\"bestScore\":400,\"bestTimeMs\":5000},\"2\":{\"stars\":1,\"bestScore\":300,\"bestTimeMs\":9000},\"3\":{\"stars\":3,\"bestScore\":600,\"bestTimeMs\":3000}}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}",
+  "snapshot": null,
+  "prev": null,
+  "expect": {
+   "stars": 42,
+   "cleared": 15,
+   "awardNow": true,
+   "source": "live"
+  }
+ },
+ {
+  "name": "Phase-0 save (attempt stars, no bestScore)",
+  "live": "{\"ladders\":{\"sprout\":{\"unlocked\":6,\"solved\":{\"1\":{\"stars\":3,\"bestTimeMs\":4000},\"2\":{\"stars\":2,\"bestTimeMs\":4000},\"3\":{\"stars\":1,\"bestTimeMs\":4000},\"4\":{\"stars\":3,\"bestTimeMs\":4000},\"5\":{\"stars\":3,\"bestTimeMs\":4000}}},\"explore\":{\"unlocked\":1,\"solved\":{}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}",
+  "snapshot": "{\"v\":1,\"updatedAt\":1,\"data\":{\"ladders\":{\"sprout\":{\"unlocked\":6,\"solved\":{\"1\":{\"stars\":3,\"bestTimeMs\":4000},\"2\":{\"stars\":2,\"bestTimeMs\":4000},\"3\":{\"stars\":1,\"bestTimeMs\":4000},\"4\":{\"stars\":3,\"bestTimeMs\":4000},\"5\":{\"stars\":3,\"bestTimeMs\":4000}}},\"explore\":{\"unlocked\":1,\"solved\":{}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}}",
+  "prev": null,
+  "expect": {
+   "stars": 12,
+   "cleared": 5,
+   "awardNow": true,
+   "source": "live"
+  }
+ },
+ {
+  "name": "live key corrupt -> snapshot",
+  "live": "{not json",
+  "snapshot": "{\"v\":1,\"updatedAt\":1,\"data\":{\"ladders\":{\"sprout\":{\"unlocked\":13,\"solved\":{\"1\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"2\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"3\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"4\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"5\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"6\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"7\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"8\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"9\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"10\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"11\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"12\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100}}},\"explore\":{\"unlocked\":4,\"solved\":{\"1\":{\"stars\":2,\"bestScore\":400,\"bestTimeMs\":5000},\"2\":{\"stars\":1,\"bestScore\":300,\"bestTimeMs\":9000},\"3\":{\"stars\":3,\"bestScore\":600,\"bestTimeMs\":3000}}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}}",
+  "prev": null,
+  "expect": {
+   "stars": 42,
+   "cleared": 15,
+   "awardNow": true,
+   "source": "snapshot"
+  }
+ },
+ {
+  "name": "live smaller than snapshot -> max",
+  "live": "{\"ladders\":{\"sprout\":{\"unlocked\":6,\"solved\":{\"1\":{\"stars\":3,\"bestTimeMs\":4000},\"2\":{\"stars\":2,\"bestTimeMs\":4000},\"3\":{\"stars\":1,\"bestTimeMs\":4000},\"4\":{\"stars\":3,\"bestTimeMs\":4000},\"5\":{\"stars\":3,\"bestTimeMs\":4000}}},\"explore\":{\"unlocked\":1,\"solved\":{}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}",
+  "snapshot": "{\"v\":1,\"updatedAt\":1,\"data\":{\"ladders\":{\"sprout\":{\"unlocked\":13,\"solved\":{\"1\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"2\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"3\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"4\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"5\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"6\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"7\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"8\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"9\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"10\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"11\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100},\"12\":{\"stars\":3,\"bestScore\":531,\"bestTimeMs\":2100}}},\"explore\":{\"unlocked\":4,\"solved\":{\"1\":{\"stars\":2,\"bestScore\":400,\"bestTimeMs\":5000},\"2\":{\"stars\":1,\"bestScore\":300,\"bestTimeMs\":9000},\"3\":{\"stars\":3,\"bestScore\":600,\"bestTimeMs\":3000}}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}}",
+  "prev": null,
+  "expect": {
+   "stars": 42,
+   "cleared": 15,
+   "awardNow": true,
+   "source": "snapshot"
+  }
+ },
+ {
+  "name": "garbage values clamped, bad keys/ladders ignored",
+  "live": "{\"ladders\":{\"sprout\":{\"unlocked\":40,\"solved\":{\"0\":{\"stars\":3},\"1\":{\"stars\":\"3\"},\"2\":{\"stars\":7},\"3\":{\"stars\":-1},\"4\":{},\"5\":{\"stars\":2.9},\"6\":5,\"7\":null,\"41\":{\"stars\":3},\"abc\":{\"stars\":3},\"01\":{\"stars\":3}}},\"easy\":{\"unlocked\":3,\"solved\":{\"1\":{\"stars\":3}}},\"explore\":\"x\",\"leap\":{\"solved\":[{\"stars\":3}]},\"galaxy\":{\"unlocked\":1}}}",
+  "snapshot": null,
+  "prev": null,
+  "expect": {
+   "stars": 8,
+   "cleared": 5,
+   "awardNow": true,
+   "source": "live"
+  }
+ },
+ {
+  "name": "all 160 levels x 3 stars",
+  "live": "{\"ladders\":{\"sprout\":{\"unlocked\":40,\"solved\":{\"1\":{\"stars\":3},\"2\":{\"stars\":3},\"3\":{\"stars\":3},\"4\":{\"stars\":3},\"5\":{\"stars\":3},\"6\":{\"stars\":3},\"7\":{\"stars\":3},\"8\":{\"stars\":3},\"9\":{\"stars\":3},\"10\":{\"stars\":3},\"11\":{\"stars\":3},\"12\":{\"stars\":3},\"13\":{\"stars\":3},\"14\":{\"stars\":3},\"15\":{\"stars\":3},\"16\":{\"stars\":3},\"17\":{\"stars\":3},\"18\":{\"stars\":3},\"19\":{\"stars\":3},\"20\":{\"stars\":3},\"21\":{\"stars\":3},\"22\":{\"stars\":3},\"23\":{\"stars\":3},\"24\":{\"stars\":3},\"25\":{\"stars\":3},\"26\":{\"stars\":3},\"27\":{\"stars\":3},\"28\":{\"stars\":3},\"29\":{\"stars\":3},\"30\":{\"stars\":3},\"31\":{\"stars\":3},\"32\":{\"stars\":3},\"33\":{\"stars\":3},\"34\":{\"stars\":3},\"35\":{\"stars\":3},\"36\":{\"stars\":3},\"37\":{\"stars\":3},\"38\":{\"stars\":3},\"39\":{\"stars\":3},\"40\":{\"stars\":3}}},\"explore\":{\"unlocked\":40,\"solved\":{\"1\":{\"stars\":3},\"2\":{\"stars\":3},\"3\":{\"stars\":3},\"4\":{\"stars\":3},\"5\":{\"stars\":3},\"6\":{\"stars\":3},\"7\":{\"stars\":3},\"8\":{\"stars\":3},\"9\":{\"stars\":3},\"10\":{\"stars\":3},\"11\":{\"stars\":3},\"12\":{\"stars\":3},\"13\":{\"stars\":3},\"14\":{\"stars\":3},\"15\":{\"stars\":3},\"16\":{\"stars\":3},\"17\":{\"stars\":3},\"18\":{\"stars\":3},\"19\":{\"stars\":3},\"20\":{\"stars\":3},\"21\":{\"stars\":3},\"22\":{\"stars\":3},\"23\":{\"stars\":3},\"24\":{\"stars\":3},\"25\":{\"stars\":3},\"26\":{\"stars\":3},\"27\":{\"stars\":3},\"28\":{\"stars\":3},\"29\":{\"stars\":3},\"30\":{\"stars\":3},\"31\":{\"stars\":3},\"32\":{\"stars\":3},\"33\":{\"stars\":3},\"34\":{\"stars\":3},\"35\":{\"stars\":3},\"36\":{\"stars\":3},\"37\":{\"stars\":3},\"38\":{\"stars\":3},\"39\":{\"stars\":3},\"40\":{\"stars\":3}}},\"leap\":{\"unlocked\":40,\"solved\":{\"1\":{\"stars\":3},\"2\":{\"stars\":3},\"3\":{\"stars\":3},\"4\":{\"stars\":3},\"5\":{\"stars\":3},\"6\":{\"stars\":3},\"7\":{\"stars\":3},\"8\":{\"stars\":3},\"9\":{\"stars\":3},\"10\":{\"stars\":3},\"11\":{\"stars\":3},\"12\":{\"stars\":3},\"13\":{\"stars\":3},\"14\":{\"stars\":3},\"15\":{\"stars\":3},\"16\":{\"stars\":3},\"17\":{\"stars\":3},\"18\":{\"stars\":3},\"19\":{\"stars\":3},\"20\":{\"stars\":3},\"21\":{\"stars\":3},\"22\":{\"stars\":3},\"23\":{\"stars\":3},\"24\":{\"stars\":3},\"25\":{\"stars\":3},\"26\":{\"stars\":3},\"27\":{\"stars\":3},\"28\":{\"stars\":3},\"29\":{\"stars\":3},\"30\":{\"stars\":3},\"31\":{\"stars\":3},\"32\":{\"stars\":3},\"33\":{\"stars\":3},\"34\":{\"stars\":3},\"35\":{\"stars\":3},\"36\":{\"stars\":3},\"37\":{\"stars\":3},\"38\":{\"stars\":3},\"39\":{\"stars\":3},\"40\":{\"stars\":3}}},\"galaxy\":{\"unlocked\":40,\"solved\":{\"1\":{\"stars\":3},\"2\":{\"stars\":3},\"3\":{\"stars\":3},\"4\":{\"stars\":3},\"5\":{\"stars\":3},\"6\":{\"stars\":3},\"7\":{\"stars\":3},\"8\":{\"stars\":3},\"9\":{\"stars\":3},\"10\":{\"stars\":3},\"11\":{\"stars\":3},\"12\":{\"stars\":3},\"13\":{\"stars\":3},\"14\":{\"stars\":3},\"15\":{\"stars\":3},\"16\":{\"stars\":3},\"17\":{\"stars\":3},\"18\":{\"stars\":3},\"19\":{\"stars\":3},\"20\":{\"stars\":3},\"21\":{\"stars\":3},\"22\":{\"stars\":3},\"23\":{\"stars\":3},\"24\":{\"stars\":3},\"25\":{\"stars\":3},\"26\":{\"stars\":3},\"27\":{\"stars\":3},\"28\":{\"stars\":3},\"29\":{\"stars\":3},\"30\":{\"stars\":3},\"31\":{\"stars\":3},\"32\":{\"stars\":3},\"33\":{\"stars\":3},\"34\":{\"stars\":3},\"35\":{\"stars\":3},\"36\":{\"stars\":3},\"37\":{\"stars\":3},\"38\":{\"stars\":3},\"39\":{\"stars\":3},\"40\":{\"stars\":3}}}}}",
+  "snapshot": null,
+  "prev": null,
+  "expect": {
+   "stars": 480,
+   "cleared": 160,
+   "awardNow": true,
+   "source": "live"
+  }
+ },
+ {
+  "name": "monotone: prev bigger than current, already awarded",
+  "live": "{\"ladders\":{\"sprout\":{\"unlocked\":6,\"solved\":{\"1\":{\"stars\":3,\"bestTimeMs\":4000},\"2\":{\"stars\":2,\"bestTimeMs\":4000},\"3\":{\"stars\":1,\"bestTimeMs\":4000},\"4\":{\"stars\":3,\"bestTimeMs\":4000},\"5\":{\"stars\":3,\"bestTimeMs\":4000}}},\"explore\":{\"unlocked\":1,\"solved\":{}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}",
+  "snapshot": null,
+  "prev": {
+   "memoryMatrixStars": 42,
+   "memoryMatrixCleared": 15,
+   "source": "live",
+   "awardedAt": 1700000000000
+  },
+  "expect": {
+   "stars": 42,
+   "cleared": 15,
+   "awardNow": false,
+   "source": "live"
+  }
+ },
+ {
+  "name": "first launch had nothing, later the child clears a level",
+  "live": "{\"ladders\":{\"sprout\":{\"unlocked\":6,\"solved\":{\"1\":{\"stars\":3,\"bestTimeMs\":4000},\"2\":{\"stars\":2,\"bestTimeMs\":4000},\"3\":{\"stars\":1,\"bestTimeMs\":4000},\"4\":{\"stars\":3,\"bestTimeMs\":4000},\"5\":{\"stars\":3,\"bestTimeMs\":4000}}},\"explore\":{\"unlocked\":1,\"solved\":{}},\"leap\":{\"unlocked\":1,\"solved\":{}},\"galaxy\":{\"unlocked\":1,\"solved\":{}}}}",
+  "snapshot": null,
+  "prev": {
+   "memoryMatrixStars": 0,
+   "memoryMatrixCleared": 0,
+   "source": "none"
+  },
+  "expect": {
+   "stars": 12,
+   "cleared": 5,
+   "awardNow": true,
+   "source": "live"
+  }
+ },
+ {
+  "name": "ladders missing / wrong type",
+  "live": "{\"ladders\":5}",
+  "snapshot": "{\"v\":1,\"data\":{}}",
+  "prev": null,
+  "expect": {
+   "stars": 0,
+   "cleared": 0,
+   "awardNow": false,
+   "source": "none"
+  }
+ }
+]

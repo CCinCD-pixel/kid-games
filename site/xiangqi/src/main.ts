@@ -1,396 +1,102 @@
-import { Chess, type Square } from '@weshell/xiangqi.js';
-import { initShell } from '@kit/shell';
-import { createStore, setHubProgress } from '@kit/progress';
-import { icon } from '@kit/ui';
+// site/xiangqi/src/main.ts — 楚河棋院入口：壳（开始门 / 🏠 / 布局）、存档、旁白、音效、路由。开发钩子（仅 dev server / 自动化）：?dev=1&screen=hall|arena|f2f-setup|game &robot=3 &mode=robot|xj|f2f &seed=7 &side=1 &fen=… &coach=1 &easy=1
+import { initShell, type LayoutInfo } from '@kit/shell';
+import { Narrator } from '@kit/narration';
+import { mount as mountCompanion, type Companion, type CompanionOptions } from '@kit/companion';
 import { sfx } from '@kit/audio';
+import { bindPress, shouldAutoSkip } from '@kit/ui';
 import { installKitSfx } from '@kit/ui/sfx-bridge';
-import { makeBoard } from './board';
-import { defaultSave, isValidSave, legalFrom, makeMove, pieceName, restore, turnLabel, type AiLevel, type Mode, type XiangqiSave } from './core';
-import { PUZZLES, matingMoves, puzzleSolved, type Puzzle } from './puzzles';
-import './styles.css';
+import { setHubProgress, requestPersistence } from '@kit/progress';
+import { isTestEnv } from '@kit/dev';
+import './styles/xq.css';
+import { createXqStore, hubLabel, type SavedGameRec } from './progress/save';
+import { setupMetrics } from './progress/metrics';
+import { createRules } from './rules/rules';
+import { createXqTheme } from './app/theme';
+import { lineText, hasLine, xqId, silentHoldMs } from './app/lines';
+import type { AppCtx, Nav, Screen } from './app/ctx';
+import type { Vp } from './app/layout';
+import type { GameParams } from './app/game';
+import { mountHall } from './app/hall';
+import { mountArena, mountF2fSetup } from './app/arena';
+import { mountGame } from './app/game';
+import { mountStarmap } from './app/starmap';
+import { mountBox } from './app/box';
+import { mountPerf } from './app/perf';
+import { mountAcademy, mountLesson, lessonRunOf } from './app/academy';
+import { sleep } from './app/ctx';
+import { START_FEN } from './rules/position';
+import { DEFAULT_HOUSE } from './progress/save';
 
-const root = document.getElementById('app')!;
-const test = new URLSearchParams(location.search).has('test');
-const store = createStore<XiangqiSave>('xiangqi', { version: 1, defaults: defaultSave });
-let save = store.load();
-let game: Chess;
-try {
-  if (!isValidSave(save) || (save.mode === 'puzzle' && !PUZZLES.some((puzzle) => puzzle.id === save.puzzleId && puzzle.fen === save.initialFen))) throw new Error('Invalid save');
-  game = restore(save);
-}
-catch { save = defaultSave(); game = restore(save); store.save(save); }
-let selected: Square | null = null;
-let cursor: Square | null = null;
-let note = '先看对方正在守哪里，再决定落点。';
-let wrongAttempts = 0;
-let hintStage = 0;
-let hintSquare: Square | null = null;
-let aiBusy = false;
-let aiRequest = 0;
-let aiTimeout: ReturnType<typeof setTimeout> | null = null;
-let aiWorker: Worker | null = null;
-let aiFinisher: ((move: string | null) => void) | null = null;
+const q = new URLSearchParams(location.search); const perfMode = q.get('dev') === 'perf'; const dev = (isTestEnv() && q.get('dev') === '1') || perfMode;
+const app = document.getElementById('app') as HTMLElement; app.classList.add('xq-app');
+const store = createXqStore(); let save = store.load(); save.stats.sessions++; store.save(save);
+let screen: Screen | null = null; let layoutInfo: LayoutInfo | null = null; let rootVp: Vp = { w: innerWidth, h: innerHeight, safe: { t: 0, r: 0, b: 0, l: 0 } };
+const toVp = (l: LayoutInfo): Vp => ({ w: l.width, h: l.height, safe: { t: l.safe.top, r: l.safe.right, b: l.safe.bottom, l: l.safe.left } });
 
 const shell = initShell({
-  game: 'xiangqi',
-  startGate: test ? false : { title: '楚河棋院', subtitle: '一棋一想，走前先看', buttonLabel: '入席' },
-  back: { compact: true },
-  onBeforeLeave: persist,
-  onPause: persist,
+  game: 'xiangqi', startGate: dev ? false : { title: '楚河棋院', subtitle: '楚河边，摆开棋阵', buttonLabel: '开始' }, back: { compact: true, onClick: () => !!screen?.onBack?.() },
+  onBeforeLeave: () => { store.save(save); }, onPause: () => { store.save(save); },
+  onLayout: (l) => { layoutInfo = l; rootVp = toVp(l); screen?.resize(rootVp); },
 });
+app.dataset.ready = '';
+if (dev && q.get('unlock') === '1') { for (const r of Object.values(save.robots)) r.unlocked = true; store.save(save); }
+const metrics = setupMetrics(store);
+const narrator = new Narrator({ manifestUrl: '/audio/xiangqi/audio-manifest.json' });
+let sfxReady = false;
 
-function persist(): void {
-  store.save(save);
-  const solved = save.solved.length;
-  setHubProgress('xiangqi', { label: solved ? `残局 ${solved}/${PUZZLES.length}` : '棋局待开', value: solved / PUZZLES.length });
-}
-
-function el<K extends keyof HTMLElementTagNameMap>(tag: K, className = '', content = ''): HTMLElementTagNameMap[K] {
-  const result = document.createElement(tag);
-  result.className = className;
-  result.textContent = content;
-  return result;
-}
-
-function button(label: string, action: () => void, className = 'xq-command'): HTMLButtonElement {
-  const result = el('button', className, label);
-  result.type = 'button';
-  result.addEventListener('click', action);
-  return result;
-}
-
-function iconButton(name: 'undo' | 'restart' | 'swap' | 'hint', label: string, action: () => void): HTMLButtonElement {
-  const result = button('', action, 'xq-iconbtn');
-  result.innerHTML = icon(name);
-  result.setAttribute('aria-label', label);
-  result.title = label;
-  return result;
-}
-
-function currentPuzzle(): Puzzle {
-  return PUZZLES.find((puzzle) => puzzle.id === save.puzzleId) ?? PUZZLES[0];
-}
-
-function cancelAi(): void {
-  aiRequest++;
-  aiBusy = false;
-  if (aiTimeout) clearTimeout(aiTimeout);
-  aiTimeout = null;
-  aiFinisher = null;
-}
-
-function resetBoard(fen: string): void {
-  cancelAi();
-  game = new Chess(fen);
-  save.initialFen = fen;
-  save.moves = [];
-  selected = null;
-  cursor = null;
-  hintSquare = null;
-  hintStage = 0;
-  wrongAttempts = 0;
-  persist();
-  render();
-  requestAi();
-}
-
-function confirmChange(title: string, message: string, action: () => void): void {
-  if (!save.moves.length) { action(); return; }
-  const backdrop = el('div', 'xq-dialog-backdrop');
-  const dialog = el('div', 'xq-dialog');
-  dialog.setAttribute('role', 'dialog');
-  dialog.setAttribute('aria-modal', 'true');
-  dialog.setAttribute('aria-label', title);
-  const actions = el('div');
-  actions.append(button('继续当前对局', () => backdrop.remove()), button('重新开始', () => { backdrop.remove(); action(); }, 'xq-command xq-command--primary'));
-  dialog.append(el('h2', '', title), el('p', '', message), actions);
-  backdrop.append(dialog);
-  root.append(backdrop);
-  actions.querySelector('button')?.focus();
-}
-
-function setMode(mode: Mode): void {
-  if (mode === save.mode) return;
-  confirmChange('换一种玩法？', '当前棋局会重新摆好，已完成的残局会保留。', () => {
-    save.mode = mode;
-    if (mode === 'puzzle') {
-      const next = PUZZLES.find((puzzle) => !save.solved.includes(puzzle.id)) ?? PUZZLES[0];
-      save.puzzleId = next.id;
-      note = `这一局：${next.title}。想办法一步将死。`;
-      resetBoard(next.fen);
-    } else {
-      save.puzzleId = undefined;
-      note = mode === 'ai' ? '和小军师下：先看自己棋子能守住哪条路。' : '和家人轮流下。点一枚棋子，看它能走到哪里。';
-      resetBoard(new Chess().fen());
-    }
-  });
-}
-
-function choosePuzzle(puzzle: Puzzle): void {
-  if (save.puzzleId === puzzle.id && !save.moves.length) return;
-  save.puzzleId = puzzle.id;
-  note = `这一局：${puzzle.title}。想办法一步将死。`;
-  resetBoard(puzzle.fen);
-}
-
-function canUndo(): boolean {
-  if (save.mode === 'puzzle' || !save.moves.length) return false;
-  if (save.mode === 'local') return true;
-  const history = game.history({ verbose: true });
-  return history.at(-1)?.color === save.human || history.some((move) => move.color === save.human);
-}
-
-function undo(): void {
-  if (!canUndo()) return;
-  cancelAi();
-  if (save.mode === 'ai') {
-    while (save.moves.length) {
-      const undone = game.undo();
-      save.moves.pop();
-      if (undone?.color === save.human) break;
-    }
-  } else { game.undo(); save.moves.pop(); }
-  selected = null;
-  note = '退回一步，再看看另一条路。';
-  persist();
-  render();
-  requestAi();
-}
-
-function onSquare(square: Square): void {
-  if (aiBusy || game.isGameOver() || (save.mode === 'ai' && game.turn() !== save.human)) return;
-  if (save.mode === 'puzzle' && save.moves.length) return;
-  const piece = game.get(square);
-  if (selected === square) { selected = null; render(); return; }
-  if (selected) {
-    const move = makeMove(game, selected, square);
-    if (move) {
-      sfx.play('place-piece');
-      selected = null;
-      hintSquare = null;
-      if (save.mode === 'puzzle') {
-        if (puzzleSolved(game)) {
-          save.moves.push(move.lan);
-          const puzzle = currentPuzzle();
-          if (!save.solved.includes(puzzle.id)) save.solved.push(puzzle.id);
-          sfx.play('star-1');
-          note = `${puzzle.lesson} 这一局解开了。`;
-          persist();
-        } else {
-          game.undo();
-          wrongAttempts++;
-          note = wrongAttempts >= 2 ? currentPuzzle().hint : '这一步还没封住所有退路，再观察一下。';
-        }
-      } else {
-        save.moves.push(move.lan);
-        note = move.isCheckmate ? `${move.zh}，将死！` : move.isCheck ? `${move.zh}，将军。看看对方怎么应对。` : move.captured ? `${move.zh}，吃子之后也要看看能否被吃回。` : `${move.zh}。落子前多看一步。`;
-        persist();
-      }
-      render();
-      requestAi();
-      return;
-    }
+const ctx: AppCtx = {
+  root: app, shell, store, get save() { return save; }, persist: () => { store.save(save); }, narrator, lineText,
+  mountBot(host: HTMLElement, o: CompanionOptions = {}): Companion { const c = mountCompanion(host, { sfx: (n) => ctx.sfx(n, { volume: 0.5 }), ...o }); host.querySelectorAll('.b-z').forEach((e) => e.setAttribute('aria-hidden', 'true')); return c; },   // 睡着的「z z Z」不是正文
+  async speak(bot, id, o) {
+    const text = lineText(id); if (!text) return; const nid = xqId(id);
+    const voiceOn = save.settings.sfx !== false;
+    if (!bot) { if (voiceOn && narrator.has(nid)) await narrator.say(nid, { interrupt: true, vars: o?.vars }); return; }
+    if (dev) { void bot.say(text, { mood: o?.mood }); await sleep(q.get('slow') === '1' ? 1200 : 30); return; }      // 开发 / 测试：不等打字机和停留，课程步骤即刻往下走（?slow=1：每句停 1.2 秒，测"念的时候棋盘上有什么"）
+    const voiced = voiceOn && narrator.has(nid);
+    await bot.say(text, { mood: o?.mood, ...(voiced ? { speak: async () => { await narrator.say(nid, { interrupt: true, vars: o?.vars }); } } : { hold: silentHoldMs(text) }) });
+  },
+  sfx: (name, o) => { if (sfxReady && save.settings.sfx !== false) sfx.play(name, o); }, theme: createXqTheme(), rules: createRules(), go, vp: () => rootVp, metrics, applyPrefs,
+};
+function applyPrefs(): void { app.classList.toggle('xq-nosubs', save.settings.subs === false); app.classList.toggle('xq-voiced', save.settings.sfx !== false && narrator.has('xq.s.title')); }
+const fromRec = (r: SavedGameRec): GameParams => ({ mode: r.mode, robotId: r.robot, xjId: r.xjId, startFen: r.startFen, moves: r.moves, side: r.side, handicap: r.handicap, seed: r.seed, coach: r.coach, easy: r.easy, rules: r.rules, undo: r.undo, used: r.used, hints: r.hints, coachShown: r.coachShown, coachAccepted: r.coachAccepted, startedAt: r.startedAt, lesson: r.lesson });
+let lastGame: GameParams | null = null;
+function go(n: Nav): void {
+  screen?.destroy(); screen = null; app.querySelectorAll('.xq-screen').forEach((e) => { e.replaceChildren(); e.remove(); });   // replaceChildren：已脱离文档的根若被某处引用着，也不拖着整棵子树（每次进大厅曾漏 ~900 个节点）
+  switch (n.to) {
+    case 'hall': screen = mountHall(ctx, { intro: !!n.intro }); break;
+    case 'box': screen = mountBox(ctx, { onDone: (skipped) => go({ to: 'hall', intro: !skipped }) }); break;
+    case 'perf': screen = mountPerf(ctx); break;
+    case 'arena': screen = mountArena(ctx, { quick: !!n.quick }); break;
+    case 'f2f-setup': screen = mountF2fSetup(ctx); break;
+    case 'game': lastGame = n.params; screen = mountGame(ctx, n.params); break;
+    case 'resume': { const g = save.game; if (g) { lastGame = fromRec(g); screen = mountGame(ctx, lastGame); } else screen = mountHall(ctx, {}); break; }
+    case 'starmap': screen = mountStarmap(ctx); break;
+    case 'academy': screen = mountAcademy(ctx); break;
+    case 'lesson': screen = mountLesson(ctx, lessonRunOf(n.lessonId, n.placement)); break;
+    default: screen = mountHall(ctx, {}); break;
   }
-  if (piece?.color === game.turn()) {
-    selected = square;
-    note = `${pieceName(piece.type, piece.color)}可以走到亮起的位置。`;
-  } else {
-    note = selected ? '这枚棋子走不到那里，看看亮起的位置。' : '先点轮到这一方的一枚棋子。';
-  }
-  render();
+  screen.resize(rootVp); setHubProgress('xiangqi', hubLabel(save));
 }
-
-function requestAi(): void {
-  if (save.mode !== 'ai' || game.turn() === save.human || game.isGameOver() || aiBusy) return;
-  const fen = game.fen();
-  const id = ++aiRequest;
-  const started = performance.now();
-  aiBusy = true;
-  note = '小军师正在看棋路…';
-  render();
-  const finish = (moveLan: string | null): void => {
-    if (id !== aiRequest || aiFinisher !== finish || save.mode !== 'ai' || game.fen() !== fen) return;
-    aiFinisher = null;
-    if (aiTimeout) clearTimeout(aiTimeout);
-    aiTimeout = null;
-    const wait = Math.max(0, 320 - (performance.now() - started));
-    aiTimeout = setTimeout(() => {
-      aiTimeout = null;
-      if (id !== aiRequest || game.fen() !== fen) return;
-      const legal = game.moves({ verbose: true });
-      const selectedMove = legal.find((move) => move.lan === moveLan) ?? legal[0];
-      aiBusy = false;
-      if (!selectedMove) { render(); return; }
-      const move = game.move(selectedMove.lan);
-      sfx.play('place-piece');
-      save.moves.push(move.lan);
-      note = move.isCheckmate ? `小军师走了${move.zh}，这一局结束。` : move.isCheck ? `小军师走了${move.zh}，先保护帅。` : `小军师走了${move.zh}。轮到你了。`;
-      persist();
-      render();
-    }, wait);
-  };
-  aiFinisher = finish;
-  aiTimeout = setTimeout(() => finish(null), 5000);
-  if (aiWorker) aiWorker.postMessage({ id, fen, level: save.level });
-  else finish(null);
+void (async () => {
+  if (layoutInfo) rootVp = toVp(layoutInfo); else { const l = shell.layout(); rootVp = toVp(l); }
+  bindPress(document); void requestPersistence();
+  if (!dev) await shell.ready; rootVp = toVp(shell.layout());
+  void installKitSfx({ only: ['place-piece', 'capture', 'bump', 'ui-select', 'ui-notify', 'ui-open', 'ui-locked', 'whoosh-down', 'hint', 'jingle-win', 'level-complete', 'ui-pick', 'ui-press', 'ui-tap', 'unlock', 'chime', 'blip-happy', 'blip-think', 'blip-talk', 'blip-question', 'blip-surprised', 'blip-sleepy', 'star-1', 'star-2', 'star-3', 'correct', 'hit-soft'] }).then(() => { sfxReady = true; });
+  void narrator.ready().then(() => applyPrefs()).catch(() => undefined); applyPrefs(); void warmOffline();
+  if (hasLine('s.title') && !dev) void sleep(0);
+  const screenQ = q.get('screen'); const needBox = !save.intro.box && !shouldAutoSkip() && (!dev || q.get('intro') === 'box') && !q.has('screen');
+  if (perfMode) { go({ to: 'perf' }); return; }
+  if (dev && (screenQ === 'game' || q.has('fen') || q.has('robot') || q.get('mode'))) {
+    const mode = (q.get('mode') as GameParams['mode']) ?? 'robot'; const side = q.get('side') === '1' ? 1 : 0;
+    const params: GameParams = { mode, robotId: `R${q.get('robot') ?? '1'}`, xjId: q.get('xj') ?? undefined, startFen: q.get('fen') ? decodeURIComponent(q.get('fen') as string) : START_FEN, moves: q.get('moves') ? (q.get('moves') as string).split(',') : [], side, handicap: 'none', seed: Number(q.get('seed') ?? 7), coach: q.get('coach') === '1', easy: q.get('easy') === '1', rules: { ...DEFAULT_HOUSE } };
+    go({ to: 'game', params });
+  } else if (screenQ === 'resume') go({ to: 'resume' }); else if (screenQ === 'arena') go({ to: 'arena' }); else if (screenQ === 'f2f-setup') go({ to: 'f2f-setup' }); else if (screenQ === 'starmap') go({ to: 'starmap' }); else if (screenQ === 'academy') go({ to: 'academy' }); else if (screenQ === 'lesson') go({ to: 'lesson', lessonId: q.get('lesson') ?? 'L04' });
+  else if (needBox) go({ to: 'box' }); else go({ to: 'hall' });
+  void lastGame; void metrics;
+})();
+/** 离线：平台 SW 的 media 缓存是"懒填"的（字体 / 音效第一次被 SW 控制的页面请求时才进缓存）。首次在线、SW 接管之后主动取一遍两个字体和常用音效，断网后汉字不退回系统字体、音效不丢。尽力而为，失败静默。 */
+async function warmOffline(): Promise<void> {
+  if (isTestEnv() || !('serviceWorker' in navigator)) return;
+  try { await navigator.serviceWorker.ready; await sleep(5000); for (const u of ['/fonts/zcool-kuaile-3500.woff2', '/fonts/wenkai-gb-medium-3500.woff2', ...SFX_WARM.map((n) => `/audio/sfx/${n}.m4a`)]) { try { await fetch(u); } catch { /* 离线 / 404：忽略 */ } } } catch { /* ignore */ }
 }
-
-function showHint(): void {
-  if (save.mode !== 'puzzle' || save.moves.length) return;
-  const puzzle = currentPuzzle();
-  hintStage = Math.min(3, hintStage + 1);
-  const solution = matingMoves(puzzle.fen)[0];
-  if (hintStage === 1) note = puzzle.hint;
-  else if (hintStage === 2) { hintSquare = solution.from; note = '看看被圈出来的这枚棋子。'; }
-  else note = `这一步可以走：${solution.zh}。再亲手试一次。`;
-  render();
-}
-
-function settingSelect(label: string, values: { value: string; text: string }[], selectedValue: string, onChange: (value: string) => void): HTMLElement {
-  const wrapper = el('label', 'xq-control', label);
-  const select = el('select');
-  for (const entry of values) {
-    const option = el('option', '', entry.text);
-    option.value = entry.value;
-    select.append(option);
-  }
-  select.value = selectedValue;
-  select.addEventListener('change', () => onChange(select.value));
-  wrapper.append(select);
-  return wrapper;
-}
-
-function segment(options: { value: string; label: string }[], active: string, onChange: (value: string) => void): HTMLElement {
-  const row = el('div', 'xq-segment');
-  for (const option of options) {
-    const choice = button(option.label, () => onChange(option.value), '');
-    choice.setAttribute('aria-pressed', String(option.value === active));
-    row.append(choice);
-  }
-  return row;
-}
-
-function renderModeOptions(side: HTMLElement): void {
-  if (save.mode === 'local') {
-    const label = el('label', 'xq-control', '轮到黑方时自动翻盘');
-    const toggle = el('input');
-    toggle.type = 'checkbox';
-    toggle.checked = save.autoRotate;
-    toggle.addEventListener('change', () => { save.autoRotate = toggle.checked; persist(); render(); });
-    label.prepend(toggle);
-    side.append(label);
-  } else if (save.mode === 'ai') {
-    side.append(settingSelect('小军师', [
-      { value: 'learner', text: '学徒 · 会吃子，偶尔留空' },
-      { value: 'challenger', text: '棋友 · 会多想一步' },
-    ], save.level, (value) => { save.level = value as AiLevel; persist(); render(); }));
-    const color = segment([{ value: 'w', label: '执红先行' }, { value: 'b', label: '执黑后行' }], save.human, (value) => {
-      if (value === save.human) return;
-      confirmChange('换一方下？', '棋子会重新摆好。', () => {
-        save.human = value as 'w' | 'b';
-        save.flipped = value === 'b';
-        note = value === 'b' ? '小军师执红先行，等它落子后轮到你。' : '你执红先行。';
-        resetBoard(new Chess().fen());
-      });
-    });
-    side.append(color);
-  } else {
-    const puzzle = currentPuzzle();
-    const heading = el('div', 'xq-puzzle-head');
-    heading.append(el('span', '', puzzle.title), el('small', '', `${save.solved.length}/${PUZZLES.length} 已解开`));
-    side.append(heading);
-    const list = el('div', 'xq-puzzles');
-    for (const [index, entry] of PUZZLES.entries()) {
-      const choice = button(String(index + 1), () => choosePuzzle(entry), '');
-      choice.setAttribute('aria-label', `第 ${index + 1} 局，${entry.title}${save.solved.includes(entry.id) ? '，已完成' : ''}`);
-      choice.setAttribute('aria-current', String(entry.id === puzzle.id));
-      choice.dataset.solved = String(save.solved.includes(entry.id));
-      list.append(choice);
-    }
-    side.append(list);
-    side.append(button('线索', showHint));
-    if (save.moves.length) side.append(button('下一局', () => {
-      const current = PUZZLES.findIndex((entry) => entry.id === puzzle.id);
-      const next = PUZZLES.slice(current + 1).find((entry) => !save.solved.includes(entry.id)) ?? PUZZLES.find((entry) => !save.solved.includes(entry.id)) ?? PUZZLES[(current + 1) % PUZZLES.length];
-      choosePuzzle(next);
-    }, 'xq-command xq-command--primary'));
-  }
-}
-
-function render(): void {
-  const viewFlipped = save.mode === 'local' && save.autoRotate ? game.turn() === 'b' : save.flipped;
-  root.replaceChildren();
-  const app = el('main', 'xq-app');
-  const header = el('header', 'xq-header');
-  header.append(el('h1', '', '楚河棋院'), el('span', 'xq-header__mark', '一棋一想'));
-  app.append(header);
-  const tabs = el('nav', 'xq-tabs');
-  tabs.setAttribute('role', 'tablist');
-  for (const [mode, label] of [['local', '和家人下'], ['ai', '和小军师下'], ['puzzle', '残局']] as const) {
-    const tab = button(label, () => setMode(mode), '');
-    tab.setAttribute('role', 'tab');
-    tab.setAttribute('aria-selected', String(mode === save.mode));
-    tabs.append(tab);
-  }
-  app.append(tabs);
-  const layout = el('div', 'xq-layout');
-  const boardPanel = el('div', 'xq-board-panel');
-  const history = game.history({ verbose: true });
-  const board = makeBoard(game, {
-    selected: selected ?? hintSquare,
-    legal: selected ? legalFrom(game, selected) : [],
-    last: history.at(-1) ?? null,
-    flipped: viewFlipped,
-    cursor,
-    onSquare,
-    onCursor(square) { cursor = square; render(); root.querySelector<SVGSVGElement>('.xq-board')?.focus(); },
-  });
-  boardPanel.append(board);
-  layout.append(boardPanel);
-  const side = el('aside', 'xq-side');
-  const status = el('div', 'xq-status');
-  status.setAttribute('aria-live', 'polite');
-  status.append(el('strong', '', save.mode === 'puzzle' && save.moves.length ? '残局解开了' : aiBusy ? '小军师思考中' : turnLabel(game)), el('span', '', save.mode === 'puzzle' ? '红方走一步，找到将死' : save.mode === 'ai' ? `你执${save.human === 'w' ? '红' : '黑'} · ${save.level === 'learner' ? '学徒' : '棋友'}` : '红黑轮流 · 同屏对弈'));
-  side.append(status);
-  const coach = el('p', 'xq-coach');
-  coach.append(el('b', '', '小军师'), document.createTextNode(note));
-  side.append(coach);
-  const tools = el('div', 'xq-actions');
-  if (save.mode !== 'puzzle') {
-    const undoButton = iconButton('undo', '悔棋', undo);
-    undoButton.disabled = !canUndo();
-    tools.append(undoButton);
-  }
-  tools.append(iconButton('restart', '重新摆棋', () => confirmChange('重新摆棋？', '当前棋局会从开头重新开始。', () => resetBoard(save.mode === 'puzzle' ? currentPuzzle().fen : new Chess().fen()))));
-  if (save.mode !== 'puzzle') tools.append(iconButton('swap', '翻转棋盘', () => { save.autoRotate = false; save.flipped = !save.flipped; persist(); render(); }));
-  side.append(tools);
-  renderModeOptions(side);
-  if (save.mode !== 'puzzle' && history.length) {
-    const moves = el('ol', 'xq-history');
-    for (const move of history.slice(-6)) moves.append(el('li', '', move.zh));
-    side.append(moves);
-  }
-  layout.append(side);
-  app.append(layout);
-  root.append(app);
-  root.dataset.ready = '1';
-}
-
-try {
-  aiWorker = new Worker(new URL('./ai.worker.ts', import.meta.url), { type: 'module' });
-  aiWorker.onmessage = (event: MessageEvent<{ id: number; move: string | null }>) => {
-    if (event.data.id !== aiRequest) return;
-    aiFinisher?.(event.data.move);
-  };
-  aiWorker.onerror = () => {
-    aiWorker?.terminate();
-    aiWorker = null;
-    aiFinisher?.(null);
-  };
-} catch { aiWorker = null; }
-
-render();
-void shell.ready.then(() => {
-  void installKitSfx({ only: ['place-piece', 'star-1'] });
-  requestAi();
-});
+const SFX_WARM = ['place-piece', 'capture', 'bump', 'ui-select', 'ui-notify', 'ui-open', 'hint', 'correct', 'star-1', 'level-complete'];

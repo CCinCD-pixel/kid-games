@@ -1,0 +1,647 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "xiangqi.w.仕": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "edbf8f21ece52dbdd556dea4948ca3f703212427",
+   "score": 5.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xiangqi.w.卒": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "38687da0693ed2a1f17f1c5829d4878c8e4bf4a3",
+   "score": 5.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xiangqi.w.车": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3a32a26d404baf15772414320acdf82db708ca68",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.bt.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6eb4ea245b53d8bd81111db5a8a5c0c6987d853a",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.d.who": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "57d79248c4cfd004c4658af5641465fc838fefda",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.f.ok1": {
+   "seed": 2000,
+   "base": 2000,
+   "sig": "b0ef34d4c101869248e198e6100080f7bcf22b75",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2000
+   ]
+  },
+  "xq.f.ok2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1d871daffb488dd4b5cede14fa05ea2f2e83b99e",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.f.ok4": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "7f139851006fb5be36571b85ee65f13d0816d95c",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.f.ok5": {
+   "seed": 1238,
+   "base": 1234,
+   "sig": "4d7e2463df2f3a82930d81fabe1201dccde923d5",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "xq.g.cap": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "8ad641b1d871d9b267214196c49b67db5ab40af0",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "xq.g.check3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "10b801c0755d485d01ed5d932f30dd5d63f7e86c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.g.easy.on": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3a8511d1e477d99491c7e3317437ffd31817912e",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.g.red": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "62084b740a109fee382bb1a94aa3e532483060e2",
+   "score": 1.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.g.stale.lose": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1fa859e4a8953b3bfaedcdb1dcf06255f9257429",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.g.your": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a3b18be8fbfa0932afeca117f6cd507b9781937c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.h.1.free": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "3ba28fce4c54264279aee11a1def3054e9478d7f",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.h.1.how": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "d1912b2b51ec3848465a327ef0e969696316a0b0",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.h.1.trade": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "50f74e4f346b982e525edc1872398c95ddd20a1e",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.h.2": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "8c47f543e9e8e860051be4a4e717acb1596ccf96",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "xq.h.2b": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "aedd22dffb3f3bed63101a7cc62c24f03aa58c2e",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l06.rule": {
+   "seed": 2001,
+   "base": 2000,
+   "sig": "7f2dc1d7a168207dd95a6472c481ea1cad9549fd",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    2000,
+    2001
+   ]
+  },
+  "xq.l07.rule": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "73f6876481a4eb7527e43398f1dba33267fbc57c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l08.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a2351643c613fbbf03cbde92af7ca686c3fd95b2",
+   "score": 0.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l08.rule": {
+   "seed": 1238,
+   "base": 1234,
+   "sig": "0a2af835afbef85e782faa5c8e4f7942220f9856",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "xq.l09.way": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "0e2c61a10843090676f1c56002c745065cdac1d6",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l11.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "5fa93ad2acd5de4709a532f4d848650d378ed511",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l14.block": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "880fb2d2d44adc006dc8f8c34f9ff150c29a75a0",
+   "score": 0.454,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l14.pin": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6311460f7c7c0f56b0e7c3f3146e83ffc2049fde",
+   "score": 0.454,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l14.use": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "def5de0f84a2c04cf1c14189e9ca146c13a2e0ee",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l16.rule": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "1b00f69b4c6dda569c19f81e3a19521cceaecb88",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "xq.l22.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "9091fde8921c3dd1da6a71b084b385216f8ed7eb",
+   "score": 0.416,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l23.trade": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "12881b3a822baf13223f9296dc6d7516c7ce28a4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.l25.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b83bdc66053de4ba3fbb525d07e560660f2d06bd",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.l32.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "156878da0ad69d2bc3352adbe863687c3e257fe4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.p.capture": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e87841f1b23c1fcfe26205c831b996098e0df383",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.p.esc.king": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fc71b4107a3281f0e94cb7969855cbf35bbb3b90",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.p.trade.go": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "347b33967c7e4fd9c1c2320249fd063dab5899fa",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.r.intro": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "7725ca905d5a10ae5c6cae14f0fa0f1c92b243e7",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.r.miss": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "457549cdb2e3a199e87ac3ff2f5dae4f674a64ee",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.rb.3.win": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "1295104f9fe5911e530c54ed4dd066bb615dc4a4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.rb.pick": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c486fe33bf002f1fbacd82fbbc1416817c0e3846",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.s.home": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "d1ab4ddce997e83158f3b3be7c0a8e693a32845b",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "xq.s.learn": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "7b74a78774803b2bd499355554995afa84cfb701",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.s.slow": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1ad9525f06489a8ac7a078bda8cf2313a3081136",
+   "score": 1.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.s.title": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "bd706036fe50709fca1041e6a5c8da345360a71c",
+   "score": 1.111,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.tb.cannon": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "28486e92664ca1130092572a7583437e5159a0f4",
+   "score": 1.25,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.tb.stampPalace": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "ac77ab8301aaf3f6f31ac76fb0418dfb87fb15d2",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.tb.stampRiver": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f00dfef0ffc03c8ff8a124463a8a25de00f56e39",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.w.escape": {
+   "seed": 2002,
+   "base": 2000,
+   "sig": "3be2a800c299f31a4060cf00189f27d9da185ee4",
+   "score": 1.429,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2000,
+    2001,
+    2002
+   ]
+  },
+  "xq.w.face": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "8b3b643c36075590f740697a06d0c3afeeed9143",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.w.own": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c86406d65288c24029319cc3451d9dd694efc3c1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.w.screen": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c95487b6d6640f427dbae5c5b6614a5a0ea3223c",
+   "score": 0.1,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "xq.w.self": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "0e540bb78b48716e7bced62d53ffc2b0ec8fd4f1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  }
+ }
+}

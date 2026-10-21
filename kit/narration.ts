@@ -21,9 +21,21 @@
  *   narrator.say('mars.intro.1');                 // queued
  *   narrator.say('mars.hint.2', { interrupt: true }); // cuts the current line
  *   narrator.replay();                            // 再听一遍
+ *
+ * Big voice sets (a game with hundreds of lines): split the manifest into zones. The constructor's manifest is the
+ * only thing `ready()` waits for, so the first line is never held back by sibling manifests; `addManifest(url)` loads
+ * a shard in the background (deduplicated; a failed one can be retried) and a `say()` for an id that lives in a shard
+ * that is still loading waits for it (max 4 s), in order, so lines never play out of sequence.
+ *
+ *   const narrator = new Narrator({ manifestUrl: '/audio/mars-base/core.json' });
+ *   void narrator.addManifest('/audio/mars-base/numbers.json');       // no await
+ *   narrator.say('mars.intro.1');                                       // plays as soon as core.json is in
+ *   narrator.say('mars.num.17');                                        // waits for numbers.json only if needed
+ *   await narrator.prefetch(ids, { decode: false });                    // warm the SW cache, hold no PCM in memory
+ *   narrator.releaseLines(ids);                                         // drop decoded PCM of lines no longer needed
  */
 
-import { decodeClip, getBus, music, playBuffer, whenAudioUnlocked, type Voice } from './audio';
+import { decodeClip, getBus, music, playBuffer, prefetchClip, prefetchUrls, releaseClips, whenAudioUnlocked, type PrefetchOptions, type PrefetchResult, type Voice } from './audio';
 import { narrationEnabled } from './settings';
 import { AUTOMATION_MUTE } from './automute';
 
@@ -64,8 +76,8 @@ export interface NarrationBackend {
   canPlay(cue: Cue, clip: NarrationClip | undefined): boolean | Promise<boolean>;
   /** Resolve when finished; must stop promptly when `signal` aborts. */
   play(cue: Cue, clip: NarrationClip | undefined, signal: AbortSignal, onWord: (index: number) => void): Promise<void>;
-  /** Optional warm-up (decode) for prefetch. */
-  prefetch?(clip: NarrationClip): Promise<void>;
+  /** Optional warm-up for prefetch. `decode: false` = fetch into the SW / HTTP cache only (hold no decoded audio). false = it failed. */
+  prefetch?(clip: NarrationClip, opts?: { decode?: boolean }): Promise<void | boolean>;
 }
 
 export interface NarratorOptions {
@@ -101,6 +113,8 @@ interface QueueItem {
 }
 
 const ID_PATTERN = /^[a-z0-9][a-z0-9_.:-]*$/i;
+/** how long a say() for a not-yet-loaded shard line waits for the shard */
+const SHARD_WAIT_MS = 4000;
 
 /** Plays clips through the kit audio engine on the "voice" bus. */
 export class ClipBackend implements NarrationBackend {
@@ -109,8 +123,8 @@ export class ClipBackend implements NarrationBackend {
     if (!clip?.src || !getBus('voice')) return false;
     return (await decodeClip(clip.src)) !== null;
   }
-  async prefetch(clip: NarrationClip): Promise<void> {
-    await decodeClip(clip.src);
+  async prefetch(clip: NarrationClip, opts: { decode?: boolean } = {}): Promise<boolean> {
+    return opts.decode === false ? prefetchClip(clip.src) : (await decodeClip(clip.src)) !== null;
   }
   async play(cue: Cue, clip: NarrationClip | undefined, signal: AbortSignal, onWord: (i: number) => void): Promise<void> {
     if (!clip) return;
@@ -180,6 +194,13 @@ export class Narrator {
   private current: { item: QueueItem; abort: AbortController } | null = null;
   private last: Cue | null = null;
   private pumping = false;
+  /** shards (addManifest) still loading, by URL — also the in-flight dedupe */
+  private readonly pending = new Map<string, Promise<boolean>>();
+  private readonly loaded = new Set<string>();
+  /** while a say() waits for a shard, later say()s queue behind it (keeps order) */
+  private gate: Promise<void> | null = null;
+  /** bumped by stop(): says that were waiting for a shard are dropped */
+  private epoch = 0;
 
   constructor(private readonly opts: NarratorOptions = {}) {
     this.backends = opts.backends ?? [new ClipBackend(), ...(opts.speechFallback === false ? [] : [new SpeechBackend(opts.lang)])];
@@ -192,19 +213,60 @@ export class Narrator {
     return this.loading;
   }
 
-  /** Merge another manifest (URL or object). Missing files only log a warning. */
-  async addManifest(source: string | NarrationManifest): Promise<void> {
+  /**
+   * Merge another manifest (URL or object). Never rejects. A URL that is already loaded or loading is not fetched
+   * twice; a failed one is forgotten so calling again retries (check `isManifestLoaded(url)` for the outcome). Missing
+   * files only log a warning. Do not await it for the first line — see the header comment.
+   */
+  addManifest(source: string | NarrationManifest): Promise<void> {
     if (typeof source !== 'string') {
       Object.assign(this.manifest, source);
-      return;
+      return Promise.resolve();
     }
-    try {
-      const res = await fetch(source);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      Object.assign(this.manifest, (await res.json()) as NarrationManifest);
-    } catch (err) {
-      console.warn(`[narration] manifest ${source} unavailable: ${(err as Error).message}`);
+    if (this.loaded.has(source)) return Promise.resolve();
+    const inflight = this.pending.get(source);
+    if (inflight) return inflight.then(() => undefined);
+    const p = (async () => {
+      try {
+        const res = await fetch(source);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        Object.assign(this.manifest, (await res.json()) as NarrationManifest);
+        this.loaded.add(source);
+        return true;
+      } catch (err) {
+        console.warn(`[narration] manifest ${source} unavailable: ${(err as Error).message}`);
+        return false;
+      } finally {
+        this.pending.delete(source);
+      }
+    })();
+    this.pending.set(source, p);
+    return p.then(() => undefined);
+  }
+
+  /** True once the manifest at this URL was fetched and merged. */
+  isManifestLoaded(url: string): boolean {
+    return this.loaded.has(url);
+  }
+
+  /** True while any addManifest() shard is still loading. */
+  get loadingShards(): boolean {
+    return this.pending.size > 0;
+  }
+
+  /** Every line id currently known (all merged manifests). */
+  ids(): string[] {
+    return Object.keys(this.manifest);
+  }
+
+  /** The clip URLs of these line ids (unknown ids and text-only lines are skipped). */
+  clipUrls(ids: readonly string[]): string[] {
+    const out: string[] = [];
+    for (const id of ids) {
+      const src = this.manifest[id]?.src;
+      if (src) out.push(src);
     }
+    return out;
   }
 
   has(id: string): boolean {
@@ -230,9 +292,25 @@ export class Narrator {
    * `vars` fills {placeholders} in the subtitle text of templated lines.
    */
   say(idOrText: string, options: { interrupt?: boolean; vars?: Record<string, string | number>; force?: boolean } = {}): Promise<SayResult> {
+    // A line id that is not known yet while a shard is loading: wait for the shards (≤ 4 s), then say it — and keep
+    // every later say() behind it so the order never changes.
+    if (!this.gate && this.pending.size > 0 && !this.has(idOrText) && ID_PATTERN.test(idOrText) && !/[㐀-鿿]/.test(idOrText)) {
+      const g: Promise<void> = Promise.race([Promise.allSettled([...this.pending.values()]), new Promise((r) => setTimeout(r, SHARD_WAIT_MS))]).then(() => {
+        if (this.gate === g) this.gate = null;
+      });
+      this.gate = g;
+    }
+    if (this.gate) {
+      const epoch = this.epoch;
+      return this.gate.then(() => (epoch === this.epoch ? this.sayNow(idOrText, options) : 'interrupted'));
+    }
+    return this.sayNow(idOrText, options);
+  }
+
+  private sayNow(idOrText: string, options: { interrupt?: boolean; vars?: Record<string, string | number>; force?: boolean }): Promise<SayResult> {
     const cue = this.resolveCue(idOrText, options.vars);
     if (!cue) return Promise.resolve('skipped');
-    if (options.interrupt) this.stop();
+    if (options.interrupt) this.dropAll();
     return new Promise<SayResult>((resolve) => {
       this.queue.push({ cue, clip: cue.id ? this.manifest[cue.id] : undefined, resolve, force: options.force });
       void this.pump();
@@ -241,6 +319,11 @@ export class Narrator {
 
   /** Stop the current line and drop everything queued. */
   stop(): void {
+    this.epoch += 1; // also cancels says still waiting for a shard
+    this.dropAll();
+  }
+
+  private dropAll(): void {
     for (const item of this.queue.splice(0)) item.resolve('interrupted');
     if (this.current) this.current.abort.abort();
   }
@@ -252,15 +335,39 @@ export class Narrator {
     return this.say(cue.id ?? cue.text, { interrupt: true, force: true });
   }
 
-  /** Decode clips ahead of time (e.g. the next page's lines). */
-  async prefetch(ids: string[]): Promise<void> {
+  /**
+   * Warm clips ahead of time (e.g. the next page's lines). Default: decode them (instant playback, costs memory).
+   * `{ decode: false }` only fetches them into the service-worker / HTTP cache, bounded to `concurrency` (default 3)
+   * parallel requests — for a whole chapter, an "offline pack", or lines that may never play. Never rejects.
+   */
+  async prefetch(ids: string[], opts: { decode?: boolean; concurrency?: number; onProgress?: PrefetchOptions['onProgress'] } = {}): Promise<PrefetchResult> {
+    if (opts.decode === false) {
+      return prefetchUrls(this.clipUrls(ids), { decode: false, concurrency: opts.concurrency, onProgress: opts.onProgress });
+    }
+    const result: PrefetchResult = { ok: 0, failed: [] };
     await Promise.all(
       ids.map(async (id) => {
         const clip = this.manifest[id];
         if (!clip) return;
-        for (const b of this.backends) if (b.prefetch) await b.prefetch(clip).catch(() => {});
+        let good = true;
+        for (const b of this.backends) {
+          if (!b.prefetch) continue;
+          try {
+            if ((await b.prefetch(clip, { decode: true })) === false) good = false;
+          } catch {
+            good = false;
+          }
+        }
+        if (good) result.ok += 1;
+        else result.failed.push(clip.src);
       }),
     );
+    return result;
+  }
+
+  /** Drop the decoded audio of these lines (keeps the SW cache): call when leaving a chapter / zone. */
+  releaseLines(ids: readonly string[]): void {
+    releaseClips(this.clipUrls(ids));
   }
 
   private resolveCue(idOrText: string, vars?: Record<string, string | number>): Cue | null {

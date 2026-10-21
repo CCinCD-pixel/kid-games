@@ -14,6 +14,7 @@ test('双人分屏：独立操控、暂停、结算、重开', async ({ page }, 
   await page.goto('/snake-battle/?test=1&nogate&mute=1');
   await page.waitForSelector('.sb-lobby');
   await page.locator('.sb-versus-entry').click();
+  await page.locator('.sb-vsintro__done').click();   // first entry: the 怎么玩 card (tests/versus-intro.spec.ts covers it)
   const panes = page.locator('.sb-versus__pane');
   await expect(panes).toHaveCount(2);
   await page.waitForFunction(() => (window as any).__sbVersus?.match?.state === 'playing');
@@ -110,6 +111,7 @@ for (const [name, viewport] of [
       expect(narration.overlap, JSON.stringify(narration)).toBe(false);
       await page.screenshot({ path: info.outputPath(`${name}-lobby.png`) });
       await page.locator('.sb-versus-entry').click();
+      await page.locator('.sb-vsintro__done').click();
       await page.waitForFunction(() => (window as any).__sbVersus?.match?.state === 'playing');
       const controls = await page.locator('.sb-versus__boost, .sb-versus__pause, .sb-versus__score, .sb-versus__clock').evaluateAll((els) => els.map((e) => {
         const r = e.getBoundingClientRect(); return { cls: e.className, x: r.x, y: r.y, right: r.right, bottom: r.bottom, w: r.width, h: r.height };

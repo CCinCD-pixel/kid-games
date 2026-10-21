@@ -1,0 +1,30 @@
+/* 数轴 (engines/manip/numberline.ts). Pseudo-element text and attribute-driven text are banned here: the leak gate scans this file. */
+.nl { position: relative; contain: layout style; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
+.nl-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.nl-rail { fill: var(--xg-paper-300); stroke: var(--xg-paper-400); stroke-width: 1.5; }
+.nl-track { stroke: var(--xg-ink-700); stroke-width: 3; stroke-linecap: round; }
+.nl-tick-l { stroke: var(--xg-ink-800); stroke-width: 3; stroke-linecap: round; }
+.nl-tick-m { stroke: var(--xg-ink-500); stroke-width: 2; stroke-linecap: round; }
+.nl-anchor { font-family: var(--xg-font-num); font-weight: 700; font-size: 17px; fill: var(--xg-ink-800); paint-order: stroke; stroke: var(--xg-paper-100); stroke-width: 4px; stroke-linejoin: round; }
+.nl-flag line { stroke: var(--xg-ink-800); stroke-width: 4; stroke-linecap: round; }
+.nl-flag path { fill: var(--xg-mars); stroke: var(--xg-mars-deep, #a8431f); stroke-width: 2; stroke-linejoin: round; }
+.nl-foot { fill: var(--xg-gold-500); stroke: var(--xg-ink-800); stroke-width: 2; }
+.nl-flag.is-drag path { fill: var(--xg-gold-500); }
+.nl-rack .nl-flag { opacity: .55; }
+.nl-lens-glass { fill: color-mix(in srgb, var(--xg-paper-50) 92%, transparent); stroke: var(--xg-ink-800); stroke-width: 4; }
+.nl-lens line { stroke: var(--xg-ink-700); stroke-linecap: round; }
+.nl-lt-s { stroke-width: 2; }
+.nl-lt-l { stroke-width: 3; }
+.nl-lt-xl { stroke-width: 4.5; stroke: var(--xg-ink-900) !important; }
+.nl-lens-mark { stroke: var(--xg-mars) !important; stroke-width: 3; }
+.nl-hint { stroke: var(--xg-gold-500); stroke-width: 4; stroke-dasharray: 10 8; animation: nl-pulse 1.2s ease-in-out infinite; }
+@keyframes nl-pulse { 50% { opacity: .35; } }
+.nl-band { fill: color-mix(in srgb, var(--xg-jade-500) 35%, transparent); stroke: var(--xg-jade-600); stroke-width: 2; stroke-dasharray: 6 5; }
+.nl-ghost line { stroke: var(--xg-jade-700); stroke-width: 4; } .nl-ghost path { fill: var(--xg-jade-500); stroke: var(--xg-jade-700); stroke-width: 2; }
+.nl-fb { font-family: var(--xg-font-read); font-weight: 700; font-size: 22px; fill: var(--xg-ink-800); }
+.nl-target { font-family: var(--xg-font-num); font-weight: 800; font-size: 20px; fill: var(--xg-jade-700); }
+.nl-nudges { position: absolute; transform: translateX(-50%); display: flex; gap: 10px; }
+.nl-btn { min-width: 56px; min-height: 48px; border: 0; border-radius: var(--xg-r-md); background: var(--xg-gold-300, #f6d36b); color: var(--xg-ink-900); font-size: 22px; font-weight: 800; box-shadow: 0 3px 0 var(--xg-gold-600, #c99a1e), 0 6px 10px -6px rgba(0, 0, 0, .45); }
+.nl-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--xg-paper-400); }
+.nl-btn:disabled { opacity: .35; }
+@media (prefers-reduced-motion: reduce) { .nl-hint { animation: none; } }

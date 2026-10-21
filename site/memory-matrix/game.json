@@ -1,12 +1,14 @@
 {
   "id": "memory-matrix",
-  "title": "记忆方块",
-  "subtitle": "看一眼，记住亮起的星星",
+  "title": "星图记忆站",
+  "subtitle": "看一眼，把星图复原",
   "place": "classic",
-  "order": 10,
+  "order": 20,
   "status": "live",
-  "accent": "#7bdff2",
+  "accent": "--xg-chart",
+  "theme": "chart",
   "icon": "/icons/games/memory-matrix.svg",
   "domains": ["memory", "spatial"],
-  "parentNote": "视觉空间记忆小练习（旧版）。之后会并入月宫建造师的「看一眼就搭」一章。"
+  "parentNote": "四个星区：记星星（图案）、追流星（顺序与倒序）、送回家（谁住在哪）、照镜子（镜像）。难度自动调到约八成一次做对。主要让孩子更熟练这类任务和相关策略；没有可靠证据表明它能提高一般智力或成绩。",
+  "smoke": { "waitFor": "#app[data-ready]" }
 }

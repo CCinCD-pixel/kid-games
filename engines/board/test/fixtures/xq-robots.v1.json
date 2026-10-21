@@ -1,0 +1,146 @@
+{
+ "version": 2,
+ "calibration": "tour.mjs v1.1 (n=400, resign+adjudicate)",
+ "robots": [
+  {
+   "id": "R1",
+   "name": "滑轮",
+   "depth": 0,
+   "nodes": 0,
+   "slip": 1,
+   "pcap": 0.3,
+   "glanceMargin": 0,
+   "glanceTemp": 0,
+   "temp": 0,
+   "margin": 0,
+   "mateSight": 0,
+   "resign": {
+    "afterPly": 36,
+    "behind": 12
+   },
+   "trait": "慢悠悠，不爱吃子",
+   "tell": "wheel-wobble",
+   "sfx": "ui-pick@0.8",
+   "look": "单轮小车",
+   "easy": {
+    "slip": 1,
+    "nodes": 0,
+    "mateSight": 0,
+    "pcap": 0.15
+   }
+  },
+  {
+   "id": "R2",
+   "name": "木牛",
+   "depth": 1,
+   "nodes": 3000,
+   "slip": 0.55,
+   "glanceMargin": 400,
+   "glanceTemp": 160,
+   "temp": 100,
+   "margin": 250,
+   "mateSight": 0.5,
+   "resign": {
+    "afterPly": 40,
+    "behind": 15
+   },
+   "trait": "看见子就想吃",
+   "tell": "eyes-lock",
+   "sfx": "ui-pick@0.9",
+   "look": "四足方箱",
+   "easy": {
+    "slip": 0.7000000000000001,
+    "nodes": 2100,
+    "mateSight": 0.3
+   }
+  },
+  {
+   "id": "R3",
+   "name": "流马",
+   "depth": 1,
+   "nodes": 4000,
+   "slip": 0.44,
+   "glanceMargin": 300,
+   "glanceTemp": 100,
+   "temp": 80,
+   "margin": 200,
+   "mateSight": 0.55,
+   "resign": {
+    "afterPly": 50,
+    "behind": 20
+   },
+   "trait": "会看自己的子安不安全",
+   "tell": "scan-line",
+   "sfx": "ui-pick@1.0",
+   "look": "独轮高背",
+   "easy": {
+    "slip": 0.59,
+    "nodes": 2800,
+    "mateSight": 0.35000000000000003
+   }
+  },
+  {
+   "id": "R4",
+   "name": "司南",
+   "depth": 2,
+   "nodes": 8000,
+   "slip": 0.46,
+   "glanceMargin": 250,
+   "glanceTemp": 80,
+   "temp": 60,
+   "margin": 170,
+   "mateSight": 1,
+   "trait": "一步杀从不放过",
+   "tell": "needle",
+   "sfx": "ui-pick@1.1",
+   "look": "勺形磁针",
+   "easy": {
+    "slip": 0.61,
+    "nodes": 5600,
+    "mateSight": 0.8
+   }
+  },
+  {
+   "id": "R5",
+   "name": "浑天",
+   "depth": 3,
+   "nodes": 30000,
+   "slip": 0.38,
+   "glanceMargin": 210,
+   "glanceTemp": 60,
+   "temp": 60,
+   "margin": 130,
+   "mateSight": 1,
+   "trait": "会想三步",
+   "tell": "rings",
+   "sfx": "ui-pick@1.2",
+   "look": "浑天仪环",
+   "easy": {
+    "slip": 0.53,
+    "nodes": 21000,
+    "mateSight": 0.8
+   }
+  },
+  {
+   "id": "R6",
+   "name": "璇玑",
+   "depth": 4,
+   "nodes": 150000,
+   "slip": 0.34,
+   "glanceMargin": 150,
+   "glanceTemp": 50,
+   "temp": 40,
+   "margin": 105,
+   "mateSight": 1,
+   "trait": "棋院里最强的机关人",
+   "tell": "seven-stars",
+   "sfx": "ui-pick@1.3",
+   "look": "北斗七点圆盘",
+   "easy": {
+    "slip": 0.49,
+    "nodes": 105000,
+    "mateSight": 0.8
+   }
+  }
+ ]
+}

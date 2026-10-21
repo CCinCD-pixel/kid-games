@@ -25,6 +25,7 @@
 import './automute'; // first: silence all page audio under browser automation (QA runs on the family Mac)
 import { installAudioAutoUnlock, unlockAudio } from './audio';
 import { startSession, type Session } from './log';
+import { applySafeTokens, safeAreaOverride } from './dev';
 import { requestPersistence } from './progress';
 import { registerServiceWorker } from './sw-register';
 import './ui/tokens.css';
@@ -59,6 +60,12 @@ export interface BackOptions {
   label?: string;
   /** icon-only 56×56 button */
   compact?: boolean;
+  /**
+   * In-page back: called when the button is tapped; return `true` (or a promise of `true`) when the game handled it
+   * (e.g. closed a sub-screen) — the shell then does NOT leave. Return anything else to leave for `href` as usual.
+   * A game that has its own 回上一层 keeps the 🏠 label honest by also setting `label` / `compact`.
+   */
+  onClick?: () => boolean | void | Promise<boolean | void>;
   /**
    * Legacy pages: CSS selector of an existing back link to adopt (kept in place, enlarged to ≥56 px,
    * wired to autosave) instead of inserting the standard button.
@@ -113,8 +120,13 @@ const HOME_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 
 
 let activeShell: Shell | null = null;
 
-/** Read env(safe-area-inset-*) as numbers via a probe element. */
+/**
+ * Read the safe-area insets as numbers (env(safe-area-inset-*) through a probe element). In tests / on the dev server a
+ * `?safe=top,right,bottom,left` override (kit/dev.ts) wins, so WebKit under Playwright can emulate a real iPhone.
+ */
 export function readSafeArea(): SafeArea {
+  const forced = safeAreaOverride();
+  if (forced) return forced;
   const probe = document.createElement('div');
   probe.style.cssText = 'position:fixed;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';
   document.body.appendChild(probe);
@@ -171,6 +183,7 @@ export function initShell(opts: ShellOptions): Shell {
   if (opts.onLayout) listeners.layout.add(opts.onLayout as (arg?: unknown) => void);
 
   ensureViewportMeta();
+  applySafeTokens(safeAreaOverride()); // before first paint: the kit CSS reads --kit-safe-* (no-op outside tests / dev)
   if (opts.guards !== false) installGuards();
   if (opts.lockScroll !== false) document.documentElement.classList.add('kit-lock-scroll');
   const useAudio = opts.audio !== false;
@@ -255,7 +268,16 @@ export function initShell(opts: ShellOptions): Shell {
     a.innerHTML = `${HOME_ICON}<span class="kit-back__label">${back.label ?? '返回'}</span>`;
     a.addEventListener('click', (e) => {
       e.preventDefault();
-      void leave(a.getAttribute('href') ?? '/');
+      void (async () => {
+        if (back.onClick) {
+          try {
+            if ((await back.onClick()) === true) return;
+          } catch (err) {
+            console.warn('[kit/shell] back.onClick failed', err);
+          }
+        }
+        await leave(a.getAttribute('href') ?? '/');
+      })();
     });
     document.body.appendChild(a);
   };

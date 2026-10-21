@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "noEmit": true },
+  "include": [
+    "./**/*.ts",
+    "../../kit/**/*.ts",
+    "../../engines/board/**/*.ts",
+    "../../types/**/*.d.ts",
+    "../../tests/helpers/*.ts",
+    "../../tests/smoke/helpers.ts",
+    "../../tests/xiangqi/**/*.ts"
+  ],
+  "exclude": ["../../engines/board/test/reference/**"]
+}

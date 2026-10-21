@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { checkPin, cleanName, clearPin, DEFAULT_NAME, getSettings, hashPin, hasPin, PIN_KEY, setPin, SETTINGS_KEY, skipIntros, updateSettings } from '@kit/settings';
+import { checkPin, cleanName, clearPin, DEFAULT_NAME, getSettings, hashPin, hasPin, PIN_KEY, setPin, SETTINGS_KEY, skipIntros, unlockAll, updateSettings } from '@kit/settings';
 import { HUB_PROGRESS_KEY, readHubProgress, setHubProgress } from '@kit/progress';
 import { MemoryStorage } from '../helpers/memory-storage';
 
 describe('family settings (parent page)', () => {
   it('defaults, normalises and persists', () => {
     const st = new MemoryStorage();
-    expect(getSettings(st)).toEqual({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [], skipIntros: false });
+    expect(getSettings(st)).toEqual({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [], skipIntros: false, unlockAll: false });
     updateSettings({ displayName: '  小 步  ', narration: false, hiddenGames: ['chess', 'chess', 'Bad Id'] }, st);
-    expect(getSettings(st)).toEqual({ displayName: '小 步', narration: false, pinyin: false, hiddenGames: ['chess'], skipIntros: false });
+    expect(getSettings(st)).toEqual({ displayName: '小 步', narration: false, pinyin: false, hiddenGames: ['chess'], skipIntros: false, unlockAll: false });
     st.setItem(SETTINGS_KEY, '{broken');
     expect(getSettings(st).displayName).toBe(DEFAULT_NAME);
   });
@@ -25,6 +25,18 @@ describe('family settings (parent page)', () => {
     // settings saved before the field existed read as off
     st.setItem(SETTINGS_KEY, JSON.stringify({ displayName: '小步步', narration: false, pinyin: false, hiddenGames: [] }));
     expect(getSettings(st)).toMatchObject({ narration: false, skipIntros: false });
+  });
+
+  it('全部解锁 (unlockAll): off by default, persists, ignores junk, independent of skipIntros', () => {
+    const st = new MemoryStorage();
+    expect(unlockAll(st)).toBe(false);
+    updateSettings({ unlockAll: true }, st);
+    expect(unlockAll(st)).toBe(true);
+    expect(skipIntros(st)).toBe(false);
+    updateSettings({ skipIntros: true }, st);
+    expect(getSettings(st)).toMatchObject({ unlockAll: true, skipIntros: true });
+    st.setItem(SETTINGS_KEY, JSON.stringify({ displayName: '小步步', unlockAll: 1 }));
+    expect(unlockAll(st)).toBe(false);
   });
 
   it('caps the display name and falls back to the default when empty', () => {

@@ -1,22 +1,24 @@
 /**
  * 家长中心 (/parent/), reached by holding the hub's 家长 button or 星港 title for 3 s.
  * PIN gate (set on first use; a soft gate for a six-year-old, kit/settings), then four tabs:
- *   概览  play-log stats: last 7 / 30 days, a 14-day chart by place, how games were opened, domains
+ *   概览  play-log stats: last 7 / 30 days, a 14-day chart by place, how games were opened, domains,
+ *         and each game's own ≤3 parent metrics (kit/metrics → `kg:metrics:v1:<game>`)
  *   进度  every game: status, progress, parent note, ability domains, last played
- *   设置  display name, narration, pinyin, sound, 跳过开场和教学, which games the hub shows, change PIN
+ *   设置  display name, narration, pinyin, sound, 跳过开场和教学, 全部解锁, which games the hub shows, change PIN
  *   备份  export / import progress + play log (one JSON file), credits
  * Deliberately NO time budgets, timers or locks (Dad's rule 10). Everything stays on this device.
  */
 import registry, { type HubEntry } from 'virtual:kg-registry';
 import { isMuted, setMuted } from '@kit/audio';
 import { readSessions } from '@kit/log';
+import { listMetricsSummaries } from '@kit/metrics';
 import { exportProgress, importProgress, LEGACY_KEYS, readHubProgress, readLegacyLadders, readLegacySokoban } from '@kit/progress';
 import { checkPin, clearPin, cleanName, DEFAULT_NAME, getSettings, hasPin, NAME_MAX, setPin, updateSettings } from '@kit/settings';
 import { initShell } from '@kit/shell';
 import { bindPress, h, icon, segmented, showModal, xgToast } from '@kit/ui';
 import { cardProgress, playCounts } from '../../_hub/state';
 import {
-  dailyBars, DOMAIN_NAMES, domainMinutes, fmtAgo, fmtMinutes, launchShares, perGame, PLACE_NAMES, PLACES, totals, type Place,
+  dailyBars, DOMAIN_NAMES, domainMinutes, fmtAgo, fmtMinutes, launchShares, metricCards, perGame, PLACE_NAMES, PLACES, totals, type MetricCard, type Place,
 } from './stats';
 import './parent.css';
 
@@ -216,8 +218,38 @@ function overview(): Node[] {
       ? h('div', { class: 'pg-hbars' }, stats30.slice(0, 10).map((g) => hbar(byId.get(g.game)?.title ?? g.game, g.minutes / maxGame, `${fmtMinutes(g.minutes)} · ${g.sessions} 次`, PLACE_COLORS[placeOf(g.game) ?? 'classic'])))
       : empty('还没有记录。'));
 
-  return [tiles, section('最近 14 天', chart), h('div', { class: 'pg-cols' }, engage, domains), games,
+  const cards = metricCards(registry, listMetricsSummaries());
+  const metricsSection = cards.length ? [metricsPanel(cards, now)] : [];
+
+  return [tiles, section('最近 14 天', chart), ...metricsSection, h('div', { class: 'pg-cols' }, engage, domains), games,
     h('p', { class: 'pg-note' }, '星港不设时长限制或锁屏；每个学习单元 10–15 分钟会有自然的停点。')];
+}
+
+/** 各游戏指标: each game's own ≤3 numbers (kit/metrics); 'watch' ones raise a gentle, plain-language nudge. */
+function metricsPanel(cards: MetricCard[], now: number): HTMLElement {
+  const watching = cards.filter((c) => c.watch.length);
+  const nudges = watching.length
+    ? h('div', { class: 'pg-nudge', role: 'status' },
+        h('b', null, '可以陪他玩一次'),
+        h('ul', null, watching.flatMap((c) => c.watch.map((m) => h('li', null, `${c.title}：${m.hint ?? `「${m.label}」这一块有点吃力`}`)))))
+    : null;
+  const dot = (st?: string) => h('i', { class: `pg-dot pg-dot--${st ?? 'note'}`, 'aria-hidden': 'true' });
+  const grid = h('div', { class: 'pg-metrics' }, cards.map((c) => {
+    const entry = byId.get(c.game);
+    const img = entry && entry.icon.startsWith('/') ? h('img', { src: entry.icon, alt: '', class: 'pg-metric__emblem' }) : null;
+    return h('article', { class: 'pg-metric', 'data-game': c.game },
+      h('header', { class: 'pg-metric__head' }, img, h('h3', null, c.title), h('span', { class: 'pg-metric__when' }, `更新：${fmtAgo(c.updatedAt, now)}`)),
+      c.metrics.map((m) => {
+        const bar = m.frac === undefined ? null : h('span', { class: 'pg-metric__bar', 'aria-hidden': 'true' }, h('span', { class: `pg-metric__fill pg-metric__fill--${m.status ?? 'note'}`, style: { width: `${Math.round(m.frac * 100)}%` } }));
+        return h('div', { class: 'pg-metric__row', 'data-status': m.status ?? 'note' },
+          h('div', { class: 'pg-metric__line' }, dot(m.status), h('span', { class: 'pg-metric__label' }, m.label), h('b', { class: 'pg-metric__value' }, m.value)),
+          bar,
+          m.detail ? h('p', { class: 'pg-small pg-metric__detail' }, m.detail) : null,
+          m.status === 'watch' && m.hint ? h('p', { class: 'pg-metric__hint' }, m.hint) : null);
+      }));
+  }));
+  return section('各游戏的指标', nudges, grid,
+    h('p', { class: 'pg-small' }, '这些数字只给家长看，不会出现在孩子的画面里，也不影响关卡、星星和解锁。没有年龄对照——只看他自己的变化。'));
 }
 
 function section(title: string, ...children: (Node | null)[]): HTMLElement {
@@ -377,6 +409,8 @@ function settingsPanel(): Node[] {
     section('开场和教学',
       toggle('跳过开场和教学', s.skipIntros, (v) => updateSettings({ skipIntros: v }), '测试或换浏览器时用；孩子平时建议关着。'),
       h('p', { class: 'pg-small' }, '打开后，各游戏的开场、新手引导和教学都会直接跳过（算作看过），教学仍可从游戏菜单里重看。关着时，开场开始 1.5 秒后右上角会出现「跳过」。')),
+    section('关卡解锁',
+      toggle('全部解锁', s.unlockAll, (v) => updateSettings({ unlockAll: v }), '打开后，按顺序开放的游戏（棋手学院、楚河棋院、火星基地等）把所有关卡都打开，方便检查或让他随便挑；教学、提示和进度记录不受影响。孩子平时建议关着。')),
     section('大厅里显示的游戏', h('p', { class: 'pg-small' }, '隐藏只影响大厅卡片，进度和记录都保留。'), gameToggles),
     section('家长 PIN', h('div', { class: 'pg-row' }, changePin, h('p', { class: 'pg-small' }, '进入家长中心：在大厅长按右上角的家长按钮（或「星港」两个字）3 秒。'))),
     h('p', { class: 'pg-note' }, '没有时长预算、倒计时或锁屏——这是爸爸的决定。'),
@@ -446,8 +480,9 @@ async function doImport(input: HTMLInputElement) {
   });
   if (choice !== 'ok') return;
   try {
-    const written = importProgress(bundle, { overwrite: true });
-    xgToast(`已恢复 ${written} 项`, { tone: 'ok', sfx: null });
+    const skipped: string[] = [];
+    const written = importProgress(bundle, { overwrite: true, skipped });
+    xgToast(skipped.length ? `已恢复 ${written} 项；${skipped.length} 项这台设备上的进度更新，已保留` : `已恢复 ${written} 项`, { tone: 'ok', sfx: null, ms: skipped.length ? 4200 : undefined });
     showMain('backup');
   } catch (err) {
     xgToast((err as Error).message || '恢复失败', { tone: 'try', sfx: null });

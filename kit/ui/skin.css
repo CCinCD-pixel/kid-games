@@ -84,7 +84,7 @@
 
 /* ---- toast: paper pill at the top (kids look up, not at the home bar) ------------------------- */
 .kit-toast {
-  top: calc(env(safe-area-inset-top, 0px) + 14px); bottom: auto;
+  top: calc(var(--kit-safe-top, env(safe-area-inset-top, 0px)) + 14px); bottom: auto;
   background: var(--xg-paper-0); color: var(--xg-ink-900); letter-spacing: .03em;
   box-shadow: 0 4px 0 var(--xg-paper-400), var(--xg-sh-3), inset 0 1.5px 0 #fff;
   animation: xg-toast-in var(--xg-dur-slow) var(--xg-ease-spring) both;

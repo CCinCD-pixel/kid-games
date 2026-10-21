@@ -1,0 +1,903 @@
+{
+ "meta": {
+  "version": "2.0",
+  "contract": "docs/specs/sync.md 8.4 (v1.1)",
+  "generatedBy": "docs/specs/star-pets.md pets-tools/make-vectors.mjs",
+  "ID_RE": "^[A-Za-z0-9:._-]{3,96}$",
+  "DEV_RE": "^[A-Za-z0-9]{1,16}$",
+  "NATURAL_RE": "^(first|m|u|egg|g|d1|rf|retro):",
+  "MAX_AMOUNT": 100000,
+  "lcSeedEpoch": "2026-01-01T00:00:00Z",
+  "lcSeedMax": 8589934592,
+  "order": "(lc,d,id) ascending; ts display only"
+ },
+ "ids": {
+  "valid": [
+   "mn:orbit.O1.1:1:a1b2",
+   "ck:a1b2.k",
+   "b:feature.telescope",
+   "a1b2c3d4.kz1",
+   "g:ceil.lamp",
+   "u:prog:orbit:33",
+   "u:level:4",
+   "egg:rover",
+   "retro:node:orbit.O1.0",
+   "first:mars-base:orbit.O1.0",
+   "m:tag:pv2.rep",
+   "d1:2026-10-20",
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "abc"
+  ],
+  "invalid": [
+   "",
+   "ab",
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "has space",
+   "slash/inside",
+   "中文id",
+   "semi;colon",
+   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "tab\tid"
+  ]
+ },
+ "lcSeed": [
+  {
+   "nowMs": 0,
+   "seed": 0
+  },
+  {
+   "nowMs": 1790000000000,
+   "seed": 22774400
+  },
+  {
+   "nowMs": 1767225600000,
+   "seed": 0
+  },
+  {
+   "nowMs": 1767312000000,
+   "seed": 86400
+  },
+  {
+   "nowMs": 1893456000000,
+   "seed": 126230400
+  },
+  {
+   "nowMs": 4000000000000,
+   "seed": 2232774400
+  },
+  {
+   "nowMs": 99999999999999,
+   "seed": 8589934592
+  }
+ ],
+ "natural": {
+  "canonical": [
+   {
+    "id": "egg:rover",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "egg",
+    "ref": "rover"
+   },
+   {
+    "id": "egg:dragon",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "egg",
+    "ref": "dragon"
+   },
+   {
+    "id": "u:zone:orbit:1",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:zone:orbit:1"
+   },
+   {
+    "id": "u:prog:orbit:33",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:prog:orbit:33"
+   },
+   {
+    "id": "u:prog:orbit:66",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:prog:orbit:66"
+   },
+   {
+    "id": "u:prog:orbit:100",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:prog:orbit:100"
+   },
+   {
+    "id": "u:level:4",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:level:4"
+   },
+   {
+    "id": "u:zone:vault:1",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:zone:vault:1"
+   },
+   {
+    "id": "u:prog:vault:33",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:prog:vault:33"
+   },
+   {
+    "id": "u:prog:vault:66",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:prog:vault:66"
+   },
+   {
+    "id": "u:prog:vault:100",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:prog:vault:100"
+   },
+   {
+    "id": "u:level:5",
+    "d": "n",
+    "lc": 0,
+    "ts": 0,
+    "kind": "grant",
+    "amount": 0,
+    "src": "unlock",
+    "ref": "shelf:level:5"
+   }
+  ],
+  "rejected": [
+   {
+    "why": "lc != 0",
+    "ev": {
+     "id": "egg:rover",
+     "d": "n",
+     "lc": 3,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 0,
+     "src": "egg",
+     "ref": "rover"
+    }
+   },
+   {
+    "why": "d != n",
+    "ev": {
+     "id": "egg:rover",
+     "d": "a",
+     "lc": 0,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 0,
+     "src": "egg",
+     "ref": "rover"
+    }
+   },
+   {
+    "why": "ts != 0",
+    "ev": {
+     "id": "egg:rover",
+     "d": "n",
+     "lc": 0,
+     "ts": 5,
+     "kind": "grant",
+     "amount": 0,
+     "src": "egg",
+     "ref": "rover"
+    }
+   },
+   {
+    "why": "amount differs from the table",
+    "ev": {
+     "id": "retro:node:orbit.O1.0",
+     "d": "n",
+     "lc": 0,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 99,
+     "src": "retro",
+     "ref": "orbit.O1.0"
+    }
+   },
+   {
+    "why": "id not in the table",
+    "ev": {
+     "id": "u:nonsense",
+     "d": "n",
+     "lc": 0,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 0,
+     "src": "unlock",
+     "ref": "shelf:nonsense"
+    }
+   }
+  ]
+ },
+ "fold": [
+  {
+   "name": "single device, serial",
+   "events": [
+    {
+     "id": "mn:n1:1:a",
+     "d": "a",
+     "lc": 5,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 26,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "a.6",
+     "d": "a",
+     "lc": 6,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 20,
+     "src": "feed",
+     "ref": "rover:cookie:33"
+    },
+    {
+     "id": "mn:n2:1:a",
+     "d": "a",
+     "lc": 7,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 26,
+     "src": "s",
+     "ref": "r"
+    }
+   ],
+   "expect": {
+    "order": [
+     "mn:n1:1:a",
+     "a.6",
+     "mn:n2:1:a"
+    ],
+    "balance": 32,
+    "forgiven": 0,
+    "rawSum": 32
+   }
+  },
+  {
+   "name": "natural events sort first and are harmless",
+   "events": [
+    {
+     "id": "egg:rover",
+     "d": "n",
+     "lc": 0,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 0,
+     "src": "egg",
+     "ref": "rover"
+    },
+    {
+     "id": "mn:n1:1:a",
+     "d": "a",
+     "lc": 5,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 26,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "u:level:4",
+     "d": "n",
+     "lc": 0,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 0,
+     "src": "unlock",
+     "ref": "shelf:level:4"
+    }
+   ],
+   "expect": {
+    "order": [
+     "egg:rover",
+     "u:level:4",
+     "mn:n1:1:a"
+    ],
+    "balance": 26,
+    "forgiven": 0,
+    "rawSum": 26
+   }
+  },
+  {
+   "name": "two devices spend the same money offline: the overdraft is forgiven, nothing negative",
+   "events": [
+    {
+     "id": "mn:n1:1:a",
+     "d": "a",
+     "lc": 5,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 30,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "b:ceil.lamp",
+     "d": "a",
+     "lc": 6,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 30,
+     "src": "buy",
+     "ref": "item:ceil.lamp"
+    },
+    {
+     "id": "b:wall.poster",
+     "d": "b",
+     "lc": 6,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 20,
+     "src": "buy",
+     "ref": "item:wall.poster"
+    }
+   ],
+   "expect": {
+    "order": [
+     "mn:n1:1:a",
+     "b:ceil.lamp",
+     "b:wall.poster"
+    ],
+    "balance": 0,
+    "forgiven": 20,
+    "rawSum": -20
+   }
+  },
+  {
+   "name": "(lc,d,id) tie-break: same lc, different device",
+   "events": [
+    {
+     "id": "x1",
+     "d": "b",
+     "lc": 9,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 10,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "x2",
+     "d": "a",
+     "lc": 9,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 5,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "x3",
+     "d": "a",
+     "lc": 9,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 15,
+     "src": "s",
+     "ref": "r"
+    }
+   ],
+   "expect": {
+    "order": [
+     "x2",
+     "x3",
+     "x1"
+    ],
+    "balance": 10,
+    "forgiven": 10,
+    "rawSum": 0
+   }
+  },
+  {
+   "name": "wall clocks are ignored: ts +10 days on one device does not reorder anything",
+   "events": [
+    {
+     "id": "mn:n1:1:a",
+     "d": "a",
+     "lc": 5,
+     "ts": 1790000000000,
+     "kind": "earn",
+     "amount": 100,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "b:ceil.lamp",
+     "d": "b",
+     "lc": 6,
+     "ts": 1788136000000,
+     "kind": "spend",
+     "amount": 100,
+     "src": "buy",
+     "ref": "item:ceil.lamp"
+    }
+   ],
+   "expect": {
+    "order": [
+     "mn:n1:1:a",
+     "b:ceil.lamp"
+    ],
+    "balance": 0,
+    "forgiven": 0,
+    "rawSum": 0
+   }
+  },
+  {
+   "name": "far-future install seed sorts after the old device, nothing lost",
+   "events": [
+    {
+     "id": "mn:y:1:o",
+     "d": "o",
+     "lc": 1000001,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 50,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "o.f4241",
+     "d": "o",
+     "lc": 1000002,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 10,
+     "src": "feed",
+     "ref": "rover:bar:10"
+    },
+    {
+     "id": "mn:x:1:f",
+     "d": "f",
+     "lc": 8589934592,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 24,
+     "src": "s",
+     "ref": "r"
+    }
+   ],
+   "expect": {
+    "order": [
+     "mn:y:1:o",
+     "o.f4241",
+     "mn:x:1:f"
+    ],
+    "balance": 64,
+    "forgiven": 0,
+    "rawSum": 64
+   }
+  },
+  {
+   "name": "deterministic purchase id: one event per item however many devices bought it",
+   "events": [
+    {
+     "id": "mn:n1:1:a",
+     "d": "a",
+     "lc": 5,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 100,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "b:ceil.lamp",
+     "d": "a",
+     "lc": 6,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 30,
+     "src": "buy",
+     "ref": "item:ceil.lamp"
+    }
+   ],
+   "expect": {
+    "order": [
+     "mn:n1:1:a",
+     "b:ceil.lamp"
+    ],
+    "balance": 70,
+    "forgiven": 0,
+    "rawSum": 70
+   }
+  }
+ ],
+ "union": [
+  {
+   "name": "same id, two copies: the smaller (lc,d,JSON) wins, order-free",
+   "a": [
+    {
+     "id": "b:ceil.lamp",
+     "d": "b",
+     "lc": 9,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 30,
+     "src": "buy",
+     "ref": "item:ceil.lamp"
+    }
+   ],
+   "b": [
+    {
+     "id": "b:ceil.lamp",
+     "d": "a",
+     "lc": 7,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 30,
+     "src": "buy",
+     "ref": "item:ceil.lamp"
+    }
+   ],
+   "expect": [
+    [
+     "b:ceil.lamp",
+     "a",
+     7
+    ]
+   ]
+  },
+  {
+   "name": "natural id from two devices is byte-identical: one event",
+   "a": [
+    {
+     "id": "egg:dragon",
+     "d": "n",
+     "lc": 0,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 0,
+     "src": "egg",
+     "ref": "dragon"
+    }
+   ],
+   "b": [
+    {
+     "id": "egg:dragon",
+     "d": "n",
+     "lc": 0,
+     "ts": 0,
+     "kind": "grant",
+     "amount": 0,
+     "src": "egg",
+     "ref": "dragon"
+    }
+   ],
+   "expect": [
+    [
+     "egg:dragon",
+     "n",
+     0
+    ]
+   ]
+  },
+  {
+   "name": "invalid events are dropped, not thrown",
+   "a": [
+    {
+     "id": "ok1",
+     "d": "a",
+     "lc": 1,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 5,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "x"
+    }
+   ],
+   "b": [
+    {
+     "id": "ok2",
+     "d": "b",
+     "lc": 2,
+     "ts": -1,
+     "kind": "earn",
+     "amount": 5,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "ok3",
+     "d": "b",
+     "lc": 3,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 5,
+     "src": "s",
+     "ref": "r"
+    }
+   ],
+   "expect": [
+    [
+     "ok1",
+     "a",
+     1
+    ],
+    [
+     "ok3",
+     "b",
+     3
+    ]
+   ]
+  }
+ ],
+ "safePoint": [
+  {
+   "name": "batch with a spend: drop <= 20",
+   "shown": [
+    {
+     "id": "mn:n1:1:a",
+     "d": "a",
+     "lc": 5,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 100,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "a.6",
+     "d": "a",
+     "lc": 6,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 30,
+     "src": "feed",
+     "ref": "rover:cookie:33"
+    }
+   ],
+   "batch": [
+    {
+     "id": "b.7",
+     "d": "b",
+     "lc": 7,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 20,
+     "src": "feed",
+     "ref": "dragon:candy:33"
+    }
+   ],
+   "expect": {
+    "before": 70,
+    "after": 50,
+    "maxDrop": 20
+   }
+  },
+  {
+   "name": "batch without a spend: never lower",
+   "shown": [
+    {
+     "id": "mn:n1:1:a",
+     "d": "a",
+     "lc": 5,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 100,
+     "src": "s",
+     "ref": "r"
+    },
+    {
+     "id": "a.6",
+     "d": "a",
+     "lc": 6,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 30,
+     "src": "feed",
+     "ref": "rover:cookie:33"
+    }
+   ],
+   "batch": [
+    {
+     "id": "mn:n2:1:b",
+     "d": "b",
+     "lc": 7,
+     "ts": 0,
+     "kind": "earn",
+     "amount": 26,
+     "src": "s",
+     "ref": "r"
+    }
+   ],
+   "expect": {
+    "before": 70,
+    "after": 96,
+    "maxDrop": 0
+   }
+  }
+ ],
+ "growth": [
+  {
+   "name": "growth is the sum of what the feed events STORED; a later table change cannot move a pet",
+   "events": [
+    {
+     "id": "a.1",
+     "d": "a",
+     "lc": 1,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 20,
+     "src": "feed",
+     "ref": "rover:cookie:33"
+    },
+    {
+     "id": "a.2",
+     "d": "a",
+     "lc": 2,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 20,
+     "src": "feed",
+     "ref": "rover:cookie:33"
+    },
+    {
+     "id": "a.3",
+     "d": "a",
+     "lc": 3,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 10,
+     "src": "feed",
+     "ref": "rover:bar:10"
+    },
+    {
+     "id": "a.4",
+     "d": "a",
+     "lc": 4,
+     "ts": 0,
+     "kind": "spend",
+     "amount": 20,
+     "src": "feed",
+     "ref": "dragon:candy:33"
+    }
+   ],
+   "expect": {
+    "rover": 76,
+    "dragon": 33,
+    "roverStage": 2,
+    "dragonStage": 1,
+    "thresholds": [
+     60,
+     250
+    ]
+   }
+  }
+ ],
+ "room": [
+  {
+   "name": "a duplicate placement shows once (first slot in canonical order); wrong-kind and unowned entries are not drawn and not healed away",
+   "record": {
+    "slot:home:wall1": "wall.poster",
+    "slot:home:wall3": "wall.poster",
+    "slot:home:wall2": "wall.starmap",
+    "slot:home:floor1": "floor.gear",
+    "slot:home:ceil1": "floor.gear",
+    "slot:home:feature1": "feature.telescope",
+    "slot:home:wall4": null
+   },
+   "owned": [
+    "wall.poster",
+    "wall.starmap",
+    "floor.gear"
+   ],
+   "expect": {
+    "render": {
+     "wall1": "wall.poster",
+     "wall2": "wall.starmap",
+     "floor1": "floor.gear"
+    },
+    "heal": [
+     [
+      "slot:home:wall3",
+      null
+     ],
+     [
+      "slot:home:floor1",
+      null
+     ]
+    ]
+   },
+   "kinds": {
+    "back.dusk": "back",
+    "ground.steel": "ground",
+    "floor.nest": "floor",
+    "floor.crate": "floor",
+    "wall.poster": "wall",
+    "ceil.lamp": "ceil",
+    "wall.starmap": "wall",
+    "floor.beacon": "floor",
+    "ceil.comet": "ceil",
+    "feature.telescope": "feature",
+    "back.nightsky": "back",
+    "ground.deck": "ground",
+    "wall.geode": "wall",
+    "floor.crystalS": "floor",
+    "ceil.stalactite": "ceil",
+    "feature.crystalL": "feature",
+    "back.cave": "back",
+    "ground.crystal": "ground",
+    "wall.tools": "wall",
+    "floor.gear": "floor",
+    "ceil.gearmobile": "ceil",
+    "feature.robotarm": "feature",
+    "back.workshop": "back",
+    "ground.belt": "ground"
+   }
+  }
+ ],
+ "slotOrder": [
+  "back1",
+  "ground1",
+  "wall1",
+  "wall2",
+  "wall3",
+  "wall4",
+  "ceil1",
+  "ceil2",
+  "floor1",
+  "floor2",
+  "floor3",
+  "floor4",
+  "floor5",
+  "feature1",
+  "feature2"
+ ]
+}

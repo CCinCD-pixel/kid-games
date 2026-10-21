@@ -1,0 +1,29 @@
+#!/bin/sh
+# Pre-push guard — put every check BEFORE Netlify spends credits.
+# Pushing to main triggers a Netlify production build (≈15 of the free plan's monthly credits).
+# This hook only guards pushes that update refs/heads/main:
+#   * if the pushed range changed nothing that feeds dist/ (docs, tests, README, hooks) → no checks needed,
+#     Netlify's `ignore` rule in netlify.toml skips that build too;
+#   * otherwise it requires a clean tree at the pushed commit and runs `npm run check` + `npm run build`
+#     (registry, content, tsc, vitest, production build). Any failure blocks the push.
+# Env: SKIP_PREPUSH=1 skips the checks (emergencies only) · PREPUSH_DRYRUN=1 only prints what would run.
+# Install once per clone:  git config core.hooksPath .githooks
+ZERO=0000000000000000000000000000000000000000
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$remote_ref" = "refs/heads/main" ] || continue
+  [ "$local_sha" = "$ZERO" ] && continue            # deleting a ref
+  base="$remote_sha"; [ "$base" = "$ZERO" ] && base="$(git rev-list --max-parents=0 "$local_sha" | tail -1)"
+  if git diff --quiet "$base" "$local_sha" -- . ':(exclude)docs' ':(exclude)tests' ':(exclude).githooks' ':(exclude).context' ':(exclude)README.md' ':(exclude,glob)**/*.spec.ts' ':(exclude,glob)**/*.test.ts' 2>/dev/null; then
+    echo "pre-push: nothing that feeds the Netlify build changed → checks skipped (Netlify will skip the build too)."
+    continue
+  fi
+  if [ "${SKIP_PREPUSH:-0}" = "1" ]; then echo "pre-push: SKIP_PREPUSH=1 → checks skipped (this push WILL cost a Netlify build)."; continue; fi
+  if [ "$(git rev-parse HEAD)" != "$local_sha" ]; then echo "pre-push: HEAD is not the commit being pushed ($local_sha); checkout it (or push from its branch) so the checks test what Netlify will build." >&2; exit 1; fi
+  if ! git diff --quiet HEAD -- . ; then echo "pre-push: tracked files have uncommitted changes — the checks would not match what Netlify builds. Commit or stash first." >&2; exit 1; fi
+  echo "pre-push: this push to main costs a Netlify build (15 credits). Running the checks first…"
+  if [ "${PREPUSH_DRYRUN:-0}" = "1" ]; then echo "pre-push (dry run): would run: npm run check && npm run build"; continue; fi
+  npm run check || { echo "pre-push: npm run check FAILED — push blocked, no credits spent." >&2; exit 1; }
+  npm run build || { echo "pre-push: npm run build FAILED — push blocked, no credits spent." >&2; exit 1; }
+  echo "pre-push: all checks passed."
+done
+exit 0

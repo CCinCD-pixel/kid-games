@@ -236,6 +236,19 @@
     2612
    ]
   },
+  "fort.belt.full": {
+   "seed": 2611,
+   "base": 2610,
+   "sig": "f78d0afb07771a55f6666bea638fb1f4f13e8d06",
+   "score": 1.111,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    2610,
+    2611
+   ]
+  },
   "fort.bonus.1-10": {
    "seed": 2612,
    "base": 2610,

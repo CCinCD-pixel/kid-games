@@ -15,7 +15,9 @@ test('timed and endless battles use the expanded arena on touch screens', async 
     const { match, view } = (window as any).__sb;
     return { radius: match.world.R, drawnRadius: match.arenaR, food: match.world.food.count, snakes: match.world.snakes.length, floorRadius: view.R.floorParams.R };
   });
-  expect(timed).toEqual({ radius: 3200, drawnRadius: 3200, food: 3574, snakes: 16, floorRadius: 3200 });
+  // `food` is the live count: AIs start eating the instant play begins, so pin the configured 3574 as an upper bound (exact count: validate/arena-radius.test.ts).
+  expect(timed.food).toBeGreaterThan(3574 * 0.97); expect(timed.food).toBeLessThanOrEqual(3574);
+  expect({ ...timed, food: 0 }).toEqual({ radius: 3200, drawnRadius: 3200, food: 0, snakes: 16, floorRadius: 3200 });
   await expect(page.locator('.sb-mini')).toBeVisible();
   await page.screenshot({ path: test.info().outputPath('expanded-moon.png') });
   await page.setViewportSize({ width: 390, height: 664 });
@@ -32,7 +34,8 @@ test('timed and endless battles use the expanded arena on touch screens', async 
     const { match, view } = (window as any).__sb;
     return { radius: match.world.R, drawnRadius: match.arenaR, food: match.world.food.count, snakes: match.world.snakes.length, floorRadius: view.R.floorParams.R };
   });
-  expect(endless).toEqual({ radius: 4600, drawnRadius: 4600, food: 7386, snakes: 25, floorRadius: 4600 });
+  expect(endless.food).toBeGreaterThan(7386 * 0.97); expect(endless.food).toBeLessThanOrEqual(7386);
+  expect({ ...endless, food: 0 }).toEqual({ radius: 4600, drawnRadius: 4600, food: 0, snakes: 25, floorRadius: 4600 });
   await expect(page.locator('.sb-mini')).toBeVisible();
   expect(errors).toEqual([]);
 });

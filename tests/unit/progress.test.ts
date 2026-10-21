@@ -44,6 +44,36 @@ describe('progress store', () => {
     expect(storage.getItem('kg:v1:mars-base')).toBe(raw);
   });
 
+  it('reset() keeps a save written by a newer build; removes a current one', () => {
+    const storage = new MemoryStorage();
+    const raw = JSON.stringify({ v: 9, updatedAt: 1, data: { future: true } });
+    storage.setItem('kg:v1:mars-base', raw);
+    const store = createStore<V1>('mars-base', { version: 1, defaults: () => ({ level: 1 }), storage });
+    store.reset();
+    expect(storage.getItem('kg:v1:mars-base')).toBe(raw);
+    storage.setItem('kg:v1:mars-base', JSON.stringify({ v: 1, updatedAt: 1, data: { level: 5 } }));
+    store.reset();
+    expect(storage.getItem('kg:v1:mars-base')).toBeNull();
+  });
+
+  it('importProgress never downgrades a per-game save to an older schema version', () => {
+    const src = new MemoryStorage();
+    src.setItem('kg:v1:chess', JSON.stringify({ v: 1, updatedAt: 1, data: { old: true } }));
+    src.setItem('kg:v1:xiangqi', JSON.stringify({ v: 2, updatedAt: 1, data: { n: 1 } }));
+    src.setItem('kg:settings:v1', JSON.stringify({ narration: false }));
+    const bundle = JSON.parse(JSON.stringify(exportProgress(src)));
+    const dst = new MemoryStorage();
+    const newer = JSON.stringify({ v: 3, updatedAt: 9, data: { new: true } });
+    dst.setItem('kg:v1:chess', newer);
+    dst.setItem('kg:v1:xiangqi', JSON.stringify({ v: 2, updatedAt: 5, data: { n: 99 } }));
+    const skipped: string[] = [];
+    expect(importProgress(bundle, { storage: dst, skipped })).toBe(2);
+    expect(skipped).toEqual(['kg:v1:chess']);
+    expect(dst.getItem('kg:v1:chess')).toBe(newer);
+    expect(JSON.parse(dst.getItem('kg:v1:xiangqi')!).data).toEqual({ n: 1 }); // same version: restore replaces
+    expect(dst.getItem('kg:settings:v1')).not.toBeNull();
+  });
+
   it('imports a legacy key once when the store is empty', () => {
     const storage = new MemoryStorage();
     storage.setItem('sokoban_save', JSON.stringify({ best: { 0: 12, 3: 40 }, unlocked: 4 }));

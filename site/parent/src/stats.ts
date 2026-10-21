@@ -5,6 +5,7 @@
  */
 import type { HubEntry } from 'virtual:kg-registry';
 import type { LaunchSource, SessionRecord } from '@kit/log';
+import type { MetricItem, MetricSummary } from '@kit/metrics';
 
 export type Place = HubEntry['place'];
 export const PLACES: Place[] = ['base', 'playground', 'classic'];
@@ -141,4 +142,24 @@ export function fmtAgo(t: number | null, now = Date.now()): string {
   if (days < 7) return `${days} 天前`;
   const d = new Date(t);
   return `${d.getMonth() + 1} 月 ${d.getDate()} 日`;
+}
+
+export interface MetricCard {
+  game: string;
+  title: string;
+  updatedAt: number;
+  metrics: MetricItem[];
+  /** metrics with status 'watch' (the 「这一块有点吃力，可以陪他玩一次」 nudges) */
+  watch: MetricItem[];
+}
+
+/** Per-game metric cards for the parent 概览, in registry order; games without a (valid) summary are left out. */
+export function metricCards(entries: { id: string; title: string }[], summaries: Record<string, MetricSummary>): MetricCard[] {
+  const out: MetricCard[] = [];
+  for (const e of entries) {
+    const s = summaries[e.id];
+    if (!s || !s.metrics.length) continue;
+    out.push({ game: e.id, title: e.title, updatedAt: s.updatedAt, metrics: s.metrics, watch: s.metrics.filter((m) => m.status === 'watch') });
+  }
+  return out;
 }

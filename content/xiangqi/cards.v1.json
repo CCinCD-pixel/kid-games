@@ -1,0 +1,61 @@
+{
+ "_note": "爸爸核对事实：8 张知识卡（一句话 + 小图）。unlock = 解锁条件（river/palace 来自棋盒发现；robot:Rn = 赢过该机关人；lesson:Lnn = 学完该课）。",
+ "cards": [
+  {
+   "id": "river",
+   "title": "楚河汉界",
+   "text": "棋盘中间的河，叫楚河汉界。它让人想起楚国和汉国争天下的老故事。",
+   "art": "river",
+   "unlock": "intro:river"
+  },
+  {
+   "id": "palace",
+   "title": "九宫",
+   "text": "将和帅住在九宫里。九宫是一个小小的方框，一共九个点。",
+   "art": "palace",
+   "unlock": "intro:palace"
+  },
+  {
+   "id": "muniu",
+   "title": "木牛流马",
+   "text": "相传，木牛流马是三国时诸葛亮设计的运粮工具。在故事里，它们能自己走路。",
+   "art": "R2",
+   "unlock": "robot:R2"
+  },
+  {
+   "id": "sinan",
+   "title": "司南",
+   "text": "司南是古代的指南工具：一把勺形的磁石放在平盘上，勺柄会指向南方。",
+   "art": "R4",
+   "unlock": "robot:R4"
+  },
+  {
+   "id": "huntian",
+   "title": "浑天仪",
+   "text": "浑天仪是古人观察星星的仪器，用一圈一圈的环，来量天空里星星的位置。",
+   "art": "R5",
+   "unlock": "robot:R5"
+  },
+  {
+   "id": "xuanji",
+   "title": "璇玑与北斗",
+   "text": "璇玑和北斗七星有关。古人常常抬头看北斗，来认方向、分季节。",
+   "art": "R6",
+   "unlock": "robot:R6"
+  },
+  {
+   "id": "history",
+   "title": "象棋小历史",
+   "text": "象棋是中国很古老的棋，已经有上千年的历史。古时候的人，也这样一子一子摆开棋阵。",
+   "art": "history",
+   "unlock": "lesson:L01"
+  },
+  {
+   "id": "check",
+   "title": "“将军”是什么意思",
+   "text": "下棋时说一声“将军”，是提醒对方：你的将帅正被攻击，要赶快想办法。",
+   "art": "check",
+   "unlock": "lesson:L17"
+  }
+ ]
+}

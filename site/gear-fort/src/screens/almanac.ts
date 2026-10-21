@@ -51,7 +51,7 @@ export function mountAlmanac(root: HTMLElement, app: AppCtx, onBack: () => void)
   function drawTabs(): void {
     tabsEl.replaceChildren();
     for (const [t, label] of TABS) {
-      const b = h('button', 'gf-alm__tab' + (t === tab ? ' is-on' : ''), label); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(t === tab)); b.dataset.tab = t;
+      const b = h('button', 'gf-alm__tab' + (t === tab ? ' is-on' : ''), label); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(t === tab)); b.dataset.tab = t; b.dataset.word = label; // long press reads the tab name (点读: 牒 / 首领 / 锦囊 are voiced words)
       if (t !== 'jn' && ofTab(t).some((p) => fresh.has(p.id) && app.save.almanac[p.id] !== 'seen')) b.insertAdjacentHTML('beforeend', '<i class="gf-alm__dot"></i>');
       b.addEventListener('click', () => { if (t === tab) return; tab = lastTab = t; app.ui('ui-select', 0.4); drawTabs(); draw(); });
       tabsEl.appendChild(b);

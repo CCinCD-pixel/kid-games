@@ -6,7 +6,7 @@ seed: 2610
 lines:
   - {id: fort.dock.1, role: companion, text: 两千多年前，有一位叫墨子的科学家。}
   - {id: fort.dock.2, role: companion, text: 2016年，中国把量子卫星叫作墨子号。, norm: 二零一六年，中国把量子卫星叫作墨子号。, pinyin: {量: liàng}}
-  - {id: fort.dock.3, role: companion, text: 走，我们去见见墨子！}
+  - {id: fort.dock.3, role: companion, text: 走，我们跟墨子去守城！}
   - {id: fort.dock.v1, role: companion, text: 墨子号卫星，就是用他的名字命名的。}
   - {id: fort.dock.v2, role: companion, text: 第二卷推演完成！你守住了十天十夜。, pinyin: {第二卷: dì èr juàn}}
   - {id: fort.story.0.1, role: narrator, text: 很久以前，楚王想去攻打小小的宋国。}
@@ -205,7 +205,7 @@ lines:
   - {id: fort.env.night, role: dad, text: 天黑了，没有人送粮了。}
   - {id: fort.env.fog, role: dad, text: 起雾了，右边看不清。}
   - {id: fort.env.dawn, role: dad, text: 天亮了！阳燧能用了。}
-  - {id: fort.belt.full, role: dad, text: 传送带堆满了。}
+  - {id: fort.belt.full, role: dad, text: 牒放满啦，先用掉一张！, pinyin: {牒: dié}}
   - {id: fort.pz.intro, role: dad, text: 先摆好，再按开始推演。}
   - {id: fort.pz.budget, role: dad, text: "这道题有{n}粮。", norm: 看看这道题有多少粮。}
   - {id: fort.pz.notyet, role: dad, text: 还没守住，改一改再推。}
@@ -512,3 +512,4 @@ words:
   - {text: 鲁班线, pinyin: lǔ bān xiàn, id: fort.w.鲁班线}
   - {text: 宋城, pinyin: sòng chéng, id: fort.w.宋城}
   - {text: 守得稳, pinyin: shǒu de wěn, id: fort.w.守得稳}
+  - {text: 首领, pinyin: shǒu lǐng, id: fort.w.首领}

@@ -85,14 +85,16 @@ Full API with examples: docs/GAME_AUTHORING.md §4.
 |---|---|
 | `shell` | start gate (unlocks audio inside the tap; `shell.ready`), 🏠 back button ≥56 px with safe areas that awaits autosave, zoom/double-tap/callout/selection/overscroll guards (zero-specificity CSS, page rules win), pause/resume on `visibilitychange`, layout hook on resize/rotation (`--kit-vw/--kit-vh`, `data-orientation`), session log, SW registration, `storage.persist()` |
 | `audio` | one AudioContext per page, buses master→{sfx, voice, music}, `audioSession.type='playback'`, suspend while hidden / resume on return, next tap or bfcache restore; decoded AAC sfx bank with voice pooling; streamed `<audio>` music through a GainNode with fades and ducking; synth tones |
-| `narration` | audio-manifest runtime: queue, interrupt, subtitles + word timing callbacks, replay (再听一遍), prefetch; clip backend first, speechSynthesis zh-CN only for missing clips, text-only pacing as the last resort; waits for the audio unlock |
-| `progress` | versioned per-game saves `kg:v1:<game>` with migrations, legacy-key import, export/import, legacy snapshot |
+| `narration` | audio-manifest runtime: queue, interrupt, subtitles + word timing callbacks, replay (再听一遍), prefetch (decoding or decode-less), zone manifests (`addManifest`, in-order waiting); clip backend first, speechSynthesis zh-CN only for missing clips, text-only pacing as the last resort; waits for the audio unlock |
+| `progress` | versioned per-game saves `kg:v1:<game>` with migrations, legacy-key import, export/import (never overwrites / resets / downgrades a save from a newer schema), legacy snapshot |
+| `metrics` | per-game parent-page numbers: `registerMetrics` / `writeMetricsSummary` → `kg:metrics:v1:<game>` (≤ 3 metrics, ≤ 4 KB) rendered by the parent 概览; the parent page never imports game code |
+| `dev` | dev / test-only switches (`isDevServer`, `isAutomated`, `?safe=` safe-area override → `--kit-safe-*` tokens) |
 | `log` | play sessions `kg:log:v1`: heartbeat, hidden-timeout split, crash recovery, launch source, marks |
 | `input` | primary-pointer gate, tap vs drag threshold, swipe, drag + snap, hit slop, geometry helpers |
 | `rng`, `tween`, `particles` | seeded mulberry32; easing/tween/WAAPI; canvas particle overlay |
 | `ui` | the 星港 design system: tokens (`--xg-*`), fonts (XG WenKai / KuaiLe / Baloo, `/fonts/`), `.xg-*` components (tactile buttons, cards, result panel, level map, keypad, segmented, toggle, drag ghost, ghost hand, confetti), 43 icons, 13 emblems; `skin.css` restyles the base `.kit-*` components; `sfx-bridge` plays the 62 kit sounds (`/audio/sfx/`) through `audio` |
-| `companion` | the robot 领航员 (parametric SVG + 15×9 LED dot-matrix face, 7 moods, no sad mood), `mount` / `sayLine` |
-| `settings` | family settings from the parent page (display name, narration, pinyin, hidden games) and the parent PIN |
+| `companion` | the robot 领航员 (parametric SVG + 15×9 LED dot-matrix face, 7 moods, no sad mood), `mount` / `sayLine`, `accessory` slot (军师 / 教练) |
+| `settings` | family settings from the parent page (display name, narration, pinyin, hidden games, 跳过开场和教学, 全部解锁) and the parent PIN (`askParentPin` in `ui` is the shared in-game dialog) |
 
 ### Local data (never leaves the device)
 
@@ -103,7 +105,9 @@ Full API with examples: docs/GAME_AUTHORING.md §4.
 | `kg:log:v1` | `kit/log` | ≤600 session records |
 | `kg:launch` (sessionStorage) | hub → game | launch source hint |
 | `kg:settings:audio-muted` | `kit/audio` | mute switch |
-| `kg:settings:v1` | `kit/settings` | display name, narration, pinyin, hidden games |
+| `kg:settings:v1` | `kit/settings` | display name, narration, pinyin, hidden games, skipIntros, unlockAll |
+| `kg:metrics:v1:<game>` | `kit/metrics` | ≤ 3 parent metrics per game (`{ v, updatedAt, metrics[], data? }`, ≤ 4 KB) |
+| `kg:dev:safe` (sessionStorage) | `kit/dev` | the `?safe=` override for this tab (dev server / WebDriver only) |
 | `kg:parent:pin` | `kit/settings` | salted hash of the parent PIN (soft gate) |
 | `kg:hub:v1` | `setHubProgress` | one progress line per game card (`{ label, value? }`) |
 | `kg:hub:seen` | hub | NEW content ids already opened |

@@ -1,8 +1,13 @@
-# Netlify (free plan): main = production. Every push to main costs a production deploy,
-# so batch changes and use Deploy Previews / ./play.sh for review.
+# Netlify (free plan): main = production. Every push to main costs a production deploy (15 credits),
+# so batch changes, run every check locally first (.githooks/pre-push) and review with ./play.sh.
+# A commit message containing [skip netlify] also skips the build.
 [build]
   command = "npm ci && npm run build"
   publish = "dist"
+  # Credits: every production build costs 15 of the free plan's monthly credits. Skip the build when nothing that
+  # feeds dist/ changed (docs, tests, hooks, README). Exit 0 = skip, non-zero = build. If CACHED_COMMIT_REF is
+  # missing/unknown, git diff fails (non-zero) and the build runs — the safe default.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)docs' ':(exclude)tests' ':(exclude).githooks' ':(exclude).context' ':(exclude)README.md' ':(exclude,glob)**/*.spec.ts' ':(exclude,glob)**/*.test.ts'"
 
 [build.environment]
   NODE_VERSION = "20"

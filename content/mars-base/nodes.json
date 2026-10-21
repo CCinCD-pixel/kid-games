@@ -2,7 +2,7 @@
  "chapters": {
   "O1": "百里轨道",
   "O2": "千里轨道",
-  "C1": "位值牌",
+  "C1": "数位牌",
   "C2": "加法牌",
   "C3": "减法牌",
   "C4": "竖式牌",
@@ -17,7 +17,8 @@
   "B3": "总工程师的秤",
   "S1": "补给站",
   "T1": "整时半时",
-  "T2": "几时几分"
+  "T2": "几时几分",
+  "Z1": "谜题舱"
  },
  "nodes": [
   {
@@ -25,8 +26,8 @@
    "zone": "orbit",
    "chapter": "O1",
    "kind": "calib",
-   "title": "百里校准",
-   "teaches": "0–100 只看两端，画出你的轨道",
+   "title": "发射卫星",
+   "teaches": "0–100 凭感觉，画出你的轨道",
    "newElement": "插旗、放大镜",
    "items": [
     {
@@ -39,7 +40,8 @@
    "buildingPart": {
     "id": "orbit.part1",
     "name": "信号灯"
-   }
+   },
+   "blank": true
   },
   {
    "id": "orbit.O1.1",
@@ -56,7 +58,10 @@
      "band": 1,
      "L": 100,
      "anchors": "every10",
-     "tol": 2
+     "near": {
+      "min": 3,
+      "max": 5
+     }
     }
    ],
    "di": 2.5,
@@ -64,7 +69,8 @@
    "buildingPart": {
     "id": "orbit.part2",
     "name": "卫星模型"
-   }
+   },
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O1.2",
@@ -79,24 +85,23 @@
      "count": 4,
      "band": 1,
      "L": 100,
-     "anchors": "half",
-     "tol": 4
+     "anchors": "half"
     },
     {
      "fam": "nl.read",
      "count": 2,
      "band": 1,
      "L": 100,
-     "anchors": "half",
-     "tol": 4
+     "anchors": "half"
     }
    ],
    "di": 3,
-   "expectedFirstTry": 0.8,
+   "expectedFirstTry": 0.85,
    "buildingPart": {
     "id": "orbit.part3",
     "name": "电缆盘"
-   }
+   },
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O1.3",
@@ -112,31 +117,30 @@
      "count": 4,
      "band": 1,
      "L": 100,
-     "anchors": "ends",
-     "tol": 5
+     "anchors": "ends"
     },
     {
      "fam": "nl.read",
      "count": 2,
      "band": 1,
      "L": 100,
-     "anchors": "ends",
-     "tol": 5
+     "anchors": "ends"
     }
    ],
    "di": 3.6,
-   "expectedFirstTry": 0.78,
+   "expectedFirstTry": 0.85,
    "buildingPart": {
     "id": "orbit.part4",
     "name": "旗杆"
-   }
+   },
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O1.4",
    "zone": "orbit",
    "chapter": "O1",
    "kind": "calib",
-   "title": "百里复测",
+   "title": "再发一轮",
    "teaches": "再画一次轨道，看看变直了没有",
    "items": [
     {
@@ -149,7 +153,8 @@
    "buildingPart": {
     "id": "orbit.part5",
     "name": "望远镜"
-   }
+   },
+   "blank": true
   },
   {
    "id": "orbit.O2.1",
@@ -166,7 +171,10 @@
      "band": 2,
      "L": 1000,
      "anchors": "every100",
-     "tol": 20
+     "near": {
+      "min": 30,
+      "max": 50
+     }
     }
    ],
    "di": 3.9,
@@ -174,7 +182,10 @@
    "buildingPart": {
     "id": "orbit.part6",
     "name": "小雷达"
-   }
+   },
+   "strat100_300": true,
+   "orderStrip": true,
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O2.2",
@@ -189,16 +200,18 @@
      "count": 6,
      "band": 2,
      "L": 1000,
-     "anchors": "half",
-     "tol": 40
+     "anchors": "half"
     }
    ],
    "di": 4.5,
-   "expectedFirstTry": 0.78,
+   "expectedFirstTry": 0.8,
    "buildingPart": {
     "id": "orbit.part7",
     "name": "太阳能翼"
-   }
+   },
+   "strat100_300": true,
+   "orderStrip": true,
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O2.3",
@@ -214,8 +227,7 @@
      "count": 4,
      "band": 2,
      "L": 1000,
-     "anchors": "ends",
-     "tol": 50
+     "anchors": "ends"
     },
     {
      "fam": "nl.place",
@@ -223,16 +235,18 @@
      "band": 2,
      "L": 1000,
      "anchors": "ends",
-     "tol": 50,
      "ask": "planet"
     }
    ],
    "di": 5.2,
-   "expectedFirstTry": 0.75,
+   "expectedFirstTry": 0.85,
    "buildingPart": {
     "id": "orbit.part8",
     "name": "气象站"
-   }
+   },
+   "strat100_300": true,
+   "orderStrip": true,
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O2.4",
@@ -247,16 +261,17 @@
      "count": 6,
      "band": 2,
      "L": 1000,
-     "anchors": "ends",
-     "tol": 50
+     "anchors": "ends"
     }
    ],
    "di": 5.6,
-   "expectedFirstTry": 0.75,
+   "expectedFirstTry": 0.85,
    "buildingPart": {
     "id": "orbit.part9",
     "name": "天线罩"
-   }
+   },
+   "orderStrip": true,
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O2.5",
@@ -274,18 +289,19 @@
     }
    ],
    "di": 6,
-   "expectedFirstTry": 0.75,
+   "expectedFirstTry": 0.8,
    "buildingPart": {
     "id": "orbit.part10",
     "name": "观测台阶"
-   }
+   },
+   "expectedFirstTrySource": "V6(g) σ=6% L3"
   },
   {
    "id": "orbit.O2.6",
    "zone": "orbit",
    "chapter": "O2",
    "kind": "calib",
-   "title": "千里校准",
+   "title": "千里发射",
    "teaches": "0–1000 只看两端，画出你的轨道",
    "items": [
     {
@@ -298,7 +314,8 @@
    "buildingPart": {
     "id": "orbit.part11",
     "name": "环形灯带"
-   }
+   },
+   "blank": true
   },
   {
    "id": "cert.C1.1",
@@ -306,7 +323,7 @@
    "chapter": "C1",
    "kind": "normal",
    "title": "棒和颗",
-   "teaches": "几个十几个一，读数和搭数",
+   "teaches": "几个十几个一：1 根棒是 1 个十，在十位",
    "newElement": "棒车",
    "parts": [
     "cart.crystal",
@@ -331,7 +348,11 @@
    "buildingPart": {
     "id": "cert.lamp1",
     "name": "练习舱灯"
-   }
+   },
+   "fixedMapping": [
+    "1 根棒 = 1 个十，在十位",
+    "1 箱 = 1 个百，在百位"
+   ]
   },
   {
    "id": "cert.C1.2",
@@ -370,7 +391,7 @@
    "chapter": "C1",
    "kind": "normal",
    "title": "百数表",
-   "teaches": "在百数表上 ±1、±10，跨整十",
+   "teaches": "在百数表上 ±1、±10，跨整十（只看、拖着涂，不点格）",
    "newElement": "百数表",
    "items": [
     {
@@ -453,8 +474,8 @@
    "zone": "cert",
    "chapter": "C1",
    "kind": "boss",
-   "title": "盘点",
-   "teaches": "位值综合",
+   "title": "数位盘点",
+   "teaches": "数位综合：读、比、加减一、拆开",
    "parts": [
     "cart.crystal",
     "cart.rod",
@@ -583,12 +604,7 @@
    "items": [
     {
      "fam": "add.2d2d",
-     "count": 3
-    },
-    {
-     "fam": "add.2d2d",
-     "count": 3,
-     "band": 2
+     "count": 6
     }
    ],
    "di": 4,
@@ -1240,7 +1256,7 @@
    "chapter": "K1",
    "kind": "normal",
    "title": "装箱",
-   "teaches": "10 根棒装 1 箱，1 箱就是 100",
+   "teaches": "10 根棒装 1 箱：1 根棒是 1 个十，1 箱是 1 个百",
    "newElement": "晶箱、装箱机、棒车",
    "parts": [
     "cart.crystal",
@@ -1261,7 +1277,11 @@
    "buildingPart": {
     "id": "vault.part1",
     "name": "箱堆"
-   }
+   },
+   "fixedMapping": [
+    "1 根棒 = 1 个十，在十位",
+    "1 箱 = 1 个百，在百位"
+   ]
   },
   {
    "id": "vault.K1.2",
@@ -1624,12 +1644,15 @@
    "chapter": "K2",
    "kind": "normal",
    "title": "大约几百",
-   "teaches": "离哪个整百近",
+   "teaches": "离哪个整百近（不含整五十）",
    "newElement": "近似",
    "items": [
     {
      "fam": "pv3.round",
-     "count": 6
+     "count": 6,
+     "exclude": [
+      "x50"
+     ]
     }
    ],
    "di": 5.8,
@@ -1707,8 +1730,8 @@
    "zone": "factory",
    "chapter": "P1",
    "kind": "normal",
-   "title": "两颗一舱",
-   "teaches": "每舱 2 颗，几舱一共几颗：2、4、6 地数",
+   "title": "每舱几颗",
+   "teaches": "每舱 2、3、5、10 颗，几舱一共几颗；10 颗一舱就是 1 根棒",
    "newElement": "货舱（等组）",
    "items": [
     {
@@ -1716,36 +1739,18 @@
      "count": 6,
      "band": 1,
      "n": [
-      2
+      2,
+      3,
+      5,
+      10
      ]
-    }
-   ],
-   "di": 2.4,
-   "expectedFirstTry": 0.85,
-   "buildingPart": {
-    "id": "factory.part1",
-    "name": "货舱"
-   }
-  },
-  {
-   "id": "factory.P1.2",
-   "zone": "factory",
-   "chapter": "P1",
-   "kind": "normal",
-   "title": "五颗十颗",
-   "teaches": "每舱 5 颗、10 颗；10 颗一舱就是一根棒",
-   "items": [
-    {
-     "fam": "mul.groups",
-     "count": 6,
-     "band": 1
     }
    ],
    "di": 2.8,
    "expectedFirstTry": 0.82,
    "buildingPart": {
-    "id": "factory.part2",
-    "name": "齿轮"
+    "id": "factory.part1",
+    "name": "货舱"
    }
   },
   {
@@ -1754,7 +1759,7 @@
    "chapter": "P1",
    "kind": "normal",
    "title": "写成连加",
-   "teaches": "4 个 5 写成 5+5+5+5",
+   "teaches": "4 个 3 颗写成 3+3+3+3",
    "newElement": "连加算式",
    "items": [
     {
@@ -1831,7 +1836,12 @@
     {
      "fam": "mul.groups",
      "count": 6,
-     "band": 2
+     "band": 2,
+     "n": [
+      3,
+      4,
+      6
+     ]
     }
    ],
    "di": 4,
@@ -1990,8 +2000,8 @@
    "chapter": "P2",
    "kind": "normal",
    "title": "转一转",
-   "teaches": "3 行 5 列转 90° 变 5 行 3 列，总数不变",
-   "newElement": "交换律",
+   "teaches": "先猜：转 90° 总数会变吗？再转一转验证",
+   "newElement": "转一转",
    "items": [
     {
      "fam": "mul.commute",
@@ -2012,7 +2022,7 @@
    "chapter": "P2",
    "kind": "normal",
    "title": "交换伙伴",
-   "teaches": "知道 3×5 就知道 5×3",
+   "teaches": "知道 3×5 就知道 5×3：转一转不用再算",
    "items": [
     {
      "fam": "mul.commute",
@@ -2135,13 +2145,14 @@
    "chapter": "P2",
    "kind": "breather",
    "title": "设计电站",
-   "teaches": "24 块板能拼出哪些长方形",
+   "teaches": "24 块板在 10×10 的格子里能拼出哪些长方形（3×8 和 4×6 各算一种）",
    "items": [
     {
      "fam": "open.arrays",
      "count": 4,
      "band": 1,
-     "total": 24
+     "total": 24,
+     "rule": "unorderedPairsIn10x10"
     }
    ],
    "di": 2.4,
@@ -2467,20 +2478,50 @@
    }
   },
   {
+   "id": "balance.B2.1",
+   "zone": "balance",
+   "chapter": "B2",
+   "kind": "normal",
+   "title": "神秘箱",
+   "teaches": "□+3=7：两边拿走 3，箱子就露出来",
+   "newElement": "神秘箱",
+   "items": [
+    {
+     "fam": "bal.box1",
+     "count": 3,
+     "band": 1,
+     "mode": "build"
+    },
+    {
+     "fam": "bal.box1",
+     "count": 3,
+     "band": 2,
+     "variant": "presplit"
+    }
+   ],
+   "di": 4.2,
+   "expectedFirstTry": 0.8,
+   "buildingPart": {
+    "id": "balance.part8",
+    "name": "工具箱"
+   },
+   "chapterV1": "B1"
+  },
+  {
    "id": "balance.B1.6",
    "zone": "balance",
    "chapter": "B1",
    "kind": "boss",
    "title": "平衡挑战",
-   "teaches": "等号与同拿同加",
+   "teaches": "等号、同拿同加、神秘箱",
    "items": [
     {
      "fam": "bal.equal",
-     "count": 2
+     "count": 1
     },
     {
      "fam": "bal.open",
-     "count": 2
+     "count": 1
     },
     {
      "fam": "bal.removeBoth",
@@ -2489,9 +2530,13 @@
     {
      "fam": "bal.addBoth",
      "count": 2
+    },
+    {
+     "fam": "bal.box1",
+     "count": 2
     }
    ],
-   "di": 4.4,
+   "di": 4.6,
    "expectedFirstTry": 0.75,
    "buildingPart": {
     "id": "balance.part6",
@@ -2515,30 +2560,6 @@
    "buildingPart": {
     "id": "balance.part7",
     "name": "台秤"
-   }
-  },
-  {
-   "id": "balance.B2.1",
-   "zone": "balance",
-   "chapter": "B2",
-   "kind": "normal",
-   "title": "神秘箱",
-   "teaches": "□+3=7：拿走两边的 3，箱子就露出来",
-   "newElement": "神秘箱",
-   "items": [
-    {
-     "fam": "bal.box1",
-     "count": 6,
-     "band": 1,
-     "variant": "presplit"
-    }
-   ],
-   "bandCap": 1,
-   "di": 3.8,
-   "expectedFirstTry": 0.82,
-   "buildingPart": {
-    "id": "balance.part8",
-    "name": "工具箱"
    }
   },
   {
@@ -3424,6 +3445,138 @@
     "id": "clock.part15",
     "name": "倒计时牌（装饰）"
    }
+  },
+  {
+   "id": "puzzle.Z1.1",
+   "zone": "puzzle",
+   "chapter": "Z1",
+   "kind": "normal",
+   "title": "数字金字塔",
+   "teaches": "上面一块是下面两块的和，反过来找缺的数",
+   "newElement": "谜题舱",
+   "items": [
+    {
+     "fam": "puz.pyramid",
+     "count": 6,
+     "band": 1
+    }
+   ],
+   "di": 3.6,
+   "expectedFirstTry": 0.78,
+   "buildingPart": {
+    "id": "puzzle.part1",
+    "name": "谜题舱"
+   }
   }
- ]
+ ],
+ "probes": {
+  "factory": {
+   "items": [
+    {
+     "fam": "mul.groups",
+     "band": 2
+    },
+    {
+     "fam": "mul.groups",
+     "band": 2,
+     "ask": "count"
+    },
+    {
+     "fam": "mul.skip",
+     "band": 2
+    }
+   ],
+   "skip": {
+    "2": [
+     "factory.P1.1"
+    ],
+    "3": [
+     "factory.P1.1",
+     "factory.P1.3"
+    ]
+   }
+  },
+  "balance": {
+   "items": [
+    {
+     "fam": "bal.equal",
+     "band": 2
+    },
+    {
+     "fam": "bal.removeBoth"
+    },
+    {
+     "fam": "bal.addBoth"
+    }
+   ],
+   "skip": {
+    "2": [
+     "balance.B1.1",
+     "balance.B1.2"
+    ],
+    "3": [
+     "balance.B1.1",
+     "balance.B1.2",
+     "balance.B1.3"
+    ]
+   }
+  },
+  "vault": {
+   "items": [
+    {
+     "fam": "pv2.read",
+     "band": 2
+    },
+    {
+     "fam": "pv3.pack",
+     "band": 1
+    },
+    {
+     "fam": "pv3.read",
+     "band": 1
+    }
+   ],
+   "skip": {
+    "2": [
+     "vault.K1.1"
+    ],
+    "3": [
+     "vault.K1.1",
+     "vault.K1.2"
+    ]
+   }
+  }
+ },
+ "certMap": {
+  "C1": {
+   "pv2.read:1": "cert.C1.1",
+   "pv2.compare:2": "cert.C1.2",
+   "pv2.split:2": "cert.C1.4",
+   "pv2.read:2": "cert.C1.5"
+  },
+  "C2": {
+   "add.tens:2": "cert.C2.1",
+   "add.carry1:1": "cert.C2.2",
+   "add.2d2d:2": "cert.C2.4",
+   "add.compensate:1": "cert.C2.5"
+  },
+  "C3": {
+   "sub.tens:2": "cert.C3.1",
+   "sub.borrow1:1": "cert.C3.2",
+   "sub.2d2d:2": "cert.C3.4",
+   "sub.thinkAdd:2": "cert.C3.3"
+  }
+ },
+ "v1Order": {
+  "balance": [
+   "balance.B1.1",
+   "balance.B1.2",
+   "balance.B1.3",
+   "balance.B1.4",
+   "balance.B1.5",
+   "balance.B2.1",
+   "balance.B1.6",
+   "balance.B1.7"
+  ]
+ }
 }

@@ -1,0 +1,3 @@
+# 构建上下文只带 server.mjs: data/(库与备份)、.env(开通码)、文档、脚本都不能被送进 Docker 守护进程
+*
+!server.mjs

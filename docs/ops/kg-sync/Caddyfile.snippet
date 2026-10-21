@@ -1,0 +1,16 @@
+# 追加到生产 Caddyfile 的末尾(RUNBOOK 第 3 章逐步操作; 只许用 `cat Caddyfile.snippet >> Caddyfile` 追加, 不要用编辑器改写整个文件)。
+# 前提: Caddy 容器已加入网络 kg-net(docker network connect kg-net <Caddy容器名>), 这样 `kg-sync` 这个名字才解析得到。
+kg.ccincd.shop:8443 {
+	encode zstd gzip
+	request_body {
+		max_size 100KB
+	}
+	log {
+		output discard
+	}
+	header -Server
+	reverse_proxy kg-sync:8787 {
+		header_up X-Forwarded-For {remote_host}
+		health_uri /healthz
+	}
+}

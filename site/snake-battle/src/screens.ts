@@ -4,7 +4,7 @@
  * 星港 design system: paper night theme, .xg-btn / .xg-card, accent --xg-snake. Never auto-advance.
  */
 import { skinPreview } from './screens2';
-import { h, bindPress, segmented, confetti } from '@kit/ui';
+import { h, bindPress, segmented, confetti, icon } from '@kit/ui';
 import { mount as mountBot, type Companion } from '@kit/companion';
 import { VENUES, VENUE_IDS, FLOORS, AI_NAMES, UNLOCK, type VenueId } from './sim/venues';
 import { hex2rgb, mix, paintSegment, paintHead, rgb2css, skinById, segVariant, variantsOf, ballOf, type Rgb } from './render/art';
@@ -162,7 +162,7 @@ export class Showcase {
 }
 
 // ---------------------------------------------------------------- lobby
-export interface LobbyHandlers { onPlay: (mode: 'timed' | 'endless', v: VenueId) => void; onVersus: (v: VenueId) => void; onVenue: (v: VenueId, locked: boolean) => void; onSettings: () => void; onSoon: (what: string) => void; onMissions: () => void; onCollection: () => void; onRecords: () => void }
+export interface LobbyHandlers { onPlay: (mode: 'timed' | 'endless', v: VenueId) => void; onVersus: (v: VenueId) => void; onVersusHelp: () => void; onVenue: (v: VenueId, locked: boolean) => void; onSettings: () => void; onSoon: (what: string) => void; onMissions: () => void; onCollection: () => void; onRecords: () => void }
 
 export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, name: string, hd: LobbyHandlers) {
   const d = save.data;
@@ -216,8 +216,13 @@ export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, na
     h('div', { class: 'sb-showcase' }, showcaseCanvas),
     modes, records, botHost);
   const versus = h('button', { class: 'sb-versus-entry xg-btn', type: 'button', 'data-sfx': 'ui-confirm', 'aria-label': '双人分屏对战', title: '双人分屏对战' }, h('span', { class: 'sb-versus-entry__label' }, '双人分屏对战'));
+  versus.insertAdjacentHTML('afterbegin', icon('parent', 'sb-versus-entry__icon'));   // shown instead of the label on the smallest landscape phones
   versus.addEventListener('click', () => hd.onVersus(sel()));
-  lobby.querySelector('.sb-showcase')?.append(versus);
+  // ？ beside it: the 双人对战怎么玩 card again (it opens by itself only on the first entry)
+  const help = h('button', { class: 'sb-versus-help xg-btn', type: 'button', 'data-sfx': 'ui-open', 'aria-label': '双人对战怎么玩', title: '双人对战怎么玩' });
+  help.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.8 9a3.2 3.2 0 1 1 4.9 2.7c-1.1.7-1.7 1.3-1.7 2.6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="12" cy="19.4" r="1.9" fill="currentColor"/></svg>';
+  help.addEventListener('click', () => hd.onVersusHelp());
+  lobby.querySelector('.sb-showcase')?.append(h('div', { class: 'sb-versus-box' }, help, versus));
   root.append(lobby);
   bindPress(lobby);
   lobby.addEventListener('pointerdown', () => show.poke());

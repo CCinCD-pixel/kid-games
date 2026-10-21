@@ -9,7 +9,16 @@
    "choice": false,
    "factSpace": false,
    "diag": [],
-   "note": "12 fixed targets, unscored"
+   "note": "12 fixed targets, unscored",
+   "retryMode": "none",
+   "buildable": false,
+   "hint1": "mars.h1.build",
+   "typedMax": 0,
+   "answerModes": [
+    "place"
+   ],
+   "l6": null,
+   "guessP": 0
   },
   {
    "id": "nl.place",
@@ -20,8 +29,18 @@
    "choice": false,
    "factSpace": false,
    "diag": [
-    "offByTen"
-   ]
+    "offByTen",
+    "logCompress"
+   ],
+   "retryMode": "none",
+   "buildable": false,
+   "hint1": "mars.h1.nl.*",
+   "typedMax": 0,
+   "answerModes": [
+    "place"
+   ],
+   "l6": "dropLabels",
+   "guessP": 0
   },
   {
    "id": "nl.read",
@@ -32,8 +51,18 @@
    "choice": false,
    "factSpace": false,
    "diag": [
-    "offByTen"
-   ]
+    "offByTen",
+    "logCompress"
+   ],
+   "retryMode": "none",
+   "buildable": false,
+   "hint1": "mars.h1.nl.*",
+   "typedMax": 1,
+   "answerModes": [
+    "read"
+   ],
+   "l6": "dropLabels",
+   "guessP": 0
   },
   {
    "id": "nl.zoom",
@@ -43,7 +72,16 @@
    "stage": "numberline",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "none",
+   "buildable": false,
+   "hint1": "mars.h1.nl.*",
+   "typedMax": 0,
+   "answerModes": [
+    "place"
+   ],
+   "l6": "dropLabels",
+   "guessP": 0
   },
   {
    "id": "pv2.read",
@@ -57,7 +95,17 @@
     "pvConcat",
     "digitReversal",
     "unitAsOne"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.read",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "choose"
+   ],
+   "l6": "bigger",
+   "guessP": 0
   },
   {
    "id": "pv2.build",
@@ -67,7 +115,16 @@
    "stage": "tray2",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.read",
+   "typedMax": 0,
+   "answerModes": [
+    "build"
+   ],
+   "l6": "bigger",
+   "guessP": 0
   },
   {
    "id": "pv2.compare",
@@ -78,8 +135,18 @@
    "choice": false,
    "factSpace": false,
    "diag": [
-    "digitReversal"
-   ]
+    "digitReversal",
+    "cmpWrongDigit"
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.cmp",
+   "typedMax": 0,
+   "answerModes": [
+    "tapSymbol+digit"
+   ],
+   "l6": "closeNumbers",
+   "guessP": 0.16666666666666666
   },
   {
    "id": "pv2.step",
@@ -92,7 +159,17 @@
    "diag": [
     "offByOne",
     "offByTen"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.step",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "dial"
+   ],
+   "l6": "crossTen",
+   "guessP": 0
   },
   {
    "id": "pv2.split",
@@ -104,7 +181,17 @@
    "factSpace": false,
    "diag": [
     "canonicalOnly"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.split",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "build"
+   ],
+   "l6": "nonCanonical",
+   "guessP": 0
   },
   {
    "id": "add.tens",
@@ -116,7 +203,17 @@
    "factSpace": false,
    "diag": [
     "opReversed"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.tens",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "build"
+   ],
+   "l6": "bigger",
+   "guessP": 0
   },
   {
    "id": "add.carry1",
@@ -129,7 +226,17 @@
    "diag": [
     "noCarry",
     "countOnInclusive"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.carry",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "build"
+   ],
+   "l6": "crossTen",
+   "guessP": 0
   },
   {
    "id": "add.2d2d",
@@ -141,7 +248,17 @@
    "factSpace": false,
    "diag": [
     "noCarry"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.carry",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "build"
+   ],
+   "l6": "carryBoth",
+   "guessP": 0
   },
   {
    "id": "add.compensate",
@@ -153,7 +270,16 @@
    "factSpace": false,
    "diag": [
     "noCarry"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.comp",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type"
+   ],
+   "l6": "twoStep",
+   "guessP": 0
   },
   {
    "id": "sub.tens",
@@ -165,7 +291,17 @@
    "factSpace": false,
    "diag": [
     "opReversed"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.tens",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "build"
+   ],
+   "l6": "bigger",
+   "guessP": 0
   },
   {
    "id": "sub.borrow1",
@@ -177,7 +313,17 @@
    "factSpace": false,
    "diag": [
     "smallerFromLarger"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.borrow",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "build"
+   ],
+   "l6": "crossTen",
+   "guessP": 0
   },
   {
    "id": "sub.thinkAdd",
@@ -189,7 +335,16 @@
    "factSpace": false,
    "diag": [
     "smallerFromLarger"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.think",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type"
+   ],
+   "l6": "span40",
+   "guessP": 0
   },
   {
    "id": "sub.2d2d",
@@ -201,7 +356,17 @@
    "factSpace": false,
    "diag": [
     "smallerFromLarger"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.borrow",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type",
+    "build"
+   ],
+   "l6": "borrowBoth",
+   "guessP": 0
   },
   {
    "id": "sub.compensate",
@@ -213,7 +378,16 @@
    "factSpace": false,
    "diag": [
     "smallerFromLarger"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.subcomp",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type"
+   ],
+   "l6": "twoStep",
+   "guessP": 0
   },
   {
    "id": "col.align",
@@ -235,7 +409,16 @@
    "factSpace": false,
    "diag": [
     "noCarry"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.col",
+   "typedMax": 0.7,
+   "answerModes": [
+    "cells"
+   ],
+   "l6": "carryBoth",
+   "guessP": 0
   },
   {
    "id": "col.sub",
@@ -247,7 +430,16 @@
    "factSpace": false,
    "diag": [
     "smallerFromLarger"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.col",
+   "typedMax": 0.7,
+   "answerModes": [
+    "cells"
+   ],
+   "l6": "borrowBoth",
+   "guessP": 0
   },
   {
    "id": "col.findError",
@@ -304,7 +496,16 @@
    "factSpace": false,
    "diag": [
     "keywordOp"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.cmp",
+   "typedMax": 0.7,
+   "answerModes": [
+    "type"
+   ],
+   "l6": "twoStep",
+   "guessP": 0
   },
   {
    "id": "rel.family",
@@ -334,7 +535,16 @@
    "stage": "tray3",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.pack",
+   "typedMax": 0,
+   "answerModes": [
+    "build"
+   ],
+   "l6": "bigger",
+   "guessP": 0
   },
   {
    "id": "pv3.read",
@@ -348,7 +558,18 @@
     "zeroOmit",
     "pvConcat",
     "unitAsOne"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.read",
+   "typedMax": 0.5,
+   "answerModes": [
+    "type",
+    "dial",
+    "choose"
+   ],
+   "l6": "nonCanonical",
+   "guessP": 0
   },
   {
    "id": "pv3.build",
@@ -358,7 +579,16 @@
    "stage": "tray3",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.read",
+   "typedMax": 0,
+   "answerModes": [
+    "build"
+   ],
+   "l6": "zeroInside",
+   "guessP": 0
   },
   {
    "id": "pv3.counter",
@@ -370,7 +600,16 @@
    "factSpace": false,
    "diag": [
     "zeroOmit"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.read",
+   "typedMax": 0,
+   "answerModes": [
+    "dial"
+   ],
+   "l6": "zeroInside",
+   "guessP": 0
   },
   {
    "id": "pv3.dictation",
@@ -383,7 +622,17 @@
    "diag": [
     "zeroOmit",
     "extraZero"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.dict",
+   "typedMax": 0.5,
+   "answerModes": [
+    "type",
+    "dial"
+   ],
+   "l6": "zeroInside",
+   "guessP": 0
   },
   {
    "id": "pv3.compare",
@@ -394,8 +643,19 @@
    "choice": false,
    "factSpace": false,
    "diag": [
+    "cmpWrongDigit",
     "digitReversal"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.cmp",
+   "typedMax": 0,
+   "answerModes": [
+    "tapSymbol+digit"
+   ],
+   "l6": "closeNumbers",
+   "guessP": 0.1111111111111111,
+   "note": "diag order changed in build (S1a): cmpWrongDigit wins collisions on swapped-digit pairs (golden vector 352 vs 325)"
   },
   {
    "id": "pv3.order",
@@ -405,7 +665,16 @@
    "stage": "orderBelt",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.cmp",
+   "typedMax": 0,
+   "answerModes": [
+    "drag"
+   ],
+   "l6": "closeNumbers",
+   "guessP": 0
   },
   {
    "id": "pv3.step",
@@ -418,7 +687,17 @@
    "diag": [
     "offByOne",
     "offByTen"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.step",
+   "typedMax": 0.25,
+   "answerModes": [
+    "dial",
+    "type"
+   ],
+   "l6": "crossHundred",
+   "guessP": 0
   },
   {
    "id": "pv3.addHund",
@@ -429,8 +708,19 @@
    "choice": false,
    "factSpace": false,
    "diag": [
-    "noCarry"
-   ]
+    "noCarry",
+    "offByTen"
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.tens",
+   "typedMax": 0.5,
+   "answerModes": [
+    "build",
+    "type"
+   ],
+   "l6": "bigger",
+   "guessP": 0
   },
   {
    "id": "pv3.skip",
@@ -442,7 +732,16 @@
    "factSpace": false,
    "diag": [
     "offByTen"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.groups",
+   "typedMax": 0,
+   "answerModes": [
+    "tapLanding"
+   ],
+   "l6": "crossHundred",
+   "guessP": 0
   },
   {
    "id": "pv3.round",
@@ -452,7 +751,19 @@
    "stage": "numberline",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.round",
+   "typedMax": 0.34,
+   "answerModes": [
+    "place+tapMark"
+   ],
+   "l6": "nonObvious",
+   "guessP": 0,
+   "exclude": [
+    "x50"
+   ]
   },
   {
    "id": "mul.groups",
@@ -469,7 +780,18 @@
     "total",
     "count",
     "size"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.groups",
+   "typedMax": 0.34,
+   "answerModes": [
+    "build",
+    "choose",
+    "type"
+   ],
+   "l6": "structure",
+   "guessP": 0
   },
   {
    "id": "mul.write",
@@ -483,7 +805,16 @@
    "asks": [
     "sum",
     "times"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.groups",
+   "typedMax": 0,
+   "answerModes": [
+    "cards"
+   ],
+   "l6": "structure",
+   "guessP": 0
   },
   {
    "id": "mul.equalCheck",
@@ -494,7 +825,16 @@
    "choice": false,
    "factSpace": false,
    "diag": [],
-   "note": "能→写出 □×□；不能→点\"不能\"。first-try needs both parts"
+   "note": "能→写出 □×□；不能→点\"不能\"。first-try needs both parts",
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.equal",
+   "typedMax": 0,
+   "answerModes": [
+    "tap+cards"
+   ],
+   "l6": "structure",
+   "guessP": 0.5
   },
   {
    "id": "mul.skip",
@@ -506,7 +846,16 @@
    "factSpace": false,
    "diag": [
     "offByStep"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.groups",
+   "typedMax": 0,
+   "answerModes": [
+    "tapLanding"
+   ],
+   "l6": "longJump",
+   "guessP": 0
   },
   {
    "id": "mul.array",
@@ -522,7 +871,17 @@
    "asks": [
     "total",
     "rotate"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.array",
+   "typedMax": 0.34,
+   "answerModes": [
+    "build",
+    "type"
+   ],
+   "l6": "missingDimension",
+   "guessP": 0
   },
   {
    "id": "mul.commute",
@@ -532,7 +891,16 @@
    "stage": "array",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.array",
+   "typedMax": 0,
+   "answerModes": [
+    "predict+rotate+tap"
+   ],
+   "l6": "noRotateHint",
+   "guessP": 0.5
   },
   {
    "id": "mul.missingFactor",
@@ -546,7 +914,17 @@
    "asks": [
     "cols",
     "rows"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.array",
+   "typedMax": 0.25,
+   "answerModes": [
+    "build",
+    "type"
+   ],
+   "l6": "structure",
+   "guessP": 0
   },
   {
    "id": "mul.split",
@@ -556,7 +934,18 @@
    "stage": "array",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [
+    "partialDistribute"
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.array",
+   "typedMax": 0.5,
+   "answerModes": [
+    "drag+type"
+   ],
+   "l6": "twoStep",
+   "guessP": 0
   },
   {
    "id": "mul.compareArr",
@@ -567,7 +956,16 @@
    "choice": false,
    "factSpace": false,
    "diag": [],
-   "note": "哪块多 + 多几块（键盘）; not pure choice"
+   "note": "哪块多 + 多几块（键盘）; not pure choice",
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.array",
+   "typedMax": 0.5,
+   "answerModes": [
+    "tap+type"
+   ],
+   "l6": "bigger",
+   "guessP": 0.5
   },
   {
    "id": "mul.family",
@@ -617,7 +1015,17 @@
    "factSpace": false,
    "diag": [
     "equalAsOperator"
-   ]
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.bal",
+   "typedMax": 0.34,
+   "answerModes": [
+    "drag",
+    "type"
+   ],
+   "l6": "moreWeights",
+   "guessP": 0
   },
   {
    "id": "bal.open",
@@ -627,7 +1035,16 @@
    "stage": "balance",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.bal",
+   "typedMax": 0,
+   "answerModes": [
+    "open"
+   ],
+   "l6": null,
+   "guessP": 0
   },
   {
    "id": "bal.removeBoth",
@@ -637,7 +1054,16 @@
    "stage": "balance",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.bal",
+   "typedMax": 0,
+   "answerModes": [
+    "drag"
+   ],
+   "l6": "moreWeights",
+   "guessP": 0.5
   },
   {
    "id": "bal.addBoth",
@@ -647,7 +1073,16 @@
    "stage": "balance",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.bal",
+   "typedMax": 0,
+   "answerModes": [
+    "drag"
+   ],
+   "l6": "moreWeights",
+   "guessP": 0.3333333333333333
   },
   {
    "id": "bal.box1",
@@ -657,7 +1092,20 @@
    "stage": "balance",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [
+    "equalAsOperator",
+    "opReversed"
+   ],
+   "retryMode": "normal",
+   "buildable": true,
+   "hint1": "mars.h1.bal",
+   "typedMax": 0.5,
+   "answerModes": [
+    "build",
+    "type"
+   ],
+   "l6": "moreWeights",
+   "guessP": 0
   },
   {
    "id": "bal.box2",
@@ -896,7 +1344,16 @@
    "stage": "tray3",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "none",
+   "buildable": true,
+   "hint1": "mars.h1.build",
+   "typedMax": 0,
+   "answerModes": [
+    "open"
+   ],
+   "l6": null,
+   "guessP": 0
   },
   {
    "id": "open.pv3cmp",
@@ -906,7 +1363,16 @@
    "stage": "tray3",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "none",
+   "buildable": true,
+   "hint1": "mars.h1.build",
+   "typedMax": 0,
+   "answerModes": [
+    "open"
+   ],
+   "l6": null,
+   "guessP": 0
   },
   {
    "id": "open.groups",
@@ -916,7 +1382,16 @@
    "stage": "pods",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "none",
+   "buildable": true,
+   "hint1": "mars.h1.build",
+   "typedMax": 0,
+   "answerModes": [
+    "open"
+   ],
+   "l6": null,
+   "guessP": 0
   },
   {
    "id": "open.arrays",
@@ -926,7 +1401,16 @@
    "stage": "array",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "none",
+   "buildable": true,
+   "hint1": "mars.h1.build",
+   "typedMax": 0,
+   "answerModes": [
+    "open"
+   ],
+   "l6": null,
+   "guessP": 0
   },
   {
    "id": "open.share",
@@ -956,7 +1440,16 @@
    "stage": "balance",
    "choice": false,
    "factSpace": false,
-   "diag": []
+   "diag": [],
+   "retryMode": "none",
+   "buildable": true,
+   "hint1": "mars.h1.build",
+   "typedMax": 0,
+   "answerModes": [
+    "open"
+   ],
+   "l6": null,
+   "guessP": 0
   },
   {
    "id": "open.equation",
@@ -997,6 +1490,27 @@
    "choice": false,
    "factSpace": false,
    "diag": []
+  },
+  {
+   "id": "puz.pyramid",
+   "tag": "puz.pyr",
+   "bands": 3,
+   "answer": "multi",
+   "stage": "pyramid",
+   "choice": false,
+   "factSpace": false,
+   "diag": [],
+   "note": "number pyramid, unique solution (puzzles.mjs); build-first no; H1 mars.h1.puz.pyramid",
+   "retryMode": "normal",
+   "buildable": false,
+   "hint1": "mars.h1.puz.pyramid",
+   "typedMax": 0.5,
+   "answerModes": [
+    "cells",
+    "tiles"
+   ],
+   "l6": "moreUnknowns",
+   "guessP": 0
   }
  ],
  "tagPrereq": {
@@ -1136,6 +1650,9 @@
   ],
   "clock.elapsedMin": [
    "clock.min"
+  ],
+  "puz.pyr": [
+   "add.2d"
   ]
  }
 }

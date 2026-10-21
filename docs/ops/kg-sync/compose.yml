@@ -1,0 +1,62 @@
+# 星港云存档 (kg-sync) -- docs/specs/sync.md 6.2。用法见 RUNBOOK.md。
+# 要点: 专用网络 kg-net(不进生产网络) · 只读根文件系统 · 非 root · 去掉全部 capability · 内存 256 MB · 不发布任何宿主端口 · Docker 日志轮转。
+# 变量从同目录的 .env 读取(从 .env.example 复制); 缺少必填项时 `docker compose config` 会直接报错。
+name: kg-sync
+
+services:
+  kg-sync:
+    container_name: kg-sync
+    image: kg-sync:local
+    build:
+      context: .
+      args:
+        NODE_IMAGE: "${NODE_IMAGE:-node:22-slim}"
+    init: true
+    restart: unless-stopped
+    user: "1000:1000"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
+    pids_limit: 64
+    environment:
+      NODE_OPTIONS: "--max-old-space-size=96"
+      NODE_NO_WARNINGS: "1"
+      KG_PORT: "8787"
+      KG_HOST: "0.0.0.0"
+      KG_DB: /data/kg.db
+      KG_BACKUP_DIR: "${KG_BACKUP_DIR:-/data/backup}"
+      KG_ENROLL_CODE: "${KG_ENROLL_CODE:?KG_ENROLL_CODE 没填, 见 .env.example (用 openssl rand -base64 12 生成)}"
+      KG_ORIGINS: "${KG_ORIGINS:?KG_ORIGINS 没填, 填游戏网站的完整来源, 例如 https://你的游戏域名}"
+      KG_ENROLL_OPEN_UNTIL: "${KG_ENROLL_OPEN_UNTIL:-0}"
+      KG_TRUST_PROXY: "${KG_TRUST_PROXY:-1}"
+      KG_PROXY_CIDR: "${KG_PROXY_CIDR:-172.30.77.0/24}"
+      KG_ALLOW_LOCALHOST: "${KG_ALLOW_LOCALHOST:-0}"
+      KG_MAX_FAMILIES: "${KG_MAX_FAMILIES:-3}"
+      KG_MIN_FREE_MB: "${KG_MIN_FREE_MB:-3072}"
+      KG_DB_MAX_MB: "${KG_DB_MAX_MB:-100}"
+    volumes:
+      - ./data:/data
+    networks:
+      kg-net:
+        aliases:
+          - kg-sync
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+networks:
+  kg-net:
+    name: kg-net
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.30.77.0/24

@@ -1,0 +1,26 @@
+{
+ "built": "2026-10-12",
+ "tool": "tools/fonts/patch-subset.mjs + build_subset.py (fontTools)",
+ "fonts": {
+  "wenkai-gb-medium-3500.woff2": {
+   "source": "LXGWWenKaiGB-Medium.ttf",
+   "source_sha256": "b885c51ec0d3f325974013801dfcefda1a9ba0bf385c607cf5f2582dafa2e5ab",
+   "codepoints_before": 3771,
+   "codepoints_after": 3809,
+   "bytes_before": 859048,
+   "bytes_after": 868748,
+   "added": "仕偃咔嗒噗坞埙帧弈弩徵攒枭橐檑牒珀琥瓮礌篝缪胫蒺藜蹩轒轳辒辘郢闩阱靛韦韬驿鸢",
+   "unavailable_in_source": ""
+  },
+  "zcool-kuaile-3500.woff2": {
+   "source": "ZCOOLKuaiLe-Regular.ttf",
+   "source_sha256": "812a6fc1fe54b6d73a419245c32dfeba8aa33104d5be90d1cf6af082007cb71d",
+   "codepoints_before": 3704,
+   "codepoints_after": 3739,
+   "bytes_before": 430140,
+   "bytes_after": 434896,
+   "added": "仕偃咔嗒噗坞埙帧弈弩徵攒枭橐檑牒珀琥瓮篝缪胫蒺藜蹩轳辘郢闩阱靛韦韬驿鸢",
+   "unavailable_in_source": "礌轒辒"
+  }
+ }
+}

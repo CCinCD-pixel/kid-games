@@ -1,0 +1,3006 @@
+# GENERATED from content/mars-base/lines.json (scope v1, numbers 0-1000) by tools/mars-base/emit-narration.mjs — do not edit
+game: mars-base
+lines:
+  - id: mars.num.0
+    role: narrator
+    text: "零"
+  - id: mars.num.1
+    role: narrator
+    text: "一"
+  - id: mars.num.2
+    role: narrator
+    text: "二"
+  - id: mars.num.3
+    role: narrator
+    text: "三"
+  - id: mars.num.4
+    role: narrator
+    text: "四"
+  - id: mars.num.5
+    role: narrator
+    text: "五"
+  - id: mars.num.6
+    role: narrator
+    text: "六"
+  - id: mars.num.7
+    role: narrator
+    text: "七"
+  - id: mars.num.8
+    role: narrator
+    text: "八"
+  - id: mars.num.9
+    role: narrator
+    text: "九"
+  - id: mars.num.10
+    role: narrator
+    text: "十"
+  - id: mars.num.11
+    role: narrator
+    text: "十一"
+  - id: mars.num.12
+    role: narrator
+    text: "十二"
+  - id: mars.num.13
+    role: narrator
+    text: "十三"
+  - id: mars.num.14
+    role: narrator
+    text: "十四"
+  - id: mars.num.15
+    role: narrator
+    text: "十五"
+  - id: mars.num.16
+    role: narrator
+    text: "十六"
+  - id: mars.num.17
+    role: narrator
+    text: "十七"
+  - id: mars.num.18
+    role: narrator
+    text: "十八"
+  - id: mars.num.19
+    role: narrator
+    text: "十九"
+  - id: mars.num.20
+    role: narrator
+    text: "二十"
+  - id: mars.num.21
+    role: narrator
+    text: "二十一"
+  - id: mars.num.22
+    role: narrator
+    text: "二十二"
+  - id: mars.num.23
+    role: narrator
+    text: "二十三"
+  - id: mars.num.24
+    role: narrator
+    text: "二十四"
+  - id: mars.num.25
+    role: narrator
+    text: "二十五"
+  - id: mars.num.26
+    role: narrator
+    text: "二十六"
+  - id: mars.num.27
+    role: narrator
+    text: "二十七"
+  - id: mars.num.28
+    role: narrator
+    text: "二十八"
+  - id: mars.num.29
+    role: narrator
+    text: "二十九"
+  - id: mars.num.30
+    role: narrator
+    text: "三十"
+  - id: mars.num.31
+    role: narrator
+    text: "三十一"
+  - id: mars.num.32
+    role: narrator
+    text: "三十二"
+  - id: mars.num.33
+    role: narrator
+    text: "三十三"
+  - id: mars.num.34
+    role: narrator
+    text: "三十四"
+  - id: mars.num.35
+    role: narrator
+    text: "三十五"
+  - id: mars.num.36
+    role: narrator
+    text: "三十六"
+  - id: mars.num.37
+    role: narrator
+    text: "三十七"
+  - id: mars.num.38
+    role: narrator
+    text: "三十八"
+  - id: mars.num.39
+    role: narrator
+    text: "三十九"
+  - id: mars.num.40
+    role: narrator
+    text: "四十"
+  - id: mars.num.41
+    role: narrator
+    text: "四十一"
+  - id: mars.num.42
+    role: narrator
+    text: "四十二"
+  - id: mars.num.43
+    role: narrator
+    text: "四十三"
+  - id: mars.num.44
+    role: narrator
+    text: "四十四"
+  - id: mars.num.45
+    role: narrator
+    text: "四十五"
+  - id: mars.num.46
+    role: narrator
+    text: "四十六"
+  - id: mars.num.47
+    role: narrator
+    text: "四十七"
+  - id: mars.num.48
+    role: narrator
+    text: "四十八"
+  - id: mars.num.49
+    role: narrator
+    text: "四十九"
+  - id: mars.num.50
+    role: narrator
+    text: "五十"
+  - id: mars.num.51
+    role: narrator
+    text: "五十一"
+  - id: mars.num.52
+    role: narrator
+    text: "五十二"
+  - id: mars.num.53
+    role: narrator
+    text: "五十三"
+  - id: mars.num.54
+    role: narrator
+    text: "五十四"
+  - id: mars.num.55
+    role: narrator
+    text: "五十五"
+  - id: mars.num.56
+    role: narrator
+    text: "五十六"
+  - id: mars.num.57
+    role: narrator
+    text: "五十七"
+  - id: mars.num.58
+    role: narrator
+    text: "五十八"
+  - id: mars.num.59
+    role: narrator
+    text: "五十九"
+  - id: mars.num.60
+    role: narrator
+    text: "六十"
+  - id: mars.num.61
+    role: narrator
+    text: "六十一"
+  - id: mars.num.62
+    role: narrator
+    text: "六十二"
+  - id: mars.num.63
+    role: narrator
+    text: "六十三"
+  - id: mars.num.64
+    role: narrator
+    text: "六十四"
+  - id: mars.num.65
+    role: narrator
+    text: "六十五"
+  - id: mars.num.66
+    role: narrator
+    text: "六十六"
+  - id: mars.num.67
+    role: narrator
+    text: "六十七"
+  - id: mars.num.68
+    role: narrator
+    text: "六十八"
+  - id: mars.num.69
+    role: narrator
+    text: "六十九"
+  - id: mars.num.70
+    role: narrator
+    text: "七十"
+  - id: mars.num.71
+    role: narrator
+    text: "七十一"
+  - id: mars.num.72
+    role: narrator
+    text: "七十二"
+  - id: mars.num.73
+    role: narrator
+    text: "七十三"
+  - id: mars.num.74
+    role: narrator
+    text: "七十四"
+  - id: mars.num.75
+    role: narrator
+    text: "七十五"
+  - id: mars.num.76
+    role: narrator
+    text: "七十六"
+  - id: mars.num.77
+    role: narrator
+    text: "七十七"
+  - id: mars.num.78
+    role: narrator
+    text: "七十八"
+  - id: mars.num.79
+    role: narrator
+    text: "七十九"
+  - id: mars.num.80
+    role: narrator
+    text: "八十"
+  - id: mars.num.81
+    role: narrator
+    text: "八十一"
+  - id: mars.num.82
+    role: narrator
+    text: "八十二"
+  - id: mars.num.83
+    role: narrator
+    text: "八十三"
+  - id: mars.num.84
+    role: narrator
+    text: "八十四"
+  - id: mars.num.85
+    role: narrator
+    text: "八十五"
+  - id: mars.num.86
+    role: narrator
+    text: "八十六"
+  - id: mars.num.87
+    role: narrator
+    text: "八十七"
+  - id: mars.num.88
+    role: narrator
+    text: "八十八"
+  - id: mars.num.89
+    role: narrator
+    text: "八十九"
+  - id: mars.num.90
+    role: narrator
+    text: "九十"
+  - id: mars.num.91
+    role: narrator
+    text: "九十一"
+  - id: mars.num.92
+    role: narrator
+    text: "九十二"
+  - id: mars.num.93
+    role: narrator
+    text: "九十三"
+  - id: mars.num.94
+    role: narrator
+    text: "九十四"
+  - id: mars.num.95
+    role: narrator
+    text: "九十五"
+  - id: mars.num.96
+    role: narrator
+    text: "九十六"
+  - id: mars.num.97
+    role: narrator
+    text: "九十七"
+  - id: mars.num.98
+    role: narrator
+    text: "九十八"
+  - id: mars.num.99
+    role: narrator
+    text: "九十九"
+  - id: mars.num.100
+    role: narrator
+    text: "一百"
+  - id: mars.num.101
+    role: narrator
+    text: "一百零一"
+  - id: mars.num.102
+    role: narrator
+    text: "一百零二"
+  - id: mars.num.103
+    role: narrator
+    text: "一百零三"
+  - id: mars.num.104
+    role: narrator
+    text: "一百零四"
+  - id: mars.num.105
+    role: narrator
+    text: "一百零五"
+  - id: mars.num.106
+    role: narrator
+    text: "一百零六"
+  - id: mars.num.107
+    role: narrator
+    text: "一百零七"
+  - id: mars.num.108
+    role: narrator
+    text: "一百零八"
+  - id: mars.num.109
+    role: narrator
+    text: "一百零九"
+  - id: mars.num.110
+    role: narrator
+    text: "一百一十"
+  - id: mars.num.111
+    role: narrator
+    text: "一百一十一"
+  - id: mars.num.112
+    role: narrator
+    text: "一百一十二"
+  - id: mars.num.113
+    role: narrator
+    text: "一百一十三"
+  - id: mars.num.114
+    role: narrator
+    text: "一百一十四"
+  - id: mars.num.115
+    role: narrator
+    text: "一百一十五"
+  - id: mars.num.116
+    role: narrator
+    text: "一百一十六"
+  - id: mars.num.117
+    role: narrator
+    text: "一百一十七"
+  - id: mars.num.118
+    role: narrator
+    text: "一百一十八"
+  - id: mars.num.119
+    role: narrator
+    text: "一百一十九"
+  - id: mars.num.120
+    role: narrator
+    text: "一百二十"
+  - id: mars.num.121
+    role: narrator
+    text: "一百二十一"
+  - id: mars.num.122
+    role: narrator
+    text: "一百二十二"
+  - id: mars.num.123
+    role: narrator
+    text: "一百二十三"
+  - id: mars.num.124
+    role: narrator
+    text: "一百二十四"
+  - id: mars.num.125
+    role: narrator
+    text: "一百二十五"
+  - id: mars.num.126
+    role: narrator
+    text: "一百二十六"
+  - id: mars.num.127
+    role: narrator
+    text: "一百二十七"
+  - id: mars.num.128
+    role: narrator
+    text: "一百二十八"
+  - id: mars.num.129
+    role: narrator
+    text: "一百二十九"
+  - id: mars.num.130
+    role: narrator
+    text: "一百三十"
+  - id: mars.num.131
+    role: narrator
+    text: "一百三十一"
+  - id: mars.num.132
+    role: narrator
+    text: "一百三十二"
+  - id: mars.num.133
+    role: narrator
+    text: "一百三十三"
+  - id: mars.num.134
+    role: narrator
+    text: "一百三十四"
+  - id: mars.num.135
+    role: narrator
+    text: "一百三十五"
+  - id: mars.num.136
+    role: narrator
+    text: "一百三十六"
+  - id: mars.num.137
+    role: narrator
+    text: "一百三十七"
+  - id: mars.num.138
+    role: narrator
+    text: "一百三十八"
+  - id: mars.num.139
+    role: narrator
+    text: "一百三十九"
+  - id: mars.num.140
+    role: narrator
+    text: "一百四十"
+  - id: mars.num.141
+    role: narrator
+    text: "一百四十一"
+  - id: mars.num.142
+    role: narrator
+    text: "一百四十二"
+  - id: mars.num.143
+    role: narrator
+    text: "一百四十三"
+  - id: mars.num.144
+    role: narrator
+    text: "一百四十四"
+  - id: mars.num.145
+    role: narrator
+    text: "一百四十五"
+  - id: mars.num.146
+    role: narrator
+    text: "一百四十六"
+  - id: mars.num.147
+    role: narrator
+    text: "一百四十七"
+  - id: mars.num.148
+    role: narrator
+    text: "一百四十八"
+  - id: mars.num.149
+    role: narrator
+    text: "一百四十九"
+  - id: mars.num.150
+    role: narrator
+    text: "一百五十"
+  - id: mars.num.151
+    role: narrator
+    text: "一百五十一"
+  - id: mars.num.152
+    role: narrator
+    text: "一百五十二"
+  - id: mars.num.153
+    role: narrator
+    text: "一百五十三"
+  - id: mars.num.154
+    role: narrator
+    text: "一百五十四"
+  - id: mars.num.155
+    role: narrator
+    text: "一百五十五"
+  - id: mars.num.156
+    role: narrator
+    text: "一百五十六"
+  - id: mars.num.157
+    role: narrator
+    text: "一百五十七"
+  - id: mars.num.158
+    role: narrator
+    text: "一百五十八"
+  - id: mars.num.159
+    role: narrator
+    text: "一百五十九"
+  - id: mars.num.160
+    role: narrator
+    text: "一百六十"
+  - id: mars.num.161
+    role: narrator
+    text: "一百六十一"
+  - id: mars.num.162
+    role: narrator
+    text: "一百六十二"
+  - id: mars.num.163
+    role: narrator
+    text: "一百六十三"
+  - id: mars.num.164
+    role: narrator
+    text: "一百六十四"
+  - id: mars.num.165
+    role: narrator
+    text: "一百六十五"
+  - id: mars.num.166
+    role: narrator
+    text: "一百六十六"
+  - id: mars.num.167
+    role: narrator
+    text: "一百六十七"
+  - id: mars.num.168
+    role: narrator
+    text: "一百六十八"
+  - id: mars.num.169
+    role: narrator
+    text: "一百六十九"
+  - id: mars.num.170
+    role: narrator
+    text: "一百七十"
+  - id: mars.num.171
+    role: narrator
+    text: "一百七十一"
+  - id: mars.num.172
+    role: narrator
+    text: "一百七十二"
+  - id: mars.num.173
+    role: narrator
+    text: "一百七十三"
+  - id: mars.num.174
+    role: narrator
+    text: "一百七十四"
+  - id: mars.num.175
+    role: narrator
+    text: "一百七十五"
+  - id: mars.num.176
+    role: narrator
+    text: "一百七十六"
+  - id: mars.num.177
+    role: narrator
+    text: "一百七十七"
+  - id: mars.num.178
+    role: narrator
+    text: "一百七十八"
+  - id: mars.num.179
+    role: narrator
+    text: "一百七十九"
+  - id: mars.num.180
+    role: narrator
+    text: "一百八十"
+  - id: mars.num.181
+    role: narrator
+    text: "一百八十一"
+  - id: mars.num.182
+    role: narrator
+    text: "一百八十二"
+  - id: mars.num.183
+    role: narrator
+    text: "一百八十三"
+  - id: mars.num.184
+    role: narrator
+    text: "一百八十四"
+  - id: mars.num.185
+    role: narrator
+    text: "一百八十五"
+  - id: mars.num.186
+    role: narrator
+    text: "一百八十六"
+  - id: mars.num.187
+    role: narrator
+    text: "一百八十七"
+  - id: mars.num.188
+    role: narrator
+    text: "一百八十八"
+  - id: mars.num.189
+    role: narrator
+    text: "一百八十九"
+  - id: mars.num.190
+    role: narrator
+    text: "一百九十"
+  - id: mars.num.191
+    role: narrator
+    text: "一百九十一"
+  - id: mars.num.192
+    role: narrator
+    text: "一百九十二"
+  - id: mars.num.193
+    role: narrator
+    text: "一百九十三"
+  - id: mars.num.194
+    role: narrator
+    text: "一百九十四"
+  - id: mars.num.195
+    role: narrator
+    text: "一百九十五"
+  - id: mars.num.196
+    role: narrator
+    text: "一百九十六"
+  - id: mars.num.197
+    role: narrator
+    text: "一百九十七"
+  - id: mars.num.198
+    role: narrator
+    text: "一百九十八"
+  - id: mars.num.199
+    role: narrator
+    text: "一百九十九"
+  - id: mars.num.200
+    role: narrator
+    text: "二百"
+  - id: mars.num.201
+    role: narrator
+    text: "二百零一"
+  - id: mars.num.202
+    role: narrator
+    text: "二百零二"
+  - id: mars.num.203
+    role: narrator
+    text: "二百零三"
+  - id: mars.num.204
+    role: narrator
+    text: "二百零四"
+  - id: mars.num.205
+    role: narrator
+    text: "二百零五"
+  - id: mars.num.206
+    role: narrator
+    text: "二百零六"
+  - id: mars.num.207
+    role: narrator
+    text: "二百零七"
+  - id: mars.num.208
+    role: narrator
+    text: "二百零八"
+  - id: mars.num.209
+    role: narrator
+    text: "二百零九"
+  - id: mars.num.210
+    role: narrator
+    text: "二百一十"
+  - id: mars.num.211
+    role: narrator
+    text: "二百一十一"
+  - id: mars.num.212
+    role: narrator
+    text: "二百一十二"
+  - id: mars.num.213
+    role: narrator
+    text: "二百一十三"
+  - id: mars.num.214
+    role: narrator
+    text: "二百一十四"
+  - id: mars.num.215
+    role: narrator
+    text: "二百一十五"
+  - id: mars.num.216
+    role: narrator
+    text: "二百一十六"
+  - id: mars.num.217
+    role: narrator
+    text: "二百一十七"
+  - id: mars.num.218
+    role: narrator
+    text: "二百一十八"
+  - id: mars.num.219
+    role: narrator
+    text: "二百一十九"
+  - id: mars.num.220
+    role: narrator
+    text: "二百二十"
+  - id: mars.num.221
+    role: narrator
+    text: "二百二十一"
+  - id: mars.num.222
+    role: narrator
+    text: "二百二十二"
+  - id: mars.num.223
+    role: narrator
+    text: "二百二十三"
+  - id: mars.num.224
+    role: narrator
+    text: "二百二十四"
+  - id: mars.num.225
+    role: narrator
+    text: "二百二十五"
+  - id: mars.num.226
+    role: narrator
+    text: "二百二十六"
+  - id: mars.num.227
+    role: narrator
+    text: "二百二十七"
+  - id: mars.num.228
+    role: narrator
+    text: "二百二十八"
+  - id: mars.num.229
+    role: narrator
+    text: "二百二十九"
+  - id: mars.num.230
+    role: narrator
+    text: "二百三十"
+  - id: mars.num.231
+    role: narrator
+    text: "二百三十一"
+  - id: mars.num.232
+    role: narrator
+    text: "二百三十二"
+  - id: mars.num.233
+    role: narrator
+    text: "二百三十三"
+  - id: mars.num.234
+    role: narrator
+    text: "二百三十四"
+  - id: mars.num.235
+    role: narrator
+    text: "二百三十五"
+  - id: mars.num.236
+    role: narrator
+    text: "二百三十六"
+  - id: mars.num.237
+    role: narrator
+    text: "二百三十七"
+  - id: mars.num.238
+    role: narrator
+    text: "二百三十八"
+  - id: mars.num.239
+    role: narrator
+    text: "二百三十九"
+  - id: mars.num.240
+    role: narrator
+    text: "二百四十"
+  - id: mars.num.241
+    role: narrator
+    text: "二百四十一"
+  - id: mars.num.242
+    role: narrator
+    text: "二百四十二"
+  - id: mars.num.243
+    role: narrator
+    text: "二百四十三"
+  - id: mars.num.244
+    role: narrator
+    text: "二百四十四"
+  - id: mars.num.245
+    role: narrator
+    text: "二百四十五"
+  - id: mars.num.246
+    role: narrator
+    text: "二百四十六"
+  - id: mars.num.247
+    role: narrator
+    text: "二百四十七"
+  - id: mars.num.248
+    role: narrator
+    text: "二百四十八"
+  - id: mars.num.249
+    role: narrator
+    text: "二百四十九"
+  - id: mars.num.250
+    role: narrator
+    text: "二百五十"
+  - id: mars.num.251
+    role: narrator
+    text: "二百五十一"
+  - id: mars.num.252
+    role: narrator
+    text: "二百五十二"
+  - id: mars.num.253
+    role: narrator
+    text: "二百五十三"
+  - id: mars.num.254
+    role: narrator
+    text: "二百五十四"
+  - id: mars.num.255
+    role: narrator
+    text: "二百五十五"
+  - id: mars.num.256
+    role: narrator
+    text: "二百五十六"
+  - id: mars.num.257
+    role: narrator
+    text: "二百五十七"
+  - id: mars.num.258
+    role: narrator
+    text: "二百五十八"
+  - id: mars.num.259
+    role: narrator
+    text: "二百五十九"
+  - id: mars.num.260
+    role: narrator
+    text: "二百六十"
+  - id: mars.num.261
+    role: narrator
+    text: "二百六十一"
+  - id: mars.num.262
+    role: narrator
+    text: "二百六十二"
+  - id: mars.num.263
+    role: narrator
+    text: "二百六十三"
+  - id: mars.num.264
+    role: narrator
+    text: "二百六十四"
+  - id: mars.num.265
+    role: narrator
+    text: "二百六十五"
+  - id: mars.num.266
+    role: narrator
+    text: "二百六十六"
+  - id: mars.num.267
+    role: narrator
+    text: "二百六十七"
+  - id: mars.num.268
+    role: narrator
+    text: "二百六十八"
+  - id: mars.num.269
+    role: narrator
+    text: "二百六十九"
+  - id: mars.num.270
+    role: narrator
+    text: "二百七十"
+  - id: mars.num.271
+    role: narrator
+    text: "二百七十一"
+  - id: mars.num.272
+    role: narrator
+    text: "二百七十二"
+  - id: mars.num.273
+    role: narrator
+    text: "二百七十三"
+  - id: mars.num.274
+    role: narrator
+    text: "二百七十四"
+  - id: mars.num.275
+    role: narrator
+    text: "二百七十五"
+  - id: mars.num.276
+    role: narrator
+    text: "二百七十六"
+  - id: mars.num.277
+    role: narrator
+    text: "二百七十七"
+  - id: mars.num.278
+    role: narrator
+    text: "二百七十八"
+  - id: mars.num.279
+    role: narrator
+    text: "二百七十九"
+  - id: mars.num.280
+    role: narrator
+    text: "二百八十"
+  - id: mars.num.281
+    role: narrator
+    text: "二百八十一"
+  - id: mars.num.282
+    role: narrator
+    text: "二百八十二"
+  - id: mars.num.283
+    role: narrator
+    text: "二百八十三"
+  - id: mars.num.284
+    role: narrator
+    text: "二百八十四"
+  - id: mars.num.285
+    role: narrator
+    text: "二百八十五"
+  - id: mars.num.286
+    role: narrator
+    text: "二百八十六"
+  - id: mars.num.287
+    role: narrator
+    text: "二百八十七"
+  - id: mars.num.288
+    role: narrator
+    text: "二百八十八"
+  - id: mars.num.289
+    role: narrator
+    text: "二百八十九"
+  - id: mars.num.290
+    role: narrator
+    text: "二百九十"
+  - id: mars.num.291
+    role: narrator
+    text: "二百九十一"
+  - id: mars.num.292
+    role: narrator
+    text: "二百九十二"
+  - id: mars.num.293
+    role: narrator
+    text: "二百九十三"
+  - id: mars.num.294
+    role: narrator
+    text: "二百九十四"
+  - id: mars.num.295
+    role: narrator
+    text: "二百九十五"
+  - id: mars.num.296
+    role: narrator
+    text: "二百九十六"
+  - id: mars.num.297
+    role: narrator
+    text: "二百九十七"
+  - id: mars.num.298
+    role: narrator
+    text: "二百九十八"
+  - id: mars.num.299
+    role: narrator
+    text: "二百九十九"
+  - id: mars.num.300
+    role: narrator
+    text: "三百"
+  - id: mars.num.301
+    role: narrator
+    text: "三百零一"
+  - id: mars.num.302
+    role: narrator
+    text: "三百零二"
+  - id: mars.num.303
+    role: narrator
+    text: "三百零三"
+  - id: mars.num.304
+    role: narrator
+    text: "三百零四"
+  - id: mars.num.305
+    role: narrator
+    text: "三百零五"
+  - id: mars.num.306
+    role: narrator
+    text: "三百零六"
+  - id: mars.num.307
+    role: narrator
+    text: "三百零七"
+  - id: mars.num.308
+    role: narrator
+    text: "三百零八"
+  - id: mars.num.309
+    role: narrator
+    text: "三百零九"
+  - id: mars.num.310
+    role: narrator
+    text: "三百一十"
+  - id: mars.num.311
+    role: narrator
+    text: "三百一十一"
+  - id: mars.num.312
+    role: narrator
+    text: "三百一十二"
+  - id: mars.num.313
+    role: narrator
+    text: "三百一十三"
+  - id: mars.num.314
+    role: narrator
+    text: "三百一十四"
+  - id: mars.num.315
+    role: narrator
+    text: "三百一十五"
+  - id: mars.num.316
+    role: narrator
+    text: "三百一十六"
+  - id: mars.num.317
+    role: narrator
+    text: "三百一十七"
+  - id: mars.num.318
+    role: narrator
+    text: "三百一十八"
+  - id: mars.num.319
+    role: narrator
+    text: "三百一十九"
+  - id: mars.num.320
+    role: narrator
+    text: "三百二十"
+  - id: mars.num.321
+    role: narrator
+    text: "三百二十一"
+  - id: mars.num.322
+    role: narrator
+    text: "三百二十二"
+  - id: mars.num.323
+    role: narrator
+    text: "三百二十三"
+  - id: mars.num.324
+    role: narrator
+    text: "三百二十四"
+  - id: mars.num.325
+    role: narrator
+    text: "三百二十五"
+  - id: mars.num.326
+    role: narrator
+    text: "三百二十六"
+  - id: mars.num.327
+    role: narrator
+    text: "三百二十七"
+  - id: mars.num.328
+    role: narrator
+    text: "三百二十八"
+  - id: mars.num.329
+    role: narrator
+    text: "三百二十九"
+  - id: mars.num.330
+    role: narrator
+    text: "三百三十"
+  - id: mars.num.331
+    role: narrator
+    text: "三百三十一"
+  - id: mars.num.332
+    role: narrator
+    text: "三百三十二"
+  - id: mars.num.333
+    role: narrator
+    text: "三百三十三"
+  - id: mars.num.334
+    role: narrator
+    text: "三百三十四"
+  - id: mars.num.335
+    role: narrator
+    text: "三百三十五"
+  - id: mars.num.336
+    role: narrator
+    text: "三百三十六"
+  - id: mars.num.337
+    role: narrator
+    text: "三百三十七"
+  - id: mars.num.338
+    role: narrator
+    text: "三百三十八"
+  - id: mars.num.339
+    role: narrator
+    text: "三百三十九"
+  - id: mars.num.340
+    role: narrator
+    text: "三百四十"
+  - id: mars.num.341
+    role: narrator
+    text: "三百四十一"
+  - id: mars.num.342
+    role: narrator
+    text: "三百四十二"
+  - id: mars.num.343
+    role: narrator
+    text: "三百四十三"
+  - id: mars.num.344
+    role: narrator
+    text: "三百四十四"
+  - id: mars.num.345
+    role: narrator
+    text: "三百四十五"
+  - id: mars.num.346
+    role: narrator
+    text: "三百四十六"
+  - id: mars.num.347
+    role: narrator
+    text: "三百四十七"
+  - id: mars.num.348
+    role: narrator
+    text: "三百四十八"
+  - id: mars.num.349
+    role: narrator
+    text: "三百四十九"
+  - id: mars.num.350
+    role: narrator
+    text: "三百五十"
+  - id: mars.num.351
+    role: narrator
+    text: "三百五十一"
+  - id: mars.num.352
+    role: narrator
+    text: "三百五十二"
+  - id: mars.num.353
+    role: narrator
+    text: "三百五十三"
+  - id: mars.num.354
+    role: narrator
+    text: "三百五十四"
+  - id: mars.num.355
+    role: narrator
+    text: "三百五十五"
+  - id: mars.num.356
+    role: narrator
+    text: "三百五十六"
+  - id: mars.num.357
+    role: narrator
+    text: "三百五十七"
+  - id: mars.num.358
+    role: narrator
+    text: "三百五十八"
+  - id: mars.num.359
+    role: narrator
+    text: "三百五十九"
+  - id: mars.num.360
+    role: narrator
+    text: "三百六十"
+  - id: mars.num.361
+    role: narrator
+    text: "三百六十一"
+  - id: mars.num.362
+    role: narrator
+    text: "三百六十二"
+  - id: mars.num.363
+    role: narrator
+    text: "三百六十三"
+  - id: mars.num.364
+    role: narrator
+    text: "三百六十四"
+  - id: mars.num.365
+    role: narrator
+    text: "三百六十五"
+  - id: mars.num.366
+    role: narrator
+    text: "三百六十六"
+  - id: mars.num.367
+    role: narrator
+    text: "三百六十七"
+  - id: mars.num.368
+    role: narrator
+    text: "三百六十八"
+  - id: mars.num.369
+    role: narrator
+    text: "三百六十九"
+  - id: mars.num.370
+    role: narrator
+    text: "三百七十"
+  - id: mars.num.371
+    role: narrator
+    text: "三百七十一"
+  - id: mars.num.372
+    role: narrator
+    text: "三百七十二"
+  - id: mars.num.373
+    role: narrator
+    text: "三百七十三"
+  - id: mars.num.374
+    role: narrator
+    text: "三百七十四"
+  - id: mars.num.375
+    role: narrator
+    text: "三百七十五"
+  - id: mars.num.376
+    role: narrator
+    text: "三百七十六"
+  - id: mars.num.377
+    role: narrator
+    text: "三百七十七"
+  - id: mars.num.378
+    role: narrator
+    text: "三百七十八"
+  - id: mars.num.379
+    role: narrator
+    text: "三百七十九"
+  - id: mars.num.380
+    role: narrator
+    text: "三百八十"
+  - id: mars.num.381
+    role: narrator
+    text: "三百八十一"
+  - id: mars.num.382
+    role: narrator
+    text: "三百八十二"
+  - id: mars.num.383
+    role: narrator
+    text: "三百八十三"
+  - id: mars.num.384
+    role: narrator
+    text: "三百八十四"
+  - id: mars.num.385
+    role: narrator
+    text: "三百八十五"
+  - id: mars.num.386
+    role: narrator
+    text: "三百八十六"
+  - id: mars.num.387
+    role: narrator
+    text: "三百八十七"
+  - id: mars.num.388
+    role: narrator
+    text: "三百八十八"
+  - id: mars.num.389
+    role: narrator
+    text: "三百八十九"
+  - id: mars.num.390
+    role: narrator
+    text: "三百九十"
+  - id: mars.num.391
+    role: narrator
+    text: "三百九十一"
+  - id: mars.num.392
+    role: narrator
+    text: "三百九十二"
+  - id: mars.num.393
+    role: narrator
+    text: "三百九十三"
+  - id: mars.num.394
+    role: narrator
+    text: "三百九十四"
+  - id: mars.num.395
+    role: narrator
+    text: "三百九十五"
+  - id: mars.num.396
+    role: narrator
+    text: "三百九十六"
+  - id: mars.num.397
+    role: narrator
+    text: "三百九十七"
+  - id: mars.num.398
+    role: narrator
+    text: "三百九十八"
+  - id: mars.num.399
+    role: narrator
+    text: "三百九十九"
+  - id: mars.num.400
+    role: narrator
+    text: "四百"
+  - id: mars.num.401
+    role: narrator
+    text: "四百零一"
+  - id: mars.num.402
+    role: narrator
+    text: "四百零二"
+  - id: mars.num.403
+    role: narrator
+    text: "四百零三"
+  - id: mars.num.404
+    role: narrator
+    text: "四百零四"
+  - id: mars.num.405
+    role: narrator
+    text: "四百零五"
+  - id: mars.num.406
+    role: narrator
+    text: "四百零六"
+  - id: mars.num.407
+    role: narrator
+    text: "四百零七"
+  - id: mars.num.408
+    role: narrator
+    text: "四百零八"
+  - id: mars.num.409
+    role: narrator
+    text: "四百零九"
+  - id: mars.num.410
+    role: narrator
+    text: "四百一十"
+  - id: mars.num.411
+    role: narrator
+    text: "四百一十一"
+  - id: mars.num.412
+    role: narrator
+    text: "四百一十二"
+  - id: mars.num.413
+    role: narrator
+    text: "四百一十三"
+  - id: mars.num.414
+    role: narrator
+    text: "四百一十四"
+  - id: mars.num.415
+    role: narrator
+    text: "四百一十五"
+  - id: mars.num.416
+    role: narrator
+    text: "四百一十六"
+  - id: mars.num.417
+    role: narrator
+    text: "四百一十七"
+  - id: mars.num.418
+    role: narrator
+    text: "四百一十八"
+  - id: mars.num.419
+    role: narrator
+    text: "四百一十九"
+  - id: mars.num.420
+    role: narrator
+    text: "四百二十"
+  - id: mars.num.421
+    role: narrator
+    text: "四百二十一"
+  - id: mars.num.422
+    role: narrator
+    text: "四百二十二"
+  - id: mars.num.423
+    role: narrator
+    text: "四百二十三"
+  - id: mars.num.424
+    role: narrator
+    text: "四百二十四"
+  - id: mars.num.425
+    role: narrator
+    text: "四百二十五"
+  - id: mars.num.426
+    role: narrator
+    text: "四百二十六"
+  - id: mars.num.427
+    role: narrator
+    text: "四百二十七"
+  - id: mars.num.428
+    role: narrator
+    text: "四百二十八"
+  - id: mars.num.429
+    role: narrator
+    text: "四百二十九"
+  - id: mars.num.430
+    role: narrator
+    text: "四百三十"
+  - id: mars.num.431
+    role: narrator
+    text: "四百三十一"
+  - id: mars.num.432
+    role: narrator
+    text: "四百三十二"
+  - id: mars.num.433
+    role: narrator
+    text: "四百三十三"
+  - id: mars.num.434
+    role: narrator
+    text: "四百三十四"
+  - id: mars.num.435
+    role: narrator
+    text: "四百三十五"
+  - id: mars.num.436
+    role: narrator
+    text: "四百三十六"
+  - id: mars.num.437
+    role: narrator
+    text: "四百三十七"
+  - id: mars.num.438
+    role: narrator
+    text: "四百三十八"
+  - id: mars.num.439
+    role: narrator
+    text: "四百三十九"
+  - id: mars.num.440
+    role: narrator
+    text: "四百四十"
+  - id: mars.num.441
+    role: narrator
+    text: "四百四十一"
+  - id: mars.num.442
+    role: narrator
+    text: "四百四十二"
+  - id: mars.num.443
+    role: narrator
+    text: "四百四十三"
+  - id: mars.num.444
+    role: narrator
+    text: "四百四十四"
+  - id: mars.num.445
+    role: narrator
+    text: "四百四十五"
+  - id: mars.num.446
+    role: narrator
+    text: "四百四十六"
+  - id: mars.num.447
+    role: narrator
+    text: "四百四十七"
+  - id: mars.num.448
+    role: narrator
+    text: "四百四十八"
+  - id: mars.num.449
+    role: narrator
+    text: "四百四十九"
+  - id: mars.num.450
+    role: narrator
+    text: "四百五十"
+  - id: mars.num.451
+    role: narrator
+    text: "四百五十一"
+  - id: mars.num.452
+    role: narrator
+    text: "四百五十二"
+  - id: mars.num.453
+    role: narrator
+    text: "四百五十三"
+  - id: mars.num.454
+    role: narrator
+    text: "四百五十四"
+  - id: mars.num.455
+    role: narrator
+    text: "四百五十五"
+  - id: mars.num.456
+    role: narrator
+    text: "四百五十六"
+  - id: mars.num.457
+    role: narrator
+    text: "四百五十七"
+  - id: mars.num.458
+    role: narrator
+    text: "四百五十八"
+  - id: mars.num.459
+    role: narrator
+    text: "四百五十九"
+  - id: mars.num.460
+    role: narrator
+    text: "四百六十"
+  - id: mars.num.461
+    role: narrator
+    text: "四百六十一"
+  - id: mars.num.462
+    role: narrator
+    text: "四百六十二"
+  - id: mars.num.463
+    role: narrator
+    text: "四百六十三"
+  - id: mars.num.464
+    role: narrator
+    text: "四百六十四"
+  - id: mars.num.465
+    role: narrator
+    text: "四百六十五"
+  - id: mars.num.466
+    role: narrator
+    text: "四百六十六"
+  - id: mars.num.467
+    role: narrator
+    text: "四百六十七"
+  - id: mars.num.468
+    role: narrator
+    text: "四百六十八"
+  - id: mars.num.469
+    role: narrator
+    text: "四百六十九"
+  - id: mars.num.470
+    role: narrator
+    text: "四百七十"
+  - id: mars.num.471
+    role: narrator
+    text: "四百七十一"
+  - id: mars.num.472
+    role: narrator
+    text: "四百七十二"
+  - id: mars.num.473
+    role: narrator
+    text: "四百七十三"
+  - id: mars.num.474
+    role: narrator
+    text: "四百七十四"
+  - id: mars.num.475
+    role: narrator
+    text: "四百七十五"
+  - id: mars.num.476
+    role: narrator
+    text: "四百七十六"
+  - id: mars.num.477
+    role: narrator
+    text: "四百七十七"
+  - id: mars.num.478
+    role: narrator
+    text: "四百七十八"
+  - id: mars.num.479
+    role: narrator
+    text: "四百七十九"
+  - id: mars.num.480
+    role: narrator
+    text: "四百八十"
+  - id: mars.num.481
+    role: narrator
+    text: "四百八十一"
+  - id: mars.num.482
+    role: narrator
+    text: "四百八十二"
+  - id: mars.num.483
+    role: narrator
+    text: "四百八十三"
+  - id: mars.num.484
+    role: narrator
+    text: "四百八十四"
+  - id: mars.num.485
+    role: narrator
+    text: "四百八十五"
+  - id: mars.num.486
+    role: narrator
+    text: "四百八十六"
+  - id: mars.num.487
+    role: narrator
+    text: "四百八十七"
+  - id: mars.num.488
+    role: narrator
+    text: "四百八十八"
+  - id: mars.num.489
+    role: narrator
+    text: "四百八十九"
+  - id: mars.num.490
+    role: narrator
+    text: "四百九十"
+  - id: mars.num.491
+    role: narrator
+    text: "四百九十一"
+  - id: mars.num.492
+    role: narrator
+    text: "四百九十二"
+  - id: mars.num.493
+    role: narrator
+    text: "四百九十三"
+  - id: mars.num.494
+    role: narrator
+    text: "四百九十四"
+  - id: mars.num.495
+    role: narrator
+    text: "四百九十五"
+  - id: mars.num.496
+    role: narrator
+    text: "四百九十六"
+  - id: mars.num.497
+    role: narrator
+    text: "四百九十七"
+  - id: mars.num.498
+    role: narrator
+    text: "四百九十八"
+  - id: mars.num.499
+    role: narrator
+    text: "四百九十九"
+  - id: mars.num.500
+    role: narrator
+    text: "五百"
+  - id: mars.num.501
+    role: narrator
+    text: "五百零一"
+  - id: mars.num.502
+    role: narrator
+    text: "五百零二"
+  - id: mars.num.503
+    role: narrator
+    text: "五百零三"
+  - id: mars.num.504
+    role: narrator
+    text: "五百零四"
+  - id: mars.num.505
+    role: narrator
+    text: "五百零五"
+  - id: mars.num.506
+    role: narrator
+    text: "五百零六"
+  - id: mars.num.507
+    role: narrator
+    text: "五百零七"
+  - id: mars.num.508
+    role: narrator
+    text: "五百零八"
+  - id: mars.num.509
+    role: narrator
+    text: "五百零九"
+  - id: mars.num.510
+    role: narrator
+    text: "五百一十"
+  - id: mars.num.511
+    role: narrator
+    text: "五百一十一"
+  - id: mars.num.512
+    role: narrator
+    text: "五百一十二"
+  - id: mars.num.513
+    role: narrator
+    text: "五百一十三"
+  - id: mars.num.514
+    role: narrator
+    text: "五百一十四"
+  - id: mars.num.515
+    role: narrator
+    text: "五百一十五"
+  - id: mars.num.516
+    role: narrator
+    text: "五百一十六"
+  - id: mars.num.517
+    role: narrator
+    text: "五百一十七"
+  - id: mars.num.518
+    role: narrator
+    text: "五百一十八"
+  - id: mars.num.519
+    role: narrator
+    text: "五百一十九"
+  - id: mars.num.520
+    role: narrator
+    text: "五百二十"
+  - id: mars.num.521
+    role: narrator
+    text: "五百二十一"
+  - id: mars.num.522
+    role: narrator
+    text: "五百二十二"
+  - id: mars.num.523
+    role: narrator
+    text: "五百二十三"
+  - id: mars.num.524
+    role: narrator
+    text: "五百二十四"
+  - id: mars.num.525
+    role: narrator
+    text: "五百二十五"
+  - id: mars.num.526
+    role: narrator
+    text: "五百二十六"
+  - id: mars.num.527
+    role: narrator
+    text: "五百二十七"
+  - id: mars.num.528
+    role: narrator
+    text: "五百二十八"
+  - id: mars.num.529
+    role: narrator
+    text: "五百二十九"
+  - id: mars.num.530
+    role: narrator
+    text: "五百三十"
+  - id: mars.num.531
+    role: narrator
+    text: "五百三十一"
+  - id: mars.num.532
+    role: narrator
+    text: "五百三十二"
+  - id: mars.num.533
+    role: narrator
+    text: "五百三十三"
+  - id: mars.num.534
+    role: narrator
+    text: "五百三十四"
+  - id: mars.num.535
+    role: narrator
+    text: "五百三十五"
+  - id: mars.num.536
+    role: narrator
+    text: "五百三十六"
+  - id: mars.num.537
+    role: narrator
+    text: "五百三十七"
+  - id: mars.num.538
+    role: narrator
+    text: "五百三十八"
+  - id: mars.num.539
+    role: narrator
+    text: "五百三十九"
+  - id: mars.num.540
+    role: narrator
+    text: "五百四十"
+  - id: mars.num.541
+    role: narrator
+    text: "五百四十一"
+  - id: mars.num.542
+    role: narrator
+    text: "五百四十二"
+  - id: mars.num.543
+    role: narrator
+    text: "五百四十三"
+  - id: mars.num.544
+    role: narrator
+    text: "五百四十四"
+  - id: mars.num.545
+    role: narrator
+    text: "五百四十五"
+  - id: mars.num.546
+    role: narrator
+    text: "五百四十六"
+  - id: mars.num.547
+    role: narrator
+    text: "五百四十七"
+  - id: mars.num.548
+    role: narrator
+    text: "五百四十八"
+  - id: mars.num.549
+    role: narrator
+    text: "五百四十九"
+  - id: mars.num.550
+    role: narrator
+    text: "五百五十"
+  - id: mars.num.551
+    role: narrator
+    text: "五百五十一"
+  - id: mars.num.552
+    role: narrator
+    text: "五百五十二"
+  - id: mars.num.553
+    role: narrator
+    text: "五百五十三"
+  - id: mars.num.554
+    role: narrator
+    text: "五百五十四"
+  - id: mars.num.555
+    role: narrator
+    text: "五百五十五"
+  - id: mars.num.556
+    role: narrator
+    text: "五百五十六"
+  - id: mars.num.557
+    role: narrator
+    text: "五百五十七"
+  - id: mars.num.558
+    role: narrator
+    text: "五百五十八"
+  - id: mars.num.559
+    role: narrator
+    text: "五百五十九"
+  - id: mars.num.560
+    role: narrator
+    text: "五百六十"
+  - id: mars.num.561
+    role: narrator
+    text: "五百六十一"
+  - id: mars.num.562
+    role: narrator
+    text: "五百六十二"
+  - id: mars.num.563
+    role: narrator
+    text: "五百六十三"
+  - id: mars.num.564
+    role: narrator
+    text: "五百六十四"
+  - id: mars.num.565
+    role: narrator
+    text: "五百六十五"
+  - id: mars.num.566
+    role: narrator
+    text: "五百六十六"
+  - id: mars.num.567
+    role: narrator
+    text: "五百六十七"
+  - id: mars.num.568
+    role: narrator
+    text: "五百六十八"
+  - id: mars.num.569
+    role: narrator
+    text: "五百六十九"
+  - id: mars.num.570
+    role: narrator
+    text: "五百七十"
+  - id: mars.num.571
+    role: narrator
+    text: "五百七十一"
+  - id: mars.num.572
+    role: narrator
+    text: "五百七十二"
+  - id: mars.num.573
+    role: narrator
+    text: "五百七十三"
+  - id: mars.num.574
+    role: narrator
+    text: "五百七十四"
+  - id: mars.num.575
+    role: narrator
+    text: "五百七十五"
+  - id: mars.num.576
+    role: narrator
+    text: "五百七十六"
+  - id: mars.num.577
+    role: narrator
+    text: "五百七十七"
+  - id: mars.num.578
+    role: narrator
+    text: "五百七十八"
+  - id: mars.num.579
+    role: narrator
+    text: "五百七十九"
+  - id: mars.num.580
+    role: narrator
+    text: "五百八十"
+  - id: mars.num.581
+    role: narrator
+    text: "五百八十一"
+  - id: mars.num.582
+    role: narrator
+    text: "五百八十二"
+  - id: mars.num.583
+    role: narrator
+    text: "五百八十三"
+  - id: mars.num.584
+    role: narrator
+    text: "五百八十四"
+  - id: mars.num.585
+    role: narrator
+    text: "五百八十五"
+  - id: mars.num.586
+    role: narrator
+    text: "五百八十六"
+  - id: mars.num.587
+    role: narrator
+    text: "五百八十七"
+  - id: mars.num.588
+    role: narrator
+    text: "五百八十八"
+  - id: mars.num.589
+    role: narrator
+    text: "五百八十九"
+  - id: mars.num.590
+    role: narrator
+    text: "五百九十"
+  - id: mars.num.591
+    role: narrator
+    text: "五百九十一"
+  - id: mars.num.592
+    role: narrator
+    text: "五百九十二"
+  - id: mars.num.593
+    role: narrator
+    text: "五百九十三"
+  - id: mars.num.594
+    role: narrator
+    text: "五百九十四"
+  - id: mars.num.595
+    role: narrator
+    text: "五百九十五"
+  - id: mars.num.596
+    role: narrator
+    text: "五百九十六"
+  - id: mars.num.597
+    role: narrator
+    text: "五百九十七"
+  - id: mars.num.598
+    role: narrator
+    text: "五百九十八"
+  - id: mars.num.599
+    role: narrator
+    text: "五百九十九"
+  - id: mars.num.600
+    role: narrator
+    text: "六百"
+  - id: mars.num.601
+    role: narrator
+    text: "六百零一"
+  - id: mars.num.602
+    role: narrator
+    text: "六百零二"
+  - id: mars.num.603
+    role: narrator
+    text: "六百零三"
+  - id: mars.num.604
+    role: narrator
+    text: "六百零四"
+  - id: mars.num.605
+    role: narrator
+    text: "六百零五"
+  - id: mars.num.606
+    role: narrator
+    text: "六百零六"
+  - id: mars.num.607
+    role: narrator
+    text: "六百零七"
+  - id: mars.num.608
+    role: narrator
+    text: "六百零八"
+  - id: mars.num.609
+    role: narrator
+    text: "六百零九"
+  - id: mars.num.610
+    role: narrator
+    text: "六百一十"
+  - id: mars.num.611
+    role: narrator
+    text: "六百一十一"
+  - id: mars.num.612
+    role: narrator
+    text: "六百一十二"
+  - id: mars.num.613
+    role: narrator
+    text: "六百一十三"
+  - id: mars.num.614
+    role: narrator
+    text: "六百一十四"
+  - id: mars.num.615
+    role: narrator
+    text: "六百一十五"
+  - id: mars.num.616
+    role: narrator
+    text: "六百一十六"
+  - id: mars.num.617
+    role: narrator
+    text: "六百一十七"
+  - id: mars.num.618
+    role: narrator
+    text: "六百一十八"
+  - id: mars.num.619
+    role: narrator
+    text: "六百一十九"
+  - id: mars.num.620
+    role: narrator
+    text: "六百二十"
+  - id: mars.num.621
+    role: narrator
+    text: "六百二十一"
+  - id: mars.num.622
+    role: narrator
+    text: "六百二十二"
+  - id: mars.num.623
+    role: narrator
+    text: "六百二十三"
+  - id: mars.num.624
+    role: narrator
+    text: "六百二十四"
+  - id: mars.num.625
+    role: narrator
+    text: "六百二十五"
+  - id: mars.num.626
+    role: narrator
+    text: "六百二十六"
+  - id: mars.num.627
+    role: narrator
+    text: "六百二十七"
+  - id: mars.num.628
+    role: narrator
+    text: "六百二十八"
+  - id: mars.num.629
+    role: narrator
+    text: "六百二十九"
+  - id: mars.num.630
+    role: narrator
+    text: "六百三十"
+  - id: mars.num.631
+    role: narrator
+    text: "六百三十一"
+  - id: mars.num.632
+    role: narrator
+    text: "六百三十二"
+  - id: mars.num.633
+    role: narrator
+    text: "六百三十三"
+  - id: mars.num.634
+    role: narrator
+    text: "六百三十四"
+  - id: mars.num.635
+    role: narrator
+    text: "六百三十五"
+  - id: mars.num.636
+    role: narrator
+    text: "六百三十六"
+  - id: mars.num.637
+    role: narrator
+    text: "六百三十七"
+  - id: mars.num.638
+    role: narrator
+    text: "六百三十八"
+  - id: mars.num.639
+    role: narrator
+    text: "六百三十九"
+  - id: mars.num.640
+    role: narrator
+    text: "六百四十"
+  - id: mars.num.641
+    role: narrator
+    text: "六百四十一"
+  - id: mars.num.642
+    role: narrator
+    text: "六百四十二"
+  - id: mars.num.643
+    role: narrator
+    text: "六百四十三"
+  - id: mars.num.644
+    role: narrator
+    text: "六百四十四"
+  - id: mars.num.645
+    role: narrator
+    text: "六百四十五"
+  - id: mars.num.646
+    role: narrator
+    text: "六百四十六"
+  - id: mars.num.647
+    role: narrator
+    text: "六百四十七"
+  - id: mars.num.648
+    role: narrator
+    text: "六百四十八"
+  - id: mars.num.649
+    role: narrator
+    text: "六百四十九"
+  - id: mars.num.650
+    role: narrator
+    text: "六百五十"
+  - id: mars.num.651
+    role: narrator
+    text: "六百五十一"
+  - id: mars.num.652
+    role: narrator
+    text: "六百五十二"
+  - id: mars.num.653
+    role: narrator
+    text: "六百五十三"
+  - id: mars.num.654
+    role: narrator
+    text: "六百五十四"
+  - id: mars.num.655
+    role: narrator
+    text: "六百五十五"
+  - id: mars.num.656
+    role: narrator
+    text: "六百五十六"
+  - id: mars.num.657
+    role: narrator
+    text: "六百五十七"
+  - id: mars.num.658
+    role: narrator
+    text: "六百五十八"
+  - id: mars.num.659
+    role: narrator
+    text: "六百五十九"
+  - id: mars.num.660
+    role: narrator
+    text: "六百六十"
+  - id: mars.num.661
+    role: narrator
+    text: "六百六十一"
+  - id: mars.num.662
+    role: narrator
+    text: "六百六十二"
+  - id: mars.num.663
+    role: narrator
+    text: "六百六十三"
+  - id: mars.num.664
+    role: narrator
+    text: "六百六十四"
+  - id: mars.num.665
+    role: narrator
+    text: "六百六十五"
+  - id: mars.num.666
+    role: narrator
+    text: "六百六十六"
+  - id: mars.num.667
+    role: narrator
+    text: "六百六十七"
+  - id: mars.num.668
+    role: narrator
+    text: "六百六十八"
+  - id: mars.num.669
+    role: narrator
+    text: "六百六十九"
+  - id: mars.num.670
+    role: narrator
+    text: "六百七十"
+  - id: mars.num.671
+    role: narrator
+    text: "六百七十一"
+  - id: mars.num.672
+    role: narrator
+    text: "六百七十二"
+  - id: mars.num.673
+    role: narrator
+    text: "六百七十三"
+  - id: mars.num.674
+    role: narrator
+    text: "六百七十四"
+  - id: mars.num.675
+    role: narrator
+    text: "六百七十五"
+  - id: mars.num.676
+    role: narrator
+    text: "六百七十六"
+  - id: mars.num.677
+    role: narrator
+    text: "六百七十七"
+  - id: mars.num.678
+    role: narrator
+    text: "六百七十八"
+  - id: mars.num.679
+    role: narrator
+    text: "六百七十九"
+  - id: mars.num.680
+    role: narrator
+    text: "六百八十"
+  - id: mars.num.681
+    role: narrator
+    text: "六百八十一"
+  - id: mars.num.682
+    role: narrator
+    text: "六百八十二"
+  - id: mars.num.683
+    role: narrator
+    text: "六百八十三"
+  - id: mars.num.684
+    role: narrator
+    text: "六百八十四"
+  - id: mars.num.685
+    role: narrator
+    text: "六百八十五"
+  - id: mars.num.686
+    role: narrator
+    text: "六百八十六"
+  - id: mars.num.687
+    role: narrator
+    text: "六百八十七"
+  - id: mars.num.688
+    role: narrator
+    text: "六百八十八"
+  - id: mars.num.689
+    role: narrator
+    text: "六百八十九"
+  - id: mars.num.690
+    role: narrator
+    text: "六百九十"
+  - id: mars.num.691
+    role: narrator
+    text: "六百九十一"
+  - id: mars.num.692
+    role: narrator
+    text: "六百九十二"
+  - id: mars.num.693
+    role: narrator
+    text: "六百九十三"
+  - id: mars.num.694
+    role: narrator
+    text: "六百九十四"
+  - id: mars.num.695
+    role: narrator
+    text: "六百九十五"
+  - id: mars.num.696
+    role: narrator
+    text: "六百九十六"
+  - id: mars.num.697
+    role: narrator
+    text: "六百九十七"
+  - id: mars.num.698
+    role: narrator
+    text: "六百九十八"
+  - id: mars.num.699
+    role: narrator
+    text: "六百九十九"
+  - id: mars.num.700
+    role: narrator
+    text: "七百"
+  - id: mars.num.701
+    role: narrator
+    text: "七百零一"
+  - id: mars.num.702
+    role: narrator
+    text: "七百零二"
+  - id: mars.num.703
+    role: narrator
+    text: "七百零三"
+  - id: mars.num.704
+    role: narrator
+    text: "七百零四"
+  - id: mars.num.705
+    role: narrator
+    text: "七百零五"
+  - id: mars.num.706
+    role: narrator
+    text: "七百零六"
+  - id: mars.num.707
+    role: narrator
+    text: "七百零七"
+  - id: mars.num.708
+    role: narrator
+    text: "七百零八"
+  - id: mars.num.709
+    role: narrator
+    text: "七百零九"
+  - id: mars.num.710
+    role: narrator
+    text: "七百一十"
+  - id: mars.num.711
+    role: narrator
+    text: "七百一十一"
+  - id: mars.num.712
+    role: narrator
+    text: "七百一十二"
+  - id: mars.num.713
+    role: narrator
+    text: "七百一十三"
+  - id: mars.num.714
+    role: narrator
+    text: "七百一十四"
+  - id: mars.num.715
+    role: narrator
+    text: "七百一十五"
+  - id: mars.num.716
+    role: narrator
+    text: "七百一十六"
+  - id: mars.num.717
+    role: narrator
+    text: "七百一十七"
+  - id: mars.num.718
+    role: narrator
+    text: "七百一十八"
+  - id: mars.num.719
+    role: narrator
+    text: "七百一十九"
+  - id: mars.num.720
+    role: narrator
+    text: "七百二十"
+  - id: mars.num.721
+    role: narrator
+    text: "七百二十一"
+  - id: mars.num.722
+    role: narrator
+    text: "七百二十二"
+  - id: mars.num.723
+    role: narrator
+    text: "七百二十三"
+  - id: mars.num.724
+    role: narrator
+    text: "七百二十四"
+  - id: mars.num.725
+    role: narrator
+    text: "七百二十五"
+  - id: mars.num.726
+    role: narrator
+    text: "七百二十六"
+  - id: mars.num.727
+    role: narrator
+    text: "七百二十七"
+  - id: mars.num.728
+    role: narrator
+    text: "七百二十八"
+  - id: mars.num.729
+    role: narrator
+    text: "七百二十九"
+  - id: mars.num.730
+    role: narrator
+    text: "七百三十"
+  - id: mars.num.731
+    role: narrator
+    text: "七百三十一"
+  - id: mars.num.732
+    role: narrator
+    text: "七百三十二"
+  - id: mars.num.733
+    role: narrator
+    text: "七百三十三"
+  - id: mars.num.734
+    role: narrator
+    text: "七百三十四"
+  - id: mars.num.735
+    role: narrator
+    text: "七百三十五"
+  - id: mars.num.736
+    role: narrator
+    text: "七百三十六"
+  - id: mars.num.737
+    role: narrator
+    text: "七百三十七"
+  - id: mars.num.738
+    role: narrator
+    text: "七百三十八"
+  - id: mars.num.739
+    role: narrator
+    text: "七百三十九"
+  - id: mars.num.740
+    role: narrator
+    text: "七百四十"
+  - id: mars.num.741
+    role: narrator
+    text: "七百四十一"
+  - id: mars.num.742
+    role: narrator
+    text: "七百四十二"
+  - id: mars.num.743
+    role: narrator
+    text: "七百四十三"
+  - id: mars.num.744
+    role: narrator
+    text: "七百四十四"
+  - id: mars.num.745
+    role: narrator
+    text: "七百四十五"
+  - id: mars.num.746
+    role: narrator
+    text: "七百四十六"
+  - id: mars.num.747
+    role: narrator
+    text: "七百四十七"
+  - id: mars.num.748
+    role: narrator
+    text: "七百四十八"
+  - id: mars.num.749
+    role: narrator
+    text: "七百四十九"
+  - id: mars.num.750
+    role: narrator
+    text: "七百五十"
+  - id: mars.num.751
+    role: narrator
+    text: "七百五十一"
+  - id: mars.num.752
+    role: narrator
+    text: "七百五十二"
+  - id: mars.num.753
+    role: narrator
+    text: "七百五十三"
+  - id: mars.num.754
+    role: narrator
+    text: "七百五十四"
+  - id: mars.num.755
+    role: narrator
+    text: "七百五十五"
+  - id: mars.num.756
+    role: narrator
+    text: "七百五十六"
+  - id: mars.num.757
+    role: narrator
+    text: "七百五十七"
+  - id: mars.num.758
+    role: narrator
+    text: "七百五十八"
+  - id: mars.num.759
+    role: narrator
+    text: "七百五十九"
+  - id: mars.num.760
+    role: narrator
+    text: "七百六十"
+  - id: mars.num.761
+    role: narrator
+    text: "七百六十一"
+  - id: mars.num.762
+    role: narrator
+    text: "七百六十二"
+  - id: mars.num.763
+    role: narrator
+    text: "七百六十三"
+  - id: mars.num.764
+    role: narrator
+    text: "七百六十四"
+  - id: mars.num.765
+    role: narrator
+    text: "七百六十五"
+  - id: mars.num.766
+    role: narrator
+    text: "七百六十六"
+  - id: mars.num.767
+    role: narrator
+    text: "七百六十七"
+  - id: mars.num.768
+    role: narrator
+    text: "七百六十八"
+  - id: mars.num.769
+    role: narrator
+    text: "七百六十九"
+  - id: mars.num.770
+    role: narrator
+    text: "七百七十"
+  - id: mars.num.771
+    role: narrator
+    text: "七百七十一"
+  - id: mars.num.772
+    role: narrator
+    text: "七百七十二"
+  - id: mars.num.773
+    role: narrator
+    text: "七百七十三"
+  - id: mars.num.774
+    role: narrator
+    text: "七百七十四"
+  - id: mars.num.775
+    role: narrator
+    text: "七百七十五"
+  - id: mars.num.776
+    role: narrator
+    text: "七百七十六"
+  - id: mars.num.777
+    role: narrator
+    text: "七百七十七"
+  - id: mars.num.778
+    role: narrator
+    text: "七百七十八"
+  - id: mars.num.779
+    role: narrator
+    text: "七百七十九"
+  - id: mars.num.780
+    role: narrator
+    text: "七百八十"
+  - id: mars.num.781
+    role: narrator
+    text: "七百八十一"
+  - id: mars.num.782
+    role: narrator
+    text: "七百八十二"
+  - id: mars.num.783
+    role: narrator
+    text: "七百八十三"
+  - id: mars.num.784
+    role: narrator
+    text: "七百八十四"
+  - id: mars.num.785
+    role: narrator
+    text: "七百八十五"
+  - id: mars.num.786
+    role: narrator
+    text: "七百八十六"
+  - id: mars.num.787
+    role: narrator
+    text: "七百八十七"
+  - id: mars.num.788
+    role: narrator
+    text: "七百八十八"
+  - id: mars.num.789
+    role: narrator
+    text: "七百八十九"
+  - id: mars.num.790
+    role: narrator
+    text: "七百九十"
+  - id: mars.num.791
+    role: narrator
+    text: "七百九十一"
+  - id: mars.num.792
+    role: narrator
+    text: "七百九十二"
+  - id: mars.num.793
+    role: narrator
+    text: "七百九十三"
+  - id: mars.num.794
+    role: narrator
+    text: "七百九十四"
+  - id: mars.num.795
+    role: narrator
+    text: "七百九十五"
+  - id: mars.num.796
+    role: narrator
+    text: "七百九十六"
+  - id: mars.num.797
+    role: narrator
+    text: "七百九十七"
+  - id: mars.num.798
+    role: narrator
+    text: "七百九十八"
+  - id: mars.num.799
+    role: narrator
+    text: "七百九十九"
+  - id: mars.num.800
+    role: narrator
+    text: "八百"
+  - id: mars.num.801
+    role: narrator
+    text: "八百零一"
+  - id: mars.num.802
+    role: narrator
+    text: "八百零二"
+  - id: mars.num.803
+    role: narrator
+    text: "八百零三"
+  - id: mars.num.804
+    role: narrator
+    text: "八百零四"
+  - id: mars.num.805
+    role: narrator
+    text: "八百零五"
+  - id: mars.num.806
+    role: narrator
+    text: "八百零六"
+  - id: mars.num.807
+    role: narrator
+    text: "八百零七"
+  - id: mars.num.808
+    role: narrator
+    text: "八百零八"
+  - id: mars.num.809
+    role: narrator
+    text: "八百零九"
+  - id: mars.num.810
+    role: narrator
+    text: "八百一十"
+  - id: mars.num.811
+    role: narrator
+    text: "八百一十一"
+  - id: mars.num.812
+    role: narrator
+    text: "八百一十二"
+  - id: mars.num.813
+    role: narrator
+    text: "八百一十三"
+  - id: mars.num.814
+    role: narrator
+    text: "八百一十四"
+  - id: mars.num.815
+    role: narrator
+    text: "八百一十五"
+  - id: mars.num.816
+    role: narrator
+    text: "八百一十六"
+  - id: mars.num.817
+    role: narrator
+    text: "八百一十七"
+  - id: mars.num.818
+    role: narrator
+    text: "八百一十八"
+  - id: mars.num.819
+    role: narrator
+    text: "八百一十九"
+  - id: mars.num.820
+    role: narrator
+    text: "八百二十"
+  - id: mars.num.821
+    role: narrator
+    text: "八百二十一"
+  - id: mars.num.822
+    role: narrator
+    text: "八百二十二"
+  - id: mars.num.823
+    role: narrator
+    text: "八百二十三"
+  - id: mars.num.824
+    role: narrator
+    text: "八百二十四"
+  - id: mars.num.825
+    role: narrator
+    text: "八百二十五"
+  - id: mars.num.826
+    role: narrator
+    text: "八百二十六"
+  - id: mars.num.827
+    role: narrator
+    text: "八百二十七"
+  - id: mars.num.828
+    role: narrator
+    text: "八百二十八"
+  - id: mars.num.829
+    role: narrator
+    text: "八百二十九"
+  - id: mars.num.830
+    role: narrator
+    text: "八百三十"
+  - id: mars.num.831
+    role: narrator
+    text: "八百三十一"
+  - id: mars.num.832
+    role: narrator
+    text: "八百三十二"
+  - id: mars.num.833
+    role: narrator
+    text: "八百三十三"
+  - id: mars.num.834
+    role: narrator
+    text: "八百三十四"
+  - id: mars.num.835
+    role: narrator
+    text: "八百三十五"
+  - id: mars.num.836
+    role: narrator
+    text: "八百三十六"
+  - id: mars.num.837
+    role: narrator
+    text: "八百三十七"
+  - id: mars.num.838
+    role: narrator
+    text: "八百三十八"
+  - id: mars.num.839
+    role: narrator
+    text: "八百三十九"
+  - id: mars.num.840
+    role: narrator
+    text: "八百四十"
+  - id: mars.num.841
+    role: narrator
+    text: "八百四十一"
+  - id: mars.num.842
+    role: narrator
+    text: "八百四十二"
+  - id: mars.num.843
+    role: narrator
+    text: "八百四十三"
+  - id: mars.num.844
+    role: narrator
+    text: "八百四十四"
+  - id: mars.num.845
+    role: narrator
+    text: "八百四十五"
+  - id: mars.num.846
+    role: narrator
+    text: "八百四十六"
+  - id: mars.num.847
+    role: narrator
+    text: "八百四十七"
+  - id: mars.num.848
+    role: narrator
+    text: "八百四十八"
+  - id: mars.num.849
+    role: narrator
+    text: "八百四十九"
+  - id: mars.num.850
+    role: narrator
+    text: "八百五十"
+  - id: mars.num.851
+    role: narrator
+    text: "八百五十一"
+  - id: mars.num.852
+    role: narrator
+    text: "八百五十二"
+  - id: mars.num.853
+    role: narrator
+    text: "八百五十三"
+  - id: mars.num.854
+    role: narrator
+    text: "八百五十四"
+  - id: mars.num.855
+    role: narrator
+    text: "八百五十五"
+  - id: mars.num.856
+    role: narrator
+    text: "八百五十六"
+  - id: mars.num.857
+    role: narrator
+    text: "八百五十七"
+  - id: mars.num.858
+    role: narrator
+    text: "八百五十八"
+  - id: mars.num.859
+    role: narrator
+    text: "八百五十九"
+  - id: mars.num.860
+    role: narrator
+    text: "八百六十"
+  - id: mars.num.861
+    role: narrator
+    text: "八百六十一"
+  - id: mars.num.862
+    role: narrator
+    text: "八百六十二"
+  - id: mars.num.863
+    role: narrator
+    text: "八百六十三"
+  - id: mars.num.864
+    role: narrator
+    text: "八百六十四"
+  - id: mars.num.865
+    role: narrator
+    text: "八百六十五"
+  - id: mars.num.866
+    role: narrator
+    text: "八百六十六"
+  - id: mars.num.867
+    role: narrator
+    text: "八百六十七"
+  - id: mars.num.868
+    role: narrator
+    text: "八百六十八"
+  - id: mars.num.869
+    role: narrator
+    text: "八百六十九"
+  - id: mars.num.870
+    role: narrator
+    text: "八百七十"
+  - id: mars.num.871
+    role: narrator
+    text: "八百七十一"
+  - id: mars.num.872
+    role: narrator
+    text: "八百七十二"
+  - id: mars.num.873
+    role: narrator
+    text: "八百七十三"
+  - id: mars.num.874
+    role: narrator
+    text: "八百七十四"
+  - id: mars.num.875
+    role: narrator
+    text: "八百七十五"
+  - id: mars.num.876
+    role: narrator
+    text: "八百七十六"
+  - id: mars.num.877
+    role: narrator
+    text: "八百七十七"
+  - id: mars.num.878
+    role: narrator
+    text: "八百七十八"
+  - id: mars.num.879
+    role: narrator
+    text: "八百七十九"
+  - id: mars.num.880
+    role: narrator
+    text: "八百八十"
+  - id: mars.num.881
+    role: narrator
+    text: "八百八十一"
+  - id: mars.num.882
+    role: narrator
+    text: "八百八十二"
+  - id: mars.num.883
+    role: narrator
+    text: "八百八十三"
+  - id: mars.num.884
+    role: narrator
+    text: "八百八十四"
+  - id: mars.num.885
+    role: narrator
+    text: "八百八十五"
+  - id: mars.num.886
+    role: narrator
+    text: "八百八十六"
+  - id: mars.num.887
+    role: narrator
+    text: "八百八十七"
+  - id: mars.num.888
+    role: narrator
+    text: "八百八十八"
+  - id: mars.num.889
+    role: narrator
+    text: "八百八十九"
+  - id: mars.num.890
+    role: narrator
+    text: "八百九十"
+  - id: mars.num.891
+    role: narrator
+    text: "八百九十一"
+  - id: mars.num.892
+    role: narrator
+    text: "八百九十二"
+  - id: mars.num.893
+    role: narrator
+    text: "八百九十三"
+  - id: mars.num.894
+    role: narrator
+    text: "八百九十四"
+  - id: mars.num.895
+    role: narrator
+    text: "八百九十五"
+  - id: mars.num.896
+    role: narrator
+    text: "八百九十六"
+  - id: mars.num.897
+    role: narrator
+    text: "八百九十七"
+  - id: mars.num.898
+    role: narrator
+    text: "八百九十八"
+  - id: mars.num.899
+    role: narrator
+    text: "八百九十九"
+  - id: mars.num.900
+    role: narrator
+    text: "九百"
+  - id: mars.num.901
+    role: narrator
+    text: "九百零一"
+  - id: mars.num.902
+    role: narrator
+    text: "九百零二"
+  - id: mars.num.903
+    role: narrator
+    text: "九百零三"
+  - id: mars.num.904
+    role: narrator
+    text: "九百零四"
+  - id: mars.num.905
+    role: narrator
+    text: "九百零五"
+  - id: mars.num.906
+    role: narrator
+    text: "九百零六"
+  - id: mars.num.907
+    role: narrator
+    text: "九百零七"
+  - id: mars.num.908
+    role: narrator
+    text: "九百零八"
+  - id: mars.num.909
+    role: narrator
+    text: "九百零九"
+  - id: mars.num.910
+    role: narrator
+    text: "九百一十"
+  - id: mars.num.911
+    role: narrator
+    text: "九百一十一"
+  - id: mars.num.912
+    role: narrator
+    text: "九百一十二"
+  - id: mars.num.913
+    role: narrator
+    text: "九百一十三"
+  - id: mars.num.914
+    role: narrator
+    text: "九百一十四"
+  - id: mars.num.915
+    role: narrator
+    text: "九百一十五"
+  - id: mars.num.916
+    role: narrator
+    text: "九百一十六"
+  - id: mars.num.917
+    role: narrator
+    text: "九百一十七"
+  - id: mars.num.918
+    role: narrator
+    text: "九百一十八"
+  - id: mars.num.919
+    role: narrator
+    text: "九百一十九"
+  - id: mars.num.920
+    role: narrator
+    text: "九百二十"
+  - id: mars.num.921
+    role: narrator
+    text: "九百二十一"
+  - id: mars.num.922
+    role: narrator
+    text: "九百二十二"
+  - id: mars.num.923
+    role: narrator
+    text: "九百二十三"
+  - id: mars.num.924
+    role: narrator
+    text: "九百二十四"
+  - id: mars.num.925
+    role: narrator
+    text: "九百二十五"
+  - id: mars.num.926
+    role: narrator
+    text: "九百二十六"
+  - id: mars.num.927
+    role: narrator
+    text: "九百二十七"
+  - id: mars.num.928
+    role: narrator
+    text: "九百二十八"
+  - id: mars.num.929
+    role: narrator
+    text: "九百二十九"
+  - id: mars.num.930
+    role: narrator
+    text: "九百三十"
+  - id: mars.num.931
+    role: narrator
+    text: "九百三十一"
+  - id: mars.num.932
+    role: narrator
+    text: "九百三十二"
+  - id: mars.num.933
+    role: narrator
+    text: "九百三十三"
+  - id: mars.num.934
+    role: narrator
+    text: "九百三十四"
+  - id: mars.num.935
+    role: narrator
+    text: "九百三十五"
+  - id: mars.num.936
+    role: narrator
+    text: "九百三十六"
+  - id: mars.num.937
+    role: narrator
+    text: "九百三十七"
+  - id: mars.num.938
+    role: narrator
+    text: "九百三十八"
+  - id: mars.num.939
+    role: narrator
+    text: "九百三十九"
+  - id: mars.num.940
+    role: narrator
+    text: "九百四十"
+  - id: mars.num.941
+    role: narrator
+    text: "九百四十一"
+  - id: mars.num.942
+    role: narrator
+    text: "九百四十二"
+  - id: mars.num.943
+    role: narrator
+    text: "九百四十三"
+  - id: mars.num.944
+    role: narrator
+    text: "九百四十四"
+  - id: mars.num.945
+    role: narrator
+    text: "九百四十五"
+  - id: mars.num.946
+    role: narrator
+    text: "九百四十六"
+  - id: mars.num.947
+    role: narrator
+    text: "九百四十七"
+  - id: mars.num.948
+    role: narrator
+    text: "九百四十八"
+  - id: mars.num.949
+    role: narrator
+    text: "九百四十九"
+  - id: mars.num.950
+    role: narrator
+    text: "九百五十"
+  - id: mars.num.951
+    role: narrator
+    text: "九百五十一"
+  - id: mars.num.952
+    role: narrator
+    text: "九百五十二"
+  - id: mars.num.953
+    role: narrator
+    text: "九百五十三"
+  - id: mars.num.954
+    role: narrator
+    text: "九百五十四"
+  - id: mars.num.955
+    role: narrator
+    text: "九百五十五"
+  - id: mars.num.956
+    role: narrator
+    text: "九百五十六"
+  - id: mars.num.957
+    role: narrator
+    text: "九百五十七"
+  - id: mars.num.958
+    role: narrator
+    text: "九百五十八"
+  - id: mars.num.959
+    role: narrator
+    text: "九百五十九"
+  - id: mars.num.960
+    role: narrator
+    text: "九百六十"
+  - id: mars.num.961
+    role: narrator
+    text: "九百六十一"
+  - id: mars.num.962
+    role: narrator
+    text: "九百六十二"
+  - id: mars.num.963
+    role: narrator
+    text: "九百六十三"
+  - id: mars.num.964
+    role: narrator
+    text: "九百六十四"
+  - id: mars.num.965
+    role: narrator
+    text: "九百六十五"
+  - id: mars.num.966
+    role: narrator
+    text: "九百六十六"
+  - id: mars.num.967
+    role: narrator
+    text: "九百六十七"
+  - id: mars.num.968
+    role: narrator
+    text: "九百六十八"
+  - id: mars.num.969
+    role: narrator
+    text: "九百六十九"
+  - id: mars.num.970
+    role: narrator
+    text: "九百七十"
+  - id: mars.num.971
+    role: narrator
+    text: "九百七十一"
+  - id: mars.num.972
+    role: narrator
+    text: "九百七十二"
+  - id: mars.num.973
+    role: narrator
+    text: "九百七十三"
+  - id: mars.num.974
+    role: narrator
+    text: "九百七十四"
+  - id: mars.num.975
+    role: narrator
+    text: "九百七十五"
+  - id: mars.num.976
+    role: narrator
+    text: "九百七十六"
+  - id: mars.num.977
+    role: narrator
+    text: "九百七十七"
+  - id: mars.num.978
+    role: narrator
+    text: "九百七十八"
+  - id: mars.num.979
+    role: narrator
+    text: "九百七十九"
+  - id: mars.num.980
+    role: narrator
+    text: "九百八十"
+  - id: mars.num.981
+    role: narrator
+    text: "九百八十一"
+  - id: mars.num.982
+    role: narrator
+    text: "九百八十二"
+  - id: mars.num.983
+    role: narrator
+    text: "九百八十三"
+  - id: mars.num.984
+    role: narrator
+    text: "九百八十四"
+  - id: mars.num.985
+    role: narrator
+    text: "九百八十五"
+  - id: mars.num.986
+    role: narrator
+    text: "九百八十六"
+  - id: mars.num.987
+    role: narrator
+    text: "九百八十七"
+  - id: mars.num.988
+    role: narrator
+    text: "九百八十八"
+  - id: mars.num.989
+    role: narrator
+    text: "九百八十九"
+  - id: mars.num.990
+    role: narrator
+    text: "九百九十"
+  - id: mars.num.991
+    role: narrator
+    text: "九百九十一"
+  - id: mars.num.992
+    role: narrator
+    text: "九百九十二"
+  - id: mars.num.993
+    role: narrator
+    text: "九百九十三"
+  - id: mars.num.994
+    role: narrator
+    text: "九百九十四"
+  - id: mars.num.995
+    role: narrator
+    text: "九百九十五"
+  - id: mars.num.996
+    role: narrator
+    text: "九百九十六"
+  - id: mars.num.997
+    role: narrator
+    text: "九百九十七"
+  - id: mars.num.998
+    role: narrator
+    text: "九百九十八"
+  - id: mars.num.999
+    role: narrator
+    text: "九百九十九"
+  - id: mars.num.1000
+    role: narrator
+    text: "一千"

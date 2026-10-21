@@ -12,6 +12,9 @@
  *  - Music: streamed with an <audio> element routed through a GainNode (iOS: element.volume is
  *    read-only), with fades and ducking. Never decode long music.
  *  - Synth tones (`playTone`, `playNotes`) for feedback until real SFX exist.
+ *  - Clips (sfx + narration) are decoded once into a shared cache; a game with a big voice set opts in to a memory
+ *    budget with `setClipCacheLimit(bytes)` (LRU) and may `releaseClips(urls)`. `prefetchUrls(urls)` only warms the
+ *    service-worker media cache (no decoding, no memory) — e.g. a chapter's offline pack.
  *
  *   import { unlockAudio, sfx, playNotes, PENTATONIC, music } from '@kit/audio';
  *   await sfx.loadAll({ tap: '/audio/ui/tap.m4a' });
@@ -198,34 +201,163 @@ export function setBusVolume(bus: BusName, volume: number): void {
 
 // ---------------------------------------------------------------- clips
 
+/**
+ * Decoded-clip cache. Every decoded clip is kept (Infinity limit) unless a game opts in to a budget with
+ * `setClipCacheLimit(bytes)`: then the least-recently-used decoded clips beyond the budget are dropped (they decode
+ * again on demand, quickly, from the SW media cache). Sounds registered with `sfx.load` are pinned and never evicted;
+ * a clip that is playing keeps playing (the source node holds its buffer). `releaseClips(urls)` drops clips by hand.
+ * Decoded PCM is 4 bytes × samples × channels: a 3 s mono 44.1 kHz line is ≈ 0.5 MB, a 40-line chapter ≈ 20 MB.
+ */
+let clipLimit = Infinity;
+const clipBytes = new Map<string, number>();
+
+const bufferBytes = (b: AudioBuffer): number => b.length * b.numberOfChannels * 4;
+
+function isPinnedClip(url: string): boolean {
+  for (const e of bank.values()) if (e.url === url) return true;
+  return false;
+}
+
+function enforceClipLimit(keep?: string): void {
+  if (!Number.isFinite(clipLimit)) return;
+  let total = decodedBytes();
+  if (total <= clipLimit) return;
+  for (const url of [...clipCache.keys()]) {
+    if (total <= clipLimit) break;
+    const b = clipBytes.get(url);
+    if (b === undefined || url === keep || isPinnedClip(url)) continue; // pending, just requested, or an sfx
+    clipCache.delete(url);
+    clipBytes.delete(url);
+    total -= b;
+  }
+}
+
+/** Total bytes of decoded clips currently cached (what the limit applies to). */
+export function decodedBytes(): number {
+  let total = 0;
+  for (const b of clipBytes.values()) total += b;
+  return total;
+}
+
+/** Cache numbers for dev tools / the lab page. */
+export function clipCacheStats(): { clips: number; bytes: number; limit: number } {
+  return { clips: clipCache.size, bytes: decodedBytes(), limit: clipLimit };
+}
+
+/** Cap the decoded-clip cache (bytes; Infinity or a non-positive / NaN value = unlimited, the default). Evicts at once if over. */
+export function setClipCacheLimit(bytes: number): void {
+  clipLimit = Number.isFinite(bytes) && bytes > 0 ? bytes : Infinity;
+  enforceClipLimit();
+}
+
 /** Fetch + decode an audio file once (shared by sfx and narration). Resolves null on failure. */
 export function decodeClip(url: string): Promise<AudioBuffer | null> {
   let p = clipCache.get(url);
+  if (p) {
+    clipCache.delete(url); // LRU: most recently used goes last
+    clipCache.set(url, p);
+    return p;
+  }
+  p = (async () => {
+    const c = getAudioContext();
+    if (!c) return null;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const data = await res.arrayBuffer();
+      return await c.decodeAudioData(data);
+    } catch {
+      return null;
+    }
+  })();
+  clipCache.set(url, p);
+  const mine = p;
+  void p.then((buf) => {
+    if (clipCache.get(url) !== mine) return; // released meanwhile
+    if (!buf) {
+      clipCache.delete(url); // allow a retry later
+      return;
+    }
+    clipBytes.set(url, bufferBytes(buf));
+    enforceClipLimit(url);
+  });
+  return p;
+}
+
+/** Drop decoded buffers (e.g. when leaving a big chapter). No argument = all of them. */
+export function releaseClips(urls?: string[]): void {
+  if (!urls) {
+    clipCache.clear();
+    clipBytes.clear();
+  } else {
+    for (const u of urls) {
+      clipCache.delete(u);
+      clipBytes.delete(u);
+    }
+  }
+}
+
+// ---- decode-less prefetch: warm the network / SW media cache without holding PCM in memory
+
+const warmed = new Set<string>();
+const warming = new Map<string, Promise<boolean>>();
+
+/**
+ * Fetch an audio file so the service worker's media cache (and the HTTP cache) has it for later — no decoding, nothing
+ * kept in memory (the bytes are read and dropped). Resolves true when the file is (now) cached/fetched, false on failure.
+ */
+export function prefetchClip(url: string): Promise<boolean> {
+  if (warmed.has(url)) return Promise.resolve(true);
+  let p = warming.get(url);
   if (!p) {
     p = (async () => {
-      const c = getAudioContext();
-      if (!c) return null;
       try {
         const res = await fetch(url);
-        if (!res.ok) return null;
-        const data = await res.arrayBuffer();
-        return await c.decodeAudioData(data);
+        if (!res.ok) return false;
+        await res.arrayBuffer();
+        warmed.add(url);
+        return true;
       } catch {
-        return null;
+        return false;
+      } finally {
+        warming.delete(url);
       }
     })();
-    clipCache.set(url, p);
-    void p.then((buf) => {
-      if (!buf) clipCache.delete(url); // allow a retry later
-    });
+    warming.set(url, p);
   }
   return p;
 }
 
-/** Drop decoded buffers (e.g. when leaving a big chapter). */
-export function releaseClips(urls?: string[]): void {
-  if (!urls) clipCache.clear();
-  else for (const u of urls) clipCache.delete(u);
+export interface PrefetchOptions {
+  /** also decode into the clip cache (default false: bytes only) */
+  decode?: boolean;
+  /** parallel fetches (default 3 — gentle on iPad Safari and the family Wi-Fi) */
+  concurrency?: number;
+  onProgress?: (done: number, total: number) => void;
+  signal?: AbortSignal;
+}
+export interface PrefetchResult {
+  ok: number;
+  failed: string[];
+}
+
+/** Prefetch many files with bounded concurrency (an "offline pack" for a chapter). Never rejects. */
+export async function prefetchUrls(urls: readonly string[], opts: PrefetchOptions = {}): Promise<PrefetchResult> {
+  const list = [...new Set(urls)];
+  const res: PrefetchResult = { ok: 0, failed: [] };
+  let next = 0;
+  let done = 0;
+  const worker = async () => {
+    while (next < list.length && !opts.signal?.aborted) {
+      const url = list[next++];
+      const good = opts.decode ? (await decodeClip(url)) !== null : await prefetchClip(url);
+      if (good) res.ok += 1;
+      else res.failed.push(url);
+      opts.onProgress?.(++done, list.length);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(opts.concurrency ?? 3, list.length || 1)) }, worker));
+  return res;
 }
 
 export interface PlayOptions {
@@ -516,6 +648,10 @@ export function __resetAudioForTests(): void {
   autoUnlockInstalled = false;
   unlockWaiters.clear();
   clipCache.clear();
+  clipBytes.clear();
+  warmed.clear();
+  warming.clear();
+  clipLimit = Infinity;
   bank.clear();
   current = null;
   muted = readMuted();

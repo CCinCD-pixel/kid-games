@@ -1,0 +1,746 @@
+game: xiangqi
+lines:
+  - id: xq.s.title
+    role: companion
+    text: 楚河棋院，欢迎来下棋。
+  - id: xq.s.hello
+    role: companion
+    text: 我是小军师，陪你下棋。
+  - id: xq.s.home
+    role: companion
+    text: 想学新招，还是下一盘？
+  - id: xq.s.learn
+    role: companion
+    text: 学堂里有三十三课。
+  - id: xq.s.again
+    role: companion
+    text: 再来一次，慢慢想。
+  - id: xq.s.resume
+    role: companion
+    text: 上次的棋还在，接着下？
+  - id: xq.s.undo
+    role: companion
+    text: 退回一步，重新想。
+  - id: xq.s.legacy
+    role: companion
+    text: 旧棋局放不进来了，已留好备份。
+  - id: xq.tb.touch
+    role: companion
+    text: 摸一摸，看它怎么走。
+  - id: xq.tb.cannon
+    role: companion
+    text: 炮要隔着子才能吃。
+  - id: xq.tb.horse
+    role: companion
+    text: 马走日，会跳过去。
+  - id: xq.tb.pawn
+    role: companion
+    text: 兵一次走一步。
+  - id: xq.tb.goal
+    role: companion
+    text: 抓住将，就赢了。
+    pinyin: { 将: jiàng }
+  - id: xq.tb.river
+    role: companion
+    text: 这是楚河汉界。
+  - id: xq.tb.palace
+    role: companion
+    text: 这是九宫。
+  - id: xq.tb.stampRiver
+    role: companion
+    text: 你发现了楚河汉界！
+  - id: xq.tb.stampPalace
+    role: companion
+    text: 你发现了九宫！
+  - id: xq.pl.intro
+    role: companion
+    text: 小军师考考你，会的就跳过。
+  - id: xq.pl.done
+    role: companion
+    text: 好，会的课我们跳过。
+  - id: xq.pl.know
+    role: companion
+    text: 这章你已经会了。
+  - id: xq.l01.intro
+    role: narrator
+    text: 象棋的子，站在线的交叉点上。
+  - id: xq.l01.river
+    role: narrator
+    text: 中间这条河，叫楚河汉界。
+  - id: xq.l01.sides
+    role: narrator
+    text: 红棋在下面，黑棋在上面。
+  - id: xq.l01.tap
+    role: companion
+    text: 点一点发光的交叉点。
+  - id: xq.l01.tapriver
+    role: companion
+    text: 点一点这条河。
+  - id: xq.l01.kings
+    role: companion
+    text: 点红帅，再点黑将。
+    pinyin: { 将: jiàng }
+  - id: xq.l02.intro
+    role: narrator
+    text: 九宫，是将帅的小城堡。
+  - id: xq.l02.rule
+    role: narrator
+    text: 帅和仕，不能离开九宫。
+  - id: xq.l02.corners
+    role: companion
+    text: 点出九宫的四个角。
+  - id: xq.l02.q
+    role: companion
+    text: 哪个点在红方九宫里？
+  - id: xq.l03.intro
+    role: narrator
+    text: 来，摆开棋阵。
+  - id: xq.l03.names
+    role: narrator
+    text: 红是帅，黑是将，名字不同。
+    pinyin: { 将: jiàng }
+  - id: xq.l03.pawns
+    role: companion
+    text: 把五个兵摆到亮点上。
+  - id: xq.l03.cannons
+    role: companion
+    text: 再放两个炮。
+  - id: xq.l03.back
+    role: companion
+    text: 后排九个：车马相仕帅。
+    pinyin: { 相: xiàng }
+  - id: xq.l03.done
+    role: companion
+    text: 阵摆好了，红方先走！
+  - id: xq.l04.intro
+    role: narrator
+    text: 车，横着竖着直直走。
+  - id: xq.l04.rule
+    role: narrator
+    text: 格数不限，路上不能有子。
+  - id: xq.l05.intro
+    role: narrator
+    text: 车吃子：走到对方的子上。
+  - id: xq.l05.rule
+    role: narrator
+    text: 只吃第一个，不能跳过去。
+  - id: xq.l06.intro
+    role: narrator
+    text: 炮不吃子的时候，和车一样走。
+  - id: xq.l06.rule
+    role: narrator
+    text: 炮走路，也不能跳过别的子。
+    seed: 2000          # 炮 at the line start was heard as 靠 in seeds 1234-1238 (re-roll)
+  - id: xq.l07.intro
+    role: narrator
+    text: 炮吃子，要隔一个子。
+  - id: xq.l07.rule
+    role: narrator
+    text: 这个中间的子，叫炮架。
+  - id: xq.l07.screen
+    role: companion
+    text: 炮架可以是红子，也可以是黑子。
+  - id: xq.l07.two
+    role: companion
+    text: 中间有两个子，炮打不到。
+  - id: xq.l08.intro
+    role: narrator
+    text: 马走日字：先直走，再斜走。
+  - id: xq.l08.rule
+    role: narrator
+    text: 一共有八个落点。
+    speed: 0.93         # 8 syllables in 1.7 s read too brisk for a 6-year-old (pace flag cps 4.81 > 4.6)
+  - id: xq.l09.intro
+    role: narrator
+    text: 马先直走一格，被堵就走不了。
+  - id: xq.l09.rule
+    role: narrator
+    text: 这叫别马腿。
+  - id: xq.l09.foot
+    role: companion
+    text: 看，脚印被挡住了。
+  - id: xq.l09.stuck
+    role: companion
+    text: 马被别住了，想想怎么办。
+  - id: xq.l09.way
+    role: companion
+    text: 让开那个子，或者绕一绕。
+  - id: xq.l10.intro
+    role: narrator
+    text: 象走田字，一次走两格斜线。
+  - id: xq.l10.rule
+    role: narrator
+    text: 象不能过河。
+  - id: xq.l11.intro
+    role: narrator
+    text: 田字中间，叫象眼。
+  - id: xq.l11.rule
+    role: narrator
+    text: 象眼被堵住，象就不能走。
+  - id: xq.l11.eye
+    role: companion
+    text: 看，眼睛被挡住了。
+  - id: xq.l12.intro
+    role: narrator
+    text: 仕走斜线，一次一格。
+  - id: xq.l12.rule
+    role: narrator
+    text: 仕不能出九宫。
+  - id: xq.l13.intro
+    role: narrator
+    text: 帅横着竖着，一次一格。
+  - id: xq.l13.rule
+    role: narrator
+    text: 帅也不能出九宫。
+  - id: xq.l14.intro
+    role: narrator
+    text: 两个将，中间没有子，就会见面。
+    pinyin: { 将: jiàng }
+  - id: xq.l14.rule
+    role: narrator
+    text: 见面，是不行的。
+  - id: xq.l14.demo
+    role: companion
+    text: 看，金线亮了，不能见面。
+  - id: xq.l14.block
+    role: companion
+    text: 放个子在中间，就不见面了。
+  - id: xq.l14.pin
+    role: companion
+    text: 它在中间，不能离开这条线。
+  - id: xq.l14.use
+    role: companion
+    text: 见面线，也能当武器。
+  - id: xq.l15.intro
+    role: narrator
+    text: 兵在河这边，只能向前一格。
+  - id: xq.l15.rule
+    role: narrator
+    text: 兵不能后退。
+  - id: xq.l16.intro
+    role: narrator
+    text: 兵过了河，就能左右走了。
+  - id: xq.l16.rule
+    role: narrator
+    text: 但还是不能后退。
+  - id: xq.l16.edge
+    role: companion
+    text: 走到底线，只能横着走。
+  - id: xq.l17.intro
+    role: narrator
+    text: 攻击对方的帅，就是将军。
+  - id: xq.l17.rule
+    role: narrator
+    text: 被将军的人，必须先应将。
+  - id: xq.l17.leg
+    role: companion
+    text: 马腿被别住，就不能将军。
+  - id: xq.l18.intro
+    role: narrator
+    text: 应将有三种办法。
+  - id: xq.l18.rule
+    role: narrator
+    text: 走开、挡住、吃掉。
+  - id: xq.l19.intro
+    role: narrator
+    text: 将军，又没法应将，就是将死。
+  - id: xq.l19.make
+    role: companion
+    text: 让黑将无路可逃。
+    pinyin: { 将: jiàng }
+  - id: xq.l19.perp
+    role: companion
+    text: 一直将军不行，换个走法。
+  - id: xq.l20.intro
+    role: narrator
+    text: 没被将军，但没路可走，也是输。
+  - id: xq.l20.rule
+    role: narrator
+    text: 象棋里，无子可动判负。
+  - id: xq.l20.q
+    role: companion
+    text: 黑方还有路可走吗？
+  - id: xq.l20.contrast
+    role: companion
+    text: 国际象棋判和，象棋判输。
+  - id: xq.l21.intro
+    role: narrator
+    text: 先看看：谁能吃到我？
+  - id: xq.l21.beams
+    role: companion
+    text: 看，这些线都能吃到它。
+  - id: xq.l22.intro
+    role: narrator
+    text: 有保护的子，吃了会被吃回来。
+  - id: xq.l22.rule
+    role: narrator
+    text: 先想想，吃回来的划不划算。
+  - id: xq.l23.intro
+    role: narrator
+    text: 车九分，炮马四分。
+  - id: xq.l23.rule
+    role: narrator
+    text: 仕相两分，兵一分，过河兵两分。
+    pinyin: { 相: xiàng }
+  - id: xq.l23.trade
+    role: narrator
+    text: 这样换，赚了还是亏了？
+  - id: xq.l23.chips
+    role: companion
+    text: 看，赚了几分，亏了几分。
+  - id: xq.l24.intro
+    role: narrator
+    text: 走之前，先看一眼。
+  - id: xq.l24.rule
+    role: narrator
+    text: 我的子走过去，安全吗？
+  - id: xq.l24.eye
+    role: companion
+    text: 点小眼睛，看危险的点。
+  - id: xq.l24.safe
+    role: companion
+    text: 绕开危险的点，再走过去。
+  - id: xq.l25.intro
+    role: narrator
+    text: 车杀：车一出，将无路。
+    pinyin: { 将: jiàng }
+  - id: xq.l26.intro
+    role: narrator
+    text: 炮杀：炮要找到炮架。
+  - id: xq.l27.intro
+    role: narrator
+    text: 马杀和兵杀，别小看它们。
+  - id: xq.l28.intro
+    role: narrator
+    text: 见面杀：帅帮着堵住路。
+  - id: xq.l28.team
+    role: narrator
+    text: 两个子配合，一起将死。
+  - id: xq.stop.seg
+    role: companion
+    text: 这一组做完了，歇一歇也行。
+  - id: xq.stop.goon
+    role: companion
+    text: 还想做一组吗？
+  - id: xq.l29.intro
+    role: narrator
+    text: 双车错：两个车，轮流将军。
+  - id: xq.l30.intro
+    role: narrator
+    text: 车和炮，一前一后配合。
+  - id: xq.l31.intro
+    role: narrator
+    text: 两步杀：先走一步，再杀。
+  - id: xq.l31.q
+    role: companion
+    text: 先将军，还是先安静？
+  - id: xq.l32.intro
+    role: narrator
+    text: 一步棋，同时抓两个子。
+  - id: xq.l32.rule
+    role: narrator
+    text: 对方只能救一个。
+  - id: xq.l33.intro
+    role: narrator
+    text: 第一盘棋：出车、架炮、守九宫。
+  - id: xq.l33.rook
+    role: companion
+    text: 车出来了！
+  - id: xq.l33.cannon
+    role: companion
+    text: 炮架好了！
+  - id: xq.l33.guard
+    role: companion
+    text: 九宫守得好！
+  - id: xq.p.stars
+    role: companion
+    text: 把棋子走到星星上。
+  - id: xq.p.stars2
+    role: companion
+    text: 收集所有的星星。
+  - id: xq.p.capture
+    role: companion
+    text: 把黑棋全部吃掉。
+  - id: xq.p.attackers
+    role: companion
+    text: 点出能吃到它的黑子。
+  - id: xq.p.moves
+    role: companion
+    text: 点出它能走的所有点。
+  - id: xq.p.recap
+    role: companion
+    text: 吃了以后，会被吃回来吗？
+  - id: xq.p.trade
+    role: companion
+    text: 这样换，赚还是亏？
+  - id: xq.p.trade.go
+    role: companion
+    text: 吃一个，看看赚还是亏。
+  - id: xq.p.trade.win
+    role: companion
+    text: 吃一个，要让自己赚。
+  - id: xq.p.safe
+    role: companion
+    text: 走过去，安全吗？
+  - id: xq.p.sweep
+    role: companion
+    text: 点小眼睛，再走过去。
+  - id: xq.p.incheck
+    role: companion
+    text: 红帅被将军了吗？
+  - id: xq.p.mated
+    role: companion
+    text: 将军了，还能逃吗？
+  - id: xq.p.make.check
+    role: companion
+    text: 走一步，将军！
+  - id: xq.p.mate1
+    role: companion
+    text: 红先走，一步将死黑方。
+  - id: xq.p.stale1
+    role: companion
+    text: 走一步，让黑方没路可走。
+  - id: xq.p.mate2
+    role: companion
+    text: 红先走，两步将死黑方。
+  - id: xq.p.mate2.guided
+    role: companion
+    text: 我走第一步，你来将死。
+  - id: xq.p.fork
+    role: companion
+    text: 一步棋，同时抓两个子。
+  - id: xq.p.esc.king
+    role: companion
+    text: 帅走开，躲过将军。
+  - id: xq.p.esc.block
+    role: companion
+    text: 挡住将军的路。
+  - id: xq.p.esc.cap
+    role: companion
+    text: 把将军的子吃掉。
+  - id: xq.p.esc.any
+    role: companion
+    text: 三种办法，任选一种。
+  - id: xq.w.block
+    role: companion
+    text: 路被挡住了。
+  - id: xq.w.horse
+    role: companion
+    text: 马腿被别住了。
+  - id: xq.w.eye
+    role: companion
+    text: 象眼被塞住了。
+  - id: xq.w.river
+    role: companion
+    text: 象不能过河。
+  - id: xq.w.palace
+    role: companion
+    text: 那里在九宫外面。
+  - id: xq.w.face
+    role: companion
+    text: 两个将不能见面。
+    pinyin: { 将: jiàng }
+  - id: xq.w.self
+    role: companion
+    text: 走这里，帅会被将军。
+  - id: xq.w.screen
+    role: companion
+    text: 炮吃子，中间要隔一个子。
+  - id: xq.w.two
+    role: companion
+    text: 中间隔了两个子。
+  - id: xq.w.back
+    role: companion
+    text: 兵不能后退。
+  - id: xq.w.side
+    role: companion
+    text: 兵过了河，才能横走。
+  - id: xq.w.own
+    role: companion
+    text: 那里是自己的棋子。
+  - id: xq.w.turn
+    role: companion
+    text: 现在轮到对方。
+  - id: xq.w.escape
+    role: companion
+    text: 帅被将军，先应将。
+    seed: 2000          # 帅被 heard as 率备 (ASR) in seeds 1234-1238: re-roll
+  - id: xq.w.shape
+    role: companion
+    text: 这个子不能这样走。
+  - id: xq.f.ok1
+    role: companion
+    text: 对，就是这里。
+    seed: 2000          # comma pause 0.5 s > 0.3 s short-line limit in seeds 1234-1237: re-roll
+  - id: xq.f.ok2
+    role: companion
+    text: 你看得很仔细。
+  - id: xq.f.ok3
+    role: companion
+    text: 先检查，再走，很稳。
+  - id: xq.f.ok4
+    role: companion
+    text: 这一步想得周到。
+  - id: xq.f.ok5
+    role: companion
+    text: 你自己找到了。
+  - id: xq.f.try1
+    role: companion
+    text: 再看一眼。
+  - id: xq.f.try3
+    role: companion
+    text: 这里走不通，再想想。
+  - id: xq.f.done
+    role: companion
+    text: 这一课学完了。
+  - id: xq.g.red
+    role: companion
+    text: 你执红，先走。
+  - id: xq.g.black
+    role: companion
+    text: 你执黑，对方先走。
+  - id: xq.g.your
+    role: companion
+    text: 轮到你了。
+  - id: xq.g.checked
+    role: companion
+    text: 你被将军了。
+  - id: xq.g.check3
+    role: companion
+    text: 应将：走开、挡住、吃掉。
+  - id: xq.g.mate.win
+    role: companion
+    text: 将死了，你赢了！
+  - id: xq.g.mate.lose
+    role: companion
+    text: 你被将死了，我们复盘看看。
+  - id: xq.g.stale.win
+    role: companion
+    text: 对方无路可走，你赢了。
+  - id: xq.g.stale.lose
+    role: companion
+    text: 你没路可走了，输了这盘。
+  - id: xq.g.draw.rep
+    role: companion
+    text: 同样的局面三次，和棋。
+  - id: xq.g.draw.cap
+    role: companion
+    text: 很久没吃子了，和棋。
+  - id: xq.g.draw.none
+    role: companion
+    text: 双方都没有进攻的子，和棋。
+  - id: xq.g.draw.ok
+    role: companion
+    text: 和棋，没输，再来一盘。
+  - id: xq.g.perp.warn
+    role: companion
+    text: 再一直将军，就要判输了。
+  - id: xq.g.perp.win
+    role: companion
+    text: 对方一直将军，判你赢。
+  - id: xq.g.perp.lose
+    role: companion
+    text: 一直将军，被判输了。
+  - id: xq.g.resign
+    role: companion
+    text: 想认输吗？也可以悔棋。
+  - id: xq.g.resign.win
+    role: companion
+    text: 它认输了，你赢了！
+  - id: xq.g.tired
+    role: companion
+    text: 它累了，这盘算你赢。
+  - id: xq.g.hand
+    role: companion
+    text: 这盘有让子，公平多了。
+  - id: xq.g.easy.ask
+    role: companion
+    text: 想试试轻松档吗？
+  - id: xq.g.easy.on
+    role: companion
+    text: 好，轻松档开着。
+  - id: xq.g.cap
+    role: companion
+    text: 这盘有点长，再试一次？
+    pinyin: { 长: cháng }
+  - id: xq.xj.intro
+    role: companion
+    text: 小局：红先走，抓住黑将。
+    pinyin: { 将: jiàng }
+  - id: xq.xj.win
+    role: companion
+    text: 小局过关！
+  - id: xq.c.hang
+    role: companion
+    text: 等一下，这个子会被吃掉。
+  - id: xq.c.hang2
+    role: companion
+    text: 等一下，那个子还在被攻击。
+  - id: xq.c.mate
+    role: companion
+    text: 小心，对方有一步杀。
+  - id: xq.c.go
+    role: companion
+    text: 好，你自己决定。
+  - id: xq.h.1.move
+    role: companion
+    text: 想想哪个子能动。
+  - id: xq.h.1.mate
+    role: companion
+    text: 这里有一步杀。
+  - id: xq.h.1.free
+    role: companion
+    text: 有个子可以白吃。
+  - id: xq.h.1.esc
+    role: companion
+    text: 先想怎么应将。
+  - id: xq.h.1.stars
+    role: companion
+    text: 先去最近的星星。
+  - id: xq.h.1.check
+    role: companion
+    text: 想想哪个子能将军。
+  - id: xq.h.1.trade
+    role: companion
+    text: 看看，哪个吃了能赚。
+  - id: xq.h.1.how
+    role: companion
+    text: 想想这个子是怎么走的。
+  - id: xq.h.1.line
+    role: companion
+    text: 看看哪个黑子的线能碰到它。
+  - id: xq.h.1.glow
+    role: companion
+    text: 点一点发亮的点。
+  - id: xq.h.2
+    role: companion
+    text: 看，这个子是关键。
+  - id: xq.h.3
+    role: companion
+    text: 看我走一遍。
+  - id: xq.rb.1.intro
+    role: companion
+    text: 滑轮：慢悠悠，不爱吃子。
+  - id: xq.rb.1.win
+    role: companion
+    text: 你赢了滑轮！
+  - id: xq.rb.1.lose
+    role: companion
+    text: 滑轮赢了，它自己也吃惊。
+  - id: xq.rb.2.intro
+    role: companion
+    text: 木牛：看见子就想吃。
+  - id: xq.rb.2.win
+    role: companion
+    text: 你赢了木牛！
+  - id: xq.rb.2.lose
+    role: companion
+    text: 木牛赢了，再试试。
+  - id: xq.rb.3.intro
+    role: companion
+    text: 流马：会看自己的子安不安全。
+  - id: xq.rb.3.win
+    role: companion
+    text: 你赢了流马！
+  - id: xq.rb.3.lose
+    role: companion
+    text: 流马赢了，看看哪里能改。
+  - id: xq.rb.4.intro
+    role: companion
+    text: 司南：一步杀从不放过。
+  - id: xq.rb.4.win
+    role: companion
+    text: 你赢了司南！
+  - id: xq.rb.4.lose
+    role: companion
+    text: 司南赢了，我们一起复盘。
+  - id: xq.rb.5.intro
+    role: companion
+    text: 浑天：会想三步。
+  - id: xq.rb.5.win
+    role: companion
+    text: 你赢了浑天！
+  - id: xq.rb.5.lose
+    role: companion
+    text: 浑天赢了，它这步很准。
+  - id: xq.rb.6.intro
+    role: companion
+    text: 璇玑：棋院里最强的机关人。
+  - id: xq.rb.6.win
+    role: companion
+    text: 你赢了璇玑！太了不起了。
+  - id: xq.rb.6.lose
+    role: companion
+    text: 璇玑赢了，下次再战。
+  - id: xq.rb.join
+    role: companion
+    text: 它的零件，装进了你的棋院。
+  - id: xq.rb.pick
+    role: companion
+    text: 选一位机关人下棋。
+  - id: xq.bt.intro
+    role: companion
+    text: 黑兵要冲到你的底线。
+  - id: xq.pz.intro
+    role: companion
+    text: 杀棋题：红先走，黑无路。
+  - id: xq.d.intro
+    role: companion
+    text: 把平板放平，面对面下棋。
+  - id: xq.d.who
+    role: companion
+    text: 谁让谁，选一选。
+  - id: xq.d.end
+    role: companion
+    text: 下完了，要复盘吗？
+  - id: xq.r.intro
+    role: companion
+    text: 我们来看看精彩时刻。
+  - id: xq.r.mate
+    role: companion
+    text: 这一步将死，抓住了机会。
+  - id: xq.r.fork
+    role: companion
+    text: 这一步，同时抓了两个子。
+  - id: xq.r.win
+    role: companion
+    text: 这个子吃得很划算。
+  - id: xq.r.miss
+    role: companion
+    text: 这里本来有一步杀。
+  - id: xq.r.free
+    role: companion
+    text: 这里有个子，可以白吃。
+  - id: xq.r.hang
+    role: companion
+    text: 这个子被吃了，先看一眼。
+  - id: xq.r.none
+    role: companion
+    text: 这盘没有特别的时刻。
+  - id: xq.pl.miss
+    role: companion
+    text: 差一点，看，这几个才对。
+  - id: xq.pl.rec
+    role: companion
+    text: 没考到的课，我们接着学。
+  - id: xq.s.slow
+    role: companion
+    text: 我换个办法想棋，慢一点。
+  - id: xq.s.sorry
+    role: companion
+    text: 对不起，这步我没想好，你再走。
+  - id: xq.h.2b
+    role: companion
+    text: 想把它送到哪里？
+words:
+  - 帅
+  - { text: 将, pinyin: jiàng }
+  - 仕
+  - 士
+  - { text: 相, pinyin: xiàng }
+  - 象
+  - 马
+  - 车
+  - 炮
+  - 兵
+  - 卒

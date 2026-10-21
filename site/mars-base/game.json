@@ -8,9 +8,13 @@
   "accent": "--xg-mars",
   "theme": "mars",
   "icon": "/icons/games/mars-base.svg",
-  "domains": ["number", "measurement"],
-  "parentNote": "数学主力：0–1000 数轴、位值、两位数加减认证、乘除意义、等式天平、人民币和钟表。",
+  "domains": [
+    "number",
+    "measurement"
+  ],
+  "parentNote": "数学主力：数轴估计、数位、两位数加减、乘法意义，自适应出题，记录错误类型。",
   "orientation": "any",
-  "smoke": {"waitFor": "#app[data-ready]"},
-  "notes": "上线那次提交：删除 site/number-adventure/，加 \"redirectFrom\": [\"/number-adventure\"]，status 改 live（docs/specs/mars-base.md §8.8）。"
+  "smoke": {
+    "waitFor": "#app[data-ready]"
+  }
 }

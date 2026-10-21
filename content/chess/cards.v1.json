@@ -1,0 +1,163 @@
+{
+ "version": "v1.1",
+ "cards": [
+  {
+   "id": "card.R",
+   "kind": "piece",
+   "earnedBy": "A3",
+   "title": "车",
+   "text": "车是最早的棋子之一。古时候的棋里，它是一辆战车。",
+   "diagram": {
+    "demo": "rook.lines"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.B",
+   "kind": "piece",
+   "earnedBy": "B3",
+   "title": "象",
+   "text": "国际象棋的象，在英语里叫\"主教\"。",
+   "diagram": {
+    "demo": "bishop.lines"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.Q",
+   "kind": "piece",
+   "earnedBy": "Q3",
+   "title": "后",
+   "text": "很久以前，后一次只能走一格。五百多年前，人们让它变成了最厉害的棋子。",
+   "diagram": {
+    "demo": "queen.lines"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.K",
+   "kind": "piece",
+   "earnedBy": "K3",
+   "title": "王",
+   "text": "王不能被吃掉。所有的棋子都在保护它。",
+   "diagram": {
+    "demo": "king.moves"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.N",
+   "kind": "piece",
+   "earnedBy": "N3",
+   "title": "马",
+   "text": "马是唯一能跳过别的棋子的棋子。",
+   "diagram": {
+    "demo": "knight.jump"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.P",
+   "kind": "piece",
+   "earnedBy": "P4",
+   "title": "兵",
+   "text": "兵走到最后一行可以变身。这叫\"升变\"。",
+   "diagram": {
+    "demo": "promotion"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.castle",
+   "kind": "secret",
+   "earnedBy": "G1",
+   "title": "王车易位",
+   "text": "王车易位是唯一一步能同时走两个棋子的棋。",
+   "diagram": {
+    "demo": "castling"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.ep",
+   "kind": "secret",
+   "earnedBy": "G1",
+   "title": "吃过路兵",
+   "text": "吃过路兵只能在对方的兵刚走完两格的下一步吃。",
+   "diagram": {
+    "demo": "enpassant"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.values",
+   "kind": "idea",
+   "earnedBy": "V1",
+   "title": "棋子的分数",
+   "text": "分数帮你算账：吃掉的分数比丢掉的多，就是赚。",
+   "diagram": {
+    "demo": "values"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.check",
+   "kind": "idea",
+   "earnedBy": "C5",
+   "title": "应将三招",
+   "text": "被将军时：走开、挡住、吃掉。",
+   "diagram": {
+    "demo": "escape.block"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.backrank",
+   "kind": "move",
+   "earnedBy": "M2",
+   "title": "底线杀",
+   "text": "王的前面被自己的兵堵住，是最常见的被将死的样子。",
+   "diagram": {
+    "demo": "mate.backrank"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.stalemate",
+   "kind": "idea",
+   "earnedBy": "M7",
+   "title": "逼和",
+   "text": "逼和是和棋，不算谁赢。赢面大的时候要小心。",
+   "diagram": {
+    "demo": "stalemate"
+   },
+   "voiced": true
+  },
+  {
+   "id": "card.xiejun",
+   "kind": "history",
+   "earnedBy": "robot:R4",
+   "title": "谢军",
+   "text": "1991 年，谢军成为中国第一位国际象棋女子世界冠军。",
+   "diagram": {
+    "art": "crown-queen",
+    "year": 1991
+   },
+   "voiced": false,
+   "status": "needs-dad-signoff"
+  },
+  {
+   "id": "card.dingliren",
+   "kind": "history",
+   "earnedBy": "robot:R6",
+   "title": "丁立人",
+   "text": "2023 年，丁立人成为中国第一位国际象棋男子世界冠军。",
+   "diagram": {
+    "art": "crown-king",
+    "year": 2023
+   },
+   "voiced": false,
+   "status": "needs-dad-signoff"
+  }
+ ]
+}

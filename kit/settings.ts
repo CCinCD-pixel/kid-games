@@ -36,9 +36,11 @@ export interface Settings {
   hiddenGames: string[];
   /** 跳过开场和教学: intros / cutscenes / tutorials auto-skip (marked seen) — default off */
   skipIntros: boolean;
+  /** 全部解锁: games with a soft progression (ladder, chapters, gates) treat everything as unlocked — default off */
+  unlockAll: boolean;
 }
 
-export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [] as string[], skipIntros: false });
+export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [] as string[], skipIntros: false, unlockAll: false });
 
 function storage(s?: Storage): Storage | undefined {
   if (s) return s;
@@ -63,6 +65,7 @@ function normalize(raw: unknown): Settings {
     pinyin: typeof o.pinyin === 'boolean' ? o.pinyin : DEFAULT_SETTINGS.pinyin,
     hiddenGames: Array.isArray(o.hiddenGames) ? [...new Set(o.hiddenGames.filter((g): g is string => typeof g === 'string' && /^[a-z0-9-]+$/.test(g)))] : [],
     skipIntros: typeof o.skipIntros === 'boolean' ? o.skipIntros : DEFAULT_SETTINGS.skipIntros,
+    unlockAll: typeof o.unlockAll === 'boolean' ? o.unlockAll : DEFAULT_SETTINGS.unlockAll,
   };
 }
 
@@ -110,6 +113,13 @@ export const narrationEnabled = (store?: Storage): boolean => getSettings(store)
  * start, not once at load — the parent page may change it in another tab.
  */
 export const skipIntros = (store?: Storage): boolean => getSettings(store).skipIntros;
+
+/**
+ * True when the parent turned on 全部解锁: ladders / chapters / gates that normally open step by step are all open.
+ * Read it when you compute what is unlocked (so the parent page switch applies at once); it must never skip teaching,
+ * hide hints or change what counts as progress. Default off.
+ */
+export const unlockAll = (store?: Storage): boolean => getSettings(store).unlockAll;
 
 // ---------------------------------------------------------------- parent PIN
 

@@ -1,0 +1,51 @@
+// @ts-nocheck
+// GENERATED from tools/memory-matrix/proto/constellations.mjs by tools/memory-matrix/sync-core.mjs - do not edit; change the oracle and re-run the script.
+// Constellation line art for the 星图册 cards: DATA (RA/Dec of the stars, J2000 degrees, Hipparcos values rounded to 0.01 deg) -> gnomonic projection ->
+// normalised art coordinates -> validated. The art is NEVER hand-drawn: card art = generate(constellation) so a wrong star position cannot hide in a drawing.
+// PROVENANCE: the coordinates were typed from memory of the Hipparcos/SIMBAD values by the spec author and cross-checked below against independent
+// literature angular separations (REFERENCE_SEP, +-8 %). The implementer MUST re-verify them against the HYG database (public domain) before shipping:
+//   HYG_CSV=/path/hyg_v3.csv node constellations.mjs --verify   (matches by HIP id, tolerance 0.05 deg) and record the source in assets-src/LICENSES.md.
+export const CONSTELLATIONS = {
+  beidou:   { zh: '北斗七星', stars: [['Dubhe', 165.93, 61.75], ['Merak', 165.46, 56.38], ['Phecda', 178.46, 53.69], ['Megrez', 183.86, 57.03], ['Alioth', 193.51, 55.96], ['Mizar', 200.98, 54.93], ['Alkaid', 206.89, 49.31]], lines: [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6]] },
+  xiaoxiong: { zh: '小熊座', stars: [['Polaris', 37.95, 89.26], ['Yildun', 263.05, 86.59], ['eps UMi', 251.18, 82.04], ['zeta UMi', 236.01, 77.79], ['eta UMi', 244.38, 75.76], ['Pherkad', 230.18, 71.83], ['Kochab', 222.68, 74.16]], lines: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 3]] },
+  lieHu:    { zh: '猎户座', stars: [['Betelgeuse', 88.79, 7.41], ['Bellatrix', 81.28, 6.35], ['Mintaka', 83.0, -0.3], ['Alnilam', 84.05, -1.2], ['Alnitak', 85.19, -1.94], ['Saiph', 86.94, -9.67], ['Rigel', 78.63, -8.2]], lines: [[0, 1], [0, 4], [1, 2], [2, 3], [3, 4], [4, 5], [2, 6]] },
+  tianXie:  { zh: '天蝎座', stars: [['Graffias', 241.36, -19.81], ['Dschubba', 240.08, -22.62], ['pi Sco', 239.71, -26.11], ['Antares', 247.35, -26.43], ['sigma Sco', 245.3, -25.59], ['tau Sco', 248.97, -28.22], ['eps Sco', 252.54, -34.29], ['mu1 Sco', 252.97, -38.05], ['zeta2 Sco', 253.5, -42.36], ['eta Sco', 258.04, -43.24], ['theta Sco', 264.33, -43.0], ['iota1 Sco', 266.9, -40.13], ['kappa Sco', 265.62, -39.03], ['Shaula', 263.4, -37.1]], lines: [[0, 1], [1, 2], [1, 4], [4, 3], [3, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13]] },
+  xianHou:  { zh: '仙后座', stars: [['Caph', 2.29, 59.15], ['Schedar', 10.13, 56.54], ['Navi', 14.18, 60.72], ['Ruchbah', 21.45, 60.24], ['Segin', 28.6, 63.67]], lines: [[0, 1], [1, 2], [2, 3], [3, 4]] },
+  tianE:    { zh: '天鹅座', stars: [['Deneb', 310.36, 45.28], ['Sadr', 305.56, 40.26], ['Albireo', 292.68, 27.96], ['delta Cyg', 296.24, 45.13], ['Gienah', 311.55, 33.97]], lines: [[0, 1], [1, 2], [3, 1], [1, 4]] },
+  nanShiZi: { zh: '南十字座', stars: [['Acrux', 186.65, -63.1], ['Mimosa', 191.93, -59.69], ['Gacrux', 187.79, -57.11], ['Imai', 183.79, -58.75]], lines: [[0, 2], [1, 3]] },
+};
+// independent literature separations (degrees) used to catch a mistyped coordinate: [constellation, i, j, degrees]
+export const REFERENCE_SEP = [['beidou', 0, 1, 5.4], ['beidou', 0, 6, 25.7], ['lieHu', 0, 6, 18.6], ['lieHu', 2, 4, 2.7], ['nanShiZi', 0, 2, 6.0], ['xianHou', 0, 4, 13.4], ['tianE', 0, 2, 22.4]];
+const D2R = Math.PI / 180;
+export const sep = (a, b) => { const [ra1, d1, ra2, d2] = [a[1] * D2R, a[2] * D2R, b[1] * D2R, b[2] * D2R]; return Math.acos(Math.min(1, Math.max(-1, Math.sin(d1) * Math.sin(d2) + Math.cos(d1) * Math.cos(d2) * Math.cos(ra1 - ra2)))) / D2R; };
+/** Gnomonic projection about the mean direction, rotated so that north is up, scaled uniformly into [pad, 1-pad]. Returns { pts:[[x,y]], scale (art units per degree) }. */
+export function project(stars, pad = 0.12) {
+  let X = 0, Y = 0, Z = 0; for (const s of stars) { const a = s[1] * D2R, d = s[2] * D2R; X += Math.cos(d) * Math.cos(a); Y += Math.cos(d) * Math.sin(a); Z += Math.sin(d); }
+  const n = Math.hypot(X, Y, Z), a0 = Math.atan2(Y / n, X / n), d0 = Math.asin(Z / n);
+  const raw = stars.map((s) => { const a = s[1] * D2R, d = s[2] * D2R, c = Math.sin(d0) * Math.sin(d) + Math.cos(d0) * Math.cos(d) * Math.cos(a - a0);
+    return [(Math.cos(d) * Math.sin(a - a0)) / c, (Math.cos(d0) * Math.sin(d) - Math.sin(d0) * Math.cos(d) * Math.cos(a - a0)) / c]; });   // x east (right-to-left on sky charts), y north
+  const xs = raw.map((p) => -p[0]), ys = raw.map((p) => -p[1]);                   // sky charts: east on the LEFT, north up (screen y grows downward)
+  const w = Math.max(...xs) - Math.min(...xs), h = Math.max(...ys) - Math.min(...ys), k = (1 - 2 * pad) / Math.max(w, h);
+  const ox = 0.5 - (k * (Math.max(...xs) + Math.min(...xs))) / 2, oy = 0.5 - (k * (Math.max(...ys) + Math.min(...ys))) / 2;
+  return { pts: xs.map((x, i) => [+(k * x + ox).toFixed(4), +(k * ys[i] + oy).toFixed(4)]), scale: k / D2R };
+}
+/** art for one constellation: { stars:[[x,y]], lines } (this is what cards.json stores, regenerated by the build, never edited) */
+export const lineArt = (id) => { const c = CONSTELLATIONS[id], p = project(c.stars); return { id, zh: c.zh, stars: p.pts, lines: c.lines }; };
+export function validate() {
+  const bad = [];
+  for (const [id, c] of Object.entries(CONSTELLATIONS)) {
+    const art = lineArt(id), P = art.stars;
+    if (P.length !== c.stars.length) bad.push(`${id}: star count`);
+    if (c.lines.some(([i, j]) => i === j || i >= P.length || j >= P.length)) bad.push(`${id}: bad line index`);
+    if (new Set(c.lines.flat()).size !== P.length) bad.push(`${id}: a star without a line`);
+    // projected art distances must keep the sky's pairwise ratios (gnomonic distortion over <= 30 deg is < 10 %)
+    let worst = 0; const ratios = [];
+    for (let i = 0; i < P.length; i += 1) for (let j = i + 1; j < P.length; j += 1) { const dArt = Math.hypot(P[i][0] - P[j][0], P[i][1] - P[j][1]), dSky = sep(c.stars[i], c.stars[j]); ratios.push(dArt / dSky); }
+    const med = ratios.slice().sort((a, b) => a - b)[Math.floor(ratios.length / 2)]; for (const r of ratios) worst = Math.max(worst, Math.abs(r / med - 1));
+    if (worst > 0.1) bad.push(`${id}: art distances deviate ${(100 * worst).toFixed(1)} % from the sky (limit 10 %)`);
+    for (const p of P) if (p[0] < 0.05 || p[0] > 0.95 || p[1] < 0.05 || p[1] > 0.95) bad.push(`${id}: star outside the card`);
+    for (let i = 0; i < P.length; i += 1) for (let j = i + 1; j < P.length; j += 1) if (Math.hypot(P[i][0] - P[j][0], P[i][1] - P[j][1]) < 0.03) bad.push(`${id}: stars ${i},${j} overlap in the art`);
+  }
+  for (const [id, i, j, deg] of REFERENCE_SEP) { const c = CONSTELLATIONS[id], s = sep(c.stars[i], c.stars[j]); if (Math.abs(s / deg - 1) > 0.08) bad.push(`${id} ${c.stars[i][0]}-${c.stars[j][0]}: ${s.toFixed(2)} deg vs literature ${deg} (> 8 %)`); }
+  return bad;
+}

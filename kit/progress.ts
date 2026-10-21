@@ -45,6 +45,7 @@ export interface Store<T> {
   save(data: T): boolean;
   /** Mutate in place (return nothing) or return a new value. Saves and returns the result. */
   update(fn: (data: T) => T | void): T;
+  /** Delete the save — except one written by a NEWER schema version than this page understands (stale cached pages never wipe it). */
   reset(): void;
   /** Raw envelope (or null) — for debugging and the parent page. */
   envelope(): StoredEnvelope<T> | null;
@@ -145,6 +146,9 @@ export function createStore<T>(game: string, opts: StoreOptions<T>): Store<T> {
     },
     reset() {
       try {
+        // a stale page (older build) must not wipe a save written by a newer build
+        const env = readEnvelope();
+        if (env && env.v > opts.version) return;
         storage()?.removeItem(key);
       } catch {
         /* ignore */
@@ -314,15 +318,34 @@ export function exportProgress(storage: Storage | undefined = defaultStorage()):
   return { format: 'kg-progress', version: 1, exportedAt: new Date().toISOString(), entries };
 }
 
-/** Restore an export. `overwrite: false` keeps existing keys. Returns the number of keys written. */
-export function importProgress(bundle: unknown, opts: { overwrite?: boolean; storage?: Storage } = {}): number {
+/** Schema version of a stored `kg:v1:<game>` envelope string, or null when it is not one. */
+function envelopeVersion(raw: string | null): number | null {
+  const env = safeParse(raw) as { v?: unknown } | null;
+  return env && typeof env === 'object' && typeof env.v === 'number' ? env.v : null;
+}
+
+/**
+ * Restore an export. `overwrite: false` keeps existing keys. Returns the number of keys written.
+ * A per-game save (`kg:v1:<game>`) is never replaced by an OLDER-schema one (restoring an old backup must not
+ * downgrade progress already made on a newer build); such keys are listed in `opts.skipped` when given.
+ */
+export function importProgress(bundle: unknown, opts: { overwrite?: boolean; storage?: Storage; skipped?: string[] } = {}): number {
   const storage = opts.storage ?? defaultStorage();
   if (!storage) return 0;
   if (!isObj(bundle) || bundle.format !== 'kg-progress' || !isObj(bundle.entries)) throw new Error('不是有效的进度备份文件');
   let n = 0;
   for (const [key, value] of Object.entries(bundle.entries)) {
     if (!exportable(key) || typeof value !== 'string') continue;
-    if (opts.overwrite === false && storage.getItem(key) !== null) continue;
+    const existing = storage.getItem(key);
+    if (opts.overwrite === false && existing !== null) continue;
+    if (existing !== null && key.startsWith(NAMESPACE)) {
+      const have = envelopeVersion(existing);
+      const incoming = envelopeVersion(value);
+      if (have !== null && (incoming === null || have > incoming)) {
+        opts.skipped?.push(key);
+        continue;
+      }
+    }
     storage.setItem(key, value);
     n += 1;
   }

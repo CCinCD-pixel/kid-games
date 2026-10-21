@@ -551,6 +551,41 @@
     1236
    ]
   },
+  "snake.vs.intro.3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fc56075d3cc85ac83f5cc53fa2163726960430d0",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.vs.intro.6": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "871309e4cae18abe3225f4c7545468581a08ac91",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "snake.vs.win.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "66d40fc758cbb82231406cb12e3485d425bced32",
+   "score": 0.909,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
   "snake.wake": {
    "seed": 1235,
    "base": 1234,

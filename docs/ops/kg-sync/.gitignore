@@ -1,0 +1,7 @@
+# 运行时数据与秘密绝不入库
+data/
+.env
+*.db
+*.db-wal
+*.db-shm
+pull-backups.env

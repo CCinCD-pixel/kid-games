@@ -8,10 +8,10 @@
    ============================================================================= */
 :root {
   --hub-pad: 24px;
-  --hub-safe-t: env(safe-area-inset-top, 0px);
-  --hub-safe-b: env(safe-area-inset-bottom, 0px);
-  --hub-safe-l: env(safe-area-inset-left, 0px);
-  --hub-safe-r: env(safe-area-inset-right, 0px);
+  --hub-safe-t: var(--kit-safe-top, env(safe-area-inset-top, 0px));
+  --hub-safe-b: var(--kit-safe-bottom, env(safe-area-inset-bottom, 0px));
+  --hub-safe-l: var(--kit-safe-left, env(safe-area-inset-left, 0px));
+  --hub-safe-r: var(--kit-safe-right, env(safe-area-inset-right, 0px));
   /* layout rails (portrait defaults; landscape below) */
   --hub-bot-top: 196px;
   --hub-nav-top: 350px;

@@ -5,168 +5,314 @@
    "title": "祝融号",
    "body": "祝融号 2021 年 5 月落在火星的乌托邦平原，它有 6 个轮子。",
    "earn": "onboarding",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "wiki-tianwen1",
+    "wiki-zhurong"
+   ]
   },
   {
    "id": "card.2",
    "title": "天问一号",
    "body": "天问一号 2020 年 7 月从海南文昌出发，飞了约 202 天到火星。",
    "earn": "mission:1",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "wiki-tianwen1"
+   ]
   },
   {
    "id": "card.3",
    "title": "火星的一天",
    "body": "火星转一圈约 24 小时 39 分，比地球的一天长一点。",
    "earn": "chapter:T1",
-   "verified": false
+   "verified": "agent",
+   "scope": "v2",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mars"
+   ]
   },
   {
    "id": "card.4",
    "title": "火星的一年",
    "body": "火星绕太阳一圈，约要地球上的 687 天。",
    "earn": "chapter:T2",
-   "verified": false
+   "verified": "agent",
+   "scope": "v2",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mars"
+   ]
   },
   {
    "id": "card.5",
    "title": "两颗小卫星",
    "body": "火星有两颗小卫星：火卫一和火卫二，长得像土豆。",
    "earn": "chapter:O1",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mars-facts"
+   ]
   },
   {
    "id": "card.6",
    "title": "红色星球",
    "body": "火星的土里有很多氧化铁，就是铁锈，所以看起来红红的。",
    "earn": "cert:C1",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mars-facts"
+   ]
   },
   {
    "id": "card.7",
    "title": "奥林帕斯山",
-   "body": "火星上的奥林帕斯山约 22 千米高，差不多是珠峰的两倍半。",
+   "body": "火星上的奥林帕斯山约 22 千米高（从火星的平均地面算起），差不多是珠峰的两倍半。",
    "earn": "chapter:K1",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "wiki-olympus"
+   ]
   },
   {
    "id": "card.8",
    "title": "在火星上称重",
    "body": "地球上重 100 斤的东西，拿到火星上，秤只显示约 38 斤。",
    "earn": "chapter:B1",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mars"
+   ]
   },
   {
    "id": "card.9",
    "title": "火星的距离",
    "body": "火星离太阳平均约 228 个百万千米，轨道上就插在 228。",
    "earn": "node:orbit.O2.3",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mars"
+   ]
   },
   {
    "id": "card.10",
    "title": "地球的距离",
    "body": "地球离太阳平均约 150 个百万千米。",
    "earn": "node:orbit.O2.3",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-earth"
+   ]
   },
   {
    "id": "card.11",
    "title": "水星和金星",
    "body": "水星离太阳约 58 个百万千米，金星约 108 个。",
    "earn": "node:orbit.O2.4",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mercury",
+    "nasa-venus"
+   ]
   },
   {
    "id": "card.12",
    "title": "木星",
    "body": "木星是最大的行星，离太阳约 778 个百万千米。",
    "earn": "node:orbit.O2.5",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-jupiter"
+   ]
   },
   {
    "id": "card.13",
    "title": "谷神星",
-   "body": "谷神星是小行星带里最大的一颗，离太阳约 414 个百万千米。",
+   "body": "谷神星是小行星带里最大的一颗，也是一颗矮行星，离太阳约 414 个百万千米。",
    "earn": "node:vault.K2.7",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-ceres"
+   ]
   },
   {
    "id": "card.14",
    "title": "土星在轨道外",
    "body": "土星离太阳约 1432 个百万千米，千里轨道放不下它。",
    "earn": "node:orbit.O2.6",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-saturn"
+   ]
   },
   {
    "id": "card.15",
    "title": "蓝色的日落",
-   "body": "火星上的日落是蓝色的，和地球正好不一样。",
+   "body": "火星日落的时候，太阳旁边的天空是蓝色的，和地球的红色日落正好相反。",
    "earn": "race:3",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-sunset"
+   ]
   },
   {
    "id": "card.16",
    "title": "阳光的速度",
    "body": "太阳光跑到地球，大约要 8 分钟。",
    "earn": "node:clock.T2.4",
-   "verified": false
+   "verified": "agent",
+   "scope": "v2",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "common"
+   ]
   },
   {
    "id": "card.17",
    "title": "祝融号有多重",
    "body": "祝融号火星车约 240 千克，比 3 个大人还重。",
    "earn": "node:vault.K2.4",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "wiki-zhurong"
+   ]
   },
   {
    "id": "card.18",
    "title": "长征五号",
    "body": "长征五号是中国最大的火箭之一，约 57 米高，像 19 层楼。",
    "earn": "race:10",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "wiki-cz5"
+   ]
   },
   {
    "id": "card.19",
    "title": "最近的时候",
    "body": "火星离地球最近时，也有约 55 个百万千米。",
    "earn": "node:vault.K2.6",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "nasa-mars"
+   ]
   },
   {
    "id": "card.20",
    "title": "算筹",
    "body": "古人用小竹棍记数：个位竖着摆，十位横着摆。",
    "earn": "cert:C2",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "wiki-rods"
+   ]
   },
   {
    "id": "card.21",
    "title": "算盘",
    "body": "算盘上面一颗珠当 5，下面一颗珠当 1。",
    "earn": "node:vault.K1.5",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "wiki-suanpan"
+   ]
   },
   {
    "id": "card.22",
    "title": "十二时辰",
    "body": "古人把一天分成 12 个时辰，一个时辰是 2 小时。",
    "earn": "node:clock.T1.9",
-   "verified": false
+   "verified": "agent",
+   "scope": "v2",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "common"
+   ]
   },
   {
    "id": "card.23",
    "title": "检查员",
    "body": "工程师交货前都要验一验，验出问题是好本事。",
    "earn": "checker:3",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "game"
+   ]
   },
   {
    "id": "card.24",
    "title": "总质检师",
    "body": "你已经验出了 10 处不对，是基地的总质检师！",
    "earn": "checker:10",
-   "verified": false
+   "verified": "agent",
+   "scope": "v1",
+   "signed": false,
+   "checkedOn": "2026-10-20",
+   "src": [
+    "game"
+   ]
   }
  ],
  "talk": [
@@ -290,5 +436,93 @@
    "text": "和爸爸找：家里哪里有 0？",
    "zone": "vault"
   }
- ]
+ ],
+ "sources": {
+  "nasa-mars": {
+   "name": "NASA NSSDCA Mars Fact Sheet (semimajor axis 227.956 million km; day 24.6597 h; year 686.98 d; gravity 0.380 of Earth; Earth distance 54.6-401.4 million km)",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+   "level": "primary"
+  },
+  "nasa-mercury": {
+   "name": "NASA Mercury Fact Sheet (semimajor axis 57.909 million km)",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html",
+   "level": "primary"
+  },
+  "nasa-venus": {
+   "name": "NASA Venus Fact Sheet (108.210 million km)",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html",
+   "level": "primary"
+  },
+  "nasa-jupiter": {
+   "name": "NASA Jupiter Fact Sheet (778.479 million km)",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
+   "level": "primary"
+  },
+  "nasa-saturn": {
+   "name": "NASA Saturn Fact Sheet (1,432.041 million km)",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/saturnfact.html",
+   "level": "primary"
+  },
+  "nasa-earth": {
+   "name": "NASA Mars Fact Sheet, Earth column (semimajor axis 149.598 million km)",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+   "level": "primary"
+  },
+  "nasa-ceres": {
+   "name": "NASA Science, Ceres facts (largest object in the asteroid belt; dwarf planet since 2006; ~413-414 million km = 2.8 AU)",
+   "url": "https://science.nasa.gov/dwarf-planets/ceres/facts/",
+   "level": "primary"
+  },
+  "nasa-mars-facts": {
+   "name": "NASA Science, Mars facts (red = rusting iron; Phobos and Deimos potato-shaped)",
+   "url": "https://science.nasa.gov/mars/facts/",
+   "level": "primary"
+  },
+  "nasa-sunset": {
+   "name": "NASA/JPL, Curiosity views sundown on Mars (blue light stays near the Sun at sunset)",
+   "url": "https://www.jpl.nasa.gov/news/nasas-curiosity-rover-views-serene-sundown-on-mars/",
+   "level": "primary"
+  },
+  "wiki-tianwen1": {
+   "name": "Wikipedia Tianwen-1 (launch 23 Jul 2020 Wenchang; orbit insertion 10 Feb 2021 = 202 days; landing 14 May 2021 23:18 UTC = 15 May Beijing time, Utopia Planitia; Long March 5). Secondary: CNSA page not reachable; matches NASA/Xinhua reports",
+   "url": "https://en.wikipedia.org/wiki/Tianwen-1",
+   "level": "secondary"
+  },
+  "wiki-zhurong": {
+   "name": "Wikipedia Zhurong (rover): six wheels, 240 kg, Utopia Planitia (secondary; CNSA release)",
+   "url": "https://en.wikipedia.org/wiki/Zhurong_(rover)",
+   "level": "secondary"
+  },
+  "wiki-cz5": {
+   "name": "Wikipedia Long March 5: 56.97 m tall; most powerful Chinese rocket (secondary)",
+   "url": "https://en.wikipedia.org/wiki/Long_March_5",
+   "level": "secondary"
+  },
+  "wiki-olympus": {
+   "name": "Wikipedia Olympus Mons (MOLA 21.287 km above datum, 21.9 km local relief, about 2.5 x Everest) - NASA MOLA data (secondary)",
+   "url": "https://en.wikipedia.org/wiki/Olympus_Mons",
+   "level": "secondary"
+  },
+  "wiki-rods": {
+   "name": "Wikipedia Counting rods (Sunzi Suanjing: one is vertical, ten is horizontal)",
+   "url": "https://en.wikipedia.org/wiki/Counting_rods",
+   "level": "secondary"
+  },
+  "wiki-suanpan": {
+   "name": "Wikipedia Suanpan (upper beads 5, lower beads 1)",
+   "url": "https://en.wikipedia.org/wiki/Suanpan",
+   "level": "secondary"
+  },
+  "game": {
+   "name": "Game-internal statement (counts the child's own checks), no external fact",
+   "url": "",
+   "level": "internal"
+  },
+  "common": {
+   "name": "Textbook-level common knowledge (12 shichen of 2 hours; light needs about 8 min 20 s to reach Earth: 499 s)",
+   "url": "",
+   "level": "textbook"
+  }
+ },
+ "_note": "verified: 'agent' = an agent checked the fact against the sources listed in `sources` on `checkedOn` (shown to the child exactly like a verified card); `signed:false` = dad has not signed it off yet (ACCEPTANCE to-do). Set signed:true after reading."
 }

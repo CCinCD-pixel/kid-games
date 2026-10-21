@@ -25,7 +25,7 @@ export const DOMAINS = /** @type {const} */ ([
 ]);
 export const ORIENTATIONS = /** @type {const} */ (['any', 'landscape', 'portrait']);
 /** 星港 design-system colour themes (`<body data-xg-game="…">`, kit/ui/tokens.css). */
-export const THEMES = /** @type {const} */ (['mars', 'moon', 'rabbit', 'story', 'lab', 'porter', 'chess', 'army', 'snake', 'match', 'defense']);
+export const THEMES = /** @type {const} */ (['mars', 'moon', 'rabbit', 'story', 'lab', 'porter', 'chess', 'army', 'snake', 'match', 'defense', 'xiangqi', 'chart']);
 /**
  * Top-level page folders that belong to the platform, not to a game: built and precached like
  * any page, but never registered, listed on the hub or put in the smoke matrix as a game.

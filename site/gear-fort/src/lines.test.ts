@@ -37,6 +37,13 @@ describe('V13 lines', () => {
     }
     expect(hits).toEqual([]);
   });
+  it('the 牒 belt is the 驿马 story: no 传送带 in any line or UI string (fort.belt.full, 2026-10-20)', () => {
+    expect(ids.filter((id) => /传送带/.test(LINES[id].text))).toEqual([]);
+    expect(LINES['fort.belt.full'].text).toBe('牒放满啦，先用掉一张！');
+    expect(CODE.match(/['"`][^'"`\n]*传送带[^'"`\n]*['"`]/g) ?? []).toEqual([]);
+    expect(LINES['fort.dock.3'].text).toBe('走，我们跟墨子去守城！');
+    expect(CODE).toMatch(/dockShot\([\d.]+, 'fort\.dock\.3'/);   // the closing dock shot says it (it used to be a silent hop)
+  });
   it('鲁班 never pairs 你 with a put-down', () => {
     const bad = ids.filter((id) => LINES[id].role === 'luban' && /你.{0,6}(笨|傻|不行|差劲|没用|输定|弱)/.test(LINES[id].text));
     expect(bad).toEqual([]);
@@ -66,7 +73,7 @@ describe('V13 lines', () => {
     const scan = (v: unknown): void => { if (typeof v === 'string') { if (/^fort\.[^ ]+$/.test(v)) refs.push(v); } else if (Array.isArray(v)) v.forEach(scan); else if (v && typeof v === 'object') Object.values(v).forEach(scan); };
     for (const id of ORDER) scan(LEVELS[id]); scan(CAMPAIGN); scan(ALMANAC);
     const words = new Set([...fs.readFileSync(path.join(ROOT, 'content/gear-fort/narration.yaml'), 'utf8').matchAll(/id: (fort\.w\.[^,}\s]+)/g)].map((m) => m[1]));
-    expect(words.size).toBe(45); // 点读词 (§2.6): 25 names + 墨子、鲁班 + 18 UI words
+    expect(words.size).toBe(46); // 点读词 (§2.6): 25 names + 墨子、鲁班 + 19 UI words (首领 added 2026-10-20)
     expect(new Set(WORDS.map(wordId))).toEqual(words); // the in-game 点读 list is exactly the voiced word list
     expect(refs.filter((r) => !LINES[r] && !words.has(r))).toEqual([]);
   });

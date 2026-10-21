@@ -1,0 +1,5088 @@
+{
+ "version": "v1.1",
+ "chapters": [
+  {
+   "ch": 1,
+   "title": "车",
+   "lessons": [
+    "A1",
+    "A2",
+    "A3"
+   ]
+  },
+  {
+   "ch": 2,
+   "title": "象",
+   "lessons": [
+    "B1",
+    "B2",
+    "B3"
+   ]
+  },
+  {
+   "ch": 3,
+   "title": "后",
+   "lessons": [
+    "Q1",
+    "Q2",
+    "Q3"
+   ]
+  },
+  {
+   "ch": 4,
+   "title": "王",
+   "lessons": [
+    "K1",
+    "K2",
+    "K3"
+   ]
+  },
+  {
+   "ch": 5,
+   "title": "马",
+   "lessons": [
+    "N1",
+    "N2",
+    "N3"
+   ]
+  },
+  {
+   "ch": 6,
+   "title": "兵",
+   "lessons": [
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+   ]
+  },
+  {
+   "ch": 7,
+   "title": "上场前",
+   "lessons": [
+    "G1",
+    "G2"
+   ]
+  },
+  {
+   "ch": 8,
+   "title": "将军与将死",
+   "lessons": [
+    "C1",
+    "C3",
+    "C4",
+    "C5",
+    "M1",
+    "M7"
+   ]
+  },
+  {
+   "ch": 9,
+   "title": "吃子划算吗",
+   "lessons": [
+    "V1",
+    "V3",
+    "V4",
+    "V5",
+    "V6",
+    "V7"
+   ]
+  },
+  {
+   "ch": 10,
+   "title": "一步杀",
+   "lessons": [
+    "M2",
+    "C2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M8",
+    "C6",
+    "C7",
+    "M9"
+   ]
+  },
+  {
+   "ch": 11,
+   "title": "收官杀法",
+   "lessons": [
+    "E1",
+    "E3",
+    "E4",
+    "E2",
+    "E5",
+    "E6"
+   ]
+  },
+  {
+   "ch": 12,
+   "title": "双抓",
+   "lessons": [
+    "F1"
+   ],
+   "optional": true
+  },
+  {
+   "ch": 13,
+   "title": "两步杀·初见",
+   "lessons": [
+    "T1"
+   ],
+   "optional": true
+  }
+ ],
+ "lessons": [
+  {
+   "id": "A1",
+   "ch": 1,
+   "title": "车走直线",
+   "teaches": "车沿横线、竖线走，想走多远走多远",
+   "steps": [
+    {
+     "id": "A1.1",
+     "k": "demo",
+     "pos": "8/8/8/8/3R4/8/8/K6k w - - 0 1",
+     "ghost": [
+      "d4d8",
+      "h1g2",
+      "d8h8",
+      "g2f3",
+      "h8h4",
+      "f3e3",
+      "h4d4"
+     ],
+     "note": "d4 上的车，四条线依次亮起；幽灵手把车拖到 d8",
+     "demo": "rook.lines",
+     "say": "l.a1"
+    },
+    {
+     "id": "A1.2",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/R7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "a6"
+     ],
+     "par": 1
+    },
+    {
+     "id": "A1.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/R7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "h1"
+     ],
+     "par": 1
+    },
+    {
+     "id": "A1.4",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/1R6/8 w - - 0 1",
+     "hero": "b2",
+     "stars": [
+      "b7",
+      "g7"
+     ],
+     "par": 2
+    },
+    {
+     "id": "A1.5",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/7R w - - 0 1",
+     "hero": "h1",
+     "stars": [
+      "h5",
+      "c5",
+      "c8"
+     ],
+     "par": 3
+    },
+    {
+     "id": "A1.6",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/3R4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "d6"
+     ],
+     "par": 1,
+     "named": true
+    },
+    {
+     "id": "A1.7",
+     "k": "stars",
+     "pos": "R7/8/8/8/8/8/8/8 w - - 0 1",
+     "hero": "a8",
+     "stars": [
+      "a1",
+      "h1",
+      "h8"
+     ],
+     "par": 3
+    }
+   ],
+   "est": {
+    "sec": 260,
+    "tasks": 7,
+    "minutes": 4.3,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "A2",
+   "ch": 1,
+   "title": "车绕石头",
+   "teaches": "车不能跳过石头，要绕路",
+   "steps": [
+    {
+     "id": "A2.1",
+     "k": "demo",
+     "pos": "8/8/8/8/R2X4/8/8/K6k w - - 0 1",
+     "ghost": [
+      "a4h4",
+      "a4c4"
+     ],
+     "note": "a4 车向右，射线停在 d4 石头前",
+     "demo": "rook.blocked",
+     "expectIllegal": [
+      0
+     ],
+     "say": "l.a2"
+    },
+    {
+     "id": "A2.2",
+     "k": "stars",
+     "pos": "8/8/8/8/X7/8/8/R7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "a7"
+     ],
+     "par": 3
+    },
+    {
+     "id": "A2.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/X1X5/8/R1X5 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "b2"
+     ],
+     "par": 2
+    },
+    {
+     "id": "A2.4",
+     "k": "stars",
+     "pos": "8/8/2X1X3/8/3X4/8/8/3R4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "d8"
+     ],
+     "par": 3
+    },
+    {
+     "id": "A2.5",
+     "k": "stars",
+     "pos": "8/8/8/X7/8/8/8/R3X3 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "e8"
+     ],
+     "par": 3,
+     "named": true
+    },
+    {
+     "id": "A2.6",
+     "k": "stars",
+     "pos": "4X2R/2X5/5X2/7X/8/8/8/8 w - - 0 1",
+     "hero": "h8",
+     "stars": [
+      "e7",
+      "a5"
+     ],
+     "par": 4
+    },
+    {
+     "id": "A2.7",
+     "k": "stars",
+     "pos": "8/8/4X3/2X5/6X1/X3X3/2X5/RX6 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "h8",
+      "d4"
+     ],
+     "par": 6
+    }
+   ],
+   "est": {
+    "sec": 260,
+    "tasks": 7,
+    "minutes": 4.3,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "A3",
+   "ch": 1,
+   "title": "车来吃子",
+   "teaches": "走过去就是吃子；吃有保护的子会被吃回来",
+   "steps": [
+    {
+     "id": "A3.1",
+     "k": "demo",
+     "pos": "k7/8/8/p7/8/8/8/R6K w - - 0 1",
+     "ghost": [
+      "a1a5"
+     ],
+     "note": "车吃掉 a5 黑兵，黑兵飞进右侧托盘",
+     "demo": "rook.capture",
+     "say": "l.a3"
+    },
+    {
+     "id": "A3.2",
+     "k": "capture",
+     "pos": "8/8/8/p7/8/8/8/R7 w - - 0 1",
+     "hero": "a1",
+     "targets": [
+      "a5"
+     ],
+     "par": 1
+    },
+    {
+     "id": "A3.3",
+     "k": "capture",
+     "pos": "8/8/p4p2/8/8/8/8/R7 w - - 0 1",
+     "hero": "a1",
+     "targets": [
+      "a6",
+      "f6"
+     ],
+     "par": 2
+    },
+    {
+     "id": "A3.4",
+     "k": "capture",
+     "pos": "8/1p4p1/8/8/1p1R4/8/6p1/8 w - - 0 1",
+     "hero": "d4",
+     "targets": [
+      "b4",
+      "b7",
+      "g7",
+      "g2"
+     ],
+     "par": 4
+    },
+    {
+     "id": "A3.5",
+     "k": "demo",
+     "pos": "k7/8/8/4p3/8/8/8/R6K w - - 0 1",
+     "ghost": [
+      "a1d1",
+      "a8b8",
+      "d1d4",
+      "e5d4"
+     ],
+     "note": "e5 黑兵斜前方两格泛起琥珀色斜纹：车走进去会被吃",
+     "demo": "danger.intro",
+     "say": "l.a3.danger"
+    },
+    {
+     "id": "A3.6",
+     "k": "capture",
+     "pos": "8/8/3p4/4p3/8/8/8/R7 w - - 0 1",
+     "hero": "a1",
+     "targets": [
+      "e5",
+      "d6"
+     ],
+     "par": 4
+    },
+    {
+     "id": "A3.7",
+     "k": "capture",
+     "pos": "8/8/4p3/3p4/2p5/8/8/R7 w - - 0 1",
+     "hero": "a1",
+     "targets": [
+      "c4",
+      "d5",
+      "e6"
+     ],
+     "par": 6
+    },
+    {
+     "id": "A3.8",
+     "k": "cbattle",
+     "pos": "8/2p2p2/8/8/8/8/8/7R w - - 0 1",
+     "name": "车抓兵",
+     "easier": {
+      "pos": "8/3p4/8/8/8/8/8/7R w - - 0 1"
+     },
+     "check": {
+      "states": 3465,
+      "winningFirst": "14/14",
+      "kidWin": 0.7
+     }
+    }
+   ],
+   "est": {
+    "sec": 415,
+    "tasks": 8,
+    "minutes": 6.9,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "B1",
+   "ch": 2,
+   "title": "象走斜线",
+   "teaches": "象只走斜线，想走多远走多远",
+   "steps": [
+    {
+     "id": "B1.1",
+     "k": "demo",
+     "pos": "8/8/8/8/3B4/8/8/K6k w - - 0 1",
+     "ghost": [
+      "d4a7",
+      "h1g2",
+      "a7d4",
+      "g2f3",
+      "d4g1",
+      "f3e4",
+      "g1d4"
+     ],
+     "note": "d4 上的象，四条斜线依次亮起",
+     "demo": "bishop.lines",
+     "say": "l.b1"
+    },
+    {
+     "id": "B1.2",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "stars": [
+      "h6"
+     ],
+     "par": 1
+    },
+    {
+     "id": "B1.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "stars": [
+      "a3",
+      "d6"
+     ],
+     "par": 2
+    },
+    {
+     "id": "B1.4",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/5B2 w - - 0 1",
+     "hero": "f1",
+     "stars": [
+      "b5",
+      "e8",
+      "h5"
+     ],
+     "par": 3
+    },
+    {
+     "id": "B1.5",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "stars": [
+      "g5"
+     ],
+     "par": 1,
+     "named": true
+    },
+    {
+     "id": "B1.6",
+     "k": "stars",
+     "pos": "8/8/8/8/3X4/8/8/B7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "f6"
+     ],
+     "par": 4
+    }
+   ],
+   "est": {
+    "sec": 220,
+    "tasks": 6,
+    "minutes": 3.7,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "B2",
+   "ch": 2,
+   "title": "象的颜色",
+   "teaches": "一个象永远只走同一种颜色的格子",
+   "steps": [
+    {
+     "id": "B2.1",
+     "k": "creveal",
+     "pos": "8/8/8/8/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "stars": [
+      "e3",
+      "g5",
+      "d7"
+     ],
+     "unreachable": "d7",
+     "reveal": "f1",
+     "par": 2,
+     "revealPar": 4,
+     "say": "l.b2"
+    },
+    {
+     "id": "B2.2",
+     "k": "cquiz",
+     "q": "bishop-never",
+     "pos": "8/8/8/8/4B3/8/8/8 w - - 0 1",
+     "opts": [
+      "b7",
+      "h6",
+      "c2"
+     ],
+     "answer": [
+      "h6"
+     ],
+     "marks": [
+      "b7",
+      "h6",
+      "c2"
+     ],
+     "twin": "mirror"
+    },
+    {
+     "id": "B2.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B2B2 w - - 0 1",
+     "hero": "c1",
+     "movers": [
+      "c1",
+      "f1"
+     ],
+     "stars": [
+      "h6",
+      "a6",
+      "d3",
+      "e7"
+     ],
+     "par": 5
+    },
+    {
+     "id": "B2.4",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/5B2 w - - 0 1",
+     "hero": "f1",
+     "stars": [
+      "c4"
+     ],
+     "par": 1,
+     "named": true
+    }
+   ],
+   "est": {
+    "sec": 201,
+    "tasks": 5,
+    "minutes": 3.4,
+    "actionShare": 0.75
+   }
+  },
+  {
+   "id": "B3",
+   "ch": 2,
+   "title": "象来吃子",
+   "teaches": "两个象一起，深色浅色都能管到",
+   "steps": [
+    {
+     "id": "B3.1",
+     "k": "sweep",
+     "pos": "8/8/8/6p1/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "targets": [
+      "g5"
+     ],
+     "par": 1,
+     "danger": [
+      "f4",
+      "h4"
+     ],
+     "say": "l.b3"
+    },
+    {
+     "id": "B3.2",
+     "k": "sweep",
+     "pos": "8/3p4/8/1p6/8/8/8/5B2 w - - 0 1",
+     "hero": "f1",
+     "targets": [
+      "b5",
+      "d7"
+     ],
+     "par": 2,
+     "danger": [
+      "c6",
+      "e6",
+      "a4",
+      "c4"
+     ]
+    },
+    {
+     "id": "B3.3",
+     "k": "sweep",
+     "pos": "8/2p5/5p2/4p3/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "targets": [
+      "e5",
+      "f6",
+      "c7"
+     ],
+     "par": 5,
+     "danger": [
+      "b6",
+      "d6",
+      "g5",
+      "d4",
+      "f4"
+     ]
+    },
+    {
+     "id": "B3.4",
+     "k": "sweep",
+     "pos": "8/8/p6p/3pp3/8/8/8/2B2B2 w - - 0 1",
+     "hero": "c1",
+     "movers": [
+      "c1",
+      "f1"
+     ],
+     "targets": [
+      "a6",
+      "h6",
+      "d5",
+      "e5"
+     ],
+     "par": 6,
+     "danger": [
+      "b5",
+      "g5",
+      "c4",
+      "d4",
+      "e4",
+      "f4"
+     ]
+    },
+    {
+     "id": "B3.5",
+     "k": "capture",
+     "pos": "8/8/1p4p1/5p2/8/8/8/2B2B2 w - - 0 1",
+     "hero": "c1",
+     "movers": [
+      "c1",
+      "f1"
+     ],
+     "targets": [
+      "b6",
+      "f5",
+      "g6"
+     ],
+     "par": 6
+    },
+    {
+     "id": "B3.6",
+     "k": "cbattle",
+     "pos": "8/2p2p2/8/8/8/8/8/2B2B2 w - - 0 1",
+     "name": "双象抓兵",
+     "easier": {
+      "pos": "8/4p3/8/8/8/8/8/2B2B2 w - - 0 1"
+     },
+     "check": {
+      "states": 27808,
+      "winningFirst": "14/14",
+      "kidWin": 0.87
+     }
+    }
+   ],
+   "est": {
+    "sec": 395,
+    "tasks": 6,
+    "minutes": 6.6,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "Q1",
+   "ch": 3,
+   "title": "后＝车＋象",
+   "teaches": "后既能走直线也能走斜线",
+   "steps": [
+    {
+     "id": "Q1.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B4R w - - 0 1",
+     "hero": "h1",
+     "movers": [
+      "h1",
+      "c1"
+     ],
+     "stars": [
+      "h6",
+      "a3"
+     ],
+     "par": 2,
+     "review": true
+    },
+    {
+     "id": "Q1.2",
+     "k": "demo",
+     "pos": "8/8/8/8/3Q4/8/8/K6k w - - 0 1",
+     "ghost": [
+      "d4d8",
+      "h1g2",
+      "d8d4",
+      "g2f3",
+      "d4h8",
+      "f3e4",
+      "h8d4"
+     ],
+     "note": "d4 上先亮车的线，再亮象的线，合在一起就是后",
+     "demo": "queen.lines",
+     "say": "l.q1"
+    },
+    {
+     "id": "Q1.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "d8"
+     ],
+     "par": 1
+    },
+    {
+     "id": "Q1.4",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "h5",
+      "a4"
+     ],
+     "par": 3
+    },
+    {
+     "id": "Q1.5",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/Q7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "h8",
+      "h1",
+      "a8"
+     ],
+     "par": 3
+    },
+    {
+     "id": "Q1.6",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "g4"
+     ],
+     "par": 1,
+     "named": true
+    },
+    {
+     "id": "Q1.7",
+     "k": "cquiz",
+     "q": "queen-steps",
+     "pos": "8/8/8/8/8/8/8/Q7 w - - 0 1",
+     "opts": [
+      "1",
+      "2",
+      "3"
+     ],
+     "answer": "2",
+     "marks": [
+      "b3"
+     ],
+     "twin": "mirror"
+    }
+   ],
+   "est": {
+    "sec": 271,
+    "tasks": 8,
+    "minutes": 4.5,
+    "actionShare": 0.83
+   }
+  },
+  {
+   "id": "Q2",
+   "ch": 3,
+   "title": "后的长跑",
+   "teaches": "先想好路线，再走",
+   "steps": [
+    {
+     "id": "Q2.1",
+     "k": "stars",
+     "pos": "8/8/3X4/5X2/1X6/3X3X/5X2/6XR w - - 0 1",
+     "hero": "h1",
+     "stars": [
+      "a8",
+      "e4"
+     ],
+     "par": 6,
+     "review": true,
+     "replayOf": "A2.7"
+    },
+    {
+     "id": "Q2.2",
+     "k": "stars",
+     "pos": "8/8/8/8/X7/8/1X6/Q2X4 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "h8"
+     ],
+     "par": 3,
+     "say": "l.q2"
+    },
+    {
+     "id": "Q2.3",
+     "k": "stars",
+     "pos": "8/8/8/8/4X3/2X3X1/8/4Q3 w - - 0 1",
+     "hero": "e1",
+     "stars": [
+      "e8",
+      "a4",
+      "h4"
+     ],
+     "par": 5
+    },
+    {
+     "id": "Q2.4",
+     "k": "stars",
+     "pos": "8/8/3X4/2X1X3/3Q4/2X1X3/3X4/8 w - - 0 1",
+     "hero": "d4",
+     "stars": [
+      "d8",
+      "h4",
+      "a1"
+     ],
+     "par": 4
+    },
+    {
+     "id": "Q2.5",
+     "k": "cquiz",
+     "q": "who-one-move",
+     "pos": "8/8/8/8/8/8/8/R6Q w - - 0 1",
+     "opts": [
+      "车",
+      "后"
+     ],
+     "answer": "后",
+     "marks": [
+      "d5"
+     ],
+     "twin": "mirror"
+    },
+    {
+     "id": "Q2.6",
+     "k": "stars",
+     "pos": "8/8/8/4X3/3X4/8/8/R6Q w - - 0 1",
+     "hero": "a1",
+     "movers": [
+      "a1",
+      "h1"
+     ],
+     "stars": [
+      "a8",
+      "h8",
+      "d5",
+      "e4"
+     ],
+     "par": 4
+    }
+   ],
+   "est": {
+    "sec": 251,
+    "tasks": 7,
+    "minutes": 4.2,
+    "actionShare": 0.83
+   }
+  },
+  {
+   "id": "Q3",
+   "ch": 3,
+   "title": "后来吃子",
+   "teaches": "后很强，但也会被小兵吃掉",
+   "steps": [
+    {
+     "id": "Q3.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/5B2 w - - 0 1",
+     "hero": "f1",
+     "stars": [
+      "h3",
+      "e6"
+     ],
+     "par": 2,
+     "review": true,
+     "replayOf": "B1.3"
+    },
+    {
+     "id": "Q3.2",
+     "k": "sweep",
+     "pos": "8/3p4/8/7p/p7/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "targets": [
+      "a4",
+      "d7",
+      "h5"
+     ],
+     "par": 4,
+     "danger": [
+      "c6",
+      "e6",
+      "g4",
+      "b3"
+     ],
+     "say": "l.q3"
+    },
+    {
+     "id": "Q3.3",
+     "k": "sweep",
+     "pos": "8/8/3p1p2/2p5/8/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "targets": [
+      "c5",
+      "d6",
+      "f6"
+     ],
+     "par": 4,
+     "danger": [
+      "e5",
+      "g5",
+      "b4",
+      "d4"
+     ]
+    },
+    {
+     "id": "Q3.4",
+     "k": "sweep",
+     "pos": "8/2p4p/1p4p1/5p2/8/8/8/Q7 w - - 0 1",
+     "hero": "a1",
+     "targets": [
+      "b6",
+      "c7",
+      "f5",
+      "g6",
+      "h7"
+     ],
+     "par": 6,
+     "danger": [
+      "d6",
+      "a5",
+      "c5",
+      "h5",
+      "e4",
+      "g4"
+     ]
+    },
+    {
+     "id": "Q3.5",
+     "k": "sweep",
+     "pos": "8/8/5p2/2p1p1p1/1p6/8/8/4Q3 w - - 0 1",
+     "hero": "e1",
+     "targets": [
+      "b4",
+      "c5",
+      "e5",
+      "f6",
+      "g5"
+     ],
+     "par": 6,
+     "danger": [
+      "d4",
+      "f4",
+      "h4",
+      "a3",
+      "c3"
+     ]
+    },
+    {
+     "id": "Q3.6",
+     "k": "sweep",
+     "pos": "8/8/4p3/p7/8/3p4/8/R4B2 w - - 0 1",
+     "hero": "a1",
+     "movers": [
+      "a1",
+      "f1"
+     ],
+     "targets": [
+      "a5",
+      "d3",
+      "e6"
+     ],
+     "par": 4,
+     "danger": [
+      "d5",
+      "f5",
+      "b4",
+      "c2",
+      "e2"
+     ],
+     "review": true
+    },
+    {
+     "id": "Q3.7",
+     "k": "cbattle",
+     "pos": "8/1p1p1p2/8/8/8/8/8/3Q4 w - - 0 1",
+     "name": "后抓兵",
+     "easier": {
+      "pos": "8/2p2p2/8/8/8/8/8/3Q4 w - - 0 1"
+     },
+     "check": {
+      "states": 27500,
+      "winningFirst": "20/20",
+      "kidWin": 0.75
+     }
+    }
+   ],
+   "est": {
+    "sec": 440,
+    "tasks": 7,
+    "minutes": 7.3,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "K1",
+   "ch": 4,
+   "title": "王一次走一格",
+   "teaches": "王往八个方向都能走，但一次只走一格",
+   "steps": [
+    {
+     "id": "K1.1",
+     "k": "stars",
+     "pos": "8/8/8/8/3XX3/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "d8",
+      "h4"
+     ],
+     "par": 3,
+     "review": true
+    },
+    {
+     "id": "K1.2",
+     "k": "demo",
+     "pos": "8/8/8/8/4K3/8/8/k7 w - - 0 1",
+     "ghost": [
+      "e4e5",
+      "a1a2",
+      "e5f6",
+      "a2a3",
+      "f6e5",
+      "a3a4",
+      "e5e4"
+     ],
+     "note": "e4 上的王，周围 8 格亮起",
+     "demo": "king.moves",
+     "say": "l.k1"
+    },
+    {
+     "id": "K1.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/4K3 w - - 0 1",
+     "hero": "e1",
+     "stars": [
+      "e3"
+     ],
+     "par": 2
+    },
+    {
+     "id": "K1.4",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/K7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "d4"
+     ],
+     "par": 3
+    },
+    {
+     "id": "K1.5",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "8/8/8/8/4K3/8/8/8 w - - 0 1",
+     "from": "e4",
+     "answer": [
+      "d3",
+      "d4",
+      "d5",
+      "e3",
+      "e5",
+      "f3",
+      "f4",
+      "f5"
+     ]
+    },
+    {
+     "id": "K1.6",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "8/8/8/8/8/8/8/7K w - - 0 1",
+     "from": "h1",
+     "answer": [
+      "g1",
+      "g2",
+      "h2"
+     ]
+    },
+    {
+     "id": "K1.7",
+     "k": "stars",
+     "pos": "8/8/8/8/4K3/8/8/8 w - - 0 1",
+     "hero": "e4",
+     "stars": [
+      "d5",
+      "f5",
+      "e3"
+     ],
+     "par": 5
+    },
+    {
+     "id": "K1.8",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/3K4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "d3"
+     ],
+     "par": 2,
+     "named": true
+    },
+    {
+     "id": "K1.9",
+     "k": "sweep",
+     "pos": "8/8/3p4/8/6p1/p7/8/2BQ4 w - - 0 1",
+     "hero": "c1",
+     "movers": [
+      "c1",
+      "d1"
+     ],
+     "targets": [
+      "a3",
+      "g4",
+      "d6"
+     ],
+     "par": 3,
+     "danger": [
+      "c5",
+      "e5",
+      "f3",
+      "h3",
+      "b2"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 330,
+    "tasks": 9,
+    "minutes": 5.5,
+    "actionShare": 0.75
+   }
+  },
+  {
+   "id": "K2",
+   "ch": 4,
+   "title": "王不走进危险",
+   "teaches": "王不能走到会被吃的格子；两个王不能挨着",
+   "steps": [
+    {
+     "id": "K2.1",
+     "k": "capture",
+     "pos": "8/1p4p1/8/8/4R1p1/8/1p6/8 w - - 0 1",
+     "hero": "e4",
+     "targets": [
+      "g4",
+      "g7",
+      "b7",
+      "b2"
+     ],
+     "par": 4,
+     "review": true,
+     "replayOf": "A3.4"
+    },
+    {
+     "id": "K2.2",
+     "k": "demo",
+     "pos": "8/8/8/8/7r/4K3/8/k7 w - - 0 1",
+     "ghost": [
+      "e3e4",
+      "e3d2"
+     ],
+     "note": "h4 黑车让第 4 横线变危险；王想走进去，被轻轻弹回",
+     "demo": "king.danger",
+     "expectIllegal": [
+      0
+     ],
+     "say": "l.k2"
+    },
+    {
+     "id": "K2.3",
+     "k": "sweep",
+     "pos": "8/8/7b/8/8/8/8/4K3 w - - 0 1",
+     "hero": "e1",
+     "stars": [
+      "e5"
+     ],
+     "par": 4
+    },
+    {
+     "id": "K2.4",
+     "k": "sweep",
+     "pos": "8/8/8/8/8/8/2X4r/4K3 w - - 0 1",
+     "hero": "e1",
+     "stars": [
+      "b4"
+     ],
+     "par": 5
+    },
+    {
+     "id": "K2.5",
+     "k": "sweep",
+     "pos": "8/8/8/3n4/8/8/8/4K3 w - - 0 1",
+     "hero": "e1",
+     "stars": [
+      "e7"
+     ],
+     "par": 6
+    },
+    {
+     "id": "K2.6",
+     "k": "demo",
+     "pos": "8/8/8/4k3/8/4K3/8/8 w - - 0 1",
+     "ghost": [
+      "e3e4",
+      "e3d3"
+     ],
+     "note": "两个王中间隔一格：谁也不能再靠近",
+     "demo": "king.kings",
+     "expectIllegal": [
+      0
+     ],
+     "say": "l.k2.kings"
+    },
+    {
+     "id": "K2.7",
+     "k": "stars",
+     "pos": "8/8/8/4k3/8/8/8/4K3 w - - 0 1",
+     "hero": "e1",
+     "stars": [
+      "e7"
+     ],
+     "par": 7
+    }
+   ],
+   "est": {
+    "sec": 275,
+    "tasks": 7,
+    "minutes": 4.6,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "K3",
+   "ch": 4,
+   "title": "王来吃子",
+   "teaches": "王也能吃子，但不能吃有保护的子",
+   "skipIfKnown": true,
+   "steps": [
+    {
+     "id": "K3.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B2B2 w - - 0 1",
+     "hero": "f1",
+     "movers": [
+      "f1",
+      "c1"
+     ],
+     "stars": [
+      "a6",
+      "h6",
+      "e3",
+      "d7"
+     ],
+     "par": 5,
+     "review": true,
+     "replayOf": "B2.3"
+    },
+    {
+     "id": "K3.2",
+     "k": "capture",
+     "pos": "8/8/8/8/8/8/4p3/4K3 w - - 0 1",
+     "hero": "e1",
+     "targets": [
+      "e2"
+     ],
+     "par": 1,
+     "say": "l.k3"
+    },
+    {
+     "id": "K3.3",
+     "k": "capture",
+     "pos": "8/8/8/8/4p3/3p4/8/4K3 w - - 0 1",
+     "hero": "e1",
+     "targets": [
+      "d3",
+      "e4"
+     ],
+     "par": 4
+    },
+    {
+     "id": "K3.4",
+     "k": "capture",
+     "pos": "8/8/8/4p3/3p4/2p5/8/3K4 w - - 0 1",
+     "hero": "d1",
+     "targets": [
+      "c3",
+      "d4",
+      "e5"
+     ],
+     "par": 6
+    },
+    {
+     "id": "K3.5",
+     "k": "capture",
+     "pos": "8/8/8/8/4p3/3p1p2/8/4K3 w - - 0 1",
+     "hero": "e1",
+     "targets": [
+      "d3",
+      "f3",
+      "e4"
+     ],
+     "par": 6
+    },
+    {
+     "id": "K3.6",
+     "k": "capture",
+     "pos": "8/8/8/2p4p/8/1p6/8/4K2R w - - 0 1",
+     "hero": "e1",
+     "movers": [
+      "e1",
+      "h1"
+     ],
+     "targets": [
+      "h5",
+      "c5",
+      "b3"
+     ],
+     "par": 4,
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 265,
+    "tasks": 6,
+    "minutes": 4.4,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "N1",
+   "ch": 5,
+   "title": "马走日字",
+   "teaches": "马走\"日\"字：先直走两格，再拐一格",
+   "steps": [
+    {
+     "id": "N1.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B1K3 w - - 0 1",
+     "hero": "e1",
+     "movers": [
+      "e1",
+      "c1"
+     ],
+     "stars": [
+      "f4",
+      "d2",
+      "e3"
+     ],
+     "par": 3,
+     "review": true
+    },
+    {
+     "id": "N1.2",
+     "k": "demo",
+     "pos": "8/8/8/8/3N4/8/8/K6k w - - 0 1",
+     "ghost": [
+      "d4e6",
+      "h1g2",
+      "e6d4",
+      "g2g3",
+      "d4c6",
+      "g3f4",
+      "c6d4",
+      "f4e5",
+      "d4f5",
+      "e5e6",
+      "f5d4"
+     ],
+     "note": "d4 上的马，8 个落点依次画出\"日\"字",
+     "demo": "knight.jump",
+     "say": "l.n1"
+    },
+    {
+     "id": "N1.3",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "8/8/8/8/3N4/8/8/8 w - - 0 1",
+     "from": "d4",
+     "answer": [
+      "b3",
+      "b5",
+      "c2",
+      "c6",
+      "e2",
+      "e6",
+      "f3",
+      "f5"
+     ]
+    },
+    {
+     "id": "N1.4",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "8/8/8/8/8/8/8/N7 w - - 0 1",
+     "from": "a1",
+     "answer": [
+      "b3",
+      "c2"
+     ]
+    },
+    {
+     "id": "N1.5",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/1N6 w - - 0 1",
+     "hero": "b1",
+     "stars": [
+      "c3"
+     ],
+     "par": 1
+    },
+    {
+     "id": "N1.6",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/6N1 w - - 0 1",
+     "hero": "g1",
+     "stars": [
+      "f3",
+      "e5"
+     ],
+     "par": 2
+    },
+    {
+     "id": "N1.7",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/1N6 w - - 0 1",
+     "hero": "b1",
+     "stars": [
+      "d2"
+     ],
+     "par": 1,
+     "named": true
+    }
+   ],
+   "est": {
+    "sec": 240,
+    "tasks": 7,
+    "minutes": 4,
+    "actionShare": 0.67
+   }
+  },
+  {
+   "id": "N2",
+   "ch": 5,
+   "title": "马会跳，找最短的路",
+   "teaches": "马能跳过挡路的东西；离得近不一定走得快",
+   "steps": [
+    {
+     "id": "N2.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/5B2 w - - 0 1",
+     "hero": "f1",
+     "stars": [
+      "a6"
+     ],
+     "par": 1,
+     "review": true,
+     "replayOf": "B1.2"
+    },
+    {
+     "id": "N2.2",
+     "k": "demo",
+     "pos": "8/8/8/8/8/8/XXXX4/KN5k w - - 0 1",
+     "ghost": [
+      "b1c3"
+     ],
+     "note": "马跳过一排石头",
+     "demo": "knight.over",
+     "say": "l.n2"
+    },
+    {
+     "id": "N2.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/XXXX4/1N6 w - - 0 1",
+     "hero": "b1",
+     "stars": [
+      "c3"
+     ],
+     "par": 1
+    },
+    {
+     "id": "N2.4",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/N7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "b1"
+     ],
+     "par": 3
+    },
+    {
+     "id": "N2.5",
+     "k": "stars",
+     "pos": "8/8/8/8/3N4/8/8/8 w - - 0 1",
+     "hero": "d4",
+     "stars": [
+      "d5"
+     ],
+     "par": 3
+    },
+    {
+     "id": "N2.6",
+     "k": "cquiz",
+     "q": "knight-steps",
+     "pos": "8/8/8/8/8/8/8/1N6 w - - 0 1",
+     "opts": [
+      "1",
+      "2",
+      "3"
+     ],
+     "answer": "2",
+     "marks": [
+      "b3"
+     ],
+     "twin": "mirror"
+    },
+    {
+     "id": "N2.7",
+     "k": "sweep",
+     "pos": "8/8/3p4/8/6p1/1p6/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "targets": [
+      "b3",
+      "g4",
+      "d6"
+     ],
+     "par": 5,
+     "danger": [
+      "c5",
+      "e5",
+      "f3",
+      "h3",
+      "a2",
+      "c2"
+     ],
+     "review": true
+    },
+    {
+     "id": "N2.8",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/N7 w - - 0 1",
+     "hero": "a1",
+     "stars": [
+      "h8"
+     ],
+     "par": 6
+    }
+   ],
+   "est": {
+    "sec": 321,
+    "tasks": 9,
+    "minutes": 5.3,
+    "actionShare": 0.86
+   }
+  },
+  {
+   "id": "N3",
+   "ch": 5,
+   "title": "马来吃子",
+   "teaches": "马吃子也要看那格安不安全",
+   "skipIfKnown": true,
+   "steps": [
+    {
+     "id": "N3.1",
+     "k": "sweep",
+     "pos": "8/5p2/2p5/3p4/8/8/8/5B2 w - - 0 1",
+     "hero": "f1",
+     "targets": [
+      "d5",
+      "c6",
+      "f7"
+     ],
+     "par": 5,
+     "danger": [
+      "e6",
+      "g6",
+      "b5",
+      "c4",
+      "e4"
+     ],
+     "review": true,
+     "replayOf": "B3.3"
+    },
+    {
+     "id": "N3.2",
+     "k": "sweep",
+     "pos": "8/8/8/8/8/2p5/8/1N6 w - - 0 1",
+     "hero": "b1",
+     "targets": [
+      "c3"
+     ],
+     "par": 1,
+     "danger": [
+      "b2",
+      "d2"
+     ],
+     "say": "l.n3"
+    },
+    {
+     "id": "N3.3",
+     "k": "capture",
+     "pos": "8/8/4p3/6p1/8/7p/8/6N1 w - - 0 1",
+     "hero": "g1",
+     "targets": [
+      "h3",
+      "g5",
+      "e6"
+     ],
+     "par": 3
+    },
+    {
+     "id": "N3.4",
+     "k": "sweep",
+     "pos": "8/8/2p5/3p4/4p3/2N5/8/8 w - - 0 1",
+     "hero": "c3",
+     "targets": [
+      "d5",
+      "e4",
+      "c6"
+     ],
+     "par": 7,
+     "danger": [
+      "b5",
+      "c4",
+      "d3",
+      "f3"
+     ]
+    },
+    {
+     "id": "N3.5",
+     "k": "sweep",
+     "pos": "8/8/5p1p/4p3/8/p7/8/1NB5 w - - 0 1",
+     "hero": "b1",
+     "movers": [
+      "b1",
+      "c1"
+     ],
+     "targets": [
+      "a3",
+      "e5",
+      "f6",
+      "h6"
+     ],
+     "par": 5,
+     "danger": [
+      "g5",
+      "d4",
+      "f4",
+      "b2"
+     ]
+    },
+    {
+     "id": "N3.6",
+     "k": "sweep",
+     "pos": "8/8/7p/1p6/4p3/2N5/8/7R w - - 0 1",
+     "hero": "c3",
+     "movers": [
+      "c3",
+      "h1"
+     ],
+     "targets": [
+      "e4",
+      "h6",
+      "b5"
+     ],
+     "par": 4,
+     "danger": [
+      "g5",
+      "a4",
+      "c4",
+      "d3",
+      "f3"
+     ],
+     "review": true
+    },
+    {
+     "id": "N3.7",
+     "k": "cbattle",
+     "pos": "8/2p2p2/8/8/8/8/8/1N4N1 w - - 0 1",
+     "name": "双马抓兵",
+     "easier": {
+      "pos": "8/4p3/8/8/8/8/8/1N6 w - - 0 1"
+     },
+     "check": {
+      "states": 48557,
+      "winningFirst": "6/6",
+      "kidWin": 0.58
+     }
+    }
+   ],
+   "est": {
+    "sec": 445,
+    "tasks": 7,
+    "minutes": 7.4,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "P1",
+   "ch": 6,
+   "title": "兵向前走",
+   "teaches": "兵只往前走；第一步可以走两格",
+   "steps": [
+    {
+     "id": "P1.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/1N6 w - - 0 1",
+     "hero": "b1",
+     "stars": [
+      "c3",
+      "e4"
+     ],
+     "par": 2,
+     "review": true
+    },
+    {
+     "id": "P1.2",
+     "k": "demo",
+     "pos": "4k3/8/8/8/8/8/4P3/4K3 w - - 0 1",
+     "ghost": [
+      "e2e4",
+      "e8e7",
+      "e4e5"
+     ],
+     "note": "e2 兵先走两格到 e4，再一格一格往前",
+     "demo": "pawn.forward",
+     "say": "l.p1"
+    },
+    {
+     "id": "P1.3",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/4P3/8 w - - 0 1",
+     "hero": "e2",
+     "stars": [
+      "e4"
+     ],
+     "par": 1
+    },
+    {
+     "id": "P1.4",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/4P3/8 w - - 0 1",
+     "hero": "e2",
+     "stars": [
+      "e3",
+      "e5"
+     ],
+     "par": 3
+    },
+    {
+     "id": "P1.5",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/P6P/8 w - - 0 1",
+     "hero": "a2",
+     "movers": [
+      "a2",
+      "h2"
+     ],
+     "stars": [
+      "a4",
+      "h3"
+     ],
+     "par": 2
+    },
+    {
+     "id": "P1.6",
+     "k": "cquiz",
+     "q": "pawn-blocked",
+     "pos": "8/8/8/3n4/3P4/8/8/8 w - - 0 1",
+     "opts": [
+      "能",
+      "不能"
+     ],
+     "answer": "不能",
+     "marks": [
+      "d5"
+     ],
+     "twin": "mirror"
+    },
+    {
+     "id": "P1.7",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/3P4/8 w - - 0 1",
+     "hero": "d2",
+     "stars": [
+      "d4"
+     ],
+     "par": 1,
+     "named": true
+    }
+   ],
+   "est": {
+    "sec": 271,
+    "tasks": 8,
+    "minutes": 4.5,
+    "actionShare": 0.83
+   }
+  },
+  {
+   "id": "P2",
+   "ch": 6,
+   "title": "兵斜着吃",
+   "teaches": "兵往斜前方吃子，不能往正前方吃",
+   "steps": [
+    {
+     "id": "P2.1",
+     "k": "stars",
+     "pos": "8/8/8/8/4X3/8/8/7B w - - 0 1",
+     "hero": "h1",
+     "stars": [
+      "c6"
+     ],
+     "par": 4,
+     "review": true,
+     "replayOf": "B1.6"
+    },
+    {
+     "id": "P2.2",
+     "k": "demo",
+     "pos": "4k3/8/8/3p4/4P3/8/8/4K3 w - - 0 1",
+     "ghost": [
+      "e4e5",
+      "e8e7",
+      "e5d6"
+     ],
+     "note": "e4 兵吃掉 d5 黑兵；正前方的子吃不了",
+     "demo": "pawn.capture",
+     "expectIllegal": [
+      2
+     ],
+     "say": "l.p2"
+    },
+    {
+     "id": "P2.3",
+     "k": "capture",
+     "pos": "8/8/8/3p4/4P3/8/8/8 w - - 0 1",
+     "hero": "e4",
+     "targets": [
+      "d5"
+     ],
+     "par": 1
+    },
+    {
+     "id": "P2.4",
+     "k": "capture",
+     "pos": "8/8/8/8/4n3/3n4/4P3/8 w - - 0 1",
+     "hero": "e2",
+     "targets": [
+      "d3",
+      "e4"
+     ],
+     "par": 2
+    },
+    {
+     "id": "P2.5",
+     "k": "sweep",
+     "pos": "8/8/8/n7/1n6/2n5/1P6/8 w - - 0 1",
+     "hero": "b2",
+     "targets": [
+      "c3",
+      "b4",
+      "a5"
+     ],
+     "par": 3,
+     "danger": [
+      "b7",
+      "a6",
+      "c6",
+      "b5",
+      "d5",
+      "a4",
+      "c4",
+      "e4",
+      "b3",
+      "d3",
+      "a2",
+      "c2",
+      "e2",
+      "b1",
+      "d1"
+     ]
+    },
+    {
+     "id": "P2.6",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "8/8/8/3nnn2/4P3/8/8/8 w - - 0 1",
+     "from": "e4",
+     "answer": [
+      "d5",
+      "f5"
+     ],
+     "mode": "capture"
+    },
+    {
+     "id": "P2.7",
+     "k": "sweep",
+     "pos": "8/8/8/8/4r3/3n2n1/2P2P2/8 w - - 0 1",
+     "hero": "c2",
+     "movers": [
+      "c2",
+      "f2"
+     ],
+     "targets": [
+      "d3",
+      "g3",
+      "e4"
+     ],
+     "par": 3,
+     "danger": [
+      "e8",
+      "e7",
+      "e6",
+      "c5",
+      "e5",
+      "f5",
+      "h5",
+      "a4",
+      "b4",
+      "c4",
+      "d4",
+      "f4",
+      "g4",
+      "h4",
+      "e3",
+      "b2",
+      "e2",
+      "c1",
+      "e1",
+      "f1",
+      "h1"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 280,
+    "tasks": 7,
+    "minutes": 4.7,
+    "actionShare": 0.83
+   }
+  },
+  {
+   "id": "P3",
+   "ch": 6,
+   "title": "兵变身",
+   "teaches": "兵走到最后一行，可以变成后、车、象或马",
+   "steps": [
+    {
+     "id": "P3.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/R4B2 w - - 0 1",
+     "hero": "a1",
+     "movers": [
+      "a1",
+      "f1"
+     ],
+     "stars": [
+      "a6",
+      "h3"
+     ],
+     "par": 2,
+     "review": true,
+     "replayOf": "Q1.1"
+    },
+    {
+     "id": "P3.2",
+     "k": "demo",
+     "pos": "8/2P5/8/8/8/8/k7/7K w - - 0 1",
+     "ghost": [
+      "c7c8q"
+     ],
+     "note": "c7 兵走到 c8，选择框弹出，变成后",
+     "demo": "promotion",
+     "say": "l.p3"
+    },
+    {
+     "id": "P3.3",
+     "k": "stars",
+     "pos": "8/8/2P5/8/8/8/8/8 w - - 0 1",
+     "hero": "c6",
+     "stars": [
+      "c8",
+      "h3"
+     ],
+     "par": 3
+    },
+    {
+     "id": "P3.4",
+     "k": "stars",
+     "pos": "8/5X1X/6P1/8/8/8/8/8 w - - 0 1",
+     "hero": "g6",
+     "stars": [
+      "g8",
+      "a2"
+     ],
+     "par": 4
+    },
+    {
+     "id": "P3.5",
+     "k": "sweep",
+     "pos": "8/8/8/8/p7/2pn4/4P3/1N6 w - - 0 1",
+     "hero": "e2",
+     "movers": [
+      "e2",
+      "b1"
+     ],
+     "targets": [
+      "d3",
+      "c3",
+      "a4"
+     ],
+     "par": 3,
+     "danger": [
+      "c5",
+      "e5",
+      "b4",
+      "f4",
+      "b3",
+      "b2",
+      "d2",
+      "f2",
+      "c1",
+      "e1"
+     ],
+     "review": true
+    },
+    {
+     "id": "P3.6",
+     "k": "cquiz",
+     "q": "promote-best",
+     "opts": [
+      "后",
+      "车",
+      "象",
+      "马"
+     ],
+     "answer": "后",
+     "pieces": true
+    }
+   ],
+   "est": {
+    "sec": 220,
+    "tasks": 6,
+    "minutes": 3.7,
+    "actionShare": 0.8
+   }
+  },
+  {
+   "id": "P4",
+   "ch": 6,
+   "title": "兵的战争",
+   "teaches": "只用兵对战：先走到底线的赢",
+   "optional": true,
+   "steps": [
+    {
+     "id": "P4.1",
+     "k": "stars",
+     "pos": "8/8/4X3/3X1X2/4Q3/3X1X2/4X3/8 w - - 0 1",
+     "hero": "e4",
+     "stars": [
+      "e8",
+      "a4",
+      "h1"
+     ],
+     "par": 4,
+     "review": true,
+     "replayOf": "Q2.4"
+    },
+    {
+     "id": "P4.2",
+     "k": "card",
+     "note": "双方各三个兵，白兵冲到底线，奖杯亮起",
+     "demo": "pawnwar.rules",
+     "say": "l.p4"
+    },
+    {
+     "id": "P4.3",
+     "k": "cpawnwar",
+     "pos": "8/ppp5/8/8/8/8/PPP5/8 w - - 0 1",
+     "bot": "pw1"
+    },
+    {
+     "id": "P4.4",
+     "k": "cpawnwar",
+     "pos": "8/3pppp1/8/8/8/8/3PPPP1/8 w - - 0 1",
+     "bot": "pw2",
+     "lapse": 0.6
+    },
+    {
+     "id": "P4.5",
+     "k": "cpawnwar",
+     "pos": "8/pppppppp/8/8/8/8/PPPPPPPP/8 w - - 0 1",
+     "bot": "pw2",
+     "lapse": 0.45,
+     "optional": true
+    }
+   ],
+   "est": {
+    "sec": 648,
+    "tasks": 5,
+    "minutes": 10.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "G1",
+   "ch": 7,
+   "title": "两个秘密招式",
+   "teaches": "王车易位、吃过路兵",
+   "steps": [
+    {
+     "id": "G1.1",
+     "k": "sweep",
+     "pos": "8/4p3/8/6p1/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "targets": [
+      "g5",
+      "e7"
+     ],
+     "par": 2,
+     "danger": [
+      "d6",
+      "f6",
+      "f4",
+      "h4"
+     ],
+     "review": true,
+     "replayOf": "B3.2"
+    },
+    {
+     "id": "G1.2",
+     "k": "demo",
+     "pos": "r3k2r/pppq1ppp/2npbn2/2b1p3/2B1P3/2NPBN2/PPPQ1PPP/R3K2R w KQkq - 0 1",
+     "ghost": [
+      "e1g1"
+     ],
+     "note": "王向车走两格，车跳过王站到旁边",
+     "demo": "castling",
+     "say": "l.g1"
+    },
+    {
+     "id": "G1.3",
+     "k": "bank",
+     "ids": [
+      "in.G1.3"
+     ]
+    },
+    {
+     "id": "G1.4",
+     "k": "cquiz",
+     "q": "castle",
+     "pos": "r3k2r/pppq1ppp/2npbn2/4p3/2b1P3/2NPBN2/PPPQ1PPP/R3K1NR w KQkq - 0 1",
+     "opts": [
+      "能",
+      "不能"
+     ],
+     "answer": "不能",
+     "side": "K",
+     "why": "between",
+     "twin": "G1.4t"
+    },
+    {
+     "id": "G1.5",
+     "k": "cquiz",
+     "q": "castle",
+     "pos": "r3k2r/ppp2ppp/2np1n2/4p3/1b2P3/3P1N2/PPP2PPP/R3K2R w KQkq - 0 1",
+     "opts": [
+      "能",
+      "不能"
+     ],
+     "answer": "不能",
+     "side": "Q",
+     "why": "check",
+     "twin": "G1.5t"
+    },
+    {
+     "id": "G1.6",
+     "k": "cquiz",
+     "q": "castle",
+     "pos": "r3k2r/ppp2ppp/b1np1n2/4p3/4P3/2N2N2/PPPP1PPP/R3K2R w KQkq - 0 1",
+     "opts": [
+      "能",
+      "不能"
+     ],
+     "answer": "不能",
+     "side": "K",
+     "why": "through",
+     "twin": "G1.6t"
+    },
+    {
+     "id": "G1.7",
+     "k": "bank",
+     "ids": [
+      "in.G1.7"
+     ]
+    },
+    {
+     "id": "G1.8",
+     "k": "demo",
+     "pos": "4k3/3p4/8/4P3/8/8/8/4K3 b - - 0 1",
+     "ghost": [
+      "d7d5",
+      "e5d6"
+     ],
+     "note": "黑兵从 d7 一下走到 d5，正好路过 e5 白兵旁边：白兵斜着吃到 d6",
+     "demo": "enpassant"
+    },
+    {
+     "id": "G1.9",
+     "k": "bank",
+     "ids": [
+      "in.G1.9"
+     ]
+    },
+    {
+     "id": "G1.10",
+     "k": "bank",
+     "ids": [
+      "in.G1.10"
+     ]
+    }
+   ],
+   "twins": [
+    {
+     "pos": "r3k2r/ppp2ppp/2npbn2/4p3/2b1P3/2NP1N2/PPPQ1PPP/R3KB1R w KQkq - 0 1",
+     "side": "K",
+     "answer": "不能",
+     "why": "between",
+     "id": "G1.4t",
+     "twinOf": "G1.4",
+     "k": "cquiz",
+     "q": "castle",
+     "opts": [
+      "能",
+      "不能"
+     ]
+    },
+    {
+     "pos": "r3k2r/ppp2ppp/2np1n2/b3p3/4P3/3P1N2/PPP2PPP/R3K2R w KQkq - 0 1",
+     "side": "Q",
+     "answer": "不能",
+     "why": "check",
+     "id": "G1.5t",
+     "twinOf": "G1.5",
+     "k": "cquiz",
+     "q": "castle",
+     "opts": [
+      "能",
+      "不能"
+     ]
+    },
+    {
+     "pos": "r3k2r/ppp2ppp/2np1n2/1b2p3/4P3/2N2N2/PPPP1PPP/R3K2R w KQkq - 0 1",
+     "side": "K",
+     "answer": "不能",
+     "why": "through",
+     "id": "G1.6t",
+     "twinOf": "G1.6",
+     "k": "cquiz",
+     "q": "castle",
+     "opts": [
+      "能",
+      "不能"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 483,
+    "tasks": 13,
+    "minutes": 8.1,
+    "actionShare": 0.63
+   }
+  },
+  {
+   "id": "G2",
+   "ch": 7,
+   "title": "摆棋盘",
+   "teaches": "车马象后王象马车，后站自己的颜色",
+   "steps": [
+    {
+     "id": "G2.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/7Q w - - 0 1",
+     "hero": "h1",
+     "stars": [
+      "a8",
+      "a1",
+      "h8"
+     ],
+     "par": 3,
+     "review": true,
+     "replayOf": "Q1.5"
+    },
+    {
+     "id": "G2.2",
+     "k": "card",
+     "note": "车进角，马站旁边，象站马旁，后站自己的颜色，王站最后一格",
+     "demo": "setup",
+     "say": "l.g2"
+    },
+    {
+     "id": "G2.3",
+     "k": "setup",
+     "part": "white",
+     "review": true
+    },
+    {
+     "id": "G2.4",
+     "k": "cquiz",
+     "q": "queen-square",
+     "pos": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNB2BNR w - - 0 1",
+     "opts": [
+      "d1",
+      "e1"
+     ],
+     "answer": [
+      "d1"
+     ],
+     "marks": [
+      "d1",
+      "e1"
+     ],
+     "twin": "G2.4t"
+    },
+    {
+     "id": "G2.5",
+     "k": "setup",
+     "part": "black",
+     "review": true
+    }
+   ],
+   "twins": [
+    {
+     "pos": "rnb2bnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+     "marks": [
+      "d8",
+      "e8"
+     ],
+     "answer": [
+      "d8"
+     ],
+     "q": "queen-square",
+     "side": "b",
+     "id": "G2.4t",
+     "twinOf": "G2.4",
+     "k": "cquiz",
+     "opts": [
+      "d8",
+      "e8"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 339,
+    "tasks": 6,
+    "minutes": 5.7,
+    "actionShare": 0.75
+   }
+  },
+  {
+   "id": "C1",
+   "ch": 8,
+   "title": "什么是将军",
+   "teaches": "攻击对方的王是将军；逃不掉就是将死",
+   "steps": [
+    {
+     "id": "C1.1",
+     "k": "capture",
+     "pos": "8/8/1p4p1/2p5/8/8/8/2B2B2 w - - 0 1",
+     "hero": "f1",
+     "movers": [
+      "f1",
+      "c1"
+     ],
+     "targets": [
+      "g6",
+      "c5",
+      "b6"
+     ],
+     "par": 6,
+     "review": true,
+     "replayOf": "B3.5"
+    },
+    {
+     "id": "C1.2",
+     "k": "demo",
+     "pos": "4k3/8/8/8/8/8/8/R3K3 w - - 0 1",
+     "ghost": [
+      "a1a8"
+     ],
+     "note": "车走到 e 线：黑王被攻击，\"将军！\"",
+     "demo": "check.intro",
+     "say": "l.c1"
+    },
+    {
+     "id": "C1.3.1",
+     "k": "make",
+     "pos": "8/8/3nBk2/8/R7/N6K/8/8 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.001"
+    },
+    {
+     "id": "C1.3.2",
+     "k": "make",
+     "pos": "8/8/3r3k/8/2R5/2N3P1/8/1K6 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.002"
+    },
+    {
+     "id": "C1.4",
+     "k": "demo",
+     "pos": "k7/7R/8/8/8/8/8/6RK w - - 0 1",
+     "ghost": [
+      "g1g8"
+     ],
+     "note": "两个车一上一下：黑王无处可逃，\"将死！\"",
+     "demo": "mate.intro"
+    },
+    {
+     "id": "C1.5",
+     "k": "bank",
+     "ids": [
+      "in.C1.5"
+     ]
+    },
+    {
+     "id": "C1.6",
+     "k": "bank",
+     "ids": [
+      "in.C1.6"
+     ]
+    },
+    {
+     "id": "C1.7.1",
+     "k": "make",
+     "pos": "k7/5R2/8/2P3R1/8/8/K7/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.001"
+    },
+    {
+     "id": "C1.7.2",
+     "k": "make",
+     "pos": "7k/4R2p/2R5/8/8/5K2/8/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.002"
+    },
+    {
+     "id": "C1.8.1",
+     "k": "make",
+     "pos": "6k1/4n3/b1p5/8/4R3/7P/P5BK/8 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.019"
+    },
+    {
+     "id": "C1.8.2",
+     "k": "make",
+     "pos": "7k/3p4/8/1N5p/1R1p4/8/1K5B/5b2 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.020"
+    },
+    {
+     "id": "C1.9",
+     "k": "sweep",
+     "pos": "8/6p1/3p4/1p6/8/8/8/3R1B2 w - - 0 1",
+     "hero": "d1",
+     "movers": [
+      "d1",
+      "f1"
+     ],
+     "targets": [
+      "d6",
+      "b5",
+      "g7"
+     ],
+     "par": 4,
+     "danger": [
+      "f6",
+      "h6",
+      "c5",
+      "e5",
+      "a4",
+      "c4"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 585,
+    "tasks": 12,
+    "minutes": 9.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "C3",
+   "ch": 8,
+   "title": "应将①：王走开",
+   "teaches": "被将军时，可以把王走到安全的格子",
+   "steps": [
+    {
+     "id": "C3.1",
+     "k": "stars",
+     "pos": "8/8/8/8/3X4/1X3X2/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "stars": [
+      "d8",
+      "h4",
+      "a4"
+     ],
+     "par": 5,
+     "review": true,
+     "replayOf": "Q2.3"
+    },
+    {
+     "id": "C3.2",
+     "k": "demo",
+     "pos": "4k3/8/8/8/8/8/8/r3K3 w - - 0 1",
+     "ghost": [
+      "e1e2"
+     ],
+     "note": "车将军，王往旁边一步，躲开",
+     "demo": "escape.move",
+     "say": "l.c3"
+    },
+    {
+     "id": "C3.3.1",
+     "k": "escape",
+     "pos": "8/4N3/3B3k/8/8/3b4/8/1K6 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.001"
+    },
+    {
+     "id": "C3.3.2",
+     "k": "escape",
+     "pos": "8/k7/q7/6N1/8/K1P5/8/8 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.002"
+    },
+    {
+     "id": "C3.4.1",
+     "k": "escape",
+     "pos": "k4N2/7p/3p4/5B2/8/5q2/8/5K2 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.013"
+    },
+    {
+     "id": "C3.4.2",
+     "k": "escape",
+     "pos": "k7/8/8/p5p1/p7/8/N7/3K3r w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.014"
+    },
+    {
+     "id": "C3.5.1",
+     "k": "escape",
+     "pos": "8/k7/2p5/1p1PN3/8/5B2/8/2nK1r2 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.029"
+    },
+    {
+     "id": "C3.6",
+     "k": "sweep",
+     "pos": "8/8/6p1/3p4/4p3/8/8/1N1Q4 w - - 0 1",
+     "hero": "d1",
+     "movers": [
+      "d1",
+      "b1"
+     ],
+     "targets": [
+      "d5",
+      "e4",
+      "g6"
+     ],
+     "par": 3,
+     "danger": [
+      "f5",
+      "h5",
+      "c4",
+      "d3",
+      "f3"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 360,
+    "tasks": 8,
+    "minutes": 6,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "C4",
+   "ch": 8,
+   "title": "应将②：挡住",
+   "teaches": "用自己的子挡在中间",
+   "steps": [
+    {
+     "id": "C4.1",
+     "k": "sweep",
+     "pos": "8/8/2p5/1p1p1p2/6p1/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "targets": [
+      "g4",
+      "f5",
+      "d5",
+      "c6",
+      "b5"
+     ],
+     "par": 6,
+     "danger": [
+      "a4",
+      "c4",
+      "e4",
+      "f3",
+      "h3"
+     ],
+     "review": true,
+     "replayOf": "Q3.5"
+    },
+    {
+     "id": "C4.2",
+     "k": "demo",
+     "pos": "4k3/8/8/8/8/8/4B3/r3K3 w - - 0 1",
+     "ghost": [
+      "e2d1"
+     ],
+     "note": "车从远处将军，白象挡在中间",
+     "demo": "escape.block",
+     "say": "l.c4"
+    },
+    {
+     "id": "C4.3.1",
+     "k": "escape",
+     "pos": "5k2/8/8/8/8/7R/5BPP/q6K w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.001"
+    },
+    {
+     "id": "C4.3.2",
+     "k": "escape",
+     "pos": "8/4k3/8/8/8/8/B2B2PP/q6K w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.002"
+    },
+    {
+     "id": "C4.4.1",
+     "k": "escape",
+     "pos": "4k3/8/4p3/8/8/5N2/2N2PPP/2r3K1 w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.013"
+    },
+    {
+     "id": "C4.4.2",
+     "k": "escape",
+     "pos": "6k1/2p5/2p5/8/8/3B1R2/PP6/K5r1 w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.014"
+    },
+    {
+     "id": "C4.5",
+     "k": "sweep",
+     "pos": "8/8/5p2/4p3/8/p7/8/1NB5 w - - 0 1",
+     "hero": "b1",
+     "movers": [
+      "b1",
+      "c1"
+     ],
+     "targets": [
+      "a3",
+      "e5",
+      "f6"
+     ],
+     "par": 4,
+     "danger": [
+      "g5",
+      "d4",
+      "f4",
+      "b2"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 320,
+    "tasks": 7,
+    "minutes": 5.3,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "C5",
+   "ch": 8,
+   "title": "应将③：吃掉",
+   "teaches": "把将军的子吃掉",
+   "steps": [
+    {
+     "id": "C5.1",
+     "k": "capture",
+     "pos": "8/1p4p1/8/8/1p1R4/8/6p1/8 w - - 0 1",
+     "hero": "d4",
+     "targets": [
+      "b4",
+      "b7",
+      "g7",
+      "g2"
+     ],
+     "par": 4,
+     "review": true,
+     "replayOf": "K2.1"
+    },
+    {
+     "id": "C5.2",
+     "k": "demo",
+     "pos": "4k3/8/8/8/8/8/4q3/4K3 w - - 0 1",
+     "ghost": [
+      "e1e2"
+     ],
+     "note": "黑后贴脸将军，没有保护：白王吃掉它",
+     "demo": "escape.capture",
+     "say": "l.c5"
+    },
+    {
+     "id": "C5.3.1",
+     "k": "escape",
+     "pos": "8/8/4k3/p7/8/6qK/8/4B3 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.001"
+    },
+    {
+     "id": "C5.3.2",
+     "k": "escape",
+     "pos": "4k3/8/8/8/7B/2B5/PPP5/1K2r3 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.002"
+    },
+    {
+     "id": "C5.4.1",
+     "k": "escape",
+     "pos": "8/8/4p2k/8/8/R7/6PP/q6K w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.013"
+    },
+    {
+     "id": "C5.4.2",
+     "k": "escape",
+     "pos": "1k6/5p2/8/6B1/8/N7/6PP/2q4K w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.014"
+    },
+    {
+     "id": "C5.5.1",
+     "k": "escape",
+     "pos": "3k4/p7/2p5/8/8/8/PPPN4/1K3r2 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.029"
+    },
+    {
+     "id": "C5.6",
+     "k": "sweep",
+     "pos": "8/8/8/p5p1/8/2p5/8/RN6 w - - 0 1",
+     "hero": "a1",
+     "movers": [
+      "a1",
+      "b1"
+     ],
+     "targets": [
+      "a5",
+      "c3",
+      "g5"
+     ],
+     "par": 3,
+     "danger": [
+      "b4",
+      "f4",
+      "h4",
+      "b2",
+      "d2"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 365,
+    "tasks": 8,
+    "minutes": 6.1,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M1",
+   "ch": 8,
+   "title": "将军还是将死",
+   "teaches": "将死：被将军，而且没有任何办法应将",
+   "steps": [
+    {
+     "id": "M1.1",
+     "k": "capture",
+     "pos": "8/8/8/8/3p4/4p3/8/3K4 w - - 0 1",
+     "hero": "d1",
+     "targets": [
+      "e3",
+      "d4"
+     ],
+     "par": 4,
+     "review": true,
+     "replayOf": "K3.3"
+    },
+    {
+     "id": "M1.2.1",
+     "k": "escape",
+     "pos": "6k1/8/5p2/3R4/5R2/8/PPP5/1K4r1 w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.015",
+     "say": "l.m1"
+    },
+    {
+     "id": "M1.3",
+     "k": "demo",
+     "pos": "R5k1/5pp1/8/8/8/8/8/6K1 b - - 0 1",
+     "ghost": [
+      "g8h7"
+     ],
+     "note": "同一个黑王：左边能逃（将军），右边逃不掉（将死）",
+     "demo": "mate.vs.check"
+    },
+    {
+     "id": "M1.4",
+     "k": "cquiz",
+     "q": "mate-or-check",
+     "pos": "R5k1/5ppp/8/8/8/8/8/6K1 b - - 0 1",
+     "opts": [
+      "将军",
+      "将死"
+     ],
+     "answer": "将死",
+     "twin": "mirror"
+    },
+    {
+     "id": "M1.5",
+     "k": "cquiz",
+     "q": "mate-or-check",
+     "pos": "R5k1/5pp1/8/8/8/8/8/6K1 b - - 0 1",
+     "opts": [
+      "将军",
+      "将死"
+     ],
+     "answer": "将军",
+     "twin": "mirror"
+    },
+    {
+     "id": "M1.6.1",
+     "k": "make",
+     "pos": "6R1/8/8/5n2/3P2Pk/P7/Q7/5K2 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.025"
+    },
+    {
+     "id": "M1.6.2",
+     "k": "make",
+     "pos": "7k/2R5/8/4n3/8/5R2/7K/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.026"
+    },
+    {
+     "id": "M1.7",
+     "k": "demo",
+     "pos": "4k3/8/8/8/4N3/8/8/4R1K1 w - - 0 1",
+     "ghost": [
+      "e4d6",
+      "e8d8"
+     ],
+     "note": "两个子同时将军（双将）：挡不住也吃不掉，只有王能走开",
+     "demo": "mate.double"
+    },
+    {
+     "id": "M1.8",
+     "k": "cquiz",
+     "q": "mate-or-check",
+     "pos": "7k/6Q1/5K2/8/8/8/8/8 b - - 0 1",
+     "opts": [
+      "将军",
+      "将死"
+     ],
+     "answer": "将死",
+     "twin": "mirror"
+    }
+   ],
+   "est": {
+    "sec": 398,
+    "tasks": 12,
+    "minutes": 6.6,
+    "actionShare": 0.57
+   }
+  },
+  {
+   "id": "M7",
+   "ch": 8,
+   "title": "逼和",
+   "teaches": "没被将军却一步也走不了，叫逼和，算和棋",
+   "unlocks": [
+    "robot:r1"
+   ],
+   "steps": [
+    {
+     "id": "M7.1",
+     "k": "stars",
+     "pos": "8/8/8/8/8/8/8/2B5 w - - 0 1",
+     "hero": "c1",
+     "stars": [
+      "h6"
+     ],
+     "par": 1,
+     "review": true,
+     "replayOf": "N2.1"
+    },
+    {
+     "id": "M7.2.1",
+     "k": "escape",
+     "pos": "1b6/7k/7p/3B4/3qp3/7P/8/6K1 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.015",
+     "say": "l.m7"
+    },
+    {
+     "id": "M7.3",
+     "k": "demo",
+     "pos": "7k/8/6K1/8/8/8/8/5Q2 w - - 0 1",
+     "ghost": [
+      "f1f7"
+     ],
+     "note": "黑王没被将军，可是哪儿也去不了：逼和，和棋",
+     "demo": "stalemate"
+    },
+    {
+     "id": "M7.4.1",
+     "k": "quiz",
+     "q": "mos",
+     "pos": "8/8/5Q2/7k/8/5K2/8/8 b - - 0 1",
+     "side": "b",
+     "answer": "stalemate",
+     "twin": "mirror",
+     "pid": "mos.stalemate.001"
+    },
+    {
+     "id": "M7.4.2",
+     "k": "quiz",
+     "q": "mos",
+     "pos": "k7/8/1Q6/8/8/8/K7/8 b - - 0 1",
+     "side": "b",
+     "answer": "stalemate",
+     "twin": "mirror",
+     "pid": "mos.stalemate.002"
+    },
+    {
+     "id": "M7.5.1",
+     "k": "quiz",
+     "q": "mos",
+     "pos": "2R1k3/3pp3/8/6N1/4P3/8/8/2K5 b - - 0 1",
+     "side": "b",
+     "answer": "mate",
+     "twin": "mirror",
+     "pid": "mos.mate.016"
+    },
+    {
+     "id": "M7.5.2",
+     "k": "quiz",
+     "q": "mos",
+     "pos": "8/P7/8/2Q5/k7/8/1K6/8 b - - 0 1",
+     "side": "b",
+     "answer": "stalemate",
+     "twin": "mirror",
+     "pid": "mos.stalemate.016"
+    },
+    {
+     "id": "M7.6.1",
+     "k": "make",
+     "pos": "7k/1R6/R7/8/8/8/8/5K2 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.015"
+    },
+    {
+     "id": "M7.6.2",
+     "k": "make",
+     "pos": "k7/8/8/4R3/8/8/1R6/6K1 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.016"
+    },
+    {
+     "id": "M7.7",
+     "k": "sweep",
+     "pos": "8/8/1p4p1/5p2/8/8/8/Q4B2 w - - 0 1",
+     "hero": "a1",
+     "movers": [
+      "a1",
+      "f1"
+     ],
+     "targets": [
+      "b6",
+      "f5",
+      "g6"
+     ],
+     "par": 4,
+     "danger": [
+      "a5",
+      "c5",
+      "h5",
+      "e4",
+      "g4"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 474,
+    "tasks": 14,
+    "minutes": 7.9,
+    "actionShare": 0.56
+   }
+  },
+  {
+   "id": "V1",
+   "ch": 9,
+   "title": "棋子的分数",
+   "teaches": "兵 1 分，马和象 3 分，车 5 分，后 9 分",
+   "steps": [
+    {
+     "id": "V1.1",
+     "k": "sweep",
+     "pos": "8/8/8/3p3p/8/2p5/8/1N1Q4 w - - 0 1",
+     "hero": "d1",
+     "movers": [
+      "d1",
+      "b1"
+     ],
+     "targets": [
+      "d5",
+      "c3",
+      "h5"
+     ],
+     "par": 3,
+     "danger": [
+      "c4",
+      "e4",
+      "g4",
+      "b2",
+      "d2"
+     ],
+     "review": true
+    },
+    {
+     "id": "V1.2",
+     "k": "card",
+     "note": "五张棋子卡依次翻开：1、3、3、5、9",
+     "demo": "values",
+     "say": "l.v1"
+    },
+    {
+     "id": "V1.3",
+     "k": "capture",
+     "pos": "8/8/8/2n5/p7/7p/8/R7 w - - 0 1",
+     "hero": "a1",
+     "targets": [
+      "a4",
+      "c5",
+      "h3"
+     ],
+     "par": 6,
+     "chips": true,
+     "say": "l.v1.b"
+    },
+    {
+     "id": "V1.4",
+     "k": "sweep",
+     "pos": "7r/8/8/4n3/p5b1/8/8/3Q4 w - - 0 1",
+     "hero": "d1",
+     "targets": [
+      "a4",
+      "e5",
+      "g4",
+      "h8"
+     ],
+     "par": 6,
+     "danger": [
+      "a8",
+      "b8",
+      "c8",
+      "d8",
+      "e8",
+      "f8",
+      "g8",
+      "d7",
+      "f7",
+      "h7",
+      "c6",
+      "e6",
+      "g6",
+      "h6",
+      "f5",
+      "h5",
+      "c4",
+      "h4",
+      "b3",
+      "d3",
+      "f3",
+      "h3",
+      "e2",
+      "h2",
+      "h1"
+     ],
+     "chips": true
+    },
+    {
+     "id": "V1.5",
+     "k": "cquiz",
+     "q": "who-ahead",
+     "pos": "4k3/pp6/8/8/8/8/PPP5/4K2R w - - 0 1",
+     "opts": [
+      "5",
+      "6",
+      "7"
+     ],
+     "answer": "6",
+     "twin": "mirror"
+    },
+    {
+     "id": "V1.6",
+     "k": "cquiz",
+     "q": "who-ahead",
+     "pos": "r3k3/pp6/2n5/8/8/2N5/PPP5/R3K3 w - - 0 1",
+     "opts": [
+      "0",
+      "1",
+      "2"
+     ],
+     "answer": "1",
+     "twin": "mirror"
+    },
+    {
+     "id": "V1.7",
+     "k": "cquiz",
+     "q": "who-ahead",
+     "pos": "4k3/2q5/8/8/8/8/1R2N3/4K2R w - - 0 1",
+     "opts": [
+      "3",
+      "4",
+      "5"
+     ],
+     "answer": "4",
+     "twin": "mirror"
+    }
+   ],
+   "est": {
+    "sec": 306,
+    "tasks": 10,
+    "minutes": 5.1,
+    "actionShare": 0.5
+   }
+  },
+  {
+   "id": "V3",
+   "ch": 9,
+   "title": "吃白送的子",
+   "teaches": "没人保护的子，吃掉它",
+   "steps": [
+    {
+     "id": "V3.1.1",
+     "k": "escape",
+     "pos": "2k5/p7/3b4/8/p3q3/1K4R1/4P3/8 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.016",
+     "review": true
+    },
+    {
+     "id": "V3.2",
+     "k": "demo",
+     "pos": "6b1/8/3k4/2nB4/8/8/6K1/5N2 w - - 0 1",
+     "ghost": [
+      "d5g8"
+     ],
+     "note": "黑象没人保护：白车吃掉它，没有黑子能吃回来",
+     "demo": "free",
+     "say": "l.v3"
+    },
+    {
+     "id": "V3.3.1",
+     "k": "trade",
+     "pos": "6b1/8/3k4/2nB4/8/8/6K1/5N2 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.001"
+    },
+    {
+     "id": "V3.3.2",
+     "k": "trade",
+     "pos": "8/2k5/8/8/8/8/1n3b2/N1KB4 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.002"
+    },
+    {
+     "id": "V3.3.3",
+     "k": "trade",
+     "pos": "r7/1b3N1k/8/8/8/8/2K5/1R6 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.003"
+    },
+    {
+     "id": "V3.4.1",
+     "k": "trade",
+     "pos": "2Bk4/b7/3p4/8/4n1P1/2N4K/8/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.034"
+    },
+    {
+     "id": "V3.4.2",
+     "k": "trade",
+     "pos": "4B3/8/1k5p/4b2P/8/5N2/n3K3/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.035"
+    },
+    {
+     "id": "V3.5",
+     "k": "sweep",
+     "pos": "8/8/5p2/4p3/8/2p5/8/BN6 w - - 0 1",
+     "hero": "a1",
+     "movers": [
+      "a1",
+      "b1"
+     ],
+     "targets": [
+      "e5",
+      "c3",
+      "f6"
+     ],
+     "par": 4,
+     "danger": [
+      "g5",
+      "d4",
+      "f4",
+      "b2",
+      "d2"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 345,
+    "tasks": 8,
+    "minutes": 5.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "V4",
+   "ch": 9,
+   "title": "被保护了吗",
+   "teaches": "一个子如果被自己人看着，吃了它就会被吃回来",
+   "steps": [
+    {
+     "id": "V4.1.1",
+     "k": "make",
+     "pos": "8/1kr5/2p5/3P2p1/1P1B3R/8/5K2/8 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.021",
+     "review": true
+    },
+    {
+     "id": "V4.2",
+     "k": "card",
+     "note": "黑马 c6 和 d8 黑后之间连起一条线：\"有人保护\"",
+     "demo": "guarded",
+     "say": "l.v4"
+    },
+    {
+     "id": "V4.3.1",
+     "k": "trade",
+     "pos": "4q3/5k2/5b2/6Q1/7B/8/3K4/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.underdefended.001"
+    },
+    {
+     "id": "V4.3.2",
+     "k": "trade",
+     "pos": "2n5/1k6/2r5/1P6/6P1/7R/5K2/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.underdefended.002"
+    },
+    {
+     "id": "V4.4.1",
+     "k": "quiz",
+     "q": "recapture",
+     "pos": "6B1/1k6/3pN3/8/1q6/8/4b3/7K w - - 0 1",
+     "target": "e2",
+     "answer": "no",
+     "twin": "mirror",
+     "pid": "guard.no.001"
+    },
+    {
+     "id": "V4.4.2",
+     "k": "quiz",
+     "q": "recapture",
+     "pos": "k7/4n1r1/1RN5/8/p7/8/3K4/8 w - - 0 1",
+     "target": "e7",
+     "answer": "yes",
+     "twin": "mirror",
+     "pid": "guard.yes.001"
+    },
+    {
+     "id": "V4.4.3",
+     "k": "quiz",
+     "q": "recapture",
+     "pos": "7k/8/5np1/8/B7/1R6/7b/2K5 w - - 0 1",
+     "target": "f6",
+     "answer": "no",
+     "twin": "mirror",
+     "pid": "guard.no.002"
+    },
+    {
+     "id": "V4.5.1",
+     "k": "trade",
+     "pos": "8/8/4k3/4qR2/8/1K2P3/4BPP1/6b1 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.underdefended.013"
+    },
+    {
+     "id": "V4.5.2",
+     "k": "trade",
+     "pos": "8/k7/2p4p/8/2p5/5b1K/4r1RR/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.underdefended.014"
+    },
+    {
+     "id": "V4.6",
+     "k": "sweep",
+     "pos": "8/8/3p4/p7/8/2p5/8/1N1R4 w - - 0 1",
+     "hero": "d1",
+     "movers": [
+      "d1",
+      "b1"
+     ],
+     "targets": [
+      "d6",
+      "c3",
+      "a5"
+     ],
+     "par": 4,
+     "danger": [
+      "c5",
+      "e5",
+      "b4",
+      "b2",
+      "d2"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 446,
+    "tasks": 13,
+    "minutes": 7.4,
+    "actionShare": 0.67
+   }
+  },
+  {
+   "id": "V5",
+   "ch": 9,
+   "title": "换子划算吗",
+   "teaches": "吃掉之后被吃回来，算一算谁赚",
+   "steps": [
+    {
+     "id": "V5.1.1",
+     "k": "escape",
+     "pos": "8/1k6/1p3p2/B4B2/8/8/6PP/q6K w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.016",
+     "review": true
+    },
+    {
+     "id": "V5.2",
+     "k": "demo",
+     "pos": "k7/8/2p5/3n4/8/5B2/8/K7 w - - 0 1",
+     "ghost": [
+      "f3d5",
+      "c6d5"
+     ],
+     "note": "白象吃黑马，黑兵吃回白象：3 换 3，一样",
+     "demo": "trade",
+     "say": "l.v5"
+    },
+    {
+     "id": "V5.3.1",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "1k6/6p1/7n/r7/8/2P5/1K6/2B1N3 w - - 0 1",
+     "from": "c1",
+     "to": "h6",
+     "answer": "even",
+     "twin": "mirror",
+     "pid": "trade.even.001"
+    },
+    {
+     "id": "V5.3.2",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "8/8/1qk1B3/1p6/b2R3P/3K4/8/8 w - - 0 1",
+     "from": "d4",
+     "to": "a4",
+     "answer": "lose",
+     "twin": "mirror",
+     "pid": "trade.lose.001"
+    },
+    {
+     "id": "V5.3.3",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "8/1k3p2/8/2n5/3P4/K7/1NbB4/8 w - - 0 1",
+     "from": "d4",
+     "to": "c5",
+     "answer": "win",
+     "twin": "mirror",
+     "pid": "trade.win.001"
+    },
+    {
+     "id": "V5.4.1",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "1k6/4p3/8/Bp1n1N2/3p2P1/7K/8/4r3 w - - 0 1",
+     "from": "f5",
+     "to": "e7",
+     "answer": "lose",
+     "twin": "mirror",
+     "pid": "trade.lose.016"
+    },
+    {
+     "id": "V5.4.2",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "8/2N1p1k1/8/p4p1b/5P2/8/2qR1K2/8 w - - 0 1",
+     "from": "d2",
+     "to": "c2",
+     "answer": "win",
+     "twin": "mirror",
+     "pid": "trade.win.016"
+    },
+    {
+     "id": "V5.4.3",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "8/k7/2b1p3/5N1P/8/5n2/2KP4/6rB w - - 0 1",
+     "from": "h1",
+     "to": "f3",
+     "answer": "even",
+     "twin": "mirror",
+     "pid": "trade.even.013"
+    },
+    {
+     "id": "V5.5",
+     "k": "stars",
+     "pos": "8/8/8/8/3X4/8/8/QN6 w - - 0 1",
+     "hero": "a1",
+     "movers": [
+      "a1",
+      "b1"
+     ],
+     "stars": [
+      "h8",
+      "c3",
+      "e2"
+     ],
+     "par": 4,
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 416,
+    "tasks": 15,
+    "minutes": 6.9,
+    "actionShare": 0.25
+   }
+  },
+  {
+   "id": "V6",
+   "ch": 9,
+   "title": "别吃有毒的子",
+   "teaches": "有人保护的子，用大子去吃就会亏",
+   "steps": [
+    {
+     "id": "V6.1.1",
+     "k": "escape",
+     "pos": "3k4/4p3/8/6N1/3B4/8/PP6/K5r1 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.015",
+     "review": true
+    },
+    {
+     "id": "V6.2.1",
+     "k": "trade",
+     "pos": "1r6/8/2k5/8/1R6/Bb6/8/4K3 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.058",
+     "say": "l.v6"
+    },
+    {
+     "id": "V6.2.2",
+     "k": "trade",
+     "pos": "4k3/8/1p1n1R2/b4p2/8/3K4/P7/5B2 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.073"
+    },
+    {
+     "id": "V6.3.1",
+     "k": "trade",
+     "pos": "8/8/1kr5/pPn1R3/8/6R1/1P3K1b/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.underdefended.030"
+    },
+    {
+     "id": "V6.3.2",
+     "k": "trade",
+     "pos": "1k6/2bRn1pp/8/6P1/2P1p2P/7K/8/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.086"
+    },
+    {
+     "id": "V6.4.1",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "8/k6b/1N6/p4B2/2q5/1P2KP2/2P5/1R6 w - - 0 1",
+     "from": "b6",
+     "to": "c4",
+     "answer": "win",
+     "twin": "mirror",
+     "pid": "trade.win.036"
+    },
+    {
+     "id": "V6.4.2",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "2B5/k3r3/b3p3/5ppP/P3N3/5KP1/8/8 w - - 0 1",
+     "from": "c8",
+     "to": "a6",
+     "answer": "even",
+     "twin": "mirror",
+     "pid": "trade.even.029"
+    }
+   ],
+   "est": {
+    "sec": 332,
+    "tasks": 9,
+    "minutes": 5.5,
+    "actionShare": 0.71
+   }
+  },
+  {
+   "id": "V7",
+   "ch": 9,
+   "title": "救救你的子",
+   "teaches": "自己的子被攻击了：躲开，或者叫人来保护",
+   "steps": [
+    {
+     "id": "V7.1.1",
+     "k": "escape",
+     "pos": "5B2/2p5/k7/P3N2r/8/1n6/8/7K w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.017",
+     "review": true
+    },
+    {
+     "id": "V7.2",
+     "k": "demo",
+     "pos": "4k3/8/8/2p5/3N4/8/8/4K3 w - - 0 1",
+     "ghost": [
+      "d4e6"
+     ],
+     "note": "黑兵攻击白马：白马跳到安全的格子",
+     "demo": "save",
+     "say": "l.v7"
+    },
+    {
+     "id": "V7.3",
+     "k": "csave",
+     "pos": "r3k3/ppp5/8/4p3/3N4/8/PPP5/4K3 w - - 0 1"
+    },
+    {
+     "id": "V7.4",
+     "k": "csave",
+     "pos": "4k3/p4p2/8/8/1p6/2N5/P7/4K2R w K - 0 1"
+    },
+    {
+     "id": "V7.5",
+     "k": "csave",
+     "pos": "2r1k3/pp1b4/8/8/8/2Q5/PP6/4K3 w - - 0 1"
+    },
+    {
+     "id": "V7.6",
+     "k": "csave",
+     "pos": "4k3/1p4p1/2n5/8/1B6/8/PP6/4K3 w - - 0 1"
+    },
+    {
+     "id": "V7.7",
+     "k": "sweep",
+     "pos": "8/8/8/1p6/4p3/2Np4/8/5B2 w - - 0 1",
+     "hero": "c3",
+     "movers": [
+      "c3",
+      "f1"
+     ],
+     "targets": [
+      "e4",
+      "b5",
+      "d3"
+     ],
+     "par": 3,
+     "danger": [
+      "a4",
+      "c4",
+      "f3",
+      "c2",
+      "e2"
+     ],
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 340,
+    "tasks": 7,
+    "minutes": 5.7,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M2",
+   "ch": 10,
+   "title": "底线杀",
+   "teaches": "王被自己的兵挡住，车或后到底线将死它",
+   "steps": [
+    {
+     "id": "M2.1.1",
+     "k": "escape",
+     "pos": "8/3p3p/1k6/4b3/3qp3/5K2/B7/8 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.018",
+     "review": true
+    },
+    {
+     "id": "M2.2",
+     "k": "demo",
+     "pos": "6k1/5ppp/8/8/8/8/8/4R1K1 w - - 0 1",
+     "ghost": [
+      "e1e8"
+     ],
+     "note": "黑王 g8，前面三个兵；白车冲到 e8",
+     "demo": "mate.backrank",
+     "say": "l.m2"
+    },
+    {
+     "id": "M2.3.1",
+     "k": "make",
+     "pos": "5k2/4ppp1/8/8/8/8/4K2R/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.001",
+     "lecture": true
+    },
+    {
+     "id": "M2.3.2",
+     "k": "make",
+     "pos": "6k1/5ppp/8/8/2R5/8/8/K7 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.002",
+     "lecture": true
+    },
+    {
+     "id": "M2.3.3",
+     "k": "make",
+     "pos": "4k3/3ppp2/8/8/8/8/K5R1/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.003",
+     "lecture": true
+    },
+    {
+     "id": "M2.4.1",
+     "k": "make",
+     "pos": "7k/N5pp/8/4N3/2R5/6P1/8/K7 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.100"
+    },
+    {
+     "id": "M2.4.2",
+     "k": "make",
+     "pos": "4k3/4pp2/8/8/6P1/1PQ5/4P1K1/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.102"
+    }
+   ],
+   "est": {
+    "sec": 345,
+    "tasks": 7,
+    "minutes": 5.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "C2",
+   "ch": 10,
+   "title": "找出所有将军",
+   "teaches": "一个局面里常常不止一种将军",
+   "steps": [
+    {
+     "id": "C2.1.1",
+     "k": "make",
+     "pos": "8/1n4k1/R7/B3p3/5p2/4P2K/6P1/8 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.022",
+     "review": true
+    },
+    {
+     "id": "C2.2.1",
+     "k": "bank",
+     "ids": [
+      "checks.all.001"
+     ],
+     "say": "l.c2"
+    },
+    {
+     "id": "C2.2.2",
+     "k": "bank",
+     "ids": [
+      "checks.all.002"
+     ]
+    },
+    {
+     "id": "C2.2.3",
+     "k": "bank",
+     "ids": [
+      "checks.all.003"
+     ]
+    },
+    {
+     "id": "C2.3.1",
+     "k": "bank",
+     "ids": [
+      "checks.all.019"
+     ]
+    },
+    {
+     "id": "C2.3.2",
+     "k": "bank",
+     "ids": [
+      "checks.all.020"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 455,
+    "tasks": 6,
+    "minutes": 7.6,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M3",
+   "ch": 10,
+   "title": "后贴脸",
+   "teaches": "后贴着王将军，后面有人保护",
+   "steps": [
+    {
+     "id": "M3.1.1",
+     "k": "trade",
+     "pos": "1N6/1k6/4p3/5n1p/2P5/P4PB1/r7/1K6 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.036",
+     "review": true
+    },
+    {
+     "id": "M3.2",
+     "k": "demo",
+     "pos": "7k/8/5K2/8/8/8/6Q1/8 w - - 0 1",
+     "ghost": [
+      "g2g7"
+     ],
+     "note": "白后贴到黑王旁边，白王在后面保护",
+     "demo": "mate.kiss",
+     "say": "l.m3"
+    },
+    {
+     "id": "M3.3.1",
+     "k": "make",
+     "pos": "5B2/8/8/k2p4/P7/2K5/2P1Q3/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.023"
+    },
+    {
+     "id": "M3.3.2",
+     "k": "make",
+     "pos": "7k/6pp/7Q/8/P7/8/PBK5/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.024"
+    },
+    {
+     "id": "M3.3.3",
+     "k": "make",
+     "pos": "k7/8/N7/8/5Q1P/5K2/8/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.025"
+    },
+    {
+     "id": "M3.4.1",
+     "k": "make",
+     "pos": "8/8/5N2/8/P6k/1Q6/P4K2/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.034"
+    },
+    {
+     "id": "M3.4.2",
+     "k": "make",
+     "pos": "k7/p1p5/1B6/8/Q6r/7P/8/1K6 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.035"
+    },
+    {
+     "id": "M3.5.1",
+     "k": "escape",
+     "pos": "1k6/8/5p2/3p4/5N2/8/4BPPP/2r3K1 w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.017",
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 390,
+    "tasks": 8,
+    "minutes": 6.5,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M4",
+   "ch": 10,
+   "title": "车梯杀",
+   "teaches": "一个车封住一行，另一个车将军",
+   "steps": [
+    {
+     "id": "M4.1.1",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "k4N2/6R1/br6/5p2/4pP2/K2P4/8/8 w - - 0 1",
+     "from": "d3",
+     "to": "e4",
+     "answer": "even",
+     "twin": "mirror",
+     "pid": "trade.even.014",
+     "review": true
+    },
+    {
+     "id": "M4.2",
+     "k": "demo",
+     "pos": "6k1/8/8/8/8/8/1R6/R5K1 w - - 0 1",
+     "ghost": [
+      "b2b7",
+      "g8h8",
+      "a1a8"
+     ],
+     "note": "两个车像梯子一样交替往上爬",
+     "demo": "mate.ladder",
+     "say": "l.m4"
+    },
+    {
+     "id": "M4.3.1",
+     "k": "make",
+     "pos": "7k/R7/8/8/2R5/3P4/2K5/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.027"
+    },
+    {
+     "id": "M4.3.2",
+     "k": "make",
+     "pos": "8/7k/8/5P2/6R1/8/3R4/5K2 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.028"
+    },
+    {
+     "id": "M4.3.3",
+     "k": "make",
+     "pos": "7k/8/6R1/1R6/8/2K5/2P5/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.029"
+    },
+    {
+     "id": "M4.4.1",
+     "k": "make",
+     "pos": "2k5/Q7/8/2P5/8/8/3K2R1/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.057"
+    },
+    {
+     "id": "M4.4.2",
+     "k": "make",
+     "pos": "7k/3R4/3p4/8/8/1Q6/6K1/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.058"
+    }
+   ],
+   "est": {
+    "sec": 346,
+    "tasks": 8,
+    "minutes": 5.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M5",
+   "ch": 10,
+   "title": "马的一步杀",
+   "teaches": "马的将军不能挡",
+   "steps": [
+    {
+     "id": "M5.1.1",
+     "k": "escape",
+     "pos": "4k3/8/1p6/8/8/7N/PPP5/1K4r1 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.016",
+     "review": true
+    },
+    {
+     "id": "M5.2",
+     "k": "demo",
+     "pos": "6rk/6pp/8/6N1/8/8/8/6K1 w - - 0 1",
+     "ghost": [
+      "g5f7"
+     ],
+     "note": "黑王被自己的子围住，白马跳过来将死",
+     "demo": "mate.knight",
+     "say": "l.m5"
+    },
+    {
+     "id": "M5.3.1",
+     "k": "make",
+     "pos": "8/k1N5/8/1R2N3/7P/8/7K/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.knight.004"
+    },
+    {
+     "id": "M5.3.2",
+     "k": "make",
+     "pos": "8/8/6R1/7k/7n/2KN4/8/4N3 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.knight.005"
+    },
+    {
+     "id": "M5.4.1",
+     "k": "make",
+     "pos": "k2N4/p7/8/3N4/1R6/8/P4P2/K7 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.knight.014"
+    },
+    {
+     "id": "M5.4.2",
+     "k": "make",
+     "pos": "k7/p1p5/8/1N6/8/1Q6/7P/6K1 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.knight.016"
+    },
+    {
+     "id": "M5.5.1",
+     "k": "make",
+     "pos": "7k/7p/6Q1/P3N3/4P3/5K2/3P4/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.knight.031"
+    },
+    {
+     "id": "M5.6.1",
+     "k": "make",
+     "pos": "8/1p5n/4pk2/1N6/6p1/8/3K4/1R2B3 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.023",
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 400,
+    "tasks": 8,
+    "minutes": 6.7,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M6",
+   "ch": 10,
+   "title": "斜线杀",
+   "teaches": "象和后在斜线上合作",
+   "steps": [
+    {
+     "id": "M6.1.1",
+     "k": "escape",
+     "pos": "8/3q2k1/2p1B3/8/8/N1K5/2P5/3n4 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.019",
+     "review": true
+    },
+    {
+     "id": "M6.2",
+     "k": "demo",
+     "pos": "6k1/8/8/8/8/8/1B4Q1/6K1 w - - 0 1",
+     "ghost": [
+      "g2g7"
+     ],
+     "note": "白象保护白后，后在斜线上将死",
+     "demo": "mate.diagonal",
+     "say": "l.m6"
+    },
+    {
+     "id": "M6.3.1",
+     "k": "make",
+     "pos": "7k/6p1/6B1/2P5/8/8/1KP5/4Q3 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.diagonal.011"
+    },
+    {
+     "id": "M6.3.2",
+     "k": "make",
+     "pos": "7k/7p/8/P5BP/6Q1/8/4K3/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.diagonal.017"
+    },
+    {
+     "id": "M6.4.1",
+     "k": "make",
+     "pos": "7k/7r/3B3Q/1p3P2/8/8/6P1/6K1 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.diagonal.022"
+    },
+    {
+     "id": "M6.4.2",
+     "k": "make",
+     "pos": "7k/7p/8/8/8/1Q6/5BP1/6K1 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.diagonal.023"
+    },
+    {
+     "id": "M6.4.3",
+     "k": "make",
+     "pos": "7k/5b1p/8/8/6Q1/5K1P/5B2/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.diagonal.025"
+    },
+    {
+     "id": "M6.5.1",
+     "k": "trade",
+     "pos": "2n5/2pp1p2/4k3/4P3/8/7P/4P1K1/3bR3 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.037",
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 390,
+    "tasks": 8,
+    "minutes": 6.5,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M8",
+   "ch": 10,
+   "title": "别逼和！",
+   "teaches": "赢面大的时候，先看看对方还有没有路走",
+   "steps": [
+    {
+     "id": "M8.1.1",
+     "k": "make",
+     "pos": "8/3p4/2r3k1/1p4P1/2p5/2K5/8/4N2R w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.024",
+     "review": true
+    },
+    {
+     "id": "M8.2",
+     "k": "demo",
+     "pos": "k7/8/1K6/8/8/8/8/2Q5 w - - 0 1",
+     "ghost": [
+      "c1c7"
+     ],
+     "note": "白后走了一步\"很凶\"的棋，结果黑王没路走：逼和",
+     "demo": "stalemate.trap",
+     "say": "l.m8"
+    },
+    {
+     "id": "M8.3.1",
+     "k": "make",
+     "pos": "k7/7R/2R5/8/8/8/2K5/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.018"
+    },
+    {
+     "id": "M8.3.2",
+     "k": "make",
+     "pos": "7k/8/6Q1/8/8/8/K7/2B5 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.diagonal.032"
+    },
+    {
+     "id": "M8.4.1",
+     "k": "make",
+     "pos": "4N2k/3Q4/8/8/P7/8/P5KP/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.039"
+    },
+    {
+     "id": "M8.4.2",
+     "k": "make",
+     "pos": "8/7k/8/8/8/6R1/8/Q2K4 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.047"
+    },
+    {
+     "id": "M8.5.1",
+     "k": "make",
+     "pos": "8/6Q1/8/6N1/4P1Pk/8/6PK/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.knight.032"
+    }
+   ],
+   "est": {
+    "sec": 350,
+    "tasks": 7,
+    "minutes": 5.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "C6",
+   "ch": 10,
+   "title": "最好的应将",
+   "teaches": "三种办法都想一想，选最好的一种",
+   "steps": [
+    {
+     "id": "C6.1.1",
+     "k": "trade",
+     "pos": "4b3/5p2/Qr5k/6p1/3p4/P7/3K2n1/N7 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.038",
+     "review": true
+    },
+    {
+     "id": "C6.2.1",
+     "k": "bank",
+     "ids": [
+      "escape.best-capture.001"
+     ],
+     "say": "l.c6"
+    },
+    {
+     "id": "C6.3.1",
+     "k": "bank",
+     "ids": [
+      "escape.best-block.001"
+     ]
+    },
+    {
+     "id": "C6.4.1",
+     "k": "bank",
+     "ids": [
+      "escape.best-move.001"
+     ]
+    },
+    {
+     "id": "C6.5.1",
+     "k": "bank",
+     "ids": [
+      "escape.best-capture.009"
+     ]
+    },
+    {
+     "id": "C6.6.1",
+     "k": "bank",
+     "ids": [
+      "escape.best-block.009"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 345,
+    "tasks": 6,
+    "minutes": 5.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "C7",
+   "ch": 10,
+   "title": "将军大考验",
+   "teaches": "复习：找将军、应将",
+   "boss": true,
+   "steps": [
+    {
+     "id": "C7.1.1",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "2kN4/p3b3/p1p5/n7/5P2/8/4K3/6R1 w - - 0 1",
+     "from": "d8",
+     "to": "c6",
+     "answer": "lose",
+     "twin": "mirror",
+     "pid": "trade.lose.017",
+     "review": true
+    },
+    {
+     "id": "C7.2.1",
+     "k": "make",
+     "pos": "8/k5p1/1p6/1B3rp1/P7/KQ5P/P7/8 w - - 0 1",
+     "goal": "check",
+     "pid": "checks.one.043",
+     "review": true
+    },
+    {
+     "id": "C7.3.1",
+     "k": "escape",
+     "pos": "8/k7/4r3/1P5P/2n3pp/8/7N/4K3 w - - 0 1",
+     "mode": "king",
+     "pid": "escape.move.030",
+     "review": true
+    },
+    {
+     "id": "C7.4.1",
+     "k": "escape",
+     "pos": "8/6p1/5k2/p7/2R5/8/PP6/K3q3 w - - 0 1",
+     "mode": "block",
+     "pid": "escape.block.029",
+     "review": true
+    },
+    {
+     "id": "C7.5.1",
+     "k": "escape",
+     "pos": "4k3/6p1/8/2RB4/8/8/5PPP/2r3K1 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.030",
+     "review": true
+    },
+    {
+     "id": "C7.6",
+     "k": "card",
+     "note": "休息一下卡：星 + \"可以歇一歇\"",
+     "say": "f.rest"
+    },
+    {
+     "id": "C7.7.1",
+     "k": "bank",
+     "ids": [
+      "escape.best-move.009"
+     ],
+     "say": "l.boss"
+    },
+    {
+     "id": "C7.8.1",
+     "k": "bank",
+     "ids": [
+      "checks.all.043"
+     ]
+    },
+    {
+     "id": "C7.9.1",
+     "k": "trade",
+     "pos": "7k/2B4b/n3p3/8/4r3/R5P1/KP1P4/8 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.039",
+     "review": true
+    }
+   ],
+   "est": {
+    "sec": 449,
+    "tasks": 10,
+    "minutes": 7.5,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "M9",
+   "ch": 10,
+   "title": "一步杀大考验",
+   "teaches": "复习所有一步杀",
+   "boss": true,
+   "steps": [
+    {
+     "id": "M9.1.1",
+     "k": "escape",
+     "pos": "4k3/8/5p2/4p3/8/4R3/PP6/K3q3 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.017",
+     "review": true
+    },
+    {
+     "id": "M9.2.1",
+     "k": "make",
+     "pos": "4k3/3ppp2/8/5NP1/R7/8/1P6/2K5 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.103",
+     "say": "l.boss"
+    },
+    {
+     "id": "M9.3.1",
+     "k": "make",
+     "pos": "4k3/1RQ1p3/7p/6P1/6P1/8/8/2K5 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.078"
+    },
+    {
+     "id": "M9.4.1",
+     "k": "make",
+     "pos": "k7/6Q1/8/6p1/1P6/3K3R/8/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.059"
+    },
+    {
+     "id": "M9.5.1",
+     "k": "make",
+     "pos": "7k/5Q2/8/4N3/8/4K3/8/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.knight.033"
+    },
+    {
+     "id": "M9.6",
+     "k": "card",
+     "note": "休息一下卡：星 + \"可以歇一歇\"",
+     "say": "f.rest"
+    },
+    {
+     "id": "M9.7.1",
+     "k": "make",
+     "pos": "7k/4B2p/3p2Q1/5p2/2PP3P/8/4K3/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.diagonal.043"
+    },
+    {
+     "id": "M9.8.1",
+     "k": "make",
+     "pos": "k7/p5R1/8/2p5/1R6/8/8/7K w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.other.029"
+    },
+    {
+     "id": "M9.9.1",
+     "k": "trade",
+     "pos": "2r5/1p6/2k5/3p2N1/8/5n2/K1P5/4R3 w - - 0 1",
+     "goal": "win",
+     "par": 1,
+     "pid": "free.undefended.078",
+     "review": true
+    },
+    {
+     "id": "M9.10.1",
+     "k": "bank",
+     "ids": [
+      "escape.best-capture.010"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 493,
+    "tasks": 10,
+    "minutes": 8.2,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "E1",
+   "ch": 11,
+   "title": "车梯（两个车）",
+   "teaches": "两个车轮流将军，把王赶到边上",
+   "steps": [
+    {
+     "id": "E1.1.1",
+     "k": "make",
+     "pos": "4k3/3ppp2/8/P4N2/1R6/1K6/7P/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.104",
+     "review": true
+    },
+    {
+     "id": "E1.2.1",
+     "k": "make",
+     "pos": "7k/8/8/5p2/6R1/3K4/8/2R5 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.ladder.030",
+     "review": true
+    },
+    {
+     "id": "E1.3",
+     "k": "demo",
+     "pos": "6k1/8/8/8/8/8/1R6/R5K1 w - - 0 1",
+     "ghost": [
+      "b2b7",
+      "g8h8",
+      "a1a8"
+     ],
+     "note": "两个车交替将军：王被一行一行赶到底",
+     "demo": "ladder.rr",
+     "say": "l.e1"
+    },
+    {
+     "id": "E1.4",
+     "k": "cendgame",
+     "pos": "8/8/3k4/8/8/8/8/R3K2R w - - 0 1",
+     "mat": "RR",
+     "par": 5,
+     "stars3": 7,
+     "stars2": 11
+    },
+    {
+     "id": "E1.5",
+     "k": "cendgame",
+     "pos": "8/8/8/4k3/8/8/8/1R2K1R1 w - - 0 1",
+     "mat": "RR",
+     "par": 4,
+     "stars3": 6,
+     "stars2": 10
+    }
+   ],
+   "est": {
+    "sec": 550,
+    "tasks": 5,
+    "minutes": 9.2,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "E3",
+   "ch": 11,
+   "title": "后王杀①：关进盒子",
+   "teaches": "用后画一个盒子，一步步把盒子变小",
+   "steps": [
+    {
+     "id": "E3.1.1",
+     "k": "escape",
+     "pos": "4k3/8/8/8/2B5/8/4NPPP/2r3K1 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.018",
+     "review": true
+    },
+    {
+     "id": "E3.2",
+     "k": "demo",
+     "pos": "8/8/8/3k4/8/8/8/Q3K3 w - - 0 1",
+     "ghost": [
+      "e1e2",
+      "d5d6",
+      "a1d4",
+      "d6e6",
+      "e2e3",
+      "e6f5",
+      "d4d6",
+      "f5g4"
+     ],
+     "note": "后走\"马步\"远的位置：黑王只能在盒子里走；盒子一步步变小",
+     "demo": "box",
+     "say": "l.e3"
+    },
+    {
+     "id": "E3.3",
+     "k": "cendgame",
+     "pos": "8/8/8/8/3k4/8/8/4K2Q w - - 0 1",
+     "mat": "QK",
+     "par": 7,
+     "stars3": 11,
+     "stars2": 17,
+     "goal": "edge",
+     "boxHint": true
+    },
+    {
+     "id": "E3.4",
+     "k": "cendgame",
+     "pos": "8/8/2k5/8/8/8/8/Q3K3 w - - 0 1",
+     "mat": "QK",
+     "par": 6,
+     "stars3": 10,
+     "stars2": 16,
+     "goal": "edge",
+     "boxHint": true
+    }
+   ],
+   "est": {
+    "sec": 490,
+    "tasks": 4,
+    "minutes": 8.2,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "E4",
+   "ch": 11,
+   "title": "后王杀②：叫王来帮忙",
+   "teaches": "王走过来保护后，再将死；小心逼和",
+   "steps": [
+    {
+     "id": "E4.1.1",
+     "k": "make",
+     "pos": "2k5/1ppp4/4QP2/4P3/2b3n1/2K5/2P5/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.105",
+     "review": true
+    },
+    {
+     "id": "E4.2",
+     "k": "cendgame",
+     "pos": "7k/8/8/6Q1/8/8/8/4K3 w - - 0 1",
+     "mat": "QK",
+     "par": 6,
+     "stars3": 10,
+     "stars2": 16,
+     "say": "l.e4"
+    },
+    {
+     "id": "E4.3",
+     "k": "cendgame",
+     "pos": "8/8/8/8/8/2k5/8/K6Q w - - 0 1",
+     "mat": "QK",
+     "par": 4,
+     "stars3": 8,
+     "stars2": 14
+    },
+    {
+     "id": "E4.4",
+     "k": "cendgame",
+     "pos": "8/8/8/4k3/8/8/8/4K2Q w - - 0 1",
+     "mat": "QK",
+     "par": 7,
+     "stars3": 11,
+     "stars2": 17
+    }
+   ],
+   "est": {
+    "sec": 685,
+    "tasks": 4,
+    "minutes": 11.4,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "E2",
+   "ch": 11,
+   "title": "后车梯",
+   "teaches": "后和车也能爬梯子",
+   "optional": true,
+   "steps": [
+    {
+     "id": "E2.1.1",
+     "k": "make",
+     "pos": "8/4N2k/7p/8/8/8/Q2P3P/6K1 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.036",
+     "review": true
+    },
+    {
+     "id": "E2.2",
+     "k": "cendgame",
+     "pos": "8/8/8/3k4/8/8/8/Q3K2R w - - 0 1",
+     "mat": "QR",
+     "par": 3,
+     "stars3": 5,
+     "stars2": 9,
+     "say": "l.e2"
+    },
+    {
+     "id": "E2.3",
+     "k": "cendgame",
+     "pos": "8/5k2/8/8/8/8/8/3QR1K1 w - - 0 1",
+     "mat": "QR",
+     "par": 3,
+     "stars3": 5,
+     "stars2": 9
+    }
+   ],
+   "est": {
+    "sec": 475,
+    "tasks": 3,
+    "minutes": 7.9,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "E5",
+   "ch": 11,
+   "title": "兵升变再将死",
+   "teaches": "让兵冲到底线变后，再将死",
+   "optional": true,
+   "steps": [
+    {
+     "id": "E5.1.1",
+     "k": "make",
+     "pos": "8/B7/4Q3/k2p4/p3P3/8/1K6/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.037",
+     "review": true
+    },
+    {
+     "id": "E5.2.1",
+     "k": "make",
+     "pos": "1k6/1pp5/Q7/1pNr4/8/8/2P5/7K w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.queenKiss.038",
+     "review": true
+    },
+    {
+     "id": "E5.3",
+     "k": "cendgame",
+     "pos": "8/4P3/8/8/8/2k5/8/4K3 w - - 0 1",
+     "mat": "KP",
+     "par": 7,
+     "stars3": 9,
+     "stars2": 13,
+     "say": "l.e5"
+    },
+    {
+     "id": "E5.4",
+     "k": "cendgame",
+     "pos": "8/8/1P6/8/8/5k2/8/4K3 w - - 0 1",
+     "mat": "KP",
+     "par": 10,
+     "stars3": 12,
+     "stars2": 16
+    }
+   ],
+   "est": {
+    "sec": 530,
+    "tasks": 4,
+    "minutes": 8.8,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "E6",
+   "ch": 11,
+   "title": "大师挑战：车王杀",
+   "teaches": "一个车加王也能将死（选做）",
+   "optional": true,
+   "steps": [
+    {
+     "id": "E6.1.1",
+     "k": "escape",
+     "pos": "5k2/8/8/8/8/8/1BB2PPP/3r2K1 w - - 0 1",
+     "mode": "capture",
+     "pid": "escape.capture.019",
+     "review": true
+    },
+    {
+     "id": "E6.2",
+     "k": "cendgame",
+     "pos": "8/8/8/3k4/8/8/8/R3K3 w - - 0 1",
+     "mat": "RK",
+     "par": 10,
+     "stars3": 16,
+     "stars2": 26,
+     "say": "l.e6"
+    }
+   ],
+   "est": {
+    "sec": 260,
+    "tasks": 2,
+    "minutes": 4.3,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "F1",
+   "ch": 12,
+   "title": "双抓：马和后",
+   "teaches": "一个子同时攻击两个目标，对方只能保住一个",
+   "optional": true,
+   "steps": [
+    {
+     "id": "F1.1.1",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "8/5qp1/2p4k/8/1b1N3B/4K1P1/5R2/8 w - - 0 1",
+     "from": "f2",
+     "to": "f7",
+     "answer": "win",
+     "twin": "mirror",
+     "pid": "trade.win.017",
+     "review": true
+    },
+    {
+     "id": "F1.2.1",
+     "k": "make",
+     "pos": "1k6/ppp5/8/1PQ3B1/4P1r1/4K1P1/8/8 w - - 0 1",
+     "goal": "mate",
+     "pid": "m1.backrank.107",
+     "review": true
+    },
+    {
+     "id": "F1.3",
+     "k": "demo",
+     "pos": "8/6p1/8/1k1P1r2/8/8/P3N3/K7 w - - 0 1",
+     "ghost": [
+      "e2d4"
+     ],
+     "note": "白马跳到 c7：同时攻击黑王和黑车",
+     "demo": "fork.knight",
+     "say": "l.f1"
+    },
+    {
+     "id": "F1.4.1",
+     "k": "bank",
+     "ids": [
+      "fork.knight+check.001"
+     ]
+    },
+    {
+     "id": "F1.4.2",
+     "k": "bank",
+     "ids": [
+      "fork.knight+check.002"
+     ]
+    },
+    {
+     "id": "F1.4.3",
+     "k": "bank",
+     "ids": [
+      "fork.knight+check.003"
+     ]
+    },
+    {
+     "id": "F1.5.1",
+     "k": "bank",
+     "ids": [
+      "fork.knight.001"
+     ]
+    },
+    {
+     "id": "F1.6.1",
+     "k": "bank",
+     "ids": [
+      "fork.queen+check.001"
+     ]
+    },
+    {
+     "id": "F1.6.2",
+     "k": "bank",
+     "ids": [
+      "fork.queen+check.002"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 486,
+    "tasks": 10,
+    "minutes": 8.1,
+    "actionShare": 1
+   }
+  },
+  {
+   "id": "T1",
+   "ch": 13,
+   "title": "两步杀①：先将军",
+   "teaches": "第一步将军，第二步将死",
+   "optional": true,
+   "steps": [
+    {
+     "id": "T1.2",
+     "k": "demo",
+     "pos": "8/k7/8/8/8/6Q1/6K1/3B4 w - - 0 1",
+     "ghost": [
+      "g3c7",
+      "a7a8",
+      "d1f3"
+     ],
+     "note": "白车将军，黑王只能走一格；白后跟上将死",
+     "demo": "m2.check",
+     "say": "l.t1"
+    },
+    {
+     "id": "T1.3.1",
+     "k": "bank",
+     "ids": [
+      "m2.check.001"
+     ]
+    },
+    {
+     "id": "T1.3.2",
+     "k": "bank",
+     "ids": [
+      "m2.check.002"
+     ]
+    },
+    {
+     "id": "T1.3.3",
+     "k": "bank",
+     "ids": [
+      "m2.check.003"
+     ]
+    },
+    {
+     "id": "T1.4.1",
+     "k": "bank",
+     "ids": [
+      "m2.check.039"
+     ]
+    },
+    {
+     "id": "T1.4.2",
+     "k": "bank",
+     "ids": [
+      "m2.check.040"
+     ]
+    }
+   ],
+   "est": {
+    "sec": 520,
+    "tasks": 6,
+    "minutes": 8.7,
+    "actionShare": 1
+   }
+  }
+ ],
+ "placement": {
+  "tasks": [
+   {
+    "ch": 1,
+    "step": "A1.4",
+    "tier": "replay"
+   },
+   {
+    "ch": 2,
+    "step": "B1.3",
+    "tier": "replay"
+   },
+   {
+    "ch": 3,
+    "step": "Q1.4",
+    "tier": "replay"
+   },
+   {
+    "ch": 4,
+    "step": "K1.3",
+    "tier": "replay"
+   },
+   {
+    "ch": 5,
+    "step": "N1.6",
+    "tier": "replay"
+   },
+   {
+    "ch": 6,
+    "step": "P1.4",
+    "tier": "replay"
+   },
+   {
+    "ch": 7,
+    "step": "G1.4",
+    "tier": "replay"
+   },
+   {
+    "ch": 7,
+    "step": "G1.3",
+    "tier": "replay"
+   },
+   {
+    "ch": 8,
+    "step": "C1.3.1",
+    "tier": "replay"
+   },
+   {
+    "ch": 8,
+    "step": "C3.3.1",
+    "tier": "replay"
+   },
+   {
+    "ch": 9,
+    "step": "V3.3.1",
+    "tier": "replay"
+   },
+   {
+    "ch": 9,
+    "step": "V5.3.1",
+    "tier": "replay"
+   }
+  ],
+  "rule": "每章 ≥1 个引擎生成的任务（回放该章中等难度步，孪生镜像，首次做对、不给提示、不说对错）；该章全部任务首次做对 → 标\"已会\"（空心徽记，可重学）；第 7 章易位与过路兵两题都过才算；不会因为 3 题答对就整段跳过。永久\"摸底\"条在学堂页眉；每章牌 [我会了] 小标；跳级挑战 = 每章 3 题。"
+ },
+ "skip": {
+  "1": [
+   {
+    "replay": "A2.7"
+   },
+   {
+    "replay": "A3.7"
+   },
+   {
+    "replay": "A2.6"
+   }
+  ],
+  "2": [
+   {
+    "replay": "B3.4"
+   },
+   {
+    "replay": "B3.5"
+   },
+   {
+    "replay": "B2.3"
+   }
+  ],
+  "3": [
+   {
+    "replay": "Q3.4"
+   },
+   {
+    "replay": "Q3.5"
+   },
+   {
+    "replay": "Q2.3"
+   }
+  ],
+  "4": [
+   {
+    "replay": "K2.7"
+   },
+   {
+    "replay": "K2.5"
+   },
+   {
+    "replay": "K3.4"
+   }
+  ],
+  "5": [
+   {
+    "replay": "N3.4"
+   },
+   {
+    "replay": "N2.8"
+   },
+   {
+    "replay": "N3.5"
+   }
+  ],
+  "6": [
+   {
+    "replay": "P3.4"
+   },
+   {
+    "replay": "P1.4"
+   },
+   {
+    "replay": "P2.5"
+   }
+  ],
+  "7": [
+   {
+    "replay": "G1.6"
+   },
+   {
+    "replay": "G1.10"
+   },
+   {
+    "replay": "G1.3"
+   }
+  ],
+  "8": [
+   {
+    "puzzle": "checks.one.025"
+   },
+   {
+    "puzzle": "escape.block.018"
+   },
+   {
+    "puzzle": "mos.stalemate.017"
+   }
+  ],
+  "9": [
+   {
+    "puzzle": "free.undefended.040"
+   },
+   {
+    "puzzle": "guard.no.019"
+   },
+   {
+    "puzzle": "trade.even.015"
+   }
+  ],
+  "10": [
+   {
+    "puzzle": "m1.queenKiss.079"
+   },
+   {
+    "puzzle": "m1.knight.018"
+   },
+   {
+    "puzzle": "m1.ladder.060"
+   }
+  ],
+  "11": [
+   {
+    "replay": "E1.4"
+   },
+   {
+    "replay": "E1.5"
+   },
+   {
+    "replay": "E3.3"
+   }
+  ]
+ }
+}

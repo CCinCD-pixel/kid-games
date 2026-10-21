@@ -1,0 +1,55 @@
+{
+ "note": "Mean distance from the Sun in million km = NASA Planetary Fact Sheets, semimajor axis, rounded: Mercury 57.909, Venus 108.210, Earth 149.598, Mars 227.956, Jupiter 778.479, Saturn 1,432.041; Ceres ~414 (NASA Science: 2.8 AU = 413 million km, JPL a=2.77 AU = 414). verified:'agent' (checked 2026-10-20), dad's sign-off still open (signed:false).",
+ "planets": [
+  {
+   "id": "mercury",
+   "name": "水星",
+   "dist": 58,
+   "verified": "agent",
+   "signed": false
+  },
+  {
+   "id": "venus",
+   "name": "金星",
+   "dist": 108,
+   "verified": "agent",
+   "signed": false
+  },
+  {
+   "id": "earth",
+   "name": "地球",
+   "dist": 150,
+   "verified": "agent",
+   "signed": false
+  },
+  {
+   "id": "mars",
+   "name": "火星",
+   "dist": 228,
+   "verified": "agent",
+   "signed": false
+  },
+  {
+   "id": "ceres",
+   "name": "谷神星",
+   "dist": 414,
+   "verified": "agent",
+   "signed": false
+  },
+  {
+   "id": "jupiter",
+   "name": "木星",
+   "dist": 778,
+   "verified": "agent",
+   "signed": false
+  }
+ ],
+ "saturn": {
+  "id": "saturn",
+  "name": "土星",
+  "dist": 1432,
+  "verified": "agent",
+  "use": "knowledge card after O2.6 (beyond the 0-1000 line)",
+  "signed": false
+ }
+}
