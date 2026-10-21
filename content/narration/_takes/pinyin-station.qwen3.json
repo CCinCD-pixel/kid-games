@@ -1,0 +1,168 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "py.final": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "830950e7c93674a872200a4842554da85216e3a6",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "py.initial": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "f119b5bc5ebdb9b267f023ce76222c3a12a1f592",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "py.praise.0": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "ed7a0af7c979bacf35f7f7083e75ffd607256a68",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "py.praise.1": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "250dd98c2f95d63eab809a0c2477662d69d40b7c",
+   "score": 100.5,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.praise.11": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "7d756875a92239398890c748bb7da27d7282b211",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "py.praise.12": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "3ccd3b092bb1fe9e943fa7bc06606d5291e54fe2",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "py.praise.16": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a913c44271e24de2ccf51150beeebf4cba9b49e4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "py.praise.17": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "86411ff069baf693b4c6f72924ecca4e95da36a7",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "py.praise.18": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "5e1f3de6ca0789303fdd1d46bbe54aec89af38b9",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "py.praise.20": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "280c145f5b8462804948a846aa39b4f96e9fa5d8",
+   "score": 101.5,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.praise.21": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "675cc209da1e01a27e3480a0c3c7dc5c8d29ebd7",
+   "score": 109.3,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.praise.4": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "0653fa5e608d07862618f0b9df207bb3f7991c41",
+   "score": 102.1,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.word.mabu": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "47602cfde5feac868e9cdc252f386153767fe6ee",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  }
+ }
+}

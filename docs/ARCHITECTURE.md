@@ -174,3 +174,9 @@ Apple Color Emoji), audio interruption by calls, memory pressure on a 3 GB devic
   `content/narration/<game>.yaml`; the runtime only reads `audio-manifest.json`, so engines can be
   swapped without code changes. The parent 旁白 switch is applied inside `kit/narration`.
 - **Credits** (site/credits/): human-readable mirror of assets-src/LICENSES.md.
+
+## 拼音电台（2026-10-22，本地验收）
+
+`site/pinyin-station/` 复用 shell、唯一 AudioContext、Narrator、progress、PIN 和 companion 公共 API；`domain/` 管理同一份内容数据、会话复习与掌握账本，`speech/` 管理静音输出的 AudioWorklet、16k PCM/VAD、腾讯客户端、保守反馈和 IndexedDB 录音（最多 200 条）。字典仅在校验与懒加载家长页中使用。`/pinyin-station/lab/` 仍由家长 PIN 保护，成人样本不计孩子进度。
+
+`netlify/functions/soe-sign.mjs` 只鉴权、消费 Blobs 日限额和签 60 秒 URL，音频由设备直达腾讯；签名核心在 `netlify/lib/`，不新增额外函数入口。SW 显式绕过 `/.netlify/functions/*`。本机预览用 `site/pinyin-station/tools/local-preview.mjs`，只绑定 127.0.0.1，凭据只在本机进程中读取。没有改 kit 实现或 netlify.toml。

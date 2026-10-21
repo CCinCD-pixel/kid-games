@@ -42,3 +42,7 @@ Rules
 - Not allowed: anything "free for personal use" without a written licence, ripped game assets,
   emoji used as characters (plan DoD 7).
 - Fonts: record the subset (character list) and the original file's licence.
+
+## 拼音电台（2026-10-22）
+
+详细清单与固定版本见 `site/pinyin-station/LICENSES.part.md`。真人单音节来自 davinfifield/mp3-chinese-pinyin-sound @aa25ecce7b7fb02757b2c2b8e3c01aa975812edc（Unlicense，146 个 MP3 源文件），o 来自 Lingua Libre / Cookai1205 的 O.wav（CC0 1.0，转 AAC）；许可原文及元数据在 `assets-src/pinyin-station/`。Andika 字体是 SIL OFL 1.1，许可同字体目录。58 条语境词句、台长台词由既有 Qwen3-TTS 管线生成，Apache-2.0 模型、输出归项目；没有合成孤立音节。词图与电台标志为本项目原创 SVG。pinyin-pro（MIT）只在校验和懒加载家长页使用；@netlify/blobs（MIT）只在服务端使用。没有把试卷照片或教材 PDF 纳入素材。

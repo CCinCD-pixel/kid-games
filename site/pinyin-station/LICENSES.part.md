@@ -1,0 +1,13 @@
+# 拼音电台素材许可
+
+| 路径 | 来源与固定版本 | 许可 | 加工 |
+|---|---|---|---|
+| public/audio/pinyin-station/human.*.mp3 | [davinfifield/mp3-chinese-pinyin-sound](https://github.com/davinfifield/mp3-chinese-pinyin-sound)，aa25ecce7b7fb02757b2c2b8e3c01aa975812edc | Unlicense / public domain；原文 assets-src/pinyin-station/HUMAN-AUDIO-LICENSE.txt | 原文件不改；i/u 与 yi/wu、v 与 uu 做音节别名。146 个源文件 |
+| public/audio/pinyin-station/human.o1.*.m4a | [Lingua Libre / Cookai1205，O](https://commons.wikimedia.org/wiki/File:LL-Q9192_(cmn)-Cookai1205-O.wav) | CC0 1.0；API 许可元数据保存在 assets-src/pinyin-station/o-cc0-metadata.json | 真人音频转 AAC 单声道；0.91 秒 |
+| public/audio/pinyin-station/py.*.m4a + audio-manifest.json（非 human 文件） | 项目既有 Qwen3-TTS 0.6B CustomVoice 管线，content/narration/pinyin-station.yaml 与 _takes/pinyin-station.qwen3.json | Apache-2.0 模型；输出归项目 | 58 条语境词句、指令和鼓励。没有用 TTS 生成孤立拼音 |
+| public/fonts/pinyin-station/Andika-Regular.ttf | [SIL Andika / Google Fonts](https://github.com/google/fonts/tree/main/ofl/andika) | SIL OFL 1.1；同目录 OFL.txt | 原始完整字体，含 ü 和声调符号 |
+| site/pinyin-station/src/views/art.ts、public/icons/games/pinyin-station.svg | 本项目原创 SVG | 项目原创 | 物品、动作示意图及电台标志 |
+| pinyin-pro | npm pinyin-pro 3.29.5 | MIT | 仅词库校验和懒加载家长页 |
+| @netlify/blobs | npm @netlify/blobs 10.7.13 | MIT | 仅服务端签名限流 |
+
+照片、教材 PDF、账号配置、家庭口令和用户录音不属于素材包，不提交仓库。音频使用文件检查、时长和 ASR 校验，开发期间没有人工外放试听；真人发音及所有词图的直观程度仍请家长实听、实看确认。

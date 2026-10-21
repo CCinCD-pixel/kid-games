@@ -1,0 +1,295 @@
+{
+  "game": "pinyin-station",
+  "lines": [
+    {
+      "id": "py.welcome",
+      "role": "companion",
+      "text": "今天的电台，等你来开播。"
+    },
+    {
+      "id": "py.E",
+      "role": "companion",
+      "text": "读一读，找到它的图。"
+    },
+    {
+      "id": "py.F",
+      "role": "companion",
+      "text": "看图，把声音拼起来。"
+    },
+    {
+      "id": "py.A",
+      "role": "companion",
+      "text": "听一听，找到这个字母。"
+    },
+    {
+      "id": "py.B",
+      "role": "companion",
+      "text": "听一听，找到同一个声音。"
+    },
+    {
+      "id": "py.C",
+      "role": "companion",
+      "text": "把两段声音接起来。"
+    },
+    {
+      "id": "py.D",
+      "role": "companion",
+      "text": "准备好，就读给台长听。"
+    },
+    {
+      "id": "py.G",
+      "role": "companion",
+      "text": "点点词卡，把话接起来。"
+    },
+    {
+      "id": "py.hint1",
+      "role": "companion",
+      "text": "先听一听，再找线索。"
+    },
+    {
+      "id": "py.hint2",
+      "role": "companion",
+      "text": "我们把声音拆开看看。"
+    },
+    {
+      "id": "py.demo",
+      "role": "companion",
+      "text": "一起看示范，再接下一条信号。"
+    },
+    {
+      "id": "py.finish",
+      "role": "companion",
+      "text": "今天的声音已送到星港，歇一歇吧。"
+    },
+    {
+      "id": "py.unsure",
+      "role": "companion",
+      "text": "台长还没听清，一起再听听。"
+    },
+    {
+      "id": "py.recording",
+      "role": "companion",
+      "text": "台长正在收听。"
+    },
+    {
+      "id": "py.saved",
+      "role": "companion",
+      "text": "你的声音已经留在电台。"
+    },
+    {
+      "id": "py.follow",
+      "role": "companion",
+      "text": "听听自己的声音，再和台长比一比。"
+    },
+    {
+      "id": "py.initial",
+      "role": "companion",
+      "text": "先找开头的声音。"
+    },
+    {
+      "id": "py.final",
+      "role": "companion",
+      "text": "再找后面的声音。"
+    },
+    {
+      "id": "py.tone",
+      "role": "companion",
+      "text": "给声音放上小帽子。"
+    },
+    {
+      "id": "py.praise.0",
+      "role": "companion",
+      "text": "你把声音和图画连起来了"
+    },
+    {
+      "id": "py.praise.1",
+      "role": "companion",
+      "text": "你找到了词语里的意思"
+    },
+    {
+      "id": "py.praise.2",
+      "role": "companion",
+      "text": "你先想一想再选择，很仔细"
+    },
+    {
+      "id": "py.praise.3",
+      "role": "companion",
+      "text": "两段声音被你接在一起了"
+    },
+    {
+      "id": "py.praise.4",
+      "role": "companion",
+      "text": "你留住了小鱼的两颗泡泡"
+    },
+    {
+      "id": "py.praise.5",
+      "role": "companion",
+      "text": "你听出了声音的小变化"
+    },
+    {
+      "id": "py.praise.6",
+      "role": "companion",
+      "text": "你把声调送上了小山坡"
+    },
+    {
+      "id": "py.praise.7",
+      "role": "companion",
+      "text": "你让拼音排好了队"
+    },
+    {
+      "id": "py.praise.8",
+      "role": "companion",
+      "text": "你愿意再试一次，信号更清楚了"
+    },
+    {
+      "id": "py.praise.9",
+      "role": "companion",
+      "text": "你把每一小段都照顾到了"
+    },
+    {
+      "id": "py.praise.10",
+      "role": "companion",
+      "text": "你的眼睛找到了关键的小肚子"
+    },
+    {
+      "id": "py.praise.11",
+      "role": "companion",
+      "text": "你把纸条吹得轻轻飘起来了"
+    },
+    {
+      "id": "py.praise.12",
+      "role": "companion",
+      "text": "你把一个词拆开又合起来了"
+    },
+    {
+      "id": "py.praise.13",
+      "role": "companion",
+      "text": "你认真听完再动手"
+    },
+    {
+      "id": "py.praise.14",
+      "role": "companion",
+      "text": "你把今天的声音送到了星港"
+    },
+    {
+      "id": "py.praise.15",
+      "role": "companion",
+      "text": "你找到了一条新的拼读小路"
+    },
+    {
+      "id": "py.praise.16",
+      "role": "companion",
+      "text": "你把这幅图说给拼音听了"
+    },
+    {
+      "id": "py.praise.17",
+      "role": "companion",
+      "text": "你让字母和声调一起站好了"
+    },
+    {
+      "id": "py.praise.18",
+      "role": "companion",
+      "text": "你把句子的意思接通了"
+    },
+    {
+      "id": "py.praise.19",
+      "role": "companion",
+      "text": "你慢慢读，台长听见了你的努力"
+    },
+    {
+      "id": "py.praise.20",
+      "role": "companion",
+      "text": "你发现了两个声音的不同"
+    },
+    {
+      "id": "py.praise.21",
+      "role": "companion",
+      "text": "你把熟悉的声音认出来了"
+    },
+    {
+      "id": "py.word.pipa",
+      "role": "word",
+      "text": "琵琶"
+    },
+    {
+      "id": "py.word.laba",
+      "role": "word",
+      "text": "喇叭"
+    },
+    {
+      "id": "py.word.mabu",
+      "role": "word",
+      "text": "抹布"
+    },
+    {
+      "id": "py.word.ditu",
+      "role": "word",
+      "text": "地图"
+    },
+    {
+      "id": "py.word.nitu",
+      "role": "word",
+      "text": "泥土"
+    },
+    {
+      "id": "py.word.muma",
+      "role": "word",
+      "text": "木马"
+    },
+    {
+      "id": "py.word.labi",
+      "role": "word",
+      "text": "蜡笔"
+    },
+    {
+      "id": "py.word.pubu",
+      "role": "word",
+      "text": "瀑布"
+    },
+    {
+      "id": "py.word.futi",
+      "role": "word",
+      "text": "扶梯"
+    },
+    {
+      "id": "py.word.baba",
+      "role": "word",
+      "text": "爸爸"
+    },
+    {
+      "id": "py.word.mama",
+      "role": "word",
+      "text": "妈妈"
+    },
+    {
+      "id": "py.word.didi",
+      "role": "word",
+      "text": "弟弟"
+    },
+    {
+      "id": "py.word.milu",
+      "role": "word",
+      "text": "迷路"
+    },
+    {
+      "id": "py.word.eight-pears",
+      "role": "word",
+      "text": "八个梨"
+    },
+    {
+      "id": "py.word.didi-milu",
+      "role": "word",
+      "text": "弟弟迷路了"
+    },
+    {
+      "id": "py.word.baba-pati",
+      "role": "word",
+      "text": "爸爸爬梯"
+    },
+    {
+      "id": "py.word.rabbit-carrot",
+      "role": "word",
+      "text": "小白兔在拔萝卜"
+    }
+  ]
+}

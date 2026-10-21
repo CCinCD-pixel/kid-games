@@ -21,3 +21,5 @@ the spec.
 | [memory-matrix.md](memory-matrix.md) | 记忆方块 (frozen; folds into 月宫 M4) | 经典角 | transition note |
 | — | 棋手学院 (`chess`) | 基地 | **missing**: the spec run stopped at the session limit; drafts in `~/kid-games-work/specs/chess-parts/` |
 | — | 机关守城 lane defense (`gear-fort`) | 游乐场 | **missing**: the spec run stopped at the session limit; simulator/level tools in `~/kid-games-work/specs/lane-defense-tools/` (folder id `gear-fort` taken from there) |
+
+- [拼音电台](pinyin-station.md)：第二单元本地验收版；本轮约定见 [实现补充](pinyin-station-implementation.md)，[腾讯接入](pinyin-station-soe-notes.md)、[校准状态](pinyin-station-phase0.md)、[验收记录](pinyin-station-acceptance.md)。家长可补录纯拼音材料；AI 保持试运行。尚未推送、合并或生产部署。
