@@ -40,7 +40,11 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   const rng = createRng(`pinyin:${s.sessions}:${mode}`), words = eligibleWords(s, b);
   const due = words.filter(w => ['decode', 'spell'].some(k => { const a = s.atoms[`word:${w.id}:${k}`]; return a && a.due <= s.sessions + 1; }));
   const pool = mode === 'repair' && due.length ? due : words;
-  const shuffled = rng.shuffle(pool), review = rng.shuffle(due);
+  const shuffled = rng.shuffle(pool);
+  const needsReview = (w:Word) => ['decode','spell'].some(k=>s.atoms[`word:${w.id}:${k}`]?.needsReview);
+  const review = rng.shuffle(due).sort((a,b)=>Number(needsReview(b))-Number(needsReview(a)));
+  const familiarWords = rng.shuffle(words.filter(w => ['decode','spell'].some(k => (s.atoms[`word:${w.id}:${k}`]?.successes.length ?? 0) > 0)));
+  let mainWord = 0, reviewWord = 0, freshWord = 0;
   const letters = b.letters.filter(l => l.lesson <= s.settings.lesson && l.kind !== 'whole');
   const syllables = b.syllables.filter(x => x.lesson <= s.settings.lesson && x.tone > 0);
   const sentences = b.words.filter(w => w.kind === 'sentence' && w.lesson <= s.settings.lesson);
@@ -48,23 +52,29 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   return Array.from({ length: count }, (_, i) => {
     let kind = pattern[i % pattern.length];
     if (kind === 'G' && !sentences.length) kind = 'E';
-    const word = (i > 2 && review.length ? [...review, ...shuffled] : shuffled)[i % (i > 2 && review.length ? review.length + shuffled.length : shuffled.length)];
+    if (!words.length && ['D','E','F','G'].includes(kind)) kind = i % 2 ? 'C' : 'A';
     const phase = i < 3 ? 'warmup' as const : 'main' as const;
     if (kind === 'A') {
-      const target = letters[i % letters.length];
+      const known = letters.filter(l => (s.atoms[`letter:${l.id}:hear`]?.successes.length ?? 0) > 0);
+      const letterPool = i < 3 && known.length ? known : letters;
+      const target = letterPool[i % letterPool.length];
       return { id: `A:${target.id}`, kind, target: target.id, skill: `letter:${target.id}:hear`, lesson: target.lesson, phase, choices: rng.shuffle([target.id, ...rng.shuffle(letters.filter(l => l.id !== target.id)).slice(0, 3).map(l => l.id)]) };
     }
     if (kind === 'B' || kind === 'C') {
-      const pair = b.confusions.find(c => (s.confusions[c.pair.join('|')] ?? 0) >= 2 && c.minimalPairs.some(p => p.every(id => syllables.some(sy => sy.id === id)))) ?? b.confusions[i % b.confusions.length];
-      const candidates = pair.minimalPairs.filter(p => p.every(id => syllables.some(sy => sy.id === id)));
+      const eligiblePairs = b.confusions.filter(c => c.minimalPairs.some(p => p.every(id => syllables.some(sy => sy.id === id))));
+      const pair = eligiblePairs.find(c => (s.confusions[c.pair.join('|')] ?? 0) >= 2) ?? eligiblePairs[i % eligiblePairs.length];
+      const candidates = pair?.minimalPairs.filter(p => p.every(id => syllables.some(sy => sy.id === id))) ?? [];
       const alternatives = candidates.length ? candidates[i % candidates.length] : syllables.slice(0, 2).map(sy => sy.id);
       const id = alternatives[0], sy = b.syllables.find(x => x.id === id)!;
-      return { id: `${kind}:${id}`, kind, target: id, skill: kind === 'B' ? `pair:${pair.pair.join('|')}:hear` : `syl:${id}:blend`, lesson: sy.lesson, phase, choices: rng.shuffle(alternatives) };
+      const skill = kind === 'C' ? `syl:${id}:blend` : pair ? `pair:${pair.pair.join('|')}:hear` : `syl:${id}:hear`;
+      return { id: `${kind}:${id}`, kind, target: id, skill, lesson: sy.lesson, phase, choices: rng.shuffle(alternatives) };
     }
     if (kind === 'G') {
       const sentence = sentences[i % sentences.length];
       return { id: `G:${sentence.id}`, kind, target: sentence.id, skill: `word:${sentence.id}:decode`, lesson: sentence.lesson, phase, choices: rng.shuffle(sentence.chunks ?? []) };
     }
+    const warmPool = familiarWords.length ? familiarWords : shuffled;
+    const word = i < 3 ? warmPool[i % warmPool.length] : review.length && (mode === 'repair' || mainWord++ % 2 === 0) ? review[reviewWord++ % review.length] : shuffled[freshWord++ % shuffled.length];
     return { id: `${kind}:${word.id}`, kind, target: word.id, skill: `word:${word.id}:${kind === 'F' ? 'spell' : kind === 'D' ? 'say' : 'decode'}`, lesson: word.lesson, phase, choices: rng.shuffle([word.id, ...rng.shuffle(words.filter(w => w.id !== word.id)).slice(0, 3).map(w => w.id)]) };
   });
 }

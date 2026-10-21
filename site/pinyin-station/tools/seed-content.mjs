@@ -43,7 +43,7 @@ function add(id, lesson) { if (syl.has(id)) { syl.get(id).lesson = Math.min(syl.
 for (const l of letters) if (l.lesson <= 4) add(l.callSound, l.lesson);
 for (const c of confusions) for (const p of c.minimalPairs) for (const id of p) add(id, 4);
 for (const w of words) for (const id of w.syllables) add(id, w.beyond ? 8 : w.lesson);
-for (const base of ['a','o','e','yi','wu','yu','ba','pa','ma','bo','po','mo','fo','bu','pu','mu','fu','da','ta','na','la','de','te','ne','le','di','ti','ni','li','du','tu','nu','lu','nv','lv']) for (let t=1;t<=4;t++) add(base+t, ['a','o','e'].includes(base)?1:['yi','wu','yu'].includes(base)?2:/^[bpmf]/.test(base)?3:4);
+for (const base of ['a','e','yi','wu','yu','ba','pa','ma','bo','po','mo','fo','bu','pu','mu','fu','da','ta','na','la','de','te','ne','le','di','ti','ni','li','du','tu','nu','lu','nv','lv']) for (let t=1;t<=4;t++) add(base+t, ['a','o','e'].includes(base)?1:['yi','wu','yu'].includes(base)?2:/^[bpmf]/.test(base)?3:4);
 const praise = ['你把声音和图画连起来了', '你找到了词语里的意思', '你先想一想再选择，很仔细', '两段声音被你接在一起了', '你留住了小鱼的两颗泡泡', '你听出了声音的小变化', '你把声调送上了小山坡', '你让拼音排好了队', '你愿意再试一次，信号更清楚了', '你把每一小段都照顾到了', '你的眼睛找到了关键的小肚子', '你把纸条吹得轻轻飘起来了', '你把一个词拆开又合起来了', '你认真听完再动手', '你把今天的声音送到了星港', '你找到了一条新的拼读小路', '你把这幅图说给拼音听了', '你让字母和声调一起站好了', '你把句子的意思接通了', '你慢慢读，台长听见了你的努力', '你发现了两个声音的不同', '你把熟悉的声音认出来了'];
 fs.writeFileSync(out, JSON.stringify({ lessons, letters, syllables: [...syl.values()], words, confusions, praise },null,2)+'\n');
 console.log(`${letters.length} letters, ${syl.size} syllables, ${words.length} words`);

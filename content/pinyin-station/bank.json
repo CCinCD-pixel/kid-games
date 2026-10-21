@@ -1195,33 +1195,6 @@
       "audio": "py.syl.a4"
     },
     {
-      "id": "o2",
-      "display": "ó",
-      "initial": "",
-      "final": "o",
-      "tone": 2,
-      "lesson": 1,
-      "audio": "py.syl.o2"
-    },
-    {
-      "id": "o3",
-      "display": "ǒ",
-      "initial": "",
-      "final": "o",
-      "tone": 3,
-      "lesson": 1,
-      "audio": "py.syl.o3"
-    },
-    {
-      "id": "o4",
-      "display": "ò",
-      "initial": "",
-      "final": "o",
-      "tone": 4,
-      "lesson": 1,
-      "audio": "py.syl.o4"
-    },
-    {
       "id": "e2",
       "display": "é",
       "initial": "",

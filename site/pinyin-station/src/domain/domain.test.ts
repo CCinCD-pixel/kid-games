@@ -45,6 +45,22 @@ describe('supportive practice and session-based review', () => {
     expect(qs.every(q => q.lesson <= 3)).toBe(true);
     expect(qs.every((q, i) => i < 2 || q.id !== qs[i-1].id || q.id !== qs[i-2].id)).toBe(true);
   });
+  it('keeps foundational lessons playable in every practice mode without future words', () => {
+    for (const lesson of [1,2]) for (const mode of ['today','read','spell','repair','listen']) {
+      const s=initialSave();s.settings.lesson=lesson;
+      const qs=schedule(s,bank,mode);
+      expect(qs).toHaveLength(15);
+      expect(qs.every(q=>q.lesson<=lesson && ['A','B','C'].includes(q.kind))).toBe(true);
+    }
+  });
+  it('warms up with a familiar word and promptly returns to due work', () => {
+    const s=initialSave();s.sessions=4;
+    recordAttempt(s,{id:'known',session:1,kind:'E',judge:'deterministic',skill:'word:nitu:decode',correct:true});
+    recordAttempt(s,{id:'review',session:2,kind:'F',judge:'deterministic',skill:'word:muma:spell',correct:false});
+    const qs=schedule(s,bank,'today');
+    expect(qs[1].target).toBe('nitu');
+    expect(qs.slice(3,5).some(q=>q.target==='muma')).toBe(true);
+  });
   it('demonstrates after three tries and schedules a spaced twin', () => {
     const s = initialSave(); const qs = schedule(s, bank, 'today', 4);
     expect(nextQuestion(qs, 0, 2, false).action).toBe('hint');
