@@ -167,6 +167,8 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (!sameOrigin(url)) return;
+  // Signed URLs and authentication responses must never enter any offline cache.
+  if (url.pathname.startsWith('/.netlify/functions/')) return;
   if (url.pathname === '/sw.js') return;
   if (request.mode === 'navigate') { event.respondWith(handleNavigate(event, url)); return; }
   if (MEDIA_HASH[url.pathname]) { event.respondWith(handleMedia(request, url.pathname)); return; }

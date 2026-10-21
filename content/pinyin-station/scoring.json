@@ -1,0 +1,9 @@
+{
+  "phase": "trial",
+  "profiles": {
+    "gentle": { "clear": 70, "basic": 45, "obviousMismatch": 30 },
+    "balanced": { "clear": 75, "basic": 50, "obviousMismatch": 35 },
+    "precise": { "clear": 80, "basic": 55, "obviousMismatch": 40 }
+  },
+  "masteryFromAI": false
+}
