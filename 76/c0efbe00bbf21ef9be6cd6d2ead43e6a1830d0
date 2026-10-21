@@ -1,0 +1,21 @@
+site/pinyin-station/src/views/practice.ts
+  s_df862b152d7dcf::t_f4aae5b42dcfd4 111-118
+site/pinyin-station/src/main.ts
+  s_df862b152d7dcf::t_f2accb82147b37 94-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "76c0efbe00bbf21ef9be6cd6d2ead43e6a1830d0",
+  "prompts": {},
+  "sessions": {
+    "s_df862b152d7dcf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15f1c-71e8-7d53-a0c2-033d2254b5ce",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
