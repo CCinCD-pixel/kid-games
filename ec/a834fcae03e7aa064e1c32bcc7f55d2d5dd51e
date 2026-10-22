@@ -1,0 +1,38 @@
+site/pinyin-station/src/speech/recordings.ts
+  s_df862b152d7dcf::t_b8fad58b048411 1-2,25,28-34,43-61
+site/pinyin-station/src/domain/learning.ts
+  s_df862b152d7dcf::t_2ecf08bacc2c1b 36,39,58,65-66,93,121-129,146-151,156,191-211,250-262,266,268-274,276,279,285,295-296
+site/pinyin-station/src/views/parent.ts
+  s_df862b152d7dcf::t_44e22479876f49 343,389-391,395-396,399
+  s_df862b152d7dcf::t_b8fad58b048411 6-7,77-84,115-137,155-159,179-181,196-198,241,243,250-254,278-281,299,334,341-342,344-346,348-351,354-357,372,374-383,392-394,397-398,400-403,415-427
+site/pinyin-station/src/domain/curriculum-regressions.test.ts
+  s_df862b152d7dcf::t_425e021e5c230f 148,153,155-156,163-169
+  s_df862b152d7dcf::t_469fdedbaddc14 1-147,149-152,154,157-162,170-242
+site/pinyin-station/src/domain/types.ts
+  s_df862b152d7dcf::t_2ecf08bacc2c1b 40-46,48,82-87,104-105
+site/pinyin-station/src/views/kinds/blending.ts
+  s_df862b152d7dcf::t_3c28d5ef7eab83 9-10,22-28,31-32,42,70,74-76
+site/pinyin-station/src/main.ts
+  s_df862b152d7dcf::t_b8fad58b048411 9,11,25-27,49,62,65-77,177-193,196-210,256-260,283,326-328,336-338
+site/pinyin-station/tests/station.spec.ts
+  s_df862b152d7dcf::t_588bcf505c9450 3
+  s_df862b152d7dcf::t_32912b813ee1c8 260-263,273,278,289,470-472,485-492,504-506
+  s_df862b152d7dcf::t_922e21ce962346 70-72,233,241-245,258-259,391-395,468-469,473-484,493-503
+  s_df862b152d7dcf::t_3c28d5ef7eab83 279,425,428-429,431,434-436,438-442,444,447-467
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "eca834fcae03e7aa064e1c32bcc7f55d2d5dd51e",
+  "prompts": {},
+  "sessions": {
+    "s_df862b152d7dcf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15f1c-71e8-7d53-a0c2-033d2254b5ce",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
