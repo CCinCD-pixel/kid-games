@@ -37,7 +37,15 @@ export interface Confusion {
   minimalPairs: string[][];
   tip: string;
 }
+export interface Scene {
+  id: string;
+  title: string;
+  prompt: string;
+  lesson: number;
+  targets: string[];
+}
 export interface Bank {
+  scenes?: Scene[];
   letters: Letter[];
   syllables: Syllable[];
   words: Word[];
@@ -71,6 +79,12 @@ export interface Save {
   dates: number[];
   atoms: Record<string, Atom>;
   history: Attempt[];
+  snapshot?: {
+    through: number;
+    atoms: Record<string, Atom>;
+    confusions: Record<string, number>;
+    seen: Record<string, number>;
+  };
   confusions: Record<string, number>;
   customWords: Word[];
   settings: {
@@ -87,5 +101,7 @@ export interface Question {
   skill: string;
   lesson: number;
   phase: 'warmup' | 'main';
+  scene?: string;
+  practiceOnly?: boolean;
   choices: string[];
 }

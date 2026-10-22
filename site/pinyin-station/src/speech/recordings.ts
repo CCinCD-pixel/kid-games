@@ -1,4 +1,5 @@
-import type { Kind } from '../domain/types';
+import type { Attempt, Kind } from '../domain/types';
+import type { HistoryArchive } from '../domain/history';
 import type { AssessmentPlan } from './reference';
 import type { Verdict, Dim } from './normalize';
 export interface Recording {
@@ -21,12 +22,16 @@ export interface Recording {
 let connection: Promise<IDBDatabase> | null = null;
 function db(): Promise<IDBDatabase> {
   return (connection ??= new Promise((resolve, reject) => {
-    const request = indexedDB.open('kg-pinyin-station', 1);
+    const request = indexedDB.open('kg-pinyin-station', 2);
     request.onupgradeneeded = () => {
       const database = request.result;
-      const store = database.createObjectStore('recordings', { keyPath: 'id' });
-      store.createIndex('at', 'at');
-      database.createObjectStore('pictures');
+      if (!database.objectStoreNames.contains('recordings')) {
+        const store = database.createObjectStore('recordings', { keyPath: 'id' });
+        store.createIndex('at', 'at');
+        database.createObjectStore('pictures');
+      }
+      if (!database.objectStoreNames.contains('attempts'))
+        database.createObjectStore('attempts', { keyPath: 'id' });
     };
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => {
@@ -35,6 +40,25 @@ function db(): Promise<IDBDatabase> {
     };
   }));
 }
+export const historyArchive: HistoryArchive = {
+  async put(rows) {
+    const database = await db();
+    return new Promise<void>((resolve, reject) => {
+      const tx = database.transaction('attempts', 'readwrite');
+      for (const row of rows) tx.objectStore('attempts').put(row);
+      tx.oncomplete = () => resolve();
+      tx.onerror = tx.onabort = () => reject(new Error('local_history_archive_unavailable'));
+    });
+  },
+  async all() {
+    const database = await db();
+    return new Promise<Attempt[]>((resolve, reject) => {
+      const request = database.transaction('attempts').objectStore('attempts').getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(new Error('local_history_archive_unavailable'));
+    });
+  },
+};
 export async function saveRecording(recording: Recording) {
   const database = await db();
   // ArrayBuffer avoids Safari/WebKit Blob persistence failures in some storage contexts.

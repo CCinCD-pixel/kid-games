@@ -3,7 +3,8 @@ import { checkPin, hasPin, isValidPin, setPin } from '@kit/settings';
 import { pinyin as annotate } from 'pinyin-pro';
 import { parseSyllable, displayPinyin } from '../domain/pinyin';
 import { mastery, recordAttempt } from '../domain/learning';
-import { recordings, savePicture, saveRecording } from '../speech/recordings';
+import { historyArchive, recordings, savePicture, saveRecording } from '../speech/recordings';
+import { reviseAttempt } from '../domain/history';
 import { button, type Context } from './common';
 import { labPanel } from './lab';
 import { reviewPanel } from './review';
@@ -73,8 +74,14 @@ export function parentView(ctx: Context): HTMLElement {
       'select',
       { 'aria-label': '当前课' },
       ctx.bank.lessons
-        .filter((l) => l.unit === 2)
-        .map((l) => h('option', { value: l.id, selected: l.id === s.settings.lesson }, l.title)),
+        .filter((l) => l.id <= 8)
+        .map((l) =>
+          h(
+            'option',
+            { value: l.id, selected: l.id === s.settings.lesson },
+            `${l.id <= 4 ? '当前阶段' : '下一阶段'} · ${l.title}`,
+          ),
+        ),
     );
     lesson.onchange = () => {
       s.settings.lesson = Number(lesson.value);
@@ -105,10 +112,29 @@ export function parentView(ctx: Context): HTMLElement {
       'aria-label': '家庭口令',
       placeholder: '保存在本机，冷启动后仍有效',
     });
-    try { token.value = familyToken(); } catch { /* Storage warning is shown below. */ }
-    token.onchange = () => { try { saveFamilyToken(token.value); } catch { connection.textContent = '口令未能保存，请检查本机存储'; } };
-    const connection = h('p', { 'aria-live':'polite' });
-    const check = button('连通性自检', async () => { check.disabled = true; connection.textContent = '正在检查签名服务'; connection.textContent = await checkConnection(token.value.trim()); check.disabled = false; }, 'secondary');
+    try {
+      token.value = familyToken();
+    } catch {
+      /* Storage warning is shown below. */
+    }
+    token.onchange = () => {
+      try {
+        saveFamilyToken(token.value);
+      } catch {
+        connection.textContent = '口令未能保存，请检查本机存储';
+      }
+    };
+    const connection = h('p', { 'aria-live': 'polite' });
+    const check = button(
+      '连通性自检',
+      async () => {
+        check.disabled = true;
+        connection.textContent = '正在检查签名服务';
+        connection.textContent = await checkConnection(token.value.trim());
+        check.disabled = false;
+      },
+      'secondary',
+    );
     const strict = h(
       'select',
       { 'aria-label': '评测严格度' },
@@ -126,6 +152,11 @@ export function parentView(ctx: Context): HTMLElement {
       'section',
       { class: 'parent-card' },
       h('h3', null, '练习设置'),
+      h(
+        'p',
+        null,
+        '课程按听辨 → 拼合 → 理解 → 拼写 → 运用递进；试卷只用于安排薄弱点。选择老师已讲到的档位，前面内容会按复习间隔轮换。',
+      ),
       field('老师讲到这里', lesson),
       field('拼搭帮助', scaffold),
       h(
@@ -145,7 +176,9 @@ export function parentView(ctx: Context): HTMLElement {
       ),
       field('允许上传录音到腾讯评测', ai),
       field('家庭口令', token),
-      h('p',{class:'parent-note'},'口令只保存在本机。自检不上传音频，会使用一次本日签名额度。'), check, connection,
+      h('p', { class: 'parent-note' }, '口令只保存在本机。自检不上传音频，会使用一次本日签名额度。'),
+      check,
+      connection,
       field('提示严格度', strict),
       h(
         'p',
@@ -160,7 +193,9 @@ export function parentView(ctx: Context): HTMLElement {
       'section',
       { class: 'parent-card' },
       h('h3', null, '练习足迹'),
-      ...(!ctx.storageOkay() ? [h('p',{role:'alert'},'练习记录未能保存，请检查设备剩余空间并备份本机数据。')] : []),
+      ...(!ctx.storageOkay()
+        ? [h('p', { role: 'alert' }, '练习记录未能保存，请检查设备剩余空间并备份本机数据。')]
+        : []),
       h(
         'p',
         null,
@@ -203,18 +238,20 @@ export function parentView(ctx: Context): HTMLElement {
       chosen = h(
         'select',
         { 'aria-label': '选择图库' },
-        h('option', {value:''},'请选择图片'),
+        h('option', { value: '' }, '请选择图片'),
         ctx.bank.words
-          .filter((w) => !['sentence','cloze'].includes(w.kind))
+          .filter((w) => !['sentence', 'cloze'].includes(w.kind))
           .map((w) => h('option', { value: w.picture }, w.hanzi)),
       ),
       message = h('p', { 'aria-live': 'polite' });
     hanzi.oninput = () => {
       const text = hanzi.value.trim();
       const known = ctx.bank.words.find((w) => w.hanzi === text);
-      syllables.value = known ? known.syllables.join(' ') : annotate(text, { toneType: 'num', type: 'array' })
-        .map((x) => (/\d$/.test(x) ? x.replaceAll('ü', 'v') : x + '0'))
-        .join(' ');
+      syllables.value = known
+        ? known.syllables.join(' ')
+        : annotate(text, { toneType: 'num', type: 'array' })
+            .map((x) => (/\d$/.test(x) ? x.replaceAll('ü', 'v') : x + '0'))
+            .join(' ');
       chosen.value = known?.picture ?? '';
     };
     const form = h(
@@ -238,7 +275,10 @@ export function parentView(ctx: Context): HTMLElement {
           }
           const id = `family-${crypto.randomUUID()}`,
             file = image.files?.[0];
-          if (!file && !chosen.value) { message.textContent = '请为这个词选择图库图片或本机图片'; return; }
+          if (!file && !chosen.value) {
+            message.textContent = '请为这个词选择图库图片或本机图片';
+            return;
+          }
           if (file && file.size > 5 * 1024 * 1024) {
             message.textContent = '请选择小于 5 MB 的图片';
             return;
@@ -256,7 +296,7 @@ export function parentView(ctx: Context): HTMLElement {
               beyond: true,
               source: source.value,
               custom: true,
-              semanticGroup: ctx.bank.words.find(w => w.picture === chosen.value)?.semanticGroup,
+              semanticGroup: ctx.bank.words.find((w) => w.picture === chosen.value)?.semanticGroup,
             };
             s.customWords.push(word);
             recordAttempt(s, {
@@ -291,18 +331,30 @@ export function parentView(ctx: Context): HTMLElement {
       h('h3', null, '回听与改判'),
       h('p', null, '优先查看 AI 提示再听听的录音；改判会重建学习记录，不叠加次数。'),
     );
+    let corrections = Promise.resolve();
     void recordings()
       .then((rows) => {
         if (!rows.length) {
           review.append(h('p', null, '还没有录音。孩子在节目里点麦克风后，录音会留在这里。'));
           return;
         }
-        rows.sort((a,b)=>new Date(b.at).toDateString().localeCompare(new Date(a.at).toDateString()) || Number(b.verdict?.level===1)-Number(a.verdict?.level===1) || b.at-a.at);
+        rows.sort(
+          (a, b) =>
+            new Date(b.at).setHours(0, 0, 0, 0) - new Date(a.at).setHours(0, 0, 0, 0) ||
+            Number(b.verdict?.level === 1) - Number(a.verdict?.level === 1) ||
+            b.at - a.at,
+        );
         let day = '';
-        const comparison = (r: typeof rows[number]) => r.parent && r.verdict?.status === 'judged' && (r.verdict.level !== 1) !== (r.parent === 'correct') ? ' · AI 与家长判断不同' : ''; 
+        const comparison = (r: (typeof rows)[number]) =>
+          r.parent && r.verdict?.status === 'judged' && (r.verdict.level !== 1) !== (r.parent === 'correct')
+            ? ' · AI 与家长判断不同'
+            : '';
         for (const r of rows) {
           const date = new Date(r.at).toLocaleDateString('zh-CN');
-          if(date !== day) { review.append(h('h4',null,date)); day = date; }
+          if (date !== day) {
+            review.append(h('h4', null, date));
+            day = date;
+          }
           const word = [...ctx.bank.words, ...s.customWords].find((w) => w.id === r.wordId),
             label = word?.display ?? displayPinyin(r.wordId),
             status = h('span', null, (r.parent ? '家长已标注' : '待回听') + comparison(r));
@@ -317,27 +369,38 @@ export function parentView(ctx: Context): HTMLElement {
               ['tone', '再练声调'],
             ].map(([value, text]) => h('option', { value, selected: value === r.parent }, text)),
           );
-          judgement.onchange = async () => {
+          judgement.onchange = () => {
             if (!judgement.value) return;
-            r.parent = judgement.value as typeof r.parent;
-            try {
-              await saveRecording(r);
-              if (!r.lab)
-                recordAttempt(s, {
-                  id: r.id,
-                  skill: r.skill,
-                  kind: r.kind,
-                  correct: r.parent === 'correct',
-                  judge: 'parent',
-                  session: r.session,
-                  at: r.at,
-                  assisted: r.assisted,
-                });
-              ctx.persist();
-              status.textContent = '家长已标注' + comparison(r);
-            } catch {
-              status.textContent = '未保存，请重试';
-            }
+            const parent = judgement.value as typeof r.parent;
+            judgement.disabled = true;
+            corrections = corrections
+              .then(async () => {
+                r.parent = parent;
+                await saveRecording(r);
+                if (!r.lab)
+                  await reviseAttempt(
+                    s,
+                    {
+                      id: r.id,
+                      skill: r.skill,
+                      kind: r.kind,
+                      correct: r.parent === 'correct',
+                      judge: 'parent',
+                      session: r.session,
+                      at: r.at,
+                      assisted: r.assisted,
+                    },
+                    historyArchive,
+                  );
+                ctx.persist();
+                status.textContent = '家长已标注' + comparison(r);
+              })
+              .catch(() => {
+                status.textContent = '未保存，请重试';
+              })
+              .finally(() => {
+                judgement.disabled = false;
+              });
           };
           review.append(
             h(
@@ -349,7 +412,19 @@ export function parentView(ctx: Context): HTMLElement {
                 h('b', null, label),
                 h('small', null, new Date(r.at).toLocaleString('zh-CN')),
                 h('small', null, r.lab ? '成人实验样本 · 不计孩子进度' : '日常练习录音'),
-                h('small',null,'AI 试运行：' + (r.verdict ? (['initial','final','tone'] as const).map(dim=> { const d=r.verdict?.dims[dim]; return `${{initial:'声母',final:'韵母',tone:'声调'}[dim]} ${d ? (d.ok ? '提示通过' : '建议再听') + (d.score===undefined ? '' : `（${Math.round(d.score)}）`) : '未确认'}`; }).join(' · ') : '未请求或未完成')),
+                h(
+                  'small',
+                  null,
+                  'AI 试运行：' +
+                    (r.verdict
+                      ? (['initial', 'final', 'tone'] as const)
+                          .map((dim) => {
+                            const d = r.verdict?.dims[dim];
+                            return `${{ initial: '声母', final: '韵母', tone: '声调' }[dim]} ${d ? (d.ok ? '提示通过' : '建议再听') + (d.score === undefined ? '' : `（${Math.round(d.score)}）`) : '未确认'}`;
+                          })
+                          .join(' · ')
+                      : '未请求或未完成'),
+                ),
                 status,
               ),
               button('回听', () => void ctx.replay(r.blob), 'secondary', 'replay'),

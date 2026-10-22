@@ -6,8 +6,9 @@ import { mount } from '@kit/companion';
 import { decodeClip, playBuffer, releaseClips, type Voice } from '@kit/audio';
 import { bank } from './domain/content';
 import { initialSave, mastery } from './domain/learning';
+import { compactHistory } from './domain/history';
 import { displayPinyin } from './domain/pinyin';
-import { getPicture, type Recording } from './speech/recordings';
+import { getPicture, historyArchive, type Recording } from './speech/recordings';
 import { illustration, radio } from './views/art';
 import { button, glyph, pinyin, type Context } from './views/common';
 import { Practice } from './views/practice';
@@ -21,7 +22,9 @@ const save = store.load();
 if (!save.settings || !Array.isArray(save.history)) Object.assign(save, initialSave());
 const sub = createSubtitleBar();
 let expectedCue: string | null = null;
-const cue: typeof sub.onCue = (value) => { if (value && (value.id ?? value.text) === expectedCue) sub.onCue(value); };
+const cue: typeof sub.onCue = (value) => {
+  if (value && (value.id ?? value.text) === expectedCue) sub.onCue(value);
+};
 const narrator = new Narrator({
   manifestUrl: '/audio/pinyin-station/audio-manifest.json',
   speechFallback: false,
@@ -43,7 +46,7 @@ const cleanUrls = () => {
 const stopAudio = () => {
   audioVersion++;
   expectedCue = null;
-  sub.onCue({ id:null, text:'', source:'text' });
+  sub.onCue({ id: null, text: '', source: 'text' });
   sub.hide();
   narrator.stop();
   familyNarrator.stop();
@@ -56,8 +59,22 @@ const stopAudio = () => {
   }
 };
 let lastSaveOkay = true;
+let foldingHistory = false;
 const persist = () => {
   lastSaveOkay = store.save(save);
+  if (!foldingHistory) {
+    foldingHistory = true;
+    void compactHistory(save, historyArchive)
+      .then((changed) => {
+        if (changed) lastSaveOkay = store.save(save);
+      })
+      .catch(() => {
+        /* Keep all detail in the save if the local archive is unavailable. */
+      })
+      .finally(() => {
+        foldingHistory = false;
+      });
+  }
   const lit = bank.words.filter((w) => mastery(save, `word:${w.id}`)).length;
   setHubProgress('pinyin-station', {
     label: lit ? '信号渐渐亮起来了' : '电台等你开播',
@@ -157,10 +174,40 @@ function picture(w: Word): HTMLElement {
   return host;
 }
 const explain = async (text: string) => {
-  stopAudio(); sub.attach(familyNarrator); expectedCue = text;
+  const version = audioVersion;
+  await narrator.ready();
+  if (version !== audioVersion) return;
+  const scene = bank.scenes?.find((s) => s.prompt === text),
+    letter = bank.letters.find((l) => l.mnemonic === text),
+    tip = bank.confusions.find((c) => c.tip === text);
+  const id = scene
+    ? `py.scene.${scene.id}`
+    : letter
+      ? `py.mnemonic.${letter.id}`
+      : tip
+        ? `py.tip.${tip.pair.join('-')}`
+        : '';
+  if (id && narrator.has(id)) return say(id);
+  stopAudio();
+  sub.attach(familyNarrator);
+  expectedCue = text;
   return familyNarrator.say(text, { interrupt: true });
 };
-const ctx: Context = { save, bank, persist, say, explain, syllable, word, replay, picture, finish, home, stopAudio, storageOkay: () => lastSaveOkay };
+const ctx: Context = {
+  save,
+  bank,
+  persist,
+  say,
+  explain,
+  syllable,
+  word,
+  replay,
+  picture,
+  finish,
+  home,
+  stopAudio,
+  storageOkay: () => lastSaveOkay,
+};
 function header() {
   return h(
     'header',
@@ -206,7 +253,11 @@ function home() {
   const program = h(
     'aside',
     { class: 'program-board' },
-    h('small', null, '今日节目单'),
+    h(
+      'small',
+      null,
+      `第 ${save.settings.lesson} 站 · ${bank.lessons.find((l) => l.id === save.settings.lesson)?.title ?? ''}`,
+    ),
     h('h2', null, '你的声音，从这里出发'),
     h(
       'ol',
@@ -229,6 +280,7 @@ function home() {
   const paths = h(
     'nav',
     { class: 'practice-paths', 'aria-label': '自由选台' },
+    route('场景小剧场', '早餐、出门、花园和图书角', 'scene', 'grid'),
     route('听听声音', '两个声音，找一个小变化', 'listen', 'listen'),
     route('图画拼搭', '把图里的声音搭出来', 'spell', 'grid'),
     route('接通信号', '和想再见的词语碰个面', 'repair', 'hint'),
@@ -271,7 +323,9 @@ function album() {
   );
   const cards = h('div', { class: 'signal-album' });
   for (const l of bank.letters.filter((l) => l.lesson <= save.settings.lesson && l.kind !== 'whole')) {
-    const lit = mastery(save, `letter:${l.id}`) || bank.words.some(w => mastery(save,`word:${w.id}`) && w.syllables.some(id => id.startsWith(l.id)));
+    const lit =
+      mastery(save, `letter:${l.id}`) ||
+      bank.words.some((w) => mastery(save, `word:${w.id}`) && w.syllables.some((id) => id.startsWith(l.id)));
     cards.append(
       h(
         'button',
@@ -279,7 +333,9 @@ function album() {
           type: 'button',
           class: `signal-card ${lit ? 'lit' : ''}`,
           'aria-label': `${l.id}，${l.mnemonic}`,
-          onclick: () => { void explain(l.mnemonic).then(() => syllable(l.callSound)); },
+          onclick: () => {
+            void explain(l.mnemonic).then(() => syllable(l.callSound));
+          },
         },
         pinyin(l.id.replace('v', 'ü')),
         h('small', null, l.mnemonic),

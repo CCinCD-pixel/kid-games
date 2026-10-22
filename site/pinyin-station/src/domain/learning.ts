@@ -33,10 +33,10 @@ function apply(s: Save, a: Attempt) {
   const pair = a.confusion ?? (a.skill.startsWith('pair:') ? a.skill.split(':')[1] : undefined);
   if (a.correct) {
     if (!atom.successes.includes(a.session)) atom.box = Math.min(5, atom.box + 1);
-    atom.successes = [...new Set([...atom.successes, a.session])];
+    atom.successes = [...new Set([...atom.successes, a.session])].slice(-5);
     atom.kinds = [...new Set([...atom.kinds, a.kind])];
     atom.byKind ??= {};
-    atom.byKind[a.kind] = [...new Set([...(atom.byKind[a.kind] ?? []), a.session])];
+    atom.byKind[a.kind] = [...new Set([...(atom.byKind[a.kind] ?? []), a.session])].slice(-2);
     atom.due = a.session + [1, 1, 2, 4, 8, 16][atom.box];
     if (atom.successes.length >= 2) atom.needsReview = false;
     if (pair) s.confusions[pair] = Math.max(0, (s.confusions[pair] ?? 0) - 1);
@@ -55,14 +55,15 @@ function apply(s: Save, a: Attempt) {
 }
 const order = (a: Attempt, b: Attempt) => a.session - b.session || (a.at ?? 0) - (b.at ?? 0);
 export function recordAttempt(s: Save, a: Attempt) {
+  if (s.snapshot && a.session <= s.snapshot.through) throw new Error('archived_attempt_requires_replay');
   const old = s.history.findIndex((x) => x.id === a.id);
   if (old >= 0) s.history[old] = a;
   else s.history.push(a);
   rebuildAtoms(s);
 }
 export function rebuildAtoms(s: Save) {
-  s.atoms = {};
-  s.confusions = {};
+  s.atoms = structuredClone(s.snapshot?.atoms ?? {});
+  s.confusions = { ...s.snapshot?.confusions };
   for (const a of [...s.history].sort(order)) apply(s, a);
 }
 export function mastery(s: Save, root: string): boolean {
@@ -89,7 +90,7 @@ export function eligibleWords(s: Save, b: Bank): Word[] {
 export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[] {
   const rng = createRng(`pinyin:${s.sessions}:${mode}`),
     words = eligibleWords(s, b);
-  const seen = new Map<string, number>();
+  const seen = new Map<string, number>(Object.entries(s.snapshot?.seen ?? {}));
   for (const a of s.history) seen.set(a.skill, (seen.get(a.skill) ?? 0) + 1);
   const wordSeen = (w: Word) =>
     ['decode', 'spell', 'say'].reduce((n, k) => n + (seen.get(`word:${w.id}:${k}`) ?? 0), 0);
@@ -117,13 +118,15 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
           wordSeen(a) - wordSeen(b),
       )[0];
   const pattern: Kind[] =
-    mode === 'read'
-      ? ['D', 'C', 'D', 'C']
-      : mode === 'listen'
-        ? ['A', 'B', 'B']
-        : mode === 'spell'
-          ? ['F']
-          : ['A', 'E', 'B', 'E', 'F', 'E', 'F', 'C', 'D', 'E', 'F', 'G', 'E', 'F', 'D'];
+    mode === 'scene'
+      ? ['E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E']
+      : mode === 'read'
+        ? ['D', 'C', 'D', 'C']
+        : mode === 'listen'
+          ? ['A', 'B', 'B']
+          : mode === 'spell'
+            ? ['F']
+            : ['A', 'E', 'B', 'E', 'F', 'E', 'F', 'C', 'D', 'E', 'F', 'G', 'E', 'F', 'D'];
   const sameAudio: Record<string, string> = { i: 'y', y: 'i', u: 'w', w: 'u' };
   const confusing: Record<string, string[]> = {
     b: ['p', 'd'],
@@ -140,11 +143,17 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
     o: ['a', 'e'],
     e: ['o', 'a'],
   };
+  const scenes = createRng('pinyin-scene-order').shuffle(
+    (b.scenes ?? []).filter(
+      (scene) =>
+        scene.lesson <= s.settings.lesson && scene.targets.some((id) => words.some((w) => w.id === id)),
+    ),
+  );
   return Array.from({ length: count }, (_, i) => {
     let kind = pattern[i % pattern.length];
     const phase = i < 3 ? ('warmup' as const) : ('main' as const);
     if (kind === 'G' && !sentences.length) kind = 'E';
-    if (['D', 'E', 'F'].includes(kind) && !(phase === 'warmup' ? words : main).length)
+    if (mode !== 'scene' && ['D', 'E', 'F'].includes(kind) && !(phase === 'warmup' ? words : main).length)
       kind = i % 2 ? 'B' : 'A';
     if (kind === 'C' && !syllables.some((sy) => sy.initial && !['y', 'w'].includes(sy.initial))) kind = 'B';
     if (kind === 'A') {
@@ -179,8 +188,27 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
           other = rng.pick(syllables.filter((sy) => sy.id !== first.id));
         alternatives = [first.id, other.id];
       }
-      const id = rng.pick(alternatives),
-        sy = b.syllables.find((x) => x.id === id)!;
+      let id = rng.pick(alternatives);
+      if (kind === 'C' && eligible.length > 1 && rng.chance(0.35)) {
+        const blendPool = syllables.filter(
+          (sy) =>
+            sy.initial &&
+            !['y', 'w'].includes(sy.initial) &&
+            (['ta1', 'bu3', 'de2', 'mo2'].includes(sy.id) || /^[iu][ao]$/.test(sy.final)),
+        );
+        if (blendPool.length) {
+          const selected = rng.pick(blendPool);
+          id = selected.id;
+          alternatives = [
+            id,
+            ...syllables
+              .filter((sy) => sy.initial === selected.initial && sy.final !== selected.final)
+              .slice(0, 1)
+              .map((sy) => sy.id),
+          ];
+        }
+      }
+      const sy = b.syllables.find((x) => x.id === id)!;
       return {
         id: `${kind}:${id}`,
         kind,
@@ -219,20 +247,42 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
         : mode === 'repair' && due.length
           ? due
           : main;
-    const word = pickWord(pool);
+    const scene =
+      mode === 'scene' && scenes.length ? scenes[(s.sessions * count + i) % scenes.length] : undefined;
+    const sceneWords = scene ? words.filter((w) => scene.targets.includes(w.id)) : [];
+    const readySceneWords = sceneWords.filter(
+      (w) => !atoms(w).length || atoms(w).some((a) => a.due <= s.sessions),
+    );
+    const word = pickWord(scene ? (readySceneWords.length ? readySceneWords : sceneWords) : pool);
+    const contexts = (b.scenes ?? []).filter((item) => item.targets.includes(word.id));
+    const context =
+      scene ??
+      (mode === 'today' && contexts.length && (kind === 'E' || kind === 'F')
+        ? rng.pick(contexts)
+        : undefined);
     queued.set(word.id, (queued.get(word.id) ?? 0) + 1);
     const pictures = new Set([word.picture]),
       meanings = new Set([word.hanzi]),
+      sounds = new Set([word.syllables.join(' ')]),
       groups = new Set(word.semanticGroup ? [word.semanticGroup] : []);
+    const picturePool =
+      words.length >= 3
+        ? words
+        : [
+            ...words,
+            ...b.words.filter((w) => w.kind === 'noun' && !w.beyond && !words.some((x) => x.id === w.id)),
+          ];
     const distractors = rng
-      .shuffle(words.filter((w) => w.id !== word.id))
+      .shuffle(picturePool.filter((w) => w.id !== word.id))
       .filter((w) => {
         if (
+          sounds.has(w.syllables.join(' ')) ||
           pictures.has(w.picture) ||
           meanings.has(w.hanzi) ||
           (w.semanticGroup && groups.has(w.semanticGroup))
         )
           return false;
+        sounds.add(w.syllables.join(' '));
         pictures.add(w.picture);
         meanings.add(w.hanzi);
         if (w.semanticGroup) groups.add(w.semanticGroup);
@@ -242,6 +292,8 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
       .map((w) => w.id);
     return {
       id: `${kind}:${word.id}`,
+      scene: context?.id,
+      practiceOnly: mode === 'scene' && !readySceneWords.length,
       kind,
       target: word.id,
       skill: `word:${word.id}:${kind === 'F' ? 'spell' : kind === 'D' ? 'say' : 'decode'}`,

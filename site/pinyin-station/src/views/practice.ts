@@ -78,7 +78,7 @@ export class Practice {
     this.el.classList.remove('is-resolved', 'has-recording');
     this.generation++;
     this.locked = false;
-    this.assisted = false;
+    this.assisted = this.q.practiceOnly ?? false;
     this.syllableIndex = 0;
     this.fullParts = 0;
     this.sentence = [];
@@ -127,6 +127,22 @@ export class Practice {
       this.actions,
     );
     this.draw();
+    const scene = this.ctx.bank.scenes?.find((scene) => scene.id === this.q.scene);
+    if (scene) {
+      this.stage.prepend(
+        h(
+          'aside',
+          { class: 'scene-context' },
+          glyph('book'),
+          h('div', null, h('b', null, scene.title), h('p', null, scene.prompt)),
+        ),
+      );
+      const gen = this.generation;
+      void this.ctx.explain(scene.prompt).then(() => {
+        if (gen === this.generation && !this.stopped) this.speak(`py.${this.q.kind}`);
+      });
+      return;
+    }
     if (this.q.kind === 'A' || this.q.kind === 'B') {
       const gen = this.generation;
       void this.ctx.say(`py.${this.q.kind}`).then(() => {
@@ -199,7 +215,7 @@ export class Practice {
       skill: this.q.skill,
       kind: this.q.kind,
       correct,
-      judge,
+      judge: this.q.practiceOnly ? 'self' : judge,
       session: this.ctx.save.sessions,
       at: Date.now(),
       confusion,
