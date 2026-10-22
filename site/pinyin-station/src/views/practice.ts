@@ -1,5 +1,10 @@
+import { ordering } from './kinds/ordering';
+import { reading } from './kinds/reading';
+import { blending } from './kinds/blending';
+import { spelling } from './kinds/spelling';
+import { listening } from './kinds/listening';
+import { readPicture } from './kinds/readPicture';
 import { h } from '@kit/ui';
-import { createRng } from '@kit/rng';
 import { mount } from '@kit/companion';
 import { displayPinyin, parseSyllable } from '../domain/pinyin';
 import { beginSession, insertContrasts, nextQuestion, recordAttempt, schedule } from '../domain/learning';
@@ -22,35 +27,35 @@ const titles = {
 export class Practice {
   readonly el = h('section', { class: 'practice', 'aria-label': '电台节目' });
   private queue: Question[];
-  private index = 0;
+  index = 0;
   private tries = 0;
   private stopped = false;
   private generation = 0;
   private mic = new Microphone();
   private abort: AbortController | null = null;
   private recorded: Recording[] = [];
-  private locked = false;
-  private syllableIndex = 0;
-  private fullParts = 0;
-  private assisted = false;
+  locked = false;
+  syllableIndex = 0;
+  fullParts = 0;
+  assisted = false;
   private insertedContrasts = new Set<string>();
-  private sentence: string[] = [];
-  private used = new Set<number>();
-  private instruction = h('p', { class: 'instruction', 'aria-live': 'polite' });
-  private stage = h('div', { class: 'practice-stage' });
+  sentence: string[] = [];
+  used = new Set<number>();
+  instruction = h('p', { class: 'instruction', 'aria-live': 'polite' });
+  stage = h('div', { class: 'practice-stage' });
   private feedback = h('div', { class: 'feedback', 'aria-live': 'polite' });
-  private actions = h('div', { class: 'practice-actions' });
+  actions = h('div', { class: 'practice-actions' });
   constructor(
-    private ctx: Context,
+    readonly ctx: Context,
     mode: string,
   ) {
     this.queue = schedule(ctx.save, ctx.bank, mode);
     this.render();
   }
-  private get q() {
+  get q() {
     return this.queue[this.index];
   }
-  private get word() {
+  get word() {
     return [...this.ctx.bank.words, ...this.ctx.save.customWords].find((w) => w.id === this.q.target)!;
   }
   private speak(id: string) {
@@ -59,7 +64,7 @@ export class Practice {
   private get assessment() {
     return questionPlan(this.q, this.ctx.bank, this.q.kind === 'C' ? undefined : this.word);
   }
-  private async stimulus() {
+  async stimulus() {
     if (this.el.classList.contains('is-recording')) return;
     if (this.q.kind === 'A') {
       const l = this.ctx.bank.letters.find((l) => l.id === this.q.target);
@@ -139,7 +144,7 @@ export class Practice {
       G: '点点词卡，接成一句话',
     }[this.q.kind];
   }
-  private draw() {
+  draw() {
     this.stage.replaceChildren();
     this.actions.replaceChildren();
     if (this.q.kind === 'E') this.readPicture();
@@ -149,226 +154,23 @@ export class Practice {
     else if (this.q.kind === 'G') this.ordering();
     else this.reading();
   }
-  private readPicture() {
-    this.stage.append(pinyin(this.word.display, 'question-pinyin'));
-    const choices = h('div', { class: 'picture-choices' });
-    for (const id of this.q.choices) {
-      const w = [...this.ctx.bank.words, ...this.ctx.save.customWords].find((w) => w.id === id)!;
-      const choice = h(
-        'button',
-        {
-          class: 'picture-choice',
-          type: 'button',
-          'aria-label': w.hanzi,
-          onclick: () => this.answer(id === this.q.target),
-        },
-        this.ctx.picture(w),
-      );
-      choices.append(choice);
-    }
-    this.stage.append(choices);
-    this.actions.append(
-      button(
-        '听听这个词',
-        () => {
-          this.assisted = true;
-          void this.stimulus();
-        },
-        'secondary',
-        'listen',
-      ),
-    );
+  readPicture() {
+    readPicture.call(this);
   }
-  private listening() {
-    const signal = button('听来信', () => void this.stimulus(), 'listen', 'listen');
-    this.stage.append(signal);
-    const row = h('div', { class: 'syllable-choices' });
-    this.q.choices.forEach((choice) =>
-      row.append(
-        h(
-          'button',
-          {
-            type: 'button',
-            class: 'pinyin-key pinyin',
-            'data-choice': choice,
-            onclick: () => this.answer(choice === this.q.target, choice),
-          },
-          this.q.kind === 'A' ? choice.replace('v', 'ü') : displayPinyin(choice),
-        ),
-      ),
-    );
-    this.stage.append(row);
+
+  listening() {
+    listening.call(this);
   }
-  private spelling() {
-    const w = this.word,
-      id = w.syllables[this.syllableIndex],
-      s = parseSyllable(id)!;
-    const preferred = this.ctx.save.settings.scaffold,
-      box = this.ctx.save.atoms[this.q.skill]?.box ?? 0;
-    const levels = ['initial', 'final', 'tone', 'full'] as const;
-    const level = levels[Math.max(levels.indexOf(preferred), Math.min(3, box))];
-    let component = level === 'full' ? levels[this.fullParts] : level;
-    if (component === 'initial' && !s.initial) {
-      component = 'final';
-      if (level === 'full') this.fullParts = 1;
-    }
-    const correct = component === 'initial' ? s.initial : component === 'final' ? s.final : String(s.tone);
-    const show =
-      component === 'initial'
-        ? `＿${displayPinyin(s.final + id.at(-1))}`
-        : component === 'final'
-          ? `${s.initial}＿`
-          : `${s.initial + s.final} ＿`;
-    const picture = h(
-      'div',
-      { class: 'spelling-picture' },
-      this.ctx.picture(w),
-      button('听听图画', () => void this.stimulus(), 'quiet', 'listen'),
-    );
-    const sequence = h(
-      'div',
-      { class: 'word-slots' },
-      w.syllables.map((sy, i) =>
-        h(
-          'span',
-          { class: `grid-slot pinyin ${i === this.syllableIndex ? 'active' : ''}` },
-          i < this.syllableIndex ? displayPinyin(sy) : i === this.syllableIndex ? show : '·',
-        ),
-      ),
-    );
-    const directions = h(
-      'p',
-      { class: 'part-direction' },
-      component === 'initial'
-        ? '先找开头的声音'
-        : component === 'final'
-          ? '找到后面的声音'
-          : '给它戴上声调小帽子',
-    );
-    const alternatives =
-      component === 'tone'
-        ? ['1', '2', '3', '4', ...(s.tone === 0 ? ['0'] : [])]
-        : component === 'initial'
-          ? [
-              correct,
-              ...(correct === 'b'
-                ? ['p', 'd']
-                : correct === 'l'
-                  ? ['n', 't']
-                  : ['b', 'p', 'd', 't', 'n', 'l', 'm', 'f']
-              )
-                .filter((x) => x !== correct)
-                .slice(0, level === 'full' ? 7 : 1),
-            ]
-          : [
-              correct,
-              ...['a', 'o', 'e', 'i', 'u', 'v']
-                .filter((x) => x !== correct)
-                .slice(0, level === 'full' ? 5 : 1),
-            ];
-    const keys = h('div', { class: 'spelling-keys' }),
-      rng = createRng(`${this.ctx.save.sessions}:${this.index}:${this.syllableIndex}:${component}`);
-    for (const value of rng.shuffle(alternatives))
-      keys.append(
-        h(
-          'button',
-          {
-            type: 'button',
-            class: 'pinyin-key pinyin',
-            'data-piece': value,
-            onclick: () => {
-              if (this.locked) return;
-              if (value !== correct) {
-                this.answer(false);
-                return;
-              }
-              if (level === 'full' && this.fullParts < 2) {
-                this.fullParts++;
-                this.stage.replaceChildren();
-                this.spelling();
-                return;
-              }
-              this.fullParts = 0;
-              this.syllableIndex++;
-              if (this.syllableIndex === w.syllables.length) this.answer(true);
-              else {
-                this.stage.replaceChildren();
-                this.spelling();
-              }
-            },
-          },
-          component === 'tone' ? ['轻声', '—', '／', '∨', '＼'][+value] : value.replaceAll('v', 'ü'),
-        ),
-      );
-    this.stage.append(picture, h('div', { class: 'spelling-work' }, sequence, directions, keys));
-    requestAnimationFrame(() => {
-      const active = sequence.querySelector<HTMLElement>('.active');
-      if (active)
-        sequence.scrollLeft =
-          active.offsetLeft - sequence.offsetLeft - sequence.clientWidth / 2 + active.clientWidth / 2;
-    });
+
+  spelling() {
+    spelling.call(this);
   }
-  private blending() {
-    const s = parseSyllable(this.q.target)!;
-    const merged = pinyin('·', 'blend-result');
-    const initial = button(
-      s.initial || '听',
-      () => {
-        void this.ctx.syllable(
-          this.ctx.bank.letters.find((l) => l.id === s.initial)?.callSound ?? this.q.target,
-        );
-      },
-      'secondary',
-    );
-    initial.classList.add('pinyin-key', 'pinyin');
-    const finals = [
-      ...new Set([
-        s.final,
-        ...this.q.choices.map((id) => parseSyllable(id)!.final),
-        ...['a', 'o', 'e', 'i', 'u', 'v'],
-      ]),
-    ].slice(0, 2);
-    const rng = createRng(`${this.ctx.save.sessions}:${this.index}:blend`);
-    const choices = rng.shuffle(finals).map((final) => {
-      const key = button(
-        displayPinyin(final + s.tone),
-        () => {
-          if (this.locked) return;
-          if (final !== s.final) {
-            this.answer(false);
-            return;
-          }
-          merged.textContent = displayPinyin(this.q.target);
-          this.remember(true);
-          this.locked = true;
-          void this.stimulus();
-          this.actions.replaceChildren(
-            button(
-              '读给台长听',
-              () => {
-                this.locked = false;
-                void this.record();
-              },
-              'primary',
-              'mic',
-            ),
-            button('先接下一条', () => this.advance(), 'quiet', 'next'),
-          );
-        },
-        'secondary',
-      );
-      key.classList.add('pinyin-key', 'pinyin');
-      key.dataset.final = final;
-      return key;
-    });
-    this.stage.append(
-      h('div', { class: 'blend-parts' }, initial, h('span', { class: 'blend-plus' }, '+'), ...choices),
-      merged,
-      this.lamps(),
-    );
-    this.instruction.textContent = '看开头，选后面的声音，再把它们接起来';
+
+  blending() {
+    blending.call(this);
   }
-  private lamps() {
+
+  lamps() {
     return h(
       'div',
       { class: 'three-lamps' },
@@ -380,64 +182,15 @@ export class Practice {
       ).map((label) => h('div', { class: 'lamp' }, h('i'), h('span', null, label))),
     );
   }
-  private reading() {
-    this.stage.append(
-      h('div', { class: 'reading-picture' }, this.ctx.picture(this.word)),
-      pinyin(this.word.display, 'question-pinyin'),
-      this.lamps(),
-    );
-    this.actions.append(
-      button('先听台长读', () => void this.stimulus(), 'secondary', 'listen'),
-      button('读给台长听', () => void this.record(), 'primary', 'mic'),
-      button('这次先跟读', () => this.follow(), 'quiet', 'next'),
-    );
+  reading() {
+    reading.call(this);
   }
-  private ordering() {
-    const chunks = this.word.chunks ?? [],
-      result = h(
-        'div',
-        { class: 'sentence-track', 'aria-label': '已经接通的词卡' },
-        ...this.sentence.map((s) => pinyin(s.split(' ').map(displayPinyin).join(' '), 'sentence-chunk')),
-      );
-    const row = h('div', { class: 'sentence-choices' });
-    this.q.choices.forEach((s, i) => {
-      const key = h(
-        'button',
-        {
-          type: 'button',
-          class: 'pinyin-key pinyin',
-          disabled: this.used.has(i),
-          onclick: () => {
-            if (this.locked) return;
-            this.used.add(i);
-            this.sentence.push(s);
-            if (this.sentence.length === chunks.length)
-              this.answer(this.sentence.every((x, j) => x === chunks[j]));
-            else {
-              this.stage.replaceChildren();
-              this.ordering();
-            }
-          },
-        },
-        s.split(' ').map(displayPinyin).join(' '),
-      );
-      row.append(key);
-    });
-    this.stage.append(h('div', { class: 'sentence-picture' }, this.ctx.picture(this.word)), result, row);
-    this.actions.replaceChildren(
-      button(
-        '重新接一接',
-        () => {
-          this.sentence = [];
-          this.used.clear();
-          this.draw();
-        },
-        'quiet',
-        'undo',
-      ),
-    );
+
+  ordering() {
+    ordering.call(this);
   }
-  private remember(correct: boolean, confusion?: string, judge: 'deterministic' | 'self' = 'deterministic') {
+
+  remember(correct: boolean, confusion?: string, judge: 'deterministic' | 'self' = 'deterministic') {
     beginSession(this.ctx.save);
     recordAttempt(this.ctx.save, {
       id: crypto.randomUUID(),
@@ -452,7 +205,7 @@ export class Practice {
     });
     this.ctx.persist();
   }
-  private answer(correct: boolean, choice?: string) {
+  answer(correct: boolean, choice?: string) {
     if (this.locked) return;
     const confusion =
       this.q.kind === 'B'
@@ -545,7 +298,7 @@ export class Practice {
     } else if (this.q.kind === 'G') this.feedback.append(pinyin(this.word.display, 'hint-pinyin'));
     void this.stimulus();
   }
-  private follow() {
+  follow() {
     this.feedback.replaceChildren(h('span', null, '跟台长读一遍，声音也能慢慢接通'));
     this.speak('py.follow');
     this.actions.replaceChildren(
@@ -561,7 +314,7 @@ export class Practice {
       button('再听一遍', () => void this.stimulus(), 'secondary', 'listen'),
     );
   }
-  private async record() {
+  async record() {
     if (this.locked) return;
     beginSession(this.ctx.save);
     this.ctx.persist();
@@ -697,7 +450,7 @@ export class Practice {
         .forEach((b) => (b.disabled = false));
     }
   }
-  private advance() {
+  advance() {
     this.abort?.abort();
     this.mic.stop();
     this.ctx.stopAudio();
