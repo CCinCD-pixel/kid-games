@@ -1,6 +1,7 @@
 // Rebuild the initial, parent-reviewable bank. Runtime and validators consume bank.json.
 import fs from 'node:fs';
 import { pinyin } from 'pinyin-pro';
+import { extendCurriculum, sceneBank } from './curriculum-content.mjs';
 const out = new URL('../../../content/pinyin-station/bank.json', import.meta.url);
 const lessonNames = [
   'a o e',
@@ -74,6 +75,19 @@ const mnemonics = {
   u: '嘴巴突出 u u u',
   y: '小树分杈，认一认 y 的样子',
   w: '屋顶相连，认一认 w 的样子',
+  g: '像一条小辫子，尾巴向下弯',
+  k: '一根小棒，右边伸出两条斜线',
+  h: '像一把小椅子，靠背高高的',
+  j: '小钩子向下弯，头上一点别忘记',
+  q: '圆圆气球向左靠，细细绳子垂下来',
+  x: '两条斜线交个叉',
+  z: '像数字二，注意三个笔画',
+  c: '半圆开口朝右边',
+  s: '弯弯曲曲，像一条小路',
+  zh: '舌尖轻轻翘起来，和小椅子做朋友',
+  ch: '舌尖翘起来，轻轻送出一口气',
+  sh: '舌尖翘起来，让气流慢慢通过',
+  r: '小苗发芽，舌尖轻轻翘起来',
   b: '右下半圆，轻轻闭唇',
   p: '右上半圆，纸条飘起来',
   d: '左下半圆，舌尖轻轻弹',
@@ -94,6 +108,23 @@ const letters = letterRows.flatMap(([ids, lesson, kind]) =>
     grid: /[bdfhklt]/.test(id) ? 'upper-middle' : /[gjpqy]/.test(id) ? 'middle-lower' : 'middle',
   })),
 );
+function syllableLesson(id) {
+  const initial = /^(zh|ch|sh|[bpmfdtnlgkhjqxzcsryw])/.exec(id)?.[1] ?? '';
+  if (!initial) return 1;
+  return ['y', 'w'].includes(initial)
+    ? 2
+    : 'bpmf'.includes(initial)
+      ? 3
+      : 'dtnl'.includes(initial)
+        ? 4
+        : 'gkh'.includes(initial)
+          ? 5
+          : 'jqx'.includes(initial)
+            ? 6
+            : 'zcs'.includes(initial)
+              ? 7
+              : 8;
+}
 const words = [];
 function word(id, hanzi, syllables, kind = 'noun', beyond = false, chunks) {
   words.push({
@@ -103,15 +134,7 @@ function word(id, hanzi, syllables, kind = 'noun', beyond = false, chunks) {
     display: pinyin(hanzi, { toneType: 'symbol', nonZh: 'removed' }),
     picture: id,
     kind,
-    lesson: beyond
-      ? 8
-      : Math.max(
-          ...syllables
-            .split(' ')
-            .map((s) =>
-              /^[bpmf]/.test(s) ? 3 : /^(a|o|e)[0-4]$/.test(s) ? 1 : /^(yi|wu|yu)[0-4]$/.test(s) ? 2 : 4,
-            ),
-        ),
+    lesson: beyond ? 10 : Math.max(...syllables.split(' ').map(syllableLesson)),
     beyond,
     source: '家庭拼音练习与试卷题型',
     ...(chunks ? { chunks } : {}),
@@ -165,8 +188,9 @@ const groups = {
   pear: ['li', 'eight-pears'],
   climbing: ['pa', 'futi'],
 };
+extendCurriculum(word, words);
 for (const w of words) {
-  w.semanticGroup = Object.entries(groups).find(([, ids]) => ids.includes(w.id))?.[0] ?? w.id;
+  w.semanticGroup ??= Object.entries(groups).find(([, ids]) => ids.includes(w.id))?.[0] ?? w.id;
   w.source = w.id === 'lv' ? '家庭补充练习（非试卷）' : '家庭拼音练习与试卷题型';
 }
 // Explicit elementary/neutral-tone readings take precedence over dictionary citation readings.
@@ -241,6 +265,44 @@ confusions.push(
     tip: '读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。',
   },
 );
+confusions.push(
+  {
+    pair: ['g', 'k'],
+    type: 'aspiration',
+    minimalPairs: [['ge4', 'ke4']],
+    tip: '小纸条放嘴前，读 k 时送出一口气。',
+  },
+  {
+    pair: ['j', 'q'],
+    type: 'aspiration',
+    minimalPairs: [['ji1', 'qi1']],
+    tip: '读 q 时气送得多一点，看看小纸条会不会动。',
+  },
+  {
+    pair: ['z', 'c'],
+    type: 'aspiration',
+    minimalPairs: [['za1', 'ca1']],
+    tip: '舌尖不翘起，读 c 时轻轻送气。',
+  },
+  {
+    pair: ['zh', 'ch'],
+    type: 'aspiration',
+    minimalPairs: [['zhu1', 'chu1']],
+    tip: '两次都翘舌，读 ch 时多送一口气。',
+  },
+  {
+    pair: ['z', 'zh'],
+    type: 'retroflex',
+    minimalPairs: [['zu3', 'zhu3']],
+    tip: '先不翘舌，再轻轻翘起舌尖，听听声音的小变化。',
+  },
+  {
+    pair: ['s', 'sh'],
+    type: 'retroflex',
+    minimalPairs: [['sa1', 'sha1']],
+    tip: '先让舌尖平放，再轻轻翘起，慢慢比较两个声音。',
+  },
+);
 const syl = new Map();
 function add(id, lesson) {
   if (syl.has(id)) {
@@ -258,8 +320,8 @@ function add(id, lesson) {
     audio: `py.syl.${id}`,
   });
 }
-for (const l of letters) if (l.lesson <= 4) add(l.callSound, l.lesson);
-for (const c of confusions) for (const p of c.minimalPairs) for (const id of p) add(id, 4);
+for (const l of letters) if (l.lesson <= 8) add(l.callSound, l.lesson);
+for (const c of confusions) for (const p of c.minimalPairs) for (const id of p) add(id, syllableLesson(id));
 for (const w of words) for (const id of w.syllables) add(id, w.beyond ? 8 : w.lesson);
 // Deliberately selected familiar readings and consonant calls, not a four-tone cartesian product.
 const familiar = {
@@ -340,7 +402,10 @@ const praise = [
 ];
 fs.writeFileSync(
   out,
-  JSON.stringify({ lessons, letters, syllables: [...syl.values()], words, confusions, praise }, null, 2) +
-    '\n',
+  JSON.stringify(
+    { lessons, letters, syllables: [...syl.values()], words, confusions, praise, scenes: sceneBank(words) },
+    null,
+    2,
+  ) + '\n',
 );
 console.log(`${letters.length} letters, ${syl.size} syllables, ${words.length} words`);

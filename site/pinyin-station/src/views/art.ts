@@ -1,4 +1,5 @@
 import { h } from '@kit/ui';
+import { curriculumDrawing } from './scene-art';
 const INK = '#4b3f58',
   GOLD = '#f2b740',
   TEAL = '#148a7a',
@@ -112,7 +113,10 @@ function drawing(id: string): string {
     case 'rabbit-carrot':
       return `<g transform="translate(-12 -8) scale(.8)">${rabbit}</g><path d="m124 111 35 16-36 38Z" fill="${GOLD}"/><path d="m134 119 4-25m0 23 18-14" fill="${TEAL}"/>`;
     default:
-      return `<path d="M31 48h117v104H31Z" fill="${PAPER}"/><path d="m43 137 30-39 20 19 17-28 27 48" fill="${TEAL}"/><circle cx="63" cy="70" r="12" fill="${GOLD}"/>`;
+      return (
+        curriculumDrawing(id, drawing) ??
+        `<path d="M31 48h117v104H31Z" fill="${PAPER}"/><path d="m43 137 30-39 20 19 17-28 27 48" fill="${TEAL}"/><circle cx="63" cy="70" r="12" fill="${GOLD}"/>`
+      );
   }
 }
 export function illustration(id: string, label = ''): HTMLElement {

@@ -207,6 +207,441 @@
       "text": "你把熟悉的声音认出来了"
     },
     {
+      "id": "py.scene.pond",
+      "role": "companion",
+      "text": "池塘里来了一位小客人，读读拼音，帮它找到位置。"
+    },
+    {
+      "id": "py.scene.wardrobe",
+      "role": "companion",
+      "text": "读读卡片，把衣物放进小衣柜。"
+    },
+    {
+      "id": "py.scene.rice",
+      "role": "companion",
+      "text": "早餐准备好了，读读拼音，找到桌上需要的东西。"
+    },
+    {
+      "id": "py.scene.music",
+      "role": "companion",
+      "text": "音乐会要开场了，读读卡片，找到乐器。"
+    },
+    {
+      "id": "py.scene.art",
+      "role": "companion",
+      "text": "读读拼音，找出画画时要用的东西。"
+    },
+    {
+      "id": "py.scene.cleaning",
+      "role": "companion",
+      "text": "读读这张拼音卡，找出做家务要用的东西。"
+    },
+    {
+      "id": "py.scene.animal",
+      "role": "companion",
+      "text": "小动物来做客，读读卡片，找出这位朋友。"
+    },
+    {
+      "id": "py.scene.playroom",
+      "role": "companion",
+      "text": "读读拼音，把玩具送回它的家。"
+    },
+    {
+      "id": "py.scene.travel",
+      "role": "companion",
+      "text": "读读卡片，找出这次出门会见到的东西。"
+    },
+    {
+      "id": "py.scene.fruit",
+      "role": "companion",
+      "text": "读读拼音，帮小摊找到要摆出的水果。"
+    },
+    {
+      "id": "py.scene.garden",
+      "role": "companion",
+      "text": "小花园开工了，读读卡片，找出地上的东西。"
+    },
+    {
+      "id": "py.scene.family",
+      "role": "companion",
+      "text": "读读拼音，找到这封来信提到的家人。"
+    },
+    {
+      "id": "py.scene.waterfall",
+      "role": "companion",
+      "text": "读读卡片，找出旅途中看到的景物。"
+    },
+    {
+      "id": "py.scene.movement",
+      "role": "companion",
+      "text": "看清拼音，找到正在做这个动作的图。"
+    },
+    {
+      "id": "py.scene.building",
+      "role": "companion",
+      "text": "读读卡片，找出搭建角里的东西。"
+    },
+    {
+      "id": "py.scene.body",
+      "role": "companion",
+      "text": "读读拼音，找到卡片说的部位。"
+    },
+    {
+      "id": "py.scene.drum-show",
+      "role": "companion",
+      "text": "读读拼音，找出音乐表演里的图。"
+    },
+    {
+      "id": "py.scene.kitchen",
+      "role": "companion",
+      "text": "读读卡片，找到厨房里的物品。"
+    },
+    {
+      "id": "py.scene.river",
+      "role": "companion",
+      "text": "读读拼音，找到河边见到的朋友或景物。"
+    },
+    {
+      "id": "py.scene.flower",
+      "role": "companion",
+      "text": "读读卡片，找到这一朵花。"
+    },
+    {
+      "id": "py.scene.vegetable",
+      "role": "companion",
+      "text": "读读清单里的拼音，找到要买的菜。"
+    },
+    {
+      "id": "py.scene.painting",
+      "role": "companion",
+      "text": "读读拼音，找到画画的动作或工具。"
+    },
+    {
+      "id": "py.scene.blocks",
+      "role": "companion",
+      "text": "读读卡片，把搭城堡的东西找出来。"
+    },
+    {
+      "id": "py.scene.flag",
+      "role": "companion",
+      "text": "读读卡片，找到操场上飘动的东西。"
+    },
+    {
+      "id": "py.scene.board-game",
+      "role": "companion",
+      "text": "读读卡片，找到桌上的游戏。"
+    },
+    {
+      "id": "py.scene.wash",
+      "role": "companion",
+      "text": "读读拼音，找到整理衣物的动作。"
+    },
+    {
+      "id": "py.scene.farm",
+      "role": "companion",
+      "text": "读读卡片，找出农场的小动物。"
+    },
+    {
+      "id": "py.scene.summer",
+      "role": "companion",
+      "text": "读读拼音，帮小伙伴找到要吃的水果。"
+    },
+    {
+      "id": "py.scene.riding",
+      "role": "companion",
+      "text": "读读拼音，找到草地上的活动。"
+    },
+    {
+      "id": "py.scene.seafood",
+      "role": "companion",
+      "text": "读读拼音，找出小摊上的东西。"
+    },
+    {
+      "id": "py.scene.numbers",
+      "role": "companion",
+      "text": "读读拼音，把数字信号接起来。"
+    },
+    {
+      "id": "py.scene.socks",
+      "role": "companion",
+      "text": "读读拼音，找到要晾起来的衣物。"
+    },
+    {
+      "id": "py.scene.birds",
+      "role": "companion",
+      "text": "读读卡片，找到公园里的小鸟。"
+    },
+    {
+      "id": "py.scene.seat",
+      "role": "companion",
+      "text": "读读拼音，找到乘车时要做的动作。"
+    },
+    {
+      "id": "py.scene.reading",
+      "role": "companion",
+      "text": "读读拼音，找到图书角里的物品或活动。"
+    },
+    {
+      "id": "py.scene.tea",
+      "role": "companion",
+      "text": "读读卡片，找到待客的饮品或动作。"
+    },
+    {
+      "id": "py.scene.morning",
+      "role": "companion",
+      "text": "读读拼音，找到早晨天空里的景物。"
+    },
+    {
+      "id": "py.scene.bamboo",
+      "role": "companion",
+      "text": "读读卡片，找到小路边的植物。"
+    },
+    {
+      "id": "py.scene.schoolbag",
+      "role": "companion",
+      "text": "读读拼音，找到该放进书包的物品。"
+    },
+    {
+      "id": "py.scene.bathroom",
+      "role": "companion",
+      "text": "读读拼音，找到睡前要做的事。"
+    },
+    {
+      "id": "py.scene.bus",
+      "role": "companion",
+      "text": "读读卡片，找到车站里的图。"
+    },
+    {
+      "id": "py.scene.zoo",
+      "role": "companion",
+      "text": "读读拼音，找到广播里说的小动物。"
+    },
+    {
+      "id": "py.tip.b-p",
+      "role": "companion",
+      "text": "把小纸条放嘴前，读 p 时让它飘起来。"
+    },
+    {
+      "id": "py.tip.d-t",
+      "role": "companion",
+      "text": "把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。"
+    },
+    {
+      "id": "py.tip.b-d",
+      "role": "companion",
+      "text": "先找小肚子的方向：b 在右下，d 在左下。"
+    },
+    {
+      "id": "py.tip.l-n",
+      "role": "companion",
+      "text": "轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。"
+    },
+    {
+      "id": "py.tip.2-3",
+      "role": "companion",
+      "text": "二声像上坡，三声先下坡再上坡。"
+    },
+    {
+      "id": "py.tip.1-2",
+      "role": "companion",
+      "text": "一声平平走，二声往上坡。"
+    },
+    {
+      "id": "py.tip.3-4",
+      "role": "companion",
+      "text": "三声先下坡再上坡，四声往下滑。"
+    },
+    {
+      "id": "py.tip.p-f",
+      "role": "companion",
+      "text": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。"
+    },
+    {
+      "id": "py.tip.g-k",
+      "role": "companion",
+      "text": "小纸条放嘴前，读 k 时送出一口气。"
+    },
+    {
+      "id": "py.tip.j-q",
+      "role": "companion",
+      "text": "读 q 时气送得多一点，看看小纸条会不会动。"
+    },
+    {
+      "id": "py.tip.z-c",
+      "role": "companion",
+      "text": "舌尖不翘起，读 c 时轻轻送气。"
+    },
+    {
+      "id": "py.tip.zh-ch",
+      "role": "companion",
+      "text": "两次都翘舌，读 ch 时多送一口气。"
+    },
+    {
+      "id": "py.tip.z-zh",
+      "role": "companion",
+      "text": "先不翘舌，再轻轻翘起舌尖，听听声音的小变化。"
+    },
+    {
+      "id": "py.tip.s-sh",
+      "role": "companion",
+      "text": "先让舌尖平放，再轻轻翘起，慢慢比较两个声音。"
+    },
+    {
+      "id": "py.mnemonic.a",
+      "role": "companion",
+      "text": "张大嘴巴 a a a"
+    },
+    {
+      "id": "py.mnemonic.o",
+      "role": "companion",
+      "text": "圆圆嘴巴 o o o"
+    },
+    {
+      "id": "py.mnemonic.e",
+      "role": "companion",
+      "text": "扁扁嘴巴 e e e"
+    },
+    {
+      "id": "py.mnemonic.i",
+      "role": "companion",
+      "text": "牙齿对齐 i i i"
+    },
+    {
+      "id": "py.mnemonic.u",
+      "role": "companion",
+      "text": "嘴巴突出 u u u"
+    },
+    {
+      "id": "py.mnemonic.v",
+      "role": "companion",
+      "text": "嘴吹口哨 ü ü ü，两点要留住"
+    },
+    {
+      "id": "py.mnemonic.y",
+      "role": "companion",
+      "text": "小树分杈，认一认 y 的样子"
+    },
+    {
+      "id": "py.mnemonic.w",
+      "role": "companion",
+      "text": "屋顶相连，认一认 w 的样子"
+    },
+    {
+      "id": "py.mnemonic.b",
+      "role": "companion",
+      "text": "右下半圆，轻轻闭唇"
+    },
+    {
+      "id": "py.mnemonic.p",
+      "role": "companion",
+      "text": "右上半圆，纸条飘起来"
+    },
+    {
+      "id": "py.mnemonic.m",
+      "role": "companion",
+      "text": "两个门洞，嘴唇轻轻合"
+    },
+    {
+      "id": "py.mnemonic.f",
+      "role": "companion",
+      "text": "小拐杖，牙齿碰下唇"
+    },
+    {
+      "id": "py.mnemonic.d",
+      "role": "companion",
+      "text": "左下半圆，舌尖轻轻弹"
+    },
+    {
+      "id": "py.mnemonic.t",
+      "role": "companion",
+      "text": "小伞把，纸条飘起来"
+    },
+    {
+      "id": "py.mnemonic.n",
+      "role": "companion",
+      "text": "一个门洞，鼻子也唱歌"
+    },
+    {
+      "id": "py.mnemonic.l",
+      "role": "companion",
+      "text": "一根小棒，舌尖轻轻抬"
+    },
+    {
+      "id": "py.mnemonic.g",
+      "role": "companion",
+      "text": "像一条小辫子，尾巴向下弯"
+    },
+    {
+      "id": "py.mnemonic.k",
+      "role": "companion",
+      "text": "一根小棒，右边伸出两条斜线"
+    },
+    {
+      "id": "py.mnemonic.h",
+      "role": "companion",
+      "text": "像一把小椅子，靠背高高的"
+    },
+    {
+      "id": "py.mnemonic.j",
+      "role": "companion",
+      "text": "小钩子向下弯，头上一点别忘记"
+    },
+    {
+      "id": "py.mnemonic.q",
+      "role": "companion",
+      "text": "圆圆气球向左靠，细细绳子垂下来"
+    },
+    {
+      "id": "py.mnemonic.x",
+      "role": "companion",
+      "text": "两条斜线交个叉"
+    },
+    {
+      "id": "py.mnemonic.z",
+      "role": "companion",
+      "text": "像数字二，注意三个笔画"
+    },
+    {
+      "id": "py.mnemonic.c",
+      "role": "companion",
+      "text": "半圆开口朝右边"
+    },
+    {
+      "id": "py.mnemonic.s",
+      "role": "companion",
+      "text": "弯弯曲曲，像一条小路"
+    },
+    {
+      "id": "py.mnemonic.zh",
+      "role": "companion",
+      "text": "舌尖轻轻翘起来，和小椅子做朋友"
+    },
+    {
+      "id": "py.mnemonic.ch",
+      "role": "companion",
+      "text": "舌尖翘起来，轻轻送出一口气"
+    },
+    {
+      "id": "py.mnemonic.sh",
+      "role": "companion",
+      "text": "舌尖翘起来，让气流慢慢通过"
+    },
+    {
+      "id": "py.mnemonic.r",
+      "role": "companion",
+      "text": "小苗发芽，舌尖轻轻翘起来"
+    },
+    {
+      "id": "py.word.lifa",
+      "role": "word",
+      "text": "理发"
+    },
+    {
+      "id": "py.word.dabo",
+      "role": "word",
+      "text": "大伯"
+    },
+    {
       "id": "py.word.pipa",
       "role": "word",
       "text": "琵琶"
@@ -272,24 +707,209 @@
       "text": "迷路"
     },
     {
-      "id": "py.word.eight-pears",
-      "role": "word",
-      "text": "八个梨"
-    },
-    {
       "id": "py.word.didi-milu",
       "role": "word",
       "text": "弟弟迷路了"
     },
     {
-      "id": "py.word.baba-pati",
+      "id": "py.word.dabo-papati",
       "role": "word",
-      "text": "爸爸爬梯"
+      "text": "大伯爬爬梯"
     },
     {
-      "id": "py.word.rabbit-carrot",
+      "id": "py.word.dami",
       "role": "word",
-      "text": "小白兔在拔萝卜"
+      "text": "大米"
+    },
+    {
+      "id": "py.word.dadi",
+      "role": "word",
+      "text": "大地"
+    },
+    {
+      "id": "py.word.tudi",
+      "role": "word",
+      "text": "土地"
+    },
+    {
+      "id": "py.word.datu",
+      "role": "word",
+      "text": "大兔"
+    },
+    {
+      "id": "py.word.dali",
+      "role": "word",
+      "text": "大梨"
+    },
+    {
+      "id": "py.word.mali",
+      "role": "word",
+      "text": "马蹄"
+    },
+    {
+      "id": "py.word.daba",
+      "role": "word",
+      "text": "大巴"
+    },
+    {
+      "id": "py.word.mudi",
+      "role": "word",
+      "text": "木笛"
+    },
+    {
+      "id": "py.word.damu",
+      "role": "word",
+      "text": "大木马"
+    },
+    {
+      "id": "py.word.gege",
+      "role": "word",
+      "text": "哥哥"
+    },
+    {
+      "id": "py.word.gugu",
+      "role": "word",
+      "text": "姑姑"
+    },
+    {
+      "id": "py.word.dagu",
+      "role": "word",
+      "text": "大鼓"
+    },
+    {
+      "id": "py.word.dagu-action",
+      "role": "word",
+      "text": "打鼓"
+    },
+    {
+      "id": "py.word.kugua",
+      "role": "word",
+      "text": "苦瓜"
+    },
+    {
+      "id": "py.word.hema",
+      "role": "word",
+      "text": "河马"
+    },
+    {
+      "id": "py.word.hehua",
+      "role": "word",
+      "text": "荷花"
+    },
+    {
+      "id": "py.word.huahua",
+      "role": "word",
+      "text": "画画"
+    },
+    {
+      "id": "py.word.xiyi",
+      "role": "word",
+      "text": "洗衣"
+    },
+    {
+      "id": "py.word.qima",
+      "role": "word",
+      "text": "骑马"
+    },
+    {
+      "id": "py.word.jimu",
+      "role": "word",
+      "text": "积木"
+    },
+    {
+      "id": "py.word.xigua",
+      "role": "word",
+      "text": "西瓜"
+    },
+    {
+      "id": "py.word.juhua",
+      "role": "word",
+      "text": "菊花"
+    },
+    {
+      "id": "py.word.gezi",
+      "role": "word",
+      "text": "鸽子"
+    },
+    {
+      "id": "py.word.tuzi",
+      "role": "word",
+      "text": "兔子"
+    },
+    {
+      "id": "py.word.wazi",
+      "role": "word",
+      "text": "袜子"
+    },
+    {
+      "id": "py.word.siji",
+      "role": "word",
+      "text": "司机"
+    },
+    {
+      "id": "py.word.shuaya",
+      "role": "word",
+      "text": "刷牙"
+    },
+    {
+      "id": "py.word.dushu",
+      "role": "word",
+      "text": "读书"
+    },
+    {
+      "id": "py.word.zhuzi",
+      "role": "word",
+      "text": "竹子"
+    },
+    {
+      "id": "py.word.richu",
+      "role": "word",
+      "text": "日出"
+    },
+    {
+      "id": "py.word.hecha",
+      "role": "word",
+      "text": "喝茶"
+    },
+    {
+      "id": "py.word.zhuozi",
+      "role": "word",
+      "text": "桌子"
+    },
+    {
+      "id": "py.word.shizi",
+      "role": "word",
+      "text": "狮子"
+    },
+    {
+      "id": "py.word.mama-labi",
+      "role": "word",
+      "text": "妈妈拿蜡笔"
+    },
+    {
+      "id": "py.word.baba-ditu",
+      "role": "word",
+      "text": "爸爸拿地图"
+    },
+    {
+      "id": "py.word.didi-li",
+      "role": "word",
+      "text": "弟弟拿梨"
+    },
+    {
+      "id": "py.word.mama-xiyi",
+      "role": "word",
+      "text": "妈妈洗衣"
+    },
+    {
+      "id": "py.word.baba-hecha",
+      "role": "word",
+      "text": "爸爸喝茶"
+    },
+    {
+      "id": "py.word.gege-dushu",
+      "role": "word",
+      "text": "哥哥读书"
     }
   ]
 }

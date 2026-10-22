@@ -22,7 +22,14 @@ const rows = [
   ['final', '再找后面的声音。'],
   ['tone', '给声音放上小帽子。'],
   ...b.praise.map((text, i) => [`praise.${i}`, text]),
-  ...b.words.filter((w) => w.syllables.length > 1).map((w) => [`word.${w.id}`, w.hanzi]),
+  ...b.scenes.map((s) => [`scene.${s.id}`, s.prompt]),
+  ...b.confusions.map((c) => [`tip.${c.pair.join('-')}`, c.tip]),
+  ...b.letters
+    .filter((l) => l.lesson <= 8 && l.kind !== 'whole')
+    .map((l) => [`mnemonic.${l.id}`, l.mnemonic]),
+  ...b.words
+    .filter((w) => w.syllables.length > 1 && w.kind !== 'cloze')
+    .map((w) => [`word.${w.id}`, w.hanzi]),
 ];
 const lines = rows.map(([id, text]) => ({
   id: `py.${id}`,

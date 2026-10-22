@@ -4070,5 +4070,8052 @@
     "durationMs": 1672,
     "role": "word",
     "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi4"
+  },
+  "py.syl.ge1": {
+    "src": "/audio/pinyin-station/human.ge1.25bfdfd6.mp3",
+    "text": "gē",
+    "durationMs": 1071,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ge1"
+  },
+  "py.syl.ke1": {
+    "src": "/audio/pinyin-station/human.ke1.ca83389e.mp3",
+    "text": "kē",
+    "durationMs": 1176,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ke1"
+  },
+  "py.syl.he1": {
+    "src": "/audio/pinyin-station/human.he1.ab4653f7.mp3",
+    "text": "hē",
+    "durationMs": 1097,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/he1"
+  },
+  "py.syl.ji1": {
+    "src": "/audio/pinyin-station/human.ji1.3ec77cdc.mp3",
+    "text": "jī",
+    "durationMs": 914,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ji1"
+  },
+  "py.syl.qi1": {
+    "src": "/audio/pinyin-station/human.qi1.437f4bda.mp3",
+    "text": "qī",
+    "durationMs": 1123,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/qi1"
+  },
+  "py.syl.xi1": {
+    "src": "/audio/pinyin-station/human.xi1.22805556.mp3",
+    "text": "xī",
+    "durationMs": 1019,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xi1"
+  },
+  "py.syl.zi1": {
+    "src": "/audio/pinyin-station/human.zi1.90a3759a.mp3",
+    "text": "zī",
+    "durationMs": 836,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi1"
+  },
+  "py.syl.ci1": {
+    "src": "/audio/pinyin-station/human.ci1.d4a94793.mp3",
+    "text": "cī",
+    "durationMs": 1071,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ci1"
+  },
+  "py.syl.si1": {
+    "src": "/audio/pinyin-station/human.si1.2905e0ed.mp3",
+    "text": "sī",
+    "durationMs": 1123,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/si1"
+  },
+  "py.syl.zhi1": {
+    "src": "/audio/pinyin-station/human.zhi1.2d707033.mp3",
+    "text": "zhī",
+    "durationMs": 1280,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhi1"
+  },
+  "py.syl.chi1": {
+    "src": "/audio/pinyin-station/human.chi1.e618ff5e.mp3",
+    "text": "chī",
+    "durationMs": 810,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chi1"
+  },
+  "py.syl.shi1": {
+    "src": "/audio/pinyin-station/human.shi1.582b475f.mp3",
+    "text": "shī",
+    "durationMs": 1176,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shi1"
+  },
+  "py.syl.ri1": {
+    "src": "/audio/pinyin-station/human.ri1.8829d7d5.mp3",
+    "text": "rī",
+    "durationMs": 1071,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ri1"
+  },
+  "py.syl.gu1": {
+    "src": "/audio/pinyin-station/human.gu1.1ea5478d.mp3",
+    "text": "gū",
+    "durationMs": 1123,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gu1"
+  },
+  "py.syl.gu3": {
+    "src": "/audio/pinyin-station/human.gu3.4d517171.mp3",
+    "text": "gǔ",
+    "durationMs": 1280,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gu3"
+  },
+  "py.syl.ku1": {
+    "src": "/audio/pinyin-station/human.ku1.e6418612.mp3",
+    "text": "kū",
+    "durationMs": 1149,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ku1"
+  },
+  "py.syl.he2": {
+    "src": "/audio/pinyin-station/human.he2.21199927.mp3",
+    "text": "hé",
+    "durationMs": 1437,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/he2"
+  },
+  "py.syl.hu2": {
+    "src": "/audio/pinyin-station/human.hu2.ab1cc251.mp3",
+    "text": "hú",
+    "durationMs": 1515,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hu2"
+  },
+  "py.syl.hua1": {
+    "src": "/audio/pinyin-station/human.hua1.5ed1f7b1.mp3",
+    "text": "huā",
+    "durationMs": 1306,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hua1"
+  },
+  "py.syl.gua1": {
+    "src": "/audio/pinyin-station/human.gua1.7cda5f46.mp3",
+    "text": "guā",
+    "durationMs": 914,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gua1"
+  },
+  "py.syl.guo1": {
+    "src": "/audio/pinyin-station/human.guo1.6d1a0627.mp3",
+    "text": "guō",
+    "durationMs": 993,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/guo1"
+  },
+  "py.syl.huo3": {
+    "src": "/audio/pinyin-station/human.huo3.079f2b6c.mp3",
+    "text": "huǒ",
+    "durationMs": 1384,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/huo3"
+  },
+  "py.syl.ku3": {
+    "src": "/audio/pinyin-station/human.ku3.1226a188.mp3",
+    "text": "kǔ",
+    "durationMs": 1332,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ku3"
+  },
+  "py.syl.hua4": {
+    "src": "/audio/pinyin-station/human.hua4.b99bd7e5.mp3",
+    "text": "huà",
+    "durationMs": 1332,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hua4"
+  },
+  "py.syl.qi2": {
+    "src": "/audio/pinyin-station/human.qi2.2038975c.mp3",
+    "text": "qí",
+    "durationMs": 1567,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/qi2"
+  },
+  "py.syl.xia1": {
+    "src": "/audio/pinyin-station/human.xia1.dca5b45e.mp3",
+    "text": "xiā",
+    "durationMs": 993,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xia1"
+  },
+  "py.syl.xi3": {
+    "src": "/audio/pinyin-station/human.xi3.b903508d.mp3",
+    "text": "xǐ",
+    "durationMs": 1149,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xi3"
+  },
+  "py.syl.ju2": {
+    "src": "/audio/pinyin-station/human.ju2.61ecb838.mp3",
+    "text": "jú",
+    "durationMs": 1593,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ju2"
+  },
+  "py.syl.jia1": {
+    "src": "/audio/pinyin-station/human.jia1.c7bbe899.mp3",
+    "text": "jiā",
+    "durationMs": 758,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/jia1"
+  },
+  "py.syl.zi4": {
+    "src": "/audio/pinyin-station/human.zi4.f4f5011a.mp3",
+    "text": "zì",
+    "durationMs": 1097,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi4"
+  },
+  "py.syl.si4": {
+    "src": "/audio/pinyin-station/human.si4.a7ad8325.mp3",
+    "text": "sì",
+    "durationMs": 1489,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/si4"
+  },
+  "py.syl.zi3": {
+    "src": "/audio/pinyin-station/human.zi3.bc32951d.mp3",
+    "text": "zǐ",
+    "durationMs": 1097,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi3"
+  },
+  "py.syl.ca1": {
+    "src": "/audio/pinyin-station/human.ca1.66dc0eaf.mp3",
+    "text": "cā",
+    "durationMs": 784,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ca1"
+  },
+  "py.syl.zuo4": {
+    "src": "/audio/pinyin-station/human.zuo4.3ea37853.mp3",
+    "text": "zuò",
+    "durationMs": 1384,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zuo4"
+  },
+  "py.syl.wa4": {
+    "src": "/audio/pinyin-station/human.wa4.9668a144.mp3",
+    "text": "wà",
+    "durationMs": 1593,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wa4"
+  },
+  "py.syl.che1": {
+    "src": "/audio/pinyin-station/human.che1.fb9e7e2d.mp3",
+    "text": "chē",
+    "durationMs": 1045,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/che1"
+  },
+  "py.syl.shu1": {
+    "src": "/audio/pinyin-station/human.shu1.95098285.mp3",
+    "text": "shū",
+    "durationMs": 967,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shu1"
+  },
+  "py.syl.shu4": {
+    "src": "/audio/pinyin-station/human.shu4.8da96fa2.mp3",
+    "text": "shù",
+    "durationMs": 1985,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shu4"
+  },
+  "py.syl.ri4": {
+    "src": "/audio/pinyin-station/human.ri4.e5509a31.mp3",
+    "text": "rì",
+    "durationMs": 1306,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ri4"
+  },
+  "py.syl.zhu2": {
+    "src": "/audio/pinyin-station/human.zhu2.c0771e4b.mp3",
+    "text": "zhú",
+    "durationMs": 1071,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu2"
+  },
+  "py.syl.cha2": {
+    "src": "/audio/pinyin-station/human.cha2.2a349dc3.mp3",
+    "text": "chá",
+    "durationMs": 1123,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/cha2"
+  },
+  "py.syl.shua1": {
+    "src": "/audio/pinyin-station/human.shua1.74df7687.mp3",
+    "text": "shuā",
+    "durationMs": 1202,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shua1"
+  },
+  "py.syl.ya2": {
+    "src": "/audio/pinyin-station/human.ya2.659596b4.mp3",
+    "text": "yá",
+    "durationMs": 1228,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ya2"
+  },
+  "py.syl.chu1": {
+    "src": "/audio/pinyin-station/human.chu1.a1280809.mp3",
+    "text": "chū",
+    "durationMs": 758,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chu1"
+  },
+  "py.syl.zhuo1": {
+    "src": "/audio/pinyin-station/human.zhuo1.a264ca3c.mp3",
+    "text": "zhuō",
+    "durationMs": 1019,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhuo1"
+  },
+  "py.syl.chi3": {
+    "src": "/audio/pinyin-station/human.chi3.b6d8f602.mp3",
+    "text": "chǐ",
+    "durationMs": 1515,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chi3"
+  },
+  "py.syl.ke4": {
+    "src": "/audio/pinyin-station/human.ke4.29291d4d.mp3",
+    "text": "kè",
+    "durationMs": 1802,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ke4"
+  },
+  "py.syl.za1": {
+    "src": "/audio/pinyin-station/human.za1.45a7f747.mp3",
+    "text": "zā",
+    "durationMs": 836,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/za1"
+  },
+  "py.syl.zhu1": {
+    "src": "/audio/pinyin-station/human.zhu1.40895e60.mp3",
+    "text": "zhū",
+    "durationMs": 1071,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu1"
+  },
+  "py.syl.zu3": {
+    "src": "/audio/pinyin-station/human.zu3.950b7219.mp3",
+    "text": "zǔ",
+    "durationMs": 914,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zu3"
+  },
+  "py.syl.zhu3": {
+    "src": "/audio/pinyin-station/human.zhu3.bb80ece4.mp3",
+    "text": "zhǔ",
+    "durationMs": 940,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu3"
+  },
+  "py.syl.sa1": {
+    "src": "/audio/pinyin-station/human.sa1.6b26a4c8.mp3",
+    "text": "sā",
+    "durationMs": 784,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/sa1"
+  },
+  "py.syl.sha1": {
+    "src": "/audio/pinyin-station/human.sha1.f92de399.mp3",
+    "text": "shā",
+    "durationMs": 1254,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/sha1"
+  },
+  "py.scene.pond": {
+    "src": "/audio/pinyin-station/py.scene.pond.8846f88b.m4a",
+    "text": "池塘里来了一位小客人，读读拼音，帮它找到位置。",
+    "durationMs": 5039,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "池",
+        "t0": 60,
+        "t1": 266
+      },
+      {
+        "ch": "塘",
+        "t0": 266,
+        "t1": 472
+      },
+      {
+        "ch": "里",
+        "t0": 472,
+        "t1": 678
+      },
+      {
+        "ch": "来",
+        "t0": 678,
+        "t1": 884
+      },
+      {
+        "ch": "了",
+        "t0": 884,
+        "t1": 1090
+      },
+      {
+        "ch": "一",
+        "t0": 1090,
+        "t1": 1296
+      },
+      {
+        "ch": "位",
+        "t0": 1296,
+        "t1": 1502
+      },
+      {
+        "ch": "小",
+        "t0": 1502,
+        "t1": 1708
+      },
+      {
+        "ch": "客",
+        "t0": 1708,
+        "t1": 1914
+      },
+      {
+        "ch": "人",
+        "t0": 1914,
+        "t1": 2120
+      },
+      {
+        "ch": "，",
+        "t0": 2120,
+        "t1": 2340
+      },
+      {
+        "ch": "读",
+        "t0": 2340,
+        "t1": 2537
+      },
+      {
+        "ch": "读",
+        "t0": 2537,
+        "t1": 2735
+      },
+      {
+        "ch": "拼",
+        "t0": 2735,
+        "t1": 2932
+      },
+      {
+        "ch": "音",
+        "t0": 2932,
+        "t1": 3130
+      },
+      {
+        "ch": "，",
+        "t0": 3130,
+        "t1": 3610
+      },
+      {
+        "ch": "帮",
+        "t0": 3610,
+        "t1": 3799
+      },
+      {
+        "ch": "它",
+        "t0": 3799,
+        "t1": 3988
+      },
+      {
+        "ch": "找",
+        "t0": 3988,
+        "t1": 4178
+      },
+      {
+        "ch": "到",
+        "t0": 4178,
+        "t1": 4367
+      },
+      {
+        "ch": "位",
+        "t0": 4367,
+        "t1": 4556
+      },
+      {
+        "ch": "置",
+        "t0": 4556,
+        "t1": 4745
+      },
+      {
+        "ch": "。",
+        "t0": 4745,
+        "t1": 4745
+      }
+    ]
+  },
+  "py.scene.wardrobe": {
+    "src": "/audio/pinyin-station/py.scene.wardrobe.f7ef0e69.m4a",
+    "text": "读读卡片，把衣物放进小衣柜。",
+    "durationMs": 3483,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 352
+      },
+      {
+        "ch": "读",
+        "t0": 352,
+        "t1": 655
+      },
+      {
+        "ch": "卡",
+        "t0": 655,
+        "t1": 958
+      },
+      {
+        "ch": "片",
+        "t0": 958,
+        "t1": 1260
+      },
+      {
+        "ch": "，",
+        "t0": 1260,
+        "t1": 1630
+      },
+      {
+        "ch": "把",
+        "t0": 1630,
+        "t1": 1823
+      },
+      {
+        "ch": "衣",
+        "t0": 1823,
+        "t1": 2016
+      },
+      {
+        "ch": "物",
+        "t0": 2016,
+        "t1": 2209
+      },
+      {
+        "ch": "放",
+        "t0": 2209,
+        "t1": 2403
+      },
+      {
+        "ch": "进",
+        "t0": 2403,
+        "t1": 2596
+      },
+      {
+        "ch": "小",
+        "t0": 2596,
+        "t1": 2789
+      },
+      {
+        "ch": "衣",
+        "t0": 2789,
+        "t1": 2982
+      },
+      {
+        "ch": "柜",
+        "t0": 2982,
+        "t1": 3175
+      },
+      {
+        "ch": "。",
+        "t0": 3175,
+        "t1": 3175
+      }
+    ]
+  },
+  "py.scene.rice": {
+    "src": "/audio/pinyin-station/py.scene.rice.24fac814.m4a",
+    "text": "早餐准备好了，读读拼音，找到桌上需要的东西。",
+    "durationMs": 4900,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "早",
+        "t0": 110,
+        "t1": 318
+      },
+      {
+        "ch": "餐",
+        "t0": 318,
+        "t1": 527
+      },
+      {
+        "ch": "准",
+        "t0": 527,
+        "t1": 735
+      },
+      {
+        "ch": "备",
+        "t0": 735,
+        "t1": 943
+      },
+      {
+        "ch": "好",
+        "t0": 943,
+        "t1": 1152
+      },
+      {
+        "ch": "了",
+        "t0": 1152,
+        "t1": 1360
+      },
+      {
+        "ch": "，",
+        "t0": 1360,
+        "t1": 1730
+      },
+      {
+        "ch": "读",
+        "t0": 1730,
+        "t1": 1908
+      },
+      {
+        "ch": "读",
+        "t0": 1908,
+        "t1": 2085
+      },
+      {
+        "ch": "拼",
+        "t0": 2085,
+        "t1": 2262
+      },
+      {
+        "ch": "音",
+        "t0": 2262,
+        "t1": 2440
+      },
+      {
+        "ch": "，",
+        "t0": 2440,
+        "t1": 2930
+      },
+      {
+        "ch": "找",
+        "t0": 2930,
+        "t1": 3116
+      },
+      {
+        "ch": "到",
+        "t0": 3116,
+        "t1": 3302
+      },
+      {
+        "ch": "桌",
+        "t0": 3302,
+        "t1": 3488
+      },
+      {
+        "ch": "上",
+        "t0": 3488,
+        "t1": 3674
+      },
+      {
+        "ch": "需",
+        "t0": 3674,
+        "t1": 3861
+      },
+      {
+        "ch": "要",
+        "t0": 3861,
+        "t1": 4047
+      },
+      {
+        "ch": "的",
+        "t0": 4047,
+        "t1": 4233
+      },
+      {
+        "ch": "东",
+        "t0": 4233,
+        "t1": 4419
+      },
+      {
+        "ch": "西",
+        "t0": 4419,
+        "t1": 4605
+      },
+      {
+        "ch": "。",
+        "t0": 4605,
+        "t1": 4605
+      }
+    ]
+  },
+  "py.scene.music": {
+    "src": "/audio/pinyin-station/py.scene.music.6b9ea2d2.m4a",
+    "text": "音乐会要开场了，读读卡片，找到乐器。",
+    "durationMs": 3925,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "音",
+        "t0": 60,
+        "t1": 241
+      },
+      {
+        "ch": "乐",
+        "t0": 241,
+        "t1": 423
+      },
+      {
+        "ch": "会",
+        "t0": 423,
+        "t1": 604
+      },
+      {
+        "ch": "要",
+        "t0": 604,
+        "t1": 786
+      },
+      {
+        "ch": "开",
+        "t0": 786,
+        "t1": 967
+      },
+      {
+        "ch": "场",
+        "t0": 967,
+        "t1": 1149
+      },
+      {
+        "ch": "了",
+        "t0": 1149,
+        "t1": 1330
+      },
+      {
+        "ch": "，",
+        "t0": 1330,
+        "t1": 1720
+      },
+      {
+        "ch": "读",
+        "t0": 1720,
+        "t1": 1925
+      },
+      {
+        "ch": "读",
+        "t0": 1925,
+        "t1": 2130
+      },
+      {
+        "ch": "卡",
+        "t0": 2130,
+        "t1": 2335
+      },
+      {
+        "ch": "片",
+        "t0": 2335,
+        "t1": 2540
+      },
+      {
+        "ch": "，",
+        "t0": 2540,
+        "t1": 2780
+      },
+      {
+        "ch": "找",
+        "t0": 2780,
+        "t1": 2989
+      },
+      {
+        "ch": "到",
+        "t0": 2989,
+        "t1": 3198
+      },
+      {
+        "ch": "乐",
+        "t0": 3198,
+        "t1": 3406
+      },
+      {
+        "ch": "器",
+        "t0": 3406,
+        "t1": 3615
+      },
+      {
+        "ch": "。",
+        "t0": 3615,
+        "t1": 3615
+      }
+    ]
+  },
+  "py.scene.art": {
+    "src": "/audio/pinyin-station/py.scene.art.63f6fdc8.m4a",
+    "text": "读读拼音，找出画画时要用的东西。",
+    "durationMs": 4250,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 250
+      },
+      {
+        "ch": "读",
+        "t0": 250,
+        "t1": 450
+      },
+      {
+        "ch": "拼",
+        "t0": 450,
+        "t1": 650
+      },
+      {
+        "ch": "音",
+        "t0": 650,
+        "t1": 850
+      },
+      {
+        "ch": "，",
+        "t0": 850,
+        "t1": 1500
+      },
+      {
+        "ch": "找",
+        "t0": 1500,
+        "t1": 1744
+      },
+      {
+        "ch": "出",
+        "t0": 1744,
+        "t1": 1987
+      },
+      {
+        "ch": "画",
+        "t0": 1987,
+        "t1": 2230
+      },
+      {
+        "ch": "画",
+        "t0": 2230,
+        "t1": 2474
+      },
+      {
+        "ch": "时",
+        "t0": 2474,
+        "t1": 2718
+      },
+      {
+        "ch": "要",
+        "t0": 2718,
+        "t1": 2961
+      },
+      {
+        "ch": "用",
+        "t0": 2961,
+        "t1": 3204
+      },
+      {
+        "ch": "的",
+        "t0": 3204,
+        "t1": 3448
+      },
+      {
+        "ch": "东",
+        "t0": 3448,
+        "t1": 3692
+      },
+      {
+        "ch": "西",
+        "t0": 3692,
+        "t1": 3935
+      },
+      {
+        "ch": "。",
+        "t0": 3935,
+        "t1": 3935
+      }
+    ]
+  },
+  "py.scene.cleaning": {
+    "src": "/audio/pinyin-station/py.scene.cleaning.acbe0ca7.m4a",
+    "text": "读读这张拼音卡，找出做家务要用的东西。",
+    "durationMs": 4110,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 264
+      },
+      {
+        "ch": "读",
+        "t0": 264,
+        "t1": 479
+      },
+      {
+        "ch": "这",
+        "t0": 479,
+        "t1": 693
+      },
+      {
+        "ch": "张",
+        "t0": 693,
+        "t1": 907
+      },
+      {
+        "ch": "拼",
+        "t0": 907,
+        "t1": 1121
+      },
+      {
+        "ch": "音",
+        "t0": 1121,
+        "t1": 1336
+      },
+      {
+        "ch": "卡",
+        "t0": 1336,
+        "t1": 1550
+      },
+      {
+        "ch": "，",
+        "t0": 1550,
+        "t1": 1900
+      },
+      {
+        "ch": "找",
+        "t0": 1900,
+        "t1": 2090
+      },
+      {
+        "ch": "出",
+        "t0": 2090,
+        "t1": 2279
+      },
+      {
+        "ch": "做",
+        "t0": 2279,
+        "t1": 2468
+      },
+      {
+        "ch": "家",
+        "t0": 2468,
+        "t1": 2658
+      },
+      {
+        "ch": "务",
+        "t0": 2658,
+        "t1": 2848
+      },
+      {
+        "ch": "要",
+        "t0": 2848,
+        "t1": 3037
+      },
+      {
+        "ch": "用",
+        "t0": 3037,
+        "t1": 3226
+      },
+      {
+        "ch": "的",
+        "t0": 3226,
+        "t1": 3416
+      },
+      {
+        "ch": "东",
+        "t0": 3416,
+        "t1": 3606
+      },
+      {
+        "ch": "西",
+        "t0": 3606,
+        "t1": 3795
+      },
+      {
+        "ch": "。",
+        "t0": 3795,
+        "t1": 3795
+      }
+    ]
+  },
+  "py.scene.animal": {
+    "src": "/audio/pinyin-station/py.scene.animal.b01aec02.m4a",
+    "text": "小动物来做客，读读卡片，找出这位朋友。",
+    "durationMs": 4621,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 310
+      },
+      {
+        "ch": "动",
+        "t0": 310,
+        "t1": 550
+      },
+      {
+        "ch": "物",
+        "t0": 550,
+        "t1": 790
+      },
+      {
+        "ch": "来",
+        "t0": 790,
+        "t1": 1030
+      },
+      {
+        "ch": "做",
+        "t0": 1030,
+        "t1": 1270
+      },
+      {
+        "ch": "客",
+        "t0": 1270,
+        "t1": 1510
+      },
+      {
+        "ch": "，",
+        "t0": 1510,
+        "t1": 1850
+      },
+      {
+        "ch": "读",
+        "t0": 1850,
+        "t1": 2090
+      },
+      {
+        "ch": "读",
+        "t0": 2090,
+        "t1": 2330
+      },
+      {
+        "ch": "卡",
+        "t0": 2330,
+        "t1": 2570
+      },
+      {
+        "ch": "片",
+        "t0": 2570,
+        "t1": 2810
+      },
+      {
+        "ch": "，",
+        "t0": 2810,
+        "t1": 3140
+      },
+      {
+        "ch": "找",
+        "t0": 3140,
+        "t1": 3338
+      },
+      {
+        "ch": "出",
+        "t0": 3338,
+        "t1": 3535
+      },
+      {
+        "ch": "这",
+        "t0": 3535,
+        "t1": 3732
+      },
+      {
+        "ch": "位",
+        "t0": 3732,
+        "t1": 3930
+      },
+      {
+        "ch": "朋",
+        "t0": 3930,
+        "t1": 4128
+      },
+      {
+        "ch": "友",
+        "t0": 4128,
+        "t1": 4325
+      },
+      {
+        "ch": "。",
+        "t0": 4325,
+        "t1": 4325
+      }
+    ]
+  },
+  "py.scene.playroom": {
+    "src": "/audio/pinyin-station/py.scene.playroom.65164a1e.m4a",
+    "text": "读读拼音，把玩具送回它的家。",
+    "durationMs": 3298,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 260
+      },
+      {
+        "ch": "读",
+        "t0": 260,
+        "t1": 470
+      },
+      {
+        "ch": "拼",
+        "t0": 470,
+        "t1": 680
+      },
+      {
+        "ch": "音",
+        "t0": 680,
+        "t1": 890
+      },
+      {
+        "ch": "，",
+        "t0": 890,
+        "t1": 1480
+      },
+      {
+        "ch": "把",
+        "t0": 1480,
+        "t1": 1669
+      },
+      {
+        "ch": "玩",
+        "t0": 1669,
+        "t1": 1859
+      },
+      {
+        "ch": "具",
+        "t0": 1859,
+        "t1": 2048
+      },
+      {
+        "ch": "送",
+        "t0": 2048,
+        "t1": 2238
+      },
+      {
+        "ch": "回",
+        "t0": 2238,
+        "t1": 2427
+      },
+      {
+        "ch": "它",
+        "t0": 2427,
+        "t1": 2616
+      },
+      {
+        "ch": "的",
+        "t0": 2616,
+        "t1": 2806
+      },
+      {
+        "ch": "家",
+        "t0": 2806,
+        "t1": 2995
+      },
+      {
+        "ch": "。",
+        "t0": 2995,
+        "t1": 2995
+      }
+    ]
+  },
+  "py.scene.travel": {
+    "src": "/audio/pinyin-station/py.scene.travel.4f999c72.m4a",
+    "text": "读读卡片，找出这次出门会见到的东西。",
+    "durationMs": 3994,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 285
+      },
+      {
+        "ch": "读",
+        "t0": 285,
+        "t1": 520
+      },
+      {
+        "ch": "卡",
+        "t0": 520,
+        "t1": 755
+      },
+      {
+        "ch": "片",
+        "t0": 755,
+        "t1": 990
+      },
+      {
+        "ch": "，",
+        "t0": 990,
+        "t1": 1480
+      },
+      {
+        "ch": "找",
+        "t0": 1480,
+        "t1": 1665
+      },
+      {
+        "ch": "出",
+        "t0": 1665,
+        "t1": 1849
+      },
+      {
+        "ch": "这",
+        "t0": 1849,
+        "t1": 2034
+      },
+      {
+        "ch": "次",
+        "t0": 2034,
+        "t1": 2218
+      },
+      {
+        "ch": "出",
+        "t0": 2218,
+        "t1": 2403
+      },
+      {
+        "ch": "门",
+        "t0": 2403,
+        "t1": 2588
+      },
+      {
+        "ch": "会",
+        "t0": 2588,
+        "t1": 2772
+      },
+      {
+        "ch": "见",
+        "t0": 2772,
+        "t1": 2957
+      },
+      {
+        "ch": "到",
+        "t0": 2957,
+        "t1": 3141
+      },
+      {
+        "ch": "的",
+        "t0": 3141,
+        "t1": 3326
+      },
+      {
+        "ch": "东",
+        "t0": 3326,
+        "t1": 3510
+      },
+      {
+        "ch": "西",
+        "t0": 3510,
+        "t1": 3695
+      },
+      {
+        "ch": "。",
+        "t0": 3695,
+        "t1": 3695
+      }
+    ]
+  },
+  "py.scene.fruit": {
+    "src": "/audio/pinyin-station/py.scene.fruit.422da41b.m4a",
+    "text": "读读拼音，帮小摊找到要摆出的水果。",
+    "durationMs": 4157,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 70,
+        "t1": 312
+      },
+      {
+        "ch": "读",
+        "t0": 312,
+        "t1": 555
+      },
+      {
+        "ch": "拼",
+        "t0": 555,
+        "t1": 798
+      },
+      {
+        "ch": "音",
+        "t0": 798,
+        "t1": 1040
+      },
+      {
+        "ch": "，",
+        "t0": 1040,
+        "t1": 1530
+      },
+      {
+        "ch": "帮",
+        "t0": 1530,
+        "t1": 1740
+      },
+      {
+        "ch": "小",
+        "t0": 1740,
+        "t1": 1949
+      },
+      {
+        "ch": "摊",
+        "t0": 1949,
+        "t1": 2159
+      },
+      {
+        "ch": "找",
+        "t0": 2159,
+        "t1": 2368
+      },
+      {
+        "ch": "到",
+        "t0": 2368,
+        "t1": 2578
+      },
+      {
+        "ch": "要",
+        "t0": 2578,
+        "t1": 2787
+      },
+      {
+        "ch": "摆",
+        "t0": 2787,
+        "t1": 2997
+      },
+      {
+        "ch": "出",
+        "t0": 2997,
+        "t1": 3206
+      },
+      {
+        "ch": "的",
+        "t0": 3206,
+        "t1": 3416
+      },
+      {
+        "ch": "水",
+        "t0": 3416,
+        "t1": 3625
+      },
+      {
+        "ch": "果",
+        "t0": 3625,
+        "t1": 3835
+      },
+      {
+        "ch": "。",
+        "t0": 3835,
+        "t1": 3835
+      }
+    ]
+  },
+  "py.scene.garden": {
+    "src": "/audio/pinyin-station/py.scene.garden.46d54f8e.m4a",
+    "text": "小花园开工了，读读卡片，找出地上的东西。",
+    "durationMs": 5202,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 328
+      },
+      {
+        "ch": "花",
+        "t0": 328,
+        "t1": 587
+      },
+      {
+        "ch": "园",
+        "t0": 587,
+        "t1": 845
+      },
+      {
+        "ch": "开",
+        "t0": 845,
+        "t1": 1103
+      },
+      {
+        "ch": "工",
+        "t0": 1103,
+        "t1": 1362
+      },
+      {
+        "ch": "了",
+        "t0": 1362,
+        "t1": 1620
+      },
+      {
+        "ch": "，",
+        "t0": 1620,
+        "t1": 2170
+      },
+      {
+        "ch": "读",
+        "t0": 2170,
+        "t1": 2395
+      },
+      {
+        "ch": "读",
+        "t0": 2395,
+        "t1": 2620
+      },
+      {
+        "ch": "卡",
+        "t0": 2620,
+        "t1": 2845
+      },
+      {
+        "ch": "片",
+        "t0": 2845,
+        "t1": 3070
+      },
+      {
+        "ch": "，",
+        "t0": 3070,
+        "t1": 3490
+      },
+      {
+        "ch": "找",
+        "t0": 3490,
+        "t1": 3689
+      },
+      {
+        "ch": "出",
+        "t0": 3689,
+        "t1": 3889
+      },
+      {
+        "ch": "地",
+        "t0": 3889,
+        "t1": 4088
+      },
+      {
+        "ch": "上",
+        "t0": 4088,
+        "t1": 4287
+      },
+      {
+        "ch": "的",
+        "t0": 4287,
+        "t1": 4486
+      },
+      {
+        "ch": "东",
+        "t0": 4486,
+        "t1": 4686
+      },
+      {
+        "ch": "西",
+        "t0": 4686,
+        "t1": 4885
+      },
+      {
+        "ch": "。",
+        "t0": 4885,
+        "t1": 4885
+      }
+    ]
+  },
+  "py.scene.family": {
+    "src": "/audio/pinyin-station/py.scene.family.c2ba3bde.m4a",
+    "text": "读读拼音，找到这封来信提到的家人。",
+    "durationMs": 4760,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 375
+      },
+      {
+        "ch": "读",
+        "t0": 375,
+        "t1": 700
+      },
+      {
+        "ch": "拼",
+        "t0": 700,
+        "t1": 1025
+      },
+      {
+        "ch": "音",
+        "t0": 1025,
+        "t1": 1350
+      },
+      {
+        "ch": "，",
+        "t0": 1350,
+        "t1": 1960
+      },
+      {
+        "ch": "找",
+        "t0": 1960,
+        "t1": 2185
+      },
+      {
+        "ch": "到",
+        "t0": 2185,
+        "t1": 2410
+      },
+      {
+        "ch": "这",
+        "t0": 2410,
+        "t1": 2635
+      },
+      {
+        "ch": "封",
+        "t0": 2635,
+        "t1": 2860
+      },
+      {
+        "ch": "来",
+        "t0": 2860,
+        "t1": 3085
+      },
+      {
+        "ch": "信",
+        "t0": 3085,
+        "t1": 3310
+      },
+      {
+        "ch": "提",
+        "t0": 3310,
+        "t1": 3535
+      },
+      {
+        "ch": "到",
+        "t0": 3535,
+        "t1": 3760
+      },
+      {
+        "ch": "的",
+        "t0": 3760,
+        "t1": 3985
+      },
+      {
+        "ch": "家",
+        "t0": 3985,
+        "t1": 4210
+      },
+      {
+        "ch": "人",
+        "t0": 4210,
+        "t1": 4435
+      },
+      {
+        "ch": "。",
+        "t0": 4435,
+        "t1": 4435
+      }
+    ]
+  },
+  "py.scene.waterfall": {
+    "src": "/audio/pinyin-station/py.scene.waterfall.f767e538.m4a",
+    "text": "读读卡片，找出旅途中看到的景物。",
+    "durationMs": 4389,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 288
+      },
+      {
+        "ch": "读",
+        "t0": 288,
+        "t1": 525
+      },
+      {
+        "ch": "卡",
+        "t0": 525,
+        "t1": 762
+      },
+      {
+        "ch": "片",
+        "t0": 762,
+        "t1": 1000
+      },
+      {
+        "ch": "，",
+        "t0": 1000,
+        "t1": 1480
+      },
+      {
+        "ch": "找",
+        "t0": 1480,
+        "t1": 1738
+      },
+      {
+        "ch": "出",
+        "t0": 1738,
+        "t1": 1997
+      },
+      {
+        "ch": "旅",
+        "t0": 1997,
+        "t1": 2255
+      },
+      {
+        "ch": "途",
+        "t0": 2255,
+        "t1": 2514
+      },
+      {
+        "ch": "中",
+        "t0": 2514,
+        "t1": 2772
+      },
+      {
+        "ch": "看",
+        "t0": 2772,
+        "t1": 3031
+      },
+      {
+        "ch": "到",
+        "t0": 3031,
+        "t1": 3289
+      },
+      {
+        "ch": "的",
+        "t0": 3289,
+        "t1": 3548
+      },
+      {
+        "ch": "景",
+        "t0": 3548,
+        "t1": 3806
+      },
+      {
+        "ch": "物",
+        "t0": 3806,
+        "t1": 4065
+      },
+      {
+        "ch": "。",
+        "t0": 4065,
+        "t1": 4065
+      }
+    ]
+  },
+  "py.scene.movement": {
+    "src": "/audio/pinyin-station/py.scene.movement.dff2d27f.m4a",
+    "text": "看清拼音，找到正在做这个动作的图。",
+    "durationMs": 3576,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "看",
+        "t0": 50,
+        "t1": 345
+      },
+      {
+        "ch": "清",
+        "t0": 345,
+        "t1": 640
+      },
+      {
+        "ch": "拼",
+        "t0": 640,
+        "t1": 935
+      },
+      {
+        "ch": "音",
+        "t0": 935,
+        "t1": 1230
+      },
+      {
+        "ch": "，",
+        "t0": 1230,
+        "t1": 1320
+      },
+      {
+        "ch": "找",
+        "t0": 1320,
+        "t1": 1496
+      },
+      {
+        "ch": "到",
+        "t0": 1496,
+        "t1": 1672
+      },
+      {
+        "ch": "正",
+        "t0": 1672,
+        "t1": 1848
+      },
+      {
+        "ch": "在",
+        "t0": 1848,
+        "t1": 2024
+      },
+      {
+        "ch": "做",
+        "t0": 2024,
+        "t1": 2200
+      },
+      {
+        "ch": "这",
+        "t0": 2200,
+        "t1": 2375
+      },
+      {
+        "ch": "个",
+        "t0": 2375,
+        "t1": 2551
+      },
+      {
+        "ch": "动",
+        "t0": 2551,
+        "t1": 2727
+      },
+      {
+        "ch": "作",
+        "t0": 2727,
+        "t1": 2903
+      },
+      {
+        "ch": "的",
+        "t0": 2903,
+        "t1": 3079
+      },
+      {
+        "ch": "图",
+        "t0": 3079,
+        "t1": 3255
+      },
+      {
+        "ch": "。",
+        "t0": 3255,
+        "t1": 3255
+      }
+    ]
+  },
+  "py.scene.building": {
+    "src": "/audio/pinyin-station/py.scene.building.99089971.m4a",
+    "text": "读读卡片，找出搭建角里的东西。",
+    "durationMs": 3994,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 358
+      },
+      {
+        "ch": "读",
+        "t0": 358,
+        "t1": 665
+      },
+      {
+        "ch": "卡",
+        "t0": 665,
+        "t1": 972
+      },
+      {
+        "ch": "片",
+        "t0": 972,
+        "t1": 1280
+      },
+      {
+        "ch": "，",
+        "t0": 1280,
+        "t1": 1560
+      },
+      {
+        "ch": "找",
+        "t0": 1560,
+        "t1": 1797
+      },
+      {
+        "ch": "出",
+        "t0": 1797,
+        "t1": 2034
+      },
+      {
+        "ch": "搭",
+        "t0": 2034,
+        "t1": 2272
+      },
+      {
+        "ch": "建",
+        "t0": 2272,
+        "t1": 2509
+      },
+      {
+        "ch": "角",
+        "t0": 2509,
+        "t1": 2746
+      },
+      {
+        "ch": "里",
+        "t0": 2746,
+        "t1": 2983
+      },
+      {
+        "ch": "的",
+        "t0": 2983,
+        "t1": 3221
+      },
+      {
+        "ch": "东",
+        "t0": 3221,
+        "t1": 3458
+      },
+      {
+        "ch": "西",
+        "t0": 3458,
+        "t1": 3695
+      },
+      {
+        "ch": "。",
+        "t0": 3695,
+        "t1": 3695
+      }
+    ]
+  },
+  "py.scene.body": {
+    "src": "/audio/pinyin-station/py.scene.body.384ed020.m4a",
+    "text": "读读拼音，找到卡片说的部位。",
+    "durationMs": 3251,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 290
+      },
+      {
+        "ch": "读",
+        "t0": 290,
+        "t1": 530
+      },
+      {
+        "ch": "拼",
+        "t0": 530,
+        "t1": 770
+      },
+      {
+        "ch": "音",
+        "t0": 770,
+        "t1": 1010
+      },
+      {
+        "ch": "，",
+        "t0": 1010,
+        "t1": 1350
+      },
+      {
+        "ch": "找",
+        "t0": 1350,
+        "t1": 1549
+      },
+      {
+        "ch": "到",
+        "t0": 1549,
+        "t1": 1749
+      },
+      {
+        "ch": "卡",
+        "t0": 1749,
+        "t1": 1948
+      },
+      {
+        "ch": "片",
+        "t0": 1948,
+        "t1": 2148
+      },
+      {
+        "ch": "说",
+        "t0": 2148,
+        "t1": 2347
+      },
+      {
+        "ch": "的",
+        "t0": 2347,
+        "t1": 2546
+      },
+      {
+        "ch": "部",
+        "t0": 2546,
+        "t1": 2746
+      },
+      {
+        "ch": "位",
+        "t0": 2746,
+        "t1": 2945
+      },
+      {
+        "ch": "。",
+        "t0": 2945,
+        "t1": 2945
+      }
+    ]
+  },
+  "py.scene.drum-show": {
+    "src": "/audio/pinyin-station/py.scene.drum-show.c1ba1efb.m4a",
+    "text": "读读拼音，找出音乐表演里的图。",
+    "durationMs": 3716,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 270
+      },
+      {
+        "ch": "读",
+        "t0": 270,
+        "t1": 490
+      },
+      {
+        "ch": "拼",
+        "t0": 490,
+        "t1": 710
+      },
+      {
+        "ch": "音",
+        "t0": 710,
+        "t1": 930
+      },
+      {
+        "ch": "，",
+        "t0": 930,
+        "t1": 1410
+      },
+      {
+        "ch": "找",
+        "t0": 1410,
+        "t1": 1631
+      },
+      {
+        "ch": "出",
+        "t0": 1631,
+        "t1": 1851
+      },
+      {
+        "ch": "音",
+        "t0": 1851,
+        "t1": 2072
+      },
+      {
+        "ch": "乐",
+        "t0": 2072,
+        "t1": 2292
+      },
+      {
+        "ch": "表",
+        "t0": 2292,
+        "t1": 2513
+      },
+      {
+        "ch": "演",
+        "t0": 2513,
+        "t1": 2733
+      },
+      {
+        "ch": "里",
+        "t0": 2733,
+        "t1": 2954
+      },
+      {
+        "ch": "的",
+        "t0": 2954,
+        "t1": 3174
+      },
+      {
+        "ch": "图",
+        "t0": 3174,
+        "t1": 3395
+      },
+      {
+        "ch": "。",
+        "t0": 3395,
+        "t1": 3395
+      }
+    ]
+  },
+  "py.scene.kitchen": {
+    "src": "/audio/pinyin-station/py.scene.kitchen.bf8f3132.m4a",
+    "text": "读读卡片，找到厨房里的物品。",
+    "durationMs": 3507,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 322
+      },
+      {
+        "ch": "读",
+        "t0": 322,
+        "t1": 595
+      },
+      {
+        "ch": "卡",
+        "t0": 595,
+        "t1": 868
+      },
+      {
+        "ch": "片",
+        "t0": 868,
+        "t1": 1140
+      },
+      {
+        "ch": "，",
+        "t0": 1140,
+        "t1": 1370
+      },
+      {
+        "ch": "找",
+        "t0": 1370,
+        "t1": 1599
+      },
+      {
+        "ch": "到",
+        "t0": 1599,
+        "t1": 1829
+      },
+      {
+        "ch": "厨",
+        "t0": 1829,
+        "t1": 2058
+      },
+      {
+        "ch": "房",
+        "t0": 2058,
+        "t1": 2288
+      },
+      {
+        "ch": "里",
+        "t0": 2288,
+        "t1": 2517
+      },
+      {
+        "ch": "的",
+        "t0": 2517,
+        "t1": 2746
+      },
+      {
+        "ch": "物",
+        "t0": 2746,
+        "t1": 2976
+      },
+      {
+        "ch": "品",
+        "t0": 2976,
+        "t1": 3205
+      },
+      {
+        "ch": "。",
+        "t0": 3205,
+        "t1": 3205
+      }
+    ]
+  },
+  "py.scene.river": {
+    "src": "/audio/pinyin-station/py.scene.river.f81470cc.m4a",
+    "text": "读读拼音，找到河边见到的朋友或景物。",
+    "durationMs": 4157,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 272
+      },
+      {
+        "ch": "读",
+        "t0": 272,
+        "t1": 495
+      },
+      {
+        "ch": "拼",
+        "t0": 495,
+        "t1": 718
+      },
+      {
+        "ch": "音",
+        "t0": 718,
+        "t1": 940
+      },
+      {
+        "ch": "，",
+        "t0": 940,
+        "t1": 1370
+      },
+      {
+        "ch": "找",
+        "t0": 1370,
+        "t1": 1576
+      },
+      {
+        "ch": "到",
+        "t0": 1576,
+        "t1": 1783
+      },
+      {
+        "ch": "河",
+        "t0": 1783,
+        "t1": 1989
+      },
+      {
+        "ch": "边",
+        "t0": 1989,
+        "t1": 2195
+      },
+      {
+        "ch": "见",
+        "t0": 2195,
+        "t1": 2401
+      },
+      {
+        "ch": "到",
+        "t0": 2401,
+        "t1": 2608
+      },
+      {
+        "ch": "的",
+        "t0": 2608,
+        "t1": 2814
+      },
+      {
+        "ch": "朋",
+        "t0": 2814,
+        "t1": 3020
+      },
+      {
+        "ch": "友",
+        "t0": 3020,
+        "t1": 3226
+      },
+      {
+        "ch": "或",
+        "t0": 3226,
+        "t1": 3432
+      },
+      {
+        "ch": "景",
+        "t0": 3432,
+        "t1": 3639
+      },
+      {
+        "ch": "物",
+        "t0": 3639,
+        "t1": 3845
+      },
+      {
+        "ch": "。",
+        "t0": 3845,
+        "t1": 3845
+      }
+    ]
+  },
+  "py.scene.flower": {
+    "src": "/audio/pinyin-station/py.scene.flower.8111967d.m4a",
+    "text": "读读卡片，找到这一朵花。",
+    "durationMs": 2926,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 60,
+        "t1": 310
+      },
+      {
+        "ch": "读",
+        "t0": 310,
+        "t1": 560
+      },
+      {
+        "ch": "卡",
+        "t0": 560,
+        "t1": 810
+      },
+      {
+        "ch": "片",
+        "t0": 810,
+        "t1": 1060
+      },
+      {
+        "ch": "，",
+        "t0": 1060,
+        "t1": 1350
+      },
+      {
+        "ch": "找",
+        "t0": 1350,
+        "t1": 1562
+      },
+      {
+        "ch": "到",
+        "t0": 1562,
+        "t1": 1775
+      },
+      {
+        "ch": "这",
+        "t0": 1775,
+        "t1": 1988
+      },
+      {
+        "ch": "一",
+        "t0": 1988,
+        "t1": 2200
+      },
+      {
+        "ch": "朵",
+        "t0": 2200,
+        "t1": 2412
+      },
+      {
+        "ch": "花",
+        "t0": 2412,
+        "t1": 2625
+      },
+      {
+        "ch": "。",
+        "t0": 2625,
+        "t1": 2625
+      }
+    ]
+  },
+  "py.scene.vegetable": {
+    "src": "/audio/pinyin-station/py.scene.vegetable.274ed97b.m4a",
+    "text": "读读清单里的拼音，找到要买的菜。",
+    "durationMs": 3855,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 238
+      },
+      {
+        "ch": "读",
+        "t0": 238,
+        "t1": 425
+      },
+      {
+        "ch": "清",
+        "t0": 425,
+        "t1": 612
+      },
+      {
+        "ch": "单",
+        "t0": 612,
+        "t1": 800
+      },
+      {
+        "ch": "里",
+        "t0": 800,
+        "t1": 988
+      },
+      {
+        "ch": "的",
+        "t0": 988,
+        "t1": 1175
+      },
+      {
+        "ch": "拼",
+        "t0": 1175,
+        "t1": 1362
+      },
+      {
+        "ch": "音",
+        "t0": 1362,
+        "t1": 1550
+      },
+      {
+        "ch": "，",
+        "t0": 1550,
+        "t1": 2250
+      },
+      {
+        "ch": "找",
+        "t0": 2250,
+        "t1": 2466
+      },
+      {
+        "ch": "到",
+        "t0": 2466,
+        "t1": 2682
+      },
+      {
+        "ch": "要",
+        "t0": 2682,
+        "t1": 2898
+      },
+      {
+        "ch": "买",
+        "t0": 2898,
+        "t1": 3113
+      },
+      {
+        "ch": "的",
+        "t0": 3113,
+        "t1": 3329
+      },
+      {
+        "ch": "菜",
+        "t0": 3329,
+        "t1": 3545
+      },
+      {
+        "ch": "。",
+        "t0": 3545,
+        "t1": 3545
+      }
+    ]
+  },
+  "py.scene.painting": {
+    "src": "/audio/pinyin-station/py.scene.painting.83d3794d.m4a",
+    "text": "读读拼音，找到画画的动作或工具。",
+    "durationMs": 4482,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 330
+      },
+      {
+        "ch": "读",
+        "t0": 330,
+        "t1": 610
+      },
+      {
+        "ch": "拼",
+        "t0": 610,
+        "t1": 890
+      },
+      {
+        "ch": "音",
+        "t0": 890,
+        "t1": 1170
+      },
+      {
+        "ch": "，",
+        "t0": 1170,
+        "t1": 1540
+      },
+      {
+        "ch": "找",
+        "t0": 1540,
+        "t1": 1802
+      },
+      {
+        "ch": "到",
+        "t0": 1802,
+        "t1": 2065
+      },
+      {
+        "ch": "画",
+        "t0": 2065,
+        "t1": 2328
+      },
+      {
+        "ch": "画",
+        "t0": 2328,
+        "t1": 2590
+      },
+      {
+        "ch": "的",
+        "t0": 2590,
+        "t1": 2852
+      },
+      {
+        "ch": "动",
+        "t0": 2852,
+        "t1": 3115
+      },
+      {
+        "ch": "作",
+        "t0": 3115,
+        "t1": 3378
+      },
+      {
+        "ch": "或",
+        "t0": 3378,
+        "t1": 3640
+      },
+      {
+        "ch": "工",
+        "t0": 3640,
+        "t1": 3903
+      },
+      {
+        "ch": "具",
+        "t0": 3903,
+        "t1": 4165
+      },
+      {
+        "ch": "。",
+        "t0": 4165,
+        "t1": 4165
+      }
+    ]
+  },
+  "py.scene.blocks": {
+    "src": "/audio/pinyin-station/py.scene.blocks.daaefbf0.m4a",
+    "text": "读读卡片，把搭城堡的东西找出来。",
+    "durationMs": 3576,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 288
+      },
+      {
+        "ch": "读",
+        "t0": 288,
+        "t1": 525
+      },
+      {
+        "ch": "卡",
+        "t0": 525,
+        "t1": 762
+      },
+      {
+        "ch": "片",
+        "t0": 762,
+        "t1": 1000
+      },
+      {
+        "ch": "，",
+        "t0": 1000,
+        "t1": 1480
+      },
+      {
+        "ch": "把",
+        "t0": 1480,
+        "t1": 1658
+      },
+      {
+        "ch": "搭",
+        "t0": 1658,
+        "t1": 1837
+      },
+      {
+        "ch": "城",
+        "t0": 1837,
+        "t1": 2015
+      },
+      {
+        "ch": "堡",
+        "t0": 2015,
+        "t1": 2194
+      },
+      {
+        "ch": "的",
+        "t0": 2194,
+        "t1": 2372
+      },
+      {
+        "ch": "东",
+        "t0": 2372,
+        "t1": 2551
+      },
+      {
+        "ch": "西",
+        "t0": 2551,
+        "t1": 2730
+      },
+      {
+        "ch": "找",
+        "t0": 2730,
+        "t1": 2908
+      },
+      {
+        "ch": "出",
+        "t0": 2908,
+        "t1": 3086
+      },
+      {
+        "ch": "来",
+        "t0": 3086,
+        "t1": 3265
+      },
+      {
+        "ch": "。",
+        "t0": 3265,
+        "t1": 3265
+      }
+    ]
+  },
+  "py.scene.flag": {
+    "src": "/audio/pinyin-station/py.scene.flag.fdd5aecd.m4a",
+    "text": "读读卡片，找到操场上飘动的东西。",
+    "durationMs": 3274,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 259
+      },
+      {
+        "ch": "读",
+        "t0": 259,
+        "t1": 468
+      },
+      {
+        "ch": "卡",
+        "t0": 468,
+        "t1": 677
+      },
+      {
+        "ch": "片",
+        "t0": 677,
+        "t1": 886
+      },
+      {
+        "ch": "，",
+        "t0": 886,
+        "t1": 886
+      },
+      {
+        "ch": "找",
+        "t0": 886,
+        "t1": 1095
+      },
+      {
+        "ch": "到",
+        "t0": 1095,
+        "t1": 1304
+      },
+      {
+        "ch": "操",
+        "t0": 1304,
+        "t1": 1513
+      },
+      {
+        "ch": "场",
+        "t0": 1513,
+        "t1": 1721
+      },
+      {
+        "ch": "上",
+        "t0": 1721,
+        "t1": 1930
+      },
+      {
+        "ch": "飘",
+        "t0": 1930,
+        "t1": 2139
+      },
+      {
+        "ch": "动",
+        "t0": 2139,
+        "t1": 2348
+      },
+      {
+        "ch": "的",
+        "t0": 2348,
+        "t1": 2557
+      },
+      {
+        "ch": "东",
+        "t0": 2557,
+        "t1": 2766
+      },
+      {
+        "ch": "西",
+        "t0": 2766,
+        "t1": 2975
+      },
+      {
+        "ch": "。",
+        "t0": 2975,
+        "t1": 2975
+      }
+    ]
+  },
+  "py.scene.board-game": {
+    "src": "/audio/pinyin-station/py.scene.board-game.0f5b50cf.m4a",
+    "text": "读读卡片，找到桌上的游戏。",
+    "durationMs": 2949,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 272
+      },
+      {
+        "ch": "读",
+        "t0": 272,
+        "t1": 495
+      },
+      {
+        "ch": "卡",
+        "t0": 495,
+        "t1": 718
+      },
+      {
+        "ch": "片",
+        "t0": 718,
+        "t1": 940
+      },
+      {
+        "ch": "，",
+        "t0": 940,
+        "t1": 1260
+      },
+      {
+        "ch": "找",
+        "t0": 1260,
+        "t1": 1454
+      },
+      {
+        "ch": "到",
+        "t0": 1454,
+        "t1": 1647
+      },
+      {
+        "ch": "桌",
+        "t0": 1647,
+        "t1": 1841
+      },
+      {
+        "ch": "上",
+        "t0": 1841,
+        "t1": 2034
+      },
+      {
+        "ch": "的",
+        "t0": 2034,
+        "t1": 2228
+      },
+      {
+        "ch": "游",
+        "t0": 2228,
+        "t1": 2421
+      },
+      {
+        "ch": "戏",
+        "t0": 2421,
+        "t1": 2615
+      },
+      {
+        "ch": "。",
+        "t0": 2615,
+        "t1": 2615
+      }
+    ]
+  },
+  "py.scene.wash": {
+    "src": "/audio/pinyin-station/py.scene.wash.7e37cec9.m4a",
+    "text": "读读拼音，找到整理衣物的动作。",
+    "durationMs": 3832,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 280
+      },
+      {
+        "ch": "读",
+        "t0": 280,
+        "t1": 510
+      },
+      {
+        "ch": "拼",
+        "t0": 510,
+        "t1": 740
+      },
+      {
+        "ch": "音",
+        "t0": 740,
+        "t1": 970
+      },
+      {
+        "ch": "，",
+        "t0": 970,
+        "t1": 1480
+      },
+      {
+        "ch": "找",
+        "t0": 1480,
+        "t1": 1706
+      },
+      {
+        "ch": "到",
+        "t0": 1706,
+        "t1": 1932
+      },
+      {
+        "ch": "整",
+        "t0": 1932,
+        "t1": 2158
+      },
+      {
+        "ch": "理",
+        "t0": 2158,
+        "t1": 2384
+      },
+      {
+        "ch": "衣",
+        "t0": 2384,
+        "t1": 2611
+      },
+      {
+        "ch": "物",
+        "t0": 2611,
+        "t1": 2837
+      },
+      {
+        "ch": "的",
+        "t0": 2837,
+        "t1": 3063
+      },
+      {
+        "ch": "动",
+        "t0": 3063,
+        "t1": 3289
+      },
+      {
+        "ch": "作",
+        "t0": 3289,
+        "t1": 3515
+      },
+      {
+        "ch": "。",
+        "t0": 3515,
+        "t1": 3515
+      }
+    ]
+  },
+  "py.scene.farm": {
+    "src": "/audio/pinyin-station/py.scene.farm.1bc99c03.m4a",
+    "text": "读读卡片，找出农场的小动物。",
+    "durationMs": 3576,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 342
+      },
+      {
+        "ch": "读",
+        "t0": 342,
+        "t1": 635
+      },
+      {
+        "ch": "卡",
+        "t0": 635,
+        "t1": 928
+      },
+      {
+        "ch": "片",
+        "t0": 928,
+        "t1": 1220
+      },
+      {
+        "ch": "，",
+        "t0": 1220,
+        "t1": 1540
+      },
+      {
+        "ch": "找",
+        "t0": 1540,
+        "t1": 1759
+      },
+      {
+        "ch": "出",
+        "t0": 1759,
+        "t1": 1979
+      },
+      {
+        "ch": "农",
+        "t0": 1979,
+        "t1": 2198
+      },
+      {
+        "ch": "场",
+        "t0": 2198,
+        "t1": 2418
+      },
+      {
+        "ch": "的",
+        "t0": 2418,
+        "t1": 2637
+      },
+      {
+        "ch": "小",
+        "t0": 2637,
+        "t1": 2856
+      },
+      {
+        "ch": "动",
+        "t0": 2856,
+        "t1": 3076
+      },
+      {
+        "ch": "物",
+        "t0": 3076,
+        "t1": 3295
+      },
+      {
+        "ch": "。",
+        "t0": 3295,
+        "t1": 3295
+      }
+    ]
+  },
+  "py.scene.summer": {
+    "src": "/audio/pinyin-station/py.scene.summer.de192114.m4a",
+    "text": "读读拼音，帮小伙伴找到要吃的水果。",
+    "durationMs": 3716,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 70,
+        "t1": 292
+      },
+      {
+        "ch": "读",
+        "t0": 292,
+        "t1": 515
+      },
+      {
+        "ch": "拼",
+        "t0": 515,
+        "t1": 738
+      },
+      {
+        "ch": "音",
+        "t0": 738,
+        "t1": 960
+      },
+      {
+        "ch": "，",
+        "t0": 960,
+        "t1": 1240
+      },
+      {
+        "ch": "帮",
+        "t0": 1240,
+        "t1": 1434
+      },
+      {
+        "ch": "小",
+        "t0": 1434,
+        "t1": 1628
+      },
+      {
+        "ch": "伙",
+        "t0": 1628,
+        "t1": 1822
+      },
+      {
+        "ch": "伴",
+        "t0": 1822,
+        "t1": 2016
+      },
+      {
+        "ch": "找",
+        "t0": 2016,
+        "t1": 2210
+      },
+      {
+        "ch": "到",
+        "t0": 2210,
+        "t1": 2405
+      },
+      {
+        "ch": "要",
+        "t0": 2405,
+        "t1": 2599
+      },
+      {
+        "ch": "吃",
+        "t0": 2599,
+        "t1": 2793
+      },
+      {
+        "ch": "的",
+        "t0": 2793,
+        "t1": 2987
+      },
+      {
+        "ch": "水",
+        "t0": 2987,
+        "t1": 3181
+      },
+      {
+        "ch": "果",
+        "t0": 3181,
+        "t1": 3375
+      },
+      {
+        "ch": "。",
+        "t0": 3375,
+        "t1": 3375
+      }
+    ]
+  },
+  "py.scene.riding": {
+    "src": "/audio/pinyin-station/py.scene.riding.3384a518.m4a",
+    "text": "读读拼音，找到草地上的活动。",
+    "durationMs": 2996,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 265
+      },
+      {
+        "ch": "读",
+        "t0": 265,
+        "t1": 480
+      },
+      {
+        "ch": "拼",
+        "t0": 480,
+        "t1": 695
+      },
+      {
+        "ch": "音",
+        "t0": 695,
+        "t1": 910
+      },
+      {
+        "ch": "，",
+        "t0": 910,
+        "t1": 1210
+      },
+      {
+        "ch": "找",
+        "t0": 1210,
+        "t1": 1396
+      },
+      {
+        "ch": "到",
+        "t0": 1396,
+        "t1": 1581
+      },
+      {
+        "ch": "草",
+        "t0": 1581,
+        "t1": 1767
+      },
+      {
+        "ch": "地",
+        "t0": 1767,
+        "t1": 1953
+      },
+      {
+        "ch": "上",
+        "t0": 1953,
+        "t1": 2138
+      },
+      {
+        "ch": "的",
+        "t0": 2138,
+        "t1": 2324
+      },
+      {
+        "ch": "活",
+        "t0": 2324,
+        "t1": 2509
+      },
+      {
+        "ch": "动",
+        "t0": 2509,
+        "t1": 2695
+      },
+      {
+        "ch": "。",
+        "t0": 2695,
+        "t1": 2695
+      }
+    ]
+  },
+  "py.scene.seafood": {
+    "src": "/audio/pinyin-station/py.scene.seafood.d5ab9a32.m4a",
+    "text": "读读拼音，找出小摊上的东西。",
+    "durationMs": 3019,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 262
+      },
+      {
+        "ch": "读",
+        "t0": 262,
+        "t1": 475
+      },
+      {
+        "ch": "拼",
+        "t0": 475,
+        "t1": 688
+      },
+      {
+        "ch": "音",
+        "t0": 688,
+        "t1": 900
+      },
+      {
+        "ch": "，",
+        "t0": 900,
+        "t1": 1330
+      },
+      {
+        "ch": "找",
+        "t0": 1330,
+        "t1": 1503
+      },
+      {
+        "ch": "出",
+        "t0": 1503,
+        "t1": 1676
+      },
+      {
+        "ch": "小",
+        "t0": 1676,
+        "t1": 1849
+      },
+      {
+        "ch": "摊",
+        "t0": 1849,
+        "t1": 2022
+      },
+      {
+        "ch": "上",
+        "t0": 2022,
+        "t1": 2196
+      },
+      {
+        "ch": "的",
+        "t0": 2196,
+        "t1": 2369
+      },
+      {
+        "ch": "东",
+        "t0": 2369,
+        "t1": 2542
+      },
+      {
+        "ch": "西",
+        "t0": 2542,
+        "t1": 2715
+      },
+      {
+        "ch": "。",
+        "t0": 2715,
+        "t1": 2715
+      }
+    ]
+  },
+  "py.scene.numbers": {
+    "src": "/audio/pinyin-station/py.scene.numbers.3ffa87fb.m4a",
+    "text": "读读拼音，把数字信号接起来。",
+    "durationMs": 3599,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 300
+      },
+      {
+        "ch": "读",
+        "t0": 300,
+        "t1": 550
+      },
+      {
+        "ch": "拼",
+        "t0": 550,
+        "t1": 800
+      },
+      {
+        "ch": "音",
+        "t0": 800,
+        "t1": 1050
+      },
+      {
+        "ch": "，",
+        "t0": 1050,
+        "t1": 1500
+      },
+      {
+        "ch": "把",
+        "t0": 1500,
+        "t1": 1723
+      },
+      {
+        "ch": "数",
+        "t0": 1723,
+        "t1": 1946
+      },
+      {
+        "ch": "字",
+        "t0": 1946,
+        "t1": 2169
+      },
+      {
+        "ch": "信",
+        "t0": 2169,
+        "t1": 2392
+      },
+      {
+        "ch": "号",
+        "t0": 2392,
+        "t1": 2616
+      },
+      {
+        "ch": "接",
+        "t0": 2616,
+        "t1": 2839
+      },
+      {
+        "ch": "起",
+        "t0": 2839,
+        "t1": 3062
+      },
+      {
+        "ch": "来",
+        "t0": 3062,
+        "t1": 3285
+      },
+      {
+        "ch": "。",
+        "t0": 3285,
+        "t1": 3285
+      }
+    ]
+  },
+  "py.scene.socks": {
+    "src": "/audio/pinyin-station/py.scene.socks.c6cf67bc.m4a",
+    "text": "读读拼音，找到要晾起来的衣物。",
+    "durationMs": 2926,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 242
+      },
+      {
+        "ch": "读",
+        "t0": 242,
+        "t1": 435
+      },
+      {
+        "ch": "拼",
+        "t0": 435,
+        "t1": 628
+      },
+      {
+        "ch": "音",
+        "t0": 628,
+        "t1": 820
+      },
+      {
+        "ch": "，",
+        "t0": 820,
+        "t1": 1080
+      },
+      {
+        "ch": "找",
+        "t0": 1080,
+        "t1": 1252
+      },
+      {
+        "ch": "到",
+        "t0": 1252,
+        "t1": 1423
+      },
+      {
+        "ch": "要",
+        "t0": 1423,
+        "t1": 1595
+      },
+      {
+        "ch": "晾",
+        "t0": 1595,
+        "t1": 1767
+      },
+      {
+        "ch": "起",
+        "t0": 1767,
+        "t1": 1938
+      },
+      {
+        "ch": "来",
+        "t0": 1938,
+        "t1": 2110
+      },
+      {
+        "ch": "的",
+        "t0": 2110,
+        "t1": 2282
+      },
+      {
+        "ch": "衣",
+        "t0": 2282,
+        "t1": 2453
+      },
+      {
+        "ch": "物",
+        "t0": 2453,
+        "t1": 2625
+      },
+      {
+        "ch": "。",
+        "t0": 2625,
+        "t1": 2625
+      }
+    ]
+  },
+  "py.scene.birds": {
+    "src": "/audio/pinyin-station/py.scene.birds.f7aa3e63.m4a",
+    "text": "读读卡片，找到公园里的小鸟。",
+    "durationMs": 4296,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 368
+      },
+      {
+        "ch": "读",
+        "t0": 368,
+        "t1": 685
+      },
+      {
+        "ch": "卡",
+        "t0": 685,
+        "t1": 1002
+      },
+      {
+        "ch": "片",
+        "t0": 1002,
+        "t1": 1320
+      },
+      {
+        "ch": "，",
+        "t0": 1320,
+        "t1": 1800
+      },
+      {
+        "ch": "找",
+        "t0": 1800,
+        "t1": 2073
+      },
+      {
+        "ch": "到",
+        "t0": 2073,
+        "t1": 2346
+      },
+      {
+        "ch": "公",
+        "t0": 2346,
+        "t1": 2619
+      },
+      {
+        "ch": "园",
+        "t0": 2619,
+        "t1": 2892
+      },
+      {
+        "ch": "里",
+        "t0": 2892,
+        "t1": 3166
+      },
+      {
+        "ch": "的",
+        "t0": 3166,
+        "t1": 3439
+      },
+      {
+        "ch": "小",
+        "t0": 3439,
+        "t1": 3712
+      },
+      {
+        "ch": "鸟",
+        "t0": 3712,
+        "t1": 3985
+      },
+      {
+        "ch": "。",
+        "t0": 3985,
+        "t1": 3985
+      }
+    ]
+  },
+  "py.scene.seat": {
+    "src": "/audio/pinyin-station/py.scene.seat.f8ace68b.m4a",
+    "text": "读读拼音，找到乘车时要做的动作。",
+    "durationMs": 3925,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 282
+      },
+      {
+        "ch": "读",
+        "t0": 282,
+        "t1": 515
+      },
+      {
+        "ch": "拼",
+        "t0": 515,
+        "t1": 748
+      },
+      {
+        "ch": "音",
+        "t0": 748,
+        "t1": 980
+      },
+      {
+        "ch": "，",
+        "t0": 980,
+        "t1": 1330
+      },
+      {
+        "ch": "找",
+        "t0": 1330,
+        "t1": 1557
+      },
+      {
+        "ch": "到",
+        "t0": 1557,
+        "t1": 1783
+      },
+      {
+        "ch": "乘",
+        "t0": 1783,
+        "t1": 2010
+      },
+      {
+        "ch": "车",
+        "t0": 2010,
+        "t1": 2236
+      },
+      {
+        "ch": "时",
+        "t0": 2236,
+        "t1": 2463
+      },
+      {
+        "ch": "要",
+        "t0": 2463,
+        "t1": 2689
+      },
+      {
+        "ch": "做",
+        "t0": 2689,
+        "t1": 2915
+      },
+      {
+        "ch": "的",
+        "t0": 2915,
+        "t1": 3142
+      },
+      {
+        "ch": "动",
+        "t0": 3142,
+        "t1": 3368
+      },
+      {
+        "ch": "作",
+        "t0": 3368,
+        "t1": 3595
+      },
+      {
+        "ch": "。",
+        "t0": 3595,
+        "t1": 3595
+      }
+    ]
+  },
+  "py.scene.reading": {
+    "src": "/audio/pinyin-station/py.scene.reading.9e8cade0.m4a",
+    "text": "读读拼音，找到图书角里的物品或活动。",
+    "durationMs": 4250,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 290
+      },
+      {
+        "ch": "读",
+        "t0": 290,
+        "t1": 530
+      },
+      {
+        "ch": "拼",
+        "t0": 530,
+        "t1": 770
+      },
+      {
+        "ch": "音",
+        "t0": 770,
+        "t1": 1010
+      },
+      {
+        "ch": "，",
+        "t0": 1010,
+        "t1": 1340
+      },
+      {
+        "ch": "找",
+        "t0": 1340,
+        "t1": 1556
+      },
+      {
+        "ch": "到",
+        "t0": 1556,
+        "t1": 1772
+      },
+      {
+        "ch": "图",
+        "t0": 1772,
+        "t1": 1989
+      },
+      {
+        "ch": "书",
+        "t0": 1989,
+        "t1": 2205
+      },
+      {
+        "ch": "角",
+        "t0": 2205,
+        "t1": 2421
+      },
+      {
+        "ch": "里",
+        "t0": 2421,
+        "t1": 2638
+      },
+      {
+        "ch": "的",
+        "t0": 2638,
+        "t1": 2854
+      },
+      {
+        "ch": "物",
+        "t0": 2854,
+        "t1": 3070
+      },
+      {
+        "ch": "品",
+        "t0": 3070,
+        "t1": 3286
+      },
+      {
+        "ch": "或",
+        "t0": 3286,
+        "t1": 3503
+      },
+      {
+        "ch": "活",
+        "t0": 3503,
+        "t1": 3719
+      },
+      {
+        "ch": "动",
+        "t0": 3719,
+        "t1": 3935
+      },
+      {
+        "ch": "。",
+        "t0": 3935,
+        "t1": 3935
+      }
+    ]
+  },
+  "py.scene.tea": {
+    "src": "/audio/pinyin-station/py.scene.tea.7a579b1d.m4a",
+    "text": "读读卡片，找到待客的饮品或动作。",
+    "durationMs": 3321,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 235
+      },
+      {
+        "ch": "读",
+        "t0": 235,
+        "t1": 420
+      },
+      {
+        "ch": "卡",
+        "t0": 420,
+        "t1": 605
+      },
+      {
+        "ch": "片",
+        "t0": 605,
+        "t1": 790
+      },
+      {
+        "ch": "，",
+        "t0": 790,
+        "t1": 1090
+      },
+      {
+        "ch": "找",
+        "t0": 1090,
+        "t1": 1283
+      },
+      {
+        "ch": "到",
+        "t0": 1283,
+        "t1": 1475
+      },
+      {
+        "ch": "待",
+        "t0": 1475,
+        "t1": 1668
+      },
+      {
+        "ch": "客",
+        "t0": 1668,
+        "t1": 1860
+      },
+      {
+        "ch": "的",
+        "t0": 1860,
+        "t1": 2052
+      },
+      {
+        "ch": "饮",
+        "t0": 2052,
+        "t1": 2245
+      },
+      {
+        "ch": "品",
+        "t0": 2245,
+        "t1": 2438
+      },
+      {
+        "ch": "或",
+        "t0": 2438,
+        "t1": 2630
+      },
+      {
+        "ch": "动",
+        "t0": 2630,
+        "t1": 2823
+      },
+      {
+        "ch": "作",
+        "t0": 2823,
+        "t1": 3015
+      },
+      {
+        "ch": "。",
+        "t0": 3015,
+        "t1": 3015
+      }
+    ]
+  },
+  "py.scene.morning": {
+    "src": "/audio/pinyin-station/py.scene.morning.19edcbda.m4a",
+    "text": "读读拼音，找到早晨天空里的景物。",
+    "durationMs": 3576,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 292
+      },
+      {
+        "ch": "读",
+        "t0": 292,
+        "t1": 535
+      },
+      {
+        "ch": "拼",
+        "t0": 535,
+        "t1": 778
+      },
+      {
+        "ch": "音",
+        "t0": 778,
+        "t1": 1020
+      },
+      {
+        "ch": "，",
+        "t0": 1020,
+        "t1": 1330
+      },
+      {
+        "ch": "找",
+        "t0": 1330,
+        "t1": 1523
+      },
+      {
+        "ch": "到",
+        "t0": 1523,
+        "t1": 1715
+      },
+      {
+        "ch": "早",
+        "t0": 1715,
+        "t1": 1908
+      },
+      {
+        "ch": "晨",
+        "t0": 1908,
+        "t1": 2100
+      },
+      {
+        "ch": "天",
+        "t0": 2100,
+        "t1": 2293
+      },
+      {
+        "ch": "空",
+        "t0": 2293,
+        "t1": 2485
+      },
+      {
+        "ch": "里",
+        "t0": 2485,
+        "t1": 2678
+      },
+      {
+        "ch": "的",
+        "t0": 2678,
+        "t1": 2870
+      },
+      {
+        "ch": "景",
+        "t0": 2870,
+        "t1": 3063
+      },
+      {
+        "ch": "物",
+        "t0": 3063,
+        "t1": 3255
+      },
+      {
+        "ch": "。",
+        "t0": 3255,
+        "t1": 3255
+      }
+    ]
+  },
+  "py.scene.bamboo": {
+    "src": "/audio/pinyin-station/py.scene.bamboo.30b2461c.m4a",
+    "text": "读读卡片，找到小路边的植物。",
+    "durationMs": 3019,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 255
+      },
+      {
+        "ch": "读",
+        "t0": 255,
+        "t1": 460
+      },
+      {
+        "ch": "卡",
+        "t0": 460,
+        "t1": 665
+      },
+      {
+        "ch": "片",
+        "t0": 665,
+        "t1": 870
+      },
+      {
+        "ch": "，",
+        "t0": 870,
+        "t1": 1200
+      },
+      {
+        "ch": "找",
+        "t0": 1200,
+        "t1": 1388
+      },
+      {
+        "ch": "到",
+        "t0": 1388,
+        "t1": 1576
+      },
+      {
+        "ch": "小",
+        "t0": 1576,
+        "t1": 1764
+      },
+      {
+        "ch": "路",
+        "t0": 1764,
+        "t1": 1953
+      },
+      {
+        "ch": "边",
+        "t0": 1953,
+        "t1": 2141
+      },
+      {
+        "ch": "的",
+        "t0": 2141,
+        "t1": 2329
+      },
+      {
+        "ch": "植",
+        "t0": 2329,
+        "t1": 2517
+      },
+      {
+        "ch": "物",
+        "t0": 2517,
+        "t1": 2705
+      },
+      {
+        "ch": "。",
+        "t0": 2705,
+        "t1": 2705
+      }
+    ]
+  },
+  "py.scene.schoolbag": {
+    "src": "/audio/pinyin-station/py.scene.schoolbag.d1b750e3.m4a",
+    "text": "读读拼音，找到该放进书包的物品。",
+    "durationMs": 3205,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 227
+      },
+      {
+        "ch": "读",
+        "t0": 227,
+        "t1": 405
+      },
+      {
+        "ch": "拼",
+        "t0": 405,
+        "t1": 582
+      },
+      {
+        "ch": "音",
+        "t0": 582,
+        "t1": 760
+      },
+      {
+        "ch": "，",
+        "t0": 760,
+        "t1": 1080
+      },
+      {
+        "ch": "找",
+        "t0": 1080,
+        "t1": 1265
+      },
+      {
+        "ch": "到",
+        "t0": 1265,
+        "t1": 1449
+      },
+      {
+        "ch": "该",
+        "t0": 1449,
+        "t1": 1634
+      },
+      {
+        "ch": "放",
+        "t0": 1634,
+        "t1": 1818
+      },
+      {
+        "ch": "进",
+        "t0": 1818,
+        "t1": 2003
+      },
+      {
+        "ch": "书",
+        "t0": 2003,
+        "t1": 2187
+      },
+      {
+        "ch": "包",
+        "t0": 2187,
+        "t1": 2372
+      },
+      {
+        "ch": "的",
+        "t0": 2372,
+        "t1": 2556
+      },
+      {
+        "ch": "物",
+        "t0": 2556,
+        "t1": 2741
+      },
+      {
+        "ch": "品",
+        "t0": 2741,
+        "t1": 2925
+      },
+      {
+        "ch": "。",
+        "t0": 2925,
+        "t1": 2925
+      }
+    ]
+  },
+  "py.scene.bathroom": {
+    "src": "/audio/pinyin-station/py.scene.bathroom.72e5d4b7.m4a",
+    "text": "读读拼音，找到睡前要做的事。",
+    "durationMs": 2949,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 252
+      },
+      {
+        "ch": "读",
+        "t0": 252,
+        "t1": 455
+      },
+      {
+        "ch": "拼",
+        "t0": 455,
+        "t1": 658
+      },
+      {
+        "ch": "音",
+        "t0": 658,
+        "t1": 860
+      },
+      {
+        "ch": "，",
+        "t0": 860,
+        "t1": 1200
+      },
+      {
+        "ch": "找",
+        "t0": 1200,
+        "t1": 1382
+      },
+      {
+        "ch": "到",
+        "t0": 1382,
+        "t1": 1564
+      },
+      {
+        "ch": "睡",
+        "t0": 1564,
+        "t1": 1746
+      },
+      {
+        "ch": "前",
+        "t0": 1746,
+        "t1": 1928
+      },
+      {
+        "ch": "要",
+        "t0": 1928,
+        "t1": 2109
+      },
+      {
+        "ch": "做",
+        "t0": 2109,
+        "t1": 2291
+      },
+      {
+        "ch": "的",
+        "t0": 2291,
+        "t1": 2473
+      },
+      {
+        "ch": "事",
+        "t0": 2473,
+        "t1": 2655
+      },
+      {
+        "ch": "。",
+        "t0": 2655,
+        "t1": 2655
+      }
+    ]
+  },
+  "py.scene.bus": {
+    "src": "/audio/pinyin-station/py.scene.bus.5407ac26.m4a",
+    "text": "读读卡片，找到车站里的图。",
+    "durationMs": 3182,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 310
+      },
+      {
+        "ch": "读",
+        "t0": 310,
+        "t1": 570
+      },
+      {
+        "ch": "卡",
+        "t0": 570,
+        "t1": 830
+      },
+      {
+        "ch": "片",
+        "t0": 830,
+        "t1": 1090
+      },
+      {
+        "ch": "，",
+        "t0": 1090,
+        "t1": 1500
+      },
+      {
+        "ch": "找",
+        "t0": 1500,
+        "t1": 1698
+      },
+      {
+        "ch": "到",
+        "t0": 1698,
+        "t1": 1896
+      },
+      {
+        "ch": "车",
+        "t0": 1896,
+        "t1": 2094
+      },
+      {
+        "ch": "站",
+        "t0": 2094,
+        "t1": 2291
+      },
+      {
+        "ch": "里",
+        "t0": 2291,
+        "t1": 2489
+      },
+      {
+        "ch": "的",
+        "t0": 2489,
+        "t1": 2687
+      },
+      {
+        "ch": "图",
+        "t0": 2687,
+        "t1": 2885
+      },
+      {
+        "ch": "。",
+        "t0": 2885,
+        "t1": 2885
+      }
+    ]
+  },
+  "py.scene.zoo": {
+    "src": "/audio/pinyin-station/py.scene.zoo.2a46010e.m4a",
+    "text": "读读拼音，找到广播里说的小动物。",
+    "durationMs": 3530,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 282
+      },
+      {
+        "ch": "读",
+        "t0": 282,
+        "t1": 515
+      },
+      {
+        "ch": "拼",
+        "t0": 515,
+        "t1": 748
+      },
+      {
+        "ch": "音",
+        "t0": 748,
+        "t1": 980
+      },
+      {
+        "ch": "，",
+        "t0": 980,
+        "t1": 1320
+      },
+      {
+        "ch": "找",
+        "t0": 1320,
+        "t1": 1512
+      },
+      {
+        "ch": "到",
+        "t0": 1512,
+        "t1": 1703
+      },
+      {
+        "ch": "广",
+        "t0": 1703,
+        "t1": 1894
+      },
+      {
+        "ch": "播",
+        "t0": 1894,
+        "t1": 2086
+      },
+      {
+        "ch": "里",
+        "t0": 2086,
+        "t1": 2278
+      },
+      {
+        "ch": "说",
+        "t0": 2278,
+        "t1": 2469
+      },
+      {
+        "ch": "的",
+        "t0": 2469,
+        "t1": 2660
+      },
+      {
+        "ch": "小",
+        "t0": 2660,
+        "t1": 2852
+      },
+      {
+        "ch": "动",
+        "t0": 2852,
+        "t1": 3044
+      },
+      {
+        "ch": "物",
+        "t0": 3044,
+        "t1": 3235
+      },
+      {
+        "ch": "。",
+        "t0": 3235,
+        "t1": 3235
+      }
+    ]
+  },
+  "py.tip.b-p": {
+    "src": "/audio/pinyin-station/py.tip.b-p.2b1c44ba.m4a",
+    "text": "把小纸条放嘴前，读 p 时让它飘起来。",
+    "durationMs": 4412,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "把",
+        "t0": 70,
+        "t1": 319
+      },
+      {
+        "ch": "小",
+        "t0": 319,
+        "t1": 567
+      },
+      {
+        "ch": "纸",
+        "t0": 567,
+        "t1": 816
+      },
+      {
+        "ch": "条",
+        "t0": 816,
+        "t1": 1064
+      },
+      {
+        "ch": "放",
+        "t0": 1064,
+        "t1": 1313
+      },
+      {
+        "ch": "嘴",
+        "t0": 1313,
+        "t1": 1561
+      },
+      {
+        "ch": "前",
+        "t0": 1561,
+        "t1": 1810
+      },
+      {
+        "ch": "，",
+        "t0": 1810,
+        "t1": 2060
+      },
+      {
+        "ch": "读",
+        "t0": 2060,
+        "t1": 2316
+      },
+      {
+        "ch": "p",
+        "t0": 2316,
+        "t1": 2571
+      },
+      {
+        "ch": "时",
+        "t0": 2571,
+        "t1": 2827
+      },
+      {
+        "ch": "让",
+        "t0": 2827,
+        "t1": 3082
+      },
+      {
+        "ch": "它",
+        "t0": 3082,
+        "t1": 3338
+      },
+      {
+        "ch": "飘",
+        "t0": 3338,
+        "t1": 3594
+      },
+      {
+        "ch": "起",
+        "t0": 3594,
+        "t1": 3849
+      },
+      {
+        "ch": "来",
+        "t0": 3849,
+        "t1": 4105
+      },
+      {
+        "ch": "。",
+        "t0": 4105,
+        "t1": 4105
+      }
+    ]
+  },
+  "py.tip.d-t": {
+    "src": "/audio/pinyin-station/py.tip.d-t.b83209e6.m4a",
+    "text": "把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。",
+    "durationMs": 7059,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "把",
+        "t0": 70,
+        "t1": 324
+      },
+      {
+        "ch": "小",
+        "t0": 324,
+        "t1": 579
+      },
+      {
+        "ch": "纸",
+        "t0": 579,
+        "t1": 833
+      },
+      {
+        "ch": "条",
+        "t0": 833,
+        "t1": 1087
+      },
+      {
+        "ch": "放",
+        "t0": 1087,
+        "t1": 1341
+      },
+      {
+        "ch": "嘴",
+        "t0": 1341,
+        "t1": 1596
+      },
+      {
+        "ch": "前",
+        "t0": 1596,
+        "t1": 1850
+      },
+      {
+        "ch": "，",
+        "t0": 1850,
+        "t1": 2120
+      },
+      {
+        "ch": "舌",
+        "t0": 2120,
+        "t1": 2376
+      },
+      {
+        "ch": "尖",
+        "t0": 2376,
+        "t1": 2632
+      },
+      {
+        "ch": "弹",
+        "t0": 2632,
+        "t1": 2888
+      },
+      {
+        "ch": "一",
+        "t0": 2888,
+        "t1": 3144
+      },
+      {
+        "ch": "下",
+        "t0": 3144,
+        "t1": 3400
+      },
+      {
+        "ch": "，",
+        "t0": 3400,
+        "t1": 3820
+      },
+      {
+        "ch": "读",
+        "t0": 3820,
+        "t1": 4145
+      },
+      {
+        "ch": "t",
+        "t0": 4145,
+        "t1": 4470
+      },
+      {
+        "ch": "时",
+        "t0": 4470,
+        "t1": 4795
+      },
+      {
+        "ch": "让",
+        "t0": 4795,
+        "t1": 5120
+      },
+      {
+        "ch": "纸",
+        "t0": 5120,
+        "t1": 5445
+      },
+      {
+        "ch": "条",
+        "t0": 5445,
+        "t1": 5770
+      },
+      {
+        "ch": "飘",
+        "t0": 5770,
+        "t1": 6095
+      },
+      {
+        "ch": "起",
+        "t0": 6095,
+        "t1": 6420
+      },
+      {
+        "ch": "来",
+        "t0": 6420,
+        "t1": 6745
+      },
+      {
+        "ch": "。",
+        "t0": 6745,
+        "t1": 6745
+      }
+    ]
+  },
+  "py.tip.b-d": {
+    "src": "/audio/pinyin-station/py.tip.b-d.19a62fc9.m4a",
+    "text": "先找小肚子的方向：b 在右下，d 在左下。",
+    "durationMs": 4877,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "先",
+        "t0": 70,
+        "t1": 302
+      },
+      {
+        "ch": "找",
+        "t0": 302,
+        "t1": 535
+      },
+      {
+        "ch": "小",
+        "t0": 535,
+        "t1": 768
+      },
+      {
+        "ch": "肚",
+        "t0": 768,
+        "t1": 1000
+      },
+      {
+        "ch": "子",
+        "t0": 1000,
+        "t1": 1232
+      },
+      {
+        "ch": "的",
+        "t0": 1232,
+        "t1": 1465
+      },
+      {
+        "ch": "方",
+        "t0": 1465,
+        "t1": 1698
+      },
+      {
+        "ch": "向",
+        "t0": 1698,
+        "t1": 1930
+      },
+      {
+        "ch": "：",
+        "t0": 1930,
+        "t1": 2310
+      },
+      {
+        "ch": "b",
+        "t0": 2310,
+        "t1": 2540
+      },
+      {
+        "ch": "在",
+        "t0": 2540,
+        "t1": 2770
+      },
+      {
+        "ch": "右",
+        "t0": 2770,
+        "t1": 3000
+      },
+      {
+        "ch": "下",
+        "t0": 3000,
+        "t1": 3230
+      },
+      {
+        "ch": "，",
+        "t0": 3230,
+        "t1": 3640
+      },
+      {
+        "ch": "d",
+        "t0": 3640,
+        "t1": 3871
+      },
+      {
+        "ch": "在",
+        "t0": 3871,
+        "t1": 4102
+      },
+      {
+        "ch": "左",
+        "t0": 4102,
+        "t1": 4334
+      },
+      {
+        "ch": "下",
+        "t0": 4334,
+        "t1": 4565
+      },
+      {
+        "ch": "。",
+        "t0": 4565,
+        "t1": 4565
+      }
+    ]
+  },
+  "py.tip.l-n": {
+    "src": "/audio/pinyin-station/py.tip.l-n.7cd45b82.m4a",
+    "text": "轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。",
+    "durationMs": 5225,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "轻",
+        "t0": 60,
+        "t1": 229
+      },
+      {
+        "ch": "轻",
+        "t0": 229,
+        "t1": 397
+      },
+      {
+        "ch": "捏",
+        "t0": 397,
+        "t1": 566
+      },
+      {
+        "ch": "住",
+        "t0": 566,
+        "t1": 734
+      },
+      {
+        "ch": "鼻",
+        "t0": 734,
+        "t1": 903
+      },
+      {
+        "ch": "子",
+        "t0": 903,
+        "t1": 1071
+      },
+      {
+        "ch": "读",
+        "t0": 1071,
+        "t1": 1240
+      },
+      {
+        "ch": "，",
+        "t0": 1240,
+        "t1": 1750
+      },
+      {
+        "ch": "n",
+        "t0": 1750,
+        "t1": 1931
+      },
+      {
+        "ch": "的",
+        "t0": 1931,
+        "t1": 2112
+      },
+      {
+        "ch": "声",
+        "t0": 2112,
+        "t1": 2294
+      },
+      {
+        "ch": "音",
+        "t0": 2294,
+        "t1": 2475
+      },
+      {
+        "ch": "会",
+        "t0": 2475,
+        "t1": 2656
+      },
+      {
+        "ch": "被",
+        "t0": 2656,
+        "t1": 2838
+      },
+      {
+        "ch": "挡",
+        "t0": 2838,
+        "t1": 3019
+      },
+      {
+        "ch": "住",
+        "t0": 3019,
+        "t1": 3200
+      },
+      {
+        "ch": "，",
+        "t0": 3200,
+        "t1": 3660
+      },
+      {
+        "ch": "l",
+        "t0": 3660,
+        "t1": 3871
+      },
+      {
+        "ch": "还",
+        "t0": 3871,
+        "t1": 4082
+      },
+      {
+        "ch": "能",
+        "t0": 4082,
+        "t1": 4292
+      },
+      {
+        "ch": "读",
+        "t0": 4292,
+        "t1": 4503
+      },
+      {
+        "ch": "出",
+        "t0": 4503,
+        "t1": 4714
+      },
+      {
+        "ch": "来",
+        "t0": 4714,
+        "t1": 4925
+      },
+      {
+        "ch": "。",
+        "t0": 4925,
+        "t1": 4925
+      }
+    ]
+  },
+  "py.tip.2-3": {
+    "src": "/audio/pinyin-station/py.tip.2-3.12a342bb.m4a",
+    "text": "二声像上坡，三声先下坡再上坡。",
+    "durationMs": 5155,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "二",
+        "t0": 50,
+        "t1": 398
+      },
+      {
+        "ch": "声",
+        "t0": 398,
+        "t1": 746
+      },
+      {
+        "ch": "像",
+        "t0": 746,
+        "t1": 1094
+      },
+      {
+        "ch": "上",
+        "t0": 1094,
+        "t1": 1442
+      },
+      {
+        "ch": "坡",
+        "t0": 1442,
+        "t1": 1790
+      },
+      {
+        "ch": "，",
+        "t0": 1790,
+        "t1": 2250
+      },
+      {
+        "ch": "三",
+        "t0": 2250,
+        "t1": 2574
+      },
+      {
+        "ch": "声",
+        "t0": 2574,
+        "t1": 2899
+      },
+      {
+        "ch": "先",
+        "t0": 2899,
+        "t1": 3223
+      },
+      {
+        "ch": "下",
+        "t0": 3223,
+        "t1": 3548
+      },
+      {
+        "ch": "坡",
+        "t0": 3548,
+        "t1": 3872
+      },
+      {
+        "ch": "再",
+        "t0": 3872,
+        "t1": 4196
+      },
+      {
+        "ch": "上",
+        "t0": 4196,
+        "t1": 4521
+      },
+      {
+        "ch": "坡",
+        "t0": 4521,
+        "t1": 4845
+      },
+      {
+        "ch": "。",
+        "t0": 4845,
+        "t1": 4845
+      }
+    ]
+  },
+  "py.tip.1-2": {
+    "src": "/audio/pinyin-station/py.tip.1-2.06afac63.m4a",
+    "text": "一声平平走，二声往上坡。",
+    "durationMs": 3855,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "一",
+        "t0": 90,
+        "t1": 382
+      },
+      {
+        "ch": "声",
+        "t0": 382,
+        "t1": 674
+      },
+      {
+        "ch": "平",
+        "t0": 674,
+        "t1": 966
+      },
+      {
+        "ch": "平",
+        "t0": 966,
+        "t1": 1258
+      },
+      {
+        "ch": "走",
+        "t0": 1258,
+        "t1": 1550
+      },
+      {
+        "ch": "，",
+        "t0": 1550,
+        "t1": 2080
+      },
+      {
+        "ch": "二",
+        "t0": 2080,
+        "t1": 2375
+      },
+      {
+        "ch": "声",
+        "t0": 2375,
+        "t1": 2670
+      },
+      {
+        "ch": "往",
+        "t0": 2670,
+        "t1": 2965
+      },
+      {
+        "ch": "上",
+        "t0": 2965,
+        "t1": 3260
+      },
+      {
+        "ch": "坡",
+        "t0": 3260,
+        "t1": 3555
+      },
+      {
+        "ch": "。",
+        "t0": 3555,
+        "t1": 3555
+      }
+    ]
+  },
+  "py.tip.3-4": {
+    "src": "/audio/pinyin-station/py.tip.3-4.a56d8679.m4a",
+    "text": "三声先下坡再上坡，四声往下滑。",
+    "durationMs": 3948,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "三",
+        "t0": 70,
+        "t1": 324
+      },
+      {
+        "ch": "声",
+        "t0": 324,
+        "t1": 578
+      },
+      {
+        "ch": "先",
+        "t0": 578,
+        "t1": 831
+      },
+      {
+        "ch": "下",
+        "t0": 831,
+        "t1": 1085
+      },
+      {
+        "ch": "坡",
+        "t0": 1085,
+        "t1": 1339
+      },
+      {
+        "ch": "再",
+        "t0": 1339,
+        "t1": 1593
+      },
+      {
+        "ch": "上",
+        "t0": 1593,
+        "t1": 1846
+      },
+      {
+        "ch": "坡",
+        "t0": 1846,
+        "t1": 2100
+      },
+      {
+        "ch": "，",
+        "t0": 2100,
+        "t1": 2310
+      },
+      {
+        "ch": "四",
+        "t0": 2310,
+        "t1": 2579
+      },
+      {
+        "ch": "声",
+        "t0": 2579,
+        "t1": 2848
+      },
+      {
+        "ch": "往",
+        "t0": 2848,
+        "t1": 3117
+      },
+      {
+        "ch": "下",
+        "t0": 3117,
+        "t1": 3386
+      },
+      {
+        "ch": "滑",
+        "t0": 3386,
+        "t1": 3655
+      },
+      {
+        "ch": "。",
+        "t0": 3655,
+        "t1": 3655
+      }
+    ]
+  },
+  "py.tip.p-f": {
+    "src": "/audio/pinyin-station/py.tip.p-f.017b91a2.m4a",
+    "text": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。",
+    "durationMs": 5341,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 259
+      },
+      {
+        "ch": "p",
+        "t0": 259,
+        "t1": 468
+      },
+      {
+        "ch": "先",
+        "t0": 468,
+        "t1": 677
+      },
+      {
+        "ch": "合",
+        "t0": 677,
+        "t1": 886
+      },
+      {
+        "ch": "上",
+        "t0": 886,
+        "t1": 1095
+      },
+      {
+        "ch": "嘴",
+        "t0": 1095,
+        "t1": 1304
+      },
+      {
+        "ch": "唇",
+        "t0": 1304,
+        "t1": 1513
+      },
+      {
+        "ch": "再",
+        "t0": 1513,
+        "t1": 1722
+      },
+      {
+        "ch": "送",
+        "t0": 1722,
+        "t1": 1931
+      },
+      {
+        "ch": "气",
+        "t0": 1931,
+        "t1": 2140
+      },
+      {
+        "ch": "，",
+        "t0": 2140,
+        "t1": 2620
+      },
+      {
+        "ch": "读",
+        "t0": 2620,
+        "t1": 2888
+      },
+      {
+        "ch": "f",
+        "t0": 2888,
+        "t1": 3157
+      },
+      {
+        "ch": "用",
+        "t0": 3157,
+        "t1": 3425
+      },
+      {
+        "ch": "上",
+        "t0": 3425,
+        "t1": 3693
+      },
+      {
+        "ch": "牙",
+        "t0": 3693,
+        "t1": 3962
+      },
+      {
+        "ch": "轻",
+        "t0": 3962,
+        "t1": 4230
+      },
+      {
+        "ch": "碰",
+        "t0": 4230,
+        "t1": 4498
+      },
+      {
+        "ch": "下",
+        "t0": 4498,
+        "t1": 4767
+      },
+      {
+        "ch": "唇",
+        "t0": 4767,
+        "t1": 5035
+      },
+      {
+        "ch": "。",
+        "t0": 5035,
+        "t1": 5035
+      }
+    ]
+  },
+  "py.tip.g-k": {
+    "src": "/audio/pinyin-station/py.tip.g-k.17fe2d30.m4a",
+    "text": "小纸条放嘴前，读 k 时送出一口气。",
+    "durationMs": 3832,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 316
+      },
+      {
+        "ch": "纸",
+        "t0": 316,
+        "t1": 562
+      },
+      {
+        "ch": "条",
+        "t0": 562,
+        "t1": 808
+      },
+      {
+        "ch": "放",
+        "t0": 808,
+        "t1": 1054
+      },
+      {
+        "ch": "嘴",
+        "t0": 1054,
+        "t1": 1300
+      },
+      {
+        "ch": "前",
+        "t0": 1300,
+        "t1": 1546
+      },
+      {
+        "ch": "，",
+        "t0": 1546,
+        "t1": 1546
+      },
+      {
+        "ch": "读",
+        "t0": 1546,
+        "t1": 1793
+      },
+      {
+        "ch": "k",
+        "t0": 1793,
+        "t1": 2039
+      },
+      {
+        "ch": "时",
+        "t0": 2039,
+        "t1": 2285
+      },
+      {
+        "ch": "送",
+        "t0": 2285,
+        "t1": 2531
+      },
+      {
+        "ch": "出",
+        "t0": 2531,
+        "t1": 2777
+      },
+      {
+        "ch": "一",
+        "t0": 2777,
+        "t1": 3023
+      },
+      {
+        "ch": "口",
+        "t0": 3023,
+        "t1": 3269
+      },
+      {
+        "ch": "气",
+        "t0": 3269,
+        "t1": 3515
+      },
+      {
+        "ch": "。",
+        "t0": 3515,
+        "t1": 3515
+      }
+    ]
+  },
+  "py.tip.j-q": {
+    "src": "/audio/pinyin-station/py.tip.j-q.e6b801ea.m4a",
+    "text": "读 q 时气送得多一点，看看小纸条会不会动。",
+    "durationMs": 5225,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 310
+      },
+      {
+        "ch": "q",
+        "t0": 310,
+        "t1": 570
+      },
+      {
+        "ch": "时",
+        "t0": 570,
+        "t1": 830
+      },
+      {
+        "ch": "气",
+        "t0": 830,
+        "t1": 1090
+      },
+      {
+        "ch": "送",
+        "t0": 1090,
+        "t1": 1350
+      },
+      {
+        "ch": "得",
+        "t0": 1350,
+        "t1": 1610
+      },
+      {
+        "ch": "多",
+        "t0": 1610,
+        "t1": 1870
+      },
+      {
+        "ch": "一",
+        "t0": 1870,
+        "t1": 2130
+      },
+      {
+        "ch": "点",
+        "t0": 2130,
+        "t1": 2390
+      },
+      {
+        "ch": "，",
+        "t0": 2390,
+        "t1": 2990
+      },
+      {
+        "ch": "看",
+        "t0": 2990,
+        "t1": 3204
+      },
+      {
+        "ch": "看",
+        "t0": 3204,
+        "t1": 3418
+      },
+      {
+        "ch": "小",
+        "t0": 3418,
+        "t1": 3632
+      },
+      {
+        "ch": "纸",
+        "t0": 3632,
+        "t1": 3846
+      },
+      {
+        "ch": "条",
+        "t0": 3846,
+        "t1": 4059
+      },
+      {
+        "ch": "会",
+        "t0": 4059,
+        "t1": 4273
+      },
+      {
+        "ch": "不",
+        "t0": 4273,
+        "t1": 4487
+      },
+      {
+        "ch": "会",
+        "t0": 4487,
+        "t1": 4701
+      },
+      {
+        "ch": "动",
+        "t0": 4701,
+        "t1": 4915
+      },
+      {
+        "ch": "。",
+        "t0": 4915,
+        "t1": 4915
+      }
+    ]
+  },
+  "py.tip.z-c": {
+    "src": "/audio/pinyin-station/py.tip.z-c.dff72508.m4a",
+    "text": "舌尖不翘起，读 c 时轻轻送气。",
+    "durationMs": 3553,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "舌",
+        "t0": 70,
+        "t1": 336
+      },
+      {
+        "ch": "尖",
+        "t0": 336,
+        "t1": 602
+      },
+      {
+        "ch": "不",
+        "t0": 602,
+        "t1": 868
+      },
+      {
+        "ch": "翘",
+        "t0": 868,
+        "t1": 1134
+      },
+      {
+        "ch": "起",
+        "t0": 1134,
+        "t1": 1400
+      },
+      {
+        "ch": "，",
+        "t0": 1400,
+        "t1": 1640
+      },
+      {
+        "ch": "读",
+        "t0": 1640,
+        "t1": 1871
+      },
+      {
+        "ch": "c",
+        "t0": 1871,
+        "t1": 2101
+      },
+      {
+        "ch": "时",
+        "t0": 2101,
+        "t1": 2332
+      },
+      {
+        "ch": "轻",
+        "t0": 2332,
+        "t1": 2563
+      },
+      {
+        "ch": "轻",
+        "t0": 2563,
+        "t1": 2794
+      },
+      {
+        "ch": "送",
+        "t0": 2794,
+        "t1": 3024
+      },
+      {
+        "ch": "气",
+        "t0": 3024,
+        "t1": 3255
+      },
+      {
+        "ch": "。",
+        "t0": 3255,
+        "t1": 3255
+      }
+    ]
+  },
+  "py.tip.zh-ch": {
+    "src": "/audio/pinyin-station/py.tip.zh-ch.1f38295e.m4a",
+    "text": "两次都翘舌，读 ch 时多送一口气。",
+    "durationMs": 3716,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "两",
+        "t0": 50,
+        "t1": 334
+      },
+      {
+        "ch": "次",
+        "t0": 334,
+        "t1": 618
+      },
+      {
+        "ch": "都",
+        "t0": 618,
+        "t1": 902
+      },
+      {
+        "ch": "翘",
+        "t0": 902,
+        "t1": 1186
+      },
+      {
+        "ch": "舌",
+        "t0": 1186,
+        "t1": 1470
+      },
+      {
+        "ch": "，",
+        "t0": 1470,
+        "t1": 1810
+      },
+      {
+        "ch": "读",
+        "t0": 1810,
+        "t1": 2008
+      },
+      {
+        "ch": "ch",
+        "t0": 2008,
+        "t1": 2206
+      },
+      {
+        "ch": "时",
+        "t0": 2206,
+        "t1": 2404
+      },
+      {
+        "ch": "多",
+        "t0": 2404,
+        "t1": 2602
+      },
+      {
+        "ch": "送",
+        "t0": 2602,
+        "t1": 2801
+      },
+      {
+        "ch": "一",
+        "t0": 2801,
+        "t1": 2999
+      },
+      {
+        "ch": "口",
+        "t0": 2999,
+        "t1": 3197
+      },
+      {
+        "ch": "气",
+        "t0": 3197,
+        "t1": 3395
+      },
+      {
+        "ch": "。",
+        "t0": 3395,
+        "t1": 3395
+      }
+    ]
+  },
+  "py.tip.z-zh": {
+    "src": "/audio/pinyin-station/py.tip.z-zh.3cb6e1e0.m4a",
+    "text": "先不翘舌，再轻轻翘起舌尖，听听声音的小变化。",
+    "durationMs": 5271,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "先",
+        "t0": 70,
+        "t1": 300
+      },
+      {
+        "ch": "不",
+        "t0": 300,
+        "t1": 530
+      },
+      {
+        "ch": "翘",
+        "t0": 530,
+        "t1": 760
+      },
+      {
+        "ch": "舌",
+        "t0": 760,
+        "t1": 990
+      },
+      {
+        "ch": "，",
+        "t0": 990,
+        "t1": 1440
+      },
+      {
+        "ch": "再",
+        "t0": 1440,
+        "t1": 1699
+      },
+      {
+        "ch": "轻",
+        "t0": 1699,
+        "t1": 1957
+      },
+      {
+        "ch": "轻",
+        "t0": 1957,
+        "t1": 2216
+      },
+      {
+        "ch": "翘",
+        "t0": 2216,
+        "t1": 2474
+      },
+      {
+        "ch": "起",
+        "t0": 2474,
+        "t1": 2733
+      },
+      {
+        "ch": "舌",
+        "t0": 2733,
+        "t1": 2991
+      },
+      {
+        "ch": "尖",
+        "t0": 2991,
+        "t1": 3250
+      },
+      {
+        "ch": "，",
+        "t0": 3250,
+        "t1": 3600
+      },
+      {
+        "ch": "听",
+        "t0": 3600,
+        "t1": 3773
+      },
+      {
+        "ch": "听",
+        "t0": 3773,
+        "t1": 3946
+      },
+      {
+        "ch": "声",
+        "t0": 3946,
+        "t1": 4119
+      },
+      {
+        "ch": "音",
+        "t0": 4119,
+        "t1": 4292
+      },
+      {
+        "ch": "的",
+        "t0": 4292,
+        "t1": 4466
+      },
+      {
+        "ch": "小",
+        "t0": 4466,
+        "t1": 4639
+      },
+      {
+        "ch": "变",
+        "t0": 4639,
+        "t1": 4812
+      },
+      {
+        "ch": "化",
+        "t0": 4812,
+        "t1": 4985
+      },
+      {
+        "ch": "。",
+        "t0": 4985,
+        "t1": 4985
+      }
+    ]
+  },
+  "py.tip.s-sh": {
+    "src": "/audio/pinyin-station/py.tip.s-sh.84482fd4.m4a",
+    "text": "先让舌尖平放，再轻轻翘起，慢慢比较两个声音。",
+    "durationMs": 4807,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "先",
+        "t0": 70,
+        "t1": 291
+      },
+      {
+        "ch": "让",
+        "t0": 291,
+        "t1": 512
+      },
+      {
+        "ch": "舌",
+        "t0": 512,
+        "t1": 733
+      },
+      {
+        "ch": "尖",
+        "t0": 733,
+        "t1": 954
+      },
+      {
+        "ch": "平",
+        "t0": 954,
+        "t1": 1175
+      },
+      {
+        "ch": "放",
+        "t0": 1175,
+        "t1": 1395
+      },
+      {
+        "ch": "，",
+        "t0": 1395,
+        "t1": 1395
+      },
+      {
+        "ch": "再",
+        "t0": 1395,
+        "t1": 1616
+      },
+      {
+        "ch": "轻",
+        "t0": 1616,
+        "t1": 1837
+      },
+      {
+        "ch": "轻",
+        "t0": 1837,
+        "t1": 2058
+      },
+      {
+        "ch": "翘",
+        "t0": 2058,
+        "t1": 2279
+      },
+      {
+        "ch": "起",
+        "t0": 2279,
+        "t1": 2500
+      },
+      {
+        "ch": "，",
+        "t0": 2500,
+        "t1": 2980
+      },
+      {
+        "ch": "慢",
+        "t0": 2980,
+        "t1": 3168
+      },
+      {
+        "ch": "慢",
+        "t0": 3168,
+        "t1": 3356
+      },
+      {
+        "ch": "比",
+        "t0": 3356,
+        "t1": 3544
+      },
+      {
+        "ch": "较",
+        "t0": 3544,
+        "t1": 3732
+      },
+      {
+        "ch": "两",
+        "t0": 3732,
+        "t1": 3921
+      },
+      {
+        "ch": "个",
+        "t0": 3921,
+        "t1": 4109
+      },
+      {
+        "ch": "声",
+        "t0": 4109,
+        "t1": 4297
+      },
+      {
+        "ch": "音",
+        "t0": 4297,
+        "t1": 4485
+      },
+      {
+        "ch": "。",
+        "t0": 4485,
+        "t1": 4485
+      }
+    ]
+  },
+  "py.mnemonic.a": {
+    "src": "/audio/pinyin-station/py.mnemonic.a.090108dd.m4a",
+    "text": "张大嘴巴 a a a",
+    "durationMs": 2856,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "张",
+        "t0": 70,
+        "t1": 424
+      },
+      {
+        "ch": "大",
+        "t0": 424,
+        "t1": 777
+      },
+      {
+        "ch": "嘴",
+        "t0": 777,
+        "t1": 1131
+      },
+      {
+        "ch": "巴",
+        "t0": 1131,
+        "t1": 1484
+      },
+      {
+        "ch": "a",
+        "t0": 1484,
+        "t1": 1838
+      },
+      {
+        "ch": "a",
+        "t0": 1838,
+        "t1": 2191
+      },
+      {
+        "ch": "a",
+        "t0": 2191,
+        "t1": 2545
+      }
+    ]
+  },
+  "py.mnemonic.o": {
+    "src": "/audio/pinyin-station/py.mnemonic.o.689f0142.m4a",
+    "text": "圆圆嘴巴 o o o",
+    "durationMs": 6409,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "圆",
+        "t0": 70,
+        "t1": 949
+      },
+      {
+        "ch": "圆",
+        "t0": 949,
+        "t1": 1829
+      },
+      {
+        "ch": "嘴",
+        "t0": 1829,
+        "t1": 2708
+      },
+      {
+        "ch": "巴",
+        "t0": 2708,
+        "t1": 3587
+      },
+      {
+        "ch": "o",
+        "t0": 3587,
+        "t1": 4466
+      },
+      {
+        "ch": "o",
+        "t0": 4466,
+        "t1": 5346
+      },
+      {
+        "ch": "o",
+        "t0": 5346,
+        "t1": 6225
+      }
+    ]
+  },
+  "py.mnemonic.e": {
+    "src": "/audio/pinyin-station/py.mnemonic.e.c1eb80ab.m4a",
+    "text": "扁扁嘴巴 e e e",
+    "durationMs": 1997,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "扁",
+        "t0": 50,
+        "t1": 284
+      },
+      {
+        "ch": "扁",
+        "t0": 284,
+        "t1": 517
+      },
+      {
+        "ch": "嘴",
+        "t0": 517,
+        "t1": 751
+      },
+      {
+        "ch": "巴",
+        "t0": 751,
+        "t1": 984
+      },
+      {
+        "ch": "e",
+        "t0": 984,
+        "t1": 1218
+      },
+      {
+        "ch": "e",
+        "t0": 1218,
+        "t1": 1451
+      },
+      {
+        "ch": "e",
+        "t0": 1451,
+        "t1": 1685
+      }
+    ]
+  },
+  "py.mnemonic.i": {
+    "src": "/audio/pinyin-station/py.mnemonic.i.4079fde4.m4a",
+    "text": "牙齿对齐 i i i",
+    "durationMs": 3391,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "牙",
+        "t0": 50,
+        "t1": 476
+      },
+      {
+        "ch": "齿",
+        "t0": 476,
+        "t1": 903
+      },
+      {
+        "ch": "对",
+        "t0": 903,
+        "t1": 1329
+      },
+      {
+        "ch": "齐",
+        "t0": 1329,
+        "t1": 1756
+      },
+      {
+        "ch": "i",
+        "t0": 1756,
+        "t1": 2182
+      },
+      {
+        "ch": "i",
+        "t0": 2182,
+        "t1": 2609
+      },
+      {
+        "ch": "i",
+        "t0": 2609,
+        "t1": 3035
+      }
+    ]
+  },
+  "py.mnemonic.u": {
+    "src": "/audio/pinyin-station/py.mnemonic.u.b004f37e.m4a",
+    "text": "嘴巴突出 u u u",
+    "durationMs": 3321,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "嘴",
+        "t0": 70,
+        "t1": 491
+      },
+      {
+        "ch": "巴",
+        "t0": 491,
+        "t1": 911
+      },
+      {
+        "ch": "突",
+        "t0": 911,
+        "t1": 1332
+      },
+      {
+        "ch": "出",
+        "t0": 1332,
+        "t1": 1753
+      },
+      {
+        "ch": "u",
+        "t0": 1753,
+        "t1": 2174
+      },
+      {
+        "ch": "u",
+        "t0": 2174,
+        "t1": 2594
+      },
+      {
+        "ch": "u",
+        "t0": 2594,
+        "t1": 3015
+      }
+    ]
+  },
+  "py.mnemonic.v": {
+    "src": "/audio/pinyin-station/py.mnemonic.v.271e21c6.m4a",
+    "text": "嘴吹口哨 ü ü ü，两点要留住",
+    "durationMs": 5248,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "嘴",
+        "t0": 70,
+        "t1": 798
+      },
+      {
+        "ch": "吹",
+        "t0": 798,
+        "t1": 1525
+      },
+      {
+        "ch": "口",
+        "t0": 1525,
+        "t1": 2252
+      },
+      {
+        "ch": "哨",
+        "t0": 2252,
+        "t1": 2980
+      },
+      {
+        "ch": "ü",
+        "t0": 2980,
+        "t1": 3530
+      },
+      {
+        "ch": "ü",
+        "t0": 2980,
+        "t1": 3530
+      },
+      {
+        "ch": "ü",
+        "t0": 2980,
+        "t1": 3530
+      },
+      {
+        "ch": "，",
+        "t0": 2980,
+        "t1": 3530
+      },
+      {
+        "ch": "两",
+        "t0": 3530,
+        "t1": 3811
+      },
+      {
+        "ch": "点",
+        "t0": 3811,
+        "t1": 4092
+      },
+      {
+        "ch": "要",
+        "t0": 4092,
+        "t1": 4373
+      },
+      {
+        "ch": "留",
+        "t0": 4373,
+        "t1": 4654
+      },
+      {
+        "ch": "住",
+        "t0": 4654,
+        "t1": 4935
+      }
+    ]
+  },
+  "py.mnemonic.y": {
+    "src": "/audio/pinyin-station/py.mnemonic.y.24518c17.m4a",
+    "text": "小树分杈，认一认 y 的样子",
+    "durationMs": 3646,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 325
+      },
+      {
+        "ch": "树",
+        "t0": 325,
+        "t1": 580
+      },
+      {
+        "ch": "分",
+        "t0": 580,
+        "t1": 835
+      },
+      {
+        "ch": "杈",
+        "t0": 835,
+        "t1": 1090
+      },
+      {
+        "ch": "，",
+        "t0": 1090,
+        "t1": 1670
+      },
+      {
+        "ch": "认",
+        "t0": 1670,
+        "t1": 1906
+      },
+      {
+        "ch": "一",
+        "t0": 1906,
+        "t1": 2143
+      },
+      {
+        "ch": "认",
+        "t0": 2143,
+        "t1": 2379
+      },
+      {
+        "ch": "y",
+        "t0": 2379,
+        "t1": 2616
+      },
+      {
+        "ch": "的",
+        "t0": 2616,
+        "t1": 2852
+      },
+      {
+        "ch": "样",
+        "t0": 2852,
+        "t1": 3089
+      },
+      {
+        "ch": "子",
+        "t0": 3089,
+        "t1": 3325
+      }
+    ]
+  },
+  "py.mnemonic.w": {
+    "src": "/audio/pinyin-station/py.mnemonic.w.44ee0506.m4a",
+    "text": "屋顶相连，认一认 w 的样子",
+    "durationMs": 3507,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "屋",
+        "t0": 50,
+        "t1": 350
+      },
+      {
+        "ch": "顶",
+        "t0": 350,
+        "t1": 650
+      },
+      {
+        "ch": "相",
+        "t0": 650,
+        "t1": 950
+      },
+      {
+        "ch": "连",
+        "t0": 950,
+        "t1": 1250
+      },
+      {
+        "ch": "，",
+        "t0": 1250,
+        "t1": 1500
+      },
+      {
+        "ch": "认",
+        "t0": 1500,
+        "t1": 1744
+      },
+      {
+        "ch": "一",
+        "t0": 1744,
+        "t1": 1987
+      },
+      {
+        "ch": "认",
+        "t0": 1987,
+        "t1": 2231
+      },
+      {
+        "ch": "w",
+        "t0": 2231,
+        "t1": 2474
+      },
+      {
+        "ch": "的",
+        "t0": 2474,
+        "t1": 2718
+      },
+      {
+        "ch": "样",
+        "t0": 2718,
+        "t1": 2961
+      },
+      {
+        "ch": "子",
+        "t0": 2961,
+        "t1": 3205
+      }
+    ]
+  },
+  "py.mnemonic.b": {
+    "src": "/audio/pinyin-station/py.mnemonic.b.dc6cdc45.m4a",
+    "text": "右下半圆，轻轻闭唇",
+    "durationMs": 2833,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "右",
+        "t0": 80,
+        "t1": 340
+      },
+      {
+        "ch": "下",
+        "t0": 340,
+        "t1": 600
+      },
+      {
+        "ch": "半",
+        "t0": 600,
+        "t1": 860
+      },
+      {
+        "ch": "圆",
+        "t0": 860,
+        "t1": 1120
+      },
+      {
+        "ch": "，",
+        "t0": 1120,
+        "t1": 1310
+      },
+      {
+        "ch": "轻",
+        "t0": 1310,
+        "t1": 1616
+      },
+      {
+        "ch": "轻",
+        "t0": 1616,
+        "t1": 1922
+      },
+      {
+        "ch": "闭",
+        "t0": 1922,
+        "t1": 2229
+      },
+      {
+        "ch": "唇",
+        "t0": 2229,
+        "t1": 2535
+      }
+    ]
+  },
+  "py.mnemonic.p": {
+    "src": "/audio/pinyin-station/py.mnemonic.p.f782ebf2.m4a",
+    "text": "右上半圆，纸条飘起来",
+    "durationMs": 3065,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "右",
+        "t0": 70,
+        "t1": 330
+      },
+      {
+        "ch": "上",
+        "t0": 330,
+        "t1": 590
+      },
+      {
+        "ch": "半",
+        "t0": 590,
+        "t1": 850
+      },
+      {
+        "ch": "圆",
+        "t0": 850,
+        "t1": 1110
+      },
+      {
+        "ch": "，",
+        "t0": 1110,
+        "t1": 1440
+      },
+      {
+        "ch": "纸",
+        "t0": 1440,
+        "t1": 1703
+      },
+      {
+        "ch": "条",
+        "t0": 1703,
+        "t1": 1966
+      },
+      {
+        "ch": "飘",
+        "t0": 1966,
+        "t1": 2229
+      },
+      {
+        "ch": "起",
+        "t0": 2229,
+        "t1": 2492
+      },
+      {
+        "ch": "来",
+        "t0": 2492,
+        "t1": 2755
+      }
+    ]
+  },
+  "py.mnemonic.m": {
+    "src": "/audio/pinyin-station/py.mnemonic.m.2bc07345.m4a",
+    "text": "两个门洞，嘴唇轻轻合",
+    "durationMs": 3762,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "两",
+        "t0": 50,
+        "t1": 332
+      },
+      {
+        "ch": "个",
+        "t0": 332,
+        "t1": 615
+      },
+      {
+        "ch": "门",
+        "t0": 615,
+        "t1": 898
+      },
+      {
+        "ch": "洞",
+        "t0": 898,
+        "t1": 1180
+      },
+      {
+        "ch": "，",
+        "t0": 1180,
+        "t1": 1610
+      },
+      {
+        "ch": "嘴",
+        "t0": 1610,
+        "t1": 1977
+      },
+      {
+        "ch": "唇",
+        "t0": 1977,
+        "t1": 2344
+      },
+      {
+        "ch": "轻",
+        "t0": 2344,
+        "t1": 2711
+      },
+      {
+        "ch": "轻",
+        "t0": 2711,
+        "t1": 3078
+      },
+      {
+        "ch": "合",
+        "t0": 3078,
+        "t1": 3445
+      }
+    ]
+  },
+  "py.mnemonic.f": {
+    "src": "/audio/pinyin-station/py.mnemonic.f.d12e6b8b.m4a",
+    "text": "小拐杖，牙齿碰下唇",
+    "durationMs": 2508,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 293
+      },
+      {
+        "ch": "拐",
+        "t0": 293,
+        "t1": 517
+      },
+      {
+        "ch": "杖",
+        "t0": 517,
+        "t1": 740
+      },
+      {
+        "ch": "，",
+        "t0": 740,
+        "t1": 1140
+      },
+      {
+        "ch": "牙",
+        "t0": 1140,
+        "t1": 1357
+      },
+      {
+        "ch": "齿",
+        "t0": 1357,
+        "t1": 1574
+      },
+      {
+        "ch": "碰",
+        "t0": 1574,
+        "t1": 1791
+      },
+      {
+        "ch": "下",
+        "t0": 1791,
+        "t1": 2008
+      },
+      {
+        "ch": "唇",
+        "t0": 2008,
+        "t1": 2225
+      }
+    ]
+  },
+  "py.mnemonic.d": {
+    "src": "/audio/pinyin-station/py.mnemonic.d.25da7a5d.m4a",
+    "text": "左下半圆，舌尖轻轻弹",
+    "durationMs": 3739,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "左",
+        "t0": 80,
+        "t1": 422
+      },
+      {
+        "ch": "下",
+        "t0": 422,
+        "t1": 765
+      },
+      {
+        "ch": "半",
+        "t0": 765,
+        "t1": 1108
+      },
+      {
+        "ch": "圆",
+        "t0": 1108,
+        "t1": 1450
+      },
+      {
+        "ch": "，",
+        "t0": 1450,
+        "t1": 1740
+      },
+      {
+        "ch": "舌",
+        "t0": 1740,
+        "t1": 2079
+      },
+      {
+        "ch": "尖",
+        "t0": 2079,
+        "t1": 2418
+      },
+      {
+        "ch": "轻",
+        "t0": 2418,
+        "t1": 2757
+      },
+      {
+        "ch": "轻",
+        "t0": 2757,
+        "t1": 3096
+      },
+      {
+        "ch": "弹",
+        "t0": 3096,
+        "t1": 3435
+      }
+    ]
+  },
+  "py.mnemonic.t": {
+    "src": "/audio/pinyin-station/py.mnemonic.t.f581da37.m4a",
+    "text": "小伞把，纸条飘起来",
+    "durationMs": 3507,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 433
+      },
+      {
+        "ch": "伞",
+        "t0": 433,
+        "t1": 797
+      },
+      {
+        "ch": "把",
+        "t0": 797,
+        "t1": 1160
+      },
+      {
+        "ch": "，",
+        "t0": 1160,
+        "t1": 1550
+      },
+      {
+        "ch": "纸",
+        "t0": 1550,
+        "t1": 1881
+      },
+      {
+        "ch": "条",
+        "t0": 1881,
+        "t1": 2212
+      },
+      {
+        "ch": "飘",
+        "t0": 2212,
+        "t1": 2543
+      },
+      {
+        "ch": "起",
+        "t0": 2543,
+        "t1": 2874
+      },
+      {
+        "ch": "来",
+        "t0": 2874,
+        "t1": 3205
+      }
+    ]
+  },
+  "py.mnemonic.n": {
+    "src": "/audio/pinyin-station/py.mnemonic.n.f5ecef7d.m4a",
+    "text": "一个门洞，鼻子也唱歌",
+    "durationMs": 3182,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "一",
+        "t0": 50,
+        "t1": 327
+      },
+      {
+        "ch": "个",
+        "t0": 327,
+        "t1": 605
+      },
+      {
+        "ch": "门",
+        "t0": 605,
+        "t1": 882
+      },
+      {
+        "ch": "洞",
+        "t0": 882,
+        "t1": 1160
+      },
+      {
+        "ch": "，",
+        "t0": 1160,
+        "t1": 1420
+      },
+      {
+        "ch": "鼻",
+        "t0": 1420,
+        "t1": 1715
+      },
+      {
+        "ch": "子",
+        "t0": 1715,
+        "t1": 2010
+      },
+      {
+        "ch": "也",
+        "t0": 2010,
+        "t1": 2305
+      },
+      {
+        "ch": "唱",
+        "t0": 2305,
+        "t1": 2600
+      },
+      {
+        "ch": "歌",
+        "t0": 2600,
+        "t1": 2895
+      }
+    ]
+  },
+  "py.mnemonic.l": {
+    "src": "/audio/pinyin-station/py.mnemonic.l.01252fd3.m4a",
+    "text": "一根小棒，舌尖轻轻抬",
+    "durationMs": 2926,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "一",
+        "t0": 70,
+        "t1": 310
+      },
+      {
+        "ch": "根",
+        "t0": 310,
+        "t1": 550
+      },
+      {
+        "ch": "小",
+        "t0": 550,
+        "t1": 790
+      },
+      {
+        "ch": "棒",
+        "t0": 790,
+        "t1": 1030
+      },
+      {
+        "ch": "，",
+        "t0": 1030,
+        "t1": 1340
+      },
+      {
+        "ch": "舌",
+        "t0": 1340,
+        "t1": 1599
+      },
+      {
+        "ch": "尖",
+        "t0": 1599,
+        "t1": 1858
+      },
+      {
+        "ch": "轻",
+        "t0": 1858,
+        "t1": 2117
+      },
+      {
+        "ch": "轻",
+        "t0": 2117,
+        "t1": 2376
+      },
+      {
+        "ch": "抬",
+        "t0": 2376,
+        "t1": 2635
+      }
+    ]
+  },
+  "py.mnemonic.g": {
+    "src": "/audio/pinyin-station/py.mnemonic.g.1d911809.m4a",
+    "text": "像一条小辫子，尾巴向下弯",
+    "durationMs": 3112,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "像",
+        "t0": 70,
+        "t1": 322
+      },
+      {
+        "ch": "一",
+        "t0": 322,
+        "t1": 573
+      },
+      {
+        "ch": "条",
+        "t0": 573,
+        "t1": 825
+      },
+      {
+        "ch": "小",
+        "t0": 825,
+        "t1": 1077
+      },
+      {
+        "ch": "辫",
+        "t0": 1077,
+        "t1": 1328
+      },
+      {
+        "ch": "子",
+        "t0": 1328,
+        "t1": 1580
+      },
+      {
+        "ch": "，",
+        "t0": 1580,
+        "t1": 1680
+      },
+      {
+        "ch": "尾",
+        "t0": 1680,
+        "t1": 1905
+      },
+      {
+        "ch": "巴",
+        "t0": 1905,
+        "t1": 2130
+      },
+      {
+        "ch": "向",
+        "t0": 2130,
+        "t1": 2355
+      },
+      {
+        "ch": "下",
+        "t0": 2355,
+        "t1": 2580
+      },
+      {
+        "ch": "弯",
+        "t0": 2580,
+        "t1": 2805
+      }
+    ]
+  },
+  "py.mnemonic.k": {
+    "src": "/audio/pinyin-station/py.mnemonic.k.13ce47c6.m4a",
+    "text": "一根小棒，右边伸出两条斜线",
+    "durationMs": 3391,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "一",
+        "t0": 80,
+        "t1": 250
+      },
+      {
+        "ch": "根",
+        "t0": 250,
+        "t1": 420
+      },
+      {
+        "ch": "小",
+        "t0": 420,
+        "t1": 590
+      },
+      {
+        "ch": "棒",
+        "t0": 590,
+        "t1": 760
+      },
+      {
+        "ch": "，",
+        "t0": 760,
+        "t1": 1430
+      },
+      {
+        "ch": "右",
+        "t0": 1430,
+        "t1": 1634
+      },
+      {
+        "ch": "边",
+        "t0": 1634,
+        "t1": 1839
+      },
+      {
+        "ch": "伸",
+        "t0": 1839,
+        "t1": 2043
+      },
+      {
+        "ch": "出",
+        "t0": 2043,
+        "t1": 2248
+      },
+      {
+        "ch": "两",
+        "t0": 2248,
+        "t1": 2452
+      },
+      {
+        "ch": "条",
+        "t0": 2452,
+        "t1": 2656
+      },
+      {
+        "ch": "斜",
+        "t0": 2656,
+        "t1": 2861
+      },
+      {
+        "ch": "线",
+        "t0": 2861,
+        "t1": 3065
+      }
+    ]
+  },
+  "py.mnemonic.h": {
+    "src": "/audio/pinyin-station/py.mnemonic.h.b458d6f5.m4a",
+    "text": "像一把小椅子，靠背高高的",
+    "durationMs": 2624,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "像",
+        "t0": 70,
+        "t1": 269
+      },
+      {
+        "ch": "一",
+        "t0": 269,
+        "t1": 467
+      },
+      {
+        "ch": "把",
+        "t0": 467,
+        "t1": 666
+      },
+      {
+        "ch": "小",
+        "t0": 666,
+        "t1": 865
+      },
+      {
+        "ch": "椅",
+        "t0": 865,
+        "t1": 1063
+      },
+      {
+        "ch": "子",
+        "t0": 1063,
+        "t1": 1262
+      },
+      {
+        "ch": "，",
+        "t0": 1262,
+        "t1": 1262
+      },
+      {
+        "ch": "靠",
+        "t0": 1262,
+        "t1": 1460
+      },
+      {
+        "ch": "背",
+        "t0": 1460,
+        "t1": 1659
+      },
+      {
+        "ch": "高",
+        "t0": 1659,
+        "t1": 1858
+      },
+      {
+        "ch": "高",
+        "t0": 1858,
+        "t1": 2056
+      },
+      {
+        "ch": "的",
+        "t0": 2056,
+        "t1": 2255
+      }
+    ]
+  },
+  "py.mnemonic.j": {
+    "src": "/audio/pinyin-station/py.mnemonic.j.1d38572c.m4a",
+    "text": "小钩子向下弯，头上一点别忘记",
+    "durationMs": 3971,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 315
+      },
+      {
+        "ch": "钩",
+        "t0": 315,
+        "t1": 560
+      },
+      {
+        "ch": "子",
+        "t0": 560,
+        "t1": 805
+      },
+      {
+        "ch": "向",
+        "t0": 805,
+        "t1": 1050
+      },
+      {
+        "ch": "下",
+        "t0": 1050,
+        "t1": 1295
+      },
+      {
+        "ch": "弯",
+        "t0": 1295,
+        "t1": 1540
+      },
+      {
+        "ch": "，",
+        "t0": 1540,
+        "t1": 1970
+      },
+      {
+        "ch": "头",
+        "t0": 1970,
+        "t1": 2206
+      },
+      {
+        "ch": "上",
+        "t0": 2206,
+        "t1": 2443
+      },
+      {
+        "ch": "一",
+        "t0": 2443,
+        "t1": 2679
+      },
+      {
+        "ch": "点",
+        "t0": 2679,
+        "t1": 2916
+      },
+      {
+        "ch": "别",
+        "t0": 2916,
+        "t1": 3152
+      },
+      {
+        "ch": "忘",
+        "t0": 3152,
+        "t1": 3389
+      },
+      {
+        "ch": "记",
+        "t0": 3389,
+        "t1": 3625
+      }
+    ]
+  },
+  "py.mnemonic.q": {
+    "src": "/audio/pinyin-station/py.mnemonic.q.8be949ab.m4a",
+    "text": "圆圆气球向左靠，细细绳子垂下来",
+    "durationMs": 3994,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "圆",
+        "t0": 80,
+        "t1": 287
+      },
+      {
+        "ch": "圆",
+        "t0": 287,
+        "t1": 494
+      },
+      {
+        "ch": "气",
+        "t0": 494,
+        "t1": 701
+      },
+      {
+        "ch": "球",
+        "t0": 701,
+        "t1": 909
+      },
+      {
+        "ch": "向",
+        "t0": 909,
+        "t1": 1116
+      },
+      {
+        "ch": "左",
+        "t0": 1116,
+        "t1": 1323
+      },
+      {
+        "ch": "靠",
+        "t0": 1323,
+        "t1": 1530
+      },
+      {
+        "ch": "，",
+        "t0": 1530,
+        "t1": 2060
+      },
+      {
+        "ch": "细",
+        "t0": 2060,
+        "t1": 2294
+      },
+      {
+        "ch": "细",
+        "t0": 2294,
+        "t1": 2527
+      },
+      {
+        "ch": "绳",
+        "t0": 2527,
+        "t1": 2761
+      },
+      {
+        "ch": "子",
+        "t0": 2761,
+        "t1": 2994
+      },
+      {
+        "ch": "垂",
+        "t0": 2994,
+        "t1": 3228
+      },
+      {
+        "ch": "下",
+        "t0": 3228,
+        "t1": 3461
+      },
+      {
+        "ch": "来",
+        "t0": 3461,
+        "t1": 3695
+      }
+    ]
+  },
+  "py.mnemonic.x": {
+    "src": "/audio/pinyin-station/py.mnemonic.x.6932647f.m4a",
+    "text": "两条斜线交个叉",
+    "durationMs": 2671,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "两",
+        "t0": 50,
+        "t1": 379
+      },
+      {
+        "ch": "条",
+        "t0": 379,
+        "t1": 709
+      },
+      {
+        "ch": "斜",
+        "t0": 709,
+        "t1": 1038
+      },
+      {
+        "ch": "线",
+        "t0": 1038,
+        "t1": 1367
+      },
+      {
+        "ch": "交",
+        "t0": 1367,
+        "t1": 1696
+      },
+      {
+        "ch": "个",
+        "t0": 1696,
+        "t1": 2026
+      },
+      {
+        "ch": "叉",
+        "t0": 2026,
+        "t1": 2355
+      }
+    ]
+  },
+  "py.mnemonic.z": {
+    "src": "/audio/pinyin-station/py.mnemonic.z.a9e97bdc.m4a",
+    "text": "像数字二，注意三个笔画",
+    "durationMs": 3042,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "像",
+        "t0": 70,
+        "t1": 335
+      },
+      {
+        "ch": "数",
+        "t0": 335,
+        "t1": 600
+      },
+      {
+        "ch": "字",
+        "t0": 600,
+        "t1": 865
+      },
+      {
+        "ch": "二",
+        "t0": 865,
+        "t1": 1130
+      },
+      {
+        "ch": "，",
+        "t0": 1130,
+        "t1": 1590
+      },
+      {
+        "ch": "注",
+        "t0": 1590,
+        "t1": 1779
+      },
+      {
+        "ch": "意",
+        "t0": 1779,
+        "t1": 1968
+      },
+      {
+        "ch": "三",
+        "t0": 1968,
+        "t1": 2158
+      },
+      {
+        "ch": "个",
+        "t0": 2158,
+        "t1": 2347
+      },
+      {
+        "ch": "笔",
+        "t0": 2347,
+        "t1": 2536
+      },
+      {
+        "ch": "画",
+        "t0": 2536,
+        "t1": 2725
+      }
+    ]
+  },
+  "py.mnemonic.c": {
+    "src": "/audio/pinyin-station/py.mnemonic.c.5c1f795b.m4a",
+    "text": "半圆开口朝右边",
+    "durationMs": 1951,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "半",
+        "t0": 50,
+        "t1": 279
+      },
+      {
+        "ch": "圆",
+        "t0": 279,
+        "t1": 509
+      },
+      {
+        "ch": "开",
+        "t0": 509,
+        "t1": 738
+      },
+      {
+        "ch": "口",
+        "t0": 738,
+        "t1": 967
+      },
+      {
+        "ch": "朝",
+        "t0": 967,
+        "t1": 1196
+      },
+      {
+        "ch": "右",
+        "t0": 1196,
+        "t1": 1426
+      },
+      {
+        "ch": "边",
+        "t0": 1426,
+        "t1": 1655
+      }
+    ]
+  },
+  "py.mnemonic.s": {
+    "src": "/audio/pinyin-station/py.mnemonic.s.82ce5396.m4a",
+    "text": "弯弯曲曲，像一条小路",
+    "durationMs": 2880,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "弯",
+        "t0": 50,
+        "t1": 330
+      },
+      {
+        "ch": "弯",
+        "t0": 330,
+        "t1": 610
+      },
+      {
+        "ch": "曲",
+        "t0": 610,
+        "t1": 890
+      },
+      {
+        "ch": "曲",
+        "t0": 890,
+        "t1": 1170
+      },
+      {
+        "ch": "，",
+        "t0": 1170,
+        "t1": 1400
+      },
+      {
+        "ch": "像",
+        "t0": 1400,
+        "t1": 1633
+      },
+      {
+        "ch": "一",
+        "t0": 1633,
+        "t1": 1866
+      },
+      {
+        "ch": "条",
+        "t0": 1866,
+        "t1": 2099
+      },
+      {
+        "ch": "小",
+        "t0": 2099,
+        "t1": 2332
+      },
+      {
+        "ch": "路",
+        "t0": 2332,
+        "t1": 2565
+      }
+    ]
+  },
+  "py.mnemonic.zh": {
+    "src": "/audio/pinyin-station/py.mnemonic.zh.ebf4d5f7.m4a",
+    "text": "舌尖轻轻翘起来，和小椅子做朋友",
+    "durationMs": 4203,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "舌",
+        "t0": 70,
+        "t1": 316
+      },
+      {
+        "ch": "尖",
+        "t0": 316,
+        "t1": 561
+      },
+      {
+        "ch": "轻",
+        "t0": 561,
+        "t1": 807
+      },
+      {
+        "ch": "轻",
+        "t0": 807,
+        "t1": 1053
+      },
+      {
+        "ch": "翘",
+        "t0": 1053,
+        "t1": 1299
+      },
+      {
+        "ch": "起",
+        "t0": 1299,
+        "t1": 1544
+      },
+      {
+        "ch": "来",
+        "t0": 1544,
+        "t1": 1790
+      },
+      {
+        "ch": "，",
+        "t0": 1790,
+        "t1": 2150
+      },
+      {
+        "ch": "和",
+        "t0": 2150,
+        "t1": 2399
+      },
+      {
+        "ch": "小",
+        "t0": 2399,
+        "t1": 2649
+      },
+      {
+        "ch": "椅",
+        "t0": 2649,
+        "t1": 2898
+      },
+      {
+        "ch": "子",
+        "t0": 2898,
+        "t1": 3147
+      },
+      {
+        "ch": "做",
+        "t0": 3147,
+        "t1": 3396
+      },
+      {
+        "ch": "朋",
+        "t0": 3396,
+        "t1": 3646
+      },
+      {
+        "ch": "友",
+        "t0": 3646,
+        "t1": 3895
+      }
+    ]
+  },
+  "py.mnemonic.ch": {
+    "src": "/audio/pinyin-station/py.mnemonic.ch.75360ff3.m4a",
+    "text": "舌尖翘起来，轻轻送出一口气",
+    "durationMs": 4459,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "舌",
+        "t0": 70,
+        "t1": 466
+      },
+      {
+        "ch": "尖",
+        "t0": 466,
+        "t1": 862
+      },
+      {
+        "ch": "翘",
+        "t0": 862,
+        "t1": 1258
+      },
+      {
+        "ch": "起",
+        "t0": 1258,
+        "t1": 1654
+      },
+      {
+        "ch": "来",
+        "t0": 1654,
+        "t1": 2050
+      },
+      {
+        "ch": "，",
+        "t0": 2050,
+        "t1": 2400
+      },
+      {
+        "ch": "轻",
+        "t0": 2400,
+        "t1": 2649
+      },
+      {
+        "ch": "轻",
+        "t0": 2649,
+        "t1": 2899
+      },
+      {
+        "ch": "送",
+        "t0": 2899,
+        "t1": 3148
+      },
+      {
+        "ch": "出",
+        "t0": 3148,
+        "t1": 3397
+      },
+      {
+        "ch": "一",
+        "t0": 3397,
+        "t1": 3646
+      },
+      {
+        "ch": "口",
+        "t0": 3646,
+        "t1": 3896
+      },
+      {
+        "ch": "气",
+        "t0": 3896,
+        "t1": 4145
+      }
+    ]
+  },
+  "py.mnemonic.sh": {
+    "src": "/audio/pinyin-station/py.mnemonic.sh.1122330a.m4a",
+    "text": "舌尖翘起来，让气流慢慢通过",
+    "durationMs": 4226,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "舌",
+        "t0": 70,
+        "t1": 420
+      },
+      {
+        "ch": "尖",
+        "t0": 420,
+        "t1": 770
+      },
+      {
+        "ch": "翘",
+        "t0": 770,
+        "t1": 1120
+      },
+      {
+        "ch": "起",
+        "t0": 1120,
+        "t1": 1470
+      },
+      {
+        "ch": "来",
+        "t0": 1470,
+        "t1": 1820
+      },
+      {
+        "ch": "，",
+        "t0": 1820,
+        "t1": 2010
+      },
+      {
+        "ch": "让",
+        "t0": 2010,
+        "t1": 2276
+      },
+      {
+        "ch": "气",
+        "t0": 2276,
+        "t1": 2543
+      },
+      {
+        "ch": "流",
+        "t0": 2543,
+        "t1": 2809
+      },
+      {
+        "ch": "慢",
+        "t0": 2809,
+        "t1": 3076
+      },
+      {
+        "ch": "慢",
+        "t0": 3076,
+        "t1": 3342
+      },
+      {
+        "ch": "通",
+        "t0": 3342,
+        "t1": 3609
+      },
+      {
+        "ch": "过",
+        "t0": 3609,
+        "t1": 3875
+      }
+    ]
+  },
+  "py.mnemonic.r": {
+    "src": "/audio/pinyin-station/py.mnemonic.r.53fff20b.m4a",
+    "text": "小苗发芽，舌尖轻轻翘起来",
+    "durationMs": 3437,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "小",
+        "t0": 70,
+        "t1": 350
+      },
+      {
+        "ch": "苗",
+        "t0": 350,
+        "t1": 630
+      },
+      {
+        "ch": "发",
+        "t0": 630,
+        "t1": 910
+      },
+      {
+        "ch": "芽",
+        "t0": 910,
+        "t1": 1190
+      },
+      {
+        "ch": "，",
+        "t0": 1190,
+        "t1": 1680
+      },
+      {
+        "ch": "舌",
+        "t0": 1680,
+        "t1": 1888
+      },
+      {
+        "ch": "尖",
+        "t0": 1888,
+        "t1": 2096
+      },
+      {
+        "ch": "轻",
+        "t0": 2096,
+        "t1": 2304
+      },
+      {
+        "ch": "轻",
+        "t0": 2304,
+        "t1": 2511
+      },
+      {
+        "ch": "翘",
+        "t0": 2511,
+        "t1": 2719
+      },
+      {
+        "ch": "起",
+        "t0": 2719,
+        "t1": 2927
+      },
+      {
+        "ch": "来",
+        "t0": 2927,
+        "t1": 3135
+      }
+    ]
+  },
+  "py.word.lifa": {
+    "src": "/audio/pinyin-station/py.word.lifa.275a752d.m4a",
+    "text": "理发",
+    "durationMs": 1533,
+    "role": "word",
+    "words": [
+      {
+        "ch": "理",
+        "t0": 70,
+        "t1": 662
+      },
+      {
+        "ch": "发",
+        "t0": 662,
+        "t1": 1255
+      }
+    ]
+  },
+  "py.word.dabo": {
+    "src": "/audio/pinyin-station/py.word.dabo.dbe9d370.m4a",
+    "text": "大伯",
+    "durationMs": 1301,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 70,
+        "t1": 532
+      },
+      {
+        "ch": "伯",
+        "t0": 532,
+        "t1": 995
+      }
+    ]
+  },
+  "py.word.dabo-papati": {
+    "src": "/audio/pinyin-station/py.word.dabo-papati.d48c72fc.m4a",
+    "text": "大伯爬爬梯",
+    "durationMs": 1788,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 90,
+        "t1": 371
+      },
+      {
+        "ch": "伯",
+        "t0": 371,
+        "t1": 652
+      },
+      {
+        "ch": "爬",
+        "t0": 652,
+        "t1": 933
+      },
+      {
+        "ch": "爬",
+        "t0": 933,
+        "t1": 1214
+      },
+      {
+        "ch": "梯",
+        "t0": 1214,
+        "t1": 1495
+      }
+    ]
+  },
+  "py.word.dami": {
+    "src": "/audio/pinyin-station/py.word.dami.b38292ae.m4a",
+    "text": "大米",
+    "durationMs": 1277,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 50,
+        "t1": 522
+      },
+      {
+        "ch": "米",
+        "t0": 522,
+        "t1": 995
+      }
+    ]
+  },
+  "py.word.dadi": {
+    "src": "/audio/pinyin-station/py.word.dadi.4f03acae.m4a",
+    "text": "大地",
+    "durationMs": 1138,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 50,
+        "t1": 452
+      },
+      {
+        "ch": "地",
+        "t0": 452,
+        "t1": 855
+      }
+    ]
+  },
+  "py.word.tudi": {
+    "src": "/audio/pinyin-station/py.word.tudi.edac0f52.m4a",
+    "text": "土地",
+    "durationMs": 836,
+    "role": "word",
+    "words": [
+      {
+        "ch": "土",
+        "t0": 50,
+        "t1": 308
+      },
+      {
+        "ch": "地",
+        "t0": 308,
+        "t1": 565
+      }
+    ]
+  },
+  "py.word.datu": {
+    "src": "/audio/pinyin-station/py.word.datu.254e8290.m4a",
+    "text": "大兔",
+    "durationMs": 929,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 60,
+        "t1": 352
+      },
+      {
+        "ch": "兔",
+        "t0": 352,
+        "t1": 645
+      }
+    ]
+  },
+  "py.word.dali": {
+    "src": "/audio/pinyin-station/py.word.dali.be7e59fa.m4a",
+    "text": "大梨",
+    "durationMs": 1069,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 50,
+        "t1": 408
+      },
+      {
+        "ch": "梨",
+        "t0": 408,
+        "t1": 765
+      }
+    ]
+  },
+  "py.word.mali": {
+    "src": "/audio/pinyin-station/py.word.mali.1aba76cf.m4a",
+    "text": "马蹄",
+    "durationMs": 1138,
+    "role": "word",
+    "words": [
+      {
+        "ch": "马",
+        "t0": 50,
+        "t1": 452
+      },
+      {
+        "ch": "蹄",
+        "t0": 452,
+        "t1": 855
+      }
+    ]
+  },
+  "py.word.daba": {
+    "src": "/audio/pinyin-station/py.word.daba.5412e05a.m4a",
+    "text": "大巴",
+    "durationMs": 860,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 50,
+        "t1": 302
+      },
+      {
+        "ch": "巴",
+        "t0": 302,
+        "t1": 555
+      }
+    ]
+  },
+  "py.word.mudi": {
+    "src": "/audio/pinyin-station/py.word.mudi.ccf476e9.m4a",
+    "text": "木笛",
+    "durationMs": 1417,
+    "role": "word",
+    "words": [
+      {
+        "ch": "木",
+        "t0": 50,
+        "t1": 592
+      },
+      {
+        "ch": "笛",
+        "t0": 592,
+        "t1": 1135
+      }
+    ]
+  },
+  "py.word.damu": {
+    "src": "/audio/pinyin-station/py.word.damu.176a2b9b.m4a",
+    "text": "大木马",
+    "durationMs": 1092,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 50,
+        "t1": 312
+      },
+      {
+        "ch": "木",
+        "t0": 312,
+        "t1": 573
+      },
+      {
+        "ch": "马",
+        "t0": 573,
+        "t1": 835
+      }
+    ]
+  },
+  "py.word.gege": {
+    "src": "/audio/pinyin-station/py.word.gege.f8e2578d.m4a",
+    "text": "哥哥",
+    "durationMs": 929,
+    "role": "word",
+    "words": [
+      {
+        "ch": "哥",
+        "t0": 50,
+        "t1": 327
+      },
+      {
+        "ch": "哥",
+        "t0": 327,
+        "t1": 605
+      }
+    ]
+  },
+  "py.word.gugu": {
+    "src": "/audio/pinyin-station/py.word.gugu.7ce16a28.m4a",
+    "text": "姑姑",
+    "durationMs": 860,
+    "role": "word",
+    "words": [
+      {
+        "ch": "姑",
+        "t0": 50,
+        "t1": 312
+      },
+      {
+        "ch": "姑",
+        "t0": 312,
+        "t1": 575
+      }
+    ]
+  },
+  "py.word.dagu": {
+    "src": "/audio/pinyin-station/py.word.dagu.648a9304.m4a",
+    "text": "大鼓",
+    "durationMs": 999,
+    "role": "word",
+    "words": [
+      {
+        "ch": "大",
+        "t0": 80,
+        "t1": 398
+      },
+      {
+        "ch": "鼓",
+        "t0": 398,
+        "t1": 715
+      }
+    ]
+  },
+  "py.word.dagu-action": {
+    "src": "/audio/pinyin-station/py.word.dagu-action.8d784292.m4a",
+    "text": "打鼓",
+    "durationMs": 1277,
+    "role": "word",
+    "words": [
+      {
+        "ch": "打",
+        "t0": 50,
+        "t1": 512
+      },
+      {
+        "ch": "鼓",
+        "t0": 512,
+        "t1": 975
+      }
+    ]
+  },
+  "py.word.kugua": {
+    "src": "/audio/pinyin-station/py.word.kugua.b8965232.m4a",
+    "text": "苦瓜",
+    "durationMs": 1138,
+    "role": "word",
+    "words": [
+      {
+        "ch": "苦",
+        "t0": 50,
+        "t1": 448
+      },
+      {
+        "ch": "瓜",
+        "t0": 448,
+        "t1": 845
+      }
+    ]
+  },
+  "py.word.hema": {
+    "src": "/audio/pinyin-station/py.word.hema.43dfc4cf.m4a",
+    "text": "河马",
+    "durationMs": 1649,
+    "role": "word",
+    "words": [
+      {
+        "ch": "河",
+        "t0": 50,
+        "t1": 702
+      },
+      {
+        "ch": "马",
+        "t0": 702,
+        "t1": 1355
+      }
+    ]
+  },
+  "py.word.hehua": {
+    "src": "/audio/pinyin-station/py.word.hehua.38ad7b95.m4a",
+    "text": "荷花",
+    "durationMs": 1092,
+    "role": "word",
+    "words": [
+      {
+        "ch": "荷",
+        "t0": 60,
+        "t1": 423
+      },
+      {
+        "ch": "花",
+        "t0": 423,
+        "t1": 785
+      }
+    ]
+  },
+  "py.word.huahua": {
+    "src": "/audio/pinyin-station/py.word.huahua.7548db45.m4a",
+    "text": "画画",
+    "durationMs": 1649,
+    "role": "word",
+    "words": [
+      {
+        "ch": "画",
+        "t0": 90,
+        "t1": 707
+      },
+      {
+        "ch": "画",
+        "t0": 707,
+        "t1": 1325
+      }
+    ]
+  },
+  "py.word.xiyi": {
+    "src": "/audio/pinyin-station/py.word.xiyi.a57cc47b.m4a",
+    "text": "洗衣",
+    "durationMs": 1069,
+    "role": "word",
+    "words": [
+      {
+        "ch": "洗",
+        "t0": 70,
+        "t1": 438
+      },
+      {
+        "ch": "衣",
+        "t0": 438,
+        "t1": 805
+      }
+    ]
+  },
+  "py.word.qima": {
+    "src": "/audio/pinyin-station/py.word.qima.88f4f89e.m4a",
+    "text": "骑马",
+    "durationMs": 1394,
+    "role": "word",
+    "words": [
+      {
+        "ch": "骑",
+        "t0": 60,
+        "t1": 587
+      },
+      {
+        "ch": "马",
+        "t0": 587,
+        "t1": 1115
+      }
+    ]
+  },
+  "py.word.jimu": {
+    "src": "/audio/pinyin-station/py.word.jimu.c0444fb2.m4a",
+    "text": "积木",
+    "durationMs": 952,
+    "role": "word",
+    "words": [
+      {
+        "ch": "积",
+        "t0": 60,
+        "t1": 358
+      },
+      {
+        "ch": "木",
+        "t0": 358,
+        "t1": 655
+      }
+    ]
+  },
+  "py.word.xigua": {
+    "src": "/audio/pinyin-station/py.word.xigua.019e0f22.m4a",
+    "text": "西瓜",
+    "durationMs": 1115,
+    "role": "word",
+    "words": [
+      {
+        "ch": "西",
+        "t0": 70,
+        "t1": 438
+      },
+      {
+        "ch": "瓜",
+        "t0": 438,
+        "t1": 805
+      }
+    ]
+  },
+  "py.word.juhua": {
+    "src": "/audio/pinyin-station/py.word.juhua.78ab2a30.m4a",
+    "text": "菊花",
+    "durationMs": 1463,
+    "role": "word",
+    "words": [
+      {
+        "ch": "菊",
+        "t0": 50,
+        "t1": 608
+      },
+      {
+        "ch": "花",
+        "t0": 608,
+        "t1": 1165
+      }
+    ]
+  },
+  "py.word.gezi": {
+    "src": "/audio/pinyin-station/py.word.gezi.e4ebdfb0.m4a",
+    "text": "鸽子",
+    "durationMs": 999,
+    "role": "word",
+    "words": [
+      {
+        "ch": "鸽",
+        "t0": 60,
+        "t1": 392
+      },
+      {
+        "ch": "子",
+        "t0": 392,
+        "t1": 725
+      }
+    ]
+  },
+  "py.word.tuzi": {
+    "src": "/audio/pinyin-station/py.word.tuzi.07809c88.m4a",
+    "text": "兔子",
+    "durationMs": 860,
+    "role": "word",
+    "words": [
+      {
+        "ch": "兔",
+        "t0": 70,
+        "t1": 323
+      },
+      {
+        "ch": "子",
+        "t0": 323,
+        "t1": 575
+      }
+    ]
+  },
+  "py.word.wazi": {
+    "src": "/audio/pinyin-station/py.word.wazi.fe63ccb5.m4a",
+    "text": "袜子",
+    "durationMs": 1277,
+    "role": "word",
+    "words": [
+      {
+        "ch": "袜",
+        "t0": 60,
+        "t1": 522
+      },
+      {
+        "ch": "子",
+        "t0": 522,
+        "t1": 985
+      }
+    ]
+  },
+  "py.word.siji": {
+    "src": "/audio/pinyin-station/py.word.siji.4d387715.m4a",
+    "text": "司机",
+    "durationMs": 1301,
+    "role": "word",
+    "words": [
+      {
+        "ch": "司",
+        "t0": 60,
+        "t1": 537
+      },
+      {
+        "ch": "机",
+        "t0": 537,
+        "t1": 1015
+      }
+    ]
+  },
+  "py.word.shuaya": {
+    "src": "/audio/pinyin-station/py.word.shuaya.8073b373.m4a",
+    "text": "刷牙",
+    "durationMs": 1115,
+    "role": "word",
+    "words": [
+      {
+        "ch": "刷",
+        "t0": 60,
+        "t1": 443
+      },
+      {
+        "ch": "牙",
+        "t0": 443,
+        "t1": 825
+      }
+    ]
+  },
+  "py.word.dushu": {
+    "src": "/audio/pinyin-station/py.word.dushu.65222287.m4a",
+    "text": "读书",
+    "durationMs": 1695,
+    "role": "word",
+    "words": [
+      {
+        "ch": "读",
+        "t0": 50,
+        "t1": 732
+      },
+      {
+        "ch": "书",
+        "t0": 732,
+        "t1": 1415
+      }
+    ]
+  },
+  "py.word.zhuzi": {
+    "src": "/audio/pinyin-station/py.word.zhuzi.7dbd6598.m4a",
+    "text": "竹子",
+    "durationMs": 952,
+    "role": "word",
+    "words": [
+      {
+        "ch": "竹",
+        "t0": 50,
+        "t1": 352
+      },
+      {
+        "ch": "子",
+        "t0": 352,
+        "t1": 655
+      }
+    ]
+  },
+  "py.word.richu": {
+    "src": "/audio/pinyin-station/py.word.richu.f721028b.m4a",
+    "text": "日出",
+    "durationMs": 1370,
+    "role": "word",
+    "words": [
+      {
+        "ch": "日",
+        "t0": 50,
+        "t1": 558
+      },
+      {
+        "ch": "出",
+        "t0": 558,
+        "t1": 1065
+      }
+    ]
+  },
+  "py.word.hecha": {
+    "src": "/audio/pinyin-station/py.word.hecha.b2de7ba9.m4a",
+    "text": "喝茶",
+    "durationMs": 1394,
+    "role": "word",
+    "words": [
+      {
+        "ch": "喝",
+        "t0": 80,
+        "t1": 582
+      },
+      {
+        "ch": "茶",
+        "t0": 582,
+        "t1": 1085
+      }
+    ]
+  },
+  "py.word.zhuozi": {
+    "src": "/audio/pinyin-station/py.word.zhuozi.35afa2be.m4a",
+    "text": "桌子",
+    "durationMs": 1022,
+    "role": "word",
+    "words": [
+      {
+        "ch": "桌",
+        "t0": 50,
+        "t1": 378
+      },
+      {
+        "ch": "子",
+        "t0": 378,
+        "t1": 705
+      }
+    ]
+  },
+  "py.word.shizi": {
+    "src": "/audio/pinyin-station/py.word.shizi.1fcea2f1.m4a",
+    "text": "狮子",
+    "durationMs": 1370,
+    "role": "word",
+    "words": [
+      {
+        "ch": "狮",
+        "t0": 70,
+        "t1": 572
+      },
+      {
+        "ch": "子",
+        "t0": 572,
+        "t1": 1075
+      }
+    ]
+  },
+  "py.word.mama-labi": {
+    "src": "/audio/pinyin-station/py.word.mama-labi.c3d3e169.m4a",
+    "text": "妈妈拿蜡笔",
+    "durationMs": 1742,
+    "role": "word",
+    "words": [
+      {
+        "ch": "妈",
+        "t0": 50,
+        "t1": 329
+      },
+      {
+        "ch": "妈",
+        "t0": 329,
+        "t1": 608
+      },
+      {
+        "ch": "拿",
+        "t0": 608,
+        "t1": 887
+      },
+      {
+        "ch": "蜡",
+        "t0": 887,
+        "t1": 1166
+      },
+      {
+        "ch": "笔",
+        "t0": 1166,
+        "t1": 1445
+      }
+    ]
+  },
+  "py.word.baba-ditu": {
+    "src": "/audio/pinyin-station/py.word.baba-ditu.5afc8432.m4a",
+    "text": "爸爸拿地图",
+    "durationMs": 1510,
+    "role": "word",
+    "words": [
+      {
+        "ch": "爸",
+        "t0": 50,
+        "t1": 281
+      },
+      {
+        "ch": "爸",
+        "t0": 281,
+        "t1": 512
+      },
+      {
+        "ch": "拿",
+        "t0": 512,
+        "t1": 743
+      },
+      {
+        "ch": "地",
+        "t0": 743,
+        "t1": 974
+      },
+      {
+        "ch": "图",
+        "t0": 974,
+        "t1": 1205
+      }
+    ]
+  },
+  "py.word.didi-li": {
+    "src": "/audio/pinyin-station/py.word.didi-li.a3c55e3a.m4a",
+    "text": "弟弟拿梨",
+    "durationMs": 1277,
+    "role": "word",
+    "words": [
+      {
+        "ch": "弟",
+        "t0": 50,
+        "t1": 284
+      },
+      {
+        "ch": "弟",
+        "t0": 284,
+        "t1": 518
+      },
+      {
+        "ch": "拿",
+        "t0": 518,
+        "t1": 751
+      },
+      {
+        "ch": "梨",
+        "t0": 751,
+        "t1": 985
+      }
+    ]
+  },
+  "py.word.mama-xiyi": {
+    "src": "/audio/pinyin-station/py.word.mama-xiyi.b68b24d2.m4a",
+    "text": "妈妈洗衣",
+    "durationMs": 1231,
+    "role": "word",
+    "words": [
+      {
+        "ch": "妈",
+        "t0": 50,
+        "t1": 271
+      },
+      {
+        "ch": "妈",
+        "t0": 271,
+        "t1": 492
+      },
+      {
+        "ch": "洗",
+        "t0": 492,
+        "t1": 714
+      },
+      {
+        "ch": "衣",
+        "t0": 714,
+        "t1": 935
+      }
+    ]
+  },
+  "py.word.baba-hecha": {
+    "src": "/audio/pinyin-station/py.word.baba-hecha.11233067.m4a",
+    "text": "爸爸喝茶",
+    "durationMs": 1347,
+    "role": "word",
+    "words": [
+      {
+        "ch": "爸",
+        "t0": 50,
+        "t1": 306
+      },
+      {
+        "ch": "爸",
+        "t0": 306,
+        "t1": 562
+      },
+      {
+        "ch": "喝",
+        "t0": 562,
+        "t1": 819
+      },
+      {
+        "ch": "茶",
+        "t0": 819,
+        "t1": 1075
+      }
+    ]
+  },
+  "py.word.gege-dushu": {
+    "src": "/audio/pinyin-station/py.word.gege-dushu.98d119b6.m4a",
+    "text": "哥哥读书",
+    "durationMs": 1370,
+    "role": "word",
+    "words": [
+      {
+        "ch": "哥",
+        "t0": 50,
+        "t1": 291
+      },
+      {
+        "ch": "哥",
+        "t0": 291,
+        "t1": 532
+      },
+      {
+        "ch": "读",
+        "t0": 532,
+        "t1": 774
+      },
+      {
+        "ch": "书",
+        "t0": 774,
+        "t1": 1015
+      }
+    ]
   }
 }

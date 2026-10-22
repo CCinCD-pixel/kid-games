@@ -200,7 +200,7 @@
       "kind": "initial",
       "lesson": 5,
       "callSound": "ge1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "像一条小辫子，尾巴向下弯",
       "grid": "middle-lower"
     },
     {
@@ -208,7 +208,7 @@
       "kind": "initial",
       "lesson": 5,
       "callSound": "ke1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "一根小棒，右边伸出两条斜线",
       "grid": "upper-middle"
     },
     {
@@ -216,7 +216,7 @@
       "kind": "initial",
       "lesson": 5,
       "callSound": "he1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "像一把小椅子，靠背高高的",
       "grid": "upper-middle"
     },
     {
@@ -224,7 +224,7 @@
       "kind": "initial",
       "lesson": 6,
       "callSound": "ji1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "小钩子向下弯，头上一点别忘记",
       "grid": "middle-lower"
     },
     {
@@ -232,7 +232,7 @@
       "kind": "initial",
       "lesson": 6,
       "callSound": "qi1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "圆圆气球向左靠，细细绳子垂下来",
       "grid": "middle-lower"
     },
     {
@@ -240,7 +240,7 @@
       "kind": "initial",
       "lesson": 6,
       "callSound": "xi1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "两条斜线交个叉",
       "grid": "middle"
     },
     {
@@ -248,7 +248,7 @@
       "kind": "initial",
       "lesson": 7,
       "callSound": "zi1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "像数字二，注意三个笔画",
       "grid": "middle"
     },
     {
@@ -256,7 +256,7 @@
       "kind": "initial",
       "lesson": 7,
       "callSound": "ci1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "半圆开口朝右边",
       "grid": "middle"
     },
     {
@@ -264,7 +264,7 @@
       "kind": "initial",
       "lesson": 7,
       "callSound": "si1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "弯弯曲曲，像一条小路",
       "grid": "middle"
     },
     {
@@ -272,7 +272,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "zhi1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "舌尖轻轻翘起来，和小椅子做朋友",
       "grid": "upper-middle"
     },
     {
@@ -280,7 +280,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "chi1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "舌尖翘起来，轻轻送出一口气",
       "grid": "upper-middle"
     },
     {
@@ -288,7 +288,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "shi1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "舌尖翘起来，让气流慢慢通过",
       "grid": "upper-middle"
     },
     {
@@ -296,7 +296,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "ri1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "小苗发芽，舌尖轻轻翘起来",
       "grid": "middle"
     },
     {
@@ -718,6 +718,123 @@
       "audio": "py.syl.le1"
     },
     {
+      "id": "ge1",
+      "display": "gē",
+      "initial": "g",
+      "final": "e",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.ge1"
+    },
+    {
+      "id": "ke1",
+      "display": "kē",
+      "initial": "k",
+      "final": "e",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.ke1"
+    },
+    {
+      "id": "he1",
+      "display": "hē",
+      "initial": "h",
+      "final": "e",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.he1"
+    },
+    {
+      "id": "ji1",
+      "display": "jī",
+      "initial": "j",
+      "final": "i",
+      "tone": 1,
+      "lesson": 6,
+      "audio": "py.syl.ji1"
+    },
+    {
+      "id": "qi1",
+      "display": "qī",
+      "initial": "q",
+      "final": "i",
+      "tone": 1,
+      "lesson": 6,
+      "audio": "py.syl.qi1"
+    },
+    {
+      "id": "xi1",
+      "display": "xī",
+      "initial": "x",
+      "final": "i",
+      "tone": 1,
+      "lesson": 6,
+      "audio": "py.syl.xi1"
+    },
+    {
+      "id": "zi1",
+      "display": "zī",
+      "initial": "z",
+      "final": "i",
+      "tone": 1,
+      "lesson": 7,
+      "audio": "py.syl.zi1"
+    },
+    {
+      "id": "ci1",
+      "display": "cī",
+      "initial": "c",
+      "final": "i",
+      "tone": 1,
+      "lesson": 7,
+      "audio": "py.syl.ci1"
+    },
+    {
+      "id": "si1",
+      "display": "sī",
+      "initial": "s",
+      "final": "i",
+      "tone": 1,
+      "lesson": 7,
+      "audio": "py.syl.si1"
+    },
+    {
+      "id": "zhi1",
+      "display": "zhī",
+      "initial": "zh",
+      "final": "i",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.zhi1"
+    },
+    {
+      "id": "chi1",
+      "display": "chī",
+      "initial": "ch",
+      "final": "i",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.chi1"
+    },
+    {
+      "id": "shi1",
+      "display": "shī",
+      "initial": "sh",
+      "final": "i",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.shi1"
+    },
+    {
+      "id": "ri1",
+      "display": "rī",
+      "initial": "r",
+      "final": "i",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.ri1"
+    },
+    {
       "id": "ba1",
       "display": "bā",
       "initial": "b",
@@ -905,6 +1022,96 @@
       "tone": 2,
       "lesson": 3,
       "audio": "py.syl.fo2"
+    },
+    {
+      "id": "ge4",
+      "display": "gè",
+      "initial": "g",
+      "final": "e",
+      "tone": 4,
+      "lesson": 5,
+      "audio": "py.syl.ge4"
+    },
+    {
+      "id": "ke4",
+      "display": "kè",
+      "initial": "k",
+      "final": "e",
+      "tone": 4,
+      "lesson": 5,
+      "audio": "py.syl.ke4"
+    },
+    {
+      "id": "za1",
+      "display": "zā",
+      "initial": "z",
+      "final": "a",
+      "tone": 1,
+      "lesson": 7,
+      "audio": "py.syl.za1"
+    },
+    {
+      "id": "ca1",
+      "display": "cā",
+      "initial": "c",
+      "final": "a",
+      "tone": 1,
+      "lesson": 7,
+      "audio": "py.syl.ca1"
+    },
+    {
+      "id": "zhu1",
+      "display": "zhū",
+      "initial": "zh",
+      "final": "u",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.zhu1"
+    },
+    {
+      "id": "chu1",
+      "display": "chū",
+      "initial": "ch",
+      "final": "u",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.chu1"
+    },
+    {
+      "id": "zu3",
+      "display": "zǔ",
+      "initial": "z",
+      "final": "u",
+      "tone": 3,
+      "lesson": 7,
+      "audio": "py.syl.zu3"
+    },
+    {
+      "id": "zhu3",
+      "display": "zhǔ",
+      "initial": "zh",
+      "final": "u",
+      "tone": 3,
+      "lesson": 8,
+      "audio": "py.syl.zhu3"
+    },
+    {
+      "id": "sa1",
+      "display": "sā",
+      "initial": "s",
+      "final": "a",
+      "tone": 1,
+      "lesson": 7,
+      "audio": "py.syl.sa1"
+    },
+    {
+      "id": "sha1",
+      "display": "shā",
+      "initial": "sh",
+      "final": "a",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.sha1"
     },
     {
       "id": "bi2",
@@ -1159,6 +1366,384 @@
       "audio": "py.syl.le0"
     },
     {
+      "id": "e2",
+      "display": "é",
+      "initial": "",
+      "final": "e",
+      "tone": 2,
+      "lesson": 1,
+      "audio": "py.syl.e2"
+    },
+    {
+      "id": "yu2",
+      "display": "yú",
+      "initial": "y",
+      "final": "u",
+      "tone": 2,
+      "lesson": 2,
+      "audio": "py.syl.yu2"
+    },
+    {
+      "id": "ta3",
+      "display": "tǎ",
+      "initial": "t",
+      "final": "a",
+      "tone": 3,
+      "lesson": 4,
+      "audio": "py.syl.ta3"
+    },
+    {
+      "id": "ti2",
+      "display": "tí",
+      "initial": "t",
+      "final": "i",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.ti2"
+    },
+    {
+      "id": "di2",
+      "display": "dí",
+      "initial": "d",
+      "final": "i",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.di2"
+    },
+    {
+      "id": "ge0",
+      "display": "ge",
+      "initial": "g",
+      "final": "e",
+      "tone": 0,
+      "lesson": 5,
+      "audio": "py.syl.ge0"
+    },
+    {
+      "id": "gu1",
+      "display": "gū",
+      "initial": "g",
+      "final": "u",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.gu1"
+    },
+    {
+      "id": "gu0",
+      "display": "gu",
+      "initial": "g",
+      "final": "u",
+      "tone": 0,
+      "lesson": 5,
+      "audio": "py.syl.gu0"
+    },
+    {
+      "id": "gu3",
+      "display": "gǔ",
+      "initial": "g",
+      "final": "u",
+      "tone": 3,
+      "lesson": 5,
+      "audio": "py.syl.gu3"
+    },
+    {
+      "id": "ku1",
+      "display": "kū",
+      "initial": "k",
+      "final": "u",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.ku1"
+    },
+    {
+      "id": "he2",
+      "display": "hé",
+      "initial": "h",
+      "final": "e",
+      "tone": 2,
+      "lesson": 5,
+      "audio": "py.syl.he2"
+    },
+    {
+      "id": "hu2",
+      "display": "hú",
+      "initial": "h",
+      "final": "u",
+      "tone": 2,
+      "lesson": 5,
+      "audio": "py.syl.hu2"
+    },
+    {
+      "id": "hua1",
+      "display": "huā",
+      "initial": "h",
+      "final": "ua",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.hua1"
+    },
+    {
+      "id": "gua1",
+      "display": "guā",
+      "initial": "g",
+      "final": "ua",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.gua1"
+    },
+    {
+      "id": "guo1",
+      "display": "guō",
+      "initial": "g",
+      "final": "uo",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.guo1"
+    },
+    {
+      "id": "huo3",
+      "display": "huǒ",
+      "initial": "h",
+      "final": "uo",
+      "tone": 3,
+      "lesson": 5,
+      "audio": "py.syl.huo3"
+    },
+    {
+      "id": "da3",
+      "display": "dǎ",
+      "initial": "d",
+      "final": "a",
+      "tone": 3,
+      "lesson": 4,
+      "audio": "py.syl.da3"
+    },
+    {
+      "id": "ku3",
+      "display": "kǔ",
+      "initial": "k",
+      "final": "u",
+      "tone": 3,
+      "lesson": 5,
+      "audio": "py.syl.ku3"
+    },
+    {
+      "id": "hua4",
+      "display": "huà",
+      "initial": "h",
+      "final": "ua",
+      "tone": 4,
+      "lesson": 5,
+      "audio": "py.syl.hua4"
+    },
+    {
+      "id": "qi2",
+      "display": "qí",
+      "initial": "q",
+      "final": "i",
+      "tone": 2,
+      "lesson": 6,
+      "audio": "py.syl.qi2"
+    },
+    {
+      "id": "xia1",
+      "display": "xiā",
+      "initial": "x",
+      "final": "ia",
+      "tone": 1,
+      "lesson": 6,
+      "audio": "py.syl.xia1"
+    },
+    {
+      "id": "xi3",
+      "display": "xǐ",
+      "initial": "x",
+      "final": "i",
+      "tone": 3,
+      "lesson": 6,
+      "audio": "py.syl.xi3"
+    },
+    {
+      "id": "ju2",
+      "display": "jú",
+      "initial": "j",
+      "final": "u",
+      "tone": 2,
+      "lesson": 6,
+      "audio": "py.syl.ju2"
+    },
+    {
+      "id": "jia1",
+      "display": "jiā",
+      "initial": "j",
+      "final": "ia",
+      "tone": 1,
+      "lesson": 6,
+      "audio": "py.syl.jia1"
+    },
+    {
+      "id": "zi4",
+      "display": "zì",
+      "initial": "z",
+      "final": "i",
+      "tone": 4,
+      "lesson": 7,
+      "audio": "py.syl.zi4"
+    },
+    {
+      "id": "si4",
+      "display": "sì",
+      "initial": "s",
+      "final": "i",
+      "tone": 4,
+      "lesson": 7,
+      "audio": "py.syl.si4"
+    },
+    {
+      "id": "zi3",
+      "display": "zǐ",
+      "initial": "z",
+      "final": "i",
+      "tone": 3,
+      "lesson": 7,
+      "audio": "py.syl.zi3"
+    },
+    {
+      "id": "zuo4",
+      "display": "zuò",
+      "initial": "z",
+      "final": "uo",
+      "tone": 4,
+      "lesson": 7,
+      "audio": "py.syl.zuo4"
+    },
+    {
+      "id": "zi0",
+      "display": "zi",
+      "initial": "z",
+      "final": "i",
+      "tone": 0,
+      "lesson": 7,
+      "audio": "py.syl.zi0"
+    },
+    {
+      "id": "wa4",
+      "display": "wà",
+      "initial": "w",
+      "final": "a",
+      "tone": 4,
+      "lesson": 7,
+      "audio": "py.syl.wa4"
+    },
+    {
+      "id": "che1",
+      "display": "chē",
+      "initial": "ch",
+      "final": "e",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.che1"
+    },
+    {
+      "id": "shu1",
+      "display": "shū",
+      "initial": "sh",
+      "final": "u",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.shu1"
+    },
+    {
+      "id": "shu4",
+      "display": "shù",
+      "initial": "sh",
+      "final": "u",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.shu4"
+    },
+    {
+      "id": "ri4",
+      "display": "rì",
+      "initial": "r",
+      "final": "i",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.ri4"
+    },
+    {
+      "id": "zhu2",
+      "display": "zhú",
+      "initial": "zh",
+      "final": "u",
+      "tone": 2,
+      "lesson": 8,
+      "audio": "py.syl.zhu2"
+    },
+    {
+      "id": "cha2",
+      "display": "chá",
+      "initial": "ch",
+      "final": "a",
+      "tone": 2,
+      "lesson": 8,
+      "audio": "py.syl.cha2"
+    },
+    {
+      "id": "shua1",
+      "display": "shuā",
+      "initial": "sh",
+      "final": "ua",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.shua1"
+    },
+    {
+      "id": "ya2",
+      "display": "yá",
+      "initial": "y",
+      "final": "a",
+      "tone": 2,
+      "lesson": 8,
+      "audio": "py.syl.ya2"
+    },
+    {
+      "id": "du2",
+      "display": "dú",
+      "initial": "d",
+      "final": "u",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.du2"
+    },
+    {
+      "id": "zhuo1",
+      "display": "zhuō",
+      "initial": "zh",
+      "final": "uo",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.zhuo1"
+    },
+    {
+      "id": "chi3",
+      "display": "chǐ",
+      "initial": "ch",
+      "final": "i",
+      "tone": 3,
+      "lesson": 8,
+      "audio": "py.syl.chi3"
+    },
+    {
+      "id": "na2",
+      "display": "ná",
+      "initial": "n",
+      "final": "a",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.na2"
+    },
+    {
       "id": "a2",
       "display": "á",
       "initial": "",
@@ -1184,15 +1769,6 @@
       "tone": 4,
       "lesson": 1,
       "audio": "py.syl.a4"
-    },
-    {
-      "id": "e2",
-      "display": "é",
-      "initial": "",
-      "final": "e",
-      "tone": 2,
-      "lesson": 1,
-      "audio": "py.syl.e2"
     },
     {
       "id": "e3",
@@ -1265,15 +1841,6 @@
       "tone": 4,
       "lesson": 2,
       "audio": "py.syl.wu4"
-    },
-    {
-      "id": "yu2",
-      "display": "yú",
-      "initial": "y",
-      "final": "u",
-      "tone": 2,
-      "lesson": 2,
-      "audio": "py.syl.yu2"
     },
     {
       "id": "yu3",
@@ -1546,24 +2113,6 @@
       "audio": "py.syl.da2"
     },
     {
-      "id": "da3",
-      "display": "dǎ",
-      "initial": "d",
-      "final": "a",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.da3"
-    },
-    {
-      "id": "ta3",
-      "display": "tǎ",
-      "initial": "t",
-      "final": "a",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.ta3"
-    },
-    {
       "id": "ta4",
       "display": "tà",
       "initial": "t",
@@ -1580,15 +2129,6 @@
       "tone": 1,
       "lesson": 4,
       "audio": "py.syl.na1"
-    },
-    {
-      "id": "na2",
-      "display": "ná",
-      "initial": "n",
-      "final": "a",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.na2"
     },
     {
       "id": "na3",
@@ -1654,15 +2194,6 @@
       "audio": "py.syl.di1"
     },
     {
-      "id": "di2",
-      "display": "dí",
-      "initial": "d",
-      "final": "i",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.di2"
-    },
-    {
       "id": "di3",
       "display": "dǐ",
       "initial": "d",
@@ -1670,15 +2201,6 @@
       "tone": 3,
       "lesson": 4,
       "audio": "py.syl.di3"
-    },
-    {
-      "id": "ti2",
-      "display": "tí",
-      "initial": "t",
-      "final": "i",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.ti2"
     },
     {
       "id": "ti3",
@@ -1753,15 +2275,6 @@
       "audio": "py.syl.du1"
     },
     {
-      "id": "du2",
-      "display": "dú",
-      "initial": "d",
-      "final": "u",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.du2"
-    },
-    {
       "id": "du3",
       "display": "dǔ",
       "initial": "d",
@@ -1820,7 +2333,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "person"
+      "semanticGroup": "baba"
     },
     {
       "id": "ba-target",
@@ -1862,7 +2375,7 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭补充练习（非试卷）",
-      "semanticGroup": "horse"
+      "semanticGroup": "ma"
     },
     {
       "id": "lu",
@@ -1906,7 +2419,7 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "person"
+      "semanticGroup": "baba"
     },
     {
       "id": "nv",
@@ -1920,7 +2433,7 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "person"
+      "semanticGroup": "baba"
     },
     {
       "id": "pipa",
@@ -1964,7 +2477,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "pen"
+      "semanticGroup": "bi"
     },
     {
       "id": "mabu",
@@ -1979,7 +2492,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "cloth"
+      "semanticGroup": "bu"
     },
     {
       "id": "ditu",
@@ -2122,7 +2635,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "horse"
+      "semanticGroup": "ma"
     },
     {
       "id": "labi",
@@ -2137,7 +2650,7 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "pen"
+      "semanticGroup": "bi"
     },
     {
       "id": "pubu",
@@ -2182,7 +2695,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "person"
+      "semanticGroup": "baba"
     },
     {
       "id": "mama",
@@ -2197,7 +2710,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "person"
+      "semanticGroup": "baba"
     },
     {
       "id": "didi",
@@ -2212,7 +2725,7 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "person"
+      "semanticGroup": "baba"
     },
     {
       "id": "milu",
@@ -2255,7 +2768,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "cloth"
+      "semanticGroup": "bu"
     },
     {
       "id": "tu",
@@ -2283,7 +2796,7 @@
       "lesson": 3,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "horse"
+      "semanticGroup": "ma"
     },
     {
       "id": "li",
@@ -2297,7 +2810,7 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "pear"
+      "semanticGroup": "li"
     },
     {
       "id": "eight-pears",
@@ -2321,7 +2834,7 @@
         "个",
         ""
       ],
-      "semanticGroup": "pear"
+      "semanticGroup": "li"
     },
     {
       "id": "didi-milu",
@@ -2392,6 +2905,1140 @@
         "萝卜"
       ],
       "semanticGroup": "rabbit-carrot"
+    },
+    {
+      "id": "e",
+      "hanzi": "鹅",
+      "syllables": [
+        "e2"
+      ],
+      "display": "é",
+      "picture": "goose",
+      "kind": "noun",
+      "lesson": 1,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "e"
+    },
+    {
+      "id": "yi",
+      "hanzi": "衣",
+      "syllables": [
+        "yi1"
+      ],
+      "display": "yī",
+      "picture": "clothes",
+      "kind": "noun",
+      "lesson": 2,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "yi"
+    },
+    {
+      "id": "wu",
+      "hanzi": "屋",
+      "syllables": [
+        "wu1"
+      ],
+      "display": "wū",
+      "picture": "house",
+      "kind": "noun",
+      "lesson": 2,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "wu"
+    },
+    {
+      "id": "yu",
+      "hanzi": "鱼",
+      "syllables": [
+        "yu2"
+      ],
+      "display": "yú",
+      "picture": "fish",
+      "kind": "noun",
+      "lesson": 2,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "yu"
+    },
+    {
+      "id": "tu-earth",
+      "hanzi": "土",
+      "syllables": [
+        "tu3"
+      ],
+      "display": "tǔ",
+      "picture": "nitu",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "nitu"
+    },
+    {
+      "id": "ni",
+      "hanzi": "泥",
+      "syllables": [
+        "ni2"
+      ],
+      "display": "ní",
+      "picture": "nitu",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "nitu"
+    },
+    {
+      "id": "ta",
+      "hanzi": "塔",
+      "syllables": [
+        "ta3"
+      ],
+      "display": "tǎ",
+      "picture": "tower",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ta"
+    },
+    {
+      "id": "dami",
+      "hanzi": "大米",
+      "syllables": [
+        "da4",
+        "mi3"
+      ],
+      "display": "dà mǐ",
+      "picture": "mi",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "mi"
+    },
+    {
+      "id": "dadi",
+      "hanzi": "大地",
+      "syllables": [
+        "da4",
+        "di4"
+      ],
+      "display": "dà dì",
+      "picture": "land",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "nitu"
+    },
+    {
+      "id": "tudi",
+      "hanzi": "土地",
+      "syllables": [
+        "tu3",
+        "di4"
+      ],
+      "display": "tǔ dì",
+      "picture": "land",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "nitu"
+    },
+    {
+      "id": "datu",
+      "hanzi": "大兔",
+      "syllables": [
+        "da4",
+        "tu4"
+      ],
+      "display": "dà tù",
+      "picture": "tu",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "tu"
+    },
+    {
+      "id": "dali",
+      "hanzi": "大梨",
+      "syllables": [
+        "da4",
+        "li2"
+      ],
+      "display": "dà lí",
+      "picture": "li",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "li"
+    },
+    {
+      "id": "mali",
+      "hanzi": "马蹄",
+      "syllables": [
+        "ma3",
+        "ti2"
+      ],
+      "display": "mǎ tí",
+      "picture": "hoof",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ma"
+    },
+    {
+      "id": "daba",
+      "hanzi": "大巴",
+      "syllables": [
+        "da4",
+        "ba1"
+      ],
+      "display": "dà bā",
+      "picture": "bus",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "che"
+    },
+    {
+      "id": "mudi",
+      "hanzi": "木笛",
+      "syllables": [
+        "mu4",
+        "di2"
+      ],
+      "display": "mù dí",
+      "picture": "flute",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "bi"
+    },
+    {
+      "id": "damu",
+      "hanzi": "大木马",
+      "syllables": [
+        "da4",
+        "mu4",
+        "ma3"
+      ],
+      "display": "dà mù mǎ",
+      "picture": "muma",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ma"
+    },
+    {
+      "id": "gege",
+      "hanzi": "哥哥",
+      "syllables": [
+        "ge1",
+        "ge0"
+      ],
+      "display": "gē ge",
+      "picture": "dabo",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "baba"
+    },
+    {
+      "id": "gugu",
+      "hanzi": "姑姑",
+      "syllables": [
+        "gu1",
+        "gu0"
+      ],
+      "display": "gū gu",
+      "picture": "mama",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "baba"
+    },
+    {
+      "id": "gu",
+      "hanzi": "鼓",
+      "syllables": [
+        "gu3"
+      ],
+      "display": "gǔ",
+      "picture": "drum",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "gu"
+    },
+    {
+      "id": "ku",
+      "hanzi": "哭",
+      "syllables": [
+        "ku1"
+      ],
+      "display": "kū",
+      "picture": "cry",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ku"
+    },
+    {
+      "id": "he",
+      "hanzi": "河",
+      "syllables": [
+        "he2"
+      ],
+      "display": "hé",
+      "picture": "river",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "he"
+    },
+    {
+      "id": "hu",
+      "hanzi": "壶",
+      "syllables": [
+        "hu2"
+      ],
+      "display": "hú",
+      "picture": "kettle",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "hu"
+    },
+    {
+      "id": "hua",
+      "hanzi": "花",
+      "syllables": [
+        "hua1"
+      ],
+      "display": "huā",
+      "picture": "flower",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "hua"
+    },
+    {
+      "id": "gua",
+      "hanzi": "瓜",
+      "syllables": [
+        "gua1"
+      ],
+      "display": "guā",
+      "picture": "melon",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "gua"
+    },
+    {
+      "id": "guo",
+      "hanzi": "锅",
+      "syllables": [
+        "guo1"
+      ],
+      "display": "guō",
+      "picture": "pot",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "guo"
+    },
+    {
+      "id": "huo",
+      "hanzi": "火",
+      "syllables": [
+        "huo3"
+      ],
+      "display": "huǒ",
+      "picture": "fire",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "huo"
+    },
+    {
+      "id": "dagu",
+      "hanzi": "大鼓",
+      "syllables": [
+        "da4",
+        "gu3"
+      ],
+      "display": "dà gǔ",
+      "picture": "drum",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "gu"
+    },
+    {
+      "id": "dagu-action",
+      "hanzi": "打鼓",
+      "syllables": [
+        "da3",
+        "gu3"
+      ],
+      "display": "dǎ gǔ",
+      "picture": "drumming",
+      "kind": "action",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "gu"
+    },
+    {
+      "id": "kugua",
+      "hanzi": "苦瓜",
+      "syllables": [
+        "ku3",
+        "gua1"
+      ],
+      "display": "kǔ guā",
+      "picture": "bittermelon",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "gua"
+    },
+    {
+      "id": "hema",
+      "hanzi": "河马",
+      "syllables": [
+        "he2",
+        "ma3"
+      ],
+      "display": "hé mǎ",
+      "picture": "hippo",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "hema"
+    },
+    {
+      "id": "hehua",
+      "hanzi": "荷花",
+      "syllables": [
+        "he2",
+        "hua1"
+      ],
+      "display": "hé huā",
+      "picture": "lotus",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "hua"
+    },
+    {
+      "id": "huahua",
+      "hanzi": "画画",
+      "syllables": [
+        "hua4",
+        "hua4"
+      ],
+      "display": "huà huà",
+      "picture": "painting",
+      "kind": "action",
+      "lesson": 5,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "huahua"
+    },
+    {
+      "id": "ji",
+      "hanzi": "鸡",
+      "syllables": [
+        "ji1"
+      ],
+      "display": "jī",
+      "picture": "chicken",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ji"
+    },
+    {
+      "id": "qi-seven",
+      "hanzi": "七",
+      "syllables": [
+        "qi1"
+      ],
+      "display": "qī",
+      "picture": "seven",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "qi-seven"
+    },
+    {
+      "id": "qi-flag",
+      "hanzi": "旗",
+      "syllables": [
+        "qi2"
+      ],
+      "display": "qí",
+      "picture": "flag",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "qi-flag"
+    },
+    {
+      "id": "qi-game",
+      "hanzi": "棋",
+      "syllables": [
+        "qi2"
+      ],
+      "display": "qí",
+      "picture": "chess",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "qi-game"
+    },
+    {
+      "id": "xia",
+      "hanzi": "虾",
+      "syllables": [
+        "xia1"
+      ],
+      "display": "xiā",
+      "picture": "shrimp",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "yu"
+    },
+    {
+      "id": "xi",
+      "hanzi": "洗",
+      "syllables": [
+        "xi3"
+      ],
+      "display": "xǐ",
+      "picture": "washing",
+      "kind": "action",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "yi"
+    },
+    {
+      "id": "xiyi",
+      "hanzi": "洗衣",
+      "syllables": [
+        "xi3",
+        "yi1"
+      ],
+      "display": "xǐ yī",
+      "picture": "washing",
+      "kind": "action",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "yi"
+    },
+    {
+      "id": "qima",
+      "hanzi": "骑马",
+      "syllables": [
+        "qi2",
+        "ma3"
+      ],
+      "display": "qí mǎ",
+      "picture": "riding",
+      "kind": "action",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ma"
+    },
+    {
+      "id": "jimu",
+      "hanzi": "积木",
+      "syllables": [
+        "ji1",
+        "mu4"
+      ],
+      "display": "jī mù",
+      "picture": "blocks",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "jimu"
+    },
+    {
+      "id": "xigua",
+      "hanzi": "西瓜",
+      "syllables": [
+        "xi1",
+        "gua1"
+      ],
+      "display": "xī guā",
+      "picture": "melon",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "gua"
+    },
+    {
+      "id": "juhua",
+      "hanzi": "菊花",
+      "syllables": [
+        "ju2",
+        "hua1"
+      ],
+      "display": "jú huā",
+      "picture": "chrysanthemum",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "hua"
+    },
+    {
+      "id": "jia",
+      "hanzi": "家",
+      "syllables": [
+        "jia1"
+      ],
+      "display": "jiā",
+      "picture": "house",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "wu"
+    },
+    {
+      "id": "zi",
+      "hanzi": "字",
+      "syllables": [
+        "zi4"
+      ],
+      "display": "zì",
+      "picture": "character",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "zi"
+    },
+    {
+      "id": "si",
+      "hanzi": "四",
+      "syllables": [
+        "si4"
+      ],
+      "display": "sì",
+      "picture": "four",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "si"
+    },
+    {
+      "id": "si-silk",
+      "hanzi": "丝",
+      "syllables": [
+        "si1"
+      ],
+      "display": "sī",
+      "picture": "silk",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "si-silk"
+    },
+    {
+      "id": "zi-purple",
+      "hanzi": "紫",
+      "syllables": [
+        "zi3"
+      ],
+      "display": "zǐ",
+      "picture": "purple",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "zi-purple"
+    },
+    {
+      "id": "ca",
+      "hanzi": "擦",
+      "syllables": [
+        "ca1"
+      ],
+      "display": "cā",
+      "picture": "mabu",
+      "kind": "action",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "bu"
+    },
+    {
+      "id": "zuo",
+      "hanzi": "坐",
+      "syllables": [
+        "zuo4"
+      ],
+      "display": "zuò",
+      "picture": "sitting",
+      "kind": "action",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "zuo"
+    },
+    {
+      "id": "gezi",
+      "hanzi": "鸽子",
+      "syllables": [
+        "ge1",
+        "zi0"
+      ],
+      "display": "gē zi",
+      "picture": "pigeon",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ji"
+    },
+    {
+      "id": "tuzi",
+      "hanzi": "兔子",
+      "syllables": [
+        "tu4",
+        "zi0"
+      ],
+      "display": "tù zi",
+      "picture": "tu",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "tu"
+    },
+    {
+      "id": "wazi",
+      "hanzi": "袜子",
+      "syllables": [
+        "wa4",
+        "zi0"
+      ],
+      "display": "wà zi",
+      "picture": "socks",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "yi"
+    },
+    {
+      "id": "siji",
+      "hanzi": "司机",
+      "syllables": [
+        "si1",
+        "ji1"
+      ],
+      "display": "sī jī",
+      "picture": "driver",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "che"
+    },
+    {
+      "id": "che",
+      "hanzi": "车",
+      "syllables": [
+        "che1"
+      ],
+      "display": "chē",
+      "picture": "bus",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "che"
+    },
+    {
+      "id": "shu-book",
+      "hanzi": "书",
+      "syllables": [
+        "shu1"
+      ],
+      "display": "shū",
+      "picture": "book",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "shu-book"
+    },
+    {
+      "id": "shu-tree",
+      "hanzi": "树",
+      "syllables": [
+        "shu4"
+      ],
+      "display": "shù",
+      "picture": "tree",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "shu-tree"
+    },
+    {
+      "id": "ri",
+      "hanzi": "日",
+      "syllables": [
+        "ri4"
+      ],
+      "display": "rì",
+      "picture": "sun",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ri"
+    },
+    {
+      "id": "zhu",
+      "hanzi": "竹",
+      "syllables": [
+        "zhu2"
+      ],
+      "display": "zhú",
+      "picture": "bamboo",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "zhu"
+    },
+    {
+      "id": "cha",
+      "hanzi": "茶",
+      "syllables": [
+        "cha2"
+      ],
+      "display": "chá",
+      "picture": "tea",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "cha"
+    },
+    {
+      "id": "chi",
+      "hanzi": "吃",
+      "syllables": [
+        "chi1"
+      ],
+      "display": "chī",
+      "picture": "eating",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "chi"
+    },
+    {
+      "id": "shuaya",
+      "hanzi": "刷牙",
+      "syllables": [
+        "shua1",
+        "ya2"
+      ],
+      "display": "shuā yá",
+      "picture": "brushing",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "shuaya"
+    },
+    {
+      "id": "dushu",
+      "hanzi": "读书",
+      "syllables": [
+        "du2",
+        "shu1"
+      ],
+      "display": "dú shū",
+      "picture": "reading",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "shu-book"
+    },
+    {
+      "id": "zhuzi",
+      "hanzi": "竹子",
+      "syllables": [
+        "zhu2",
+        "zi0"
+      ],
+      "display": "zhú zi",
+      "picture": "bamboo",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "zhu"
+    },
+    {
+      "id": "richu",
+      "hanzi": "日出",
+      "syllables": [
+        "ri4",
+        "chu1"
+      ],
+      "display": "rì chū",
+      "picture": "sunrise",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ri"
+    },
+    {
+      "id": "hecha",
+      "hanzi": "喝茶",
+      "syllables": [
+        "he1",
+        "cha2"
+      ],
+      "display": "hē chá",
+      "picture": "drinking",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "cha"
+    },
+    {
+      "id": "zhuozi",
+      "hanzi": "桌子",
+      "syllables": [
+        "zhuo1",
+        "zi0"
+      ],
+      "display": "zhuō zi",
+      "picture": "table",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "zhuozi"
+    },
+    {
+      "id": "chida",
+      "hanzi": "尺",
+      "syllables": [
+        "chi3"
+      ],
+      "display": "chǐ",
+      "picture": "ruler",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "chida"
+    },
+    {
+      "id": "shizi",
+      "hanzi": "狮子",
+      "syllables": [
+        "shi1",
+        "zi0"
+      ],
+      "display": "shī zi",
+      "picture": "lion",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "shizi"
+    },
+    {
+      "id": "mama-labi",
+      "hanzi": "妈妈拿蜡笔",
+      "syllables": [
+        "ma1",
+        "ma0",
+        "na2",
+        "la4",
+        "bi3"
+      ],
+      "display": "mā ma ná là bǐ",
+      "picture": "labi",
+      "kind": "sentence",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "chunks": [
+        "ma1 ma0",
+        "na2",
+        "la4 bi3"
+      ],
+      "semanticGroup": "mama-labi"
+    },
+    {
+      "id": "baba-ditu",
+      "hanzi": "爸爸拿地图",
+      "syllables": [
+        "ba4",
+        "ba0",
+        "na2",
+        "di4",
+        "tu2"
+      ],
+      "display": "bà ba ná dì tú",
+      "picture": "ditu",
+      "kind": "sentence",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "chunks": [
+        "ba4 ba0",
+        "na2",
+        "di4 tu2"
+      ],
+      "semanticGroup": "baba-ditu"
+    },
+    {
+      "id": "didi-li",
+      "hanzi": "弟弟拿梨",
+      "syllables": [
+        "di4",
+        "di0",
+        "na2",
+        "li2"
+      ],
+      "display": "dì di ná lí",
+      "picture": "li",
+      "kind": "sentence",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "chunks": [
+        "di4 di0",
+        "na2",
+        "li2"
+      ],
+      "semanticGroup": "didi-li"
+    },
+    {
+      "id": "mama-xiyi",
+      "hanzi": "妈妈洗衣",
+      "syllables": [
+        "ma1",
+        "ma0",
+        "xi3",
+        "yi1"
+      ],
+      "display": "mā ma xǐ yī",
+      "picture": "washing",
+      "kind": "sentence",
+      "lesson": 6,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "chunks": [
+        "ma1 ma0",
+        "xi3",
+        "yi1"
+      ],
+      "semanticGroup": "mama-xiyi"
+    },
+    {
+      "id": "baba-hecha",
+      "hanzi": "爸爸喝茶",
+      "syllables": [
+        "ba4",
+        "ba0",
+        "he1",
+        "cha2"
+      ],
+      "display": "bà ba hē chá",
+      "picture": "drinking",
+      "kind": "sentence",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "chunks": [
+        "ba4 ba0",
+        "he1",
+        "cha2"
+      ],
+      "semanticGroup": "baba-hecha"
+    },
+    {
+      "id": "gege-dushu",
+      "hanzi": "哥哥读书",
+      "syllables": [
+        "ge1",
+        "ge0",
+        "du2",
+        "shu1"
+      ],
+      "display": "gē ge dú shū",
+      "picture": "reading",
+      "kind": "sentence",
+      "lesson": 8,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "chunks": [
+        "ge1 ge0",
+        "du2",
+        "shu1"
+      ],
+      "semanticGroup": "gege-dushu"
     }
   ],
   "confusions": [
@@ -2530,6 +4177,90 @@
         ]
       ],
       "tip": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。"
+    },
+    {
+      "pair": [
+        "g",
+        "k"
+      ],
+      "type": "aspiration",
+      "minimalPairs": [
+        [
+          "ge4",
+          "ke4"
+        ]
+      ],
+      "tip": "小纸条放嘴前，读 k 时送出一口气。"
+    },
+    {
+      "pair": [
+        "j",
+        "q"
+      ],
+      "type": "aspiration",
+      "minimalPairs": [
+        [
+          "ji1",
+          "qi1"
+        ]
+      ],
+      "tip": "读 q 时气送得多一点，看看小纸条会不会动。"
+    },
+    {
+      "pair": [
+        "z",
+        "c"
+      ],
+      "type": "aspiration",
+      "minimalPairs": [
+        [
+          "za1",
+          "ca1"
+        ]
+      ],
+      "tip": "舌尖不翘起，读 c 时轻轻送气。"
+    },
+    {
+      "pair": [
+        "zh",
+        "ch"
+      ],
+      "type": "aspiration",
+      "minimalPairs": [
+        [
+          "zhu1",
+          "chu1"
+        ]
+      ],
+      "tip": "两次都翘舌，读 ch 时多送一口气。"
+    },
+    {
+      "pair": [
+        "z",
+        "zh"
+      ],
+      "type": "retroflex",
+      "minimalPairs": [
+        [
+          "zu3",
+          "zhu3"
+        ]
+      ],
+      "tip": "先不翘舌，再轻轻翘起舌尖，听听声音的小变化。"
+    },
+    {
+      "pair": [
+        "s",
+        "sh"
+      ],
+      "type": "retroflex",
+      "minimalPairs": [
+        [
+          "sa1",
+          "sha1"
+        ]
+      ],
+      "tip": "先让舌尖平放，再轻轻翘起，慢慢比较两个声音。"
     }
   ],
   "praise": [
@@ -2555,5 +4286,439 @@
     "你慢慢读，台长听见了你的努力",
     "你发现了两个声音的不同",
     "你把熟悉的声音认出来了"
+  ],
+  "scenes": [
+    {
+      "id": "pond",
+      "title": "池塘边",
+      "prompt": "池塘里来了一位小客人，读读拼音，帮它找到位置。",
+      "targets": [
+        "e",
+        "yu"
+      ],
+      "lesson": 1
+    },
+    {
+      "id": "wardrobe",
+      "title": "整理衣柜",
+      "prompt": "读读卡片，把衣物放进小衣柜。",
+      "targets": [
+        "yi",
+        "bu"
+      ],
+      "lesson": 2
+    },
+    {
+      "id": "rice",
+      "title": "早餐桌",
+      "prompt": "早餐准备好了，读读拼音，找到桌上需要的东西。",
+      "targets": [
+        "mi",
+        "dami"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "music",
+      "title": "小小音乐会",
+      "prompt": "音乐会要开场了，读读卡片，找到乐器。",
+      "targets": [
+        "pipa",
+        "laba",
+        "mudi"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "art",
+      "title": "画画时间",
+      "prompt": "读读拼音，找出画画时要用的东西。",
+      "targets": [
+        "bi",
+        "labi",
+        "mo"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "cleaning",
+      "title": "一起做家务",
+      "prompt": "读读这张拼音卡，找出做家务要用的东西。",
+      "targets": [
+        "mabu",
+        "bu"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "animal",
+      "title": "动物小伙伴",
+      "prompt": "小动物来做客，读读卡片，找出这位朋友。",
+      "targets": [
+        "ma",
+        "tu",
+        "lv"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "playroom",
+      "title": "玩具小屋",
+      "prompt": "读读拼音，把玩具送回它的家。",
+      "targets": [
+        "muma",
+        "damu"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "travel",
+      "title": "准备出门",
+      "prompt": "读读卡片，找出这次出门会见到的东西。",
+      "targets": [
+        "ditu",
+        "lu",
+        "daba"
+      ],
+      "lesson": 4
+    },
+    {
+      "id": "fruit",
+      "title": "水果小摊",
+      "prompt": "读读拼音，帮小摊找到要摆出的水果。",
+      "targets": [
+        "li",
+        "dali"
+      ],
+      "lesson": 4
+    },
+    {
+      "id": "garden",
+      "title": "泥土花园",
+      "prompt": "小花园开工了，读读卡片，找出地上的东西。",
+      "targets": [
+        "nitu",
+        "ni",
+        "tu-earth"
+      ],
+      "lesson": 4
+    },
+    {
+      "id": "family",
+      "title": "家人来信",
+      "prompt": "读读拼音，找到这封来信提到的家人。",
+      "targets": [
+        "baba",
+        "mama",
+        "didi",
+        "po",
+        "dabo"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "waterfall",
+      "title": "山间旅行",
+      "prompt": "读读卡片，找出旅途中看到的景物。",
+      "targets": [
+        "pubu",
+        "dadi"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "movement",
+      "title": "动作小剧场",
+      "prompt": "看清拼音，找到正在做这个动作的图。",
+      "targets": [
+        "ti",
+        "pu",
+        "la",
+        "ba",
+        "pa",
+        "mo-action"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "building",
+      "title": "搭建角",
+      "prompt": "读读卡片，找出搭建角里的东西。",
+      "targets": [
+        "ta",
+        "muma"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "body",
+      "title": "认识身体",
+      "prompt": "读读拼音，找到卡片说的部位。",
+      "targets": [
+        "nose"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "drum-show",
+      "title": "鼓声响起来",
+      "prompt": "读读拼音，找出音乐表演里的图。",
+      "targets": [
+        "gu",
+        "dagu",
+        "dagu-action"
+      ],
+      "lesson": 5
+    },
+    {
+      "id": "kitchen",
+      "title": "厨房帮帮忙",
+      "prompt": "读读卡片，找到厨房里的物品。",
+      "targets": [
+        "hu",
+        "guo"
+      ],
+      "lesson": 5
+    },
+    {
+      "id": "river",
+      "title": "河边漫步",
+      "prompt": "读读拼音，找到河边见到的朋友或景物。",
+      "targets": [
+        "he",
+        "hema",
+        "hehua"
+      ],
+      "lesson": 5
+    },
+    {
+      "id": "flower",
+      "title": "花园开放日",
+      "prompt": "读读卡片，找到这一朵花。",
+      "targets": [
+        "hua",
+        "hehua",
+        "juhua"
+      ],
+      "lesson": 5
+    },
+    {
+      "id": "vegetable",
+      "title": "买菜清单",
+      "prompt": "读读清单里的拼音，找到要买的菜。",
+      "targets": [
+        "gua",
+        "kugua"
+      ],
+      "lesson": 5
+    },
+    {
+      "id": "painting",
+      "title": "小画家",
+      "prompt": "读读拼音，找到画画的动作或工具。",
+      "targets": [
+        "huahua",
+        "bi"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "blocks",
+      "title": "积木城堡",
+      "prompt": "读读卡片，把搭城堡的东西找出来。",
+      "targets": [
+        "jimu",
+        "ta"
+      ],
+      "lesson": 4
+    },
+    {
+      "id": "flag",
+      "title": "操场升旗",
+      "prompt": "读读卡片，找到操场上飘动的东西。",
+      "targets": [
+        "qi-flag"
+      ],
+      "lesson": 6
+    },
+    {
+      "id": "board-game",
+      "title": "下棋时间",
+      "prompt": "读读卡片，找到桌上的游戏。",
+      "targets": [
+        "qi-game"
+      ],
+      "lesson": 6
+    },
+    {
+      "id": "wash",
+      "title": "洗衣小帮手",
+      "prompt": "读读拼音，找到整理衣物的动作。",
+      "targets": [
+        "xiyi",
+        "xi"
+      ],
+      "lesson": 6
+    },
+    {
+      "id": "farm",
+      "title": "农场一天",
+      "prompt": "读读卡片，找出农场的小动物。",
+      "targets": [
+        "ji",
+        "ma",
+        "tu"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "summer",
+      "title": "夏日水果",
+      "prompt": "读读拼音，帮小伙伴找到要吃的水果。",
+      "targets": [
+        "xigua",
+        "li"
+      ],
+      "lesson": 4
+    },
+    {
+      "id": "riding",
+      "title": "草地骑马",
+      "prompt": "读读拼音，找到草地上的活动。",
+      "targets": [
+        "qima"
+      ],
+      "lesson": 6
+    },
+    {
+      "id": "seafood",
+      "title": "河鲜小摊",
+      "prompt": "读读拼音，找出小摊上的东西。",
+      "targets": [
+        "xia",
+        "yu"
+      ],
+      "lesson": 2
+    },
+    {
+      "id": "numbers",
+      "title": "数字信号",
+      "prompt": "读读拼音，把数字信号接起来。",
+      "targets": [
+        "qi-seven",
+        "si"
+      ],
+      "lesson": 6
+    },
+    {
+      "id": "socks",
+      "title": "洗好晾好",
+      "prompt": "读读拼音，找到要晾起来的衣物。",
+      "targets": [
+        "wazi",
+        "yi"
+      ],
+      "lesson": 2
+    },
+    {
+      "id": "birds",
+      "title": "公园喂鸟",
+      "prompt": "读读卡片，找到公园里的小鸟。",
+      "targets": [
+        "gezi"
+      ],
+      "lesson": 7
+    },
+    {
+      "id": "seat",
+      "title": "乘车坐好",
+      "prompt": "读读拼音，找到乘车时要做的动作。",
+      "targets": [
+        "zuo"
+      ],
+      "lesson": 7
+    },
+    {
+      "id": "reading",
+      "title": "图书角",
+      "prompt": "读读拼音，找到图书角里的物品或活动。",
+      "targets": [
+        "shu-book",
+        "dushu"
+      ],
+      "lesson": 8
+    },
+    {
+      "id": "tea",
+      "title": "招待客人",
+      "prompt": "读读卡片，找到待客的饮品或动作。",
+      "targets": [
+        "cha",
+        "hecha"
+      ],
+      "lesson": 8
+    },
+    {
+      "id": "morning",
+      "title": "早晨出发",
+      "prompt": "读读拼音，找到早晨天空里的景物。",
+      "targets": [
+        "ri",
+        "richu"
+      ],
+      "lesson": 8
+    },
+    {
+      "id": "bamboo",
+      "title": "竹林小路",
+      "prompt": "读读卡片，找到小路边的植物。",
+      "targets": [
+        "zhu",
+        "zhuzi",
+        "shu-tree"
+      ],
+      "lesson": 8
+    },
+    {
+      "id": "schoolbag",
+      "title": "整理书包",
+      "prompt": "读读拼音，找到该放进书包的物品。",
+      "targets": [
+        "shu-book",
+        "chida",
+        "bi"
+      ],
+      "lesson": 3
+    },
+    {
+      "id": "bathroom",
+      "title": "睡前准备",
+      "prompt": "读读拼音，找到睡前要做的事。",
+      "targets": [
+        "shuaya"
+      ],
+      "lesson": 8
+    },
+    {
+      "id": "bus",
+      "title": "上车出发",
+      "prompt": "读读卡片，找到车站里的图。",
+      "targets": [
+        "che",
+        "siji"
+      ],
+      "lesson": 7
+    },
+    {
+      "id": "zoo",
+      "title": "动物园广播",
+      "prompt": "读读拼音，找到广播里说的小动物。",
+      "targets": [
+        "shizi",
+        "hema",
+        "tuzi"
+      ],
+      "lesson": 5
+    }
   ]
 }
