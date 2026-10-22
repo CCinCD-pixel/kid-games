@@ -28,6 +28,7 @@ export interface Word {
   source: string;
   chunks?: string[];
   custom?: boolean;
+  semanticGroup?: string;
 }
 export interface Confusion {
   pair: string[];
@@ -53,6 +54,7 @@ export interface Attempt {
   session: number;
   confusion?: string;
   at?: number;
+  assisted?: boolean;
 }
 export interface Atom {
   box: number;
@@ -60,9 +62,11 @@ export interface Atom {
   successes: number[];
   kinds: Kind[];
   needsReview: boolean;
+  byKind?: Partial<Record<Kind, number[]>>;
 }
 export interface Save {
   sessions: number;
+  lastAttemptAt?: number;
   dates: number[];
   atoms: Record<string, Atom>;
   history: Attempt[];

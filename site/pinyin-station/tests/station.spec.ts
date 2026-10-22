@@ -7,7 +7,9 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-const responses = JSON.parse(fs.readFileSync(new URL('../src/speech/fixtures/real-responses.json', import.meta.url), 'utf8'));
+const responses = JSON.parse(
+  fs.readFileSync(new URL('../src/speech/fixtures/real-responses.json', import.meta.url), 'utf8'),
+);
 
 async function open(page: Page) {
   await instrument(page);
@@ -39,7 +41,7 @@ test('complete a supportive program, including permission-denied follow reading'
   await fits(page);
   await shot(page, info.project.name, 'pinyin-home');
   const s = initialSave();
-  s.sessions = 1;
+  s.sessions = 0;
   const queue = schedule(s, bank, 'today');
   await page.getByRole('button', { name: '开始今天的节目' }).click();
   for (const q of queue) {
@@ -65,7 +67,7 @@ test('complete a supportive program, including permission-denied follow reading'
         }
       }
     } else if (q.kind === 'C') {
-      await page.locator('.blend-parts button').last().click();
+      await page.locator(`[data-final="${parseSyllable(q.target)!.final}"]`).click();
       await page.getByRole('button', { name: '先接下一条', exact: true }).click();
       continue;
     } else if (q.kind === 'D') {
@@ -98,7 +100,7 @@ test('three attempts lead to demonstration, without trapping the child', async (
   await open(page);
   await page.getByRole('button', { name: '开始今天的节目' }).click();
   const s = initialSave();
-  s.sessions = 1;
+  s.sessions = 0;
   const q = schedule(s, bank, 'today')[0];
   const wrong = page.locator(`[data-choice]:not([data-choice="${q.target}"])`).first();
   for (let i = 0; i < 3; i++) await wrong.click();

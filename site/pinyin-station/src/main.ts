@@ -233,9 +233,6 @@ function route(title: string, desc: string, mode: string, symbol: 'listen' | 'gr
 }
 function startPractice(mode: string) {
   resetView();
-  save.sessions++;
-  save.dates.push(Date.now());
-  persist();
   practice = new Practice(ctx, mode);
   app.replaceChildren(header(), practice.el);
   shell.session?.mark('pinyin-session', { mode, lesson: save.settings.lesson });

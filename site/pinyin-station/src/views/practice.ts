@@ -2,7 +2,7 @@ import { h } from '@kit/ui';
 import { createRng } from '@kit/rng';
 import { mount } from '@kit/companion';
 import { displayPinyin, parseSyllable } from '../domain/pinyin';
-import { nextQuestion, recordAttempt, schedule } from '../domain/learning';
+import { beginSession, insertContrasts, nextQuestion, recordAttempt, schedule } from '../domain/learning';
 import type { Question } from '../domain/types';
 import { Microphone } from '../speech/mic';
 import { assess } from '../speech/client';
@@ -32,6 +32,8 @@ export class Practice {
   private locked = false;
   private syllableIndex = 0;
   private fullParts = 0;
+  private assisted = false;
+  private insertedContrasts = new Set<string>();
   private sentence: string[] = [];
   private used = new Set<number>();
   private instruction = h('p', { class: 'instruction', 'aria-live': 'polite' });
@@ -70,6 +72,7 @@ export class Practice {
     this.el.classList.remove('is-resolved', 'has-recording');
     this.generation++;
     this.locked = false;
+    this.assisted = false;
     this.syllableIndex = 0;
     this.fullParts = 0;
     this.sentence = [];
@@ -164,7 +167,17 @@ export class Practice {
       choices.append(choice);
     }
     this.stage.append(choices);
-    this.actions.append(button('听听这个词', () => void this.stimulus(), 'secondary', 'listen'));
+    this.actions.append(
+      button(
+        '听听这个词',
+        () => {
+          this.assisted = true;
+          void this.stimulus();
+        },
+        'secondary',
+        'listen',
+      ),
+    );
   }
   private listening() {
     const signal = button('听来信', () => void this.stimulus(), 'listen', 'listen');
@@ -297,38 +310,63 @@ export class Practice {
   }
   private blending() {
     const s = parseSyllable(this.q.target)!;
-    const merged = pinyin('·', 'blend-result'),
-      a = button(
-        s.initial || '听',
+    const merged = pinyin('·', 'blend-result');
+    const initial = button(
+      s.initial || '听',
+      () => {
+        void this.ctx.syllable(
+          this.ctx.bank.letters.find((l) => l.id === s.initial)?.callSound ?? this.q.target,
+        );
+      },
+      'secondary',
+    );
+    initial.classList.add('pinyin-key', 'pinyin');
+    const finals = [
+      ...new Set([
+        s.final,
+        ...this.q.choices.map((id) => parseSyllable(id)!.final),
+        ...['a', 'o', 'e', 'i', 'u', 'v'],
+      ]),
+    ].slice(0, 2);
+    const rng = createRng(`${this.ctx.save.sessions}:${this.index}:blend`);
+    const choices = rng.shuffle(finals).map((final) => {
+      const key = button(
+        displayPinyin(final + s.tone),
         () => {
-          void this.ctx.syllable(
-            this.ctx.bank.letters.find((l) => l.id === s.initial)?.callSound ?? this.q.target,
-          );
-          a.classList.add('selected');
-        },
-        'secondary',
-      ),
-      b = button(
-        displayPinyin(s.final + s.tone),
-        () => {
-          b.classList.add('selected');
+          if (this.locked) return;
+          if (final !== s.final) {
+            this.answer(false);
+            return;
+          }
           merged.textContent = displayPinyin(this.q.target);
-          void this.stimulus();
           this.remember(true);
+          this.locked = true;
+          void this.stimulus();
           this.actions.replaceChildren(
-            button('读给台长听', () => void this.record(), 'primary', 'mic'),
+            button(
+              '读给台长听',
+              () => {
+                this.locked = false;
+                void this.record();
+              },
+              'primary',
+              'mic',
+            ),
             button('先接下一条', () => this.advance(), 'quiet', 'next'),
           );
         },
         'secondary',
       );
-    a.classList.add('pinyin-key', 'pinyin');
-    b.classList.add('pinyin-key', 'pinyin');
+      key.classList.add('pinyin-key', 'pinyin');
+      key.dataset.final = final;
+      return key;
+    });
     this.stage.append(
-      h('div', { class: 'blend-parts' }, a, h('span', { class: 'blend-plus' }, '+'), b),
+      h('div', { class: 'blend-parts' }, initial, h('span', { class: 'blend-plus' }, '+'), ...choices),
       merged,
       this.lamps(),
     );
+    this.instruction.textContent = '看开头，选后面的声音，再把它们接起来';
   }
   private lamps() {
     return h(
@@ -400,8 +438,10 @@ export class Practice {
     );
   }
   private remember(correct: boolean, confusion?: string, judge: 'deterministic' | 'self' = 'deterministic') {
+    beginSession(this.ctx.save);
     recordAttempt(this.ctx.save, {
-      id: `${this.ctx.save.sessions}:${this.index}:${this.tries}:${judge}`,
+      id: crypto.randomUUID(),
+      assisted: this.assisted,
       skill: this.q.skill,
       kind: this.q.kind,
       correct,
@@ -420,7 +460,16 @@ export class Practice {
         : this.q.kind === 'A' && choice
           ? [this.q.target, choice].sort().join('|')
           : undefined;
-    this.remember(correct, correct ? undefined : confusion);
+    this.remember(correct, confusion);
+    if (
+      !correct &&
+      confusion &&
+      (this.ctx.save.confusions[confusion] ?? 0) >= 2 &&
+      !this.insertedContrasts.has(confusion)
+    ) {
+      this.queue = insertContrasts(this.queue, this.index, this.ctx.bank, confusion);
+      this.insertedContrasts.add(confusion);
+    }
     if (correct) {
       this.locked = true;
       this.el.classList.add('is-resolved');
@@ -434,7 +483,18 @@ export class Practice {
       this.actions.replaceChildren(button('接下一条', () => this.advance(), 'primary', 'next'));
     } else {
       this.tries++;
-      const next = nextQuestion(this.queue, this.index, this.tries, false);
+      const next = nextQuestion(
+        this.queue,
+        this.index,
+        this.tries,
+        false,
+        schedule(
+          this.ctx.save,
+          this.ctx.bank,
+          this.q.kind === 'A' || this.q.kind === 'B' ? 'listen' : 'today',
+          60,
+        ),
+      );
       this.queue = next.queue;
       if (next.action === 'demonstrate') {
         this.locked = true;
@@ -454,16 +514,21 @@ export class Practice {
   }
   private hint() {
     if (this.el.classList.contains('is-recording')) return;
+    this.assisted = true;
     const c = this.ctx.bank.confusions.find((c) => this.q.skill.includes(c.pair.join('|')));
     this.feedback.replaceChildren(
       glyph('hint'),
       h('span', null, c?.tip ?? (this.tries >= 2 ? '把声音拆小一点，再接起来' : '先听一听，找一个小线索')),
     );
     this.speak(this.tries >= 2 ? 'py.hint2' : 'py.hint1');
-    if (this.tries >= 2) this.demonstrate(false);
-    else void this.stimulus();
+    if (this.tries >= 2 && this.q.kind === 'F') {
+      const sy = parseSyllable(this.word.syllables[this.syllableIndex])!;
+      this.feedback.append(pinyin(`${sy.initial} · ＿`, 'hint-pinyin'));
+    }
+    void this.stimulus();
   }
   private demonstrate(full = true) {
+    this.assisted = true;
     if (this.q.kind === 'A' || this.q.kind === 'B') {
       const answer = this.stage.querySelector(`[data-choice="${this.q.target}"]`);
       answer?.classList.add('clue');
@@ -498,6 +563,8 @@ export class Practice {
   }
   private async record() {
     if (this.locked) return;
+    beginSession(this.ctx.save);
+    this.ctx.persist();
     this.locked = true;
     this.el.classList.add('is-recording');
     this.el.querySelectorAll('.lamp').forEach((l) => {

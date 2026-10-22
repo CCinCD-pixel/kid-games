@@ -43,6 +43,15 @@ describe('supportive practice and session-based review', () => {
       session: 9,
       id: 'f',
     });
+    expect(mastery(s, 'word:ditu')).toBe(false);
+    recordAttempt(s, {
+      skill: 'word:ditu:spell',
+      kind: 'F',
+      correct: true,
+      judge: 'deterministic',
+      session: 10,
+      id: 'f2',
+    });
     expect(mastery(s, 'word:ditu')).toBe(true);
     expect(s.atoms['word:ditu:decode'].due).toBeGreaterThan(1);
   });
@@ -127,9 +136,9 @@ describe('supportive practice and session-based review', () => {
     const s = initialSave();
     const qs = schedule(s, bank, 'today', 4);
     expect(nextQuestion(qs, 0, 2, false).action).toBe('hint');
-    const result = nextQuestion(qs, 0, 3, false);
+    const result = nextQuestion(qs, 0, 3, false, schedule(s, bank, 'listen', 60));
     expect(result.action).toBe('demonstrate');
     expect(result.queue[1].id).not.toBe(qs[0].id);
-    expect(result.queue.slice(3).some((q) => q.skill === qs[0].skill)).toBe(true);
+    expect(result.queue.slice(3).some((q) => q.kind === qs[0].kind && q.target !== qs[0].target)).toBe(true);
   });
 });
