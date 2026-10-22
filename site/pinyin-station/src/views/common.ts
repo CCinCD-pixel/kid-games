@@ -5,6 +5,8 @@ export interface Context {
   save: Save;
   bank: Bank;
   persist: () => void;
+  explain: (text: string) => Promise<unknown>;
+  storageOkay: () => boolean;
   say: (id: string) => Promise<unknown>;
   syllable: (id: string) => Promise<unknown>;
   word: (word: Word) => Promise<unknown>;

@@ -1,3 +1,4 @@
+import { familyToken } from '../speech/family';
 import { ordering } from './kinds/ordering';
 import { reading } from './kinds/reading';
 import { blending } from './kinds/blending';
@@ -273,12 +274,13 @@ export class Practice {
       glyph('hint'),
       h('span', null, c?.tip ?? (this.tries >= 2 ? '把声音拆小一点，再接起来' : '先听一听，找一个小线索')),
     );
-    this.speak(this.tries >= 2 ? 'py.hint2' : 'py.hint1');
+    if (c) void this.ctx.explain(c.tip);
+    else this.speak(this.tries >= 2 ? 'py.hint2' : 'py.hint1');
     if (this.tries >= 2 && this.q.kind === 'F') {
       const sy = parseSyllable(this.word.syllables[this.syllableIndex])!;
       this.feedback.append(pinyin(`${sy.initial} · ＿`, 'hint-pinyin'));
     }
-    void this.stimulus();
+    if (!c) void this.stimulus();
   }
   private demonstrate(full = true) {
     this.assisted = true;
@@ -351,6 +353,7 @@ export class Practice {
         skill: this.q.skill.replace(/:blend$/, ':say'),
         session: this.ctx.save.sessions,
         kind: this.q.kind,
+        assisted: this.assisted,
       };
       const plan = this.assessment;
       record.ref = plan.ref;
@@ -363,9 +366,7 @@ export class Practice {
             capture.pcm,
             plan.mode,
             plan.ref,
-            localStorage.getItem('pinyin-family-token') ??
-              sessionStorage.getItem('pinyin-family-token') ??
-              '',
+            familyToken(),
             this.ctx.save.settings.strictness,
             this.abort.signal,
             plan,
@@ -424,6 +425,7 @@ export class Practice {
                   : '声音收到啦，这次可以现场回听',
         ),
       );
+      this.speak(record.verdict?.status === 'unsure' || !capture.heard ? 'py.unsure' : 'py.saved');
       this.actions.replaceChildren(
         button('听我的声音', () => void this.ctx.replay(record.blob), 'secondary', 'replay'),
         button('听台长读', () => void this.stimulus(), 'secondary', 'listen'),

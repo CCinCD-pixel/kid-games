@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { __resetAudioForTests, enforceVoiceLimit, getAudioContext, installAudioAutoUnlock, isAudioUnlocked, playTone, sfx, unlockAudio, whenAudioUnlocked } from '@kit/audio';
+import { __resetAudioForTests, claimRecordingSession, enforceVoiceLimit, getAudioContext, installAudioAutoUnlock, isAudioUnlocked, playTone, sfx, unlockAudio, whenAudioUnlocked } from '@kit/audio';
 
 afterEach(() => {
   __resetAudioForTests();
@@ -77,4 +77,16 @@ describe('audio recovery', () => {
 
     expect(audio.state).toBe('running');
   });
+});
+
+
+it('keeps gesture recovery from switching an active microphone back to playback', () => {
+  const audioSession = { type:'playback' };
+  vi.stubGlobal('navigator', {audioSession});
+  const release = claimRecordingSession();
+  expect(audioSession.type).toBe('play-and-record');
+  unlockAudio();
+  expect(audioSession.type).toBe('play-and-record');
+  release();release();
+  expect(audioSession.type).toBe('playback');
 });

@@ -13,6 +13,7 @@ export interface Recording {
   assessment?: AssessmentPlan;
   ref?: string;
   lab?: boolean;
+  assisted?: boolean;
   expected?: 'correct' | Dim;
   verdict?: Verdict;
   parent?: 'correct' | Dim;

@@ -20,14 +20,16 @@ const save = store.load();
 // Guard older/corrupted local data without discarding unrelated platform saves.
 if (!save.settings || !Array.isArray(save.history)) Object.assign(save, initialSave());
 const sub = createSubtitleBar();
+let expectedCue: string | null = null;
+const cue: typeof sub.onCue = (value) => { if (value && (value.id ?? value.text) === expectedCue) sub.onCue(value); };
 const narrator = new Narrator({
   manifestUrl: '/audio/pinyin-station/audio-manifest.json',
   speechFallback: false,
-  onCue: sub.onCue,
+  onCue: cue,
   onWord: sub.onWord,
 });
 sub.attach(narrator);
-const familyNarrator = new Narrator({ speechFallback: true, onCue: sub.onCue, onWord: sub.onWord });
+const familyNarrator = new Narrator({ speechFallback: true, onCue: cue, onWord: sub.onWord });
 let practice: Practice | null = null,
   voice: Voice | null = null,
   replayUrl: string | null = null;
@@ -40,6 +42,9 @@ const cleanUrls = () => {
 };
 const stopAudio = () => {
   audioVersion++;
+  expectedCue = null;
+  sub.onCue({ id:null, text:'', source:'text' });
+  sub.hide();
   narrator.stop();
   familyNarrator.stop();
   voice?.stop();
@@ -50,8 +55,9 @@ const stopAudio = () => {
     replayUrl = null;
   }
 };
+let lastSaveOkay = true;
 const persist = () => {
-  store.save(save);
+  lastSaveOkay = store.save(save);
   const lit = bank.words.filter((w) => mastery(save, `word:${w.id}`)).length;
   setHubProgress('pinyin-station', {
     label: lit ? '信号渐渐亮起来了' : '电台等你开播',
@@ -77,6 +83,7 @@ const shell = initShell({
 const say = async (id: string) => {
   stopAudio();
   sub.attach(narrator);
+  expectedCue = id;
   return narrator.say(id, { interrupt: true });
 };
 async function syllable(id: string) {
@@ -100,6 +107,7 @@ async function word(w: Word) {
     sub.attach(narrator);
     for (const id of w.syllables) {
       if (version !== audioVersion) return;
+      expectedCue = `py.syl.${id}`;
       await narrator.say(`py.syl.${id}`, { interrupt: true });
     }
     return;
@@ -107,6 +115,7 @@ async function word(w: Word) {
   // Family additions use the device's contextual word voice, never isolated-syllable TTS.
   stopAudio();
   sub.attach(familyNarrator);
+  expectedCue = w.hanzi;
   return familyNarrator.say(w.hanzi, { interrupt: true });
 }
 async function replay(blob: Blob) {
@@ -147,7 +156,11 @@ function picture(w: Word): HTMLElement {
     .catch(() => host.append(illustration('custom', w.hanzi)));
   return host;
 }
-const ctx: Context = { save, bank, persist, say, syllable, word, replay, picture, finish, home, stopAudio };
+const explain = async (text: string) => {
+  stopAudio(); sub.attach(familyNarrator); expectedCue = text;
+  return familyNarrator.say(text, { interrupt: true });
+};
+const ctx: Context = { save, bank, persist, say, explain, syllable, word, replay, picture, finish, home, stopAudio, storageOkay: () => lastSaveOkay };
 function header() {
   return h(
     'header',
@@ -258,9 +271,7 @@ function album() {
   );
   const cards = h('div', { class: 'signal-album' });
   for (const l of bank.letters.filter((l) => l.lesson <= save.settings.lesson && l.kind !== 'whole')) {
-    const lit = Object.entries(save.atoms).some(
-      ([key, a]) => key.startsWith(`letter:${l.id}:`) && a.successes.length >= 2,
-    );
+    const lit = mastery(save, `letter:${l.id}`) || bank.words.some(w => mastery(save,`word:${w.id}`) && w.syllables.some(id => id.startsWith(l.id)));
     cards.append(
       h(
         'button',
@@ -268,7 +279,7 @@ function album() {
           type: 'button',
           class: `signal-card ${lit ? 'lit' : ''}`,
           'aria-label': `${l.id}，${l.mnemonic}`,
-          onclick: () => void syllable(l.callSound),
+          onclick: () => { void explain(l.mnemonic).then(() => syllable(l.callSound)); },
         },
         pinyin(l.id.replace('v', 'ü')),
         h('small', null, l.mnemonic),

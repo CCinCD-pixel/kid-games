@@ -1,3 +1,4 @@
+import { familyToken } from '../speech/family';
 import { h } from '@kit/ui';
 import { Microphone } from '../speech/mic';
 import { assess } from '../speech/client';
@@ -50,7 +51,7 @@ export function labPanel(ctx: Context) {
     async () => {
       if (record.disabled) return;
       const token =
-        localStorage.getItem('pinyin-family-token') ?? sessionStorage.getItem('pinyin-family-token') ?? '';
+        familyToken();
       if (!ctx.save.settings.ai || !token) {
         status.textContent = '先在上方允许腾讯评测并填写家庭口令。';
         return;

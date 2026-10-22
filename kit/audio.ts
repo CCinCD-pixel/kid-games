@@ -33,6 +33,7 @@ let ctx: AudioContext | null = null;
 let buses: Record<BusName, GainNode> | null = null;
 let unlocked = false;
 let autoUnlockInstalled = false;
+let recordingSessions = 0;
 let muted = readMuted();
 const unlockWaiters = new Set<() => void>();
 const clipCache = new Map<string, Promise<AudioBuffer | null>>();
@@ -89,13 +90,27 @@ function markUnlocked(): void {
 }
 
 function setPlaybackSession(): void {
-  if (AUTOMATION_MUTE) return; // tests: never claim the playback session
+  if (AUTOMATION_MUTE || recordingSessions > 0) return; // Never interrupt an active microphone session.
   const nav = globalThis.navigator as Navigator & { audioSession?: AudioSessionLike };
   try {
     if (nav?.audioSession && nav.audioSession.type !== 'playback') nav.audioSession.type = 'playback';
   } catch {
     /* not supported */
   }
+}
+
+/** Hold play-and-record across gesture recovery until microphone cleanup completes. */
+export function claimRecordingSession(): () => void {
+  recordingSessions++;
+  const nav = globalThis.navigator as Navigator & { audioSession?: AudioSessionLike };
+  try { if (!AUTOMATION_MUTE && nav?.audioSession) nav.audioSession.type = 'play-and-record'; } catch { /* Optional Safari API. */ }
+  let released = false;
+  return () => {
+    if (released) return;
+    released = true;
+    recordingSessions = Math.max(0, recordingSessions - 1);
+    if (!recordingSessions) setPlaybackSession();
+  };
 }
 
 /**
@@ -510,6 +525,7 @@ export const music = {
 
 /** Test hook: forget all state (vitest only). */
 export function __resetAudioForTests(): void {
+  recordingSessions = 0;
   ctx = null;
   buses = null;
   unlocked = false;

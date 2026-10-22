@@ -28,7 +28,7 @@ export function spelling(this: PracticeView) {
     'div',
     { class: 'spelling-picture' },
     this.ctx.picture(w),
-    button('听听图画', () => void this.stimulus(), 'quiet', 'listen'),
+    button('听听图画', () => { this.assisted = true; void this.stimulus(); }, 'quiet', 'listen'),
   );
   const sequence = h(
     'div',
@@ -50,6 +50,7 @@ export function spelling(this: PracticeView) {
         ? '找到后面的声音'
         : '给它戴上声调小帽子',
   );
+  void this.ctx.say(`py.${component}`);
   const alternatives =
     component === 'tone'
       ? ['0', '1', '2', '3', '4']
