@@ -28,7 +28,15 @@ export function spelling(this: PracticeView) {
     'div',
     { class: 'spelling-picture' },
     this.ctx.picture(w),
-    button('听听图画', () => { this.assisted = true; void this.stimulus(); }, 'quiet', 'listen'),
+    button(
+      '听听图画',
+      () => {
+        this.assisted = true;
+        void this.stimulus();
+      },
+      'quiet',
+      'listen',
+    ),
   );
   const sequence = h(
     'div',

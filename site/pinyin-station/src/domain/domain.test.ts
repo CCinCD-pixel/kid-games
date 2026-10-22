@@ -7,6 +7,7 @@ describe('pinyin content', () => {
   it('preserves umlauts, neutral tones and places tones on the right vowel', () => {
     expect(['lv2', 'liu2', 'gui4', 'di0'].map(displayPinyin)).toEqual(['lǘ', 'liú', 'guì', 'di']);
     expect(parseSyllable('bv2')).toBeNull();
+    expect(parseSyllable('v3')).toBeNull();
     expect(parseSyllable('lve4')).toMatchObject({ initial: 'l', final: 've', tone: 4 });
   });
   it('validates the exact content consumed by the page', () => expect(validateBank(bank)).toEqual([]));
@@ -94,7 +95,9 @@ describe('supportive practice and session-based review', () => {
         s.settings.lesson = lesson;
         const qs = schedule(s, bank, mode);
         expect(qs).toHaveLength(15);
-        expect(qs.every((q) => q.lesson <= lesson && ['A', 'B', 'C'].includes(q.kind))).toBe(true);
+        expect(qs.every((q) => q.lesson <= lesson && ['A', 'B', 'C', 'D', 'E', 'F'].includes(q.kind))).toBe(
+          true,
+        );
       }
   });
   it('warms up with a familiar word and promptly returns to due work', () => {

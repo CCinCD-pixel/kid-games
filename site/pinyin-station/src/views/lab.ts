@@ -50,8 +50,7 @@ export function labPanel(ctx: Context) {
     '录一条成人样本',
     async () => {
       if (record.disabled) return;
-      const token =
-        familyToken();
+      const token = familyToken();
       if (!ctx.save.settings.ai || !token) {
         status.textContent = '先在上方允许腾讯评测并填写家庭口令。';
         return;

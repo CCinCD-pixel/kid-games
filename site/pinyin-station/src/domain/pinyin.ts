@@ -1,7 +1,7 @@
 import type { Bank } from './types';
 
 const VALID: Record<string, string> = {
-  '': 'a o e i u v ai ei ao ou an en ang eng er',
+  '': 'a o e i u ai ei ao ou an en ang eng er',
   b: 'a o ai ei ao an en ang eng i ie iao ian in ing u',
   p: 'a o ai ei ao ou an en ang eng i ie iao ian in ing u',
   m: 'a o e ai ei ao ou an en ang eng i ie iao iu ian in ing u',
