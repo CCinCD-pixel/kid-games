@@ -23,7 +23,7 @@ export function spelling(this: PracticeView) {
       ? `＿${displayPinyin(s.final + id.at(-1))}`
       : component === 'final'
         ? `${s.initial}＿`
-        : `${s.initial + s.final} ＿`;
+        : `${(s.initial + s.final).replaceAll('v', 'ü')} ＿`;
   const picture = h(
     'div',
     { class: 'spelling-picture' },
@@ -52,14 +52,14 @@ export function spelling(this: PracticeView) {
   );
   const alternatives =
     component === 'tone'
-      ? ['1', '2', '3', '4', ...(s.tone === 0 ? ['0'] : [])]
+      ? ['0', '1', '2', '3', '4']
       : component === 'initial'
         ? [
             correct,
             ...(correct === 'b'
               ? ['p', 'd']
-              : correct === 'l'
-                ? ['n', 't']
+              : ['l', 'n', 'd', 't'].includes(correct)
+                ? ({ l: ['n'], n: ['l'], d: ['t'], t: ['d'] }[correct] ?? [])
                 : ['b', 'p', 'd', 't', 'n', 'l', 'm', 'f']
             )
               .filter((x) => x !== correct)
@@ -67,7 +67,14 @@ export function spelling(this: PracticeView) {
           ]
         : [
             correct,
-            ...['a', 'o', 'e', 'i', 'u', 'v'].filter((x) => x !== correct).slice(0, level === 'full' ? 5 : 1),
+            ...(correct === 'v'
+              ? ['u', 'a', 'o', 'e', 'i']
+              : correct === 'u'
+                ? ['v', 'a', 'o', 'e', 'i']
+                : ['a', 'o', 'e', 'i', 'u', 'v']
+            )
+              .filter((x) => x !== correct)
+              .slice(0, level === 'full' ? 5 : 1),
           ];
   const keys = h('div', { class: 'spelling-keys' }),
     rng = createRng(`${this.ctx.save.sessions}:${this.index}:${this.syllableIndex}:${component}`);

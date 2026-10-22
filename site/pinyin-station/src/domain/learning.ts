@@ -82,7 +82,8 @@ export function mastery(s: Save, root: string): boolean {
 }
 export function eligibleWords(s: Save, b: Bank): Word[] {
   return [...b.words, ...s.customWords].filter(
-    (w) => w.lesson <= s.settings.lesson && w.kind !== 'sentence' && (!w.beyond || w.custom),
+    (w) =>
+      w.lesson <= s.settings.lesson && !['sentence', 'cloze'].includes(w.kind) && (!w.beyond || w.custom),
   );
 }
 export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[] {
@@ -104,7 +105,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   const letters = b.letters.filter((l) => l.lesson <= s.settings.lesson && l.kind !== 'whole');
   const syllables = b.syllables.filter((x) => x.lesson <= s.settings.lesson && x.tone > 0);
   const sentences = b.words.filter(
-    (w) => w.kind === 'sentence' && w.lesson <= s.settings.lesson && !w.beyond,
+    (w) => ['sentence', 'cloze'].includes(w.kind) && w.lesson <= s.settings.lesson && !w.beyond,
   );
   const pickWord = (pool: Word[]) =>
     rng

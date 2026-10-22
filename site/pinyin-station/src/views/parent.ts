@@ -6,6 +6,7 @@ import { mastery, recordAttempt } from '../domain/learning';
 import { recordings, savePicture, saveRecording } from '../speech/recordings';
 import { button, type Context } from './common';
 import { labPanel } from './lab';
+import { reviewPanel } from './review';
 import type { Word } from '../domain/types';
 
 export function parentView(ctx: Context): HTMLElement {
@@ -349,6 +350,14 @@ export function parentView(ctx: Context): HTMLElement {
       h(
         'div',
         { class: 'parent-scroll' },
+        ...(location.pathname.includes('/review/') ? [reviewPanel(ctx)] : []),
+        button(
+          '核对全部词图和读音',
+          () => {
+            location.href = '/pinyin-station/review/';
+          },
+          'secondary',
+        ),
         config,
         consent,
         progress,

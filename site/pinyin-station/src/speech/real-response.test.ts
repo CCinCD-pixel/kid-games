@@ -71,13 +71,26 @@ describe('real Tencent assessment responses', () => {
   });
 
   it('uses a consistent branch as consonant evidence without trusting its polyphonic final', () => {
-    const plan = { mode: 6 as const, ref: '梨|泥', branches: { syllables: ['li2', 'ni2'], target: 0, confusion: 'l|n' } };
+    const plan = {
+      mode: 6 as const,
+      ref: '梨|泥',
+      branches: { syllables: ['li2', 'ni2'], target: 0, confusion: 'l|n' },
+    };
     const verdict = normalize(responses.ni2AgainstLiOrNi, 150, 'gentle', plan);
-    expect(verdict).toMatchObject({ status: 'judged', level: 1, confusion: 'l|n', dims: { initial: { ok: false, heard: 'ni2' } } });
+    expect(verdict).toMatchObject({
+      status: 'judged',
+      level: 1,
+      confusion: 'l|n',
+      dims: { initial: { ok: false, heard: 'ni2' } },
+    });
     expect(verdict.dims.final).toBeUndefined();
     expect(verdict.dims.tone).toBeUndefined();
     const inconsistent = { ...responses.ni2AgainstLiOrNi, RefTextId: 0 };
-    expect(normalize(inconsistent, 150, 'gentle', plan)).toMatchObject({ status: 'unsure', dims: {}, reason: 'branch_unconfirmed' });
+    expect(normalize(inconsistent, 150, 'gentle', plan)).toMatchObject({
+      status: 'unsure',
+      dims: {},
+      reason: 'branch_unconfirmed',
+    });
   });
 
   it('retains the branch choice and unlocked polyphonic 泥 independently', () => {

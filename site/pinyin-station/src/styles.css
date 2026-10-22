@@ -2034,3 +2034,36 @@ body:has(.parent-panel) .kit-subtitle {
     max-width: 100%;
   }
 }
+.content-review-row {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #dac9ad;
+}
+.content-review-row .illustration {
+  width: 125px;
+  height: 125px;
+}
+.content-review-row > div:last-child {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.content-review-row label {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+.content-review-row .pinyin {
+  font-size: 24px;
+}
+.cloze-frame {
+  font-size: 26px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.cloze-slot {
+  min-width: 42px;
+  border-bottom: 2px solid currentColor;
+}

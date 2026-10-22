@@ -4000,5 +4000,75 @@
     "durationMs": 914,
     "role": "word",
     "source": "Lingua Libre / Cookai1205 / CC0"
+  },
+  "py.syl.fa4": {
+    "src": "/audio/pinyin-station/human.fa4.036bf6ba.mp3",
+    "text": "fà",
+    "durationMs": 1149,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa4"
+  },
+  "py.syl.fa1": {
+    "src": "/audio/pinyin-station/human.fa1.ac897661.mp3",
+    "text": "fā",
+    "durationMs": 914,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa1"
+  },
+  "py.syl.fa2": {
+    "src": "/audio/pinyin-station/human.fa2.5159626f.mp3",
+    "text": "fá",
+    "durationMs": 1071,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa2"
+  },
+  "py.syl.bi1": {
+    "src": "/audio/pinyin-station/human.bi1.640e14b6.mp3",
+    "text": "bī",
+    "durationMs": 653,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi1"
+  },
+  "py.syl.bi4": {
+    "src": "/audio/pinyin-station/human.bi4.9c0435c0.mp3",
+    "text": "bì",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi4"
+  },
+  "py.syl.pi1": {
+    "src": "/audio/pinyin-station/human.pi1.547f9769.mp3",
+    "text": "pī",
+    "durationMs": 1019,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi1"
+  },
+  "py.syl.pi3": {
+    "src": "/audio/pinyin-station/human.pi3.90705960.mp3",
+    "text": "pǐ",
+    "durationMs": 1358,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi3"
+  },
+  "py.syl.pi4": {
+    "src": "/audio/pinyin-station/human.pi4.65943b44.mp3",
+    "text": "pì",
+    "durationMs": 1384,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi4"
+  },
+  "py.syl.mi1": {
+    "src": "/audio/pinyin-station/human.mi1.1efc3ca1.mp3",
+    "text": "mī",
+    "durationMs": 1097,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi1"
+  },
+  "py.syl.mi4": {
+    "src": "/audio/pinyin-station/human.mi4.2e8f9e69.mp3",
+    "text": "mì",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi4"
   }
 }

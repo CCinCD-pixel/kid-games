@@ -67,6 +67,13 @@ const calls = {
   v: 'yu1',
 };
 const mnemonics = {
+  a: '张大嘴巴 a a a',
+  o: '圆圆嘴巴 o o o',
+  e: '扁扁嘴巴 e e e',
+  i: '牙齿对齐 i i i',
+  u: '嘴巴突出 u u u',
+  y: '小树分杈，认一认 y 的样子',
+  w: '屋顶相连，认一认 w 的样子',
   b: '右下半圆，轻轻闭唇',
   p: '右上半圆，纸条飘起来',
   d: '左下半圆，舌尖轻轻弹',
@@ -75,19 +82,17 @@ const mnemonics = {
   l: '一根小棒，舌尖轻轻抬',
   f: '小拐杖，牙齿碰下唇',
   m: '两个门洞，嘴唇轻轻合',
-  v: '小鱼吐泡泡，两点要留住',
+  v: '嘴吹口哨 ü ü ü，两点要留住',
 };
 const letters = letterRows.flatMap(([ids, lesson, kind]) =>
-  ids
-    .split(' ')
-    .map((id) => ({
-      id,
-      kind,
-      lesson,
-      callSound: calls[id] ?? id + '1',
-      mnemonic: mnemonics[id] ?? '看一看，听一听，再读给台长听',
-      grid: /[bdfhklt]/.test(id) ? 'upper-middle' : /[gpqy]/.test(id) ? 'middle-lower' : 'middle',
-    })),
+  ids.split(' ').map((id) => ({
+    id,
+    kind,
+    lesson,
+    callSound: calls[id] ?? id + '1',
+    mnemonic: mnemonics[id] ?? '看一看，听一听，再读给台长听',
+    grid: /[bdfhklt]/.test(id) ? 'upper-middle' : /[gjpqy]/.test(id) ? 'middle-lower' : 'middle',
+  })),
 );
 const words = [];
 function word(id, hanzi, syllables, kind = 'noun', beyond = false, chunks) {
@@ -98,7 +103,15 @@ function word(id, hanzi, syllables, kind = 'noun', beyond = false, chunks) {
     display: pinyin(hanzi, { toneType: 'symbol', nonZh: 'removed' }),
     picture: id,
     kind,
-    lesson: /^(pipa|laba|bi|mo|ma|ba|mi|bu)$/.test(id) ? 3 : 4,
+    lesson: beyond
+      ? 8
+      : Math.max(
+          ...syllables
+            .split(' ')
+            .map((s) =>
+              /^[bpmf]/.test(s) ? 3 : /^(a|o|e)[0-4]$/.test(s) ? 1 : /^(yi|wu|yu)[0-4]$/.test(s) ? 2 : 4,
+            ),
+        ),
     beyond,
     source: '家庭拼音练习与试卷题型',
     ...(chunks ? { chunks } : {}),
@@ -108,6 +121,9 @@ word('po', '婆', 'po2');
 word('ba-target', '靶', 'ba3');
 word('nose', '鼻', 'bi2');
 word('lv', '驴', 'lv2');
+word('lu', '路', 'lu4');
+word('lifa', '理发', 'li3 fa4', 'action');
+word('dabo', '大伯', 'da4 bo2');
 word('nv', '女', 'nv3');
 word('pipa', '琵琶', 'pi2 pa0');
 word('laba', '喇叭', 'la3 ba0');
@@ -135,15 +151,24 @@ word('bu', '布', 'bu4');
 word('tu', '兔', 'tu4');
 word('ma', '马', 'ma3');
 word('li', '梨', 'li2');
-word('eight-pears', '八个梨', 'ba1 ge4 li2', 'phrase', true);
+word('eight-pears', '桌子上有＿个＿', 'ba1 li2', 'cloze', false, ['ba1', 'li2']);
+words.at(-1).frame = ['桌子上有', '个', ''];
 word('didi-milu', '弟弟迷路了', 'di4 di0 mi2 lu4 le0', 'sentence', false, ['di4 di0', 'mi2 lu4', 'le0']);
-word('baba-pati', '爸爸爬梯', 'ba4 ba0 pa2 ti1', 'sentence', false, ['ba4 ba0', 'pa2', 'ti1']);
-word('rabbit-carrot', '小白兔在拔萝卜', 'xiao3 bai2 tu4 zai4 ba2 luo2 bo0', 'sentence', true, [
-  'xiao3 bai2 tu4',
-  'zai4',
-  'ba2',
-  'luo2 bo0',
-]);
+word('dabo-papati', '大伯爬爬梯', 'da4 bo2 pa2 pa2 ti1', 'sentence', false, ['da4 bo2', 'pa2', 'pa2 ti1']);
+word('rabbit-carrot', '一只小白＿在＿萝卜', 'tu4 ba2', 'cloze', false, ['tu4', 'ba2']);
+words.at(-1).frame = ['一只小白', '在', '萝卜'];
+const groups = {
+  cloth: ['bu', 'mabu'],
+  horse: ['ma', 'muma', 'lv'],
+  pen: ['bi', 'labi'],
+  person: ['baba', 'mama', 'didi', 'dabo', 'po', 'nv'],
+  pear: ['li', 'eight-pears'],
+  climbing: ['pa', 'futi'],
+};
+for (const w of words) {
+  w.semanticGroup = Object.entries(groups).find(([, ids]) => ids.includes(w.id))?.[0] ?? w.id;
+  w.source = w.id === 'lv' ? '家庭补充练习（非试卷）' : '家庭拼音练习与试卷题型';
+}
 // Explicit elementary/neutral-tone readings take precedence over dictionary citation readings.
 const tone = { a: 'āáǎà', o: 'ōóǒò', e: 'ēéěè', i: 'īíǐì', u: 'ūúǔù', ü: 'ǖǘǚǜ' };
 function display(s) {
@@ -178,7 +203,7 @@ const confusions = [
       ['da1', 'ta1'],
       ['du4', 'tu4'],
     ],
-    tip: '舌尖弹一下，读 t 时送出一小口气。',
+    tip: '把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。',
   },
   {
     pair: ['b', 'd'],
@@ -190,21 +215,32 @@ const confusions = [
     pair: ['l', 'n'],
     type: 'nasal',
     minimalPairs: [
-      ['lv2', 'nv2'],
       ['lu4', 'nu4'],
+      ['lv3', 'nv3'],
+      ['li2', 'ni2'],
     ],
-    tip: '捏住鼻子试一试，n 的鼻子也在唱歌。',
+    tip: '轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。',
   },
   {
     pair: ['2', '3'],
     type: 'tone',
-    minimalPairs: [
-      ['ba2', 'ba3'],
-      ['po1', 'po2'],
-    ],
-    tip: '二声像上坡，三声先拐弯再往上。',
+    minimalPairs: [['ba2', 'ba3']],
+    tip: '二声像上坡，三声先下坡再上坡。',
   },
 ];
+confusions.push(
+  { pair: ['1', '2'], type: 'tone', minimalPairs: [['po1', 'po2']], tip: '一声平平走，二声往上坡。' },
+  { pair: ['3', '4'], type: 'tone', minimalPairs: [['ba3', 'ba4']], tip: '三声先下坡再上坡，四声往下滑。' },
+  {
+    pair: ['p', 'f'],
+    type: 'initial',
+    minimalPairs: [
+      ['pu4', 'fu4'],
+      ['po2', 'fo2'],
+    ],
+    tip: '读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。',
+  },
+);
 const syl = new Map();
 function add(id, lesson) {
   if (syl.has(id)) {
@@ -225,43 +261,49 @@ function add(id, lesson) {
 for (const l of letters) if (l.lesson <= 4) add(l.callSound, l.lesson);
 for (const c of confusions) for (const p of c.minimalPairs) for (const id of p) add(id, 4);
 for (const w of words) for (const id of w.syllables) add(id, w.beyond ? 8 : w.lesson);
-for (const base of [
-  'a',
-  'e',
-  'yi',
-  'wu',
-  'yu',
-  'ba',
-  'pa',
-  'ma',
-  'bo',
-  'po',
-  'mo',
-  'fo',
-  'bu',
-  'pu',
-  'mu',
-  'fu',
-  'da',
-  'ta',
-  'na',
-  'la',
-  'de',
-  'te',
-  'ne',
-  'le',
-  'di',
-  'ti',
-  'ni',
-  'li',
-  'du',
-  'tu',
-  'nu',
-  'lu',
-  'nv',
-  'lv',
-])
-  for (let t = 1; t <= 4; t++)
+// Deliberately selected familiar readings and consonant calls, not a four-tone cartesian product.
+const familiar = {
+  a: '1234',
+  e: '1234',
+  yi: '1234',
+  wu: '1234',
+  yu: '1234',
+  ba: '1234',
+  pa: '124',
+  ma: '1234',
+  bo: '1234',
+  po: '1234',
+  mo: '1234',
+  fo: '12',
+  bu: '1234',
+  pu: '1234',
+  mu: '234',
+  fu: '1234',
+  fa: '124',
+  bi: '1234',
+  pi: '1234',
+  mi: '1234',
+  da: '1234',
+  ta: '134',
+  na: '1234',
+  la: '1234',
+  de: '12',
+  te: '14',
+  ne: '1',
+  le: '14',
+  di: '1234',
+  ti: '1234',
+  ni: '1234',
+  li: '1234',
+  du: '1234',
+  tu: '1234',
+  nu: '4',
+  lu: '124',
+  nv: '3',
+  lv: '234',
+};
+for (const [base, tones] of Object.entries(familiar))
+  for (const t of tones)
     add(
       base + t,
       ['a', 'o', 'e'].includes(base)

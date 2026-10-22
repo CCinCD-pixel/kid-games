@@ -404,3 +404,27 @@ test('hidden adult lab still requires the shared parent PIN', async ({ page }) =
   }
   await expect(page.getByRole('button', { name: '录一条成人样本' })).toBeVisible();
 });
+
+
+test('parent content review keeps local flags and exports a readable checklist', async ({page}, info) => {
+  await instrument(page);
+  await page.goto('/pinyin-station/review/?mute');
+  await page.getByRole('button',{name:'进入电台',exact:true}).click();
+  for(let i=0;i<2;i++) {
+    await page.getByLabel('设置家长 PIN').fill('2468');
+    await page.getByRole('button',{name:'进入家长页'}).click();
+  }
+  await expect(page.locator('.content-review-row')).toHaveCount(bank.words.length);
+  await page.getByLabel('图看不懂：理发',{exact:true}).check();
+  await page.getByLabel('备注：理发',{exact:true}).fill('剪刀再明显一点');
+  await page.getByLabel('备注：理发',{exact:true}).press('Tab');
+  await page.reload();
+  await page.getByRole('button',{name:'进入电台',exact:true}).click();
+  await expect(page.getByLabel('图看不懂：理发',{exact:true})).toBeChecked();
+  await expect(page.getByLabel('备注：理发',{exact:true})).toHaveValue('剪刀再明显一点');
+  await page.getByRole('heading',{name:'词图与读音核对'}).scrollIntoViewIfNeeded();
+  await shot(page,info.project.name,'pinyin-content-review');
+  const download = page.waitForEvent('download');
+  await page.getByRole('button',{name:'导出核对结果'}).click();
+  expect((await download).suggestedFilename()).toBe('拼音电台-家长核对.md');
+});

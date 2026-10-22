@@ -11,7 +11,7 @@ describe('pinyin content', () => {
   });
   it('validates the exact content consumed by the page', () => expect(validateBank(bank)).toEqual([]));
   it('includes the newly deciphered exam words and both sentences', () => {
-    for (const id of ['pubu', 'lv', 'futi', 'didi-milu', 'baba-pati'])
+    for (const id of ['pubu', 'lv', 'futi', 'didi-milu', 'dabo-papati', 'lifa', 'lu'])
       expect(bank.words.some((w) => w.id === id)).toBe(true);
   });
 });

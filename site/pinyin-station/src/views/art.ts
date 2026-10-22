@@ -15,7 +15,7 @@ function drawing(id: string): string {
     case 'bi':
       return `<g transform="rotate(35 90 90)"><path d="M78 30h24v105l-12 25-12-25Z" fill="${GOLD}"/><path d="M78 132h24M90 136v16M78 48h24"/></g>`;
     case 'mo':
-      return `<rect x="48" y="38" width="83" height="110" rx="9" fill="${INK}"/><path d="M68 64h43M69 82h40M71 113h36" stroke="${GOLD}"/><ellipse cx="90" cy="154" rx="55" ry="7" fill="${BLUE}"/>`;
+      return `<rect x="33" y="67" width="73" height="84" rx="12" fill="${INK}"/><rect x="45" y="48" width="49" height="20" rx="4" fill="${TEAL}"/><rect x="46" y="88" width="47" height="37" rx="3" fill="${PAPER}"/><path d="M56 100h27m-27 12h27M126 37l14 4-12 85-15-3Z" fill="#c99a69"/><path d="m113 123 15 3-15 34-6-12Z" fill="${INK}"/>`;
     case 'laba':
       return `<path d="m29 84 93-34v81L29 99Z" fill="${GOLD}"/><path d="M122 50q28 7 28 41t-28 40" fill="#df9a1c"/><path d="M51 104v35h20v-27" fill="${TEAL}"/><path d="M156 61l10-9m-7 39h14m-17 30 10 10"/>`;
     case 'pipa':
@@ -24,12 +24,13 @@ function drawing(id: string): string {
       return [GOLD, TEAL, BLUE, '#e4513d']
         .map(
           (c, i) =>
-            `<g transform="translate(${35 + i * 30} 25)"><path d="m0 25 10-19 10 19v110H0Z" fill="${c}"/><path d="M0 36h20m-20 80h20"/></g>`,
+            `<g transform="translate(${35 + i * 30} 25)"><path d="m0 25 4-12h12l4 12v110H0Z" fill="${c}"/><path d="M0 36h20m-20 80h20"/></g>`,
         )
         .join('');
     case 'mabu':
+      return `<path d="M18 130h145" stroke="#b0956a" stroke-width="9"/><path d="m47 101 63-9 27 28-79 15-22-13Z" fill="${BLUE}"/><path d="m45 115 72-9m-58 19 71-10" stroke="${PAPER}"/><path d="m81 39 17-10 25 42-8 24-29-1-15-17 7-12 19 15-10-24Z" fill="#e8b990"/><path d="m25 93 14-4m-10 16 14-2m96-20 13-4" stroke="${TEAL}"/>`;
     case 'bu':
-      return `<path d="m32 49 91-14 30 96-102 20-25-77Z" fill="${id === 'mabu' ? BLUE : TEAL}"/><path d="m45 64 82-11M48 83l84-11M53 101l85-12M59 119l84-11" stroke="${PAPER}"/><path d="M34 143h110"/>`;
+      return `<path d="m32 49 91-14 30 96-102 20-25-77Z" fill="${TEAL}"/><path d="m45 64 82-11M48 83l84-11M53 101l85-12M59 119l84-11" stroke="${PAPER}"/><path d="M34 143h110"/>`;
     case 'nitu':
       return `<path d="M25 124q18-39 40-31 26-51 49 1 28-10 42 30v19H25Z" fill="#b0956a"/><path d="m87 91 4-47m0 16q-33 1-32-22 29-5 32 22m1-7q30 0 31-25-27-3-31 25" fill="${TEAL}"/>`;
     case 'muma':
@@ -86,32 +87,27 @@ function drawing(id: string): string {
     case 'pu':
       return `<path d="M134 28h35v124h-35m35-102h-22m22 25h-22m22 50h-22" stroke="#b0956a"/><circle cx="104" cy="67" r="13" fill="#e8b990"/><path d="m57 82 20-17 23 22-13 20Z" fill="${TEAL}"/><path d="m62 85-24-17-16 4m46 27-21 17-24-4m67-29 27 15 17 1m-46-3 25 17 22-7"/><circle cx="149" cy="103" r="16" fill="${GOLD}"/><path d="m144 95 9-1 5 8-6 8-9-4Zm-113-50 19 3m-31 10 17 2M19 151h131"/>`;
     case 'la':
-      return (
-        person(116, 88) + `<path d="M84 82 20 108m0 0 18-3m-18 3 14-15" stroke="${GOLD}" stroke-width="7"/>`
-      );
+      return `<circle cx="48" cy="48" r="13" fill="#e8b990"/><circle cx="132" cy="48" r="13" fill="#e8b990"/><path d="m31 74 26-8 11 44-30 1Z" fill="${TEAL}"/><path d="m123 66 25 8-7 37-30-1Z" fill="${BLUE}"/><path d="m57 76 30 15 7-1 29-14M38 110l-17 44m35-44 19 38m36-38-18 38m36-38 25 44"/><path d="m82 88 8 7 10-7" stroke-width="7"/>`;
     case 'ba':
-      return (
-        person(112, 76) +
-        `<path d="m64 117 22 11-28 27Z" fill="${GOLD}"/><path d="m71 121 1-19m0 17-14-13m13 15 13-15M25 156h129"/>`
-      );
+      return `<circle cx="48" cy="44" r="12" fill="#e8b990"/><path d="m31 69 25-7 20 35-28 12Z" fill="${TEAL}"/><path d="m56 76 33 20 9 18m-50-7-23 40m39-42 20 41M20 157h140"/><path d="m98 114 26 8-28 33Z" fill="${GOLD}"/><path d="m103 118-2-23m2 17 15-21m-16 21-14-17" stroke="${TEAL}"/><path d="m138 81 12-8m-6 23 14-1"/>`;
     case 'pa':
       return (
         `<path d="M45 30v133m69-133v133M45 46h69m-69 26h69m-69 26h69m-69 26h69m-69 26h69" stroke="#b0956a" stroke-width="8"/>` +
         `<g transform="translate(42 -3) scale(.8)">${person(90, 90)}</g>`
       );
     case 'mo-action':
-      return (
-        person(57, 85) +
-        `<path d="M90 85h44v35H90Z" fill="${GOLD}"/><path d="M80 70 107 82m-6-5 7-6m-2 10 9-5"/>`
-      );
+      return `<circle cx="49" cy="49" r="14" fill="#e8b990"/><path d="M35 45h27v11H35Z" fill="${BLUE}"/><path d="m32 78 29-7 5 39H34Z" fill="${TEAL}"/><path d="m60 80 32 5 25 2m-81 24-9 43m34-43 11 43"/><g transform="translate(40 8) scale(.9)">${person(104, 84, GOLD)}</g><path d="m112 84 8-4m-8 7 8 1" stroke-width="5"/>`;
     case 'milu':
-      return (
-        person(62, 89) +
-        `<path d="m118 37 39 17-39 17v-34Zm14 31v88M25 159l34-7 32 9 34-9 39 8"/><path d="M124 94h15" stroke="${GOLD}"/>`
-      );
+      return `<path d="m24 163 40-43 25 8 54-77M65 120l-29-36m52 43 46 33M142 51l-20-11m20 11 12-16" stroke="#b0956a" stroke-width="12"/><g transform="translate(0 22) scale(.72)">${person(100, 84, GOLD)}</g><path d="M89 21q-6-14 9-16 17 0 12 13-9 5-9 12m0 10v1" stroke="${TEAL}"/>`;
+    case 'lu':
+      return `<path d="m26 165 54-144h26l49 144Z" fill="#a5a3a4"/><path d="M92 37v20m0 18v22m0 19v27" stroke="${PAPER}" stroke-width="7"/><path d="M18 165h144M67 40l-17 6m74 9 17 6" stroke="${TEAL}"/>`;
+    case 'lifa':
+      return `<circle cx="91" cy="68" r="29" fill="#e8b990"/><path d="M60 64q2-43 38-31 28 4 23 34" stroke-width="12"/><path d="M54 105h75l18 54H36Z" fill="${PAPER}"/><circle cx="32" cy="51" r="9"/><circle cx="35" cy="76" r="9"/><path d="m39 56 35 28M42 72l32-32m51 0 26 4m-27 5 26 4m-27 5 26 4"/><path d="m124 35 27 4v31" stroke="${TEAL}"/>`;
+    case 'dabo':
+      return person(90, 90, BLUE) + `<path d="M75 43q16-14 30 1m-29 2h30M77 79q13 9 25-1"/>`;
     case 'didi-milu':
       return drawing('milu');
-    case 'baba-pati':
+    case 'dabo-papati':
       return drawing('pa');
     case 'rabbit-carrot':
       return `<g transform="translate(-12 -8) scale(.8)">${rabbit}</g><path d="m124 111 35 16-36 38Z" fill="${GOLD}"/><path d="m134 119 4-25m0 23 18-14" fill="${TEAL}"/>`;

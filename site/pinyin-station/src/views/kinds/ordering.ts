@@ -10,6 +10,17 @@ export function ordering(this: PracticeView) {
       { class: 'sentence-track', 'aria-label': '已经接通的词卡' },
       ...this.sentence.map((s) => pinyin(s.split(' ').map(displayPinyin).join(' '), 'sentence-chunk')),
     );
+  if (this.word.frame) {
+    result.replaceChildren(
+      ...this.word.frame.flatMap((part, i) => [
+        h('span', null, part),
+        ...(i < this.word.frame!.length - 1
+          ? [pinyin(this.sentence[i] ? displayPinyin(this.sentence[i]) : '＿', 'cloze-slot')]
+          : []),
+      ]),
+    );
+    result.classList.add('cloze-frame');
+  }
   const row = h('div', { class: 'sentence-choices' });
   this.q.choices.forEach((s, i) => {
     const key = h(

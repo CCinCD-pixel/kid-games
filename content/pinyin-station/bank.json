@@ -72,7 +72,7 @@
       "kind": "final",
       "lesson": 1,
       "callSound": "a1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "张大嘴巴 a a a",
       "grid": "middle"
     },
     {
@@ -80,7 +80,7 @@
       "kind": "final",
       "lesson": 1,
       "callSound": "o1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "圆圆嘴巴 o o o",
       "grid": "middle"
     },
     {
@@ -88,7 +88,7 @@
       "kind": "final",
       "lesson": 1,
       "callSound": "e1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "扁扁嘴巴 e e e",
       "grid": "middle"
     },
     {
@@ -96,7 +96,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "i1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "牙齿对齐 i i i",
       "grid": "middle"
     },
     {
@@ -104,7 +104,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "u1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "嘴巴突出 u u u",
       "grid": "middle"
     },
     {
@@ -112,7 +112,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "yu1",
-      "mnemonic": "小鱼吐泡泡，两点要留住",
+      "mnemonic": "嘴吹口哨 ü ü ü，两点要留住",
       "grid": "middle"
     },
     {
@@ -120,7 +120,7 @@
       "kind": "initial",
       "lesson": 2,
       "callSound": "yi1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "小树分杈，认一认 y 的样子",
       "grid": "middle-lower"
     },
     {
@@ -128,7 +128,7 @@
       "kind": "initial",
       "lesson": 2,
       "callSound": "wu1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "屋顶相连，认一认 w 的样子",
       "grid": "middle"
     },
     {
@@ -225,7 +225,7 @@
       "lesson": 6,
       "callSound": "ji1",
       "mnemonic": "看一看，听一听，再读给台长听",
-      "grid": "middle"
+      "grid": "middle-lower"
     },
     {
       "id": "q",
@@ -808,24 +808,6 @@
       "audio": "py.syl.tu4"
     },
     {
-      "id": "lv2",
-      "display": "lǘ",
-      "initial": "l",
-      "final": "v",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.lv2"
-    },
-    {
-      "id": "nv2",
-      "display": "nǘ",
-      "initial": "n",
-      "final": "v",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.nv2"
-    },
-    {
       "id": "lu4",
       "display": "lù",
       "initial": "l",
@@ -842,6 +824,42 @@
       "tone": 4,
       "lesson": 4,
       "audio": "py.syl.nu4"
+    },
+    {
+      "id": "lv3",
+      "display": "lǚ",
+      "initial": "l",
+      "final": "v",
+      "tone": 3,
+      "lesson": 4,
+      "audio": "py.syl.lv3"
+    },
+    {
+      "id": "nv3",
+      "display": "nǚ",
+      "initial": "n",
+      "final": "v",
+      "tone": 3,
+      "lesson": 4,
+      "audio": "py.syl.nv3"
+    },
+    {
+      "id": "li2",
+      "display": "lí",
+      "initial": "l",
+      "final": "i",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.li2"
+    },
+    {
+      "id": "ni2",
+      "display": "ní",
+      "initial": "n",
+      "final": "i",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.ni2"
     },
     {
       "id": "ba2",
@@ -862,22 +880,76 @@
       "audio": "py.syl.ba3"
     },
     {
+      "id": "ba4",
+      "display": "bà",
+      "initial": "b",
+      "final": "a",
+      "tone": 4,
+      "lesson": 3,
+      "audio": "py.syl.ba4"
+    },
+    {
+      "id": "fu4",
+      "display": "fù",
+      "initial": "f",
+      "final": "u",
+      "tone": 4,
+      "lesson": 3,
+      "audio": "py.syl.fu4"
+    },
+    {
+      "id": "fo2",
+      "display": "fó",
+      "initial": "f",
+      "final": "o",
+      "tone": 2,
+      "lesson": 3,
+      "audio": "py.syl.fo2"
+    },
+    {
       "id": "bi2",
       "display": "bí",
       "initial": "b",
       "final": "i",
       "tone": 2,
-      "lesson": 4,
+      "lesson": 3,
       "audio": "py.syl.bi2"
     },
     {
-      "id": "nv3",
-      "display": "nǚ",
-      "initial": "n",
+      "id": "lv2",
+      "display": "lǘ",
+      "initial": "l",
       "final": "v",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.lv2"
+    },
+    {
+      "id": "li3",
+      "display": "lǐ",
+      "initial": "l",
+      "final": "i",
       "tone": 3,
       "lesson": 4,
-      "audio": "py.syl.nv3"
+      "audio": "py.syl.li3"
+    },
+    {
+      "id": "fa4",
+      "display": "fà",
+      "initial": "f",
+      "final": "a",
+      "tone": 4,
+      "lesson": 3,
+      "audio": "py.syl.fa4"
+    },
+    {
+      "id": "da4",
+      "display": "dà",
+      "initial": "d",
+      "final": "a",
+      "tone": 4,
+      "lesson": 4,
+      "audio": "py.syl.da4"
     },
     {
       "id": "pi2",
@@ -903,7 +975,7 @@
       "initial": "l",
       "final": "a",
       "tone": 3,
-      "lesson": 3,
+      "lesson": 4,
       "audio": "py.syl.la3"
     },
     {
@@ -997,15 +1069,6 @@
       "audio": "py.syl.pa2"
     },
     {
-      "id": "ni2",
-      "display": "ní",
-      "initial": "n",
-      "final": "i",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.ni2"
-    },
-    {
       "id": "tu3",
       "display": "tǔ",
       "initial": "t",
@@ -1051,21 +1114,12 @@
       "audio": "py.syl.fu2"
     },
     {
-      "id": "ba4",
-      "display": "bà",
-      "initial": "b",
-      "final": "a",
-      "tone": 4,
-      "lesson": 3,
-      "audio": "py.syl.ba4"
-    },
-    {
       "id": "ma0",
       "display": "ma",
       "initial": "m",
       "final": "a",
       "tone": 0,
-      "lesson": 4,
+      "lesson": 3,
       "audio": "py.syl.ma0"
     },
     {
@@ -1083,7 +1137,7 @@
       "initial": "m",
       "final": "i",
       "tone": 2,
-      "lesson": 4,
+      "lesson": 3,
       "audio": "py.syl.mi2"
     },
     {
@@ -1096,24 +1150,6 @@
       "audio": "py.syl.mi3"
     },
     {
-      "id": "li2",
-      "display": "lí",
-      "initial": "l",
-      "final": "i",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.li2"
-    },
-    {
-      "id": "ge4",
-      "display": "gè",
-      "initial": "g",
-      "final": "e",
-      "tone": 4,
-      "lesson": 8,
-      "audio": "py.syl.ge4"
-    },
-    {
       "id": "le0",
       "display": "le",
       "initial": "l",
@@ -1121,51 +1157,6 @@
       "tone": 0,
       "lesson": 4,
       "audio": "py.syl.le0"
-    },
-    {
-      "id": "xiao3",
-      "display": "xiǎo",
-      "initial": "x",
-      "final": "iao",
-      "tone": 3,
-      "lesson": 8,
-      "audio": "py.syl.xiao3"
-    },
-    {
-      "id": "bai2",
-      "display": "bái",
-      "initial": "b",
-      "final": "ai",
-      "tone": 2,
-      "lesson": 8,
-      "audio": "py.syl.bai2"
-    },
-    {
-      "id": "zai4",
-      "display": "zài",
-      "initial": "z",
-      "final": "ai",
-      "tone": 4,
-      "lesson": 8,
-      "audio": "py.syl.zai4"
-    },
-    {
-      "id": "luo2",
-      "display": "luó",
-      "initial": "l",
-      "final": "uo",
-      "tone": 2,
-      "lesson": 8,
-      "audio": "py.syl.luo2"
-    },
-    {
-      "id": "bo0",
-      "display": "bo",
-      "initial": "b",
-      "final": "o",
-      "tone": 0,
-      "lesson": 8,
-      "audio": "py.syl.bo0"
     },
     {
       "id": "a2",
@@ -1303,15 +1294,6 @@
       "audio": "py.syl.yu4"
     },
     {
-      "id": "pa3",
-      "display": "pǎ",
-      "initial": "p",
-      "final": "a",
-      "tone": 3,
-      "lesson": 3,
-      "audio": "py.syl.pa3"
-    },
-    {
       "id": "pa4",
       "display": "pà",
       "initial": "p",
@@ -1393,33 +1375,6 @@
       "audio": "py.syl.mo3"
     },
     {
-      "id": "fo2",
-      "display": "fó",
-      "initial": "f",
-      "final": "o",
-      "tone": 2,
-      "lesson": 3,
-      "audio": "py.syl.fo2"
-    },
-    {
-      "id": "fo3",
-      "display": "fǒ",
-      "initial": "f",
-      "final": "o",
-      "tone": 3,
-      "lesson": 3,
-      "audio": "py.syl.fo3"
-    },
-    {
-      "id": "fo4",
-      "display": "fò",
-      "initial": "f",
-      "final": "o",
-      "tone": 4,
-      "lesson": 3,
-      "audio": "py.syl.fo4"
-    },
-    {
       "id": "bu1",
       "display": "bū",
       "initial": "b",
@@ -1465,15 +1420,6 @@
       "audio": "py.syl.pu3"
     },
     {
-      "id": "mu1",
-      "display": "mū",
-      "initial": "m",
-      "final": "u",
-      "tone": 1,
-      "lesson": 3,
-      "audio": "py.syl.mu1"
-    },
-    {
       "id": "mu2",
       "display": "mú",
       "initial": "m",
@@ -1510,13 +1456,85 @@
       "audio": "py.syl.fu3"
     },
     {
-      "id": "fu4",
-      "display": "fù",
+      "id": "fa1",
+      "display": "fā",
       "initial": "f",
-      "final": "u",
+      "final": "a",
+      "tone": 1,
+      "lesson": 3,
+      "audio": "py.syl.fa1"
+    },
+    {
+      "id": "fa2",
+      "display": "fá",
+      "initial": "f",
+      "final": "a",
+      "tone": 2,
+      "lesson": 3,
+      "audio": "py.syl.fa2"
+    },
+    {
+      "id": "bi1",
+      "display": "bī",
+      "initial": "b",
+      "final": "i",
+      "tone": 1,
+      "lesson": 3,
+      "audio": "py.syl.bi1"
+    },
+    {
+      "id": "bi4",
+      "display": "bì",
+      "initial": "b",
+      "final": "i",
       "tone": 4,
       "lesson": 3,
-      "audio": "py.syl.fu4"
+      "audio": "py.syl.bi4"
+    },
+    {
+      "id": "pi1",
+      "display": "pī",
+      "initial": "p",
+      "final": "i",
+      "tone": 1,
+      "lesson": 3,
+      "audio": "py.syl.pi1"
+    },
+    {
+      "id": "pi3",
+      "display": "pǐ",
+      "initial": "p",
+      "final": "i",
+      "tone": 3,
+      "lesson": 3,
+      "audio": "py.syl.pi3"
+    },
+    {
+      "id": "pi4",
+      "display": "pì",
+      "initial": "p",
+      "final": "i",
+      "tone": 4,
+      "lesson": 3,
+      "audio": "py.syl.pi4"
+    },
+    {
+      "id": "mi1",
+      "display": "mī",
+      "initial": "m",
+      "final": "i",
+      "tone": 1,
+      "lesson": 3,
+      "audio": "py.syl.mi1"
+    },
+    {
+      "id": "mi4",
+      "display": "mì",
+      "initial": "m",
+      "final": "i",
+      "tone": 4,
+      "lesson": 3,
+      "audio": "py.syl.mi4"
     },
     {
       "id": "da2",
@@ -1535,24 +1553,6 @@
       "tone": 3,
       "lesson": 4,
       "audio": "py.syl.da3"
-    },
-    {
-      "id": "da4",
-      "display": "dà",
-      "initial": "d",
-      "final": "a",
-      "tone": 4,
-      "lesson": 4,
-      "audio": "py.syl.da4"
-    },
-    {
-      "id": "ta2",
-      "display": "tá",
-      "initial": "t",
-      "final": "a",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.ta2"
     },
     {
       "id": "ta3",
@@ -1627,42 +1627,6 @@
       "audio": "py.syl.de2"
     },
     {
-      "id": "de3",
-      "display": "dě",
-      "initial": "d",
-      "final": "e",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.de3"
-    },
-    {
-      "id": "de4",
-      "display": "dè",
-      "initial": "d",
-      "final": "e",
-      "tone": 4,
-      "lesson": 4,
-      "audio": "py.syl.de4"
-    },
-    {
-      "id": "te2",
-      "display": "té",
-      "initial": "t",
-      "final": "e",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.te2"
-    },
-    {
-      "id": "te3",
-      "display": "tě",
-      "initial": "t",
-      "final": "e",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.te3"
-    },
-    {
       "id": "te4",
       "display": "tè",
       "initial": "t",
@@ -1670,51 +1634,6 @@
       "tone": 4,
       "lesson": 4,
       "audio": "py.syl.te4"
-    },
-    {
-      "id": "ne2",
-      "display": "né",
-      "initial": "n",
-      "final": "e",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.ne2"
-    },
-    {
-      "id": "ne3",
-      "display": "ně",
-      "initial": "n",
-      "final": "e",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.ne3"
-    },
-    {
-      "id": "ne4",
-      "display": "nè",
-      "initial": "n",
-      "final": "e",
-      "tone": 4,
-      "lesson": 4,
-      "audio": "py.syl.ne4"
-    },
-    {
-      "id": "le2",
-      "display": "lé",
-      "initial": "l",
-      "final": "e",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.le2"
-    },
-    {
-      "id": "le3",
-      "display": "lě",
-      "initial": "l",
-      "final": "e",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.le3"
     },
     {
       "id": "le4",
@@ -1816,15 +1735,6 @@
       "audio": "py.syl.li1"
     },
     {
-      "id": "li3",
-      "display": "lǐ",
-      "initial": "l",
-      "final": "i",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.li3"
-    },
-    {
       "id": "li4",
       "display": "lì",
       "initial": "l",
@@ -1870,33 +1780,6 @@
       "audio": "py.syl.tu1"
     },
     {
-      "id": "nu1",
-      "display": "nū",
-      "initial": "n",
-      "final": "u",
-      "tone": 1,
-      "lesson": 4,
-      "audio": "py.syl.nu1"
-    },
-    {
-      "id": "nu2",
-      "display": "nú",
-      "initial": "n",
-      "final": "u",
-      "tone": 2,
-      "lesson": 4,
-      "audio": "py.syl.nu2"
-    },
-    {
-      "id": "nu3",
-      "display": "nǔ",
-      "initial": "n",
-      "final": "u",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.nu3"
-    },
-    {
       "id": "lu1",
       "display": "lū",
       "initial": "l",
@@ -1913,51 +1796,6 @@
       "tone": 2,
       "lesson": 4,
       "audio": "py.syl.lu2"
-    },
-    {
-      "id": "lu3",
-      "display": "lǔ",
-      "initial": "l",
-      "final": "u",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.lu3"
-    },
-    {
-      "id": "nv1",
-      "display": "nǖ",
-      "initial": "n",
-      "final": "v",
-      "tone": 1,
-      "lesson": 4,
-      "audio": "py.syl.nv1"
-    },
-    {
-      "id": "nv4",
-      "display": "nǜ",
-      "initial": "n",
-      "final": "v",
-      "tone": 4,
-      "lesson": 4,
-      "audio": "py.syl.nv4"
-    },
-    {
-      "id": "lv1",
-      "display": "lǖ",
-      "initial": "l",
-      "final": "v",
-      "tone": 1,
-      "lesson": 4,
-      "audio": "py.syl.lv1"
-    },
-    {
-      "id": "lv3",
-      "display": "lǚ",
-      "initial": "l",
-      "final": "v",
-      "tone": 3,
-      "lesson": 4,
-      "audio": "py.syl.lv3"
     },
     {
       "id": "lv4",
@@ -1979,9 +1817,10 @@
       "display": "pó",
       "picture": "po",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "person"
     },
     {
       "id": "ba-target",
@@ -1992,9 +1831,10 @@
       "display": "bǎ",
       "picture": "ba-target",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ba-target"
     },
     {
       "id": "nose",
@@ -2005,9 +1845,10 @@
       "display": "bí",
       "picture": "nose",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "nose"
     },
     {
       "id": "lv",
@@ -2020,7 +1861,52 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭补充练习（非试卷）",
+      "semanticGroup": "horse"
+    },
+    {
+      "id": "lu",
+      "hanzi": "路",
+      "syllables": [
+        "lu4"
+      ],
+      "display": "lù",
+      "picture": "lu",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "lu"
+    },
+    {
+      "id": "lifa",
+      "hanzi": "理发",
+      "syllables": [
+        "li3",
+        "fa4"
+      ],
+      "display": "lǐ fà",
+      "picture": "lifa",
+      "kind": "action",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "lifa"
+    },
+    {
+      "id": "dabo",
+      "hanzi": "大伯",
+      "syllables": [
+        "da4",
+        "bo2"
+      ],
+      "display": "dà bó",
+      "picture": "dabo",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "person"
     },
     {
       "id": "nv",
@@ -2033,7 +1919,8 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "person"
     },
     {
       "id": "pipa",
@@ -2047,7 +1934,8 @@
       "kind": "noun",
       "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "pipa"
     },
     {
       "id": "laba",
@@ -2059,9 +1947,10 @@
       "display": "lǎ ba",
       "picture": "laba",
       "kind": "noun",
-      "lesson": 3,
+      "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "laba"
     },
     {
       "id": "bi",
@@ -2074,7 +1963,8 @@
       "kind": "noun",
       "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "pen"
     },
     {
       "id": "mabu",
@@ -2086,9 +1976,10 @@
       "display": "mā bù",
       "picture": "mabu",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "cloth"
     },
     {
       "id": "ditu",
@@ -2102,7 +1993,8 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ditu"
     },
     {
       "id": "mo",
@@ -2115,7 +2007,8 @@
       "kind": "noun",
       "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "mo"
     },
     {
       "id": "ti",
@@ -2128,7 +2021,8 @@
       "kind": "action",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ti"
     },
     {
       "id": "pu",
@@ -2139,9 +2033,10 @@
       "display": "pū",
       "picture": "pu",
       "kind": "action",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "pu"
     },
     {
       "id": "la",
@@ -2154,7 +2049,8 @@
       "kind": "action",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "la"
     },
     {
       "id": "ba",
@@ -2167,7 +2063,8 @@
       "kind": "action",
       "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "ba"
     },
     {
       "id": "pa",
@@ -2178,9 +2075,10 @@
       "display": "pá",
       "picture": "pa",
       "kind": "action",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "climbing"
     },
     {
       "id": "mo-action",
@@ -2191,9 +2089,10 @@
       "display": "mō",
       "picture": "mo-action",
       "kind": "action",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "mo-action"
     },
     {
       "id": "nitu",
@@ -2207,7 +2106,8 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "nitu"
     },
     {
       "id": "muma",
@@ -2219,9 +2119,10 @@
       "display": "mù mǎ",
       "picture": "muma",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "horse"
     },
     {
       "id": "labi",
@@ -2235,7 +2136,8 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "pen"
     },
     {
       "id": "pubu",
@@ -2247,9 +2149,10 @@
       "display": "pù bù",
       "picture": "pubu",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "pubu"
     },
     {
       "id": "futi",
@@ -2263,7 +2166,8 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "climbing"
     },
     {
       "id": "baba",
@@ -2275,9 +2179,10 @@
       "display": "bà ba",
       "picture": "baba",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "person"
     },
     {
       "id": "mama",
@@ -2289,9 +2194,10 @@
       "display": "mā ma",
       "picture": "mama",
       "kind": "noun",
-      "lesson": 4,
+      "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "person"
     },
     {
       "id": "didi",
@@ -2305,7 +2211,8 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "person"
     },
     {
       "id": "milu",
@@ -2319,7 +2226,8 @@
       "kind": "action",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "milu"
     },
     {
       "id": "mi",
@@ -2332,7 +2240,8 @@
       "kind": "noun",
       "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "mi"
     },
     {
       "id": "bu",
@@ -2345,7 +2254,8 @@
       "kind": "noun",
       "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "cloth"
     },
     {
       "id": "tu",
@@ -2358,7 +2268,8 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "tu"
     },
     {
       "id": "ma",
@@ -2371,7 +2282,8 @@
       "kind": "noun",
       "lesson": 3,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "horse"
     },
     {
       "id": "li",
@@ -2384,22 +2296,32 @@
       "kind": "noun",
       "lesson": 4,
       "beyond": false,
-      "source": "家庭拼音练习与试卷题型"
+      "source": "家庭拼音练习与试卷题型",
+      "semanticGroup": "pear"
     },
     {
       "id": "eight-pears",
-      "hanzi": "八个梨",
+      "hanzi": "桌子上有＿个＿",
       "syllables": [
         "ba1",
-        "ge4",
         "li2"
       ],
-      "display": "bā gè lí",
+      "display": "bā lí",
       "picture": "eight-pears",
-      "kind": "phrase",
+      "kind": "cloze",
       "lesson": 4,
-      "beyond": true,
-      "source": "家庭拼音练习与试卷题型"
+      "beyond": false,
+      "source": "家庭拼音练习与试卷题型",
+      "chunks": [
+        "ba1",
+        "li2"
+      ],
+      "frame": [
+        "桌子上有",
+        "个",
+        ""
+      ],
+      "semanticGroup": "pear"
     },
     {
       "id": "didi-milu",
@@ -2421,53 +2343,55 @@
         "di4 di0",
         "mi2 lu4",
         "le0"
-      ]
+      ],
+      "semanticGroup": "didi-milu"
     },
     {
-      "id": "baba-pati",
-      "hanzi": "爸爸爬梯",
+      "id": "dabo-papati",
+      "hanzi": "大伯爬爬梯",
       "syllables": [
-        "ba4",
-        "ba0",
+        "da4",
+        "bo2",
+        "pa2",
         "pa2",
         "ti1"
       ],
-      "display": "bà ba pá tī",
-      "picture": "baba-pati",
+      "display": "dà bó pá pá tī",
+      "picture": "dabo-papati",
       "kind": "sentence",
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
       "chunks": [
-        "ba4 ba0",
+        "da4 bo2",
         "pa2",
-        "ti1"
-      ]
+        "pa2 ti1"
+      ],
+      "semanticGroup": "dabo-papati"
     },
     {
       "id": "rabbit-carrot",
-      "hanzi": "小白兔在拔萝卜",
+      "hanzi": "一只小白＿在＿萝卜",
       "syllables": [
-        "xiao3",
-        "bai2",
         "tu4",
-        "zai4",
-        "ba2",
-        "luo2",
-        "bo0"
+        "ba2"
       ],
-      "display": "xiǎo bái tù zài bá luó bo",
+      "display": "tù bá",
       "picture": "rabbit-carrot",
-      "kind": "sentence",
+      "kind": "cloze",
       "lesson": 4,
-      "beyond": true,
+      "beyond": false,
       "source": "家庭拼音练习与试卷题型",
       "chunks": [
-        "xiao3 bai2 tu4",
-        "zai4",
-        "ba2",
-        "luo2 bo0"
-      ]
+        "tu4",
+        "ba2"
+      ],
+      "frame": [
+        "一只小白",
+        "在",
+        "萝卜"
+      ],
+      "semanticGroup": "rabbit-carrot"
     }
   ],
   "confusions": [
@@ -2509,7 +2433,7 @@
           "tu4"
         ]
       ],
-      "tip": "舌尖弹一下，读 t 时送出一小口气。"
+      "tip": "把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。"
     },
     {
       "pair": [
@@ -2533,15 +2457,19 @@
       "type": "nasal",
       "minimalPairs": [
         [
-          "lv2",
-          "nv2"
-        ],
-        [
           "lu4",
           "nu4"
+        ],
+        [
+          "lv3",
+          "nv3"
+        ],
+        [
+          "li2",
+          "ni2"
         ]
       ],
-      "tip": "捏住鼻子试一试，n 的鼻子也在唱歌。"
+      "tip": "轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。"
     },
     {
       "pair": [
@@ -2553,13 +2481,55 @@
         [
           "ba2",
           "ba3"
-        ],
+        ]
+      ],
+      "tip": "二声像上坡，三声先下坡再上坡。"
+    },
+    {
+      "pair": [
+        "1",
+        "2"
+      ],
+      "type": "tone",
+      "minimalPairs": [
         [
           "po1",
           "po2"
         ]
       ],
-      "tip": "二声像上坡，三声先拐弯再往上。"
+      "tip": "一声平平走，二声往上坡。"
+    },
+    {
+      "pair": [
+        "3",
+        "4"
+      ],
+      "type": "tone",
+      "minimalPairs": [
+        [
+          "ba3",
+          "ba4"
+        ]
+      ],
+      "tip": "三声先下坡再上坡，四声往下滑。"
+    },
+    {
+      "pair": [
+        "p",
+        "f"
+      ],
+      "type": "initial",
+      "minimalPairs": [
+        [
+          "pu4",
+          "fu4"
+        ],
+        [
+          "po2",
+          "fo2"
+        ]
+      ],
+      "tip": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。"
     }
   ],
   "praise": [

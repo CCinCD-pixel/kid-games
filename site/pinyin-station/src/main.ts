@@ -84,7 +84,8 @@ async function syllable(id: string) {
   await narrator.ready();
   if (version !== audioVersion) return;
   if (narrator.has(`py.syl.${id}`)) return say(`py.syl.${id}`);
-  return say('py.unsure');
+  sub.el.hidden = true;
+  return undefined;
 }
 async function word(w: Word) {
   const version = audioVersion;
@@ -92,7 +93,17 @@ async function word(w: Word) {
   if (version !== audioVersion) return;
   if (w.syllables.length === 1) return syllable(w.syllables[0]);
   const known = bank.words.find((x) => x.hanzi === w.hanzi && x.display === w.display) ?? w;
-  if (narrator.has(`py.word.${known.id}`)) return say(`py.word.${known.id}`);
+  if (w.kind !== 'cloze' && narrator.has(`py.word.${known.id}`)) return say(`py.word.${known.id}`);
+  if (w.syllables.every((id) => narrator.has(`py.syl.${id}`))) {
+    stopAudio();
+    const version = audioVersion;
+    sub.attach(narrator);
+    for (const id of w.syllables) {
+      if (version !== audioVersion) return;
+      await narrator.say(`py.syl.${id}`, { interrupt: true });
+    }
+    return;
+  }
   // Family additions use the device's contextual word voice, never isolated-syllable TTS.
   stopAudio();
   sub.attach(familyNarrator);
@@ -335,11 +346,11 @@ async function prefetchMedia() {
   }
 }
 home();
-if (location.pathname.includes('/lab/')) void showParent();
+if (/\/(lab|review)\//.test(location.pathname)) void showParent();
 void narrator.ready();
 const welcomeView = viewVersion;
 void shell.ready.then(() => {
-  if (viewVersion === welcomeView && !location.pathname.includes('/lab/')) return say('py.welcome');
+  if (viewVersion === welcomeView && !/\/(lab|review)\//.test(location.pathname)) return say('py.welcome');
 });
 if ('serviceWorker' in navigator) void navigator.serviceWorker.ready.then(prefetchMedia);
 window.addEventListener('pagehide', () => {

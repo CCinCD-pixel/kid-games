@@ -22,11 +22,12 @@ export interface Word {
   syllables: string[];
   display: string;
   picture: string;
-  kind: 'noun' | 'action' | 'phrase' | 'sentence';
+  kind: 'noun' | 'action' | 'phrase' | 'sentence' | 'cloze';
   lesson: number;
   beyond?: boolean;
   source: string;
   chunks?: string[];
+  frame?: string[];
   custom?: boolean;
   semanticGroup?: string;
 }
