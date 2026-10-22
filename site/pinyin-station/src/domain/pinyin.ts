@@ -5,7 +5,8 @@ const VALID: Record<string, string> = {
   b: 'a o ai ei ao an en ang eng i ie iao ian in ing u',
   p: 'a o ai ei ao ou an en ang eng i ie iao ian in ing u',
   m: 'a o e ai ei ao ou an en ang eng i ie iao iu ian in ing u',
-  f: 'a o ei ou an en ang eng u', d: 'a e ai ei ao ou an en ang eng i ia ie iao iu ian ing ong u uo ui uan un',
+  f: 'a o ei ou an en ang eng u',
+  d: 'a e ai ei ao ou an en ang eng i ia ie iao iu ian ing ong u uo ui uan un',
   t: 'a e ai ao ou an ang eng i ie iao ian ing ong u uo ui uan un',
   n: 'a e ai ei ao ou an en ang eng i ie iao iu ian in iang ing ong u uo uan v ve',
   l: 'a o e ai ei ao ou an ang eng i ia ie iao iu ian in iang ing ong u uo uan un v ve',
@@ -22,7 +23,8 @@ const VALID: Record<string, string> = {
   ch: 'a e ai ao ou an en ang eng i ong u ua uo uai ui uan un uang',
   sh: 'a e ai ei ao ou an en ang eng i u ua uo uai ui uan un uang',
   r: 'e ao ou an en ang eng i ong u uo ui uan un',
-  y: 'a ao e an ang i in ing ong ou u ue uan un', w: 'a o ai ei an en ang eng u',
+  y: 'a ao e an ang i in ing ong ou u ue uan un',
+  w: 'a o ai ei an en ang eng u',
 };
 export function parseSyllable(id: string) {
   const m = /^(zh|ch|sh|[bpmfdtnlgkhjqxzcsryw]?)([a-zv]+)([0-4])$/.exec(id);
@@ -32,14 +34,22 @@ export function parseSyllable(id: string) {
 export function displayPinyin(id: string): string {
   const m = /^(.+)([0-4])$/.exec(id);
   if (!m) return id;
-  const raw = m[1].replaceAll('v', 'ü'), tone = Number(m[2]);
+  const raw = m[1].replaceAll('v', 'ü'),
+    tone = Number(m[2]);
   if (!tone) return raw;
-  const index = raw.includes('a') ? raw.indexOf('a') : raw.includes('e') ? raw.indexOf('e') : raw.includes('o') ? raw.indexOf('o') : Math.max(raw.lastIndexOf('i'), raw.lastIndexOf('u'), raw.lastIndexOf('ü'));
+  const index = raw.includes('a')
+    ? raw.indexOf('a')
+    : raw.includes('e')
+      ? raw.indexOf('e')
+      : raw.includes('o')
+        ? raw.indexOf('o')
+        : Math.max(raw.lastIndexOf('i'), raw.lastIndexOf('u'), raw.lastIndexOf('ü'));
   const forms: Record<string, string> = { a: 'āáǎà', e: 'ēéěè', o: 'ōóǒò', i: 'īíǐì', u: 'ūúǔù', ü: 'ǖǘǚǜ' };
   return index < 0 ? raw : raw.slice(0, index) + forms[raw[index]][tone - 1] + raw.slice(index + 1);
 }
 export function validateBank(b: Bank): string[] {
-  const errors: string[] = [], ids = new Set(b.syllables.map(s => s.id));
+  const errors: string[] = [],
+    ids = new Set(b.syllables.map((s) => s.id));
   for (const s of b.syllables) {
     if (!parseSyllable(s.id)) errors.push(`illegal syllable: ${s.id}`);
     if (displayPinyin(s.id) !== s.display) errors.push(`display: ${s.id}`);
@@ -51,9 +61,11 @@ export function validateBank(b: Bank): string[] {
     if (w.syllables.map(displayPinyin).join(' ') !== w.display) errors.push(`word display: ${w.id}`);
     for (const id of w.syllables) {
       if (!ids.has(id)) errors.push(`missing ${w.id}: ${id}`);
-      if (!w.beyond && (b.syllables.find(s => s.id === id)?.lesson ?? 99) > w.lesson) errors.push(`lesson: ${w.id}`);
+      if (!w.beyond && (b.syllables.find((s) => s.id === id)?.lesson ?? 99) > w.lesson)
+        errors.push(`lesson: ${w.id}`);
     }
   }
-  for (const c of b.confusions) for (const pair of c.minimalPairs) for (const id of pair) if (!ids.has(id)) errors.push(`pair: ${id}`);
+  for (const c of b.confusions)
+    for (const pair of c.minimalPairs) for (const id of pair) if (!ids.has(id)) errors.push(`pair: ${id}`);
   return errors;
 }

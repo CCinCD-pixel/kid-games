@@ -1,4 +1,4 @@
 declare module '*?url&no-inline' {
-  const url:string;
+  const url: string;
   export default url;
 }
