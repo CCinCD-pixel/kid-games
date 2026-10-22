@@ -7,6 +7,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+const responses = JSON.parse(fs.readFileSync(new URL('../src/speech/fixtures/real-responses.json', import.meta.url), 'utf8'));
 
 async function open(page: Page) {
   await instrument(page);
@@ -170,7 +171,7 @@ test.describe('microphone trial', () => {
   test('records locally, displays trial feedback and rebuilds a parent correction', async ({
     page,
   }, info) => {
-    await page.addInitScript(() => {
+    await page.addInitScript((fixture) => {
       const state = { stopped: 0, bytes: 0, refs: [] as string[] };
       (window as any).__micTest = state;
       Object.defineProperty(navigator, 'mediaDevices', {
@@ -217,17 +218,7 @@ test.describe('microphone trial', () => {
                 data: JSON.stringify({
                   code: 0,
                   final: 1,
-                  result: {
-                    Words: [
-                      {
-                        PhoneInfos: [
-                          { ReferenceLetter: 'b', PronAccuracy: 95, MatchTag: 0 },
-                          { ReferenceLetter: 'a', PronAccuracy: 95, MatchTag: 0 },
-                        ],
-                        Tone: { Valid: true, RefTone: 1, HypothesisTone: 1 },
-                      },
-                    ],
-                  },
+                  result: fixture,
                 }),
               }),
             20,
@@ -235,7 +226,7 @@ test.describe('microphone trial', () => {
         }
         close() {}
       };
-    });
+    }, responses.correctBa1Sentence);
     await page.route('**/.netlify/functions/soe-sign', async (route) => {
       const request = route.request();
       expect(request.headers()['x-family-token']).toBe('local-test-token');

@@ -4,8 +4,8 @@ import WebSocket from 'ws';
 import { signSoe } from '../../../netlify/lib/soe-core.mjs';
 import { localEnv } from './local-credentials.mjs';
 export { localEnv } from './local-credentials.mjs';
-export async function probe(credentials, pcm, mode, ref, coefficient = 1) {
-  const signed = signSoe(credentials, { mode, ref, coefficient });
+export async function probe(credentials, pcm, mode, ref, coefficient = 1, pronunciation) {
+  const signed = signSoe(credentials, { mode, ref, coefficient, pronunciation });
   const started = Date.now();
   return new Promise((resolve) => {
     const ws = new WebSocket(signed.url);
@@ -38,7 +38,7 @@ export async function probe(credentials, pcm, mode, ref, coefficient = 1) {
     });
     ws.on('error', () => finish({ ok: false, error: 'connection_error' }));
     ws.on('close', () => {
-      if (!done) finish({ ok: !!result, result, error: result ? undefined : 'closed' });
+      if (!done) finish({ ok: false, error: 'closed_before_final' });
     });
   });
 }

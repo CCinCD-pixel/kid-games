@@ -1,0 +1,250 @@
+{
+  "correctBa1": {
+    "RefTextId": -1,
+    "Words": [
+      {
+        "Word": "ba1",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": false,
+          "RefTone": -1,
+          "HypothesisTone": -1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "b",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 98.03314971923828,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "a1",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 98.92884826660156,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "pa1AgainstBa1": {
+    "RefTextId": -1,
+    "Words": [
+      {
+        "Word": "ba1",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": false,
+          "RefTone": -1,
+          "HypothesisTone": -1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "b",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 8.419364929199219,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "a1",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 23.98236656188965,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "ta1AgainstDa1": {
+    "RefTextId": -1,
+    "Words": [
+      {
+        "Word": "da1",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": false,
+          "RefTone": -1,
+          "HypothesisTone": -1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "d",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 4.26425838470459,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "a1",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 1.0158904790878296,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "ba2AgainstBa1Pinyin": {
+    "RefTextId": -1,
+    "Words": [
+      {
+        "Word": "ba1",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": false,
+          "RefTone": -1,
+          "HypothesisTone": -1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "b",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 99.05107879638672,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "a1",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 95.42754364013672,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "correctBa1Sentence": {
+    "RefTextId": -1,
+    "Words": [
+      {
+        "Word": "八",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": true,
+          "RefTone": 1,
+          "HypothesisTone": 1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "b",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 96.59950256347656,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "a1",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 98.14727020263672,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "unconfirmedBa2AgainstBa1": {
+    "RefTextId": -1,
+    "Words": [
+      {
+        "Word": "八",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": true,
+          "RefTone": 1,
+          "HypothesisTone": -1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "b",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 98.35860443115234,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "a1",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 92.11656188964844,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "falseAcceptedBa4AgainstBa1": {
+    "RefTextId": -1,
+    "Words": [
+      {
+        "Word": "八",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": true,
+          "RefTone": 1,
+          "HypothesisTone": 1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "b",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 96.78515625,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "a1",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 93.30108642578125,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "silence": {
+    "RefTextId": -1,
+    "Words": []
+  },
+  "ni2AgainstLiOrNi": {
+    "RefTextId": 1,
+    "Words": [
+      {
+        "Word": "泥",
+        "MatchTag": 0,
+        "Tone": {
+          "Valid": false,
+          "RefTone": -1,
+          "HypothesisTone": -1
+        },
+        "PhoneInfos": [
+          {
+            "Phone": "n",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 92.54889678955078,
+            "MatchTag": 0
+          },
+          {
+            "Phone": "i4",
+            "ReferencePhone": "",
+            "ReferenceLetter": "",
+            "PronAccuracy": 17.991600036621094,
+            "MatchTag": 0
+          }
+        ]
+      }
+    ]
+  },
+  "branchSilence": {
+    "RefTextId": -1,
+    "Words": []
+  }
+}

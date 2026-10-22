@@ -1,4 +1,5 @@
 import type { Kind } from '../domain/types';
+import type { AssessmentPlan } from './reference';
 import type { Verdict, Dim } from './normalize';
 export interface Recording {
   id: string;
@@ -8,7 +9,8 @@ export interface Recording {
   skill: string;
   session: number;
   kind: Kind;
-  mode?: 8 | 1;
+  mode?: 8 | 1 | 6;
+  assessment?: AssessmentPlan;
   ref?: string;
   lab?: boolean;
   expected?: 'correct' | Dim;

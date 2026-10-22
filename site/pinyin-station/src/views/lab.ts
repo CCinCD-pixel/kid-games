@@ -1,6 +1,7 @@
 import { h } from '@kit/ui';
 import { Microphone } from '../speech/mic';
 import { assess } from '../speech/client';
+import { syllablePlan } from '../speech/reference';
 import { recordings, saveRecording, type Recording } from '../speech/recordings';
 import { calibration } from '../speech/calibration';
 import { button, type Context } from './common';
@@ -48,7 +49,8 @@ export function labPanel(ctx: Context) {
     '录一条成人样本',
     async () => {
       if (record.disabled) return;
-      const token = sessionStorage.getItem('pinyin-family-token') ?? '';
+      const token =
+        localStorage.getItem('pinyin-family-token') ?? sessionStorage.getItem('pinyin-family-token') ?? '';
       if (!ctx.save.settings.ai || !token) {
         status.textContent = '先在上方允许腾讯评测并填写家庭口令。';
         return;
@@ -65,7 +67,16 @@ export function labPanel(ctx: Context) {
           if (alive) status.textContent = '没有收集到语音，请准备好后重试。';
           return;
         }
-        const verdict = await assess(capture.pcm, 8, ref, token, ctx.save.settings.strictness, abort.signal);
+        const plan = syllablePlan(ref, ctx.bank);
+        const verdict = await assess(
+          capture.pcm,
+          plan.mode,
+          plan.ref,
+          token,
+          ctx.save.settings.strictness,
+          abort.signal,
+          plan,
+        );
         if (!alive) return;
         await saveRecording({
           id: crypto.randomUUID(),
@@ -75,8 +86,9 @@ export function labPanel(ctx: Context) {
           skill: `lab:${ref}:say`,
           session: ctx.save.sessions,
           kind: 'D',
-          mode: 8,
-          ref,
+          mode: plan.mode,
+          ref: plan.ref,
+          assessment: plan,
           lab: true,
           expected: label,
           verdict,

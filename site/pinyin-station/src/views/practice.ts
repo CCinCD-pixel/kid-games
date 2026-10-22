@@ -6,6 +6,7 @@ import { nextQuestion, recordAttempt, schedule } from '../domain/learning';
 import type { Question } from '../domain/types';
 import { Microphone } from '../speech/mic';
 import { assess } from '../speech/client';
+import { questionPlan } from '../speech/reference';
 import { saveRecording, type Recording } from '../speech/recordings';
 import { button, glyph, pinyin, type Context } from './common';
 
@@ -53,7 +54,11 @@ export class Practice {
   private speak(id: string) {
     void this.ctx.say(id);
   }
+  private get assessment() {
+    return questionPlan(this.q, this.ctx.bank, this.q.kind === 'C' ? undefined : this.word);
+  }
   private async stimulus() {
+    if (this.el.classList.contains('is-recording')) return;
     if (this.q.kind === 'A') {
       const l = this.ctx.bank.letters.find((l) => l.id === this.q.target);
       if (l) await this.ctx.syllable(l.callSound);
@@ -329,7 +334,12 @@ export class Practice {
     return h(
       'div',
       { class: 'three-lamps' },
-      ['声母', '韵母', '声调'].map((label) => h('div', { class: 'lamp' }, h('i'), h('span', null, label))),
+      (this.assessment.mode === 1
+        ? ['声母', '韵母', '声调']
+        : this.assessment.mode === 6
+          ? ['声母']
+          : ['声母', '韵母']
+      ).map((label) => h('div', { class: 'lamp' }, h('i'), h('span', null, label))),
     );
   }
   private reading() {
@@ -443,6 +453,7 @@ export class Practice {
     }
   }
   private hint() {
+    if (this.el.classList.contains('is-recording')) return;
     const c = this.ctx.bank.confusions.find((c) => this.q.skill.includes(c.pair.join('|')));
     this.feedback.replaceChildren(
       glyph('hint'),
@@ -488,6 +499,14 @@ export class Practice {
   private async record() {
     if (this.locked) return;
     this.locked = true;
+    this.el.classList.add('is-recording');
+    this.el.querySelectorAll('.lamp').forEach((l) => {
+      l.classList.remove('lit');
+      l.setAttribute('aria-label', '等待本次语音');
+    });
+    this.el
+      .querySelectorAll<HTMLButtonElement>('.listening-tools button, .practice-stage button')
+      .forEach((b) => (b.disabled = true));
     this.ctx.stopAudio();
     this.abort?.abort();
     this.abort = new AbortController();
@@ -513,36 +532,46 @@ export class Practice {
         session: this.ctx.save.sessions,
         kind: this.q.kind,
       };
-      const syl = this.q.kind === 'C' ? this.q.target : null;
-      const neutral = !syl && this.word.syllables.some((s) => s.endsWith('0'));
-      const ref = syl ?? (neutral ? this.word.hanzi : this.word.syllables.join(' '));
-      record.ref = ref;
-      record.mode = neutral ? 1 : 8;
-      if (capture.heard && this.ctx.save.settings.ai && navigator.onLine) {
+      const plan = this.assessment;
+      record.ref = plan.ref;
+      record.mode = plan.mode;
+      record.assessment = plan;
+      const requested = capture.heard && this.ctx.save.settings.ai && navigator.onLine;
+      if (requested) {
         try {
           record.verdict = await assess(
             capture.pcm,
-            neutral ? 1 : 8,
-            ref,
-            sessionStorage.getItem('pinyin-family-token') ?? '',
+            plan.mode,
+            plan.ref,
+            localStorage.getItem('pinyin-family-token') ??
+              sessionStorage.getItem('pinyin-family-token') ??
+              '',
             this.ctx.save.settings.strictness,
             this.abort.signal,
+            plan,
           );
         } catch {
-          /* Network or service errors use local follow-reading. */
+          /* The capture may be replayed locally, but an incomplete assessment is not archived. */
         }
       }
       if (this.stopped || gen !== this.generation) return;
-      this.recorded.push(record);
-      this.el.classList.add('has-recording');
-      let stored = true;
-      try {
-        await saveRecording(record);
-      } catch {
-        stored = false;
+      const usable =
+        capture.heard &&
+        (!requested ||
+          (record.verdict && !['no_speech', 'incomplete'].includes(record.verdict.reason ?? '')));
+      let stored = false;
+      if (usable) {
+        this.recorded.push(record);
+        this.el.classList.add('has-recording');
+        try {
+          await saveRecording(record);
+          stored = true;
+        } catch {
+          /* Local replay remains available. */
+        }
       }
       this.locked = false;
-      if (record.verdict) {
+      if (record.verdict?.status === 'judged') {
         const dims = record.verdict.dims;
         const lamps = this.el.querySelectorAll('.lamp');
         (['initial', 'final', 'tone'] as const).forEach((dim, i) => {
@@ -562,11 +591,17 @@ export class Practice {
           null,
           !capture.heard
             ? '台长还没听清，可以再试试'
-            : record.verdict?.level === 1
-              ? '声音收到啦，一起听听小变化'
-              : stored
-                ? '声音收到啦，听听自己的节目'
-                : '声音收到啦，这次可以现场回听',
+            : record.verdict?.status === 'unsure' || (requested && !record.verdict)
+              ? record.verdict?.reason === 'tone_unconfirmed'
+                ? '声音收到啦，声调一起再听听'
+                : '台长还没听清，可以再试试'
+              : record.verdict?.level === 1
+                ? record.verdict.dims.initial?.heard
+                  ? `这次更像 ${displayPinyin(record.verdict.dims.initial.heard)}，一起听听小变化`
+                  : '声音收到啦，一起听听小变化'
+                : stored
+                  ? '声音收到啦，听听自己的节目'
+                  : '声音收到啦，这次可以现场回听',
         ),
       );
       this.actions.replaceChildren(
@@ -588,6 +623,11 @@ export class Practice {
       this.locked = false;
       this.feedback.replaceChildren(h('span', null, '可以先跟着台长读，准备好了再开麦'));
       this.follow();
+    } finally {
+      this.el.classList.remove('is-recording');
+      this.el
+        .querySelectorAll<HTMLButtonElement>('.listening-tools button')
+        .forEach((b) => (b.disabled = false));
     }
   }
   private advance() {

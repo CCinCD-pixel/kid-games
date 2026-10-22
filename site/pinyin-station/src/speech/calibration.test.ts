@@ -14,9 +14,7 @@ it('keeps unknown dimensions and absent labels out of calibration rates', () => 
     parent: 'correct',
     verdict: normalize(
       {
-        Words: [
-          { PhoneInfos: [{ ReferenceLetter: 'b', PronAccuracy: 20, MatchTag: 3 }], Tone: { Valid: false } },
-        ],
+        Words: [{ PhoneInfos: [{ Phone: 'b', PronAccuracy: 20, MatchTag: 3 }], Tone: { Valid: false } }],
       },
       100,
     ),

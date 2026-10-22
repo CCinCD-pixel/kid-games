@@ -24,8 +24,9 @@ for (const row of data.rows) {
     throw new Error('Expected game-generated 16k mono PCM WAV');
   const mode = row.mode,
     ref = row.ref;
-  if (![1, 8].includes(mode) || typeof ref !== 'string') throw new Error('Export lacks assessment reference');
-  const result = await probe(credentials, wav.subarray(44), mode, ref, 1);
+  if (![1, 6, 8].includes(mode) || typeof ref !== 'string')
+    throw new Error('Export lacks assessment reference');
+  const result = await probe(credentials, wav.subarray(44), mode, ref, 1, row.assessment?.pronunciation);
   results.push({ id: row.id, mode, ref, result });
   fs.writeFileSync(output, JSON.stringify({ version: 1, results }, null, 2), { mode: 0o600 });
   console.log(`processed ${results.length}/${data.rows.length}; ${result.ok ? 'received' : 'unavailable'}`);

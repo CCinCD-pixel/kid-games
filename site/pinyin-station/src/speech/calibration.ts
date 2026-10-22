@@ -6,7 +6,7 @@ export function calibration(rows: Recording[], profile: Profile = 'gentle') {
   let compared = 0,
     agreed = 0;
   for (const r of labelled) {
-    const v = normalize(r.verdict!.raw, r.verdict!.latencyMs, profile);
+    const v = normalize(r.verdict!.raw, r.verdict!.latencyMs, profile, r.verdict!.assessment);
     if (r.parent === 'correct') {
       if (v.status !== 'judged') continue;
       compared++;
@@ -27,7 +27,7 @@ export function calibration(rows: Recording[], profile: Profile = 'gentle') {
         unsure = 0;
       for (const r of labelled) {
         if (r.parent !== 'correct' && r.parent !== dim) continue;
-        const d = normalize(r.verdict!.raw, r.verdict!.latencyMs, profile).dims[dim];
+        const d = normalize(r.verdict!.raw, r.verdict!.latencyMs, profile, r.verdict!.assessment).dims[dim];
         if (!d) {
           unsure++;
           continue;

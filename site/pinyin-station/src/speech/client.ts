@@ -1,16 +1,18 @@
 import { normalize, type Verdict } from './normalize';
+import type { AssessmentPlan } from './reference';
 export async function assess(
   pcm: Int16Array,
-  mode: 8 | 1,
+  mode: 8 | 1 | 6,
   ref: string,
   token: string,
   strictness: 'gentle' | 'balanced' | 'precise',
   signal: AbortSignal,
+  assessment: AssessmentPlan = { mode, ref },
 ): Promise<Verdict> {
   const request = await fetch('/.netlify/functions/soe-sign', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Family-Token': token },
-    body: JSON.stringify({ mode, ref }),
+    body: JSON.stringify({ mode, ref, pronunciation: assessment.pronunciation }),
     cache: 'no-store',
     signal,
   });
@@ -30,7 +32,7 @@ export async function assess(
       signal.removeEventListener('abort', abort);
       socket.close();
       if (error) reject(error);
-      else resolve(normalize(result, performance.now() - start, strictness));
+      else resolve(normalize(result, performance.now() - start, strictness, assessment));
     };
     const abort = () => finish(new Error('cancelled'));
     const timer = setTimeout(() => finish(new Error('timeout')), 12000);
@@ -46,7 +48,8 @@ export async function assess(
           finish(new Error('engine_unavailable'));
           return;
         }
-        if (response.result) result = response.result;
+        if (response.result)
+          result = typeof response.result === 'string' ? JSON.parse(response.result) : response.result;
         if (response.final === 1) {
           finish();
           return;
@@ -62,7 +65,10 @@ export async function assess(
     };
     socket.onerror = () => finish(new Error('connection_error'));
     socket.onclose = () => {
-      if (!done) finish(result ? undefined : new Error('closed'));
+      if (!done) {
+        result = null;
+        finish();
+      }
     };
   });
 }

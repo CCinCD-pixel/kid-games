@@ -6,7 +6,7 @@ describe('conservative pronunciation feedback', () => {
     const raw = {
       Words: [
         {
-          PhoneInfos: [{ ReferenceLetter: 'b', PronAccuracy: 95, MatchTag: 0 }],
+          PhoneInfos: [{ Phone: 'b', PronAccuracy: 95, MatchTag: 0 }],
           Tone: { Valid: false, RefTone: -1, HypothesisTone: -1 },
         },
       ],
@@ -24,7 +24,7 @@ describe('conservative pronunciation feedback', () => {
           Words: [
             {
               MatchTag: 2,
-              PhoneInfos: [{ ReferenceLetter: 'b', PronAccuracy: 99, MatchTag: 0 }],
+              PhoneInfos: [{ Phone: 'b', PronAccuracy: 99, MatchTag: 0 }],
               Tone: { Valid: true, RefTone: 1, HypothesisTone: 1 },
             },
           ],
