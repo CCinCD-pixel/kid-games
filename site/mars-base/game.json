@@ -4,7 +4,7 @@
   "subtitle": "给祝融基地装货、建造",
   "place": "base",
   "order": 10,
-  "status": "hidden",
+  "status": "live",
   "accent": "--xg-mars",
   "theme": "mars",
   "icon": "/icons/games/mars-base.svg",
@@ -14,7 +14,8 @@
   ],
   "parentNote": "数学主力：数轴估计、数位、两位数加减、乘法意义，自适应出题，记录错误类型。",
   "orientation": "any",
+  "redirectFrom": ["/number-adventure"],
   "smoke": {
-    "waitFor": "#app[data-ready]"
+    "waitFor": ".kit-start__go"
   }
 }

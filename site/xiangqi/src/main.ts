@@ -81,6 +81,7 @@ void (async () => {
   if (layoutInfo) rootVp = toVp(layoutInfo); else { const l = shell.layout(); rootVp = toVp(l); }
   bindPress(document); void requestPersistence();
   if (!dev) await shell.ready; rootVp = toVp(shell.layout());
+  if (!dev) await Promise.race([narrator.ready(), new Promise<void>((resolve) => setTimeout(resolve, 2500))]);
   void installKitSfx({ only: ['place-piece', 'capture', 'bump', 'ui-select', 'ui-notify', 'ui-open', 'ui-locked', 'whoosh-down', 'hint', 'jingle-win', 'level-complete', 'ui-pick', 'ui-press', 'ui-tap', 'unlock', 'chime', 'blip-happy', 'blip-think', 'blip-talk', 'blip-question', 'blip-surprised', 'blip-sleepy', 'star-1', 'star-2', 'star-3', 'correct', 'hit-soft'] }).then(() => { sfxReady = true; });
   void narrator.ready().then(() => applyPrefs()).catch(() => undefined); applyPrefs(); void warmOffline();
   if (hasLine('s.title') && !dev) void sleep(0);

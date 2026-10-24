@@ -126,6 +126,8 @@ describe('export / import', () => {
     const a = new MemoryStorage();
     a.setItem('kg:v1:mars-base', '{"v":1,"updatedAt":1,"data":{}}');
     a.setItem('kg:log:v1', '[]');
+    a.setItem('kg:clock:v1', '{"dev":"local","lc":7}');
+    a.setItem('kg:sync:token', 'local-secret');
     a.setItem('sokoban_save', '{"best":{},"unlocked":0}');
     a.setItem('unrelated', 'x');
     const bundle = exportProgress(a);
@@ -136,6 +138,19 @@ describe('export / import', () => {
     expect(b.getItem('kg:log:v1')).toBe('["keep"]');
     expect(importProgress(bundle, { storage: b })).toBe(3);
     expect(b.getItem('kg:log:v1')).toBe('[]');
+    expect(b.getItem('kg:clock:v1')).toBeNull();
+    expect(b.getItem('kg:sync:token')).toBeNull();
     expect(() => importProgress({ format: 'other' }, { storage: b })).toThrow();
+  });
+  it('unions a restored economy ledger even when overwriting is disabled', () => {
+    const item = (id: string, amount: number) => ({ id, d: 'deviceA', lc: id.endsWith('1') ? 1 : 2, ts: 0, kind: 'earn', amount, src: 'mission.new', ref: 'orbit.O1.1' });
+    const a = new MemoryStorage(), b = new MemoryStorage();
+    a.setItem('kg:v1:economy', JSON.stringify({ v: 1, ledger: [item('mn:orbit.O1.1:1:deviceA', 26)], pet: { active: 'rover' }, seen: ['intro'] }));
+    b.setItem('kg:v1:economy', JSON.stringify({ v: 1, ledger: [item('mn:orbit.O1.2:1:deviceA', 26)], pet: { active: 'dragon' }, seen: ['gift'] }));
+    expect(importProgress(exportProgress(a), { storage: b, overwrite: false })).toBe(1);
+    const merged = JSON.parse(b.getItem('kg:v1:economy')!);
+    expect(merged.ledger.map((e: { id: string }) => e.id).sort()).toEqual(['mn:orbit.O1.1:1:deviceA', 'mn:orbit.O1.2:1:deviceA']);
+    expect(merged.pet.active).toBe('dragon');
+    expect(merged.seen.sort()).toEqual(['gift', 'intro']);
   });
 });

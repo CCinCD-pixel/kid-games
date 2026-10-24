@@ -38,9 +38,11 @@ export interface Settings {
   skipIntros: boolean;
   /** 全部解锁: games with a soft progression (ladder, chapters, gates) treat everything as unlocked — default off */
   unlockAll: boolean;
+  /** Show the Mars map's star-coin balance. The pet room remains reachable when hidden. */
+  showCoins: boolean;
 }
 
-export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [] as string[], skipIntros: false, unlockAll: false });
+export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [] as string[], skipIntros: false, unlockAll: false, showCoins: true });
 
 function storage(s?: Storage): Storage | undefined {
   if (s) return s;
@@ -66,6 +68,7 @@ function normalize(raw: unknown): Settings {
     hiddenGames: Array.isArray(o.hiddenGames) ? [...new Set(o.hiddenGames.filter((g): g is string => typeof g === 'string' && /^[a-z0-9-]+$/.test(g)))] : [],
     skipIntros: typeof o.skipIntros === 'boolean' ? o.skipIntros : DEFAULT_SETTINGS.skipIntros,
     unlockAll: typeof o.unlockAll === 'boolean' ? o.unlockAll : DEFAULT_SETTINGS.unlockAll,
+    showCoins: typeof o.showCoins === 'boolean' ? o.showCoins : DEFAULT_SETTINGS.showCoins,
   };
 }
 

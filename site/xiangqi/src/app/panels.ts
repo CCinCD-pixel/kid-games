@@ -80,7 +80,11 @@ export function pieceList(fen: string): { red: string; black: string } {
 }
 export function openRealBoard(ctx: AppCtx, fen: string, title = '摆到真棋盘', onClose?: () => void): void {
   const l = pieceList(fen); const art = h('div', { class: 'xq-diagram-box' }); art.innerHTML = diagramSvg(fen);
-  const m: { close(): void } = modal(ctx, [h('div', { class: 'xq-wallhead' }, h('b', null, title), h('small', null, '红在下方。红字一…九是竖线号，左边 1–10 是横线（从红方数）')), art, h('div', { class: 'xq-plist' }, h('p', null, h('b', { class: 'r' }, '红　'), l.red), h('p', null, h('b', null, '黑　'), l.black)), closeBtn({ close: () => m.close() })], { cls: 'is-real', wide: true, onClose });
+  const names = h('div', { class: 'xq-piece-words', 'aria-label': '棋子名字' }, ...'帅将仕士相象马车炮兵卒'.split('').map((ch) => h('button', {
+    type: 'button', class: 'xq-piece-word', 'aria-label': `听${ch}的读音`,
+    onclick: () => { void ctx.narrator.say(`xiangqi.w.${ch}`, { interrupt: true }); },
+  }, ch)));
+  const m: { close(): void } = modal(ctx, [h('div', { class: 'xq-wallhead' }, h('b', null, title), h('small', null, '红在下方。红字一…九是竖线号，左边 1–10 是横线（从红方数）')), art, names, h('div', { class: 'xq-plist' }, h('p', null, h('b', { class: 'r' }, '红　'), l.red), h('p', null, h('b', null, '黑　'), l.black)), closeBtn({ close: () => m.close() })], { cls: 'is-real', wide: true, onClose });
 }
 
 // ───────── 设置 ─────────

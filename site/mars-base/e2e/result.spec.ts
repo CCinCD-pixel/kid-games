@@ -29,8 +29,12 @@ test('result cards: node card + calibration card lie inside the viewport; calibr
   await startNode(page, 'vault.K1.1'); expect(await finishMission(page), 'node mission ends on a card').toBe(true); await page.waitForTimeout(1500);
   expect(await modalAudit(page), 'node card').toEqual([]); expect(await page.locator('.xg-rstar').count()).toBe(3);
   fs.mkdirSync(path.join(SHOTS, ti.project.name), { recursive: true }); await page.screenshot({ path: path.join(SHOTS, ti.project.name, 'result_node.png') });
-  await page.locator('.xg-modal__actions button').first().click(); await page.waitForTimeout(600);
-  for (let i = 0; i < 6 && !(await page.locator('.mb-map').count()); i++) { await page.locator('.mb-build').click({ timeout: 800 }).catch(() => undefined); await page.waitForTimeout(250); }
+  await page.locator('.xg-modal__actions [data-act="home"]').click(); await page.waitForTimeout(600);
+  for (let i = 0; i < 12 && !(await page.locator('.mb-map').count()); i++) {
+    if (await page.locator('.mb-build').count()) await page.locator('.mb-build').click({ timeout: 800 }).catch(() => undefined);
+    if (await page.locator('.xg-modal').count()) await page.locator('.xg-modal__actions [data-act="home"]').click({ timeout: 800 }).catch(() => undefined);
+    await page.waitForTimeout(250);
+  }
   await page.waitForSelector('.mb-map', { timeout: 8000 });
   // calibration (12 satellites): no star row at all, the orbit picture instead
   await page.evaluate((s) => (window as any).__mars.setSave(s), { ...PLAY_SAVE, onboarded: true, cert: { C1: { state: 'none', attempts: 0 }, C2: { state: 'none', attempts: 0 }, C3: { state: 'none', attempts: 0 } } });
@@ -38,8 +42,12 @@ test('result cards: node card + calibration card lie inside the viewport; calibr
   expect(await modalAudit(page), 'calibration card').toEqual([]);
   expect(await page.locator('.xg-rstar').count(), 'no empty star row on a calibration card').toBe(0); expect(await page.locator('.mb-result-chart svg').count(), 'the orbit picture').toBe(1);
   await page.screenshot({ path: path.join(SHOTS, ti.project.name, 'result_calib.png') });
-  await page.locator('.xg-modal__actions button').first().click(); await page.waitForTimeout(500);
-  for (let i = 0; i < 6 && !(await page.locator('.mb-map').count()); i++) { await page.locator('.mb-build').click({ timeout: 800 }).catch(() => undefined); await page.waitForTimeout(250); }
+  await page.locator('.xg-modal__actions [data-act="home"]').click(); await page.waitForTimeout(500);
+  for (let i = 0; i < 12 && !(await page.locator('.mb-map').count()); i++) {
+    if (await page.locator('.mb-build').count()) await page.locator('.mb-build').click({ timeout: 800 }).catch(() => undefined);
+    if (await page.locator('.xg-modal').count()) await page.locator('.xg-modal__actions [data-act="home"]').click({ timeout: 800 }).catch(() => undefined);
+    await page.waitForTimeout(250);
+  }
   // the build overlay card (part rises / tier swap)
   await page.evaluate(() => { (window as any).__marsFast = false; void (window as any).__mars.build({ part: true, tierUps: [{ site: 'orbit', from: 1, to: 2 }], levelUp: 2, newCards: [] }, 'orbit'); }); await page.waitForSelector('.mb-build'); await page.waitForTimeout(150);   // real-time overlay (automation normally fast-forwards it)
   const b = await page.evaluate(() => { const r = document.querySelector('.mb-build-card')!.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom, w: innerWidth, h: innerHeight }; });

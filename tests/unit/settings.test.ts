@@ -6,11 +6,20 @@ import { MemoryStorage } from '../helpers/memory-storage';
 describe('family settings (parent page)', () => {
   it('defaults, normalises and persists', () => {
     const st = new MemoryStorage();
-    expect(getSettings(st)).toEqual({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [], skipIntros: false, unlockAll: false });
+    expect(getSettings(st)).toEqual({ displayName: DEFAULT_NAME, narration: true, pinyin: false, hiddenGames: [], skipIntros: false, unlockAll: false, showCoins: true });
     updateSettings({ displayName: '  小 步  ', narration: false, hiddenGames: ['chess', 'chess', 'Bad Id'] }, st);
-    expect(getSettings(st)).toEqual({ displayName: '小 步', narration: false, pinyin: false, hiddenGames: ['chess'], skipIntros: false, unlockAll: false });
+    expect(getSettings(st)).toEqual({ displayName: '小 步', narration: false, pinyin: false, hiddenGames: ['chess'], skipIntros: false, unlockAll: false, showCoins: true });
     st.setItem(SETTINGS_KEY, '{broken');
     expect(getSettings(st).displayName).toBe(DEFAULT_NAME);
+  });
+
+  it('can hide the coin balance without changing other settings', () => {
+    const st = new MemoryStorage();
+    updateSettings({ showCoins: false }, st);
+    updateSettings({ narration: false }, st);
+    expect(getSettings(st)).toMatchObject({ showCoins: false, narration: false });
+    st.setItem(SETTINGS_KEY, JSON.stringify({ showCoins: 'false' }));
+    expect(getSettings(st).showCoins).toBe(true);
   });
 
   it('跳过开场和教学 (skipIntros): off by default, persists, ignores junk, survives other edits', () => {

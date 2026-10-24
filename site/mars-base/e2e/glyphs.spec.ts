@@ -1,9 +1,10 @@
 /**
  * V12 glyph leg (spec §9): every ideograph that is actually DISPLAYED (map, five chapter maps, 徽章站, 档案馆, 家长页 and the first item of every
- * playable node) must exist in the webfont that renders it ("XG WenKai" / "XG KuaiLe" subsets in public/fonts). The static source scan lives in
- * tools/fonts/patch-subset.mjs; this is the DOM half. The text is also dumped to ~/kid-games-work/state/rr/e2e/dom-text-<project>.txt so that
+ * playable node) must exist in the webfont that renders it ("XG WenKai" / "XG KuaiLe" subsets in public/fonts). The three projects divide the
+ * nodes evenly, so each node is inspected once without one test holding a page open for many minutes. The static source scan lives in
+ * tools/fonts/patch-subset.mjs; this is the DOM half. Text is dumped to ~/kid-games-work/state/rr/e2e/dom-text-<project>.txt so that
  *   node tools/fonts/patch-subset.mjs --check --extra <that file>
- * can be run over it. Not part of e2e-all.sh (run it with `--project=ipad-l --project=se glyphs`).
+ * can be run over it. Run all three projects to cover every node.
  */
 import fs from 'node:fs';
 import os from 'node:os';
@@ -11,7 +12,7 @@ import path from 'node:path';
 import { expect, test } from '@playwright/test';
 // @ts-ignore -- plain ESM helper (JSDoc-typed)
 import { cmapChars } from '../../../tools/fonts/scan.mjs';
-import { ROOT, boot, leaveMission, prepare, startNode } from './lib';
+import { ROOT, boot, leaveMission, prepare, resetSave, startNode } from './lib';
 
 /** runs in the page: ideographs per first font family of the element that shows them */
 function glyphs(): Record<string, string> {
@@ -27,7 +28,8 @@ function glyphs(): Record<string, string> {
 }
 
 test('every displayed ideograph is in the subset of the font that renders it', async ({ page }, ti) => {
-  test.skip(!['ipad-l', 'se', 'phone-p'].includes(ti.project.name), 'text is the same on every viewport; sample three');
+  const projectIndex = ['ipad-l', 'phone-p', 'se'].indexOf(ti.project.name);
+  test.skip(projectIndex < 0, 'all nodes are divided across three viewports');
   test.setTimeout(240_000);
   const w = await prepare(page); await boot(page, ti);
   const seen: Record<string, Set<string>> = {}; const add = (r: Record<string, string>) => { for (const [f, s] of Object.entries(r)) { const t = (seen[f] ??= new Set()); for (const c of s) t.add(c); } };
@@ -36,8 +38,13 @@ test('every displayed ideograph is in the subset of the font that renders it', a
   for (const z of ['orbit', 'cert', 'vault', 'factory']) { await page.evaluate((zone) => (window as any).__mars.chapter(zone), z); await grab(); }
   for (const s of ['badges', 'archive', 'parent']) { await page.evaluate((fn) => (window as any).__mars[fn](), s); await grab(); }
   await page.evaluate(() => (window as any).__mars.goMap());
-  const ids: string[] = await page.evaluate(() => (window as any).__mars.nodes());
-  for (const id of ids) { try { await startNode(page, id); await grab(); } catch { /* reported by layout.spec */ } await leaveMission(page); }
+  const ids: string[] = (await page.evaluate(() => (window as any).__mars.nodes()) as string[]).filter((_, i) => i % 3 === projectIndex);
+  for (const id of ids) {
+    await resetSave(page);
+    await startNode(page, id);
+    await grab();
+    await leaveMission(page);
+  }
   const have = { 'XG WenKai': cmapChars(path.join(ROOT, 'public/fonts/wenkai-gb-medium-3500.woff2')) as Set<string>, 'XG KuaiLe': cmapChars(path.join(ROOT, 'public/fonts/zcool-kuaile-3500.woff2')) as Set<string> };
   const missing: string[] = []; const all = new Set<string>();
   for (const [fam, set] of Object.entries(seen)) for (const c of set) { all.add(c); const f = have[fam as keyof typeof have]; if (f && !f.has(c)) missing.push(`${c} (${fam})`); }

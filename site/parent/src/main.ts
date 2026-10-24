@@ -10,6 +10,7 @@
  */
 import registry, { type HubEntry } from 'virtual:kg-registry';
 import { isMuted, setMuted } from '@kit/audio';
+import { Economy, decor } from '@kit/economy';
 import { readSessions } from '@kit/log';
 import { listMetricsSummaries } from '@kit/metrics';
 import { exportProgress, importProgress, LEGACY_KEYS, readHubProgress, readLegacyLadders, readLegacySokoban } from '@kit/progress';
@@ -20,6 +21,10 @@ import { cardProgress, playCounts } from '../../_hub/state';
 import {
   dailyBars, DOMAIN_NAMES, domainMinutes, fmtAgo, fmtMinutes, launchShares, metricCards, perGame, PLACE_NAMES, PLACES, totals, type MetricCard, type Place,
 } from './stats';
+import { decorUnlocked } from '../../mars-base/src/pets/unlock';
+import { readStarMetrics } from '../../mars-base/src/app/starPetMetrics';
+import { activitySummary, readStarActivity } from '../../mars-base/src/app/starPetActivity';
+import type { MarsSaveV5 } from '../../mars-base/src/save/schema';
 import './parent.css';
 
 initShell({ game: 'parent', startGate: false, log: false, audio: false, back: { href: '/', label: '回星港' } });
@@ -46,6 +51,14 @@ const readJson = (key: string): unknown => {
   } catch {
     return null;
   }
+};
+const marsSave = (): MarsSaveV5 | null => {
+  const env = readJson('kg:v1:mars-base') as { v?: number; data?: MarsSaveV5 } | null;
+  return env?.v === 6 && env.data?.nodes && typeof env.data.baseLevel === 'number' ? env.data : null;
+};
+const localDay = (): string => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
 // ================================================================== PIN gate
@@ -221,8 +234,59 @@ function overview(): Node[] {
   const cards = metricCards(registry, listMetricsSummaries());
   const metricsSection = cards.length ? [metricsPanel(cards, now)] : [];
 
-  return [tiles, section('最近 14 天', chart), ...metricsSection, h('div', { class: 'pg-cols' }, engage, domains), games,
+  return [tiles, starPetsPanel(), section('最近 14 天', chart), ...metricsSection, h('div', { class: 'pg-cols' }, engage, domains), games,
     h('p', { class: 'pg-note' }, '星港不设时长限制或锁屏；每个学习单元 10–15 分钟会有自然的停点。')];
+}
+
+function starPetsPanel(): HTMLElement {
+  const economy = new Economy(); const events = economy.events(); const save = marsSave();
+  const groups = readStarMetrics().groups;
+  const activity = activitySummary(readStarActivity(), Date.now());
+  const recent = groups.filter((g) => g.at >= Date.now() - 7 * 86_400_000);
+  const checksRecent = recent.filter((g) => g.src === 'check');
+  const checkFt = checksRecent.length ? Math.round(checksRecent.reduce((n, g) => n + g.ft, 0) / checksRecent.length * 100) : null;
+  const earned = events.filter((e) => e.kind === 'earn');
+  const missions = earned.filter((e) => e.src === 'mission.new').length;
+  const checks = earned.filter((e) => e.src === 'check.run').length;
+  const pets = [...economy.pets()];
+  const names = pets.map((line) => `${economy.getPet(`name:${line}`) ?? (line === 'rover' ? '探路者' : '晶脊龙')}（成长 ${economy.growth(line)}）`).join('、');
+  const learned = save ? Object.keys(save.tags).length : 0;
+  const mastered = save ? Object.values(save.tags).filter((t) => t.mastered).length : 0;
+  const summary = h('div', { class: 'pg-pet-stats' },
+    h('div', null, h('b', null, String(economy.balance())), h('span', null, '星币余额')),
+    h('div', null, h('b', null, String(missions + checks)), h('span', null, '已完成的学习组')));
+  const details = h('p', { class: 'pg-small' }, `新订单 ${missions} 组 · 设备检修 ${checks} 组 · 遇到 ${learned} 个知识点，其中 ${mastered} 个已掌握。${pets.length ? `伙伴：${names}。` : '完成第一单后可以领一位伙伴。'}`);
+  const metrics = h('details', { class: 'pg-ledger' }, h('summary', null, '学习观察'),
+    h('p', { class: 'pg-small' }, `近 7 天学习 ${recent.filter((g) => g.src === 'mission').length} 组、设备检修 ${checksRecent.length} 组${checkFt === null ? '' : `，检修首试约 ${checkFt}%`}。`),
+    h('p', { class: 'pg-small' }, `最近 ${groups.length} 组：交互约 ${fmtMinutes(Math.round(groups.reduce((n, g) => n + g.setMs, 0) / 60_000))}；快的趟数 ${groups.filter((g) => g.flagged).length}。这个标记只提醒家长观察，不影响星币。`),
+    h('p', { class: 'pg-small' }, `近 14 天：${activity.visits} 次打开基地，${activity.petOnly} 次只看了宠物舱；宠物舱约 ${fmtMinutes(Math.round(activity.petMs / 60_000))}，做题约 ${fmtMinutes(Math.round(activity.missionMs / 60_000))}；${activity.missions} 次开始任务，其中 ${activity.replays} 次重玩。`),
+    activity.collapse ? h('p', { class: 'pg-small' }, '地图星币入口已折叠成小图标，宠物舱仍可正常进入。') : null,
+    h('button', { type: 'button', class: 'xg-btn xg-btn--secondary xg-btn--sm', onclick: () => void shareJson(JSON.stringify(readStarMetrics(), null, 2), `xinggang-star-pets-metrics-${new Date().toISOString().slice(0, 10)}.json`, '星港学习观察') }, '导出指标'));
+  const ledger = h('details', { class: 'pg-ledger' }, h('summary', null, '星币流水'),
+    h('ul', null, events.slice(-20).reverse().map((e) => h('li', null, `${e.kind === 'spend' ? '−' : '+'}${e.amount} · ${e.src === 'mission.new' ? '新订单' : e.src === 'check.run' ? '设备检修' : e.src === 'feed' ? '喂食' : e.src === 'buy' ? '购买装饰' : e.src === 'gift' ? '礼物' : e.src === 'retro' ? '旧进度补发' : '其他'}`))));
+  return section('星币与伙伴', summary, details, metrics, ledger);
+}
+
+function giftPanel(): HTMLElement {
+  const eco = new Economy(); const save = marsSave();
+  const items = decor.filter((item) => item.price > 0 && (save ? decorUnlocked(item, save) : item.theme === 'home') && !eco.owned().has(item.id) && eco.getPet(`gift:pending:${item.id}`) === null);
+  const chosen = h('select', { class: 'pg-input', 'aria-label': '选择礼物' }) as HTMLSelectElement;
+  for (const item of items) chosen.append(h('option', { value: item.id }, item.name));
+  const note = h('input', { class: 'pg-input', type: 'text', maxlength: '16', placeholder: '留一句话（可不填）', 'aria-label': '礼物留言' }) as HTMLInputElement;
+  const button = h('button', { class: 'xg-btn xg-btn--primary xg-btn--sm', type: 'button' }, '放进礼盒') as HTMLButtonElement;
+  const sentToday = eco.getPet('gift:day') === localDay();
+  button.disabled = sentToday || !items.length;
+  button.addEventListener('click', () => {
+    const id = chosen.value; const item = items.find((entry) => entry.id === id);
+    if (!item || eco.getPet('gift:day') === localDay()) return;
+    if (!eco.setPets({ [`gift:pending:${id}`]: note.value.trim(), 'gift:day': localDay() })) {
+      xgToast('礼盒暂时没存上，请检查设备空间后重试', { tone: 'try', sfx: null }); return;
+    }
+    xgToast('礼物已放好，孩子下次进宠物舱会看到', { tone: 'ok', sfx: null });
+    button.disabled = true;
+  });
+  return section('物品礼盒', h('p', { class: 'pg-small' }, sentToday ? '今天已经留过礼物。' : '从已开放、未拥有的装饰中选一件。每天可以留一件。'),
+    h('div', { class: 'pg-gift-fields' }, chosen, note, button));
 }
 
 /** 各游戏指标: each game's own ≤3 numbers (kit/metrics); 'watch' ones raise a gentle, plain-language nudge. */
@@ -411,7 +475,9 @@ function settingsPanel(): Node[] {
       h('p', { class: 'pg-small' }, '打开后，各游戏的开场、新手引导和教学都会直接跳过（算作看过），教学仍可从游戏菜单里重看。关着时，开场开始 1.5 秒后右上角会出现「跳过」。')),
     section('关卡解锁',
       toggle('全部解锁', s.unlockAll, (v) => updateSettings({ unlockAll: v }), '打开后，按顺序开放的游戏（棋手学院、楚河棋院、火星基地等）把所有关卡都打开，方便检查或让他随便挑；教学、提示和进度记录不受影响。孩子平时建议关着。')),
+    section('星币', toggle('地图显示星币', s.showCoins, (v) => updateSettings({ showCoins: v }), '关闭后仍可以点击宠物舱建筑进入，余额和物品都会保留。')),
     section('大厅里显示的游戏', h('p', { class: 'pg-small' }, '隐藏只影响大厅卡片，进度和记录都保留。'), gameToggles),
+    giftPanel(),
     section('家长 PIN', h('div', { class: 'pg-row' }, changePin, h('p', { class: 'pg-small' }, '进入家长中心：在大厅长按右上角的家长按钮（或「星港」两个字）3 秒。'))),
     h('p', { class: 'pg-note' }, '没有时长预算、倒计时或锁屏——这是爸爸的决定。'),
   ];
@@ -439,13 +505,17 @@ function backupPanel(): Node[] {
 async function doExport() {
   const json = JSON.stringify(exportProgress(), null, 2);
   const name = `xinggang-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  await shareJson(json, name, '星港备份');
+}
+
+async function shareJson(json: string, name: string, title: string): Promise<void> {
   const blob = new Blob([json], { type: 'application/json' });
   const f = typeof File === 'function' ? new File([blob], name, { type: 'application/json' }) : null;
   const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
   // iPad home-screen apps cannot download blobs reliably; the share sheet can save to 文件.
   if (f && nav.canShare?.({ files: [f] }) && nav.share) {
     try {
-      await nav.share({ files: [f], title: '星港备份' });
+      await nav.share({ files: [f], title });
       return;
     } catch (err) {
       if ((err as Error).name === 'AbortError') return;

@@ -1,4 +1,4 @@
-/** V13 save v5: v4 → v5 migration × {full, mid-mission, corrupt}, backups, size on a 300-mission fixture, sanity of a dropped mission. Spec §8.5. */
+/** V13 save v6: v4/v5 migration, backups, size and mission recovery. */
 import { describe, expect, it } from 'vitest';
 import { KEY, backupBeforeLoad, openSave } from '../src/save/store';
 import { SAVE_BUDGET_BYTES } from '../src/app/tuning';
@@ -22,12 +22,12 @@ const v4Full = (): SaveV4 => ({
 });
 const put = (st: Storage, v: number, data: unknown) => st.setItem(KEY, JSON.stringify({ v, updatedAt: 1, data }));
 
-describe('V13 save v5', () => {
+describe('V13 save v6', () => {
   it('v4 full: completed nodes survive; calibration nodes re-open as voided; onboarding replays; tests are invalid; new salt; backup exists', () => {
     const st = new MemStorage(); put(st, 4, v4Full());
     const h = openSave({ storage: st, now: () => 5000, salt: 777 });
     const s = h.load();
-    expect(h.backup).toBe(`${KEY}:pre-v5-5000`); expect(st.getItem(`${KEY}:pre-v5-5000`)).toContain('"orbit.O1.0"');
+    expect(h.backup).toBe(`${KEY}:pre-v6-5000`); expect(st.getItem(`${KEY}:pre-v6-5000`)).toContain('"orbit.O1.0"');
     for (const id of ['orbit.O1.1', 'orbit.O1.2', 'cert.C1.1', 'cert.C1.2', 'cert.C2.1']) expect(s.nodes[id].st, id).toBe('done');
     expect(s.nodes['orbit.O1.0']).toMatchObject({ st: 'open', why: 'voided' });
     expect(s.nodes['orbit.O1.4']).toMatchObject({ st: 'open', why: 'voided' });
@@ -35,10 +35,11 @@ describe('V13 save v5', () => {
     expect(s.onboarded).toBe(false); expect(s.tutorials).toEqual({}); expect(s.mission).toBeNull();
     expect(s.orbit.tests).toHaveLength(1); expect(s.orbit.tests[0].valid).toBe(false); expect(s.orbit.tests[0].targets).toEqual([]);
     expect(s.salt).toBe(777); expect(s.cert.C1.state).toBe('none'); expect(s.buildings).toEqual({});
-    // idempotent: loading again (now v5) gives the same thing; the migration re-run on the backup gives the same save
+    expect(s.eco.pending.map((p) => p.id)).toContain('retro:node:orbit.O1.1');
+    // idempotent: loading again (now v6) gives the same thing; the migration re-run on the backup gives the same save
     const again = openSave({ storage: st, now: () => 6000, salt: 1 }).load();
     expect(again).toEqual(s);
-    const st2 = new MemStorage(); st2.setItem(KEY, st.getItem(`${KEY}:pre-v5-5000`)!);
+    const st2 = new MemStorage(); st2.setItem(KEY, st.getItem(`${KEY}:pre-v6-5000`)!);
     expect(openSave({ storage: st2, now: () => 5000, salt: 777 }).load()).toEqual(s);
   });
   it('v4 mid-mission: active* cannot be restored → no mission, same node still open, plays not increased', () => {
@@ -59,15 +60,15 @@ describe('V13 save v5', () => {
   it('a migration that throws still leaves the original string in a backup and starts fresh', () => {
     const st = new MemStorage(); put(st, 3, { weird: 1 });
     const h = openSave({ storage: st, now: () => 7, salt: 5 }); const s = h.load();
-    expect(st.getItem(`${KEY}:pre-v5-7`)).toContain('weird'); expect(s.session.index).toBe(0);
+    expect(st.getItem(`${KEY}:pre-v6-7`)).toContain('weird'); expect(s.session.index).toBe(0);
   });
   it('only the 2 newest backups are kept', () => {
     const st = new MemStorage();
     for (const t of [1, 2, 3, 4]) { st.setItem(KEY, JSON.stringify({ v: 4, updatedAt: t, data: v4Full() })); backupBeforeLoad(st, t); }
-    const keys = Array.from({ length: st.length }, (_, i) => st.key(i)!).filter((k) => k.includes('pre-v5')).sort();
-    expect(keys).toEqual([`${KEY}:pre-v5-3`, `${KEY}:pre-v5-4`]);
+    const keys = Array.from({ length: st.length }, (_, i) => st.key(i)!).filter((k) => k.includes('pre-v6')).sort();
+    expect(keys).toEqual([`${KEY}:pre-v6-3`, `${KEY}:pre-v6-4`]);
   });
-  it('v5 round trip is exact; a saved mission naming an unknown family is dropped', () => {
+  it('v6 round trip is exact; a saved mission naming an unknown family is dropped', () => {
     const st = new MemStorage(); const h = openSave({ storage: st, salt: 3 }); const s = h.load();
     s.onboarded = true; s.nodes['orbit.O1.0'] = { st: 'done', stars: 0, plays: 1, ft: [1] };
     s.mission = { node: 'orbit.O1.1', kind: 'node', idx: 1, items: [{ key: 'k', fam: 'nope.fam', tag: null, band: 1, level: 1, rep: 'A', mode: 'normal', params: {}, seed: 1 }], results: [], startedAt: 1, activeMs: 1, facts: [], seedBase: 'x', plan: { node: 'orbit.O1.1', kind: 'node', slots: [], seedBase: 'x' } };
@@ -85,7 +86,7 @@ describe('V13 save v5', () => {
     save.mission = { node: 'orbit.O2.1', kind: 'node', idx: 5, startedAt: 1, activeMs: 99, facts: Array.from({ length: 12 }, (_, i) => `nl.place:{"L":1000,"target":${100 + i}}`), seedBase: 'mars-base:1:2:3', results: [], twins: 1, visit: 9,
       items: Array.from({ length: 12 }, (_, i) => ({ key: `orbit.O2.1#${i}`, fam: 'nl.place', tag: 'nl.est', band: 2, level: 3, rep: 'P' as const, mode: 'normal' as const, params: { L: 1000, target: 100 + i, anchors: 'every100', mode: 'every10', tol: 30, tolPct: 3 }, seed: 123456789, slot: 'main' as const, node: 'orbit.O2.1', typed: false, buildFirst: false })),
       plan: { node: 'orbit.O2.1', kind: 'node', seedBase: 'x', slots: Array.from({ length: 14 }, () => ({ kind: 'main' as const, fam: 'nl.place', band: 2, knobs: { L: 1000, anchors: 'every100', near: { min: 30, max: 50 } }, mode: 'normal' as const, node: 'orbit.O2.1', force: { target: 123 }, typed: false })) } };
-    const bytes = JSON.stringify({ v: 5, updatedAt: 1, data: save }).length;
+    const bytes = JSON.stringify({ v: 6, updatedAt: 1, data: save }).length;
     expect(bytes, `${bytes} bytes`).toBeLessThanOrEqual(SAVE_BUDGET_BYTES);
     expect(save.recent.length).toBe(300);
   });

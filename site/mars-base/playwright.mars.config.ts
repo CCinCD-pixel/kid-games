@@ -23,7 +23,7 @@ export default defineConfig({
   outputDir: path.join(ROOT, 'test-results/mars'),
   fullyParallel: false, workers: 1, retries: 0, timeout: 60_000, expect: { timeout: 8_000 },
   reporter: [['list']],
-  use: { baseURL: EXTERNAL ?? `http://localhost:${PORT}`, browserName: 'webkit', locale: 'zh-CN', timezoneId: 'Asia/Shanghai', trace: 'off', video: 'off', screenshot: 'off' },
+  use: { baseURL: EXTERNAL ?? `http://localhost:${PORT}`, browserName: process.env.MARS_ENGINE === 'chromium' ? 'chromium' : 'webkit', locale: 'zh-CN', timezoneId: 'Asia/Shanghai', trace: 'off', video: 'off', screenshot: 'off' },
   projects: [
     { name: 'ipad-p', ...phone(810, 1080, touch) },
     { name: 'ipad-l', ...phone(1080, 810, touch) },

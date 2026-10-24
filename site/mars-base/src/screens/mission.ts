@@ -11,6 +11,7 @@ import { judge, toInt } from '../app/judge';
 import { MachineState, initMachine, transition, hintKeyNote, type MachineEvent } from '../app/itemMachine';
 import { backCell, cellAnswers, cellView, enterCell, newCells, rewindCells, type CellsState } from '../app/cellInput';
 import { beginMission, dealNext, deliver, endMission, mainIndexOf, missionDone, missionMatches, resumeMission, totalSlots, type EndSummary, type MissionRun } from '../app/mission';
+import { recordStarSet } from '../app/starPetMetrics';
 import { computeLayout, checkLayout, keyGeometry, layoutVars, vpOf, type LayoutKind } from '../app/layout';
 import type { Answer, Item, Mode, Response } from '../app/types';
 import { TRY_LINE, hintLine, lineText, orderLine } from '../voice/lines';
@@ -22,6 +23,7 @@ import type { App } from './app';
 import { consequence } from '../diag/bugs';
 import { ZONE_LABEL, worldSvg, zoneEmblem, type WorldZone } from '../art/world';
 import { NODE_BY_ID, zoneOfNode } from '../app/content';
+import { ItemTimer } from '../app/engagement';
 import type { MarsSaveV5 } from '../save/schema';
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls: string, html = ''): HTMLElementTagNameMap[K] => { const e = document.createElement(tag); e.className = cls; if (html) e.innerHTML = html; return e; };
@@ -30,15 +32,17 @@ const fitText = (e: HTMLElement, min: number): void => { e.style.fontSize = ''; 
 const releaseKitBack = (): void => { document.documentElement.style.removeProperty('--kit-back-x'); document.documentElement.style.removeProperty('--kit-back-y'); };
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
-export interface MissionOpts { nodeId: string; probe?: boolean; /** 挑战订单 */ challenge?: boolean; noWarm?: boolean; /** 徽章墙 一起验货: verify these cards in one mission */ wall?: import('../app/types').CardId[] }
+export interface MissionOpts { nodeId: string; probe?: boolean; /** 挑战订单 */ challenge?: boolean; check?: boolean; noWarm?: boolean; /** 徽章墙 一起验货: verify these cards in one mission */ wall?: import('../app/types').CardId[] }
 export async function playMission(app: App, o: MissionOpts): Promise<EndSummary | null> {
   const { save } = app;
+  if (save.mission?.plan && !missionMatches(save, o)) { app.goMap(); return null; }
   let run: MissionRun | null = missionMatches(save, o) ? resumeMission(save) : null;
   const resumed = !!run;
-  if (!run) run = beginMission(save, o.nodeId, save.session.index, Date.now(), { probe: o.probe, noWarm: o.noWarm, wall: o.wall, challenge: o.challenge });
+  if (!run) run = beginMission(save, o.nodeId, save.session.index, Date.now(), { probe: o.probe, noWarm: o.noWarm, wall: o.wall, challenge: o.challenge, check: o.check });
+  app.saveNow();
   const root = el('div', 'mb-mission'); app.screen(root, 'day');
-  const zone: WorldZone = run.plan.kind === 'challenge' ? 'challenge' : run.plan.kind === 'wall' ? 'cert' : ((run.plan.probeZone ?? (NODE_BY_ID[run.plan.node] ? zoneOfNode(NODE_BY_ID[run.plan.node]) : 'orbit')) as WorldZone);
-  const nodeTitle = run.plan.kind === 'challenge' ? lineText('mars.chal.title') : run.plan.kind === 'wall' ? '一起验货' : run.plan.kind === 'probe' ? '先试三单' : (NODE_BY_ID[run.plan.node]?.title ?? ZONE_LABEL[zone]);
+  const zone: WorldZone = run.plan.kind === 'challenge' || run.plan.kind === 'check' ? 'challenge' : run.plan.kind === 'wall' ? 'cert' : ((run.plan.probeZone ?? (NODE_BY_ID[run.plan.node] ? zoneOfNode(NODE_BY_ID[run.plan.node]) : 'orbit')) as WorldZone);
+  const nodeTitle = run.plan.kind === 'check' ? '设备检修' : run.plan.kind === 'challenge' ? lineText('mars.chal.title') : run.plan.kind === 'wall' ? '一起验货' : run.plan.kind === 'probe' ? '先试三单' : (NODE_BY_ID[run.plan.node]?.title ?? ZONE_LABEL[zone]);
   root.dataset.zone = zone;
   const ui = buildChrome(root);
   { const l0 = app.layoutInfo(); root.insertAdjacentHTML('afterbegin', worldSvg(zone, l0.width, l0.height)); ui.zoneIcon.innerHTML = zoneEmblem(zone); }
@@ -57,7 +61,6 @@ export async function playMission(app: App, o: MissionOpts): Promise<EndSummary 
   const stageHOf = (kind: LayoutKind): number => { const l = app.layoutInfo(); return computeLayout(vpOf(l.width, l.height), insetsNow(), kind).reg.stage.h; };
   const fitAll = () => { const se = window.innerWidth <= 330; fitText(ui.orderBig, se ? 12 : 15); fitText(ui.orderSmall, 11); fitText(ui.commText, se ? 11 : 12); };
   const offLayout = app.onLayout(() => { if (!root.isConnected) return; const { L } = relayout(layoutKind); mounted.stage?.resize(L.reg.stage.w, L.reg.stage.h); fitAll(); });
-  if (resumed) app.say(bot, ui, 'mars.mis.resume'); else app.say(bot, ui, 'mars.mis.start');
   let cancelled = false; let abort: (() => void) | null = null;
   ui.mapBtn.onclick = () => { cancelled = true; app.saveNow(); abort?.(); app.goMap(); };
 
@@ -75,16 +78,27 @@ export async function playMission(app: App, o: MissionOpts): Promise<EndSummary 
   const cleanup = (): void => { offLayout(); document.fonts?.removeEventListener?.('loadingdone', refit); mo.disconnect(); mounted.stage?.destroy(); mounted = { stage: null, item: null }; delete (window as any).__marsItem; };   // __marsItem (test hook) holds the last item's closure: not past the mission
   const setLine = (id: string, vars?: Record<string, string | number>) => app.say(bot, ui, id, vars);
 
+  if (run.plan.kind === 'check' && !resumed) {
+    await app.sayAndWait(bot, ui, 'mars.check.start');
+    if (cancelled) { cleanup(); root.remove(); app.activity.setMode('idle'); releaseKitBack(); return null; }
+  } else setLine(resumed ? 'mars.mis.resume' : 'mars.mis.start');
+
   for (;;) {
     const item = dealNext(save, run, Date.now());
     if (!item) break;
     await playItem(item);
-    if (cancelled) { cleanup(); root.remove(); releaseKitBack(); return null; }
+    if (cancelled) { cleanup(); root.remove(); app.activity.setMode('idle'); releaseKitBack(); return null; }
     app.saveNow();
   }
-  const sum = endMission(save, run, Date.now());
+  const metricId = `${run.plan.node}:${save.mission?.startedAt ?? Date.now()}`;
+  const sum = endMission(save, run, Date.now(), app.economy.device);
   app.saveNow();
-  cleanup(); root.remove(); releaseKitBack();
+  if (run.plan.kind === 'node' || run.plan.kind === 'check') {
+    try {
+      recordStarSet(localStorage, metricId, Date.now(), run.plan.kind === 'check' ? 'check' : 'mission', run.results, !!NODE_BY_ID[run.plan.node]?.newElement);
+    } catch { /* metrics are optional */ }
+  }
+  cleanup(); root.remove(); app.activity.setMode('idle'); releaseKitBack();
   return sum;
 
   async function playItem(item: Item): Promise<void> {
@@ -109,11 +123,14 @@ export async function playMission(app: App, o: MissionOpts): Promise<EndSummary 
     } else { const pl = el('div', 'mb-plaque-node', `<i aria-hidden="true">${zoneEmblem(zone)}</i><b></b>`); (pl.querySelector('b') as HTMLElement).textContent = nodeTitle; ui.answer.append(pl); }   // nothing is typed here: the strip says where we are
     ui.ok.hidden = stage.layout === 'keypad';
     app.say(bot, ui, orderId.id, orderId.vars);
+    const timer = new ItemTimer(performance.now());
+    const onVisibility = () => timer.setVisible(!document.hidden, performance.now());
+    document.addEventListener('visibilitychange', onVisibility);
 
     let lastDemo: DemoStep[] = []; let demoH: DemoHandle | null = null;
     let state: MachineState = initMachine(); let ops = 0; const diags: (import('../app/types').DiagClass | null)[] = []; let locked = false; let idleT: number | undefined;
     const armIdle = () => { clearTimeout(idleT); if (mode !== 'normal') return; idleT = window.setTimeout(() => { state = transition(state, 'idle', mode); setLine('mars.hint.idle'); ui.hintBtn.classList.add('is-glow'); }, IDLE_NUDGE_S * 1000); };
-    const machine = (ev: MachineEvent) => { state = transition(state, ev, mode); armIdle(); };
+    const machine = (ev: MachineEvent) => { timer.tick(performance.now()); state = transition(state, ev, mode); armIdle(); };
     ui.keypad.onclick = () => machine('op');   // typing a digit is a real touch: the hint key may escalate afterwards
     /** multi-cell answers: show which cell is being filled (a visible chip on the answer box) and what the display holds (H3 shows the answer cell by cell, so ✓ ✓ ✓ finishes the item) */
     const paintCells = (override?: string): void => {
@@ -150,6 +167,7 @@ export async function playMission(app: App, o: MissionOpts): Promise<EndSummary 
     }
     const shake = () => { ui.answer.classList.add('is-shake'); setTimeout(() => ui.answer.classList.remove('is-shake'), 400); };
     async function submit(r: Response): Promise<void> {
+      timer.tick(performance.now());
       if (locked) return;
       const blockedLine = stage.blocked?.(); if (blockedLine) { shake(); setLine(blockedLine); return; }
       const verdict = judge(f, p, r, item.ask);
@@ -183,8 +201,8 @@ export async function playMission(app: App, o: MissionOpts): Promise<EndSummary 
       ui.hintBtn.classList.remove('is-glow');
     }
     async function runDemo(steps: DemoStep[]): Promise<void> {
-      demoH?.stop(); locked = true; stage.lock(true);
-      try { if (!(await stage.demo?.(steps))) { demoH = playDemo(ui.stage, steps, { order: f.prompt(p, item.ask).big, p, say: undefined }); await demoH.done; } } finally { locked = false; stage.lock(false); machine('tapAck'); }
+      demoH?.stop(); locked = true; stage.lock(true); timer.setDemo(true, performance.now());
+      try { if (!(await stage.demo?.(steps))) { demoH = playDemo(ui.stage, steps, { order: f.prompt(p, item.ask).big, p, say: undefined }); await demoH.done; } } finally { timer.setDemo(false, performance.now()); locked = false; stage.lock(false); machine('tapAck'); }
     }
     /** H1 text: the family's own hint first, then a different one for every further miss (the same sentence three times teaches nothing) */
     function hintLineFor(misses: number): string { const pool = [hintLine(f, p), 'mars.hint.again1', 'mars.hint.again2']; return pool[Math.max(0, misses - 1) % pool.length]; }
@@ -200,7 +218,9 @@ export async function playMission(app: App, o: MissionOpts): Promise<EndSummary 
     }
     function finish(ok: boolean, est?: number): void {
       clearTimeout(idleT);
-      const info = { firstTry: state.firstTry === true, misses: state.misses, hint: state.hint, assisted: state.assisted, ok: mode === 'normal' ? state.firstTry === true : ok, diags, ops, est };
+      const ms = timer.elapsed(performance.now());
+      if (save.mission) save.mission.activeMs += ms;
+      const info = { firstTry: state.firstTry === true, misses: state.misses, hint: state.hint, assisted: state.assisted, ok: mode === 'normal' ? state.firstTry === true : ok, diags, ops, est, ms };
       deliver(save, run!, item, info, Date.now());
     }
     ui.ok.onclick = () => { machine('op'); void submit(stage.input === 'keypad' ? keypadResponse(keypad?.value ?? '') : stage.collect()); };
@@ -217,7 +237,7 @@ export async function playMission(app: App, o: MissionOpts): Promise<EndSummary 
     demoBtn.onclick = () => { if (locked) return; if (lastDemo.length && !f.id.startsWith('nl.')) void runDemo(lastDemo); else app.say(bot, ui, orderId.id, orderId.vars); };
     ui.tools.replaceChildren(mode === 'normal' ? demoBtn : document.createComment(''));
     if ((window as any).__mars) (window as any).__marsItem = { item, correct, answer: (v: Response) => submit(v), state: () => ({ locked, hint: state.hint, misses: state.misses, subs: state.subs, done: state.done, assisted: state.assisted, cell: cells.idx, cells: stage.cells?.length ?? 0 }) };   // test hook only (?test=1): the production page keeps no answer in a global
-    await done; clearTimeout(idleT);
+    await done; clearTimeout(idleT); document.removeEventListener('visibilitychange', onVisibility);
   }
 }
 const missionIndex = (run: MissionRun, item: Item): number => Math.max(0, run.items.findIndex((x) => x.key === item.key));

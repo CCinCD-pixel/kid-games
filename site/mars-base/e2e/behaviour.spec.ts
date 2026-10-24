@@ -1,15 +1,32 @@
 /**
- * V10 behaviour probes (spec §9): silence before the start tap, ≤ 1 AudioContext, decodedBytes ≤ 48 MB, save v=5, the three probes
+ * V10 behaviour probes (spec §9): silence before the start tap, ≤ 1 AudioContext, decodedBytes ≤ 48 MB, save v=6, the three probes
  * (hint key with the narration OFF, three wrong deliveries → answer + assisted + twin, empty delivery not counted), neutral hint line in a
  * calibration item, 45 s idle is a reminder only, an empty manifest still shows every subtitle, rotate / back / refresh keep the mission,
  * offline reload (service worker, production bundle only).
  */
 import { expect, test, type Page } from '@playwright/test';
-import { boot, itemKey, leaveMission, prepare, resetSave, startNode } from './lib';
+import { boot, itemKey, leaveMission, MUTE, prepare, resetSave, startNode } from './lib';
 
 const BY_FAMILY: [string, string][] = [['nl', 'orbit.O1.1'], ['tray', 'vault.K1.3'], ['counter', 'vault.K1.5'], ['pods', 'factory.P1.3'], ['array', 'factory.P2.5'], ['keypad', 'cert.C1.4']];
 const emptyManifest = (page: Page) => page.route('**/audio/mars-base/*manifest.json', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '{}' }));
 const comm = (page: Page) => page.locator('.mb-comm-text').innerText();
+
+test('the first onboarding line uses its recorded clip only after Start', async ({ page }, ti) => {
+  test.skip(ti.project.name !== 'ipad-p', 'the opening voice path is shared by every viewport');
+  await page.context().addInitScript({ path: MUTE });
+  const requests: string[] = [];
+  page.on('request', (request) => {
+    if (request.url().includes('/audio/mars-base/mars.onb.1.')) requests.push(request.url());
+  });
+  await page.goto('/mars-base/?mute=1');
+  await expect(page.locator('.kit-start__go')).toBeVisible();
+  expect(requests).toEqual([]);
+  const clip = page.waitForResponse((response) => response.url().includes('/audio/mars-base/mars.onb.1.') && response.status() === 200);
+  await page.locator('.kit-start__go').click();
+  await expect(page.locator('.mb-onboard')).toBeVisible();
+  await clip;
+  expect(requests).toHaveLength(1);
+});
 /** one real touch on the stage / keypad so the item counts as attempted (the hint key only escalates after an op) */
 async function touch(page: Page): Promise<void> {
   if (await page.locator('.mb-stage .nl').count()) { const b = (await page.locator('.mb-stage .nl-svg').boundingBox())!; await page.mouse.click(b.x + b.width / 2, await page.evaluate(() => (window as any).__nlCtl.trackClientY())); return; }
@@ -17,7 +34,7 @@ async function touch(page: Page): Promise<void> {
   await page.locator('.mb-stage button:not([disabled]):visible').first().click();
 }
 
-test('silence before the start tap; ≤ 1 AudioContext; decoded audio ≤ 48 MB; save v=5; console clean', async ({ page }, ti) => {
+test('silence before the start tap; ≤ 1 AudioContext; decoded audio ≤ 48 MB; save v=6; console clean', async ({ page }, ti) => {
   const w = await prepare(page); await emptyManifest(page);
   await boot(page, ti, { gate: false });
   const before = await page.evaluate(() => ((window as any).__acs as AudioContext[]).filter((c) => c.state === 'running').length);
@@ -28,7 +45,16 @@ test('silence before the start tap; ≤ 1 AudioContext; decoded audio ≤ 48 MB;
   const n = await page.evaluate(() => ((window as any).__acs as unknown[]).length); expect(n).toBeLessThanOrEqual(1);
   expect(await page.evaluate(() => (window as any).__mars.decodedBytes())).toBeLessThanOrEqual(48 * 1024 * 1024);
   const v = await page.evaluate(() => { const raw = localStorage.getItem('kg:v1:mars-base'); return raw ? JSON.parse(raw).v : null; });
-  expect(v).toBe(5); expect(w.errors).toEqual([]);
+  expect(v).toBe(6); expect(w.errors).toEqual([]);
+});
+
+test('the recorded number clips are available for templated orders', async ({ page }, ti) => {
+  const w = await prepare(page); await boot(page, ti);
+  expect(await page.evaluate(() => {
+    const narrator = (window as any).__mars.app.narrator;
+    return [narrator.has('mars.c.place'), narrator.has('mars.num.0'), narrator.has('mars.num.1000')];
+  })).toEqual([true, true, true]);
+  expect(w.errors).toEqual([]);
 });
 
 test('probe 1: narration OFF, every family group — a touch then the hint key writes a line and marks the order', async ({ page }, ti) => {
@@ -52,7 +78,13 @@ test('probe 1: narration OFF, every family group — a touch then the hint key w
 test('probe 2+3: an empty delivery is not counted; three wrong deliveries show the answer, deliver assisted and deal a twin', async ({ page }, ti) => {
   const w = await prepare(page); await emptyManifest(page); await boot(page, ti);
   let keypad = false;   // the first item of a node differs per viewport (a short phone stage turns a tray read-out into a 4-button choice): take the first node that opens on a keypad
-  for (const node of ['cert.C1.1', 'cert.C1.2', 'cert.C1.4', 'cert.C2.2', 'cert.C2.4', 'cert.C3.2', 'cert.C3.3', 'cert.C3.4']) { await startNode(page, node); if (await page.locator('.mb-mission[data-kind="keypad"]').count()) { keypad = true; break; } await leaveMission(page); }
+  for (const node of ['cert.C1.1', 'cert.C1.2', 'cert.C1.4', 'cert.C2.2', 'cert.C2.4', 'cert.C3.2', 'cert.C3.3', 'cert.C3.4']) {
+    await resetSave(page);
+    await page.waitForSelector('.mb-map');
+    await startNode(page, node);
+    if (await page.locator('.mb-mission[data-kind="keypad"]').count()) { keypad = true; break; }
+    await leaveMission(page);
+  }
   expect(keypad, 'a keypad item (the answer lands in the box)').toBe(true);
   const k0 = await itemKey(page);
   await page.evaluate(() => (window as any).__mars.answer(null)); await page.waitForTimeout(250);
@@ -74,6 +106,7 @@ test('a calibration item: the hint key gives only the neutral line; idle 45 s is
   await touch(page); await page.locator('.mb-hint-btn').click(); await page.waitForTimeout(100);
   expect(await page.locator('.mb-order.is-hinted').count(), 'no hint in a calibration item').toBe(0);
   expect((await comm(page)).trim().length).toBeGreaterThan(0);
+  await leaveMission(page);
   await resetSave(page); await page.waitForSelector('.mb-map');
   await startNode(page, 'vault.K1.1');
   await page.clock.fastForward(46_000); await page.waitForTimeout(200);

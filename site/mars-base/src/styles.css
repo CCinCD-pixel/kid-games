@@ -10,9 +10,13 @@ body[data-xg-game="mars"] {
 .mb-map { position: absolute; inset: 0; overflow: hidden; background: var(--mb-sky-0); }
 .mb-map .scene { position: absolute; inset: 0; width: 100%; height: 100%; }
 .mb-map-title { position: absolute; top: max(14px, var(--kit-safe-top, 0px)); left: 50%; transform: translateX(-50%); padding: 6px 18px; border-radius: 999px; background: color-mix(in srgb, var(--xg-night-900) 70%, transparent); color: var(--xg-moon-50); font-family: var(--xg-font-title); font-size: 22px; letter-spacing: .06em; white-space: nowrap; }
+.mb-map-coins { position: absolute; z-index: 4; top: max(18px, var(--kit-safe-top, 0px)); right: max(108px, calc(var(--kit-safe-right, 0px) + 108px)); min-width: 66px; min-height: 50px; padding: 0 12px; border: 2px solid var(--mb-cut); border-radius: 6px; background: var(--mb-gold); color: var(--mb-cut); font: 800 20px/1 var(--xg-font-num); cursor: pointer; }
+.mb-map-coins.is-folded { width: 54px; min-width: 54px; padding: 0; }
+.mb-map[data-cls^="phone"] .mb-map-coins { top: calc(max(14px, var(--kit-safe-top, 0px)) + 50px); right: max(10px, var(--kit-safe-right, 0px)); min-height: 44px; font-size: 18px; }
+.mb-map[data-cls="phone-l"] .mb-map-coins { top: max(14px, var(--kit-safe-top, 0px)); }
 @media (max-width: 359px) { .mb-map-title { left: calc(max(16px, var(--kit-safe-left, 0px)) + 68px); transform: none; padding: 5px 12px; font-size: 18px; } }   /* 320 px: start right of the 🏠 key (V10 screens.spec) */
-.mb-sites { position: absolute; left: 3%; right: 3%; top: 24%; bottom: 20%; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 4px 6px; align-items: end; justify-items: center; }
-.mb-map[data-cls="ipad-p"] .mb-sites, .mb-map[data-cls="phone-p"] .mb-sites { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 1fr); top: 22%; bottom: 24%; }
+.mb-sites { position: absolute; left: 3%; right: 3%; top: 22%; bottom: 20%; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 12px 6px; align-items: end; justify-items: center; }
+.mb-map[data-cls="ipad-p"] .mb-sites, .mb-map[data-cls="phone-p"] .mb-sites { top: 20%; bottom: 24%; }
 .mb-site { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 2px; width: min(190px, 100%); height: 100%; min-height: 76px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .mb-site:nth-child(even) { transform: translateY(8px); }
 .mb-site .bld { width: min(170px, 100%); flex: 1 1 0; min-height: 0; transition: transform var(--xg-dur-base) var(--xg-ease-back); }
@@ -23,11 +27,15 @@ body[data-xg-game="mars"] {
 .mb-site.is-rec::before { content: ""; position: absolute; inset: 0 8px 22px; border-radius: 28px; border: 3px solid var(--mb-glow); animation: mb-ring 1.6s ease-in-out infinite; pointer-events: none; }
 @keyframes mb-ring { 50% { transform: scale(1.06); opacity: .45; } }
 .mb-map-bot { position: absolute; left: 3%; bottom: 3%; z-index: 2; }
-.mb-map .mb-go { position: absolute; left: 50%; bottom: max(18px, calc(var(--kit-safe-bottom, 0px) + 12px)); transform: translateX(-50%); min-width: 280px; min-height: 76px; font-size: 26px; }
+.mb-map-actions { position: absolute; left: 50%; bottom: max(18px, calc(var(--kit-safe-bottom, 0px) + 12px)); transform: translateX(-50%); display: flex; gap: 10px; width: min(620px, 94%); z-index: 3; }
+.mb-map .mb-go { flex: 1 1 55%; min-width: 0; min-height: 76px; font-size: 24px; }
+.mb-map .mb-check { flex: 1 1 45%; min-width: 0; min-height: 76px; font-size: 21px; }
+.mb-map .mb-check:disabled { opacity: .65; }
 .mb-go-sub { position: absolute; left: 50%; bottom: calc(max(18px, var(--kit-safe-bottom, 0px) + 12px) + 84px); transform: translateX(-50%); padding: 4px 16px; border-radius: 999px; background: color-mix(in srgb, var(--xg-night-900) 72%, transparent); color: var(--xg-moon-50); font-size: 17px; white-space: nowrap; }
-.mb-map[data-cls^="phone"] .mb-go { min-width: 220px; min-height: 60px; font-size: 22px; } .mb-map[data-cls="phone-l"] .mb-go-sub { display: none; }
-.mb-map[data-cls="phone-l"] .mb-go { left: auto; right: 3%; transform: none; } .mb-map[data-cls="phone-l"] .mb-map-bot { bottom: 1%; }
-.mb-map[data-cls="phone-l"] .mb-sites { top: 21%; bottom: 26%; } .mb-map[data-cls="phone-l"] .mb-go { min-height: 52px; min-width: 200px; font-size: 21px; } .mb-map[data-cls="phone-l"] .mb-map-bot { left: 1%; bottom: 0; transform: scale(.78); transform-origin: bottom left; }   /* 844×390: the button / the robot no longer sit on the bottom row of sites (V10 screens.spec) */
+.mb-map[data-cls^="phone"] .mb-go, .mb-map[data-cls^="phone"] .mb-check { min-height: 60px; font-size: 18px; } .mb-map[data-cls="phone-l"] .mb-go-sub { display: none; }
+.mb-map[data-cls="phone-l"] .mb-map-actions { left: auto; right: 3%; transform: none; width: min(420px, 65%); } .mb-map[data-cls="phone-l"] .mb-map-bot { bottom: 1%; }
+.mb-map[data-cls="phone-l"] .mb-sites { top: 21%; bottom: 26%; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); } .mb-map[data-cls="phone-l"] .mb-go, .mb-map[data-cls="phone-l"] .mb-check { min-height: 52px; font-size: 18px; } .mb-map[data-cls="phone-l"] .mb-map-bot { left: 1%; bottom: 0; transform: scale(.78); transform-origin: bottom left; }
+@media (max-width: 359px) { .mb-map-actions { gap: 6px; } .mb-map .mb-go, .mb-map .mb-check { font-size: 16px; } }
 .mb-map[data-cls="phone-p"] .mb-map-bot, .mb-map[data-cls="ipad-p"] .mb-map-bot { bottom: auto; top: 0; left: auto; right: 2%; transform: scale(.6); transform-origin: top right; }
 
 /* ---------- chapter ---------- */
@@ -38,6 +46,13 @@ body[data-xg-game="mars"] {
 .mb-ch-back { position: absolute; top: max(12px, var(--kit-safe-top, 0px)); left: calc(max(16px, var(--kit-safe-left, 0px)) + 64px); width: 56px; height: 56px; padding: 0; }
 .mb-ch-scroll { position: absolute; left: 3%; right: 3%; top: calc(max(12px, var(--kit-safe-top, 0px)) + 72px); bottom: max(16px, var(--kit-safe-bottom, 0px)); overflow: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; } .mb-ch-scroll::-webkit-scrollbar { display: none; }
 .mb-ch-map { position: relative; }
+.mb-chapter .xg-node > span:not(.xg-node__stars) {
+  width: 2.5em;
+  max-width: calc(var(--s) - 16px);
+  font: 800 clamp(16px, calc(var(--xg-node-s) * .215), 19px)/1.02 var(--xg-font-read);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
 
 /* ---------- mission regions (positions are variables from computeLayout) ---------- */
 .mb-mission { position: absolute; inset: 0; background: var(--xg-bg); }
@@ -117,3 +132,4 @@ body[data-xg-game="mars"] {
 /* compare two numbers on a phone: the numbers stack, the symbol keys get their own row (spec §2.2 "compare2") */
 .mb-mission[data-cls^="phone"] .st-cmp-row { flex-direction: column; gap: 6px; } .mb-mission[data-cls^="phone"] .st-cmp-syms { display: flex; gap: 8px; } .mb-mission[data-cls^="phone"] .st-digit { min-height: 56px; }
 .mb-rescue { position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 18px; background: var(--xg-night-900, #131b42); color: var(--xg-moon-50, #fff); font: 600 22px/1.4 var(--xg-font-read, system-ui); text-align: center; }
+.mb-save-warning { position: absolute; z-index: 30; left: 50%; top: max(72px, var(--kit-safe-top, 0px)); transform: translateX(-50%); width: min(520px, calc(100% - 24px)); margin: 0; padding: 8px 12px; border: 2px solid #8c5725; border-radius: 6px; background: #ffe1a1; color: #3b251c; text-align: center; font-size: 15px; font-weight: 700; }

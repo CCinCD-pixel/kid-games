@@ -217,6 +217,10 @@ html, body { background: var(--xq-table); }
 .xq-modal-card .sm { margin: 0; font: 600 14px/1.3 var(--xg-font-ui); color: rgba(244, 236, 214, .8); text-align: center; }
 .xq-diagram-box { width: min(92%, 400px, 50vh); margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 18px rgba(0, 0, 0, .4); } .xq-diagram { display: block; width: 100%; height: auto; }
 .xq-plist p { margin: 2px 0; font: 600 15px/1.5 var(--xg-font-read, serif); } .xq-plist b { color: #8be0cf; } .xq-plist b.r { color: #ff9a85; }
+.xq-piece-words { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px auto; }
+.xq-piece-word { width: 48px; height: 48px; border: 2px solid #d9aa66; border-radius: 50%; background: #f5dfb4; color: #962e24; font: 700 24px/1 var(--xg-font-read, serif); touch-action: manipulation; }
+.xq-piece-word:active { transform: scale(.92); }
+.xq-piece-word:focus-visible { outline: 3px solid #8be0cf; outline-offset: 2px; }
 
 /* 复盘棋谱条 */
 .xq-notes { display: flex; align-items: center; gap: 6px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; padding: 4px 2px; -webkit-overflow-scrolling: touch; }

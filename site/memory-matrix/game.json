@@ -2,13 +2,14 @@
   "id": "memory-matrix",
   "title": "星图记忆站",
   "subtitle": "看一眼，把星图复原",
-  "place": "classic",
+  "place": "base",
   "order": 20,
   "status": "live",
   "accent": "--xg-chart",
   "theme": "chart",
   "icon": "/icons/games/memory-matrix.svg",
   "domains": ["memory", "spatial"],
-  "parentNote": "四个星区：记星星（图案）、追流星（顺序与倒序）、送回家（谁住在哪）、照镜子（镜像）。难度自动调到约八成一次做对。主要让孩子更熟练这类任务和相关策略；没有可靠证据表明它能提高一般智力或成绩。",
-  "smoke": { "waitFor": "#app[data-ready]" }
+  "parentNote": "四个星区练习图案、顺序、位置与镜像；难度约八成做对。近迁移有证据，远迁移没有可靠证据。",
+  "orientation": "any",
+  "smoke": { "waitFor": ".kit-start__go" }
 }

@@ -77,7 +77,7 @@ export async function playRound(app: App, plan0: Plan): Promise<RoundExit> {
   const layout = (): void => {
     const v = app.viewport(), l = L(), safe = v.safe;
     root.dataset.orient = l.landscape ? 'landscape' : 'portrait'; root.dataset.phone = l.phone ? '1' : '0';
-    root.dataset.short = !l.landscape && l.phone ? '1' : '0';
+    root.dataset.short = l.phone ? '1' : '0';
     for (const [b, long, short] of [[bLook, '再看一眼', '再看'], [bAns, '看答案', '答案'], [bHome, '星图站', '星图']] as const) b.querySelector('.mm-lbl')!.textContent = root.dataset.short === '1' ? short : long;
     root.style.setProperty('--mm-s', `${l.S}px`);
     place(stage, { x: l.x, y: l.y, w: l.S, h: l.S });

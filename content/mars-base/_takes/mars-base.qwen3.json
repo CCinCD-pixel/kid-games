@@ -1,0 +1,1113 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "mars.bal.box.1": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "4291d9714821120d3408ab4a59169ceb731ae4bd",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.bal.box.4": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "36e9ebd92ed73c4c20f48912f3992b59a8b139db",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.bal.cut": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fb82da51f33473d3092923833a688acef6261cda",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.bal.found": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "6aa64e263f747bbe20db4313f981deab1545ef57",
+   "score": 236.25,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.bal.panel": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "26d2ea54e7bd70883780c9caa605277d2f6a92a2",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.bal.tilt": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "1c0ab420e36cbe0a8be2e4fd35c83dc1b8ad29c3",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.build.part": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "e1311be819a1330e562a7f614080258215045aff",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.c.close": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "78024731f875eb8926be5339b605b898f4613c23",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.c.flags": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d94e82e5a4879e0df6a63427b97f43e8e3cc2b9a",
+   "score": 2.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.c.flagsTail": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "e3c7fe65a85f057d826fd93ea7b2047214c9fcea",
+   "score": 2.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.c.rods": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c9d2fb2dcb61f50071cda2fdb8944989e027a683",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.c.zoom": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "23248cc552f070e81159ddac04bb44f67927de07",
+   "score": 1.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.cert.reopenOne": {
+   "seed": 1238,
+   "base": 1234,
+   "sig": "7066591912bf10d84af61d7b5faf81d86eea5366",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "mars.h1.array": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c0e7828796e7fe0a47df0fa27374e5daef750750",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.h1.bal": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "09287d459be6a672be289937c5c15cd58dbb0a06",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.h1.build": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "bbd6d847d93d880250937ccfecc465cd2a0288fa",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.h1.cmp": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "2c0727c2520f90dba995cff05d79f26e6d4d5a93",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.h1.dict": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d3c487fc485d9b2849d01fe8854f8a0d08505f23",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.h1.equal": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "84defbe7f3b3ba69534f090a79f1193d16b273bb",
+   "score": 0.833,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.h1.nl": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "423743699c218f71c357328db8fc2a4e0d8b5455",
+   "score": 134.167,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.h2.intro": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "36ceefa5feece7a566115ac7e7a6e3179718638a",
+   "score": 105.1,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "mars.h2.mul": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "a771b01b6f572e87c9d0031f3dc73de5ec929339",
+   "score": 0.625,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.hint.idle": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "51d58ed872b4c8ad1242d90c28cf6b8fc1234df0",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.hint.touchFirst": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d14ea5a2f5f4bdad9f04e73d298bcb51bd919040",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.item.9": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "211f4255f7b489d0b190202eb75c169ea6eb8dd4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.map.recommend": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "20571d065f443909498553efc5c195a7a94af331",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.mis.bridge": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "f2dc027de24eae673800a47b0d7739743d0a4282",
+   "score": 133.125,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.mis.longKeep": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "512037302402a35bc5d7634f361d8cf546b83ec9",
+   "score": 100.0,
+   "flags": [
+    "pause"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.node.C1.1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c621c95f272708ec154b0b8b2f32752bffd22682",
+   "score": 1.666,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.node.C1.2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c82eac0ea455033434c634cbbd8f93ef748b616f",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.node.C1.3": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c0086eafeac3175d2b67fa681cc5039576867699",
+   "score": 3.333,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.node.C1.4": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "eb3d16904e98e8cd97e8ca7c0068ab09157691ee",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.node.K1.6": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "46a67b872922618908bc34f9dca0c6f967c3fb43",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.node.K1.7": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "0e0617ed889908e5aa3d8750c8a85d8de118011a",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.node.P1.4": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "b2e854e14c6ff3b47012e52ea789c8ab627a9139",
+   "score": 2.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.node.P1.8": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "37b6dffe75239b080b05ef95a30607c6fb2de5bd",
+   "score": 201.9,
+   "flags": [
+    "dur",
+    "pause"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.node.P2.5": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "ef43b431836e56d0db1c38f9cd0f3c0b83d5a497",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.node.P2.8": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "3e9d0eccd26307485b5d9316ef2360b96065e289",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.num.100": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "612695f93f6f1fd3d5dc1ba656c19c9494ae9f5c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.121": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e253d8c15d397cacb3e241ad91ec99e7e3e8d14d",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.126": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6b05ac5e30c58ba09d1a34283137cc6c29eb4fc5",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.140": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "086ffce805eb834f5612c5335b7755080b3d9117",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.170": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "ce2fa9725879b170a1c1225713ba92637ed1b15e",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.186": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6e27383d2a3d389c577dc04e20831e5a4bece987",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.189": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "79540795c4040028a508a0cdba0443578df78747",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.25": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e5796222444cc2da41121277534b86f09f5bc00c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.308": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e07c398aba8811d55576fd82eac2fdfb84e3d719",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.392": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "42219224f437aa4f3b36bb12c0b12d384521b280",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.399": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e5b78bc7ddb1d9fabfd5e779a0fb475c18ec4777",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.54": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "9fa22972bef26b64eec81ee69926a5659e0a29e7",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.758": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "261230238aa4905269224028e5da196288c59fd1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.81": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "db49183e497defc519fe089d3224ed9a4d9be558",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.851": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "996fd69a4012af8b11a298491c36f29bc7eb65b2",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.num.930": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "674fc91e9214536be23e9b8ac26f17ec2351035e",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ok.first": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a446f76bdd3013cea7c2958d08995d78b39e53cd",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ok.rotate": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "9e96ed8cd8dde1444264a24fd41b7c6eb60d8cdd",
+   "score": 102.9,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.onb.go": {
+   "seed": 1238,
+   "base": 1234,
+   "sig": "80879d75975c0a94d8d9c06e93e3695a38767da5",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "mars.orbit.blind": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "27a091c2f1e826aaecb3f19758c7f647e0a77740",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.orbit.saturn": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fe4d2f2469838668f5c45cbb0e7f5a8f03c31682",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.balEq": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c7adcbefa2b7fdc3aeadd83058c23db1b5d2ea88",
+   "score": 2.5,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.balStill": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "fc9dda17702825c6cff51182b7b2d8d4c3d1901b",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.cmpArr": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "2b003fce896123ac9bef6f122e92e0faf8d4ca3c",
+   "score": 136.25,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.ord.compare": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "44967657c2129840bb4d6a82b3c67b51f02e693f",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.counterSet": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "2238740ae2805f2ed902400b3044ef9420cbfc0a",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.groupsTotal": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "dbbadfb92eebf67fc1f5eaef04513b3e3ec6a629",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.missing": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c838a6412fa4e6bb84bda379ace1d6c576d118f9",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.nlRead": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "faa2506ab1e6f023ab0280b910d2b37beedb77c0",
+   "score": 1.25,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.openZero": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "bd0781b01de0a8ed40c20b8eed109480570f2a7a",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.read": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "bdd71dc5443e53694f017cce9be241efc39bc917",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.ord.skip": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "43b2ffd0687594d002d76290cfae29eb431628e9",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.skipJump": {
+   "seed": 1238,
+   "base": 1234,
+   "sig": "6debe853c728da245260943f1afdcd72fa74ae68",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "mars.ord.step": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "f434c540de7ec5d276421f5726087ecd0f6f8a33",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.ord.vaultRead": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "5064d722a0b51043223280bbf1224b8c2861ed34",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.pet.gift": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "b90e758bda4fc6fc1f496813fcc56920288770ed",
+   "score": 105.6,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.pet.openGift": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "a087b81608f2d4a91aeeb02a12fe4aa1a3577db4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.pet.perform1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "c3acaa713b6bae6fb4a28904fe11ae31010d1b8c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.pet.switch": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "fbdedfbc7a83882e612ef0a714d3c86d8d807376",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "mars.pet.touch1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "229c1056ed4f25f1dce8bd4a893ffa27565cf14b",
+   "score": 101.0,
+   "flags": [
+    "cer(asr-homophone)",
+    "pause"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.planet.venus": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "730216c956df42fe5e70d8b9ecb8a15341f116f2",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.puz.pick": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "ea83fe8a9268f6df46c6bcc86e498b5355f3895a",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.race.deckBasic": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "32835d40438d239c8695f1a9d35820c3642a21e4",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.race.oops": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "22722d0e32a460253d99a269eb48a42b91684df7",
+   "score": 0.715,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.race.supply": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "ae1b40610d2beeb95daa1340db421680f9e98cfc",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.try.concat": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "b33749befbaee049ce17146e364e0f9b32a06c47",
+   "score": 0.555,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.try.gen": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "060d151a0b74a6f2f618d64d537bb1bdea043de1",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.try.rev": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "fdec9473dffb0259b48c41dabafa939a10741b75",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "mars.try.ten": {
+   "seed": 1238,
+   "base": 1234,
+   "sig": "58173f7191a78d7693e96a7aacc74193baba6223",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "mars.try.unit": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "6d06c2b54f3efcb38b2e086f8c796b6dc10b4d71",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.try.zero": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "4e1ee02e562a3b3097d981d01e0d5699e91c6656",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.u.xiang": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "2ebc324283976e9a89b96adc41ebb0484c963c4f",
+   "score": 5.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "mars.zone.balance": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "802c7539d5ec6e4843f55fef54669fe52fda967c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  }
+ }
+}

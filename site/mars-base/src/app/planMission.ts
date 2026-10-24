@@ -17,9 +17,9 @@ import { factKey } from '../families/shared/arith';
 
 export interface SlotPlan {
   kind: SlotKind; fam: string; band: number; ask?: string; knobs: Knobs; mode: Mode; level?: number; force?: GenCtx['force']; card?: CardId; certIdx?: number;
-  probeIdx?: number; typed?: boolean; node: string; explain?: boolean; newElement?: boolean; mainIdx?: number;
+  probeIdx?: number; typed?: boolean; node: string; explain?: boolean; newElement?: boolean; mainIdx?: number; checkRole?: 'O' | 'F' | 'R' | 'X' | 'C';
 }
-export interface MissionPlan { node: string; kind: 'node' | 'probe' | 'wall' | 'challenge'; slots: SlotPlan[]; seedBase: string; certCard?: CardId; /** 徽章墙 "一起验货": the cards verified in this one mission */ certCards?: CardId[]; certRole?: 'first' | 'recheck'; probeZone?: string }
+export interface MissionPlan { node: string; kind: 'node' | 'probe' | 'wall' | 'challenge' | 'check'; slots: SlotPlan[]; seedBase: string; awardEligible?: boolean; certCard?: CardId; /** 徽章墙 "一起验货": the cards verified in this one mission */ certCards?: CardId[]; certRole?: 'first' | 'recheck'; probeZone?: string }
 
 const KNOB_KEYS = ['L', 'anchors', 'near', 'variant', 'exclude', 'tol', 'n', 'mode', 'total', 'rule', 'panel', 'rep'] as const;
 export const knobsOf = (e: NodeItemDef): Knobs => { const k: Record<string, unknown> = {}; for (const key of KNOB_KEYS) if ((e as any)[key] !== undefined) k[key] = (e as any)[key]; return k as Knobs; };
@@ -157,10 +157,10 @@ export function dealItem(save: MarsSaveV5, plan: MissionPlan, idx: number, facts
   if (!matched && fresh) { out = fresh.out; key = fresh.key; }
   facts.add(key);
   const lastTag = f.tag ? readRecent(save).reverse().find((r) => r.tag === f.tag) : undefined;
-  const hands = slot.kind === 'main' && (rep === 'C' || level <= 1 || (!!slot.newElement && (slot.mainIdx ?? 9) < 2) || (lastTag && !lastTag.firstTry && MISCONCEPTION.has(lastTag.diag)) || !!slot.explain || (replay && (slot.mainIdx ?? 9) < 2));
+  const hands = (slot.kind === 'main' || slot.kind === 'check') && (rep === 'C' || level <= 1 || (!!slot.newElement && (slot.mainIdx ?? 9) < 2) || (lastTag && !lastTag.firstTry && MISCONCEPTION.has(lastTag.diag)) || !!slot.explain || (replay && (slot.mainIdx ?? 9) < 2));
   const item: Item = {
     key: `${plan.node}#${idx}${twin ? `t${twin}` : ''}`, fam: f.id, tag: f.tag, band: slot.band, level, rep, mode: slot.mode, ask, params: out!.params,
-    seed: rng.seed, slot: twin ? 'twin' : slot.kind, node: plan.node, typed: !!slot.typed, buildFirst: !!hands && f.buildable === true,
+    seed: rng.seed, slot: twin ? 'twin' : slot.kind, node: plan.node, typed: !!slot.typed, buildFirst: !!hands && f.buildable === true, checkRole: slot.checkRole,
     ...(slot.card ? { card: slot.card, certIdx: slot.certIdx } : {}), ...(slot.probeIdx !== undefined ? { probeIdx: slot.probeIdx } : {}),
   };
   return item;

@@ -60,12 +60,13 @@ export async function boot(page: Page, ti: TestInfo, o: { save?: Record<string, 
 export const resetSave = (page: Page): Promise<void> => page.evaluate((s) => (window as any).__mars.setSave(s), PLAY_SAVE);
 
 export async function startNode(page: Page, id: string): Promise<void> {
+  await page.waitForFunction(() => !(window as any).__mars.app.missionBusy, undefined, { timeout: 5000 });
   await page.evaluate((n) => (window as any).__mars.start(n), id);
   await page.waitForSelector('.mb-mission .mb-stage', { timeout: 8000 });
   await page.locator('.xg-skip[data-state="shown"]').first().click({ timeout: 700 }).catch(() => undefined);   // a first-time intro / tutorial (kit 跳过) sits above the screen
   await page.waitForFunction(() => (window as any).__mars.item(), undefined, { timeout: 8000 });
 }
-export const leaveMission = async (page: Page): Promise<void> => { await page.locator('.mb-map-btn').click({ timeout: 3000 }).catch(() => undefined); await page.waitForSelector('.mb-map', { timeout: 5000 }).catch(() => undefined); };
+export const leaveMission = async (page: Page): Promise<void> => { await page.locator('.mb-map-btn').click({ timeout: 3000 }).catch(() => undefined); await page.waitForSelector('.mb-map', { timeout: 5000 }); await page.waitForFunction(() => !(window as any).__mars.app.missionBusy, undefined, { timeout: 5000 }); };
 export const itemKey = (page: Page): Promise<string> => page.evaluate(() => { const i = (window as any).__mars.item(); return i ? `${i.fam}|${i.ask ?? ''}|${i.typed ? 'T' : ''}|${i.mode}` : ''; });
 
 // ------------------------------------------------------------------------------------------------ the DOM audit
@@ -119,6 +120,9 @@ export function auditDom(exp: AuditExp): string[] {
   const readout = document.querySelector('.tr-read');
   if (readout && shown(readout)) { const rr = rc(readout); document.querySelectorAll('.mb-stage button').forEach((b) => { if (!shown(b)) return; const r = rc(b); if (rr.left < r.right - 0.5 && r.left < rr.right - 0.5 && rr.top < r.bottom - 0.5 && r.top < rr.bottom - 0.5) out.push(`readout covers ${(b as HTMLElement).className.toString().split(' ')[0]}`); }); }
   if (sr) stage!.querySelectorAll('svg').forEach((s) => { if (!shown(s)) return; const r = rc(s); if (r.left < sr.left - 2 || r.top < sr.top - 2 || r.right > sr.right + 2 || r.bottom > sr.bottom + 2) out.push(`svg.${(s as SVGElement).getAttribute('class') ?? ''} sticks out of the stage`); });
+  if (sr) stage!.querySelectorAll('.ct-wrap .ct-name, .ct-wrap .ct-digit').forEach((e) => {
+    if (shown(e) && rc(e).bottom > sr.bottom - 8) out.push(`counter label clipped by the stage: ${(e as HTMLElement).textContent}`);
+  });
   // no scrolling anywhere
   const de = document.documentElement;
   if (de.scrollWidth > VW + 1 || de.scrollHeight > VH + 1) out.push(`page scrolls ${de.scrollWidth}×${de.scrollHeight} > ${VW}×${VH}`);

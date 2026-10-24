@@ -1,4 +1,4 @@
-/** QA fix-mars-r1 T3: a save labelled v5 whose data is structurally wrong never blanks the app (repair field by field, raw string quarantined). */
+/** A current-version save with damaged fields never blanks the app; its raw string is quarantined. */
 import { describe, expect, it } from 'vitest';
 import { createRng } from '@kit/rng';
 import { KEY, openSave } from '../src/save/store';
@@ -11,7 +11,7 @@ class Mem implements Storage {
   get length() { return this.m.size; } clear() { this.m.clear(); } getItem(k: string) { return this.m.get(k) ?? null; } key(i: number) { return [...this.m.keys()][i] ?? null; }
   removeItem(k: string) { this.m.delete(k); } setItem(k: string, v: string) { this.m.set(k, v); }
 }
-const put = (st: Storage, data: unknown, v = 5) => st.setItem(KEY, JSON.stringify({ v, updatedAt: 1, data }));
+const put = (st: Storage, data: unknown, v = 6) => st.setItem(KEY, JSON.stringify({ v, updatedAt: 1, data }));
 const usable = (s: any) => {   // everything App.start touches
   expect(typeof s.onboarded).toBe('boolean'); expect(typeof s.session.index).toBe('number'); expect(typeof s.nodes).toBe('object'); expect(s.nodes).not.toBeNull();
   expect(Array.isArray(s.recent)).toBe(true); expect(Array.isArray(s.visited)).toBe(true); expect(['none', 'lit', 'half']).toContain(s.cert.C1.state);
@@ -24,7 +24,7 @@ describe('T3 save repair', () => {
     const st = new Mem(); put(st, data);
     const h = openSave({ storage: st, now: () => 777, salt: 9 }); const s = h.load();
     usable(s);
-    expect(h.quarantined).toBe(`${KEY}:corrupt-777`); expect(st.getItem(`${KEY}:corrupt-777`)).toContain('"v":5');
+    expect(h.quarantined).toBe(`${KEY}:corrupt-777`); expect(st.getItem(`${KEY}:corrupt-777`)).toContain('"v":6');
     // the repaired save is what is stored now: loading again is clean and does not quarantine again
     const h2 = openSave({ storage: st, now: () => 888, salt: 9 }); usable(h2.load()); expect(h2.quarantined).toBeNull();
   });

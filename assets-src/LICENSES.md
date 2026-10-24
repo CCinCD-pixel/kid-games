@@ -21,6 +21,7 @@ fonts before subsetting) live in `assets-src/` and are never published.
 | kit/textures/hub-{portrait,landscape}.webp, scene-{portrait,landscape}.webp (paper-cut 星港 night port) | own work: assets-src/design-system/_src/hub_scene.mjs, rasterised offline (build_scenes.sh); hub backdrops rendered without a moon (the hub draws today's phase live) | project | — | design system, 2026-10-05 |
 | public/audio/hub/*.m4a (hub + companion greetings) | local TTS: Qwen3-TTS-12Hz 0.6B CustomVoice, mlx-community 8-bit conversion @049ef77f (voice "Vivian" + robot fx), built by tools/voice | Apache-2.0 (model); output project-owned | loudness-normalised, AAC 40 kbps mono | integration, 2026-10-05 |
 | charset list for the font subsets (not shipped) | 《通用规范汉字表》(2013) 一级字表, data file from github.com/shengdoushi/common-standard-chinese-characters-table | government standard (public); used as data only | — | design system, 2026-10-05 |
+| Star catalogue used to verify `site/memory-matrix/src/core/constellations.ts` (catalogue not shipped) | Astronexus HYG Database v4.1, `hyg/CURRENT/hygdata_v41.csv`, github.com/astronexus/HYG-Database | CC BY-SA 4.0; verification reference only | Corrected the factual RA for ζ² Sco; catalogue file remains outside the repo | memory-matrix verification, 2026-10-24 |
 
 ## Batch 1 games (merged 2026-10-07 from `site/<game>/LICENSES.part.md` — the part files keep the per-file detail)
 

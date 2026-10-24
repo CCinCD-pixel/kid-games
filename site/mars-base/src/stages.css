@@ -34,7 +34,7 @@
 .tr-bin .is-pop { animation: tr-pop .28s; } @keyframes tr-pop { 40% { transform: scale(1.06); } }
 
 /* ---------- counter ---------- */
-.ct-wrap { height: 100%; display: grid; grid-template-rows: auto 1fr; justify-items: center; gap: 4px; padding: 6px; }
+.ct-wrap { box-sizing: border-box; height: 100%; display: grid; grid-template-rows: auto 1fr; justify-items: center; gap: 4px; padding: 6px 6px 24px; }
 .ct-head { display: flex; align-items: center; gap: 12px; min-height: 8px; } .ct-read { font-family: var(--xg-font-title); font-size: clamp(22px, 5vh, 40px); color: var(--xg-ink-900); } .ct-say, .dc-say { min-width: 56px; min-height: 56px; padding: 0 14px; gap: 6px; }
 .ct { --bead: 22px; display: flex; gap: clamp(8px, 3vw, 28px); align-items: flex-end; justify-content: center; }
 .ct-lamp { display: grid; justify-items: center; gap: 4px; } .ct-lamp.is-lit svg { filter: none; transform: scale(1.1); transition: transform .3s; }
@@ -44,6 +44,12 @@
 .ct-bead { width: var(--bead); height: var(--bead); border-radius: 50%; background: var(--xg-paper-300); box-shadow: inset 0 0 0 2px var(--xg-paper-400); transition: background .15s; } .ct-bead.is-on { background: var(--xg-mars); box-shadow: inset 0 0 0 2px var(--xg-ink-800); }
 .ct-digit { display: inline-flex; align-items: baseline; gap: 3px; font-family: var(--xg-font-num); font-weight: 800; font-size: clamp(24px, 5.4vh, 44px); color: var(--xg-ink-900); line-height: 1; } .ct-name { font-size: 15px; color: var(--xg-text-2); font-weight: 700; }
 .ct-wrap.is-hinted .ct, .dc.is-hinted { outline: 3px dashed var(--xg-gold-500); outline-offset: 2px; border-radius: 16px; }
+@media (max-height: 430px) {
+  .ct-wrap--dictation { grid-template-columns: 110px minmax(0, 1fr); grid-template-rows: 1fr; align-items: center; gap: 2px; padding: 6px 8px 16px; }
+  .ct-wrap--dictation .ct-head { flex-direction: column; justify-content: center; gap: 6px; min-width: 0; }
+  .ct-wrap--dictation .ct-read { font-size: 22px; line-height: 1.1; text-align: center; }
+  .ct-wrap--dictation .ct { gap: 8px; width: 100%; }
+}
 .dc { height: 100%; display: grid; place-content: center; justify-items: center; gap: 12px; } .dc-read { font-family: var(--xg-font-title); font-size: clamp(26px, 6vh, 46px); } .dc-say b { font-size: 24px; }
 .oc { height: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; } .oc-rel { font-family: var(--xg-font-num); font-size: 44px; }
 

@@ -235,7 +235,7 @@ S0 开始门（kit）→ **S1 星图站**（背景是**星墙**：28 个暗星�
 - **确定性解锁**：一张卡要**同时**满足"里程碑"和"夜航门槛"。里程碑：入门＝该星区第一个**真回合**通过；D＝任一机翼的相对档首次 ≥N；门＝该相对档星门打开；夜航卡无里程碑。门槛＝`3j+6`（j＝`cards.mjs ORDER` 里的序号），即**每 3 个有效夜航最多放出一张**：强孩子每周也只收 ≈4 张（§11.4），不会几周见底；里程碑够而夜航数不够的卡**半亮**。20 张跟技能（每区：入门、D4、门5、D7、门10）、8 张只跟夜航；门 15 给仪器第 3 圈光。**卡永不收回**；每回合最多飞入 1 张（结果条之后），其余排到夜航收尾卡。
 - **星图站会长大**（评审：强孩子 3 周见底）：①**星墙**：28 个暗星位，每张卡亮一颗，星座卡在星旁淡画同一份连线；②**4 座建筑**：卡数到 7/14/21/28，天际线依次长出**天文圆顶、射电天线、灯塔、极光**（SVG 分组，淡入 1.8 s，`st.upgrade`）；③**仪器圈**：四个星区节点是四台小仪器，每开一道星门多一圈光，最多 3 圈（共 12 步，取代徽章）。全由 `cards` 与 `tracks` 推出，不另存。
 - **知识句**：`cards.json` 带 `source`、`signedBy`（空＝待爸爸核对，**发布 DoD**）；评审改了三句（流星"热得发光"、"银河系"、南十字座"主要在南半球"）。
-- **卡片画图**：8 个小函数 `constellation / planet / star / meteor / comet / mirror / galaxy / steps` 覆盖 29 张，**全由参数画 SVG，不手绘**。7 张星座卡的点来自**星表坐标**：`constellations.mjs` 存 RA/Dec（J2000，0.01°）→ gnomonic 投影 → 线稿；校验：星数、**两两距离比与真实角距偏差 ≤10%**、与 7 组独立文献角距（勺口 5.4°、勺全长 25.7°、参宿七–参宿四 18.6°、腰带 2.7°、南十字长轴 6.0°、仙后 W 13.4°、天鹅长轴 22.4°）差 ≤8%、星点不出卡不重叠。**坐标是作者凭记忆输入、只对过这 7 组值**；实现时必须用 HYG 星表（公共领域）核一遍（`HYG_CSV=… node constellations.mjs --verify`）并记入 `assets-src/LICENSES.md`。
+- **卡片画图**：8 个小函数 `constellation / planet / star / meteor / comet / mirror / galaxy / steps` 覆盖 29 张，**全由参数画 SVG，不手绘**。7 张星座卡的点来自**星表坐标**：`constellations.mjs` 存 RA/Dec（J2000，0.01°）→ gnomonic 投影 → 线稿；校验：星数、**两两距离比与真实角距偏差 ≤10%**、与 7 组独立文献角距（勺口 5.4°、勺全长 25.7°、参宿七–参宿四 18.6°、腰带 2.7°、南十字长轴 6.0°、仙后 W 13.4°、天鹅长轴 22.4°）差 ≤8%、星点不出卡不重叠。2026-10-24 用 HYG v4.1（CC BY-SA 4.0，仅作校验，数据文件不入库）复核全部星点，0 处不匹配；修正天蝎座 ζ² 的赤经，来源见 `assets-src/LICENSES.md`。
 - **元老卡**：旧键 `kid_games_memory_matrix_v2` 与快照 `kg:v1:legacy-memory-matrix` 只读不删，`veteran.mjs` 取最大值，通关 ≥1 关发卡（一次、不收回），**不换算档位**（爸爸 2026-10-12）；`selftest` 的 V 项是金标准。大厅进度行：`setHubProgress('memory-matrix', { label: '星图册 n/28', value: n/28 })`。**不做**：连签、货币/商店、抽卡、排行榜、倒计时、"明天再来"、失败扣进度、速度星。
 
 ## 9. 美术、动画、音频、旁白
@@ -328,7 +328,7 @@ tests/memory-matrix/  golden/{gen-50seeds,controller-traces,veteran-cases}.json 
 
 ## 13. 爸爸待办（dad-to-do，不阻塞构建；发布前清单）
 1. **签知识句**：`content/memory-matrix/cards.json` 29 张卡的 `signedBy` 现在全空（发布 DoD）；改完字句要重跑 narration 与 `check-content`。
-2. **HYG 星表核对**：`HYG_CSV=<hygdata_v3.csv> node tools/memory-matrix/proto/constellations.mjs --verify`，通过后在 `assets-src/LICENSES.md` 记一行 HYG（公共领域）。7 张星座卡的坐标至今只对过 7 组文献角距。
+2. **HYG 星表核对**：已用 HYG v4.1 运行 `HYG_CSV=<hygdata_v41.csv> node tools/memory-matrix/proto/constellations.mjs --verify`，0 处不匹配；许可证和来源记于 `assets-src/LICENSES.md`，星表文件不随游戏发布。
 3. **课标核对**：轴对称（二下 / 四下）与旋转（五下）的年级目录（§1）。
 4. **10 分钟镜像探针**（§4）：3 个左右 + 3 个上下，做对 <2/3 则先不开照镜子。
 5. **iPad 真机**：主屏 App 横竖各玩两个星区；**连续玩 30–60 分钟**（页面有两块全屏 canvas，WebKit 自动化里 ~70 次会话出过 2 次「Target crashed」，没能复现，见附录 C 的结论）；手机横屏 844×390 / 667×375 看一遍结果条和夜航卡。
@@ -393,4 +393,4 @@ s4.primer|先跟着影子点一点。
 | 13 条旁白未接线、没有新规则演示 | §7 v1.2；`core.test.ts` 断言 lines.json 每条都被页面引用 |
 | 首张卡太小、追流星板太淡、「≥」「夜航满数」「桥」、SE/iPhone13 版式、iPad 右栏空隙、首轮精灵图卡顿 | 大卡片翻入、更大更亮的天空星、孩子语言、版式、动作条锚在栏底、精灵图分片在站里预热 |
 | 「Target crashed」 | 未能复现（见爸爸待办 5）；已缓解：板 destroy 时把 canvas 缩到 0、精灵图预热在站里分片做；需要真机浸泡 |
-| 未做（按任务） | 旁白音频、place/图标/经典角、卡片签字、HYG 核对（§13） |
+| 未做（按任务） | 旁白音频、卡片签字；place/图标/星表复核已完成（2026-10-24） |

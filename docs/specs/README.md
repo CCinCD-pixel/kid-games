@@ -18,6 +18,6 @@ the spec.
 | [military-chess.md](military-chess.md) | 陆战棋 (`military-chess`, standard rules, rebuilt in place) | 基地 | v1.0 |
 | [snake-battle.md](snake-battle.md) | 贪吃蛇大作战 (`snake-battle`) | 游乐场 | v1 |
 | [emoji-match.md](emoji-match.md) | 星晶消消乐 (`emoji-match`) | 游乐场 | v1 |
-| [memory-matrix.md](memory-matrix.md) | 记忆方块 (frozen; folds into 月宫 M4) | 经典角 | transition note |
+| [memory-matrix.md](memory-matrix.md) | 星图记忆站 (`memory-matrix`, rebuilt in place) | 基地 | v1.2 |
 | — | 棋手学院 (`chess`) | 基地 | **missing**: the spec run stopped at the session limit; drafts in `~/kid-games-work/specs/chess-parts/` |
 | — | 机关守城 lane defense (`gear-fort`) | 游乐场 | **missing**: the spec run stopped at the session limit; simulator/level tools in `~/kid-games-work/specs/lane-defense-tools/` (folder id `gear-fort` taken from there) |

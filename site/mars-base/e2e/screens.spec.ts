@@ -31,6 +31,13 @@ function auditScreen(arg: { scrolls: boolean; insets: { t: number; r: number; b:
   }
   const de = document.documentElement; if (de.scrollWidth > VW + 1) out.push(`page scrolls sideways ${de.scrollWidth} > ${VW}`); if (!arg.scrolls && de.scrollHeight > VH + 1) out.push(`page scrolls ${de.scrollHeight} > ${VH}`);
   document.querySelectorAll('.mb-ch-title, .mb-map-title, .mb-site-name, .mb-plaque b, .mb-go-sub').forEach((e) => { const h = e as HTMLElement; if (shown(h) && h.scrollWidth > h.clientWidth + 1 && getComputedStyle(h).display !== 'inline') out.push(`text cut ${name(h)} "${(h.textContent ?? '').slice(0, 12)}"`); });
+  document.querySelectorAll('.mb-chapter .xg-node > span:not(.xg-node__stars)').forEach((label) => {
+    const node = label.parentElement!; const a = label.getBoundingClientRect(); const b = node.getBoundingClientRect();
+    const radius = Math.min(b.width, b.height) / 2;
+    if (label.scrollWidth > label.clientWidth + 1 || Math.hypot(a.width / 2, a.height / 2) > radius - 4 ||
+        Math.abs((a.left + a.right - b.left - b.right) / 2) > 1 || Math.abs((a.top + a.bottom - b.top - b.bottom) / 2) > 1)
+      out.push(`node label outside circle "${label.textContent ?? ''}"`);
+  });
   const kb = document.querySelector('.kit-back'); if (kb && shown(kb)) { const r = kb.getBoundingClientRect(); if (r.left < arg.insets.l - 1 || r.top < arg.insets.t - 1) out.push(`kit-back inside the unsafe inset ${Math.round(r.left)},${Math.round(r.top)} vs ${arg.insets.l},${arg.insets.t}`); }
   return out;
 }
@@ -38,6 +45,7 @@ function auditScreen(arg: { scrolls: boolean; insets: { t: number; r: number; b:
 test('map, chapter maps, 徽章站, 档案馆, 家长页: no overlap / off-screen / cut text', async ({ page }, ti) => {
   test.setTimeout(90_000);
   const w = await prepare(page); await boot(page, ti);
+  await page.locator('.kit-start').waitFor({ state: 'detached' });
   const insets = insetsOf(safeOf(ti)); const report: string[] = [];
   const check = async (label: string, scrolls = false) => { await page.waitForTimeout(350); const issues = await page.evaluate(auditScreen, { scrolls, insets }); if (issues.length) report.push(`${label}: ${[...new Set(issues)].join(' | ')}`); if (process.env.MARS_SHOTS !== '0') await page.screenshot({ path: shotPath(ti, `screen_${label}`) }).catch(() => undefined); };
   await check('map');

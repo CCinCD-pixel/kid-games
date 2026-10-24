@@ -10,7 +10,7 @@ export function createBoardStore<T>(gameId: string, def: BoardStoreDef<T>): Stor
   return {
     key: inner.key,
     load() { const v = inner.load(); if (def.isValid(v)) return v; console.warn(`[board-save] ${inner.key} 形状不合格，已回到默认值`); return def.defaults(); },
-    save: (d) => inner.save(d), reset: () => inner.reset(), envelope: () => inner.envelope(),
+    save: (d) => inner.save(d), reset: () => inner.reset(), envelope: () => inner.envelope(), subscribe: (listener) => inner.subscribe(listener),
     update(fn) { const cur = this.load(); const r = fn(cur); const next = (r === undefined ? cur : r) as T; inner.save(next); return next; },
   };
 }

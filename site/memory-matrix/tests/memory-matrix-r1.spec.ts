@@ -2,7 +2,10 @@
 //   A  layout contract: on 7 viewports every button of every screen is fully inside the screen, tappable (>= 44 px) and NOT covered (incl. by the subtitle bar)
 //   B  rules: double tap, reveal, gate look, leave and return, pointer cancel, long press, corrupt save, storage, demo skip, new-rule demo, card reveal
 import { expect, test, type Browser, type Page } from '@playwright/test';
+import path from 'node:path';
 import { instrument, shot, watch } from '../../../tests/smoke/helpers';
+
+const MUTE = path.resolve('tools/qa/mute-audio.js');
 
 const VP = {
   'ipad-portrait': { viewport: { width: 810, height: 1080 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, safe: '' },
@@ -20,6 +23,7 @@ type W = { __mm: any; __mmRound: any };   // eslint-disable-line @typescript-esl
 async function open(browser: Browser, name: VpName) {
   const { safe, ...rest } = VP[name]; void safe;
   const ctx = await browser.newContext({ ...rest, locale: 'zh-CN', timezoneId: 'Asia/Shanghai' });
+  await ctx.addInitScript({ path: MUTE });
   const page = await ctx.newPage(); await instrument(page);
   return { ctx, page, w: watch(page) };
 }
@@ -66,6 +70,7 @@ for (const name of Object.keys(VP) as VpName[]) {
         await mm(page, (m) => m.toAtlas()); await page.waitForTimeout(600); await say(page); expect(await reach(page), 'atlas').toEqual([]); await shot(page, name, 'r1-atlas');
         await page.locator('.mm-card').first().tap(); await page.waitForTimeout(400); expect(await reach(page, '.mm-modal button'), 'card detail').toEqual([]);
         expect(await page.evaluate(() => /≥|夜航满数/.test(document.body.innerText)), 'no parent jargon in the child UI').toBe(false); await shot(page, name, 'r1-card');
+        await page.locator('.mm-card-detail [data-act=close]').tap();
         await mm(page, (m) => m.toStation()); await page.waitForTimeout(500); await mm(page, (m) => m.showSettings()); await page.waitForTimeout(400); await say(page); expect(await reach(page, '.mm-modal button, .mm-modal input'), 'settings').toEqual([]);
         expect(w.errors, w.errors.join('\n')).toEqual([]);
       } finally { await ctx.close(); }
@@ -197,6 +202,7 @@ test.describe('rules (QA round 1)', () => {
   test('storage disabled (private window): the game plays from memory and the station tells the parent', async ({ browser }) => {
     const { safe, ...rest } = VP[P]; void safe;
     const ctx = await browser.newContext({ ...rest, locale: 'zh-CN' });
+    await ctx.addInitScript({ path: MUTE });
     const page = await ctx.newPage();
     try {
       await page.addInitScript(() => { Storage.prototype.setItem = () => { throw new DOMException('QuotaExceededError', 'QuotaExceededError'); }; });

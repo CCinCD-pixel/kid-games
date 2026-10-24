@@ -1,0 +1,55 @@
+{
+  "mission": 26,
+  "check": 16,
+  "retro": 12,
+  "foods": [
+    { "id": "bar", "name": "能量棒", "price": 10, "growth": 10, "level": 1 },
+    { "id": "crystal", "name": "晶糖", "price": 20, "growth": 22, "level": 1, "favorite": "dragon" },
+    { "id": "bolt", "name": "螺丝饼干", "price": 20, "growth": 22, "level": 1, "favorite": "rover" },
+    { "id": "berry", "name": "火星莓果", "price": 30, "growth": 36, "level": 2 },
+    { "id": "feast", "name": "星际大餐", "price": 50, "growth": 62, "level": 3 }
+  ],
+  "decor": [
+    { "id": "back.dusk", "name": "火星黄昏窗", "kind": "back", "theme": "home", "price": 0 },
+    { "id": "ground.steel", "name": "钢板地面", "kind": "ground", "theme": "home", "price": 0 },
+    { "id": "floor.nest", "name": "软软小窝", "kind": "floor", "theme": "home", "price": 0 },
+    { "id": "floor.crate", "name": "物资箱", "kind": "floor", "theme": "home", "price": 20 },
+    { "id": "wall.poster", "name": "太空海报", "kind": "wall", "theme": "home", "price": 20 },
+    { "id": "ceil.lamp", "name": "小吊灯", "kind": "ceil", "theme": "home", "price": 30 },
+    { "id": "wall.starmap", "name": "星图", "kind": "wall", "theme": "orbit", "price": 40 },
+    { "id": "floor.beacon", "name": "信标灯", "kind": "floor", "theme": "orbit", "price": 50 },
+    { "id": "ceil.comet", "name": "彗星吊饰", "kind": "ceil", "theme": "orbit", "price": 50 },
+    { "id": "feature.telescope", "name": "大望远镜", "kind": "feature", "theme": "orbit", "price": 180 },
+    { "id": "back.stars", "name": "观星夜空", "kind": "back", "theme": "orbit", "price": 90 },
+    { "id": "ground.deck", "name": "观测甲板", "kind": "ground", "theme": "orbit", "price": 70 },
+    { "id": "wall.crystallamp", "name": "晶洞壁灯", "kind": "wall", "theme": "vault", "price": 40 },
+    { "id": "floor.crystals", "name": "小晶簇", "kind": "floor", "theme": "vault", "price": 40 },
+    { "id": "ceil.stalactite", "name": "钟乳晶", "kind": "ceil", "theme": "vault", "price": 50 },
+    { "id": "feature.crystalL", "name": "巨型晶簇", "kind": "feature", "theme": "vault", "price": 180 },
+    { "id": "back.cave", "name": "晶洞深处", "kind": "back", "theme": "vault", "price": 90 },
+    { "id": "ground.crystal", "name": "晶体地面", "kind": "ground", "theme": "vault", "price": 70 },
+    { "id": "wall.tools", "name": "工具墙", "kind": "wall", "theme": "factory", "price": 40 },
+    { "id": "floor.gear", "name": "大齿轮", "kind": "floor", "theme": "factory", "price": 50 },
+    { "id": "ceil.gearmobile", "name": "齿轮挂饰", "kind": "ceil", "theme": "factory", "price": 50 },
+    { "id": "feature.arm", "name": "机械臂", "kind": "feature", "theme": "factory", "price": 200 },
+    { "id": "back.workshop", "name": "工坊内景", "kind": "back", "theme": "factory", "price": 90 },
+    { "id": "ground.belt", "name": "传送带地面", "kind": "ground", "theme": "factory", "price": 70 }
+  ],
+  "hat": { "id": "hat.explorer", "name": "探险帽", "price": 40 },
+  "paints": [
+    { "id": "paint.rover.copper", "name": "赤铜装甲", "price": 40 },
+    { "id": "paint.rover.jade", "name": "青玉装甲", "price": 40 },
+    { "id": "paint.dragon.amber", "name": "琥珀晶鳞", "price": 40 },
+    { "id": "paint.dragon.silver", "name": "银白晶鳞", "price": 40 }
+  ],
+  "lights": [
+    { "id": "light.sunset", "name": "火星晚霞", "price": 30 },
+    { "id": "light.starry", "name": "观星夜灯", "price": 30 },
+    { "id": "light.jade", "name": "晶洞微光", "price": 30 },
+    { "id": "light.warm", "name": "工坊暖灯", "price": 30 }
+  ],
+  "festivals": [
+    { "id": "meteor", "name": "流星雨", "price": 20 },
+    { "id": "fireworks", "name": "烟花", "price": 30 }
+  ]
+}

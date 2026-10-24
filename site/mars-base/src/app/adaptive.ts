@@ -45,12 +45,14 @@ export function isMastered(ts: TagState): boolean {
   return w.length >= MASTERY_MIN && [...w].filter((c) => c === '1').length / w.length >= MASTERY_FRAC && ts.tailNoHint >= 3;
 }
 const pushWindow = (ts: TagState, ok: boolean) => { ts.window = (ts.window + (ok ? '1' : '0')).slice(-MASTERY_WINDOW); };
+const calendarDay = (at: number): number => Math.floor(at / 86_400_000);
 
 /** A main-topic item delivered: ladder + window + mastery + log. `assisted` items (H3) never move the ladder or mastery. */
 export function recordMain(save: MarsSaveV5, r: ItemResult, visit: number): void {
   pushRecent(save, r, visit);
   if (!r.tag || r.assisted) return;
   const ts = tagState(save, r.tag);
+  ts.lastAt = r.at;
   const ok = r.firstTry;
   pushWindow(ts, ok);
   ts.tailNoHint = r.hint > 0 ? 0 : Math.min(3, ts.tailNoHint + 1);
@@ -63,7 +65,7 @@ export function recordMain(save: MarsSaveV5, r: ItemResult, visit: number): void
   }
   if (ts.repDown > 0 && ok) ts.repDown--;
   ts.fam = r.fam; ts.node = r.node;
-  if (!ts.mastered && isMastered(ts)) { ts.mastered = true; ts.reviews = REVIEW_OFFSETS.map((o) => visit + o); }
+  if (!ts.mastered && isMastered(ts)) { ts.mastered = true; ts.reviews = REVIEW_OFFSETS.map((o) => visit + o); ts.reviewAt = REVIEW_OFFSETS.map((o) => calendarDay(r.at) + o); }
 }
 
 /** A warm-up delivered (review / prerequisite / other-zone): window + review table; the ladder level never moves. */
@@ -71,17 +73,20 @@ export function recordWarm(save: MarsSaveV5, r: ItemResult, visit: number): void
   pushRecent(save, r, visit);
   if (!r.tag || r.assisted) return;
   const ts = tagState(save, r.tag);
+  ts.lastAt = r.at;
   pushWindow(ts, r.firstTry);
   ts.tailNoHint = r.hint > 0 ? 0 : Math.min(3, ts.tailNoHint + 1);
-  if (!r.firstTry) { ts.shaky = true; ts.shakyOk = 0; ts.reviews = [visit + 1, visit + 3]; }
+  if (!r.firstTry) { ts.shaky = true; ts.shakyOk = 0; ts.reviews = [visit + 1, visit + 3]; ts.reviewAt = [calendarDay(r.at) + 1, calendarDay(r.at) + 3]; }
   else {
     if (ts.mastered && ts.reviews.length && ts.reviews[0] <= visit) ts.reviews.shift();
+    if (ts.mastered && ts.reviewAt?.length && ts.reviewAt[0] <= calendarDay(r.at)) ts.reviewAt.shift();
     if (ts.shaky) { ts.shakyOk = (ts.shakyOk ?? 0) + 1; if (ts.shakyOk >= 2) { ts.shaky = false; ts.shakyOk = 0; } }
   }
 }
 /** Tags with a review due this visit (mastered tags only; shaky ones are due at their rescheduled visit). */
 export function dueTags(save: MarsSaveV5, visit: number): string[] {
-  return Object.entries(save.tags).filter(([, t]) => (t.mastered || t.shaky) && t.reviews.length > 0 && t.reviews[0] <= visit).map(([k]) => k);
+  const day = calendarDay(save.session.lastActiveAt);
+  return Object.entries(save.tags).filter(([, t]) => (t.mastered || t.shaky) && (save.session.lastActiveAt >= 1_000_000_000_000 && t.reviewAt?.length ? t.reviewAt[0] <= day : t.reviews.length > 0 && t.reviews[0] <= visit)).map(([k]) => k);
 }
 export const tagOfFam = (fam: string): string | null => META[fam]?.tag ?? null;
 

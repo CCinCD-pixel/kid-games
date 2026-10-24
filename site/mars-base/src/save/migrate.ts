@@ -1,5 +1,7 @@
-/** Save migrations (spec §8.5). Table-driven: `migrateTo5(old, from)` is the ONLY function the kit store calls (once) and returns the v5 shape. */
+/** Save migrations. The v5 to v6 step adds independent coin awards without changing learning progress. */
 import { defaultSave, nodeState, type MarsSaveV5 } from './schema';
+import { NODE_BY_ID } from '../app/content';
+import { repairSave } from './repair';
 
 /** The v4 shape written by the first rebuild's orbit/cert/addition/subtraction areas. */
 export interface SaveV4 {
@@ -38,4 +40,16 @@ export function v4ToV5(v4: SaveV4, salt: number): MarsSaveV5 {
 export function migrateTo5(old: unknown, from: number, salt: number): MarsSaveV5 {
   if (from >= 5) return old as MarsSaveV5;
   return v4ToV5(toV4(old, from), salt);
+}
+export function migrateTo6(old: unknown, from: number, salt: number): MarsSaveV5 {
+  const save = repairSave(migrateTo5(old, from, salt), salt).save;
+  if (from >= 6) return save;
+  const pending = Object.entries(save.nodes ?? {}).flatMap(([id, state]) => {
+    const node = NODE_BY_ID[id];
+    return state?.st === 'done' && node && node.kind !== 'calib' && node.kind !== 'breather'
+      ? [{ id: `retro:node:${id}`, kind: 'grant' as const, amount: 12, src: 'retro', ref: id }] : [];
+  });
+  save.eco = { retro: true, pending };
+  save.daily = { runSeq: 0, run: null, lastFT: 0, recent: [] };
+  return save;
 }

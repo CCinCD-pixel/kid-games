@@ -16,6 +16,8 @@
  * never delete a legacy key (old pages still read them). Big blobs (drawings, recordings) go to
  * IndexedDB, not here.
  */
+import { ECONOMY_KEY, mergeEconomy, normalizeEconomy } from './economy/data';
+import { applyInbox, reconcile, resetSynced, type SyncOption } from './sync/sidecar';
 
 export const NAMESPACE = 'kg:v1:';
 
@@ -37,6 +39,7 @@ export interface StoreOptions<T> {
   storage?: Storage;
   /** Clock injection for tests. */
   now?: () => number;
+  sync?: SyncOption<T>;
 }
 
 export interface Store<T> {
@@ -49,6 +52,7 @@ export interface Store<T> {
   reset(): void;
   /** Raw envelope (or null) — for debugging and the parent page. */
   envelope(): StoredEnvelope<T> | null;
+  subscribe(listener: () => void): () => void;
 }
 
 function defaultStorage(): Storage | undefined {
@@ -78,6 +82,7 @@ export function createStore<T>(game: string, opts: StoreOptions<T>): Store<T> {
   const key = storeKey(game);
   const storage = () => opts.storage ?? defaultStorage();
   const now = opts.now ?? Date.now;
+  const listeners = new Set<() => void>();
 
   const write = (data: T): boolean => {
     const s = storage();
@@ -98,7 +103,7 @@ export function createStore<T>(game: string, opts: StoreOptions<T>): Store<T> {
     return env;
   };
 
-  const load = (): T => {
+  const loadRaw = (): T => {
     const env = readEnvelope();
     if (env) {
       if (env.v === opts.version) return env.data as T;
@@ -133,15 +138,29 @@ export function createStore<T>(game: string, opts: StoreOptions<T>): Store<T> {
     return opts.defaults();
   };
 
+  const load = (): T => {
+    const current = loadRaw();
+    const s = storage();
+    if (!s || !opts.sync) return current;
+    try { return applyInbox(s, game, opts.version, opts.defaults, current, opts.sync, write); }
+    catch { return current; }
+  };
+
   return {
     key,
     load,
-    save: write,
+    save(data) {
+      const s = storage();
+      if (s && opts.sync) reconcile(s, game, loadRaw());
+      const ok = write(data);
+      if (ok) for (const listener of listeners) listener();
+      return ok;
+    },
     update(fn) {
       const current = load();
       const result = fn(current);
       const next = (result === undefined ? current : result) as T;
-      write(next);
+      if (write(next)) for (const listener of listeners) listener();
       return next;
     },
     reset() {
@@ -149,7 +168,16 @@ export function createStore<T>(game: string, opts: StoreOptions<T>): Store<T> {
         // a stale page (older build) must not wipe a save written by a newer build
         const env = readEnvelope();
         if (env && env.v > opts.version) return;
+        if (opts.sync) {
+          const s = storage();
+          if (s) {
+            reconcile(s, game, loadRaw());
+            if (resetSynced(s, game, opts.version, opts.defaults, opts.sync, write)) for (const listener of listeners) listener();
+          }
+          return;
+        }
         storage()?.removeItem(key);
+        for (const listener of listeners) listener();
       } catch {
         /* ignore */
       }
@@ -158,6 +186,7 @@ export function createStore<T>(game: string, opts: StoreOptions<T>): Store<T> {
       const env = readEnvelope();
       return env && env.v === opts.version ? (env as StoredEnvelope<T>) : null;
     },
+    subscribe(listener) { listeners.add(listener); return () => { listeners.delete(listener); }; },
   };
 }
 
@@ -305,7 +334,7 @@ export interface ProgressExport {
   entries: Record<string, string>;
 }
 
-const exportable = (key: string) => key.startsWith('kg:') || (Object.values(LEGACY_KEYS) as string[]).includes(key);
+const exportable = (key: string) => (key.startsWith('kg:') && key !== 'kg:clock:v1' && !key.startsWith('kg:sync:')) || (Object.values(LEGACY_KEYS) as string[]).includes(key);
 
 export function exportProgress(storage: Storage | undefined = defaultStorage()): ProgressExport {
   const entries: Record<string, string> = {};
@@ -337,6 +366,16 @@ export function importProgress(bundle: unknown, opts: { overwrite?: boolean; sto
   for (const [key, value] of Object.entries(bundle.entries)) {
     if (!exportable(key) || typeof value !== 'string') continue;
     const existing = storage.getItem(key);
+    if (key === ECONOMY_KEY) {
+      let incoming: unknown;
+      try { incoming = JSON.parse(value); } catch { opts.skipped?.push(key); continue; }
+      if (!isObj(incoming) || incoming.v !== 1) { opts.skipped?.push(key); continue; }
+      const current = safeParse(existing);
+      const merged = mergeEconomy(normalizeEconomy(current), normalizeEconomy(incoming));
+      storage.setItem(key, JSON.stringify(merged));
+      n += 1;
+      continue;
+    }
     if (opts.overwrite === false && existing !== null) continue;
     if (existing !== null && key.startsWith(NAMESPACE)) {
       const have = envelopeVersion(existing);

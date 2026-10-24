@@ -5,7 +5,7 @@ export type ZoneId = 'orbit' | 'cert' | 'vault' | 'factory' | 'balance' | 'puzzl
 export type CardId = 'C1' | 'C2' | 'C3';
 /** Item-machine mode: `normal` = hint ladder + retries; the other three = one attempt, deferred feedback, no hints/demos. */
 export type Mode = 'normal' | 'cert' | 'probe' | 'calib';
-export type SlotKind = 'main' | 'warm' | 'cert' | 'probe' | 'twin';
+export type SlotKind = 'main' | 'warm' | 'cert' | 'probe' | 'twin' | 'check';
 /** C = concrete (must build), P = pictorial, A = abstract (symbols). */
 export type Rep = 'C' | 'P' | 'A';
 
@@ -62,12 +62,12 @@ export type FamilyDef<P = any> = FamilyMeta & FamilyImpl<P> & { oracle(p: P, ask
 
 export interface Item {
   key: string; fam: string; tag: string | null; band: number; level: number; rep: Rep; mode: Mode; ask?: string;
-  params: unknown; seed: number; slot?: SlotKind; node?: string; typed?: boolean; buildFirst?: boolean;
+  params: unknown; seed: number; slot?: SlotKind; node?: string; typed?: boolean; buildFirst?: boolean; checkRole?: 'O' | 'F' | 'R' | 'X' | 'C';
   /** cert items: the card + which of the 4/6 */ card?: CardId; certIdx?: number; probeIdx?: number;
 }
 export interface ItemResult {
   keyHash: string; fam: string; tag: string | null; level: number; firstTry: boolean; misses: number; hint: number;
-  diag?: DiagClass; assisted?: boolean; slot: SlotKind; at: number; node: string; ok?: boolean; ops?: number;
+  diag?: DiagClass; assisted?: boolean; slot: SlotKind; at: number; node: string; ok?: boolean; ops?: number; ms?: number;
 }
 
 export interface NodeItemDef extends Knobs { fam: string; count: number; band?: number; ask?: string }

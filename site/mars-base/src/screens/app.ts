@@ -4,7 +4,9 @@ import { sound } from '@kit/ui';
 import { mount as mountCompanion, type Companion } from '@kit/companion';
 import type { Narrator } from '@kit/narration';
 import { currentLayout, type LayoutInfo, type Shell } from '@kit/shell';
+import { getSettings } from '@kit/settings';
 import { setHubProgress } from '@kit/progress';
+import { Economy } from '@kit/economy';
 import { mountNumberLine } from '@engines/manip/numberline';
 import type { MarsSaveV5 } from '../save/schema';
 import type { SaveHandle } from '../save/store';
@@ -20,9 +22,10 @@ import { SITE_NAME, buildingSvg, landerSvg, plotSvg, sceneSvg, type SiteId } fro
 import { lineTable, lineText } from '../voice/lines';
 import { speakLine } from '../voice/compose';
 import { playMission } from './mission';
-import { orbitChart, showArchive, showBadges, showBuild, showFirstLight, showParent } from './extra';
 import cardsJson from '../../../../content/mars-base/cards.json';
 import { updateBase, type SiteKey } from '../app/base';
+import { canCheck } from '../app/daily';
+import { readStarActivity, StarPetActivity } from '../app/starPetActivity';
 import type { MachineState } from '../app/itemMachine';
 import type { Item } from '../app/types';
 
@@ -36,6 +39,7 @@ const WAIT_TEXT: Partial<Record<SiteId, string>> = { balance: '称重台：工�
 const SITES: { id: SiteId; zone: ZoneId | null }[] = [
   { id: 'orbit', zone: 'orbit' }, { id: 'cert', zone: 'cert' }, { id: 'vault', zone: 'vault' }, { id: 'factory', zone: 'factory' },
   { id: 'balance', zone: 'balance' }, { id: 'puzzle', zone: 'puzzle' }, { id: 'race', zone: null }, { id: 'archive', zone: null },
+  { id: 'pets', zone: null },
 ];
 
 /**
@@ -58,19 +62,33 @@ export function chapterBox(w: number, h: number, n: number, size: number): { w: 
 
 export class App {
   streak = 0; metrics: { refresh(): boolean } | null = null; private layoutCbs = new Set<() => void>(); private bot: Companion | null = null;
+  economy = new Economy(); unsaved = false;
+  readonly activity = new StarPetActivity();
+  private missionBusy = false;
+  private petsOpening = false;
+  private extraOpening = false;
   constructor(public save: MarsSaveV5, public handle: SaveHandle, public shell: Shell, public narrator: Narrator, private root: HTMLElement) {
     shell.on('layout', () => this.layoutCbs.forEach((f) => f()));
-    document.addEventListener('visibilitychange', () => { if (document.hidden) this.saveNow(); });
+    document.addEventListener('visibilitychange', () => { this.activity.setVisible(!document.hidden); if (document.hidden) this.saveNow(); });
   }
   layoutInfo(): LayoutInfo { return currentLayout(); }
   vp(): Viewport { const l = currentLayout(); return vpOf(l.width, l.height); }
   /** returns the disposer: a screen that is gone must not stay referenced by the layout callbacks (soak gate) */
   onLayout(cb: () => void): () => void { this.layoutCbs.add(cb); return () => { this.layoutCbs.delete(cb); }; }
-  saveNow(): void { this.handle.save(this.save); this.syncHub(); }
+  saveNow(): void {
+    if (!this.handle.save(this.save)) { this.unsaved = true; return; }
+    const done = this.economy.flush(this.save.eco.pending);
+    if (done.length) {
+      this.save.eco.pending = this.save.eco.pending.filter((p) => !done.includes(p.id));
+      if (!this.handle.save(this.save)) { this.unsaved = true; return; }
+    }
+    this.unsaved = this.economy.unsaved;
+    this.syncHub();
+  }
   private bots = new Set<Companion>();
   /** The kit robot blinks on a self-rescheduling timer until destroy(): every screen that is replaced must destroy its robot, or each map / mission leaves a blinking, retained copy behind (soak gate). */
   private track(bot: Companion): Companion { this.bots.add(bot); return bot; }
-  screen(node: HTMLElement, theme: 'night' | 'day' = 'night'): void { for (const b of this.bots) b.destroy(); this.bots.clear(); if (theme === 'night') document.body.dataset.xgTheme = 'night'; else delete document.body.dataset.xgTheme; this.root.replaceChildren(node); }
+  screen(node: HTMLElement, theme: 'night' | 'day' = 'night'): void { for (const b of this.bots) b.destroy(); this.bots.clear(); if (theme === 'night') document.body.dataset.xgTheme = 'night'; else delete document.body.dataset.xgTheme; this.root.replaceChildren(node); this.activity.setMode(node.classList.contains('mb-pets') ? 'pet' : node.classList.contains('mb-mission') ? 'mission' : 'idle'); }
   sfx(name: string): void { sound(name as never); }
   mountBot(host: HTMLElement, size: number): Companion { return this.track(mountCompanion(host, { size, variant: 'head', sfx: undefined })); }
   /** Show a line on the 通讯条 (always) and speak it (clip when the manifest has it, else the speech fallback). */
@@ -78,6 +96,15 @@ export class App {
     const text = lineText(id, vars); if (!text) return;
     if (ui) ui.commText.textContent = text;
     bot?.react?.('hop'); speakLine(this.narrator, lineTable(), id, vars, { interrupt: true });   // own clip, else fragment + number clips, else one speech-fallback utterance (voice/compose.ts)
+  }
+  async sayAndWait(bot: Companion | null, ui: { commText: HTMLElement }, id: string): Promise<void> {
+    const text = lineText(id); if (!text) return;
+    ui.commText.textContent = text;
+    bot?.react?.('hop');
+    if (!getSettings().narration) return;
+    await this.narrator.ready();
+    if (!ui.commText.isConnected) return;
+    await this.narrator.say(this.narrator.has(id) ? id : text, { interrupt: true });
   }
   praiseFor(state: MachineState, item: Item): string {
     if (state.firstTry && this.streak === 3) return 'mars.ok.streak3'; if (state.firstTry && this.streak === 6) return 'mars.ok.streak6';
@@ -92,14 +119,45 @@ export class App {
 
   // ---- flow -----------------------------------------------------------------------------------------------------------------
   async start(): Promise<void> {
+    this.activity.begin();
     beginVisit(this.save, Date.now()); updateBase(this.save); this.saveNow();
     if (!this.save.onboarded) await this.onboard();
     this.goMap();
   }
   goMap(): void { this.showMap(); }
+  async openPets(): Promise<void> {
+    if (this.petsOpening) return;
+    this.petsOpening = true;
+    const from = this.root.firstElementChild;
+    try {
+      const { showPets } = await import('./pets');
+      if (this.root.firstElementChild === from) showPets(this);
+    } catch {
+      if (this.root.firstElementChild === from) {
+        const toast = this.root.querySelector<HTMLElement>('.mb-map-toast');
+        if (toast) { toast.textContent = '宠物舱暂时没打开，请再试一次。'; toast.classList.add('is-on'); }
+      }
+    } finally {
+      this.petsOpening = false;
+    }
+  }
+  private async openExtra(view: 'parent' | 'badges' | 'archive'): Promise<void> {
+    if (this.extraOpening) return;
+    this.extraOpening = true;
+    const from = this.root.firstElementChild;
+    try {
+      const extra = await import('./extra');
+      if (this.root.firstElementChild !== from) return;
+      if (view === 'parent') void extra.showParent(this);
+      else if (view === 'badges') extra.showBadges(this);
+      else extra.showArchive(this);
+    } finally {
+      this.extraOpening = false;
+    }
+  }
 
   /** A mission the child left (reload, killed home-screen app, 回地图) and can pick up again: 开始任务 resumes it before anything else is recommended. */
-  pendingMission(): { kind: 'node' | 'probe' | 'wall' | 'challenge'; node: string } | null {
+  pendingMission(): { kind: 'node' | 'probe' | 'wall' | 'challenge' | 'check'; node: string } | null {
     const m = this.save.mission; if (!m?.plan) return null;
     if (m.kind === 'node' && !NODE_BY_ID[m.node]) return null;
     return { kind: m.kind, node: m.node };
@@ -107,11 +165,16 @@ export class App {
   async resumePending(): Promise<void> {
     const p = this.pendingMission(); if (!p) return this.goMap();
     if (p.kind === 'wall') return this.runWall();
+    if (p.kind === 'check') return this.runCheck();
     if (p.kind === 'challenge') return this.runChallenge();
     if (p.kind === 'probe') { const zone = (this.save.mission?.plan?.probeZone ?? p.node.replace(/^probe\./, '')) as ZoneId; const n = nextNodeFor(this.save, zone) ?? NODE_BY_ID[MAIN_ORDER[zone][0]]; return this.runNode(n.id); }
     return this.runNode(p.node, true);
   }
   async runNode(nodeId: string, resume = false): Promise<void> {
+    if (this.missionBusy) return;
+    this.missionBusy = true;
+    try {
+    if (!resume) this.activity.mission(this.save.nodes[nodeId]?.st === 'done');
     const node = NODE_BY_ID[nodeId]; const zone = zoneOfNode(node); let id = nodeId; let noWarm = false;
     if (!resume && PROBES[zone] && !this.save.probes[zone as 'vault']?.done && node.kind !== 'calib') {
       const s = await playMission(this, { nodeId, probe: true }); if (!s) return this.goMap();
@@ -119,41 +182,62 @@ export class App {
     }
     const sum = await playMission(this, { nodeId: id, noWarm });
     if (!sum) return;
-    await this.wrap(sum); this.goMap();
+    const destination = await this.wrap(sum); if (destination === 'pets') this.openPets(); else this.goMap();
+    } finally { this.missionBusy = false; }
   }
 
   /** 挑战订单: nine orders mixed from what has been learned (app/challenge.ts), the same runner / hint ladder, no parts, no coins. */
   async runChallenge(): Promise<void> {
+    if (this.missionBusy) return;
+    this.missionBusy = true;
+    try {
     const sum = await playMission(this, { nodeId: 'challenge', challenge: true });
     if (!sum) return;
-    await this.wrap(sum); this.goMap();
+    const destination = await this.wrap(sum); if (destination === 'pets') this.openPets(); else this.goMap();
+    } finally { this.missionBusy = false; }
+  }
+  async runCheck(): Promise<void> {
+    const pending = this.pendingMission();
+    if (this.missionBusy || (pending ? pending.kind !== 'check' : !canCheck(this.save))) return;
+    this.missionBusy = true;
+    try {
+      const sum = await playMission(this, { nodeId: 'check', check: true });
+      if (!sum) return;
+      const destination = await this.wrap(sum); if (destination === 'pets') this.openPets(); else this.goMap();
+    } finally { this.missionBusy = false; }
   }
 
   /** 徽章墙 "一起验货": every card that is not lit, in one go (4 items per card, one attempt each, no per-item verdict). */
   async runWall(): Promise<void> {
+    if (this.missionBusy) return;
+    this.missionBusy = true;
+    try {
     const cards = CARDS.filter((c) => this.save.cert[c].state !== 'lit'); if (!cards.length) { if (this.save.mission?.kind === 'wall') { this.save.mission = null; this.saveNow(); } return this.goMap(); }
     const sum = await playMission(this, { nodeId: 'cert.wall', wall: cards });
     if (!sum) return;
-    await this.wrap(sum); this.goMap();
+    const destination = await this.wrap(sum); if (destination === 'pets') this.openPets(); else this.goMap();
+    } finally { this.missionBusy = false; }
   }
 
-  private async wrap(sum: EndSummary): Promise<void> {
+  private async wrap(sum: EndSummary): Promise<'map' | 'pets'> {
+    const { orbitChart, showBuild } = await import('./extra');
     const o = sum.outcome; const lines: string[] = []; const ch = sum.challenge;
+    if (sum.check) lines.push('检修完成，货车送达。');
     for (const c of sum.certs ?? []) lines.push(c.outcome.state === 'lit' ? lineText(`mars.cert.lit.${c.card}`) : c.outcome.state === 'half' ? lineText('mars.cert.half.1') : lineText('mars.cert.more'));
     if (sum.cert) lines.push(sum.cert.outcome.state === 'lit' ? lineText(`mars.cert.lit.${sum.cert.card}`) : sum.cert.outcome.state === 'half' ? lineText('mars.cert.half.1') : lineText('mars.cert.more'));
     if (sum.calibration) lines.push(lineText('mars.orbit.calibDone'));
     if (ch) lines.push(lineText('mars.chal.done'));
     // calibration / 一起验货 / 挑战订单 are not star-rated nodes: a star row that stays empty reads as "0 stars = failed" — only real node results show stars
     const rated = !ch && !!sum.node && sum.node.kind !== 'calib' && !sum.calibration && !!o && o.stars > 0;
-    const stats = ch ? [{ label: '一次就对', value: `${ch.firstTry}/${ch.n}` }] : o && sum.node && sum.node.kind !== 'calib' ? [{ label: '一次就对', value: `${o.firstTry}/${o.n}` }] : [];
     const ev = updateBase(this.save, !!sum.node && sum.node.kind !== 'calib' && sum.outcome?.advance !== false); this.saveNow(); this.metrics?.refresh();
+    const stats = sum.check ? [{ label: '星币', value: this.unsaved ? '待保存' : '+16' }, { label: '一次就对', value: `${sum.check.firstTry}/${sum.check.n}` }] : ch ? [{ label: '一次就对', value: `${ch.firstTry}/${ch.n}` }] : o && sum.node && sum.node.kind !== 'calib' ? [{ label: '一次就对', value: `${o.firstTry}/${o.n}` }] : [];
     const newCards = (cardsJson.cards as { id: string; title: string; verified: unknown }[]).filter((c) => ev.newCards.includes(c.id) && c.verified);
     if (newCards.length) lines.push(`新知识卡：${newCards.map((c) => c.title).join('、')}`);
     const test = sum.calibration ? this.save.orbit.tests[this.save.orbit.tests.length - 1] : undefined;
-    await showResult({
-      ribbon: ch ? lineText('mars.chal.title') : sum.node ? lineText(`mars.node.${sum.node.id.replace(/^\w+\./, '')}`) : '订单交付', stars: (ch ? ch.stars : rated ? o!.stars : undefined) as 0 | 1 | 2 | 3 | undefined,
-      title: ch ? lineText('mars.chal.done') : lineText('mars.mis.done'), text: lines.filter((l, k) => !(ch && k === 0 && l === lineText('mars.chal.done'))).join(' '), stats, accentGame: 'mars', actions: [{ id: 'home', label: '回基地', kind: 'primary' }],
-      onOpen: (modal) => { if (test) { const fig = h('div', 'mb-result-chart'); fig.innerHTML = orbitChart(test, 200, 200) + `<span>你的轨道：点越靠近亮线，估得越准</span>`; (modal.querySelector('.xg-modal__title') ?? modal.firstElementChild)?.before(fig); } },
+    const choice = await showResult({
+      ribbon: sum.check ? '设备检修' : ch ? lineText('mars.chal.title') : sum.node ? lineText(`mars.node.${sum.node.id.replace(/^\w+\./, '')}`) : '订单交付', stars: (ch ? ch.stars : rated ? o!.stars : undefined) as 0 | 1 | 2 | 3 | undefined,
+      title: sum.check ? this.unsaved ? '货车送达 · 星币待保存' : '货车送达 · +16 星币' : ch ? lineText('mars.chal.done') : lineText('mars.mis.done'), text: lines.filter((l, k) => !(ch && k === 0 && l === lineText('mars.chal.done'))).join(' ') + (this.unsaved ? ' 这台设备暂时没存上进度，请保留页面。' : ''), stats, accentGame: 'mars', actions: sum.check ? [{ id: 'pets', label: '去宠物舱', kind: 'primary' }, { id: 'home', label: '回基地' }] : [{ id: 'home', label: '回基地', kind: 'primary' }],
+      onOpen: (modal) => { if (sum.check) this.say(null, null, 'mars.check.done'); if (test) { const fig = h('div', 'mb-result-chart'); fig.innerHTML = orbitChart(test, 200, 200) + `<span>你的轨道：点越靠近亮线，估得越准</span>`; (modal.querySelector('.xg-modal__title') ?? modal.firstElementChild)?.before(fig); } },
     });
     if (o?.directOffer && this.save.directOffer) {
       const pick = await showModal({ title: lineText('mars.mis.direct'), actions: [{ id: 'yes', label: lineText('mars.mis.direct.yes'), primary: true }, { id: 'no', label: lineText('mars.mis.direct.no'), primary: true }] });
@@ -161,6 +245,11 @@ export class App {
       this.saveNow();
     }
     await showBuild(this, ev, (sum.zone as SiteKey) || null);
+    if (sum.award) {
+      const next = await showResult({ ribbon: this.unsaved ? '等待保存' : '星币入账', title: this.unsaved ? '货车送达 · 星币待保存' : '货车送达 · +26 星币', text: this.unsaved ? '这台设备暂时没存上进度，请保留页面。' : '', stats: [{ label: '现在有', value: this.economy.balance() }], accentGame: 'mars', confetti: false, actions: [{ id: 'pets', label: '去宠物舱', kind: 'primary' }, { id: 'home', label: '回基地' }] });
+      return next === 'pets' ? 'pets' : 'map';
+    }
+    return choice === 'pets' ? 'pets' : 'map';
   }
 
   // ---- map ------------------------------------------------------------------------------------------------------------------
@@ -177,16 +266,24 @@ export class App {
     root.innerHTML = sceneSvg(vp.w >= vp.h ? 1080 : 810, vp.w >= vp.h ? 810 : 1080);
     const rec = recommend(this.save); const open = new Set(openZones(this.save));
     const title = h('div', 'mb-map-title', `祝融基地 · ${this.save.baseLevel} 级`); root.append(title);
-    let hold = 0; title.addEventListener('pointerdown', () => { hold = window.setTimeout(() => void showParent(this), 3000); }); for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) title.addEventListener(ev, () => clearTimeout(hold));
+    if (getSettings().showCoins) {
+      const folded = readStarActivity().collapsed;
+      const coins = h('button', `mb-map-coins${folded ? ' is-folded' : ''}`, { type: 'button', 'aria-label': `进入宠物舱，星币余额 ${this.economy.balance()}` }, folded ? '✦' : `✦ ${this.economy.balance()}`);
+      coins.onclick = () => this.openPets(); root.append(coins);
+    }
+    let hold = 0; title.addEventListener('pointerdown', () => { hold = window.setTimeout(() => void this.openExtra('parent'), 3000); }); for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) title.addEventListener(ev, () => clearTimeout(hold));
     const toast = h('div', 'mb-map-toast'); toast.setAttribute('role', 'status'); this.mapToast = { el: toast, t: 0 };
+    if (this.unsaved) root.append(h('p', 'mb-save-warning', { role: 'alert' }, '这台设备暂时没存上进度，请先保留页面。'));
     const sites = h('div', 'mb-sites');
     for (const s of SITES) {
       // 档案馆 and 徽章站 are real buildings; 称重台 / 谜题舱 / 火箭赛道 are scaffolds with a crane (unbuilt in v1)
-      const built = s.id === 'archive' || (s.zone ? isZoneBuilt(s.zone) : false); const ready = s.zone ? open.has(s.zone) : s.id === 'archive';
+      const built = s.id === 'archive' || s.id === 'pets' || (s.zone ? isZoneBuilt(s.zone) : false); const ready = s.zone ? open.has(s.zone) : s.id === 'archive' || s.id === 'pets';
       const b = h('button', `mb-site${rec !== null && rec === s.zone ? ' is-rec' : ''}${built ? '' : ' is-plot'}`, { type: 'button', 'data-site': s.id, 'aria-label': built ? SITE_NAME[s.id] : `${SITE_NAME[s.id]}，建设中` });
       b.innerHTML = (built ? buildingSvg(s.id, this.save.buildings[s.id] ?? 1, rec !== null && rec === s.zone) : plotSvg(s.id)) + `<span class="mb-site-name">${SITE_NAME[s.id]}${built ? '' : '<small>建设中</small>'}</span>`;
       b.onclick = () => {
-        if (s.id === 'cert') { sound('ui-tap'); showBadges(this); return; } if (s.id === 'archive') { sound('ui-tap'); showArchive(this); return; }
+        if (this.pendingMission() && s.id !== 'archive' && s.id !== 'pets') { this.siteWait(b, '先继续未完成的任务。'); return; }
+        if (s.id === 'cert') { sound('ui-tap'); void this.openExtra('badges'); return; } if (s.id === 'archive') { sound('ui-tap'); void this.openExtra('archive'); return; }
+        if (s.id === 'pets') { sound('ui-tap'); this.openPets(); return; }
         if (!built || !s.zone) { this.siteWait(b, WAIT_TEXT[s.id] ?? '这里还在建设中。'); return; }
         if (!ready) { this.siteWait(b, `${SITE_NAME[s.id]}还没开门，先去别处做一单。`); return; }
         sound('ui-tap'); this.showChapter(s.zone);
@@ -198,10 +295,15 @@ export class App {
     const next = rec ? nextNodeFor(this.save, rec) : null; const pend = this.pendingMission();
     // nothing recommended = every built main-line order is delivered: the button becomes 挑战订单 (never a dead, disabled button)
     const challenge = !next && !pend;
+    const actions = h('div', 'mb-map-actions');
     const go = h('button', 'mb-go xg-btn xg-btn--primary xg-btn--lg', { type: 'button' }, challenge ? lineText('mars.chal.title') : '开始任务'); go.dataset.zone = rec ?? '';
+    const check = h('button', 'mb-check xg-btn xg-btn--secondary', { type: 'button' }, '设备检修');
+    check.disabled = pend ? pend.kind !== 'check' : !canCheck(this.save);
+    check.title = pend && pend.kind !== 'check' ? '先继续未完成的任务' : check.disabled ? '做完几单后，检修会开放' : '复习学过的知识点';
+    check.onclick = () => void this.runCheck();
     const sub = h('div', 'mb-go-sub', pend ? lineText('mars.mis.resume') : next ? lineText(`mars.node.${next.id.replace(/^\w+\./, '')}`) : lineText('mars.map.allDone'));
     go.onclick = () => { if (pend) void this.resumePending(); else if (next) void this.runNode(next.id); else void this.runChallenge(); };
-    root.append(sub, go); this.screen(root);
+    actions.append(go, check); root.append(sub, actions); this.screen(root);
     this.bot = this.track(mountCompanion(botHost, { size: vp.cls.startsWith('phone') ? 96 : 140, bubble: 'right' }));
     this.bot.setMood('happy');
     this.say(this.bot, null, this.save.session.missions ? 'mars.map.welcome' : 'mars.map.pick');
@@ -262,6 +364,6 @@ export class App {
     }
     clearTimeout(idle); ctl.stopDemo(); hideHand(); dispose(); offLayout(); ctl.destroy(); this.narrator.stop();
     this.save.onboarded = true; this.saveNow();
-    if (!skipped) await showFirstLight(this);   // the base lights up, the first part rises, the first knowledge card (祝融号) is earned — then the map
+    if (!skipped) { const { showFirstLight } = await import('./extra'); await showFirstLight(this); }   // the base lights up, the first part rises, the first knowledge card (祝融号) is earned — then the map
   }
 }

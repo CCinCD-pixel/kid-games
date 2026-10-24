@@ -1,4 +1,5 @@
 import './styles.css';
+import './pets.css';
 import './stages.css';
 import '@engines/manip/numberline.css';
 import { initShell } from '@kit/shell';
@@ -14,7 +15,7 @@ const root = document.getElementById('app')!;
 const handle = openSave();
 const save = handle.load();   // never throws, never half a save (save/repair.ts)
 const narrator = new Narrator({ manifestUrl: '/audio/mars-base/audio-manifest.json' });
-void narrator.ready().catch(() => undefined);
+const numbersReady = narrator.addManifest('/audio/mars-base/numbers-manifest.json');
 
 const shell = initShell({
   game: 'mars-base',
@@ -30,6 +31,7 @@ const metrics = registerMetrics('mars-base', metricsDefs.map((d) => ({ ...d, lab
 
 void (async () => {
   await shell.ready;
+  await Promise.race([Promise.all([narrator.ready(), numbersReady]), new Promise<void>((resolve) => setTimeout(resolve, 2500))]);
   void installKitSfx({ only: ['ui-tap', 'ui-press', 'ui-confirm', 'ui-key', 'ui-key-delete', 'ui-back', 'ui-select', 'correct', 'correct-big', 'try-again', 'chime', 'hint', 'star-1', 'star-2', 'star-3', 'level-complete', 'unlock', 'ui-open', 'ui-close', 'ui-pop', 'blip-happy', 'blip-think', 'blip-talk', 'blip-surprised', 'blip-sleepy', 'blip-question'] }).catch(() => undefined);
   const app = new App(save, handle, shell, narrator, root); app.metrics = metrics;
   if (new URLSearchParams(location.search).get('test') === '1' && (navigator.webdriver || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))) {

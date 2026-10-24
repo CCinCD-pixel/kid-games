@@ -40,7 +40,8 @@ function fix(v: unknown, s: Sch, dflt: unknown): unknown {
 const NODE: Sch = { obj: { st: { in: ['open', 'done', 'skipped'] }, stars: 'num', plays: 'num', ft: { arr: 'num' } } };
 const TAG: Sch = { obj: { level: 'num', streak: 'num', window: 'str', tailNoHint: 'num', mastered: 'bool', reviews: { arr: 'num' }, repDown: 'num', wrongRun: 'num' } };
 const CERT: Sch = { obj: { state: { in: ['none', 'lit', 'half'] }, attempts: 'num' } };
-const MISSION: Sch = { obj: { node: 'str', kind: { in: ['node', 'probe', 'wall', 'challenge'] }, idx: 'num', items: { arr: { obj: { key: 'str', fam: 'str', band: 'num', level: 'num', mode: 'str' } } }, results: { arr: { obj: { keyHash: 'str', fam: 'str' } } }, startedAt: 'num', activeMs: 'num', facts: { arr: 'str' }, seedBase: 'str', plan: { obj: { node: 'str', kind: 'str', slots: { arr: 'any' }, seedBase: 'str' } } } };
+const MISSION: Sch = { obj: { node: 'str', kind: { in: ['node', 'probe', 'wall', 'challenge', 'check'] }, idx: 'num', items: { arr: { obj: { key: 'str', fam: 'str', band: 'num', level: 'num', mode: 'str' } } }, results: { arr: { obj: { keyHash: 'str', fam: 'str' } } }, startedAt: 'num', activeMs: 'num', facts: { arr: 'str' }, seedBase: 'str', plan: { obj: { node: 'str', kind: 'str', slots: { arr: 'any' }, seedBase: 'str' } } } };
+const AWARD: Sch = { obj: { id: 'str', kind: { in: ['earn', 'grant'] }, amount: 'num', src: 'str', ref: 'str' } };
 const SHAPE: Record<keyof MarsSaveV5, Sch> = {
   onboarded: 'bool', tutorials: { rec: 'bool' }, salt: 'num',
   session: { obj: { index: 'num', lastActiveAt: 'num', missions: 'num' } },
@@ -53,6 +54,8 @@ const SHAPE: Record<keyof MarsSaveV5, Sch> = {
   race: { obj: { games: 'num', inProgress: 'any' } }, errors: { rec: { obj: { n: 'num', recent: { arr: { obj: { fam: 'str', at: 'num' } } } } } }, recent: { arr: 'str' },
   challenge: { opt: { obj: { plays: 'num', best: 'num' } } },
   settings: { obj: { music: 'bool', liveReadout: 'bool' } }, directOffer: { opt: { nul: { obj: { zone: 'str' } } } }, direct: { obj: { pending: { arr: { obj: { node: 'str', tags: { arr: 'str' } } } } } },
+  eco: { obj: { retro: 'bool', pending: { arr: AWARD } } },
+  daily: { obj: { runSeq: 'num', run: { nul: 'any' }, lastFT: 'num', recent: { arr: 'str' } } },
 };
 
 export interface Repaired { save: MarsSaveV5; changed: boolean }

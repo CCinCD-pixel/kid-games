@@ -48,11 +48,14 @@ describe('voice/compose', () => {
   });
   it('EVERY templated v1 line composes into clips with a full manifest and the numbers the game uses; the spoken pieces read back as the sentence', () => {
     const m = manifest(); const has = (x: string) => m.has(x);
+    const failures: string[] = [];
     for (const id of templated.filter((x) => !['mars.orbit.planet', 'mars.build.tier', 'mars.build.full'].includes(x))) {
       const vars: Record<string, string | number> = { n: 62, d: 5, r: 3, c: 4 }; const p = composeLine(T, has, id, vars);
-      expect(p.mode, `${id}: ${p.mode === 'speech' ? p.missing.join() : ''}`).toBe('clip');
-      if (p.mode === 'clip') { const said = p.ids.map((c) => (c.startsWith('mars.num.') ? '' : strip(T[c]))).join(''); const lit = strip(T[id].replace(/\{\w+\}/g, '')); expect(said, id).toBe(lit); }
+      if (p.mode !== 'clip') { failures.push(`${id}: ${p.missing.join(', ')}`); continue; }
+      const said = p.ids.map((c) => (c.startsWith('mars.num.') ? '' : strip(T[c]))).join(''); const lit = strip(T[id].replace(/\{\w+\}/g, ''));
+      if (said !== lit) failures.push(`${id}: fragments read ${said}, expected ${lit}`);
     }
+    expect(failures).toEqual([]);
   });
   it('every order line the families produce for a sample of items composes (or falls back cleanly) — never an empty plan', () => {
     const m = manifest(); const rng = createRng('compose-orders'); let clips = 0; let n = 0;

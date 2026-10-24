@@ -35,6 +35,8 @@ const yamlOf = (ls, what) => {
   for (const l of ls) {
     out.push(`  - id: ${l.id}`, `    role: ${l.role}`, `    text: ${q(l.text)}`);
     if (l.norm && l.norm !== l.text) out.push(`    norm: ${q(l.norm)}`);
+    if (l.pinyin) out.push(`    pinyin: ${q(l.pinyin)}`);
+    if (l.speed) out.push(`    speed: ${l.speed}`);
     // `fragment` (head 0 / tail 20 ms clips for overlapped composition) is a kit/voice request (docs: kit requests); not emitted until the pipeline knows it
   }
   return out.join('\n') + '\n';

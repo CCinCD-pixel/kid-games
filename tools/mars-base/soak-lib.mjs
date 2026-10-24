@@ -52,6 +52,7 @@ export const describe = (r) => `${r.name}: nodes ${r.dNodes >= 0 ? '+' : ''}${r.
 // ---- screen cycles: each one shows the screen, uses it a little, leaves it (back on the map) ----------------------------------------------------------
 const toMap = (page) => present(page, '.mb-map');
 const back = async (page) => { await page.locator('.mb-ch-back').click(); await toMap(page); };
+const resetPlaySave = async (page) => { await hook(page, (save) => window.__mars.setSave(save), playSave()); await toMap(page); };
 /** the item on screen is delivered (right) and the next item (or the end of the mission) is awaited */
 export async function deliverOne(page) {
   const k = await page.evaluate(() => window.__mars.item()?.key ?? null);
@@ -79,19 +80,22 @@ export const SCREENS = {
   archive: (page) => async () => { await hook(page, () => window.__mars.archive()); await present(page, '.mb-archive .mb-arch-body'); await back(page); },
   parent: (page) => async () => { await hook(page, () => window.__mars.parent()); await present(page, '.mb-parent .mb-par-body'); await page.locator('.mb-par-toggle').first().click(); await page.locator('.mb-par-toggle').first().click(); await back(page); },
   /** a mission opened and left at once (the first stage only) */
-  missionLeave: (page, node = 'cert.C1.1') => async () => { await hook(page, (n) => window.__mars.start(n), node); await present(page, '.mb-mission .mb-stage > *'); await page.waitForTimeout(120); await page.locator('.mb-map-btn').click(); await toMap(page); },
+  missionLeave: (page, node = 'cert.C1.1') => async () => { await resetPlaySave(page); await hook(page, (n) => window.__mars.start(n), node); await present(page, '.mb-mission .mb-stage > *'); await page.waitForTimeout(120); await page.locator('.mb-map-btn').click(); await toMap(page); await until(page, () => !window.__mars.app.missionBusy); },
   /** a mission with `items` orders delivered (every stage swap runs), then left */
   missionPlay: (page, node = 'factory.P2.5', items = 3) => async () => {
+    await resetPlaySave(page);
     await hook(page, (n) => window.__mars.start(n), node); await present(page, '.mb-mission .mb-stage > *'); await until(page, () => !!window.__mars.item());
     for (let k = 0; k < items; k++) { if (!(await deliverOne(page))) break; }
     if (await page.locator('.mb-map-btn').count()) await page.locator('.mb-map-btn').click();
     await landOnMap(page);
+    await until(page, () => !window.__mars.app.missionBusy);
   },
   /** a whole short mission: orders -> result card -> build scene -> map */
   missionFull: (page, node) => async () => {
     await hook(page, (n) => window.__mars.start(n), node); await present(page, '.mb-mission .mb-stage > *'); await until(page, () => !!window.__mars.item());
     for (let g = 0; g < 40 && (await deliverOne(page)); g++);
     await landOnMap(page);
+    await until(page, () => !window.__mars.app.missionBusy);
   },
   /** 一起验货 (needs a save with unlit badges): the wall mission opened and left */
   wall: (page) => async () => { await hook(page, () => { void window.__mars.app.runWall(); }); await present(page, '.mb-mission .mb-stage > *'); await page.waitForTimeout(120); await page.locator('.mb-map-btn').click(); await toMap(page); },

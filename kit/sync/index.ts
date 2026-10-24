@@ -4,3 +4,5 @@ export { R } from './rules';
 export type { Rule, RuleKind, RuleOf, Rules, Stamp } from './rules';
 export * from './merge';
 export * from './ledger';
+export * from './crypto';
+export * from './sidecar';

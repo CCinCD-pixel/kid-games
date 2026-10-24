@@ -17,9 +17,10 @@ const play = async (page: Page, sig: string): Promise<void> => {
 /** back to the map by real taps: leave a running mission, or press through the result card (the one-item mission ends after the item) */
 async function toMap(page: Page): Promise<void> {
   for (let i = 0; i < 40; i++) {
-    if (await count(page, '.xg-modal')) { await page.locator('.xg-modal__actions button').first().tap({ timeout: 4000 }).catch(() => undefined); await page.waitForTimeout(350); continue; }
+    if (await count(page, '.xg-modal')) { await page.locator('.xg-modal__actions [data-act="home"]').tap({ timeout: 4000 }).catch(() => undefined); await page.waitForTimeout(350); continue; }
     if (await count(page, '.kit-modal')) { await page.locator('.kit-modal__actions button').last().tap({ timeout: 2000 }).catch(() => undefined); await page.waitForTimeout(350); continue; }
     if (await count(page, '.mb-build')) { await page.locator('.mb-build').first().tap({ timeout: 1500 }).catch(() => undefined); await page.waitForTimeout(350); continue; }
+    if (await count(page, '.mb-pets')) { await page.getByRole('button', { name: '回基地' }).tap(); await page.waitForTimeout(350); continue; }
     if (await count(page, '.mb-map')) return;
     if (await count(page, '.mb-map-btn')) { await page.locator('.mb-map-btn').tap({ timeout: 2000 }).catch(() => undefined); }
     await page.waitForTimeout(250);

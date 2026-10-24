@@ -1,9 +1,9 @@
 /**
  * 星港 paper-cut Mars-base art (code-drawn SVG, flat layered paper with a soft cut shadow; no bitmaps, no filters, no emoji).
- * Eight building sites × 3 tiers (tier = parts raised so far). Palette variables are defined in styles.css under [data-xg-game="mars"].
+ * Building sites share one paper-cut scale. Palette variables are defined in styles.css under [data-xg-game="mars"].
  */
-export type SiteId = 'orbit' | 'cert' | 'vault' | 'factory' | 'balance' | 'puzzle' | 'race' | 'archive';
-export const SITE_NAME: Record<SiteId, string> = { orbit: '轨道站', cert: '徽章站', vault: '千晶大仓', factory: '生产线', balance: '称重台', puzzle: '谜题舱', race: '火箭赛道', archive: '档案馆' };
+export type SiteId = 'orbit' | 'cert' | 'vault' | 'factory' | 'balance' | 'puzzle' | 'race' | 'archive' | 'pets';
+export const SITE_NAME: Record<SiteId, string> = { orbit: '轨道站', cert: '徽章站', vault: '千晶大仓', factory: '生产线', balance: '称重台', puzzle: '谜题舱', race: '火箭赛道', archive: '档案馆', pets: '宠物舱' };
 const S = 'stroke="var(--mb-cut)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"';
 const sh = (d: string) => `<path d="${d}" transform="translate(4 6)" fill="var(--mb-shadow)"/>`;
 
@@ -50,6 +50,13 @@ export function buildingSvg(id: SiteId, tier: number, lit = false): string {
     case 'archive':
       g = `${sh('M22 112 V64 H98 V112Z')}<rect x="22" y="64" width="76" height="48" rx="6" fill="var(--mb-paper)" ${S}/><circle cx="60" cy="60" r="28" fill="var(--mb-dark)" ${S}/><circle cx="60" cy="60" r="18" fill="none" stroke="var(--mb-glow)" stroke-width="2.5" stroke-dasharray="3 4"/>`
         + `<circle cx="60" cy="60" r="4" fill="var(--mb-gold)"/><rect x="48" y="90" width="24" height="22" rx="3" fill="var(--mb-dark)" ${S}/>` + (t >= 2 ? '<path d="M104 52 l8-14 8 14z" fill="var(--mb-gold)" stroke="var(--mb-cut)" stroke-width="2"/>' : '');
+      break;
+    case 'pets':
+      g = `${sh('M18 112 V58 Q18 20 60 20 Q102 20 102 58 V112Z')}<path d="M18 112 V58 Q18 20 60 20 Q102 20 102 58 V112Z" fill="var(--mb-paper)" ${S}/>`
+        + `<path d="M30 70 Q30 36 60 36 Q90 36 90 70Z" fill="var(--mb-jade)" ${S}/><circle cx="60" cy="58" r="18" fill="var(--mb-dark)" ${S}/><circle cx="54" cy="56" r="3" fill="var(--mb-glow)"/><circle cx="66" cy="56" r="3" fill="var(--mb-glow)"/><path d="M54 66 Q60 72 66 66" fill="none" stroke="var(--mb-glow)" stroke-width="2"/>`
+        + `<path d="M44 112 V90 Q60 80 76 90 V112Z" fill="var(--mb-mars)" ${S}/>`
+        + (t >= 2 ? '<path d="M28 36 l-8-14 M92 36 l8-14" stroke="var(--mb-cut)" stroke-width="3"/>' : '')
+        + (t >= 3 ? '<path d="M36 14 l8-6 6 8 M70 16 l6-8 8 6" fill="var(--mb-glow)" stroke="var(--mb-cut)" stroke-width="2"/>' : '');
       break;
   }
   return `<svg class="bld" viewBox="-6 -6 132 132" aria-hidden="true">${glow}${g}</svg>`;

@@ -11,7 +11,7 @@
  *   FAIL when: an item is not accepted by the real touches, the wrong path never completes, anything stalls > 20 s, a control is covered by another element at its centre
  *   (hit audit), a console / page error appears, a result card sits outside the viewport.
  *
- *   node tools/mars-base/touch-sweep.mjs [--mode quick|spot|full] [--vp ipad-p|ipad-l|phone-p|se|phone-l] [--engine webkit|chromium] [--sigs a,b|prefix.] [--no-wrong]
+ *   node tools/mars-base/touch-sweep.mjs [--mode quick|spot|full] [--vp ipad-p|ipad-l|phone-p|se|phone-l] [--safe top,right,bottom,left] [--engine webkit|chromium] [--sigs a,b|prefix.] [--no-wrong]
  *        [--base http://localhost:5323/mars-base/] [--tag name] [--list]
  *   quick  every live signature, one mission each (iPad portrait; ~20 min)        spot  ~25 representative signatures (phone / landscape spot runs; ~6 min)
  *   full   whole missions of every ready node at ladder levels 1 and 4 (--level 1|4), wrong path once per signature (what QA ran by hand; ~40 min per level)
@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const arg = (n, d) => { const i = process.argv.indexOf('--' + n); if (i < 0) return d; const v = process.argv[i + 1]; return v === undefined || v.startsWith('--') ? true : v; };
-const MODE = arg('mode', 'quick'); const VPN = arg('vp', 'ipad-p'); const ENGINE = arg('engine', 'webkit'); const BASE = arg('base', process.env.BASE ?? 'http://localhost:5323/mars-base/');
+const MODE = arg('mode', 'quick'); const VPN = arg('vp', 'ipad-p'); const ENGINE = arg('engine', 'webkit'); const BASE = arg('base', process.env.BASE ?? 'http://localhost:5323/mars-base/'); const SAFE = arg('safe', null);
 const WRONG = !process.argv.includes('--no-wrong'); const LEVEL = Number(arg('level', 1)); const TAG = arg('tag', `${MODE}-${VPN}-${ENGINE}`); const SHOTS_ON = process.argv.includes('--shots'); const STALL_MS = 20000; const LIST = process.argv.includes('--list');
 const ONLY = arg('sigs', null) ? String(arg('sigs')).split(',') : null;
 const OUT = path.join(os.homedir(), 'kid-games-work/state/rr/touch-sweep'); const SHOTS = path.join(os.homedir(), 'kid-games-work/shots/rr/touch-sweep'); fs.mkdirSync(OUT, { recursive: true }); fs.mkdirSync(SHOTS, { recursive: true });
@@ -56,7 +56,7 @@ async function openGame() {
   page.on('console', (m) => { if (m.type() === 'error') env.errors.push(`console: ${m.text().slice(0, 160)}`); });
   page.on('requestfailed', (r) => env.errors.push(`reqfail: ${r.url().split('/').slice(-2).join('/')}`));
   page.on('response', (r) => { if (r.status() >= 400) env.errors.push(`http${r.status()}: ${r.url().split('/').slice(-3).join('/')}`); });
-  await page.goto(`${BASE}?test=1`);
+  await page.goto(`${BASE}?test=1${SAFE ? `&safe=${SAFE}` : ''}`);
   await tapSel(env, '.kit-start__go', { optional: true, timeout: 8000 });
   await page.waitForSelector('#app[data-ready]', { timeout: 15000 }); await page.waitForFunction(() => !!window.__mars, undefined, { timeout: 15000 });
   await page.evaluate((s) => window.__mars.setSave(s), PLAY_SAVE); await page.waitForSelector('.mb-map', { timeout: 10000 });
@@ -311,7 +311,8 @@ async function finishResult(env, rec) {
     if (await page.locator('.mb-map').count()) return true;
     if (await page.locator('.xg-modal').count()) {
       if (!seen) { seen = true; await sleep(450); const card = await page.evaluate(() => { const r = document.querySelector('.xg-modal')?.getBoundingClientRect(); return r ? [r.left, r.top, r.right, r.bottom, innerWidth, innerHeight] : null; }); if (card && (card[0] < -0.5 || card[2] > card[4] + 0.5 || card[1] < -0.5 || card[3] > card[5] + 0.5)) rec.issues.push(`result card outside the viewport ${card.map(Math.round)}`); }
-      await tapSel(env, '.xg-modal__actions button', { rec, timeout: 3000 }); await sleep(350); continue;
+      const home = '.xg-modal__actions [data-act="home"]';
+      await tapSel(env, (await page.locator(home).count()) ? home : '.xg-modal__actions button', { rec, timeout: 3000 }); await sleep(350); continue;
     }
     if (await page.locator('.kit-modal').count()) { await tapSel(env, '.kit-modal__actions button >> nth=1', { rec, timeout: 2000 }); await sleep(350); continue; }
     if (await page.locator('.mb-build').count()) { await tapSel(env, '.mb-build', { rec, timeout: 1500, optional: true, noHit: true }); await sleep(350); continue; }

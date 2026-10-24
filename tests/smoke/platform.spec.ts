@@ -102,6 +102,39 @@ test.describe('platform lab', () => {
   });
 });
 
+test('parent view shows learning observations and exports their data', async ({ page }) => {
+  await instrument(page);
+  await page.addInitScript((at) => {
+    Object.defineProperty(navigator, 'canShare', { configurable: true, value: () => true });
+    Object.defineProperty(navigator, 'share', { configurable: true, value: async (data: ShareData) => {
+      const file = data.files?.[0];
+      (window as any).__metricsShare = file ? { name: file.name, body: await file.text() } : null;
+    } });
+    sessionStorage.setItem('kg:parent:unlocked', String(Date.now()));
+    localStorage.setItem('kg:metrics:v1:star-pets', JSON.stringify({ v: 1, groups: [
+      { id: 'check.1:1', at, src: 'check', setMs: 180_000, medianMs: 30_000, ft: 0.75, flagged: false },
+      { id: 'O1.1:2', at, src: 'mission', setMs: 150_000, medianMs: 9_000, ft: 0.38, flagged: true },
+    ] }));
+    localStorage.setItem('kg:metrics:v1:star-pets-activity', JSON.stringify({ v: 1, collapsed: false, visits: [
+      { id: 'visit.1', at, petMs: 120_000, missionMs: 180_000, sawPet: true, sawMission: true, missions: 1, replays: 0 },
+      { id: 'visit.2', at, petMs: 60_000, missionMs: 0, sawPet: true, sawMission: false, missions: 0, replays: 0 },
+    ] }));
+  }, Date.now());
+  const { errors } = watch(page);
+  await page.goto('/parent/', { waitUntil: 'load' });
+  const observations = page.locator('.pg-ledger:has(summary:text("学习观察"))');
+  await observations.locator('summary').click();
+  await expect(observations).toContainText('设备检修 1 组');
+  await expect(observations).toContainText('快的趟数 1');
+  await expect(observations).toContainText('2 次打开基地，1 次只看了宠物舱');
+  await observations.getByRole('button', { name: '导出指标' }).click();
+  await page.waitForFunction(() => !!(window as any).__metricsShare);
+  const shared = await page.evaluate(() => (window as any).__metricsShare as { name: string; body: string });
+  expect(shared.name).toMatch(/^xinggang-star-pets-metrics-.*\.json$/);
+  expect(JSON.parse(shared.body).groups).toHaveLength(2);
+  expect(errors).toEqual([]);
+});
+
 test.describe('parent page additions', () => {
   const seed = {
     'kg:metrics:v1:xiangqi': { v: 1, updatedAt: 1, metrics: [
@@ -141,5 +174,17 @@ test.describe('parent page additions', () => {
     await page.reload({ waitUntil: 'load' });
     await page.locator('.pg-nav [data-id="settings"]').click();
     await expect(page.locator('.pg-card:has(.pg-card__title:text("关卡解锁")) input[type=checkbox]')).toBeChecked();
+  });
+
+  test('设置 → 地图显示星币 persists after reload', async ({ page }) => {
+    await page.goto('/parent/', { waitUntil: 'load' });
+    await page.locator('.pg-nav [data-id="settings"]').click();
+    const box = page.locator('.pg-card:has(.pg-card__title:text("星币")) input[type=checkbox]');
+    await expect(box).toBeChecked();
+    await box.evaluate((el) => (el as HTMLInputElement).click());
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem('kg:settings:v1') ?? '{}').showCoins)).toBe(false);
+    await page.reload({ waitUntil: 'load' });
+    await page.locator('.pg-nav [data-id="settings"]').click();
+    await expect(box).not.toBeChecked();
   });
 });

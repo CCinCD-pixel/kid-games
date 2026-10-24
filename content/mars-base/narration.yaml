@@ -43,6 +43,12 @@ lines:
   - id: mars.mis.start
     role: companion
     text: "新订单来了！"
+  - id: mars.check.start
+    role: companion
+    text: "来检修设备，做六道题！"
+  - id: mars.check.done
+    role: companion
+    text: "检修完成，货车送达！"
   - id: mars.mis.warm
     role: companion
     text: "先热热身。"
@@ -60,7 +66,7 @@ lines:
     text: "这批货先交了吧？"
   - id: mars.mis.longKeep
     role: companion
-    text: "好，接着干！"
+    text: "继续干吧！"
   - id: mars.mis.done
     role: companion
     text: "这批订单全交了！"
@@ -78,7 +84,7 @@ lines:
     text: "按顺序走"
   - id: mars.mis.bridge
     role: companion
-    text: "这站我们再练一次。"
+    text: "这一站我们再练一次。"
   - id: mars.mis.deliverNudge
     role: companion
     text: "暂存盘里还有晶体。"
@@ -186,7 +192,7 @@ lines:
     text: "拆开算一算。"
   - id: mars.ord.cmpArr
     role: companion
-    text: "哪块板大？"
+    text: "哪一块板更大？"
   - id: mars.ord.balEq
     role: companion
     text: "放几才平？"
@@ -253,6 +259,7 @@ lines:
   - id: mars.ok.rotate
     role: companion
     text: "转一转就知道了。"
+    speed: 0.83
   - id: mars.ok.split
     role: companion
     text: "拆开再算，好方法。"
@@ -372,7 +379,7 @@ lines:
     text: "先看短针。"
   - id: mars.h1.nl
     role: companion
-    text: "先找中间在哪。"
+    text: "先找到中间。"
   - id: mars.h1.cmp
     role: companion
     text: "先比最高的那一位。"
@@ -397,6 +404,7 @@ lines:
   - id: mars.h2.intro
     role: companion
     text: "我先帮你做一半。"
+    speed: 0.8
   - id: mars.h3.intro
     role: companion
     text: "看我做一遍。"
@@ -559,6 +567,7 @@ lines:
   - id: mars.bal.found
     role: companion
     text: "称出来了！"
+    pinyin: {"称":"chēng"}
   - id: mars.bal.tilt
     role: companion
     text: "歪了，两边不一样重。"
@@ -888,7 +897,7 @@ lines:
     text: "跳着数"
   - id: mars.node.P1.8
     role: narrator
-    text: "跳 3 跳 4"
+    text: "跳3跳4"
   - id: mars.node.P1.9
     role: narrator
     text: "工厂订单"
@@ -952,6 +961,7 @@ lines:
   - id: mars.c.zoom
     role: companion
     text: "放大看，插在"
+    norm: "放大看插在"
   - id: mars.c.botSay
     role: companion
     text: "我落在"
@@ -963,7 +973,7 @@ lines:
     text: "差了"
   - id: mars.c.close
     role: companion
-    text: "很接近，差"
+    text: "离得很近，只差"
   - id: mars.c.best
     role: companion
     text: "最准的只差"
@@ -1074,7 +1084,7 @@ lines:
     text: "减法牌亮了！"
   - id: mars.hint.touchFirst
     role: companion
-    text: "先试试看，我在这。"
+    text: "先试试看，我在这里。"
   - id: mars.hint.fill
     role: companion
     text: "先把数填上。"
@@ -1107,7 +1117,7 @@ lines:
     text: "先找中间，再找一半的一半。"
   - id: mars.h2.mul
     role: companion
-    text: "先标出第一舱。"
+    text: "先标出第一个舱位。"
   - id: mars.h2.array
     role: companion
     text: "第一行已经标好。"
@@ -1162,3 +1172,71 @@ lines:
   - id: mars.chapter.Z1
     role: narrator
     text: "谜题舱"
+  - id: mars.pet.pick
+    role: companion
+    text: "选一位伙伴来基地吧。"
+  - id: mars.pet.rover
+    role: companion
+    text: "探路者来报到啦！"
+  - id: mars.pet.dragon
+    role: companion
+    text: "晶脊龙来报到啦！"
+  - id: mars.pet.named
+    role: companion
+    text: "好名字，记住啦！"
+  - id: mars.pet.touch1
+    role: companion
+    text: "摸到我啦！"
+    speed: 0.9
+  - id: mars.pet.touch2
+    role: companion
+    text: "我在这里！"
+  - id: mars.pet.perform1
+    role: companion
+    text: "看我的新动作！"
+  - id: mars.pet.perform2
+    role: companion
+    text: "再试一次，换个花样。"
+  - id: mars.pet.food
+    role: companion
+    text: "挑一份食物送给伙伴。"
+  - id: mars.pet.fed
+    role: companion
+    text: "吃好了，继续陪你建基地。"
+  - id: mars.pet.grown2
+    role: companion
+    text: "伙伴长大了，看看新样子！"
+  - id: mars.pet.grown3
+    role: companion
+    text: "伙伴又长大啦！"
+  - id: mars.pet.room
+    role: companion
+    text: "选件装饰，给房间添点新样子。"
+  - id: mars.pet.place
+    role: companion
+    text: "放在这里刚刚好。"
+  - id: mars.pet.undo
+    role: companion
+    text: "摆回原来的位置。"
+  - id: mars.pet.preview
+    role: companion
+    text: "先试摆，喜欢再买。"
+  - id: mars.pet.bought
+    role: companion
+    text: "新装饰摆好了！"
+  - id: mars.pet.goal
+    role: companion
+    text: "目标记下了，慢慢来。"
+  - id: mars.pet.switch
+    role: companion
+    text: "换一位伙伴来陪你。"
+  - id: mars.pet.gift
+    role: companion
+    text: "爸爸给你留了一件礼物。"
+    speed: 0.8
+  - id: mars.pet.openGift
+    role: companion
+    text: "拆开看看，是件新装饰。"
+  - id: mars.pet.equip
+    role: companion
+    text: "换上新样子啦！"

@@ -66,7 +66,7 @@ SAMPLES.chess = { ...SAMPLES.xiangqi, robots: { R1: { ...SAMPLES.xiangqi.robots.
 DEFAULTS.chess = { ...DEFAULTS.xiangqi, puzzles: { done: [], firstTry: [], daily: { date: '', ids: [], got: 0 }, recent30: [], tier: 1, review: [] }, settings: { coords: true, coachCap: [], theme: 'wood', seatHints: true, dangerHatch: false, houseRules: { repetition: 'draw', fifty: 'draw', undo: 'free' } }, cards: [], stars: 0, stats: { sessions: 0, games: 0 } };
 GAME_CAPS['chess.puzzles.done'] = 800; GAME_CAPS['chess.puzzles.firstTry'] = 800; GAME_CAPS['chess.history'] = 30;
 
-// ---- mars-base (kg:v1:mars-base v5)
+// ---- mars-base (kg:v1:mars-base v6)
 // audit B-R3: same state+attempts can still differ in progress (recheck flag, remedial plays, provisional items left) -> rank on all of them so the tie is not an arbitrary pick
 const certRank = (c: any): number[] => [['none', 'half', 'lit'].indexOf(c.state), c.attempts ?? 0, (c.remedialPlays ?? 0) + (c.recheck ? 1 : 0), c.prov ? -(c.prov.left ?? 0) : 0];
 SCHEMAS['mars-base'] = obj({
@@ -79,14 +79,16 @@ SCHEMAS['mars-base'] = obj({
   errors: map(obj({ n: max, recent: ring({ key: (r: any) => `${r.fam}|${r.at}`, ord: (r: any) => r.at, cap: 3, gen: (r: Rng) => ({ fam: 'f' + int(r, 0, 2), at: T + int(r, 0, 20) }) }) })),   // cap 3 = mission.ts:71 (audit B-R4); the v1.1 table said 12
   recent: ring({ key: (s: any) => s, ord: (s: any) => Number(String(s).split('|')[8]) || 0, cap: 300, gen: (r: Rng) => `k${int(r, 0, 6)}|f|1|1|0|0|0|m|${int(r, 0, 20)}|n|` }),
   settings: local, directOffer: local, direct: lww,
+  eco: obj({ retro: or, pending: local }), daily: obj({ runSeq: local, run: local, lastFT: lww, recent: local }),
 });
 SAMPLES['mars-base'] = { onboarded: true, tutorials: { t1: true }, salt: 7, session: { index: 5, lastActiveAt: T, missions: 9 }, nodes: { 'orbit.O1.0': { st: 'done', stars: 3, plays: 2, ft: [1, 0], bridge: true, why: 'calib', g: 1 } },
   tags: { add: { level: 2, streak: 1 } }, cert: { C1: { state: 'lit', attempts: 1 } }, probes: { factory: { done: true, score: 3 } }, orbit: { tests: [{ node: 'n', L: 1, at: T }] }, mission: { node: 'n' },
   challenge: { plays: 2, best: 4 }, zoneHist: { z1: [0.5] }, lastPlayed: { z1: 4 }, visited: ['z1'], buildings: { b1: 2 }, baseLevel: 2, cards: ['c1'], checker: 3, race: { games: 1, inProgress: null }, errors: { slip: { n: 2, recent: [{ fam: 'f', at: T }] } },
-  recent: ['aa|f|1|1|0|0|0|m|3|n|'], settings: { music: true, liveReadout: true }, directOffer: null, direct: { pending: [] } };
+  recent: ['aa|f|1|1|0|0|0|m|3|n|'], settings: { music: true, liveReadout: true }, directOffer: null, direct: { pending: [] },
+  eco: { retro: true, pending: [{ id: 'mn:x:1:d', kind: 'earn', amount: 26, src: 'mission.new', ref: 'x' }] }, daily: { runSeq: 3, run: null, lastFT: 0.8, recent: ['a,b'] } };
 DEFAULTS['mars-base'] = { onboarded: false, tutorials: {}, salt: 0, session: { index: 0, lastActiveAt: 0, missions: 0 }, nodes: {}, tags: {}, cert: { C1: { state: 'none', attempts: 0 }, C2: { state: 'none', attempts: 0 }, C3: { state: 'none', attempts: 0 } },
   probes: { factory: { done: false }, balance: { done: false }, vault: { done: false } }, orbit: { tests: [] }, mission: null, zoneHist: {}, lastPlayed: {}, visited: [], buildings: {}, baseLevel: 1, cards: [], checker: 0, race: { games: 0, inProgress: null }, errors: {}, recent: [],
-  settings: { music: true, liveReadout: true }, directOffer: null, direct: { pending: [] } };
+  settings: { music: true, liveReadout: true }, directOffer: null, direct: { pending: [] }, eco: { retro: false, pending: [] }, daily: { runSeq: 0, run: null, lastFT: 0, recent: [] } };
 GAME_CAPS['mars-base.orbit.tests'] = 40; GAME_CAPS['mars-base.recent'] = 300; GAME_CAPS['mars-base.errors.*.recent'] = 3;
 
 // ---- gear-fort (kg:v1:gear-fort v1)
@@ -175,9 +177,9 @@ SAMPLES.economy = { v: 1, ledger: [], pet: { 'name:rover': '阿福', 'slot:room1
 DEFAULTS.economy = { v: 1, ledger: [], pet: {}, seen: [] };
 
 // ---- kit-level small stores
-SCHEMAS.settings = obj({ displayName: lww, narration: lww, pinyin: lww, hiddenGames: lww, skipIntros: local, unlockAll: local });   // skipIntros / unlockAll are TEST switches: never synced
-SAMPLES.settings = { displayName: '小步步', narration: true, pinyin: false, hiddenGames: ['x'], skipIntros: false, unlockAll: false };
-DEFAULTS.settings = { displayName: '小步步', narration: true, pinyin: false, hiddenGames: [], skipIntros: false, unlockAll: false };
+SCHEMAS.settings = obj({ displayName: lww, narration: lww, pinyin: lww, hiddenGames: lww, skipIntros: local, unlockAll: local, showCoins: lww });   // skipIntros / unlockAll are TEST switches: never synced
+SAMPLES.settings = { displayName: '小步步', narration: true, pinyin: false, hiddenGames: ['x'], skipIntros: false, unlockAll: false, showCoins: false };
+DEFAULTS.settings = { displayName: '小步步', narration: true, pinyin: false, hiddenGames: [], skipIntros: false, unlockAll: false, showCoins: true };
 SCHEMAS['hub-seen'] = set;                                                    // kg:hub:seen only. kg:hub:v1 is DERIVED (recomputed at every game boot) -> never synced
 SAMPLES['hub-seen'] = ['xiangqi:n1']; DEFAULTS['hub-seen'] = [];
 SCHEMAS.metrics = map(lww);                                                   // keys '<game>@<devlabel>': each device writes only its own keys; the parent page shows 'iPad, 2 h ago'

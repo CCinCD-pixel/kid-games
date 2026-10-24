@@ -5,7 +5,7 @@
  */
 import fs from 'node:fs';
 import { expect, test } from '@playwright/test';
-import { auditMission, boot, itemKey, leaveMission, openAnswerOf, prepare, shotPath, startNode } from './lib';
+import { auditMission, boot, itemKey, leaveMission, openAnswerOf, prepare, resetSave, shotPath, startNode } from './lib';
 
 test('every node entry + one item per family: layout rules hold', async ({ page }, ti) => {
   test.setTimeout(420_000);
@@ -41,6 +41,7 @@ test('every node entry + one item per family: layout rules hold', async ({ page 
       if (!moved) break;
     }
     await leaveMission(page);
+    await resetSave(page);
     fs.appendFileSync(logF, `${n.id} ${Date.now() - t0} ms, audited ${audited}, issues ${report.length}\n`);
   }
   const unbuilt: string[] = await page.evaluate(() => (window as any).__mars.unbuilt());

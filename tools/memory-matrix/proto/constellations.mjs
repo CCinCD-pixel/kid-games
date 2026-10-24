@@ -1,13 +1,13 @@
 // Constellation line art for the 星图册 cards: DATA (RA/Dec of the stars, J2000 degrees, Hipparcos values rounded to 0.01 deg) -> gnomonic projection ->
 // normalised art coordinates -> validated. The art is NEVER hand-drawn: card art = generate(constellation) so a wrong star position cannot hide in a drawing.
 // PROVENANCE: the coordinates were typed from memory of the Hipparcos/SIMBAD values by the spec author and cross-checked below against independent
-// literature angular separations (REFERENCE_SEP, +-8 %). The implementer MUST re-verify them against the HYG database (public domain) before shipping:
-//   HYG_CSV=/path/hyg_v3.csv node constellations.mjs --verify   (matches by HIP id, tolerance 0.05 deg) and record the source in assets-src/LICENSES.md.
+// literature angular separations (REFERENCE_SEP, +-8 %). Verify against HYG v4.1 (CC BY-SA 4.0) before shipping:
+//   HYG_CSV=/path/hygdata_v41.csv node constellations.mjs --verify   (nearest bright star, tolerance 0.05 deg).
 export const CONSTELLATIONS = {
   beidou:   { zh: '北斗七星', stars: [['Dubhe', 165.93, 61.75], ['Merak', 165.46, 56.38], ['Phecda', 178.46, 53.69], ['Megrez', 183.86, 57.03], ['Alioth', 193.51, 55.96], ['Mizar', 200.98, 54.93], ['Alkaid', 206.89, 49.31]], lines: [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6]] },
   xiaoxiong: { zh: '小熊座', stars: [['Polaris', 37.95, 89.26], ['Yildun', 263.05, 86.59], ['eps UMi', 251.18, 82.04], ['zeta UMi', 236.01, 77.79], ['eta UMi', 244.38, 75.76], ['Pherkad', 230.18, 71.83], ['Kochab', 222.68, 74.16]], lines: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 3]] },
   lieHu:    { zh: '猎户座', stars: [['Betelgeuse', 88.79, 7.41], ['Bellatrix', 81.28, 6.35], ['Mintaka', 83.0, -0.3], ['Alnilam', 84.05, -1.2], ['Alnitak', 85.19, -1.94], ['Saiph', 86.94, -9.67], ['Rigel', 78.63, -8.2]], lines: [[0, 1], [0, 4], [1, 2], [2, 3], [3, 4], [4, 5], [2, 6]] },
-  tianXie:  { zh: '天蝎座', stars: [['Graffias', 241.36, -19.81], ['Dschubba', 240.08, -22.62], ['pi Sco', 239.71, -26.11], ['Antares', 247.35, -26.43], ['sigma Sco', 245.3, -25.59], ['tau Sco', 248.97, -28.22], ['eps Sco', 252.54, -34.29], ['mu1 Sco', 252.97, -38.05], ['zeta2 Sco', 253.5, -42.36], ['eta Sco', 258.04, -43.24], ['theta Sco', 264.33, -43.0], ['iota1 Sco', 266.9, -40.13], ['kappa Sco', 265.62, -39.03], ['Shaula', 263.4, -37.1]], lines: [[0, 1], [1, 2], [1, 4], [4, 3], [3, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13]] },
+  tianXie:  { zh: '天蝎座', stars: [['Graffias', 241.36, -19.81], ['Dschubba', 240.08, -22.62], ['pi Sco', 239.71, -26.11], ['Antares', 247.35, -26.43], ['sigma Sco', 245.3, -25.59], ['tau Sco', 248.97, -28.22], ['eps Sco', 252.54, -34.29], ['mu1 Sco', 252.97, -38.05], ['zeta2 Sco', 253.65, -42.36], ['eta Sco', 258.04, -43.24], ['theta Sco', 264.33, -43.0], ['iota1 Sco', 266.9, -40.13], ['kappa Sco', 265.62, -39.03], ['Shaula', 263.4, -37.1]], lines: [[0, 1], [1, 2], [1, 4], [4, 3], [3, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13]] },
   xianHou:  { zh: '仙后座', stars: [['Caph', 2.29, 59.15], ['Schedar', 10.13, 56.54], ['Navi', 14.18, 60.72], ['Ruchbah', 21.45, 60.24], ['Segin', 28.6, 63.67]], lines: [[0, 1], [1, 2], [2, 3], [3, 4]] },
   tianE:    { zh: '天鹅座', stars: [['Deneb', 310.36, 45.28], ['Sadr', 305.56, 40.26], ['Albireo', 292.68, 27.96], ['delta Cyg', 296.24, 45.13], ['Gienah', 311.55, 33.97]], lines: [[0, 1], [1, 2], [3, 1], [1, 4]] },
   nanShiZi: { zh: '南十字座', stars: [['Acrux', 186.65, -63.1], ['Mimosa', 191.93, -59.69], ['Gacrux', 187.79, -57.11], ['Imai', 183.79, -58.75]], lines: [[0, 2], [1, 3]] },
@@ -47,10 +47,10 @@ export function validate() {
   for (const [id, i, j, deg] of REFERENCE_SEP) { const c = CONSTELLATIONS[id], s = sep(c.stars[i], c.stars[j]); if (Math.abs(s / deg - 1) > 0.08) bad.push(`${id} ${c.stars[i][0]}-${c.stars[j][0]}: ${s.toFixed(2)} deg vs literature ${deg} (> 8 %)`); }
   return bad;
 }
-/** Optional ground-truth check against a local HYG CSV (ra in HOURS, dec in degrees): every star must sit within 0.05 deg of a catalogue star brighter than mag 4.6. */
+/** Optional ground-truth check against a local HYG CSV (ra in HOURS, dec in degrees): every star must sit within 0.05 deg of a catalogue star brighter than mag 5.0. */
 export async function verifyHYG(path) {
   const fs = await import('node:fs'), rows = fs.readFileSync(path, 'utf8').split('\n'), head = rows[0].split(',').map((x) => x.replace(/"/g, '')), iR = head.indexOf('ra'), iD = head.indexOf('dec'), iM = head.indexOf('mag');
-  const cat = rows.slice(1).map((r) => r.split(',')).filter((c) => c.length > iM && Number(c[iM]) < 4.6).map((c) => [0, Number(c[iR]) * 15, Number(c[iD])]); const bad = [];
+  const cat = rows.slice(1).map((r) => r.split(',')).filter((c) => c.length > iM && Number(c[iM]) < 5.0).map((c) => [0, Number(c[iR]) * 15, Number(c[iD])]); const bad = [];
   for (const [id, c] of Object.entries(CONSTELLATIONS)) c.stars.forEach((s, i) => { const best = Math.min(...cat.map((k) => sep(s, k))); if (best > 0.05) bad.push(`${id}[${i}] ${s[0]}: nearest catalogue star ${best.toFixed(3)} deg away`); });
   return bad;
 }

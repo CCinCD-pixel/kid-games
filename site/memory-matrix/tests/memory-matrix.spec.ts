@@ -1,7 +1,10 @@
 // 星图记忆站 browser checks (WebKit): the spec §10.4 list that needs a real layout engine. Test mode (?test=1) keeps the save in memory, so the child's
 // real save is never touched (asserted below). The oracle / vitest side lives in src/*.test.ts.
 import { expect, test, type Browser, type Page } from '@playwright/test';
+import path from 'node:path';
 import { instrument, shot, watch } from '../../../tests/smoke/helpers';
+
+const MUTE = path.resolve('tools/qa/mute-audio.js');
 
 const VP = {
   'ipad-portrait': { viewport: { width: 810, height: 1080 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, floor: 56, safe: '' },
@@ -15,6 +18,7 @@ const BASE = '/memory-matrix/?test=1&fast=1';
 
 async function open(browser: Browser, name: VpName) {
   const ctx = await browser.newContext({ ...VP[name], locale: 'zh-CN', timezoneId: 'Asia/Shanghai' });
+  await ctx.addInitScript({ path: MUTE });
   const page = await ctx.newPage(); await instrument(page);
   return { ctx, page, w: watch(page) };
 }
@@ -123,12 +127,18 @@ test.describe('rules (iPad portrait)', () => {
     } finally { await ctx.close(); }
   });
   test('test mode never writes the real save; a night ends in the night card with <= 400 nodes', async ({ browser }) => {
+    test.setTimeout(150_000);
     const { ctx, page, w } = await open(browser, NAME);
     try {
       await goto(page, NAME, '&sector=s1&night=1&seed=night');
-      for (let i = 0; i < 8; i += 1) {
-        await page.waitForFunction(() => (window as unknown as { __mmRound?: { phase(): string } }).__mmRound?.phase() === 'recall' || !!document.querySelector('.mm-night'), null, { timeout: 25_000 });
+      for (let i = 0; i < 24; i += 1) {
+        await page.waitForFunction(() => (window as unknown as { __mmRound?: { phase(): string } }).__mmRound?.phase() === 'recall' || !!document.querySelector('.mm-night, .mm-gate [data-act], .mm-banner:not([hidden]) .mm-banner-go'), null, { timeout: 25_000 }).catch(async (err) => {
+          const state = await page.evaluate(() => ({ phase: (window as unknown as { __mmRound?: { phase(): string } }).__mmRound?.phase(), banner: !!document.querySelector('.mm-banner:not([hidden]) .mm-banner-go'), gate: !!document.querySelector('.mm-gate'), dialog: document.querySelector('[role=dialog]')?.textContent?.slice(0, 100) }));
+          throw new Error(`night transition stuck: ${JSON.stringify(state)}`, { cause: err });
+        });
         if (await page.$('.mm-night')) break;
+        if (await page.locator('.mm-gate [data-act]').count()) { await page.locator('.mm-gate [data-act]').click(); continue; }
+        if (await page.locator('.mm-banner:not([hidden]) .mm-banner-go').count()) { await page.locator('.mm-banner-go').click(); continue; }
         await solve(page, 60); await page.waitForSelector('.mm-sheet.is-in [data-act=next]'); await page.click('.mm-sheet [data-act=next]'); await page.waitForTimeout(200);
       }
       await page.waitForSelector('.mm-night [data-act=again]', { timeout: 15_000 });
@@ -226,6 +236,7 @@ const phase2 = (page: Page) => page.evaluate(() => (window as unknown as { __mmR
 
 test('元老: an old save with cleared levels becomes ONE card and a ribbon, never a level (and the old key is untouched)', async ({ browser }) => {
   const ctx = await browser.newContext({ ...VP['ipad-portrait'], locale: 'zh-CN' }); const page = await ctx.newPage(); const w = watch(page);
+  await ctx.addInitScript({ path: MUTE });
   try {
     const live = JSON.stringify({ ladders: { sprout: { unlocked: 9, solved: { 1: { stars: 3 }, 2: { stars: 2 }, 3: { stars: 3 } } }, galaxy: { unlocked: 2, solved: { 1: { stars: 1 } } } } });
     await page.addInitScript((v) => { try { if (!localStorage.getItem('kid_games_memory_matrix_v2')) localStorage.setItem('kid_games_memory_matrix_v2', v); } catch { /* private mode */ } }, live);
@@ -237,4 +248,3 @@ test('元老: an old save with cleared levels becomes ONE card and a ribbon, nev
     expect(w.errors, w.errors.join('\n')).toEqual([]);
   } finally { await ctx.close(); }
 });
-
