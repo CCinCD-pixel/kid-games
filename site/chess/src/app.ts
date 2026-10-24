@@ -71,7 +71,7 @@ export class ChessApp {
     const active = this.save.game;
     this.root.innerHTML = `<main class="cx-page cx-home"><header class="cx-hero"><div class="cx-brand"><span class="cx-eyebrow">天宫空间站 / 棋艺舱</span><h1>棋手学院</h1><p>认识棋子，找到属于你的下一步。</p><div class="cx-hero-progress"><span>${this.save.lessons.length} / 6 棋子学会</span><span>${this.save.puzzles.length} 局完成</span></div></div><div class="cx-hero-board" aria-hidden="true"><div class="cx-hero-board-squares"></div><span class="cx-hero-piece cx-hero-piece-king">${pieceSvg({ color: 'w', type: 'K' })}</span><span class="cx-hero-piece cx-hero-piece-knight">${pieceSvg({ color: 'b', type: 'N' })}</span><span class="cx-hero-target">${icon('star')}</span></div></header>
       <div class="cx-home-guide">${this.guide()}</div>
-      ${active ? `<button class="cx-continue" type="button" data-act="resume">接着下 · ${active.mode === 'f2f' ? '面对面对弈' : active.mode === 'puzzle' ? '残局练习' : '对机器人'} <span>→</span></button>` : ''}
+      ${active ? `<button class="cx-continue" type="button" data-act="resume">接着下 · ${active.mode === 'f2f' ? '面对面对弈' : active.mode === 'puzzle' ? MATE_PUZZLES.some((p) => p.id === active.puzzleId) ? '一步将死' : '残局练习' : '对机器人'} <span>→</span></button>` : ''}
       <nav class="cx-mode-nav" aria-label="棋艺舱"><a href="#cx-learn">学棋子</a><a href="#cx-mates">一步将死</a><a href="#cx-robots">对机器人</a><a href="#cx-endgames">残局</a><button type="button" data-act="f2f">和爸爸下</button></nav>
       <section id="cx-learn" class="cx-section"><div class="cx-section-title"><h2>棋子学堂</h2><span>${this.save.lessons.length} / 6</span></div><div class="cx-lesson-grid">${PIECE_LESSONS.map((l, i) => `<button class="cx-lesson" type="button" data-lesson="${i}"><span class="cx-piece-icon">${pieceSvg({ color: 'w', type: l.piece })}</span><span><b>${l.name}</b><small>${l.title}</small></span><i>${this.save.lessons.includes(l.id) ? '✓' : '→'}</i></button>`).join('')}</div></section>
       <section id="cx-mates" class="cx-section"><div class="cx-section-title"><h2>一步将死</h2><span>${MATE_PUZZLES.filter((p) => this.save.puzzles.includes(p.id)).length} / ${MATE_PUZZLES.length}</span></div><div class="cx-endgame-grid">${MATE_PUZZLES.map((p, i) => `<button type="button" data-puzzle="${i}"><b>第 ${i + 1} 题</b><span>${p.title}</span><small>${this.save.puzzles.includes(p.id) ? '已完成 ✓' : '找到将死的一步'}</small></button>`).join('')}</div></section>
@@ -297,6 +297,10 @@ export class ChessApp {
   private requestGame(mode: Mode, level = 0, puzzleIndex = 0): void {
     const rec = this.save.game;
     if (rec && !replayMoves(rules, rec.startFen, rec.moves).game.status().over) {
+      if (rec.mode === 'puzzle' && rec.moves.length === 0 && MATE_PUZZLES.some((p) => p.id === rec.puzzleId)) {
+        this.startGame(mode, level, puzzleIndex);
+        return;
+      }
       this.pendingStart = { mode, level, puzzleIndex };
       this.render();
       return;

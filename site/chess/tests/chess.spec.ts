@@ -126,6 +126,27 @@ test('one-move mate rejects a miss, gives a legal hint, and counts only once', a
   await expect(page.locator('#cx-endgames .cx-section-title span')).toHaveText('0 / 8');
 });
 
+test('second mate opens directly after leaving an unfinished first mate', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await boot(page);
+  await page.locator('[data-puzzle="0"]').tap();
+  await page.locator('[data-act="back"]').tap();
+  await expect(page.locator('[data-act="resume"]')).toContainText('一步将死');
+  await page.locator('[data-puzzle="1"]').tap();
+  await expect(page.locator('.cx-top strong')).toHaveText('一步将死 · 第 2 题');
+  await expect(page.locator('.cx-overlay')).toHaveCount(0);
+  await page.locator('[data-act="back"]').tap();
+  await page.reload();
+  await page.locator('.kit-start__go').tap();
+  await page.locator('[data-puzzle="1"]').tap();
+  await expect(page.locator('.cx-top strong')).toHaveText('一步将死 · 第 2 题');
+  await expect(page.locator('.cx-overlay')).toHaveCount(0);
+  await page.locator('[data-sq="56"]').tap();
+  await expect(page.locator('.cx-square.selected')).toHaveCount(1);
+  await page.locator('[data-sq="0"]').tap();
+  await expect(page.getByText('白方获胜')).toBeVisible();
+});
+
 test('all one-move mates respond to phone taps and accept their solution', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await boot(page);
