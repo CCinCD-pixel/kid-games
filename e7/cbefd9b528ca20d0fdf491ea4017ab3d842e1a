@@ -1,0 +1,64 @@
+site/chess/tests/chess.spec.ts
+  s_e8836c6d1c92e0::t_5c808cddec54f4 11-12,34,55,107-109,129-156
+  s_e8836c6d1c92e0::t_16309c9e053000 94-98
+  s_e8836c6d1c92e0::t_43f0c60dc1a3d2 111-114
+site/mars-base/tests/arithmetic.spec.ts
+  s_e8836c6d1c92e0::t_5c808cddec54f4 11-12,27,49,54-68
+  s_e8836c6d1c92e0::t_f9c94cee3675c4 28
+  s_e8836c6d1c92e0::t_4c7cede009a11d 70-90
+site/chess/src/main.ts
+  s_e8836c6d1c92e0::t_429625c35fb85a 22,24
+site/chess/src/app.ts
+  s_e8836c6d1c92e0::t_43f0c60dc1a3d2 47,92,108,119,270
+  s_e8836c6d1c92e0::t_429625c35fb85a 33,147,159,164-166,174,183-188,192,205-207,213-217,223-225,280-282,294,317
+  s_e8836c6d1c92e0::t_5c808cddec54f4 161-163
+  s_e8836c6d1c92e0::t_16309c9e053000 160,243
+  s_e8836c6d1c92e0::t_437610914c16b4 9-10,37-38,48,56-67,73,93,101,109,120-121,134
+  s_e8836c6d1c92e0::t_1368a0cfed2412 177-180
+  s_e8836c6d1c92e0::t_2cc39846a118fb 115
+site/mars-base/src/main.ts
+  s_e8836c6d1c92e0::t_1abb3ed1e67718 25,27-28
+kit/coach-voice.ts
+  s_e8836c6d1c92e0::t_53672c47d53ffe 17
+  s_e8836c6d1c92e0::t_ce87803d876e8c 1-16,18-19,21-51
+  s_e8836c6d1c92e0::t_9c9ae9ad4ff583 20
+content/narration/chess.yaml
+  s_e8836c6d1c92e0::t_ce87803d876e8c 1-19
+site/chess/src/styles.css
+  s_e8836c6d1c92e0::t_4987dff0499577 78-81
+  s_e8836c6d1c92e0::t_16309c9e053000 123-131
+  s_e8836c6d1c92e0::t_1c7977feb10527 47,86-122
+content/narration/_takes/mars-arithmetic.qwen3.json
+  s_e8836c6d1c92e0::t_52da438f9ad044 1-32
+site/mars-base/src/math/app.ts
+  s_e8836c6d1c92e0::t_43f0c60dc1a3d2 18-20
+  s_e8836c6d1c92e0::t_f9c94cee3675c4 1,8-17,21-25,97
+  s_e8836c6d1c92e0::t_1abb3ed1e67718 3-4,33-34,39-57,71,77-78,95,98,107,114,125-127,142-148,151-154,162,173-174
+public/audio/mars-arithmetic/audio-manifest.json
+  s_e8836c6d1c92e0::t_52da438f9ad044 1-862
+content/narration/mars-arithmetic.yaml
+  s_e8836c6d1c92e0::t_ce87803d876e8c 1-15,17-18
+  s_e8836c6d1c92e0::t_1abb3ed1e67718 16
+site/mars-base/src/math/styles.css
+  s_e8836c6d1c92e0::t_4987dff0499577 122,124-130,132-137
+  s_e8836c6d1c92e0::t_9c9ae9ad4ff583 123,131
+  s_e8836c6d1c92e0::t_1c7977feb10527 58-84,99-121
+  s_e8836c6d1c92e0::t_f9c94cee3675c4 85-93,95-98
+  s_e8836c6d1c92e0::t_43f0c60dc1a3d2 94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "e7cbefd9b528ca20d0fdf491ea4017ab3d842e1a",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
