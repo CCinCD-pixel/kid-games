@@ -13,6 +13,43 @@
     1243
    ]
   },
+  "ma.op.div": {
+   "seed": 1243,
+   "base": 1242,
+   "sig": "adce09155112a41a94263ad27401eb6232e7fcb0",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243
+   ]
+  },
+  "ma.op.sub": {
+   "seed": 1245,
+   "base": 1242,
+   "sig": "394de3e575b17f93d73989291c406589143404d0",
+   "score": 5.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245
+   ]
+  },
+  "ma.pass": {
+   "seed": 1243,
+   "base": 1242,
+   "sig": "3980be41b115b5a8d348ab7867c5d3015c851320",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243
+   ]
+  },
   "ma.resume": {
    "seed": 1244,
    "base": 1242,
@@ -26,6 +63,17 @@
     1243,
     1244,
     1245
+   ]
+  },
+  "ma.retry": {
+   "seed": 1243,
+   "base": 1242,
+   "sig": "68699ec77cc98d01e9b7722aac3ef34611509ada",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243
    ]
   }
  }

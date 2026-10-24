@@ -135,3 +135,96 @@ body[data-xg-game="mars"] { background: #101b2d; color: #f6f5ef; }
   .ma-keypad button { min-height: 42px; }
   .ma-primary { min-height: 44px; }
 }
+
+/* Arithmetic station: a paper instrument desk set against the Mars night sky. */
+body[data-xg-game="mars"] .kit-back {
+  background: #fff1d9; border: 2px solid #d6a67b; color: #713e36;
+  box-shadow: 0 4px 0 #7f554c, 0 8px 18px #07132299;
+}
+body[data-xg-game="mars"] .kit-start { background: #172d3c url("../../../../kit/textures/paper-night.webp") 0 0 / 256px; color: #fff1db; }
+body[data-xg-game="mars"] .kit-start__card { position: relative; gap: 10px; padding-top: 170px; }
+body[data-xg-game="mars"] .kit-start__card::before { content: ""; position: absolute; top: 0; left: 50%; width: 150px; height: 150px; transform: translateX(-50%); background: url("/icons/games/mars-base.svg") center / contain no-repeat; filter: drop-shadow(0 8px 0 #0b1d2599); }
+body[data-xg-game="mars"] .kit-start__title { font-size: 37px; color: #fff1db; }
+body[data-xg-game="mars"] .kit-start__subtitle { color: #d8e9df; font-size: 19px; }
+body[data-xg-game="mars"] .kit-start__go { width: min(240px, 76vw); height: 67px; margin-top: 16px; border: 2px solid #b3724e; border-radius: 4px; background: #e7a778; color: #3b3834; font-size: 23px; box-shadow: 0 6px 0 #965d43, 0 13px 24px #061b2177; animation: none; }
+body[data-xg-game="mars"] .kit-start__go::before, body[data-xg-game="mars"] .kit-start__go::after { content: none; }
+body[data-xg-game="mars"] .kit-start__go:focus-visible { outline: 2px solid #ffefd0; outline-offset: 3px; }
+body[data-xg-game="mars"] .kit-start__go:active { transform: translateY(4px); box-shadow: 0 2px 0 #965d43; }
+.ma-page { background: #142337 url("../../../../kit/textures/paper-night.webp") 0 0 / 256px; }
+.ma-home { padding-top: max(18px, env(safe-area-inset-top)); }
+.ma-hero {
+  display: grid; grid-template-columns: minmax(0, 1fr) 210px; align-items: center;
+  width: min(100%, 1050px); min-height: 188px; box-sizing: border-box;
+  margin: 0 auto 14px; padding: 18px 20px 18px 74px;
+  border-bottom: 4px solid #e89564; background: #213c49;
+  color: #fff5df; overflow: hidden;
+}
+.ma-eyebrow { display: block; margin-bottom: 8px; color: #94d0c5; font: 800 12px/1.2 var(--xg-font-ui, system-ui); }
+.ma-hero h1 { margin: 0; font: 800 36px/1.1 var(--xg-font-title, serif); }
+.ma-hero p { max-width: 18em; margin: 8px 0 16px; font-size: 17px; line-height: 1.4; }
+.ma-hero-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.ma-hero-meta span { padding: 5px 9px; border: 1px solid #83b8b2; color: #e7f5e9; font: 700 13px var(--xg-font-num, system-ui); }
+.ma-hero-scene { position: relative; align-self: stretch; display: grid; place-items: center; min-height: 145px; }
+.ma-hero-orbit { position: absolute; width: 165px; height: 165px; border: 2px solid #e69f6b99; border-radius: 50%; box-shadow: inset 0 0 0 10px #14263855; }
+.ma-hero-scene img { position: relative; width: 126px; height: 126px; object-fit: contain; filter: drop-shadow(0 8px 3px #061e28a8); }
+.ma-hero-star { position: absolute; width: 8px; height: 8px; background: #fff5ce; transform: rotate(45deg); }
+.ma-hero-star-a { top: 20px; right: 6px; } .ma-hero-star-b { bottom: 18px; left: 14px; width: 5px; height: 5px; }
+.ma-home-guide { margin-bottom: 16px; }
+.ma-guide { border: 0; border-left: 5px solid #eb985e; background: #fff5df url("../../../../kit/textures/paper-light.webp") 0 0 / 256px; color: #273d45; box-shadow: 0 5px 0 #ac9b7d, 0 9px 18px #09152466; }
+.ma-guide-copy b { color: #a34e36; font-size: 14px; }
+.ma-guide-copy p { color: #26373d; font-weight: 650; }
+.ma-replay { width: 52px; height: 52px; border: 2px solid #9f713c; border-radius: 50%; background: #f2c96f; color: #51392b; box-shadow: 0 4px 0 #9d6c3b; cursor: pointer; }
+.ma-replay:active { transform: translateY(3px); box-shadow: 0 1px 0 #9d6c3b; }
+.ma-replay:focus-visible, .ma-back:focus-visible, .ma-stage:focus-visible, .ma-keypad button:focus-visible { outline: 3px solid #fff1a9; outline-offset: 3px; }
+.ma-resume { border: 2px solid #d9b477; background: #2a6a66; box-shadow: 0 4px 0 #123c43; }
+.ma-track, .ma-home .ma-track {
+  position: relative; border: 0; border-top: 5px solid var(--ma-accent); border-radius: 2px;
+  background: #f7f0e2 url("../../../../kit/textures/paper-light.webp") 0 0 / 256px;
+  color: #273843; box-shadow: 0 5px 0 #a5a99f, 0 10px 20px #05142466;
+}
+.ma-track-head, .ma-home .ma-track-head { border-bottom: 1px solid #c9c8b8; }
+.ma-track h2 { color: #293b42; }
+.ma-symbol { width: 42px; height: 42px; border-radius: 50%; background: var(--ma-accent); color: #263039; font-size: 29px; }
+.ma-track-count { color: #4b5b59; font-size: 14px; }
+.ma-stage, .ma-home .ma-stage:not(:disabled) { border: 1px solid #a9b4aa; border-radius: 3px; background: #fffdf6; color: #243641; box-shadow: 0 3px 0 #bec4b6; }
+.ma-stage b { color: #9a4f3b; }
+.ma-stage small { color: #465e62; }
+.ma-stage:disabled { opacity: .61; background: #dce1dc; box-shadow: none; }
+.ma-stage.is-passed, .ma-home .ma-stage.is-passed { border-color: #2d8179; background: #e3f4e9; }
+body[data-xg-game="mars"]:has(.ma-play) .kit-back { display: none; }
+.ma-play { padding-top: max(14px, env(safe-area-inset-top)); }
+.ma-play-header { border-bottom: 2px solid #b1c3bb; }
+.ma-back { width: 52px; height: 52px; border: 2px solid #d3ae79; border-radius: 50%; background: #f9e7bd; color: #653f34; box-shadow: 0 4px 0 #925f50; cursor: pointer; }
+.ma-back .xg-icon, .ma-back svg { display: block; width: 25px; height: 25px; margin: auto; }
+.ma-play-header .ma-back .xg-icon { color: #653f34; }
+.ma-back:active { transform: translateY(3px); box-shadow: 0 1px 0 #925f50; }
+.ma-task { border: 0; border-top: 6px solid #e99c70; border-radius: 2px; background: #fff3dc url("../../../../kit/textures/paper-light.webp") 0 0 / 256px; color: #223943; box-shadow: 0 6px 0 #a9896c, 0 12px 22px #07121e77; }
+.ma-task-label { color: #4c7776; } .ma-task-label span { color: #a4553d; }
+.ma-equation { color: #223b45; } .ma-equation em { color: #ae583d; }
+.ma-answer { color: #b15836; border-color: #d59549; }
+.ma-hint { color: #365255; font-weight: 600; }
+.ma-model { border-top-color: #b6b9a6; }
+.ma-keypad button { min-height: 55px; border: 2px solid #afc6bc; border-radius: 4px; background: #f6f5e9; color: #254450; box-shadow: 0 4px 0 #7a9f9a; cursor: pointer; }
+.ma-keypad button[data-key="hint"] { background: #fbe6a5; color: #725027; border-color: #d7ad63; box-shadow: 0 4px 0 #a5793e; }
+.ma-keypad button[data-key="delete"] { background: #d9ebe6; color: #28575b; }
+.ma-keypad .xg-icon, .ma-keypad svg { display: block; width: 26px; height: 26px; margin: auto; }
+.ma-primary { background: #db7551; box-shadow: 0 5px 0 #8e433d; cursor: pointer; }
+.ma-primary:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 2px 0 #8e433d; }
+@media (max-width: 720px) {
+  .ma-hero { grid-template-columns: minmax(0, 1fr) 125px; min-height: 160px; padding: 14px 8px 15px 56px; }
+  .ma-hero h1 { font-size: 28px; } .ma-hero p { font-size: 14px; margin-bottom: 10px; }
+  .ma-hero-scene { min-height: 120px; } .ma-hero-orbit { width: 110px; height: 110px; }
+  .ma-hero-scene img { width: 96px; height: 96px; }
+  .ma-guide { min-height: 70px; } .ma-replay { width: 48px; height: 48px; }
+  .ma-play { padding-top: max(12px, env(safe-area-inset-top)); }
+}
+@media (max-width: 370px) {
+  .ma-hero { grid-template-columns: minmax(0, 1fr) 92px; }
+  .ma-hero h1 { font-size: 25px; } .ma-hero-scene img { width: 75px; height: 75px; }
+  .ma-hero-orbit { width: 82px; height: 82px; } .ma-hero-meta span { font-size: 11px; }
+  .ma-stage { min-height: 65px; }
+}
+@media (max-width: 370px) and (max-height: 600px) and (orientation: portrait) {
+  body[data-xg-game="mars"] .kit-start__card { padding-top: 130px; }
+  body[data-xg-game="mars"] .kit-start__card::before { width: 114px; height: 114px; }
+}

@@ -30,19 +30,19 @@ export class ArithmeticApp {
   private shownHint = false;
   private lastScore = 0;
   private lastStage = '';
-  readonly coach = new CoachVoice('/audio/mars-arithmetic/audio-manifest.json', { name: '火星算术员', accent: '#e5855e' });
-  private coachText = '我是火星算术员，点喇叭可以再听一遍。';
+  readonly coach = new CoachVoice('/audio/mars-arithmetic/audio-manifest.json', { name: '火星搭档', accent: '#db7957' });
+  private coachText = '我是火星搭档，一起试试今天的算术题。';
 
   constructor(private root: HTMLElement, private save: MathSave, private persist: () => void) {
     root.addEventListener('click', (event) => this.click(event));
     window.addEventListener('keydown', (event) => this.keydown(event));
-    void this.coach.narrator.addManifest('/audio/mars-base/numbers-manifest.json');
+    void this.coach.narrator.addManifest('/audio/mars-arithmetic-numbers/audio-manifest.json');
   }
 
   intro(): void { this.say('选一条训练线，我们一起完成八道题。', 'ma.home'); }
 
   private guide(): string {
-    return `<div class="ma-guide"><div class="ma-bot-host"></div><div class="ma-guide-copy"><b>火星算术员</b><p class="ma-guide-text" role="status">${this.coachText}</p></div><button class="ma-replay" type="button" data-action="replay" aria-label="再听一遍" title="再听一遍">${icon('replay')}</button></div>`;
+    return `<div class="ma-guide"><div class="ma-bot-host"></div><div class="ma-guide-copy"><b>火星搭档</b><p class="ma-guide-text" role="status">${this.coachText}</p></div><button class="ma-replay" type="button" data-action="replay" aria-label="再听一遍" title="再听一遍">${icon('replay')}</button></div>`;
   }
 
   private say(text: string, lines: string | string[], mood: 'happy' | 'encouraging' | 'thinking' | 'celebrating' = 'happy'): void {
@@ -54,7 +54,7 @@ export class ArithmeticApp {
     const q = this.question;
     if (!q) return;
     const word = { add: '加', sub: '减', mul: '乘', div: '除以' }[q.op];
-    this.say(`${q.a} ${word} ${q.b} 等于几？`, [`mars.num.${q.a}`, `ma.op.${q.op}`, `mars.num.${q.b}`, 'ma.ask'], 'thinking');
+    this.say(`${q.a} ${word} ${q.b} 等于几？`, [`num.${q.a}`, `ma.op.${q.op}`, `num.${q.b}`, 'ma.ask'], 'thinking');
   }
 
   private get stage(): Stage | undefined { return STAGES.find((s) => s.id === this.save.run?.stageId); }
@@ -74,7 +74,7 @@ export class ArithmeticApp {
   private home(): void {
     const resume = this.save.run;
     this.root.innerHTML = `<main class="ma-page ma-home">
-      <header class="ma-header"><img class="ma-mark" src="/icons/games/mars-base.svg" alt=""/><div><h1>火星基地</h1><p>算术挑战 · 四条训练线</p></div></header>
+      <header class="ma-hero"><div class="ma-hero-copy"><span class="ma-eyebrow">火星基地 / 算术站</span><h1>火星基地</h1><p>加、减、乘、除，选一条路线出发。</p><div class="ma-hero-meta"><span>${Object.values(this.save.best).filter((score) => score >= PASS_SCORE).length} / ${STAGES.length} 阶完成</span><span>每阶 8 题</span></div></div><div class="ma-hero-scene" aria-hidden="true"><div class="ma-hero-orbit"></div><img src="/icons/games/mars-base.svg" alt=""/><span class="ma-hero-star ma-hero-star-a"></span><span class="ma-hero-star ma-hero-star-b"></span></div></header>
       <div class="ma-home-guide">${this.guide()}</div>
       ${resume ? `<button class="ma-resume" data-action="resume" type="button">继续上次的 ${STAGES.find((s) => s.id === resume.stageId)?.title ?? '练习'} · 第 ${resume.index + 1} 题 <span aria-hidden="true">→</span></button>` : ''}
       <div class="ma-tracks">${TRACKS.map((track) => `<section class="ma-track ma-${track.color}"><div class="ma-track-head"><span class="ma-symbol">${SYMBOL[track.op]}</span><h2>${track.title}</h2><span class="ma-track-count">${track.stages.filter((_, i) => (this.save.best[`${track.op}-${i + 1}`] ?? 0) >= PASS_SCORE).length} / 6</span></div><div class="ma-stages">${track.stages.map((title, i) => {
@@ -91,11 +91,11 @@ export class ArithmeticApp {
     const run = this.save.run, stage = this.stage, q = this.question;
     if (!run || !stage || !q) { this.view = 'home'; this.home(); return; }
     const feedback = this.view === 'feedback';
-    this.root.innerHTML = `<main class="ma-page ma-play"><header class="ma-play-header"><button class="ma-back" type="button" data-action="home" aria-label="返回选关">←</button><div><span>${SYMBOL[stage.op]} ${stage.title}</span><strong>第 ${run.index + 1} / ${QUESTIONS_PER_STAGE} 题</strong></div><span class="ma-score">答对 ${run.correct}</span></header>
+    this.root.innerHTML = `<main class="ma-page ma-play"><header class="ma-play-header"><button class="ma-back" type="button" data-action="home" aria-label="返回选关" title="返回选关">${icon('back')}</button><div><span>${SYMBOL[stage.op]} ${stage.title}</span><strong>第 ${run.index + 1} / ${QUESTIONS_PER_STAGE} 题</strong></div><span class="ma-score">答对 ${run.correct}</span></header>
       ${this.guide()}
       <div class="ma-progress" aria-hidden="true">${Array.from({ length: QUESTIONS_PER_STAGE }, (_, i) => `<i class="${i < run.index ? 'done' : i === run.index ? 'now' : ''}"></i>`).join('')}</div>
       <section class="ma-task" aria-label="算术题"><div class="ma-task-label">算术任务 <span>第 ${run.index + 1} 站</span></div><div class="ma-equation">${q.a} <em>${SYMBOL[q.op]}</em> ${q.b} <em>=</em> <span class="ma-answer ${feedback ? (this.feedback === 'right' ? 'right' : 'wrong') : ''}">${this.chosen || '?'}</span></div><p class="ma-hint">${this.shownHint ? hintFor(q) : '想好了就输入答案，随时可以点提示。'}</p>${this.shownHint && !feedback ? modelFor(q) : ''}</section>
-      ${feedback ? `<div class="ma-feedback ${this.feedback}"><b>${this.feedback === 'right' ? '答对了！' : `正确答案是 ${q.answer}`}</b><span>${this.feedback === 'right' ? '点亮一格，继续前进。' : hintFor(q)}</span></div>` : `<div class="ma-keypad" aria-label="数字键盘">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 'hint', 0, 'delete'].map((x) => `<button type="button" data-key="${x}" aria-label="${x === 'hint' ? '提示' : x === 'delete' ? '删除' : x}">${x === 'hint' ? '?' : x === 'delete' ? '⌫' : x}</button>`).join('')}</div>`}
+      ${feedback ? `<div class="ma-feedback ${this.feedback}"><b>${this.feedback === 'right' ? '答对了！' : `正确答案是 ${q.answer}`}</b><span>${this.feedback === 'right' ? '点亮一格，继续前进。' : hintFor(q)}</span></div>` : `<div class="ma-keypad" aria-label="数字键盘">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 'hint', 0, 'delete'].map((x) => `<button type="button" data-key="${x}" aria-label="${x === 'hint' ? '提示' : x === 'delete' ? '删除' : x}">${x === 'hint' ? icon('hint') : x === 'delete' ? icon('backspace') : x}</button>`).join('')}</div>`}
       <button class="ma-primary" type="button" data-action="${feedback ? 'next' : 'submit'}" ${!feedback && !this.chosen ? 'disabled' : ''}>${feedback ? '下一题 →' : '确定'}</button>
     </main>`;
   }
@@ -159,7 +159,7 @@ export class ArithmeticApp {
     if (this.view !== 'question' || !q || !this.chosen) return;
     this.feedback = Number(this.chosen) === q.answer ? 'right' : 'wrong';
     this.view = 'feedback'; this.render();
-    this.say(this.feedback === 'right' ? '算对了！下一题继续。' : `正确答案是 ${q.answer}。看看方法，再试下一题。`, this.feedback === 'right' ? 'ma.right' : ['ma.wrong', 'ma.answer', `mars.num.${q.answer}`], this.feedback === 'right' ? 'celebrating' : 'encouraging');
+    this.say(this.feedback === 'right' ? '算对了，我们看下一题。' : `正确答案是 ${q.answer}。看看方法，再试下一题。`, this.feedback === 'right' ? 'ma.right' : ['ma.wrong', 'ma.answer', `num.${q.answer}`], this.feedback === 'right' ? 'celebrating' : 'encouraging');
   }
 
   private next(): void {
@@ -170,7 +170,7 @@ export class ArithmeticApp {
     if (result.finished) { this.lastStage = result.stageId; this.lastScore = result.score; this.view = 'result'; }
     else this.view = 'question';
     this.render();
-    if (result.finished) this.say(result.score >= PASS_SCORE ? '八道题完成！下一阶开启啦。' : '训练完成！再练一轮，就会更熟练。', result.score >= PASS_SCORE ? 'ma.pass' : 'ma.retry', result.score >= PASS_SCORE ? 'celebrating' : 'encouraging');
+    if (result.finished) this.say(result.score >= PASS_SCORE ? '八道题做完了，下一阶已经开启。' : '这一轮做完了，再练一次也可以。', result.score >= PASS_SCORE ? 'ma.pass' : 'ma.retry', result.score >= PASS_SCORE ? 'celebrating' : 'encouraging');
     else this.readQuestion();
   }
 }

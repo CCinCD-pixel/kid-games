@@ -34,8 +34,8 @@ export class ChessApp {
   private epoch = 0;
   private worker: Worker | null = null;
   private requestId = 0;
-  readonly coach = new CoachVoice('/audio/chess/audio-manifest.json', { name: '棋艺教练', accessory: 'coach' });
-  private coachText = '我是棋艺教练，点我可以再听一遍。';
+  readonly coach = new CoachVoice('/audio/chess/audio-manifest.json', { name: '小星棋友', accessory: 'coach', accent: '#b88b54' });
+  private coachText = '我是小星棋友，咱们一起想想下一步。';
 
   constructor(private root: HTMLElement, private save: ChessSave, private persist: () => void) {
     root.addEventListener('click', (event) => this.click(event));
@@ -64,12 +64,12 @@ export class ChessApp {
   }
 
   private guide(): string {
-    return `<div class="cx-guide"><div class="cx-bot-host"></div><div class="cx-guide-copy"><b>棋艺教练</b><p class="cx-guide-text" role="status">${this.coachText}</p></div><button class="cx-replay" type="button" data-act="replay" aria-label="再听一遍" title="再听一遍">${icon('replay')}</button></div>`;
+    return `<div class="cx-guide"><div class="cx-bot-host"></div><div class="cx-guide-copy"><b>小星棋友</b><p class="cx-guide-text" role="status">${this.coachText}</p></div><button class="cx-replay" type="button" data-act="replay" aria-label="再听一遍" title="再听一遍">${icon('replay')}</button></div>`;
   }
 
   private renderHome(): void {
     const active = this.save.game;
-    this.root.innerHTML = `<main class="cx-page cx-home"><header class="cx-brand"><img src="/icons/games/chess.svg" alt=""/><div><h1>棋手学院</h1><p>天宫空间站 · 棋艺舱</p></div></header>
+    this.root.innerHTML = `<main class="cx-page cx-home"><header class="cx-hero"><div class="cx-brand"><span class="cx-eyebrow">天宫空间站 / 棋艺舱</span><h1>棋手学院</h1><p>认识棋子，找到属于你的下一步。</p><div class="cx-hero-progress"><span>${this.save.lessons.length} / 6 棋子学会</span><span>${this.save.puzzles.length} 局完成</span></div></div><div class="cx-hero-board" aria-hidden="true"><div class="cx-hero-board-squares"></div><span class="cx-hero-piece cx-hero-piece-king">${pieceSvg({ color: 'w', type: 'K' })}</span><span class="cx-hero-piece cx-hero-piece-knight">${pieceSvg({ color: 'b', type: 'N' })}</span><span class="cx-hero-target">${icon('star')}</span></div></header>
       <div class="cx-home-guide">${this.guide()}</div>
       ${active ? `<button class="cx-continue" type="button" data-act="resume">接着下 · ${active.mode === 'f2f' ? '面对面对弈' : active.mode === 'puzzle' ? '残局练习' : '对机器人'} <span>→</span></button>` : ''}
       <nav class="cx-mode-nav" aria-label="棋艺舱"><a href="#cx-learn">学棋子</a><a href="#cx-mates">一步将死</a><a href="#cx-robots">对机器人</a><a href="#cx-endgames">残局</a><button type="button" data-act="f2f">和爸爸下</button></nav>
@@ -97,7 +97,7 @@ export class ChessApp {
     const lesson = PIECE_LESSONS[this.lessonIdx];
     const task = lesson.tasks[this.taskIdx];
     const title = `${lesson.name} · ${this.taskIdx + 1} / ${lesson.tasks.length}`;
-    this.root.innerHTML = `<main class="cx-page cx-play"><header class="cx-top"><button class="cx-icon" type="button" data-act="back" aria-label="返回棋艺舱">←</button><div><strong>棋子学堂</strong><span>${title}</span></div></header>
+    this.root.innerHTML = `<main class="cx-page cx-play"><header class="cx-top"><button class="cx-icon" type="button" data-act="back" aria-label="返回棋艺舱" title="返回棋艺舱">${icon('back')}</button><div><strong>棋子学堂</strong><span>${title}</span></div></header>
       <div class="cx-play-layout"><div class="cx-board-wrap">${this.board(this.lessonState!, sq(task.to))}</div><aside class="cx-side">${this.guide()}<div class="cx-coach"><div class="cx-coach-head">${pieceSvg({ color: 'w', type: lesson.piece })}<strong>${lesson.title}</strong></div><p>${lesson.teaches}</p><p>把${lesson.name}走到星星上。可以分几步走。</p></div><div class="cx-note" role="status">${this.lessonSuccess ? '找到了这一步！' : this.note || '点棋子，再点落点。'}</div><div class="cx-actions">${this.lessonSuccess ? `<button class="cx-primary" type="button" data-act="next-task">${this.taskIdx + 1 === lesson.tasks.length ? '完成训练' : '下一题 →'}</button>` : '<button type="button" data-act="lesson-hint">看看能走哪里</button>'}</div></aside></div>
     </main>`;
   }
@@ -129,8 +129,8 @@ export class ChessApp {
     const turn = game.turn() === 0 ? '白方' : '黑方';
     const robot = rec.mode === 'ai' ? robotsJson.levels[rec.level].look.ui.name : '残局守将';
     const mate = rec.mode === 'puzzle' && MATE_PUZZLES.some((p) => p.id === rec.puzzleId);
-    const title = rec.mode === 'f2f' ? '和爸爸下' : rec.mode === 'puzzle' ? `${mate ? '一步将死' : '残局'} · ${PUZZLES.find((p) => p.id === rec.puzzleId)?.title ?? ''}` : `对弈 · ${robot}`;
-    this.root.innerHTML = `<main class="cx-page cx-play"><header class="cx-top"><button class="cx-icon" type="button" data-act="back" aria-label="返回棋艺舱">←</button><div><strong>${title}</strong><span>${status.over ? winner : this.busy ? `${robot}思考中` : `${turn}走棋`}</span></div><button class="cx-icon" type="button" data-act="flip" aria-label="翻转棋盘" title="翻转棋盘">⟳</button></header>
+    const title = rec.mode === 'f2f' ? '和爸爸下' : rec.mode === 'puzzle' ? (mate ? `一步将死 · 第 ${MATE_PUZZLES.findIndex((p) => p.id === rec.puzzleId) + 1} 题` : `残局 · ${PUZZLES.find((p) => p.id === rec.puzzleId)?.title ?? ''}`) : `对弈 · ${robot}`;
+    this.root.innerHTML = `<main class="cx-page cx-play"><header class="cx-top"><button class="cx-icon" type="button" data-act="back" aria-label="返回棋艺舱" title="返回棋艺舱">${icon('back')}</button><div><strong>${title}</strong><span>${status.over ? winner : this.busy ? `${robot}思考中` : `${turn}走棋`}</span></div><button class="cx-icon" type="button" data-act="flip" aria-label="翻转棋盘" title="翻转棋盘">${icon('swap')}</button></header>
       <div class="cx-play-layout"><div class="cx-board-wrap">${this.board(game.state())}</div><aside class="cx-side">${this.guide()}<div class="cx-coach"><div class="cx-coach-head"><strong>${rec.mode === 'f2f' ? '面对面' : mate ? '一步将死' : robot}</strong></div><p>${mate ? '让黑王无处可逃。' : rec.mode === 'puzzle' ? '试着将死黑王。' : rec.mode === 'f2f' ? '轮流走棋，把王保护好。' : '先照顾王，再想怎么进攻。'}</p><div class="cx-count">第 ${Math.floor(game.ply() / 2) + 1} 回合 · ${game.ply()} 步</div></div><div class="cx-note" role="status">${status.over ? chessReasonText(status.reason) : this.note || (this.busy ? '棋手正在想下一步' : '点棋子，再点落点。')}</div><div class="cx-actions"><button type="button" data-act="hint" ${this.busy || status.over ? 'disabled' : ''}>提示</button><button type="button" data-act="undo" ${game.ply() === 0 ? 'disabled' : ''}>悔棋</button><button type="button" data-act="restart">重来</button></div>${status.over ? `<button class="cx-primary" type="button" data-act="finish">返回棋艺舱</button>` : ''}</aside></div>
       ${this.promotion ? `<div class="cx-overlay"><div class="cx-dialog"><h2>兵升变成什么？</h2><div class="cx-promo">${this.promotion.map((m) => `<button type="button" data-promo="${m.promotion}">${pieceSvg({ color: game.state().turn, type: m.promotion! })}<span>${PROMO_NAMES[m.promotion!]}</span></button>`).join('')}</div></div></div>` : ''}
       ${this.resetOpen ? '<div class="cx-overlay"><div class="cx-dialog"><h2>重新开始这一盘？</h2><div class="cx-dialog-actions"><button type="button" data-act="cancel-reset">继续下</button><button type="button" data-act="confirm-reset">重新开始</button></div></div></div>' : ''}
