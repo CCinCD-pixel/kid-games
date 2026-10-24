@@ -1,0 +1,327 @@
+site/mars-base/src/screens/pets.ts
+  s_e8836c6d1c92e0::t_942e71366088f9 5,83,111,140,161
+  s_e8836c6d1c92e0::t_c48f74a9fe85ca 32,124
+  s_e8836c6d1c92e0::t_2f7cf4938e0e2a 40-44,49-54,160
+  s_e8836c6d1c92e0::t_de559a1c4740c3 132,146
+  s_e8836c6d1c92e0::t_e3ac843e04f097 22,70,72,75-76,141-142,147,150,199,207,212
+  s_e8836c6d1c92e0::t_c8d04447a3799e 1-4,7-21,23-31,33-38,56-69,71,73-74,78-82,84-85,87-96,98-106,108-110,112-123,125-131,133-139,143-145,148-149,151-159,162-163,166-168,172-175,178-179,184-187,196,198,200-202,208-211,215-216,219-223
+  s_e8836c6d1c92e0::t_805d1ca091ad91 213
+  s_e8836c6d1c92e0::t_58c3f04415e332 188-195,197,203-206,214
+  s_e8836c6d1c92e0::t_7496c04d1b9f8e 6,39,45-48,55,77,86,97,107,164-165,169-171,176-177,180-183,217-218
+kit/clock.ts
+  s_e8836c6d1c92e0::t_64f0a693e9f348 1-48
+content/star-pets/economy.json
+  s_e8836c6d1c92e0::t_b958f3808cc828 1-55
+site/mars-base/src/save/repair.ts
+  s_e8836c6d1c92e0::t_1963ade67b0318 43
+  s_e8836c6d1c92e0::t_79cfcb53dc2e12 44,57-58
+site/memory-matrix/game.json
+  s_e8836c6d1c92e0::t_cf0ed1c6d72a0b 5,12-13
+  s_e8836c6d1c92e0::t_808975bfd3e5d3 14
+tools/mars-base/e2e-all.sh
+  s_e8836c6d1c92e0::t_f66f6dccd8af7c 8,11-21,29,31,35,37-44,47-52,57
+  s_e8836c6d1c92e0::t_b5d7d663a6b247 22-23,33
+content/mars-base/_takes/mars-base.qwen3.json
+  s_e8836c6d1c92e0::t_a5cb4e90e9ad70 147,149
+  s_e8836c6d1c92e0::t_b622d766a9df6b 143-146,148,153,941
+  s_e8836c6d1c92e0::t_709a52aaf8a7f0 882-940,942-951
+  s_e8836c6d1c92e0::t_774111bea9c4d4 94-101,273-306
+  s_e8836c6d1c92e0::t_ab215e9adb03b4 157-269,687-864,1053-1063
+tests/xiangqi/voice.spec.ts
+  s_e8836c6d1c92e0::t_5a0b211bfc6c2a 1-11
+docs/ACCEPTANCE-xiangqi.md
+  s_e8836c6d1c92e0::t_287467f539abdb 3-4
+site/mars-base/src/app/starPetMetrics.ts
+  s_e8836c6d1c92e0::t_c23615a8c629f9 1-20,22,24-54
+  s_e8836c6d1c92e0::t_98227c5b09c971 21,23
+site/mars-base/e2e/lib.ts
+  s_e8836c6d1c92e0::t_1574695a676648 123-125
+  s_e8836c6d1c92e0::t_bd4cc870f8872f 63,69
+tests/xiangqi/playwright.config.ts
+  s_e8836c6d1c92e0::t_0037926d396cfd 9
+content/memory-matrix/narration.yaml
+  s_e8836c6d1c92e0::t_c573dbe9ea17a8 29,45,73,118
+engines/board/save/adapter.ts
+  s_e8836c6d1c92e0::t_8c3d200baf7d19 13
+site/parent/src/main.ts
+  s_e8836c6d1c92e0::t_388a39a2d4dcfd 26,244,262-263,478
+  s_e8836c6d1c92e0::t_b5ee1023bbbde2 13,24,27,55-62,237,241-242,248-254,258,265-266,268-271,273-289,480
+  s_e8836c6d1c92e0::t_081e99ad03e2b2 255-257,272
+  s_e8836c6d1c92e0::t_98227c5b09c971 25,243,245-247,259-261,264,267,508-511,518
+site/snake-battle/validate/budget.test.ts
+  s_e8836c6d1c92e0::t_232f5b2bd90247 50-51,88
+site/memory-matrix/playwright.config.ts
+  s_e8836c6d1c92e0::t_bf2be541bb9497 1-32
+site/memory-matrix/src/view/round.ts
+  s_e8836c6d1c92e0::t_7a568141fed561 80
+docs/specs/README.md
+  s_e8836c6d1c92e0::t_d298ccedc65295 21
+site/xiangqi/src/app/panels.ts
+  s_e8836c6d1c92e0::t_c5b858280c97e0 83-84,86-87
+  s_e8836c6d1c92e0::t_0fa01ea4a9854d 85
+site/memory-matrix/tests/memory-matrix.spec.ts
+  s_e8836c6d1c92e0::t_e0890ccf8aac77 130,134-135,140-141
+  s_e8836c6d1c92e0::t_625b993a11ac13 4,7-8,21,239
+  s_e8836c6d1c92e0::t_11fefd9f056a5b 136-138
+site/xiangqi/src/styles/xq.css
+  s_e8836c6d1c92e0::t_c5b858280c97e0 220-223
+public/audio/memory-matrix/audio-manifest.json
+  s_e8836c6d1c92e0::t_93e14c33428ed8 1286-7038
+tests/economy/store.test.ts
+  s_e8836c6d1c92e0::t_4e90b56d9fd2ed 58-64
+  s_e8836c6d1c92e0::t_b155e23614a283 1-57,79
+  s_e8836c6d1c92e0::t_e689b094b1ecb2 65-78
+site/mars-base/src/app/engagement.ts
+  s_e8836c6d1c92e0::t_378db6a99926b8 1-18
+site/mars-base/validate/starPetActivity.test.ts
+  s_e8836c6d1c92e0::t_388a39a2d4dcfd 1-44
+site/xiangqi/src/main.ts
+  s_e8836c6d1c92e0::t_046aee8609511d 84
+tools/mars-base/touch-sweep.mjs
+  s_e8836c6d1c92e0::t_af47aef73ee1b3 14,29,59
+  s_e8836c6d1c92e0::t_b84e51421fccea 314-315
+site/mars-base/src/save/store.ts
+  s_e8836c6d1c92e0::t_402e59cd6ac54f 68
+  s_e8836c6d1c92e0::t_79cfcb53dc2e12 5,16,22-23,60
+tests/sync/support/schemas.ts
+  s_e8836c6d1c92e0::t_fec050f281a2c0 180-182
+  s_e8836c6d1c92e0::t_643938ec232b80 69,82,87-88,91
+site/mars-base/e2e/stability.spec.ts
+  s_e8836c6d1c92e0::t_bd4cc870f8872f 20,23
+kit/economy/data.ts
+  s_e8836c6d1c92e0::t_18fe8130ec1074 1-19
+docs/specs/memory-matrix.md
+  s_e8836c6d1c92e0::t_d298ccedc65295 238,331,396
+site/mars-base/e2e/behaviour.spec.ts
+  s_e8836c6d1c92e0::t_402e59cd6ac54f 2,37,48
+  s_e8836c6d1c92e0::t_6467f6941b09bb 81-87
+  s_e8836c6d1c92e0::t_14d4dd8e91ba8c 8,13-29
+  s_e8836c6d1c92e0::t_22107de454d1b1 51-57
+  s_e8836c6d1c92e0::t_00d0b99027e6fc 109
+site/mars-base/validate/save.test.ts
+  s_e8836c6d1c92e0::t_44a51b02ca13fa 1,25,30,38-39,42,63,68-69,71,89
+site/memory-matrix/tests/memory-matrix-r1.spec.ts
+  s_e8836c6d1c92e0::t_625b993a11ac13 5,8-9,26,205
+  s_e8836c6d1c92e0::t_7a568141fed561 73
+site/mars-base/e2e/glyphs.spec.ts
+  s_e8836c6d1c92e0::t_c29fc578f39eb4 3-5,7,31-32,41
+  s_e8836c6d1c92e0::t_6001f263c55e56 15,42-47
+tools/memory-matrix/proto/constellations.mjs
+  s_e8836c6d1c92e0::t_cfa60de812b92b 4-5,10,50,53
+site/mars-base/e2e/result.spec.ts
+  s_e8836c6d1c92e0::t_bd4cc870f8872f 32-37,45-50
+kit/sync/sidecar.ts
+  s_e8836c6d1c92e0::t_8c3d200baf7d19 3
+  s_e8836c6d1c92e0::t_3f47875856dbd0 103-104
+  s_e8836c6d1c92e0::t_3e75db51db85b5 1-2,4-102,105-108
+content/mars-base/lines.json
+  s_e8836c6d1c92e0::t_7c58731495a46a 728
+  s_e8836c6d1c92e0::t_12dd4d11db7208 11886-11889,11891-11904,11906-11907
+  s_e8836c6d1c92e0::t_62ac19e33f293c 95-105
+  s_e8836c6d1c92e0::t_63e2f1d29aaf33 11890
+  s_e8836c6d1c92e0::t_4678d483d8f188 710,1035,1468,2899,11905
+  s_e8836c6d1c92e0::t_ce3c3ba091d7e0 139,175,463,962,2495,2927,11709,11775,11915
+site/mars-base/src/styles.css
+  s_e8836c6d1c92e0::t_a7f2985a6bb104 19,37
+  s_e8836c6d1c92e0::t_f3362a3ae3468e 49-55
+  s_e8836c6d1c92e0::t_9a707ff1561efa 15-16
+  s_e8836c6d1c92e0::t_bd4cc870f8872f 18
+  s_e8836c6d1c92e0::t_b585a74161c12f 13-14
+  s_e8836c6d1c92e0::t_bdfeebab9a582f 30-33,35-36,38
+  s_e8836c6d1c92e0::t_de999c50850e1c 135
+site/mars-base/validate/engagement.test.ts
+  s_e8836c6d1c92e0::t_378db6a99926b8 1-23
+site/mars-base/src/art/pets.ts
+  s_e8836c6d1c92e0::t_41244dbb145239 1-73
+site/mars-base/src/data/lines.v1.json
+  s_e8836c6d1c92e0::t_4c8bafba3fde03 1
+content/mars-base/narration.yaml
+  s_e8836c6d1c92e0::t_c46297e4d5cb41 46-51,1175-1188,1191-1235,1237-1242
+  s_e8836c6d1c92e0::t_4c8bafba3fde03 1189-1190
+  s_e8836c6d1c92e0::t_ce3c3ba091d7e0 69,87,195,382,900,976,1087,1120
+  s_e8836c6d1c92e0::t_420067aba1e2f6 262,407,570,964,1236
+site/mars-base/validate/compose.test.ts
+  s_e8836c6d1c92e0::t_0491d66bb32037 51,54-56,58
+site/mars-base/src/stages.css
+  s_e8836c6d1c92e0::t_d2890a0660c0a6 37
+  s_e8836c6d1c92e0::t_0b50e69946fe34 47-52
+docs/HANDOFF.md
+  s_e8836c6d1c92e0::t_133b9fc27ce1a4 5
+  s_e8836c6d1c92e0::t_287467f539abdb 3-4,6
+site/mars-base/e2e/layout.spec.ts
+  s_e8836c6d1c92e0::t_ff17cfd0df2f61 8,44
+site/mars-base/src/save/schema.ts
+  s_e8836c6d1c92e0::t_1963ade67b0318 14,23,72-73
+  s_e8836c6d1c92e0::t_79cfcb53dc2e12 1,3,8,55-57,67
+kit/sync/crypto.ts
+  s_e8836c6d1c92e0::t_699d3fd76b7bfc 1-135
+site/mars-base/src/app/daily.ts
+  s_e8836c6d1c92e0::t_f940e0cbac7a0d 1-44,46-61,63-75,77-79
+  s_e8836c6d1c92e0::t_b3b5b1e1323a3a 45,62,76
+tools/mars-base/soak-lib.mjs
+  s_e8836c6d1c92e0::t_d7c1f27e5e66a7 91,98
+  s_e8836c6d1c92e0::t_9eee1f44bf5d82 55,83,86
+docs/ACCEPTANCE-mars-base.md
+  s_e8836c6d1c92e0::t_133b9fc27ce1a4 7
+  s_e8836c6d1c92e0::t_287467f539abdb 1-6,8
+kit/progress.ts
+  s_e8836c6d1c92e0::t_33688ba662ec29 337
+  s_e8836c6d1c92e0::t_18fe8130ec1074 19
+  s_e8836c6d1c92e0::t_3e75db51db85b5 42,55,85,106,141-146,163,171-172,177-178,180,189
+  s_e8836c6d1c92e0::t_851653f54bcc54 369-378
+  s_e8836c6d1c92e0::t_3f47875856dbd0 20,152-158,173-176
+site/mars-base/src/screens/mission.ts
+  s_e8836c6d1c92e0::t_c5784ae5dc43c7 82
+  s_e8836c6d1c92e0::t_378db6a99926b8 26,126-128,133,170,204-205,221-223,240
+  s_e8836c6d1c92e0::t_bd4cc870f8872f 93,98
+  s_e8836c6d1c92e0::t_62ac19e33f293c 81,83-84
+  s_e8836c6d1c92e0::t_ffaa73dd940704 94
+  s_e8836c6d1c92e0::t_2045250fae7054 38
+  s_e8836c6d1c92e0::t_c23615a8c629f9 14,96-97,99-100
+  s_e8836c6d1c92e0::t_b585a74161c12f 90,101
+  s_e8836c6d1c92e0::t_96a9bbf8c4a91d 35,41-42,44-45
+site/mars-base/validate/repair.test.ts
+  s_e8836c6d1c92e0::t_b3dc2fe0fdc9e4 1,14,27
+site/mars-base/validate/daily.test.ts
+  s_e8836c6d1c92e0::t_0a452f6aa482bf 1-18,20-32,34-67
+  s_e8836c6d1c92e0::t_5723e6e1378d9e 19,33
+kit/sync/index.ts
+  s_e8836c6d1c92e0::t_699d3fd76b7bfc 7
+  s_e8836c6d1c92e0::t_3e75db51db85b5 8
+kit/economy/index.ts
+  s_e8836c6d1c92e0::t_97d0be495a039a 49-53,105,127
+  s_e8836c6d1c92e0::t_ffaa73dd940704 34
+  s_e8836c6d1c92e0::t_18fe8130ec1074 5,8-9,25,36
+  s_e8836c6d1c92e0::t_e3ac843e04f097 48,76-80
+  s_e8836c6d1c92e0::t_4e90b56d9fd2ed 119
+  s_e8836c6d1c92e0::t_fbe42a087b3f67 116-118,120
+  s_e8836c6d1c92e0::t_f5d4920f22ebde 1-4,6-7,10-24,26-33,35,37-47,54-75,81-104,106-115,121-126,128-142
+tests/unit/settings.test.ts
+  s_e8836c6d1c92e0::t_4854ac6f19ff88 9,11,16-22
+site/memory-matrix/src/styles.css
+  s_e8836c6d1c92e0::t_7a568141fed561 119,156-157
+site/mars-base/playwright.mars.config.ts
+  s_e8836c6d1c92e0::t_131dfb66922a1f 26
+tests/sync/sidecar.test.ts
+  s_e8836c6d1c92e0::t_e04759ad771d61 1-59,80-86,98-100
+  s_e8836c6d1c92e0::t_3f47875856dbd0 60-79,87-97
+site/mars-base/src/save/migrate.ts
+  s_e8836c6d1c92e0::t_79cfcb53dc2e12 1,3,44,46-54
+  s_e8836c6d1c92e0::t_402e59cd6ac54f 4,45
+site/mars-base/src/pets/unlock.ts
+  s_e8836c6d1c92e0::t_942e71366088f9 1-17
+tests/sync/crypto.test.ts
+  s_e8836c6d1c92e0::t_699d3fd76b7bfc 1-49
+site/mars-base/game.json
+  s_e8836c6d1c92e0::t_cf0ed1c6d72a0b 7,17,21
+  s_e8836c6d1c92e0::t_808975bfd3e5d3 19
+site/memory-matrix/src/core/constellations.ts
+  s_e8836c6d1c92e0::t_a41555fa7c7b53 6-7
+  s_e8836c6d1c92e0::t_cfa60de812b92b 12
+assets-src/LICENSES.md
+  s_e8836c6d1c92e0::t_cfa60de812b92b 24
+site/mars-base/src/app/types.ts
+  s_e8836c6d1c92e0::t_f940e0cbac7a0d 65
+  s_e8836c6d1c92e0::t_1963ade67b0318 8
+  s_e8836c6d1c92e0::t_378db6a99926b8 70
+site/mars-base/src/app/mission.ts
+  s_e8836c6d1c92e0::t_b3b5b1e1323a3a 11,29,32-33,43,46,98-99,108,131-141
+  s_e8836c6d1c92e0::t_378db6a99926b8 18,77
+  s_e8836c6d1c92e0::t_2dc750163caddc 14,100
+  s_e8836c6d1c92e0::t_ffaa73dd940704 6,34,114,150,171-173,175
+  s_e8836c6d1c92e0::t_41ae0782312a66 109,174
+tools/mars-base/emit-narration.mjs
+  s_e8836c6d1c92e0::t_4678d483d8f188 38-39
+site/mars-base/src/art/buildings.ts
+  s_e8836c6d1c92e0::t_a7f2985a6bb104 3,5-6,54-59
+tests/unit/clock.test.ts
+  s_e8836c6d1c92e0::t_64f0a693e9f348 1-22
+tests/unit/progress.test.ts
+  s_e8836c6d1c92e0::t_851653f54bcc54 145-155
+  s_e8836c6d1c92e0::t_33688ba662ec29 129-130,141-142
+site/mars-base/src/pets.css
+  s_e8836c6d1c92e0::t_de559a1c4740c3 39-40,100-102,115-116,119-121,127-128
+  s_e8836c6d1c92e0::t_e689b094b1ecb2 34,49
+  s_e8836c6d1c92e0::t_55801b3d4c6609 33
+  s_e8836c6d1c92e0::t_6503e20e54b3b0 117-118
+  s_e8836c6d1c92e0::t_b5ee1023bbbde2 86-90
+  s_e8836c6d1c92e0::t_2f7cf4938e0e2a 74
+  s_e8836c6d1c92e0::t_58c3f04415e332 61
+  s_e8836c6d1c92e0::t_6a687317ae68c0 1-32,35-38,41-48,50-60,62-73,75-85,91-99,103-114,122-126,129-131
+site/mars-base/e2e/daily.spec.ts
+  s_e8836c6d1c92e0::t_852ed8e7dab6d6 1-36,38-39,41-54
+  s_e8836c6d1c92e0::t_b0fb08b68cb29b 37,40
+site/mars-base/src/main.ts
+  s_e8836c6d1c92e0::t_6a687317ae68c0 2
+  s_e8836c6d1c92e0::t_22107de454d1b1 18,34
+kit/settings.ts
+  s_e8836c6d1c92e0::t_b585a74161c12f 41-42,45,71
+public/audio/mars-base/audio-manifest.json
+  s_e8836c6d1c92e0::t_b622d766a9df6b 3833-3876,6087-8342,11887,11889-11900,11904-11905,11909-11920,15722,15724,15730,15734-15735,15739-15740,15744-15745,15749-15750,15754-15755,15759-15760,15764-15765,15769-15770,15774-15775,15779-15780
+  s_e8836c6d1c92e0::t_b00217aa5b2723 1061-2785,4606-5756,11310,11989-14621,15887-15890
+  s_e8836c6d1c92e0::t_709a52aaf8a7f0 744-864,14731-14936,14940-14942,14946-14948,14951-14952,14956-14958,14961-14963,14966-15721,15723,15725-15729,15731-15733,15736-15738,15741-15743,15746-15748,15751-15753,15756-15758,15761-15763,15766-15768,15771-15773,15776-15778,15781-15886
+  s_e8836c6d1c92e0::t_a5cb4e90e9ad70 11309,11311-11332,11888,11903,11906-11908
+site/mars-base/e2e/screens.spec.ts
+  s_e8836c6d1c92e0::t_f3362a3ae3468e 34-40
+  s_e8836c6d1c92e0::t_bd4cc870f8872f 48
+site/mars-base/src/screens/app.ts
+  s_e8836c6d1c92e0::t_96a9bbf8c4a91d 27,160,168,199,202-205,207,225,238,298,300,303,306
+  s_e8836c6d1c92e0::t_e3ac843e04f097 301-302
+  s_e8836c6d1c92e0::t_2045250fae7054 284
+  s_e8836c6d1c92e0::t_97d0be495a039a 67,174-176,186,191-193,197,212-214,219
+  s_e8836c6d1c92e0::t_67381f69df0499 69,144-157,223,274,285,367
+  s_e8836c6d1c92e0::t_e689b094b1ecb2 200-201
+  s_e8836c6d1c92e0::t_62ac19e33f293c 240
+  s_e8836c6d1c92e0::t_b585a74161c12f 7,28,66,72,91,122,177,269-273
+  s_e8836c6d1c92e0::t_c5784ae5dc43c7 100-108
+  s_e8836c6d1c92e0::t_ffaa73dd940704 9,65,78-87
+  s_e8836c6d1c92e0::t_e69f5c54616d3c 68,128-143
+  s_e8836c6d1c92e0::t_41ae0782312a66 185,196,206,218,222,237,248,250-252
+  s_e8836c6d1c92e0::t_de999c50850e1c 233,239,249,276
+  s_e8836c6d1c92e0::t_a7f2985a6bb104 42,280,286
+site/mars-base/src/app/planMission.ts
+  s_e8836c6d1c92e0::t_f940e0cbac7a0d 20,22,160,163
+site/parent/src/parent.css
+  s_e8836c6d1c92e0::t_081e99ad03e2b2 69-72
+  s_e8836c6d1c92e0::t_b5ee1023bbbde2 73-78
+tests/smoke/platform.spec.ts
+  s_e8836c6d1c92e0::t_fc5ad74ea1750e 105-107,113-117,122-128,135-137
+  s_e8836c6d1c92e0::t_664ffbe25d8e49 118-121,129,178-188
+  s_e8836c6d1c92e0::t_20fbc30c27272e 108-112,130-134
+site/mars-base/validate/starPetMetrics.test.ts
+  s_e8836c6d1c92e0::t_c23615a8c629f9 1-37
+site/mars-base/src/app/starPetActivity.ts
+  s_e8836c6d1c92e0::t_b585a74161c12f 1-101
+public/icons/games/memory-matrix.svg
+  s_e8836c6d1c92e0::t_5773bbbc6d1c36 2-29
+site/mars-base/e2e/pets.spec.ts
+  s_e8836c6d1c92e0::t_7c95b46f87e166 188,190,192-194
+  s_e8836c6d1c92e0::t_159f099bb27bf3 185
+  s_e8836c6d1c92e0::t_d031768ee8d267 98-105
+  s_e8836c6d1c92e0::t_131dfb66922a1f 109-134
+  s_e8836c6d1c92e0::t_651cd33911038f 2-23,25-36
+  s_e8836c6d1c92e0::t_5cb2269a494e0f 1,37-52,54-61,63-97,106-108,135-156,160-163,167-175
+  s_e8836c6d1c92e0::t_8d340977b6d73c 157-159
+  s_e8836c6d1c92e0::t_f4fe32c168060a 53,62
+  s_e8836c6d1c92e0::t_b0fb08b68cb29b 24
+  s_e8836c6d1c92e0::t_de559a1c4740c3 164-166
+  s_e8836c6d1c92e0::t_6b8f8fc84287ff 176-184,186-187,189,191,195-205
+site/mars-base/src/app/adaptive.ts
+  s_e8836c6d1c92e0::t_b2faf630a7726c 48,55,68,76,79,82,88-89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "fe9173e7f70aaffb9f5f4765067663b42b096141",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
