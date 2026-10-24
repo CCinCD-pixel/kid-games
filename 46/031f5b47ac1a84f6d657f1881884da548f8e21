@@ -1,0 +1,22 @@
+site/chess/src/app.ts
+  s_e8836c6d1c92e0::t_3b5a9004240bf0 74,300-303
+site/chess/tests/chess.spec.ts
+  s_e8836c6d1c92e0::t_cddb20c239a1dd 138-143
+  s_e8836c6d1c92e0::t_3b5a9004240bf0 129-137,144-149
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "46031f5b47ac1a84f6d657f1881884da548f8e21",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
