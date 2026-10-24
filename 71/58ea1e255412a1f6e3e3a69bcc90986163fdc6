@@ -1,0 +1,34 @@
+site/mars-base/src/math/app.ts
+  s_e8836c6d1c92e0::t_46e66b21b719a5 33,39
+public/audio/mars-arithmetic-numbers/audio-manifest-v2.json
+  s_e8836c6d1c92e0::t_ee6e2d1cb84425 1-1315
+site/chess/tests/chess.spec.ts
+  s_e8836c6d1c92e0::t_46e66b21b719a5 152
+  s_e8836c6d1c92e0::t_07e51fce62a2db 159-181
+site/mars-base/tests/arithmetic.spec.ts
+  s_e8836c6d1c92e0::t_46e66b21b719a5 64
+public/audio/chess/audio-manifest-v2.json
+  s_e8836c6d1c92e0::t_ee6e2d1cb84425 1-1475
+site/chess/src/app.ts
+  s_e8836c6d1c92e0::t_46e66b21b719a5 37
+kit/coach-voice.ts
+  s_e8836c6d1c92e0::t_46e66b21b719a5 12-15
+public/audio/mars-arithmetic/audio-manifest-v2.json
+  s_e8836c6d1c92e0::t_ee6e2d1cb84425 1-887
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "7158ea1e255412a1f6e3e3a69bcc90986163fdc6",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
