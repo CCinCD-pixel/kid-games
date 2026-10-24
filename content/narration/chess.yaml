@@ -1,0 +1,19 @@
+game: chess
+seed: 1241
+lines:
+  - {id: cx.home, role: companion, text: 欢迎来到棋手学院！我是棋艺教练。先认识棋子，再找一步将死。}
+  - {id: cx.lesson, role: companion, text: 点亮的棋子，把它走到星星上。}
+  - {id: cx.lesson.step, role: companion, text: 走得好！继续向星星出发。}
+  - {id: cx.lesson.win, role: companion, text: 找到了！这颗棋子的走法，你学会了。}
+  - {id: cx.mate, role: companion, text: 这一局只需一步。点一颗白棋，再找能将死黑王的格子。}
+  - {id: cx.select, role: companion, text: 选中了！亮起的格子都能走。找找决定胜负的一步。}
+  - {id: cx.illegal, role: companion, text: 这格走不到。看看棋盘上亮起的格子。}
+  - {id: cx.miss, role: companion, text: 这一步还没将死。棋子留在原处，换一格试试。}
+  - {id: cx.hint, role: companion, text: 我点亮了起点和终点。跟着亮光走一次吧。}
+  - {id: cx.win, role: companion, text: 将死了！你找到了决定胜负的一步。}
+  - {id: cx.game, role: companion, text: 保护好自己的王，看看哪颗棋子可以先走。}
+  - {id: cx.turn, role: companion, text: 走得好！轮到对手想棋了。}
+  - {id: cx.robot, role: companion, text: 机器人走完啦，轮到你了。}
+  - {id: cx.check, role: companion, text: 王正被攻击！先想办法保护它。}
+  - {id: cx.f2f, role: companion, text: 两个人轮流走棋。白方先走，黑方接着走。}
+  - {id: cx.endgame, role: companion, text: 这是一个残局。想一想，怎样和棋子们一起将死黑王？}

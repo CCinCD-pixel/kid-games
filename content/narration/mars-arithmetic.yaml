@@ -1,0 +1,18 @@
+game: mars-arithmetic
+seed: 1242
+lines:
+  - {id: ma.home, role: companion, text: 欢迎来到火星算术站！选四则运算的一阶，一起完成八道题。}
+  - {id: ma.ask, role: companion, text: 等于几？}
+  - {id: ma.op.add, role: companion, text: 加}
+  - {id: ma.op.sub, role: companion, text: 减}
+  - {id: ma.op.mul, role: companion, text: 乘}
+  - {id: ma.op.div, role: companion, text: 除以}
+  - {id: ma.hint.add, role: companion, text: 从第一个数开始，再往后数。}
+  - {id: ma.hint.sub, role: companion, text: 从第一个数开始，再往回数。}
+  - {id: ma.hint.mul, role: companion, text: 想想有几组，每组几个。}
+  - {id: ma.hint.div, role: companion, text: 平均分成几组，每组几个？}
+  - {id: ma.right, role: companion, text: 算对了！下一题继续。}
+  - {id: ma.wrong, role: companion, text: 没关系，看一眼正确答案，再试下一题。}
+  - {id: ma.answer, role: companion, text: 正确答案是}
+  - {id: ma.pass, role: companion, text: 八道题完成！下一阶已经开启。}
+  - {id: ma.retry, role: companion, text: 训练完成！再练一轮，就会更熟练。}

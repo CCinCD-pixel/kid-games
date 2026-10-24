@@ -8,6 +8,8 @@ test.beforeEach(async ({ context }) => { await context.addInitScript({ path: pat
 async function boot(page: Page): Promise<void> {
   await page.goto('/chess/?mute=1');
   await expect(page.locator('#app[data-ready]')).toBeVisible();
+  await page.locator('.kit-start__go').click();
+  await expect(page.locator('.kit-start')).toBeHidden();
 }
 
 async function move(page: Page, from: string, to: string): Promise<void> {
@@ -29,6 +31,7 @@ test('piece lesson and save continue through a reload', async ({ page }) => {
   await page.locator('[data-act="next-task"]').click();
   await expect(page.locator('#cx-learn .cx-section-title span')).toHaveText('1 / 6');
   await page.reload();
+  await page.locator('.kit-start__go').click();
   await expect(page.locator('#cx-learn .cx-section-title span')).toHaveText('1 / 6');
 
   await page.locator('[data-lesson="3"]').click();
@@ -49,6 +52,7 @@ test('face-to-face moves, undo, restore and new-game confirmation', async ({ pag
   await page.locator('[data-act="undo"]').click();
   await expect(page.locator('.cx-count')).toContainText('1 步');
   await page.reload();
+  await page.locator('.kit-start__go').click();
   await page.locator('[data-act="resume"]').click();
   await expect(page.locator('.cx-count')).toContainText('1 步');
   await page.locator('[data-act="back"]').click();
@@ -87,6 +91,11 @@ test('puzzle, restart and compact layouts stay usable', async ({ page }) => {
     expect(bounds.actionsRight).toBeLessThanOrEqual(bounds.width + 1);
     await page.locator('[data-act="hint"]').scrollIntoViewIfNeeded();
     await expect(page.locator('[data-act="hint"]')).toBeInViewport();
+    if (width === 810) {
+      const guideTop = await page.locator('.cx-guide').evaluate((el) => el.getBoundingClientRect().top);
+      const boardTop = await page.locator('.cx-board').evaluate((el) => el.getBoundingClientRect().top);
+      expect(guideTop).toBeLessThan(boardTop);
+    }
   }
 });
 
@@ -95,7 +104,14 @@ test('one-move mate rejects a miss, gives a legal hint, and counts only once', a
   await page.locator('[data-puzzle="0"]').click();
   await move(page, 'g1', 'g2');
   await expect(page.getByText('这一步还没将死，再想想。')).toBeVisible();
+  await expect(page.locator('.cx-square.selected')).toHaveCount(1);
+  await expect(page.locator('.cx-square.miss')).toHaveCount(1);
+  await expect(page.locator('.cx-guide-text')).toContainText('换一个亮起的格子');
   await expect(page.locator('.cx-count')).toContainText('0 步');
+  await page.locator('[data-act="restart"]').click();
+  await page.locator('[data-act="confirm-reset"]').click();
+  await expect(page.locator('.cx-square.miss')).toHaveCount(0);
+  await move(page, 'g1', 'g2');
   await page.locator('[data-act="hint"]').click();
   await expect(page.locator('.cx-square.hint')).toHaveCount(1);
   await move(page, 'g1', 'g8');
@@ -108,6 +124,36 @@ test('one-move mate rejects a miss, gives a legal hint, and counts only once', a
   await page.locator('[data-act="finish"]').click();
   await expect(page.locator('#cx-mates .cx-section-title span')).toHaveText('1 / 8');
   await expect(page.locator('#cx-endgames .cx-section-title span')).toHaveText('0 / 8');
+});
+
+test('all one-move mates respond to phone taps and accept their solution', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await boot(page);
+  const solutions = [['g1', 'g8'], ['a1', 'a8'], ['g5', 'g8'], ['c6', 'c8'], ['h2', 'h8'], ['c4', 'c8'], ['e2', 'b5'], ['h6', 'g7']];
+  const index = (s: string) => (8 - Number(s[1])) * 8 + s.charCodeAt(0) - 97;
+  for (const [i, [from, to]] of solutions.entries()) {
+    await page.locator(`[data-puzzle="${i}"]`).tap();
+    await page.locator(`[data-sq="${index(from)}"]`).tap();
+    await expect(page.locator('.cx-square.selected')).toHaveCount(1);
+    await expect(page.locator('.cx-guide-text')).toContainText('选中了');
+    await page.locator(`[data-sq="${index(to)}"]`).tap();
+    await expect(page.locator('.cx-guide-text')).toContainText('将死了');
+    await page.locator('[data-act="finish"]').tap();
+  }
+  await expect(page.locator('#cx-mates .cx-section-title span')).toHaveText('8 / 8');
+});
+
+test('coach offers replay and each recorded line resolves', async ({ page, request }) => {
+  await boot(page);
+  await expect(page.locator('.cx-bot-host .kit-companion')).toBeVisible();
+  await page.locator('[data-act="replay"]').click();
+  await page.locator('[data-puzzle="0"]').click();
+  await expect(page.locator('.cx-guide-text')).toContainText('一步将死');
+  const manifest = await (await request.get('/audio/chess/audio-manifest.json')).json() as Record<string, { src: string }>;
+  for (const id of ['cx.home', 'cx.mate', 'cx.select', 'cx.miss', 'cx.hint', 'cx.win']) {
+    const response = await request.get(manifest[id].src);
+    expect(response.ok(), id).toBe(true);
+  }
 });
 
 test('visual review of the academy and board', async ({ page }, testInfo) => {

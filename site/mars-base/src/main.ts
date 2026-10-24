@@ -22,6 +22,7 @@ const metrics = registerMetrics('mars-base', [{
     return { value: `${passed} / ${STAGES.length}`, frac: passed / STAGES.length, detail: '四则运算已通过的阶数' };
   },
 }]);
-const shell = initShell({ game: 'mars-base', startGate: false, back: { compact: true }, onBeforeLeave: persist, onPause: persist });
+const shell = initShell({ game: 'mars-base', startGate: { title: '火星基地', subtitle: '和算术员一起挑战四则运算', buttonLabel: '进入算术站' }, back: { compact: true }, onBeforeLeave: persist, onPause: persist });
 const app = new ArithmeticApp(root, save, persist);
-void shell.ready.then(() => { app.render(); root.dataset.ready = '1'; });
+app.render(); root.dataset.ready = '1';
+void shell.ready.then(() => app.intro());

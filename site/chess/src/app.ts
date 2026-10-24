@@ -6,6 +6,8 @@ import robotsJson from '../../../content/chess/robots.v1.json';
 import { ENDGAMES, MATE_PUZZLES, PIECE_LESSONS, PUZZLES } from './lessons';
 import { pieceName, pieceSvg } from './piece-art';
 import { freshGame, type ChessSave, type Mode } from './save';
+import { CoachVoice } from '@kit/coach-voice';
+import { icon } from '@kit/ui';
 
 const rules = createRules();
 const sq = (s: string): number => { const rc = parseSq(s); return rc.r * 8 + rc.c; };
@@ -28,9 +30,12 @@ export class ChessApp {
   private pendingStart: { mode: Mode; level: number; puzzleIndex: number } | null = null;
   private note = '';
   private hintSq: number | null = null;
+  private missSq: number | null = null;
   private epoch = 0;
   private worker: Worker | null = null;
   private requestId = 0;
+  readonly coach = new CoachVoice('/audio/chess/audio-manifest.json', { name: '棋艺教练', accessory: 'coach' });
+  private coachText = '我是棋艺教练，点我可以再听一遍。';
 
   constructor(private root: HTMLElement, private save: ChessSave, private persist: () => void) {
     root.addEventListener('click', (event) => this.click(event));
@@ -39,7 +44,8 @@ export class ChessApp {
 
   back(): boolean {
     if (this.view === 'home') return false;
-    this.epoch++; this.busy = false; this.view = 'home'; this.selected = null; this.promotion = null; this.resetOpen = false; this.render();
+    this.epoch++; this.busy = false; this.view = 'home'; this.selected = null; this.missSq = null; this.promotion = null; this.resetOpen = false; this.render();
+    this.tell('欢迎回来，挑一项棋艺继续练习吧。', 'cx.home');
     return true;
   }
 
@@ -47,11 +53,24 @@ export class ChessApp {
     if (this.view === 'home') this.renderHome();
     else if (this.view === 'lesson') this.renderLesson();
     else this.renderGame();
+    this.coach.attach(this.root.querySelector('.cx-bot-host'), this.root.querySelector('.cx-guide-text'));
+  }
+
+  intro(): void { this.tell('先认识棋子，再挑战一步将死。', 'cx.home'); }
+
+  private tell(text: string, line: string, mood: 'happy' | 'encouraging' | 'thinking' | 'celebrating' = 'happy'): void {
+    this.coachText = text;
+    this.coach.say(text, line, mood);
+  }
+
+  private guide(): string {
+    return `<div class="cx-guide"><div class="cx-bot-host"></div><div class="cx-guide-copy"><b>棋艺教练</b><p class="cx-guide-text" role="status">${this.coachText}</p></div><button class="cx-replay" type="button" data-act="replay" aria-label="再听一遍" title="再听一遍">${icon('replay')}</button></div>`;
   }
 
   private renderHome(): void {
     const active = this.save.game;
     this.root.innerHTML = `<main class="cx-page cx-home"><header class="cx-brand"><img src="/icons/games/chess.svg" alt=""/><div><h1>棋手学院</h1><p>天宫空间站 · 棋艺舱</p></div></header>
+      <div class="cx-home-guide">${this.guide()}</div>
       ${active ? `<button class="cx-continue" type="button" data-act="resume">接着下 · ${active.mode === 'f2f' ? '面对面对弈' : active.mode === 'puzzle' ? '残局练习' : '对机器人'} <span>→</span></button>` : ''}
       <nav class="cx-mode-nav" aria-label="棋艺舱"><a href="#cx-learn">学棋子</a><a href="#cx-mates">一步将死</a><a href="#cx-robots">对机器人</a><a href="#cx-endgames">残局</a><button type="button" data-act="f2f">和爸爸下</button></nav>
       <section id="cx-learn" class="cx-section"><div class="cx-section-title"><h2>棋子学堂</h2><span>${this.save.lessons.length} / 6</span></div><div class="cx-lesson-grid">${PIECE_LESSONS.map((l, i) => `<button class="cx-lesson" type="button" data-lesson="${i}"><span class="cx-piece-icon">${pieceSvg({ color: 'w', type: l.piece })}</span><span><b>${l.name}</b><small>${l.title}</small></span><i>${this.save.lessons.includes(l.id) ? '✓' : '→'}</i></button>`).join('')}</div></section>
@@ -70,7 +89,8 @@ export class ChessApp {
   private loadTask(): void {
     const task = PIECE_LESSONS[this.lessonIdx].tasks[this.taskIdx];
     this.lessonState = rules.fromFen(task.fen);
-    this.lessonSuccess = false; this.selected = null; this.note = ''; this.hintSq = null; this.render();
+    this.lessonSuccess = false; this.selected = null; this.note = ''; this.hintSq = null; this.missSq = null; this.render();
+    this.tell(`这是${PIECE_LESSONS[this.lessonIdx].name}的第${this.taskIdx + 1}题。点棋子，再走到星星。`, 'cx.lesson');
   }
 
   private renderLesson(): void {
@@ -78,23 +98,27 @@ export class ChessApp {
     const task = lesson.tasks[this.taskIdx];
     const title = `${lesson.name} · ${this.taskIdx + 1} / ${lesson.tasks.length}`;
     this.root.innerHTML = `<main class="cx-page cx-play"><header class="cx-top"><button class="cx-icon" type="button" data-act="back" aria-label="返回棋艺舱">←</button><div><strong>棋子学堂</strong><span>${title}</span></div></header>
-      <div class="cx-play-layout"><div class="cx-board-wrap">${this.board(this.lessonState!, sq(task.to))}</div><aside class="cx-side"><div class="cx-coach"><div class="cx-coach-head">${pieceSvg({ color: 'w', type: lesson.piece })}<strong>${lesson.title}</strong></div><p>${lesson.teaches}</p><p>把${lesson.name}走到星星上。可以分几步走。</p></div><div class="cx-note" role="status">${this.lessonSuccess ? '找到了这一步！' : this.note || '点棋子，再点落点。'}</div><div class="cx-actions">${this.lessonSuccess ? `<button class="cx-primary" type="button" data-act="next-task">${this.taskIdx + 1 === lesson.tasks.length ? '完成训练' : '下一题 →'}</button>` : '<button type="button" data-act="lesson-hint">看看能走哪里</button>'}</div></aside></div>
+      <div class="cx-play-layout"><div class="cx-board-wrap">${this.board(this.lessonState!, sq(task.to))}</div><aside class="cx-side">${this.guide()}<div class="cx-coach"><div class="cx-coach-head">${pieceSvg({ color: 'w', type: lesson.piece })}<strong>${lesson.title}</strong></div><p>${lesson.teaches}</p><p>把${lesson.name}走到星星上。可以分几步走。</p></div><div class="cx-note" role="status">${this.lessonSuccess ? '找到了这一步！' : this.note || '点棋子，再点落点。'}</div><div class="cx-actions">${this.lessonSuccess ? `<button class="cx-primary" type="button" data-act="next-task">${this.taskIdx + 1 === lesson.tasks.length ? '完成训练' : '下一题 →'}</button>` : '<button type="button" data-act="lesson-hint">看看能走哪里</button>'}</div></aside></div>
     </main>`;
   }
 
   private resume(): void {
     const rec = this.save.game; if (!rec) return;
     this.game = replayMoves(rules, rec.startFen, rec.moves).game;
-    this.view = 'game'; this.selected = null; this.bottom = 'w'; this.render();
+    this.view = 'game'; this.selected = null; this.missSq = null; this.bottom = 'w'; this.render();
+    this.tell('接着下吧，点自己的棋子，看看能走到哪里。', rec.mode === 'puzzle' ? 'cx.mate' : 'cx.game');
     if (rec.mode !== 'f2f' && this.game.turn() === 1 && !this.game.status().over) void this.aiTurn();
   }
 
   private startGame(mode: Mode, level = 0, puzzleIndex = 0): void {
     this.epoch++;
+    this.resetOpen = false;
     const puzzle = mode === 'puzzle' ? PUZZLES[Math.max(0, puzzleIndex)] : null;
     this.save.game = freshGame(mode, level, puzzle?.fen, puzzle?.id);
     this.game = createGame(rules, this.save.game.startFen);
-    this.view = 'game'; this.selected = null; this.note = ''; this.hintSq = null; this.bottom = 'w'; this.persist(); this.render();
+    this.view = 'game'; this.selected = null; this.note = ''; this.hintSq = null; this.missSq = null; this.bottom = 'w'; this.persist(); this.render();
+    const line = mode === 'f2f' ? 'cx.f2f' : mode === 'ai' ? 'cx.game' : puzzleIndex < MATE_PUZZLES.length ? 'cx.mate' : 'cx.endgame';
+    this.tell(mode === 'puzzle' && puzzleIndex < MATE_PUZZLES.length ? '只需一步将死。先点白棋，再找决定胜负的格子。' : mode === 'f2f' ? '白方先走，黑方接着走。' : '点自己的棋子，亮起的格子都能走。', line);
   }
 
   private renderGame(): void {
@@ -107,7 +131,7 @@ export class ChessApp {
     const mate = rec.mode === 'puzzle' && MATE_PUZZLES.some((p) => p.id === rec.puzzleId);
     const title = rec.mode === 'f2f' ? '和爸爸下' : rec.mode === 'puzzle' ? `${mate ? '一步将死' : '残局'} · ${PUZZLES.find((p) => p.id === rec.puzzleId)?.title ?? ''}` : `对弈 · ${robot}`;
     this.root.innerHTML = `<main class="cx-page cx-play"><header class="cx-top"><button class="cx-icon" type="button" data-act="back" aria-label="返回棋艺舱">←</button><div><strong>${title}</strong><span>${status.over ? winner : this.busy ? `${robot}思考中` : `${turn}走棋`}</span></div><button class="cx-icon" type="button" data-act="flip" aria-label="翻转棋盘" title="翻转棋盘">⟳</button></header>
-      <div class="cx-play-layout"><div class="cx-board-wrap">${this.board(game.state())}</div><aside class="cx-side"><div class="cx-coach"><div class="cx-coach-head"><span class="cx-robot-face"><i></i><i></i></span><strong>${rec.mode === 'f2f' ? '面对面' : mate ? '一步将死' : robot}</strong></div><p>${mate ? '想办法让黑王无处可逃。' : rec.mode === 'puzzle' ? '试着将死黑王。每一步都算数。' : rec.mode === 'f2f' ? '轮流走棋，把王保护好。' : '先照顾王，再想怎么进攻。'}</p><div class="cx-count">第 ${Math.floor(game.ply() / 2) + 1} 回合 · ${game.ply()} 步</div></div><div class="cx-note" role="status">${status.over ? chessReasonText(status.reason) : this.note || (this.busy ? '棋手正在想下一步' : '点棋子，再点落点。')}</div><div class="cx-actions"><button type="button" data-act="hint" ${this.busy || status.over ? 'disabled' : ''}>提示</button><button type="button" data-act="undo" ${game.ply() === 0 ? 'disabled' : ''}>悔棋</button><button type="button" data-act="restart">重来</button></div>${status.over ? `<button class="cx-primary" type="button" data-act="finish">返回棋艺舱</button>` : ''}</aside></div>
+      <div class="cx-play-layout"><div class="cx-board-wrap">${this.board(game.state())}</div><aside class="cx-side">${this.guide()}<div class="cx-coach"><div class="cx-coach-head"><strong>${rec.mode === 'f2f' ? '面对面' : mate ? '一步将死' : robot}</strong></div><p>${mate ? '让黑王无处可逃。' : rec.mode === 'puzzle' ? '试着将死黑王。' : rec.mode === 'f2f' ? '轮流走棋，把王保护好。' : '先照顾王，再想怎么进攻。'}</p><div class="cx-count">第 ${Math.floor(game.ply() / 2) + 1} 回合 · ${game.ply()} 步</div></div><div class="cx-note" role="status">${status.over ? chessReasonText(status.reason) : this.note || (this.busy ? '棋手正在想下一步' : '点棋子，再点落点。')}</div><div class="cx-actions"><button type="button" data-act="hint" ${this.busy || status.over ? 'disabled' : ''}>提示</button><button type="button" data-act="undo" ${game.ply() === 0 ? 'disabled' : ''}>悔棋</button><button type="button" data-act="restart">重来</button></div>${status.over ? `<button class="cx-primary" type="button" data-act="finish">返回棋艺舱</button>` : ''}</aside></div>
       ${this.promotion ? `<div class="cx-overlay"><div class="cx-dialog"><h2>兵升变成什么？</h2><div class="cx-promo">${this.promotion.map((m) => `<button type="button" data-promo="${m.promotion}">${pieceSvg({ color: game.state().turn, type: m.promotion! })}<span>${PROMO_NAMES[m.promotion!]}</span></button>`).join('')}</div></div></div>` : ''}
       ${this.resetOpen ? '<div class="cx-overlay"><div class="cx-dialog"><h2>重新开始这一盘？</h2><div class="cx-dialog-actions"><button type="button" data-act="cancel-reset">继续下</button><button type="button" data-act="confirm-reset">重新开始</button></div></div></div>' : ''}
     </main>`;
@@ -120,7 +144,7 @@ export class ChessApp {
     const cells = Array.from({ length: 64 }, (_, displaySq) => {
       const actual = this.bottom === 'w' ? displaySq : 63 - displaySq;
       const row = Math.floor(actual / 8), col = actual % 8, p = state.board[row][col];
-      const classes = ['cx-square', (row + col) % 2 ? 'dark' : 'light', actual === goal ? 'goal' : '', actual === this.selected ? 'selected' : '', legal.includes(actual) ? 'legal' : '', actual === this.hintSq ? 'hint' : '', actual === checked ? 'check' : '', last && (actual === last.from.r * 8 + last.from.c || actual === last.to.r * 8 + last.to.c) ? 'last' : ''].filter(Boolean).join(' ');
+      const classes = ['cx-square', (row + col) % 2 ? 'dark' : 'light', actual === goal ? 'goal' : '', actual === this.selected ? 'selected' : '', legal.includes(actual) ? 'legal' : '', actual === this.hintSq ? 'hint' : '', actual === this.missSq ? 'miss' : '', actual === checked ? 'check' : '', last && (actual === last.from.r * 8 + last.from.c || actual === last.to.r * 8 + last.to.c) ? 'last' : ''].filter(Boolean).join(' ');
       return `<button class="${classes}" type="button" data-sq="${actual}" aria-label="${nameOf(actual)} ${p ? pieceName(p) : '空格'}">${p ? pieceSvg(p) : ''}</button>`;
     }).join('');
     return `<div class="cx-board" role="grid" aria-label="国际象棋棋盘">${cells}</div><div class="cx-files" aria-hidden="true">${(this.bottom === 'w' ? 'abcdefgh' : 'hgfedcba').split('').map((c) => `<span>${c}</span>`).join('')}</div>`;
@@ -132,7 +156,14 @@ export class ChessApp {
     if (!state || (this.view === 'game' && this.game?.status().over)) return;
     const p = state.board[Math.floor(n / 8)][n % 8];
     const myTurn = this.view === 'lesson' ? 'w' : state.turn;
-    if (this.selected === n) { if (this.view !== 'lesson' && this.hintSq === null) this.selected = null; this.render(); return; }
+    if (this.selected === n) {
+      if (this.view === 'lesson' || this.hintSq !== null) {
+        this.note = '起点已经选中，直接点橙色终点。'; this.render();
+        this.tell('起点已经选中，直接点橙色终点。', 'cx.hint', 'encouraging'); return;
+      }
+      this.selected = null; this.hintSq = null; this.missSq = null; this.note = '已取消选中，点一颗自己的棋子。'; this.render();
+      this.tell('换一颗棋子也可以，点白棋继续。', 'cx.game', 'encouraging'); return;
+    }
     if (this.selected !== null) {
       const options = rules.legalFrom(state, this.selected).filter((m) => m.to.r * 8 + m.to.c === n);
       if (options.length) {
@@ -140,15 +171,25 @@ export class ChessApp {
         this.play(options[0]); return;
       }
       this.note = chessReasonText(rules.whyIllegal(state, this.selected, n));
+      this.missSq = n;
     }
     if (p && p.color === myTurn && p.type !== 'X') {
-      if (this.view !== 'lesson' || n === sq(PIECE_LESSONS[this.lessonIdx].tasks[this.taskIdx].from) || this.lessonState?.board[Math.floor(n / 8)][n % 8] === p) this.selected = n;
+      if (this.view !== 'lesson' || n === sq(PIECE_LESSONS[this.lessonIdx].tasks[this.taskIdx].from) || this.lessonState?.board[Math.floor(n / 8)][n % 8] === p) {
+        this.selected = n;
+        this.missSq = null;
+      }
     }
     this.render();
+    if (p && p.color === myTurn && this.selected === n) {
+      this.note = `选中了${pieceName(p)}，亮起的格子都能走。`;
+      this.root.querySelector('.cx-note')!.textContent = this.note;
+      this.tell(this.note, 'cx.select', 'encouraging');
+    } else if (this.selected !== null) this.tell('这格走不到，看看亮起的格子。', 'cx.illegal', 'thinking');
+    else this.tell('先点自己的棋子，亮起的格子就是可以走的位置。', this.view === 'lesson' ? 'cx.lesson' : 'cx.mate', 'encouraging');
   }
 
   private play(move: ChessMove): void {
-    this.selected = null; this.hintSq = null; this.note = '';
+    this.selected = null; this.hintSq = null; this.missSq = null; this.note = '';
     if (this.view === 'lesson') {
       const task = PIECE_LESSONS[this.lessonIdx].tasks[this.taskIdx];
       this.lessonState = { ...rules.apply(this.lessonState!, move), turn: 'w' };
@@ -161,18 +202,27 @@ export class ChessApp {
       } else {
         this.note = '走得好，再想想下一步。';
       }
-      this.render(); return;
+      this.render();
+      this.tell(this.lessonSuccess ? '找到了星星！' : '走得好，再向星星走一步。', this.lessonSuccess ? 'cx.lesson.win' : 'cx.lesson.step', 'celebrating');
+      return;
     }
     if (!this.game || !this.save.game) return;
     if (this.save.game.mode === 'puzzle' && MATE_PUZZLES.some((p) => p.id === this.save.game?.puzzleId)) {
       const outcome = rules.status(rules.apply(this.game.state(), move));
       if (!outcome.over || outcome.winner !== 0) {
-        this.note = '这一步还没将死，再想想。'; this.render(); return;
+        this.selected = move.from.r * 8 + move.from.c;
+        this.missSq = move.to.r * 8 + move.to.c;
+        this.note = '这一步还没将死，再想想。'; this.render();
+        this.tell('这一步还没将死。换一个亮起的格子试试。', 'cx.miss', 'encouraging');
+        return;
       }
     }
     this.game.play(move);
     this.save.game.moves = this.game.encoded(); this.persist();
     this.finishIfOver(); this.render();
+    if (this.game.status().over) this.tell('将死了！你找到了决定胜负的一步。', 'cx.win', 'celebrating');
+    else if (this.save.game?.mode === 'f2f') this.tell('走得好，现在轮到另一方。', 'cx.turn', 'happy');
+    else if (this.game.turn() === 0) this.tell('机器人走完了，现在轮到你。', 'cx.robot', 'encouraging');
     if (this.save.game && this.save.game.mode !== 'f2f' && this.game.turn() === 1) void this.aiTurn();
   }
 
@@ -190,6 +240,7 @@ export class ChessApp {
     const game = this.game, rec = this.save.game;
     if (!game || !rec || game.status().over || game.turn() !== 1 || this.busy) return;
     this.busy = true; this.render();
+    this.tell('轮到机器人想棋了。', 'cx.turn', 'thinking');
     const epoch = ++this.epoch, id = ++this.requestId, fen = game.fen();
     const fallback = () => rules.legalMoves(game.state())[0];
     let encoded: string | null = null;
@@ -216,7 +267,7 @@ export class ChessApp {
     if (!this.game || !this.save.game || this.game.ply() === 0) return;
     this.epoch++; this.busy = false; this.game.undo();
     if (this.save.game.mode !== 'f2f' && this.game.ply() > 0 && this.game.turn() === 1) this.game.undo();
-    this.save.game.moves = this.game.encoded(); this.selected = null; this.note = ''; this.persist(); this.render();
+    this.save.game.moves = this.game.encoded(); this.selected = null; this.missSq = null; this.note = ''; this.persist(); this.render();
   }
 
   private hint(): void {
@@ -226,8 +277,9 @@ export class ChessApp {
     const choice = mate ? moves.find((move) => { const outcome = rules.status(rules.apply(this.game!.state(), move)); return outcome.over && outcome.winner === 0; })
       : moves.sort((a, b) => pieceValue[b.captured?.type ?? 'X'] - pieceValue[a.captured?.type ?? 'X'])[0];
     if (!choice) return;
-    this.selected = choice.from.r * 8 + choice.from.c; this.hintSq = choice.to.r * 8 + choice.to.c;
-    this.note = `试试 ${nameOf(this.selected)} → ${nameOf(this.hintSq)}`; this.render();
+    this.selected = choice.from.r * 8 + choice.from.c; this.hintSq = choice.to.r * 8 + choice.to.c; this.missSq = null;
+    this.note = `起点和终点亮起来了，试着走到橙色格子。`; this.render();
+    this.tell('我点亮了起点和终点，跟着亮光走一次吧。', 'cx.hint', 'encouraging');
   }
 
   private lessonHint(): void {
@@ -239,6 +291,7 @@ export class ChessApp {
     this.selected = row * 8 + col;
     this.note = '棋子周围亮起的格子都能走。';
     this.render();
+    this.tell(this.note, 'cx.hint', 'encouraging');
   }
 
   private requestGame(mode: Mode, level = 0, puzzleIndex = 0): void {
@@ -261,6 +314,7 @@ export class ChessApp {
     if (button.dataset.promo && this.promotion) { const move = this.promotion.find((m) => m.promotion === button.dataset.promo); this.promotion = null; if (move) this.play(move); return; }
     switch (button.dataset.act) {
       case 'back': this.back(); break;
+      case 'replay': this.coach.replay(); break;
       case 'resume': this.resume(); break;
       case 'f2f': this.requestGame('f2f'); break;
       case 'cancel-new': this.pendingStart = null; this.render(); break;

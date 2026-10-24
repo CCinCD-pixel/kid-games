@@ -19,5 +19,6 @@ const metrics = registerMetrics('chess', [
   { id: 'endgames', label: '残局练习', value: () => ({ value: `${ENDGAMES.filter((p) => save.puzzles.includes(p.id)).length} / 8`, frac: ENDGAMES.filter((p) => save.puzzles.includes(p.id)).length / 8, detail: '将死过黑王的残局' }) },
 ]);
 const app = new ChessApp(root, save, persist);
-initShell({ game: 'chess', startGate: false, back: { compact: true, onClick: () => app.back() }, onBeforeLeave: persist, onPause: persist });
+const shell = initShell({ game: 'chess', startGate: { title: '棋手学院', subtitle: '和棋艺教练一起下棋', buttonLabel: '进入棋艺舱' }, back: { compact: true, onClick: () => app.back() }, onBeforeLeave: persist, onPause: persist });
 app.render(); root.dataset.ready = '1';
+void shell.ready.then(() => app.intro());
