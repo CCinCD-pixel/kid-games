@@ -1,0 +1,140 @@
+tests/sync/coverage.test.ts
+  s_e8836c6d1c92e0::t_4e931e19b3e4d8 123
+content/sokoban/levels.json
+  s_e8836c6d1c92e0::t_8c0e079f1c10c8 3,1979-3498
+tests/sync/support/schemas.ts
+  s_e8836c6d1c92e0::t_4e931e19b3e4d8 190
+site/sokoban/game.json
+  s_e8836c6d1c92e0::t_f9d6769a2d1ebb 12
+site/mars-base/validate/arithmetic-save.test.ts
+  s_e8836c6d1c92e0::t_f942bdceeffecb 1-36
+site/sokoban/src/styles.css
+  s_e8836c6d1c92e0::t_183a87b10e8c2b 174-175,177,607-608
+site/mars-base/src/math/app.ts
+  s_e8836c6d1c92e0::t_35e003e456359c 1-119
+site/chess/game.json
+  s_e8836c6d1c92e0::t_56ad31b898639a 3-4,12-13
+  s_e8836c6d1c92e0::t_30a98521a8aa87 5
+site/xiangqi/src/progress/save.ts
+  s_e8836c6d1c92e0::t_30a98521a8aa87 94
+site/chess/src/app.ts
+  s_e8836c6d1c92e0::t_083d2fb98a5879 1-5,7-27,29-55,57,59,62-72,74-80,82-93,95-106,109,111-118,120-134,136-160,163-166,173-180,183-202,204-224,228-232,254-258,261-264,268,270-274,276-279
+  s_e8836c6d1c92e0::t_b2aea4aaf496f2 6,56,58,60,94,107-108,110,167-172,225-227,275
+  s_e8836c6d1c92e0::t_b494eafc098712 28,61,73,81,161-162,181-182,203,244-253,259-260,265-267
+  s_e8836c6d1c92e0::t_95a904eb463b31 135
+  s_e8836c6d1c92e0::t_4cd46441e0cd5e 119,233-243,269
+site/sokoban/tests/expansion.spec.ts
+  s_e8836c6d1c92e0::t_a15e355be38c1c 1-44
+site/chess/lessons.test.ts
+  s_e8836c6d1c92e0::t_cfe8b8a8e5665e 1-3,5-43,57-59
+  s_e8836c6d1c92e0::t_8246575a915e7a 4,44-56
+tests/smoke/hub-rework.spec.ts
+  s_e8836c6d1c92e0::t_0dde036dfd8466 1-31
+site/sokoban/src/art/emblems.ts
+  s_e8836c6d1c92e0::t_f9d6769a2d1ebb 22-25
+site/mars-base/src/math/problems.ts
+  s_e8836c6d1c92e0::t_b519a55a4eadd5 1-81
+content/sokoban/chapters.json
+  s_e8836c6d1c92e0::t_f9d6769a2d1ebb 19-30
+tests/unit/registry.test.ts
+  s_e8836c6d1c92e0::t_7fde32f9b9f961 28,67
+site/chess/src/styles.css
+  s_e8836c6d1c92e0::t_4cd46441e0cd5e 39,65
+  s_e8836c6d1c92e0::t_bc2f6185c58a19 69-76
+  s_e8836c6d1c92e0::t_93ffe3c134eb74 1-38,40-64,66-68,77-80
+site/mars-base/src/main.ts
+  s_e8836c6d1c92e0::t_35e003e456359c 1,4-7,10-27
+site/mars-base/src/math/styles.css
+  s_e8836c6d1c92e0::t_37e125b13109dd 1-57
+site/sokoban/src/screens/flow.ts
+  s_e8836c6d1c92e0::t_43880458552140 5
+  s_e8836c6d1c92e0::t_183a87b10e8c2b 75
+site/chess/src/lessons.ts
+  s_e8836c6d1c92e0::t_b2aea4aaf496f2 2,22-28
+  s_e8836c6d1c92e0::t_7c72aa3d063165 1,3-21
+site/mars-base/src/math/save.ts
+  s_e8836c6d1c92e0::t_f942bdceeffecb 1-48
+site/sokoban/src/app/unlock.ts
+  s_e8836c6d1c92e0::t_f9d6769a2d1ebb 15-16
+  s_e8836c6d1c92e0::t_43880458552140 4
+site/chess/tests/chess.spec.ts
+  s_e8836c6d1c92e0::t_cfe8b8a8e5665e 1-22,24-74,77-79,81-84,86-87,90,111
+  s_e8836c6d1c92e0::t_8246575a915e7a 23,91-110
+  s_e8836c6d1c92e0::t_43880458552140 75-76,88-89
+  s_e8836c6d1c92e0::t_bc2f6185c58a19 80,85
+  s_e8836c6d1c92e0::t_0dde036dfd8466 112-118
+site/sokoban/tests/phone.spec.ts
+  s_e8836c6d1c92e0::t_948567aba54793 32
+site/_hub/main.ts
+  s_e8836c6d1c92e0::t_30a98521a8aa87 9,33-34
+site/parent/src/stats.ts
+  s_e8836c6d1c92e0::t_30a98521a8aa87 11-12,39,45,51,69,76
+tools/registry.mjs
+  s_e8836c6d1c92e0::t_7fde32f9b9f961 210
+  s_e8836c6d1c92e0::t_30a98521a8aa87 19,40,201
+site/mars-base/game.json
+  s_e8836c6d1c92e0::t_3ca1063eda76de 4,13,15,19
+site/parent/src/main.ts
+  s_e8836c6d1c92e0::t_30a98521a8aa87 38,231
+tests/unit/hub-state.test.ts
+  s_e8836c6d1c92e0::t_7fde32f9b9f961 11,62
+site/sokoban/levels.test.ts
+  s_e8836c6d1c92e0::t_a897eebacab225 79
+  s_e8836c6d1c92e0::t_95fed3d1248dd5 68,74-75,82-83
+docs/specs/mars-arithmetic.md
+  s_e8836c6d1c92e0::t_b519a55a4eadd5 1-25
+site/_hub/hub.css
+  s_e8836c6d1c92e0::t_30a98521a8aa87 171-172
+site/sokoban/tools/expand-levels.test.ts
+  s_e8836c6d1c92e0::t_f9d6769a2d1ebb 62
+  s_e8836c6d1c92e0::t_549b6006448166 1-4,6-11,13-61,63,66
+  s_e8836c6d1c92e0::t_4e931e19b3e4d8 5,12,64-65
+types/kg-registry.d.ts
+  s_e8836c6d1c92e0::t_7fde32f9b9f961 7
+site/chess/index.html
+  s_e8836c6d1c92e0::t_56ad31b898639a 1,4-11,13
+site/chess/src/save.ts
+  s_e8836c6d1c92e0::t_b494eafc098712 6,25
+  s_e8836c6d1c92e0::t_7c72aa3d063165 1-5,7-24,26-32
+site/chess/src/ai.worker.ts
+  s_e8836c6d1c92e0::t_7c72aa3d063165 1-29
+engines/puzzle/tests/parity.test.ts
+  s_e8836c6d1c92e0::t_4e931e19b3e4d8 11,14-17,21
+site/chess/src/main.ts
+  s_e8836c6d1c92e0::t_b2aea4aaf496f2 6,18-19
+  s_e8836c6d1c92e0::t_93ffe3c134eb74 1-5,7-17,20-23
+site/mars-base/tests/arithmetic.spec.ts
+  s_e8836c6d1c92e0::t_3ca1063eda76de 8-10,13-17,19-34,37-48
+site/sokoban/src/screens/map.ts
+  s_e8836c6d1c92e0::t_43880458552140 2
+  s_e8836c6d1c92e0::t_183a87b10e8c2b 271-275,311
+tests/unit/parent-stats.test.ts
+  s_e8836c6d1c92e0::t_7fde32f9b9f961 11,20,28-29
+engines/puzzle/tests/fixtures/sokoban-expanded.json
+  s_e8836c6d1c92e0::t_11653021c23472 1-421
+site/_hub/state.ts
+  s_e8836c6d1c92e0::t_30a98521a8aa87 15
+site/sokoban/app.test.ts
+  s_e8836c6d1c92e0::t_16f3376487c2d1 158
+  s_e8836c6d1c92e0::t_709bf12e49609e 153-157,159-167
+site/mars-base/validate/arithmetic.test.ts
+  s_e8836c6d1c92e0::t_b519a55a4eadd5 1-30
+site/chess/src/piece-art.ts
+  s_e8836c6d1c92e0::t_7c72aa3d063165 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "7e642ecd0d0f633ac7defd6d420f13e75c0961f2",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
