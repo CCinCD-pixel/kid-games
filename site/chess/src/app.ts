@@ -34,7 +34,7 @@ export class ChessApp {
   private epoch = 0;
   private worker: Worker | null = null;
   private requestId = 0;
-  readonly coach = new CoachVoice('/audio/chess/audio-manifest.json', { name: '小星棋友', accessory: 'coach', accent: '#b88b54' });
+  readonly coach = new CoachVoice('/audio/chess/audio-manifest-v2.json', { name: '小星棋友', accessory: 'coach', accent: '#b88b54', speechFallback: false });
   private coachText = '我是小星棋友，咱们一起想想下一步。';
 
   constructor(private root: HTMLElement, private save: ChessSave, private persist: () => void) {

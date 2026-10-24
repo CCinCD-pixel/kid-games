@@ -149,11 +149,34 @@ test('coach offers replay and each recorded line resolves', async ({ page, reque
   await page.locator('[data-act="replay"]').click();
   await page.locator('[data-puzzle="0"]').click();
   await expect(page.locator('.cx-guide-text')).toContainText('一步将死');
-  const manifest = await (await request.get('/audio/chess/audio-manifest.json')).json() as Record<string, { src: string }>;
+  const manifest = await (await request.get('/audio/chess/audio-manifest-v2.json')).json() as Record<string, { src: string }>;
   for (const id of ['cx.home', 'cx.mate', 'cx.select', 'cx.miss', 'cx.hint', 'cx.win']) {
     const response = await request.get(manifest[id].src);
     expect(response.ok(), id).toBe(true);
   }
+});
+
+test('voice stays on the current clip set across game navigation', async ({ page }) => {
+  await page.addInitScript(() => {
+    const state = globalThis as typeof globalThis & { __speechCalls?: number };
+    state.__speechCalls = 0;
+    const synth = globalThis.speechSynthesis;
+    if (synth) {
+      const speak = synth.speak.bind(synth);
+      synth.speak = (utterance) => { state.__speechCalls = (state.__speechCalls ?? 0) + 1; speak(utterance); };
+    }
+  });
+  const manifests: string[] = [];
+  page.on('request', (request) => {
+    if (request.url().includes('audio-manifest')) manifests.push(new URL(request.url()).pathname);
+  });
+
+  await boot(page);
+  await page.locator('[data-lesson="0"]').click();
+  await page.waitForTimeout(250);
+  expect(manifests).toContain('/audio/chess/audio-manifest-v2.json');
+  expect(manifests).not.toContain('/audio/chess/audio-manifest.json');
+  expect(await page.evaluate(() => (globalThis as typeof globalThis & { __speechCalls?: number }).__speechCalls)).toBe(0);
 });
 
 test('visual review of the academy and board', async ({ page }, testInfo) => {

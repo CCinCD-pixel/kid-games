@@ -30,13 +30,13 @@ export class ArithmeticApp {
   private shownHint = false;
   private lastScore = 0;
   private lastStage = '';
-  readonly coach = new CoachVoice('/audio/mars-arithmetic/audio-manifest.json', { name: '火星搭档', accent: '#db7957' });
+  readonly coach = new CoachVoice('/audio/mars-arithmetic/audio-manifest-v2.json', { name: '火星搭档', accent: '#db7957', speechFallback: false });
   private coachText = '我是火星搭档，一起试试今天的算术题。';
 
   constructor(private root: HTMLElement, private save: MathSave, private persist: () => void) {
     root.addEventListener('click', (event) => this.click(event));
     window.addEventListener('keydown', (event) => this.keydown(event));
-    void this.coach.narrator.addManifest('/audio/mars-arithmetic-numbers/audio-manifest.json');
+    void this.coach.narrator.addManifest('/audio/mars-arithmetic-numbers/audio-manifest-v2.json');
   }
 
   intro(): void { this.say('选一条训练线，我们一起完成八道题。', 'ma.home'); }

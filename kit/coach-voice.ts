@@ -9,8 +9,10 @@ export class CoachVoice {
   private last: { text: string; lines: string[]; mood: Mood } | null = null;
   private token = 0;
 
-  constructor(manifestUrl: string, private options: { name: string; accessory?: 'coach'; accent?: string }) {
-    this.narrator = new Narrator({ manifestUrl });
+  constructor(manifestUrl: string, private options: { name: string; accessory?: 'coach'; accent?: string; speechFallback?: boolean }) {
+    // Product companions use committed clips as their voice. A browser TTS fallback can sound like a
+    // different character, especially on iOS, so callers can keep a failed line as subtitle pacing.
+    this.narrator = new Narrator({ manifestUrl, speechFallback: options.speechFallback });
   }
 
   attach(host: HTMLElement | null, caption: HTMLElement | null): void {

@@ -61,7 +61,7 @@ test('robot reads the arithmetic question and replay works on a phone', async ({
   await page.locator('[data-action="replay"]').click();
   await page.locator('[data-key="hint"]').click();
   await expect(page.locator('.ma-guide-text')).toContainText('数');
-  const manifest = await (await request.get('/audio/mars-arithmetic/audio-manifest.json')).json() as Record<string, { src: string }>;
+  const manifest = await (await request.get('/audio/mars-arithmetic/audio-manifest-v2.json')).json() as Record<string, { src: string }>;
   for (const id of ['ma.home', 'ma.ask', 'ma.op.add', 'ma.hint.add', 'ma.right', 'ma.wrong']) {
     const response = await request.get(manifest[id].src);
     expect(response.ok(), id).toBe(true);
