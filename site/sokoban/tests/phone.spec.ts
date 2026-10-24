@@ -29,7 +29,7 @@ function audit() {
   const W = innerWidth, H = innerHeight, out: string[] = [];
   if (document.documentElement.scrollWidth > W + 1) out.push(`h-overflow ${document.documentElement.scrollWidth}>${W}`);
   const vis = (e: Element) => { const cs = getComputedStyle(e); if (cs.visibility === 'hidden' || cs.display === 'none' || +cs.opacity === 0) return false; const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !e.closest('[hidden]'); };
-  const inScroll = (e: Element) => { for (let p = e.parentElement; p && p !== document.body; p = p.parentElement) { const o = getComputedStyle(p).overflowY; if ((o === 'auto' || o === 'scroll') && p.scrollHeight > p.clientHeight + 1) return true; } return false; };
+  const inScroll = (e: Element) => { for (let p = e.parentElement; p && p !== document.body; p = p.parentElement) { const o = getComputedStyle(p); if (((o.overflowY === 'auto' || o.overflowY === 'scroll') && p.scrollHeight > p.clientHeight + 1) || ((o.overflowX === 'auto' || o.overflowX === 'scroll') && p.scrollWidth > p.clientWidth + 1)) return true; } return false; };
   const top = (e: Element) => { const r = e.getBoundingClientRect(); return [[.5, .5], [.2, .5], [.8, .5], [.5, .2], [.5, .8]].some(([fx, fy]) => { const x = r.left + r.width * fx, y = r.top + r.height * fy; if (x < 0 || y < 0 || x >= W || y >= H) return false; const hit = document.elementFromPoint(x, y); return !!hit && (e.contains(hit) || hit.contains(e)); }); };
   const layers = [...document.querySelectorAll('.xg-scrim, .sok-finale')].filter(vis);
   const topLayer = layers[layers.length - 1];

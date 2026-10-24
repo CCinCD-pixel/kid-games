@@ -187,7 +187,7 @@ SAMPLES.metrics = { 'xiangqi@ipad': { v: 1, updatedAt: T, metrics: [{ id: 'a', l
 
 // ---- every createStore id / sync slot, and what is deliberately not synced (CI: each createStore id must be in one of the two lists)
 export const STORE_IDS: string[] = ['xiangqi', 'chess', 'mars-base', 'gear-fort', 'snake-battle', 'sokoban', 'military-chess', 'emoji-match', 'memory-matrix', 'economy', 'settings', 'hub-seen', 'metrics'];
-export const NOT_SYNCED: string[] = ['kg:v1:dev-kit', 'kg:log:v1', 'kg:launch', 'kg:parent:*', 'kg:hub:v1', 'kg:hub:tab', 'kg:hub:visited', 'kg:sync:*', 'kg:clock:v1', 'kg:v1:legacy-*', 'kg:v1:mars-base:pre-v5-*', 'kg:v1:mars-base:corrupt-*'];
+export const NOT_SYNCED: string[] = ['kg:v1:dev-kit', 'kg:v1:mars-arithmetic', 'kg:log:v1', 'kg:launch', 'kg:parent:*', 'kg:hub:v1', 'kg:hub:tab', 'kg:hub:visited', 'kg:sync:*', 'kg:clock:v1', 'kg:v1:legacy-*', 'kg:v1:mars-base:pre-v5-*', 'kg:v1:mars-base:corrupt-*'];
 
 // ---- demo composite for the simulators: mirrors the shapes the games really have (counters, demotable tier, re-openable node, FIFO window, step pointer, lww maps with null deletes)
 SCHEMAS.demo = obj({

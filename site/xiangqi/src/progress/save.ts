@@ -91,4 +91,4 @@ export function recordResult(s: XqSave, r: ResultIn, now = Date.now()): XqSave {
 }
 /** 帮助阶梯（连输 2 盘 → 轻松；再 2 → 教练；再 2 → 让左马；再 2 → 让双马或让一车）：返回当前该邀请的档（0 = 无） */
 export function helpInvite(rb: RobotRec): 0 | 1 | 2 | 3 | 4 { const tier = Math.min(4, Math.floor(rb.loseStreak / 2)); return (tier > rb.helpTier ? tier : 0) as 0 | 1 | 2 | 3 | 4; }
-export function hubLabel(s: XqSave): { label: string; value: number } { const l = lessonsDone(s), x = xjDone(s); return { label: l > 0 || x > 0 ? `已学 ${l}/33 课 · 小局 ${x}/28` : '开始下棋', value: Math.min(1, (l / 33 + x / 28) / 2) }; }
+export function hubLabel(s: XqSave): { label: string; value: number } { const l = lessonsDone(s), x = xjDone(s); return { label: l > 0 || x > 0 ? `学堂 ${l}/33 · 小局 ${x}/28` : '开始下棋', value: Math.min(1, (l / 33 + x / 28) / 2) }; }

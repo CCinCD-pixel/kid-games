@@ -120,7 +120,7 @@ describe('store registry', () => {
     for (const m of s.matchAll(/create(?:Board)?Store(?:<[^>(]*>)?\(\s*(?:['"]([a-z0-9:-]+)['"]|([A-Z_]+))\s*,/g)) { const id = m[1] ?? consts[m[2]!]; if (id) found.add(id); }
   }
   it('every createStore / createBoardStore id found in kit/ site/ engines/ is a sync slot or explicitly not synced', () => {
-    const known = new Set([...STORE_IDS, 'dev-kit']);
+    const known = new Set([...STORE_IDS, ...NOT_SYNCED.filter((key) => /^kg:v1:[a-z0-9-]+$/.test(key)).map((key) => key.slice('kg:v1:'.length))]);
     expect([...found].filter((i) => !known.has(i))).toEqual([]);
   });
   it('the stores with importable defaults are really created in the tree (the grep finds them)', () => {

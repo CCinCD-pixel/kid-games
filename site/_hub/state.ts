@@ -12,7 +12,7 @@ import type { SessionRecord } from '@kit/log';
 import type { HubProgress, LegacyLadders, LegacySokoban } from '@kit/progress';
 
 export type Place = HubEntry['place'];
-export const PLACES: Place[] = ['base', 'playground', 'classic'];
+export const PLACES: Place[] = ['base', 'playground'];
 
 export interface CardProgress {
   label: string;

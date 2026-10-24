@@ -4,7 +4,7 @@ declare module 'virtual:kg-registry' {
     id: string;
     title: string;
     subtitle: string;
-    place: 'base' | 'playground' | 'classic';
+    place: 'base' | 'playground';
     order: number;
     status: 'live' | 'wip' | 'hidden';
     accent: string;

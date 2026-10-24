@@ -1,13 +1,14 @@
 {
   "id": "chess",
-  "title": "国际象棋",
-  "subtitle": "和小动物棋手下一盘",
-  "place": "classic",
+  "title": "棋手学院",
+  "subtitle": "学会棋子，和机器人下棋",
+  "place": "base",
   "order": 40,
   "status": "live",
   "accent": "#4c6fe0",
   "theme": "chess",
   "icon": "/icons/games/chess.svg",
   "domains": ["strategy"],
-  "parentNote": "完整规则 + 3 档电脑对手（走法生成经 perft 验证）。之后升级为棋艺舱·棋手学院。"
+  "parentNote": "国际象棋：棋子训练、儿童电脑对弈、残局练习与面对面对弈；支持续局和完整棋规判定。",
+  "smoke": { "waitFor": ".cx-home" }
 }

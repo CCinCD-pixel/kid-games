@@ -1,7 +1,7 @@
 {
   "id": "mars-base",
   "title": "火星基地",
-  "subtitle": "给祝融基地装货、建造",
+  "subtitle": "加减乘除，一阶一阶来",
   "place": "base",
   "order": 10,
   "status": "live",
@@ -10,12 +10,12 @@
   "icon": "/icons/games/mars-base.svg",
   "domains": [
     "number",
-    "measurement"
+    "memory"
   ],
-  "parentNote": "数学主力：数轴估计、数位、两位数加减、乘法意义，自适应出题，记录错误类型。",
+  "parentNote": "四则运算分阶训练：每轮八题，五题答对开启下一阶；保留各阶最好成绩。",
   "orientation": "any",
   "redirectFrom": ["/number-adventure"],
   "smoke": {
-    "waitFor": ".kit-start__go"
+    "waitFor": ".ma-track"
   }
 }

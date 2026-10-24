@@ -1,0 +1,119 @@
+import { PASS_SCORE, QUESTIONS_PER_STAGE, STAGES, SYMBOL, TRACKS, hintFor, questionsFor, type Stage } from './problems';
+import { recordAnswer, stageOpen, startRun, type MathSave } from './save';
+
+type View = 'home' | 'question' | 'feedback' | 'result';
+
+export class ArithmeticApp {
+  private view: View = 'home';
+  private chosen = '';
+  private feedback = '';
+  private shownHint = false;
+  private lastScore = 0;
+  private lastStage = '';
+
+  constructor(private root: HTMLElement, private save: MathSave, private persist: () => void) {
+    root.addEventListener('click', (event) => this.click(event));
+    window.addEventListener('keydown', (event) => this.keydown(event));
+  }
+
+  private get stage(): Stage | undefined { return STAGES.find((s) => s.id === this.save.run?.stageId); }
+  private get question() {
+    const run = this.save.run;
+    const stage = this.stage;
+    return run && stage ? questionsFor(stage, run.round)[run.index] : null;
+  }
+
+  render(): void {
+    if (this.view === 'home') this.home();
+    else if (this.view === 'result') this.result();
+    else this.exercise();
+  }
+
+  private home(): void {
+    const resume = this.save.run;
+    this.root.innerHTML = `<main class="ma-page ma-home">
+      <header class="ma-header"><span class="ma-mark">✦</span><div><h1>火星基地</h1><p>算术挑战</p></div></header>
+      ${resume ? `<button class="ma-resume" data-action="resume" type="button">继续上次的 ${STAGES.find((s) => s.id === resume.stageId)?.title ?? '练习'} · 第 ${resume.index + 1} 题 <span aria-hidden="true">→</span></button>` : ''}
+      <div class="ma-tracks">${TRACKS.map((track) => `<section class="ma-track ma-${track.color}"><div class="ma-track-head"><span class="ma-symbol">${SYMBOL[track.op]}</span><h2>${track.title}</h2><span class="ma-track-count">${track.stages.filter((_, i) => (this.save.best[`${track.op}-${i + 1}`] ?? 0) >= PASS_SCORE).length} / 6</span></div><div class="ma-stages">${track.stages.map((title, i) => {
+        const id = `${track.op}-${i + 1}`;
+        const stage = STAGES.find((s) => s.id === id)!;
+        const open = stageOpen(this.save, stage);
+        const best = this.save.best[id];
+        return `<button type="button" class="ma-stage ${best !== undefined && best >= PASS_SCORE ? 'is-passed' : ''}" data-stage="${id}" ${open ? '' : 'disabled'} aria-label="${track.title}第 ${i + 1} 阶，${title}${open ? '' : '，未解锁'}"><b>${i + 1}</b><span>${title}</span><small>${best === undefined ? (open ? '开始' : '待解锁') : `${best} / 8`}</small></button>`;
+      }).join('')}</div></section>`).join('')}</div>
+    </main>`;
+  }
+
+  private exercise(): void {
+    const run = this.save.run, stage = this.stage, q = this.question;
+    if (!run || !stage || !q) { this.view = 'home'; this.home(); return; }
+    const feedback = this.view === 'feedback';
+    this.root.innerHTML = `<main class="ma-page ma-play"><header class="ma-play-header"><button class="ma-back" type="button" data-action="home" aria-label="返回选关">←</button><div><span>${SYMBOL[stage.op]} ${stage.title}</span><strong>第 ${run.index + 1} / ${QUESTIONS_PER_STAGE} 题</strong></div><span class="ma-score">答对 ${run.correct}</span></header>
+      <div class="ma-progress" aria-hidden="true">${Array.from({ length: QUESTIONS_PER_STAGE }, (_, i) => `<i class="${i < run.index ? 'done' : i === run.index ? 'now' : ''}"></i>`).join('')}</div>
+      <section class="ma-task" aria-label="算术题"><div class="ma-equation">${q.a} <em>${SYMBOL[q.op]}</em> ${q.b} <em>=</em> <span class="ma-answer ${feedback ? (this.feedback === 'right' ? 'right' : 'wrong') : ''}">${this.chosen || '?'}</span></div><p class="ma-hint">${this.shownHint ? hintFor(q) : '&nbsp;'}</p></section>
+      ${feedback ? `<div class="ma-feedback ${this.feedback}">${this.feedback === 'right' ? '答对了！' : `正确答案是 ${q.answer}。下一题继续。`}</div>` : `<div class="ma-keypad" aria-label="数字键盘">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 'hint', 0, 'delete'].map((x) => `<button type="button" data-key="${x}" aria-label="${x === 'hint' ? '提示' : x === 'delete' ? '删除' : x}">${x === 'hint' ? '?' : x === 'delete' ? '⌫' : x}</button>`).join('')}</div>`}
+      <button class="ma-primary" type="button" data-action="${feedback ? 'next' : 'submit'}" ${!feedback && !this.chosen ? 'disabled' : ''}>${feedback ? '下一题 →' : '确定'}</button>
+    </main>`;
+  }
+
+  private result(): void {
+    const stage = STAGES.find((s) => s.id === this.lastStage)!;
+    const passed = this.lastScore >= PASS_SCORE;
+    const next = STAGES.find((s) => s.op === stage.op && s.tier === stage.tier + 1);
+    this.root.innerHTML = `<main class="ma-page ma-result"><div class="ma-result-body"><div class="ma-result-symbol">${passed ? '★' : '↗'}</div><h1>${passed ? '完成挑战' : '再练一轮'}</h1><p>${stage.title}</p><strong>${this.lastScore} <small>/ ${QUESTIONS_PER_STAGE}</small></strong><p>${passed ? (next ? '下一阶已经开启' : '这一条训练线完成了') : `答对 ${PASS_SCORE} 题就能开启下一阶`}</p><div class="ma-result-actions"><button type="button" data-action="retry">再练一轮</button>${passed && next ? `<button class="ma-primary" type="button" data-stage="${next.id}">下一阶 →</button>` : ''}<button type="button" data-action="home">返回选关</button></div></div></main>`;
+  }
+
+  private begin(stage: Stage): void {
+    if (!stageOpen(this.save, stage)) return;
+    startRun(this.save, stage);
+    this.persist();
+    this.view = 'question'; this.chosen = ''; this.shownHint = false; this.render();
+  }
+
+  private click(event: MouseEvent): void {
+    const button = (event.target as Element).closest<HTMLButtonElement>('button');
+    if (!button || !this.root.contains(button)) return;
+    const id = button.dataset.stage;
+    if (id) { const stage = STAGES.find((s) => s.id === id); if (stage) this.begin(stage); return; }
+    const key = button.dataset.key;
+    if (key !== undefined) { this.input(key); return; }
+    switch (button.dataset.action) {
+      case 'resume': this.view = 'question'; this.chosen = ''; this.render(); break;
+      case 'home': this.view = 'home'; this.render(); break;
+      case 'retry': { const stage = STAGES.find((s) => s.id === this.lastStage); if (stage) this.begin(stage); break; }
+      case 'submit': this.submit(); break;
+      case 'next': this.next(); break;
+    }
+  }
+
+  private keydown(event: KeyboardEvent): void {
+    if (this.view === 'question' && (/^[0-9]$/.test(event.key) || event.key === 'Backspace')) this.input(event.key === 'Backspace' ? 'delete' : event.key);
+    else if (event.key === 'Enter' && this.view === 'question') this.submit();
+    else if (event.key === 'Enter' && this.view === 'feedback') this.next();
+  }
+
+  private input(key: string): void {
+    if (this.view !== 'question') return;
+    if (key === 'hint') this.shownHint = !this.shownHint;
+    else if (key === 'delete') this.chosen = this.chosen.slice(0, -1);
+    else if (this.chosen.length < 3) this.chosen = `${this.chosen}${key}`.replace(/^0+(?=\d)/, '');
+    this.render();
+  }
+
+  private submit(): void {
+    const q = this.question;
+    if (this.view !== 'question' || !q || !this.chosen) return;
+    this.feedback = Number(this.chosen) === q.answer ? 'right' : 'wrong';
+    this.view = 'feedback'; this.render();
+  }
+
+  private next(): void {
+    if (this.view !== 'feedback' || !this.save.run) return;
+    const result = recordAnswer(this.save, this.feedback === 'right');
+    this.persist();
+    this.chosen = ''; this.shownHint = false;
+    if (result.finished) { this.lastStage = result.stageId; this.lastScore = result.score; this.view = 'result'; }
+    else this.view = 'question';
+    this.render();
+  }
+}

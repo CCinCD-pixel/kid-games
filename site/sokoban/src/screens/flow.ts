@@ -2,7 +2,7 @@
  * What a result card leads into (spec §2.1, §3.5, §5.5), shared by the level and the quiz screens:
  * chapter rewards (once per chapter), milestone items, the v1 finale (once), the 收尾卡 (once per
  * visit), then the child's choice — next level, again, the 镜子仓库 twin, another random order, the
- * 跳级考试 invitation, or the map (the newly opened chapter glows; after 4-8 the map goes to
+ * 跳级考试 invitation, or the map (the newly opened chapter glows; after 8-8 the map goes to
  * 新货单在路上).
  */
 import type { AppCtx } from '../app/context';
@@ -72,5 +72,5 @@ export async function follow(ctx: AppCtx, def: LevelDef, choice: string, next: N
     ctx.go({ name: 'play', id: next.id, fresh: true, newChapter: next.newChapter });
     return;
   }
-  ctx.go({ name: 'map', tab: tabOf(def), opened: o.openedChapters[0], focus: def.id === '4-8' ? 'coming' : undefined });
+  ctx.go({ name: 'map', tab: tabOf(def), opened: o.openedChapters[0], focus: def.id === '8-8' ? 'coming' : undefined });
 }

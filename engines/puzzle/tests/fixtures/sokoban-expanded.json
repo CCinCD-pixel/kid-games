@@ -1,0 +1,421 @@
+{
+  "note": "Regression baseline for the 32 pool-derived chapters 5-8; all maps also pass the independent level validator.",
+  "levels": {
+    "5-1": {
+      "states": 144,
+      "truncated": false,
+      "startTogo": 5,
+      "dead": 92,
+      "flagged": {
+        "corner": 17,
+        "wall": 72,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 1447074931
+    },
+    "5-2": {
+      "states": 156,
+      "truncated": false,
+      "startTogo": 5,
+      "dead": 92,
+      "flagged": {
+        "corner": 30,
+        "wall": 60,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 1205233677
+    },
+    "5-3": {
+      "states": 82,
+      "truncated": false,
+      "startTogo": 5,
+      "dead": 49,
+      "flagged": {
+        "corner": 12,
+        "wall": 35,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 2809216102
+    },
+    "5-4": {
+      "states": 58,
+      "truncated": false,
+      "startTogo": 5,
+      "dead": 38,
+      "flagged": {
+        "corner": 13,
+        "wall": 8,
+        "pair": 4,
+        "square": 0
+      },
+      "digest": 3995751519
+    },
+    "5-5": {
+      "states": 91,
+      "truncated": false,
+      "startTogo": 5,
+      "dead": 52,
+      "flagged": {
+        "corner": 15,
+        "wall": 31,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 3918631493
+    },
+    "5-6": {
+      "states": 64,
+      "truncated": false,
+      "startTogo": 5,
+      "dead": 43,
+      "flagged": {
+        "corner": 0,
+        "wall": 43,
+        "pair": 0,
+        "square": 0
+      },
+      "digest": 1074740020
+    },
+    "5-7": {
+      "states": 135,
+      "truncated": false,
+      "startTogo": 6,
+      "dead": 74,
+      "flagged": {
+        "corner": 30,
+        "wall": 39,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 3187541816
+    },
+    "5-8": {
+      "states": 92,
+      "truncated": false,
+      "startTogo": 6,
+      "dead": 57,
+      "flagged": {
+        "corner": 15,
+        "wall": 41,
+        "pair": 1,
+        "square": 0
+      },
+      "digest": 2534862024
+    },
+    "6-1": {
+      "states": 154,
+      "truncated": false,
+      "startTogo": 7,
+      "dead": 91,
+      "flagged": {
+        "corner": 28,
+        "wall": 60,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 3401489194
+    },
+    "6-2": {
+      "states": 74,
+      "truncated": false,
+      "startTogo": 7,
+      "dead": 46,
+      "flagged": {
+        "corner": 17,
+        "wall": 23,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 354212374
+    },
+    "6-3": {
+      "states": 74,
+      "truncated": false,
+      "startTogo": 7,
+      "dead": 41,
+      "flagged": {
+        "corner": 18,
+        "wall": 17,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 764194126
+    },
+    "6-4": {
+      "states": 92,
+      "truncated": false,
+      "startTogo": 7,
+      "dead": 45,
+      "flagged": {
+        "corner": 26,
+        "wall": 12,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 1072855150
+    },
+    "6-5": {
+      "states": 177,
+      "truncated": false,
+      "startTogo": 7,
+      "dead": 105,
+      "flagged": {
+        "corner": 55,
+        "wall": 44,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 683588163
+    },
+    "6-6": {
+      "states": 74,
+      "truncated": false,
+      "startTogo": 7,
+      "dead": 43,
+      "flagged": {
+        "corner": 24,
+        "wall": 12,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 87435441
+    },
+    "6-7": {
+      "states": 130,
+      "truncated": false,
+      "startTogo": 6,
+      "dead": 96,
+      "flagged": {
+        "corner": 22,
+        "wall": 63,
+        "pair": 1,
+        "square": 0
+      },
+      "digest": 3242874959
+    },
+    "6-8": {
+      "states": 146,
+      "truncated": false,
+      "startTogo": 7,
+      "dead": 81,
+      "flagged": {
+        "corner": 46,
+        "wall": 22,
+        "pair": 4,
+        "square": 0
+      },
+      "digest": 4112000125
+    },
+    "7-1": {
+      "states": 117,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 61,
+      "flagged": {
+        "corner": 39,
+        "wall": 16,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 2041068395
+    },
+    "7-2": {
+      "states": 124,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 72,
+      "flagged": {
+        "corner": 34,
+        "wall": 35,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 1290227449
+    },
+    "7-3": {
+      "states": 116,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 60,
+      "flagged": {
+        "corner": 38,
+        "wall": 16,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 393284952
+    },
+    "7-4": {
+      "states": 96,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 53,
+      "flagged": {
+        "corner": 26,
+        "wall": 8,
+        "pair": 4,
+        "square": 0
+      },
+      "digest": 1297224577
+    },
+    "7-5": {
+      "states": 104,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 52,
+      "flagged": {
+        "corner": 28,
+        "wall": 18,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 3190816954
+    },
+    "7-6": {
+      "states": 165,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 90,
+      "flagged": {
+        "corner": 21,
+        "wall": 66,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 3697180298
+    },
+    "7-7": {
+      "states": 137,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 75,
+      "flagged": {
+        "corner": 31,
+        "wall": 40,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 3079610741
+    },
+    "7-8": {
+      "states": 181,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 105,
+      "flagged": {
+        "corner": 63,
+        "wall": 24,
+        "pair": 4,
+        "square": 0
+      },
+      "digest": 75957746
+    },
+    "8-1": {
+      "states": 88,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 49,
+      "flagged": {
+        "corner": 34,
+        "wall": 8,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 1400553743
+    },
+    "8-2": {
+      "states": 18,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 9,
+      "flagged": {
+        "corner": 4,
+        "wall": 3,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 1389136124
+    },
+    "8-3": {
+      "states": 127,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 75,
+      "flagged": {
+        "corner": 18,
+        "wall": 54,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 4270325473
+    },
+    "8-4": {
+      "states": 69,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 43,
+      "flagged": {
+        "corner": 25,
+        "wall": 4,
+        "pair": 3,
+        "square": 0
+      },
+      "digest": 1996542831
+    },
+    "8-5": {
+      "states": 76,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 42,
+      "flagged": {
+        "corner": 26,
+        "wall": 10,
+        "pair": 2,
+        "square": 0
+      },
+      "digest": 626935952
+    },
+    "8-6": {
+      "states": 94,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 54,
+      "flagged": {
+        "corner": 24,
+        "wall": 10,
+        "pair": 4,
+        "square": 0
+      },
+      "digest": 1042676338
+    },
+    "8-7": {
+      "states": 182,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 100,
+      "flagged": {
+        "corner": 52,
+        "wall": 25,
+        "pair": 6,
+        "square": 0
+      },
+      "digest": 55998430
+    },
+    "8-8": {
+      "states": 112,
+      "truncated": false,
+      "startTogo": 8,
+      "dead": 70,
+      "flagged": {
+        "corner": 13,
+        "wall": 56,
+        "pair": 1,
+        "square": 0
+      },
+      "digest": 1932279627
+    }
+  }
+}

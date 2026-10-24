@@ -1,0 +1,118 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { expect, test, type Page } from '@playwright/test';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
+test.beforeEach(async ({ context }) => { await context.addInitScript({ path: path.join(ROOT, 'tools/qa/mute-audio.js') }); });
+
+async function boot(page: Page): Promise<void> {
+  await page.goto('/chess/?mute=1');
+  await expect(page.locator('#app[data-ready]')).toBeVisible();
+}
+
+async function move(page: Page, from: string, to: string): Promise<void> {
+  const toIndex = (square: string) => (8 - Number(square[1])) * 8 + square.charCodeAt(0) - 97;
+  await page.locator(`[data-sq="${toIndex(from)}"]`).click();
+  await page.locator(`[data-sq="${toIndex(to)}"]`).click();
+}
+
+test('piece lesson and save continue through a reload', async ({ page }) => {
+  await boot(page);
+  await expect(page.locator('[data-lesson]')).toHaveCount(6);
+  await expect(page.locator('[data-ai]')).toHaveCount(3);
+  await expect(page.locator('[data-puzzle]')).toHaveCount(16);
+  await page.locator('[data-lesson="0"]').click();
+  await move(page, 'a1', 'a6');
+  await expect(page.getByText('找到了这一步！')).toBeVisible();
+  await page.locator('[data-act="next-task"]').click();
+  await move(page, 'a1', 'h1');
+  await page.locator('[data-act="next-task"]').click();
+  await expect(page.locator('#cx-learn .cx-section-title span')).toHaveText('1 / 6');
+  await page.reload();
+  await expect(page.locator('#cx-learn .cx-section-title span')).toHaveText('1 / 6');
+
+  await page.locator('[data-lesson="3"]').click();
+  await move(page, 'e1', 'e2');
+  await expect(page.getByText('走得好，再想想下一步。')).toBeVisible();
+  await page.locator('[data-act="lesson-hint"]').click();
+  await expect(page.locator('.cx-square.legal').first()).toBeVisible();
+  await move(page, 'e2', 'e3');
+  await expect(page.getByText('找到了这一步！')).toBeVisible();
+});
+
+test('face-to-face moves, undo, restore and new-game confirmation', async ({ page }) => {
+  await boot(page);
+  await page.locator('[data-act="f2f"]').click();
+  await move(page, 'e2', 'e4');
+  await move(page, 'e7', 'e5');
+  await expect(page.locator('.cx-count')).toContainText('2 步');
+  await page.locator('[data-act="undo"]').click();
+  await expect(page.locator('.cx-count')).toContainText('1 步');
+  await page.reload();
+  await page.locator('[data-act="resume"]').click();
+  await expect(page.locator('.cx-count')).toContainText('1 步');
+  await page.locator('[data-act="back"]').click();
+  await page.locator('[data-ai="0"]').click();
+  await expect(page.getByText('还有一盘没下完')).toBeVisible();
+  await page.locator('[data-act="cancel-new"]').click();
+  await page.locator('[data-act="resume"]').click();
+  await expect(page.locator('.cx-count')).toContainText('1 步');
+  await page.locator('[data-act="back"]').click();
+  await page.locator('[data-ai="0"]').click();
+  await page.locator('[data-act="confirm-new"]').click();
+  await expect(page.locator('.cx-count')).toContainText('0 步');
+  await move(page, 'e2', 'e4');
+  await expect(page.locator('.cx-count')).toContainText('2 步', { timeout: 8_000 });
+});
+
+test('puzzle, restart and compact layouts stay usable', async ({ page }) => {
+  await boot(page);
+  await page.locator('[data-puzzle="0"]').click();
+  await expect(page.locator('.cx-board .cx-square')).toHaveCount(64);
+  await page.locator('[data-act="restart"]').click();
+  await page.locator('[data-act="confirm-reset"]').click();
+  await expect(page.locator('.cx-count')).toContainText('0 步');
+  for (const { width, height } of [{ width: 320, height: 568 }, { width: 390, height: 664 }, { width: 810, height: 1080 }, { width: 1080, height: 810 }, { width: 844, height: 390 }]) {
+    await page.setViewportSize({ width, height });
+    const bounds = await page.evaluate(() => {
+      const board = document.querySelector('.cx-board')!.getBoundingClientRect();
+      const actions = document.querySelector('.cx-actions')!.getBoundingClientRect();
+      return { scroll: document.documentElement.scrollWidth, width: innerWidth, boardLeft: board.left, boardRight: board.right, boardWidth: board.width, actionsLeft: actions.left, actionsRight: actions.right };
+    });
+    expect(bounds.scroll).toBeLessThanOrEqual(bounds.width + 1);
+    expect(bounds.boardLeft).toBeGreaterThanOrEqual(0);
+    expect(bounds.boardRight).toBeLessThanOrEqual(bounds.width + 1);
+    if (width === 810) expect(bounds.boardWidth).toBeGreaterThanOrEqual(700);
+    expect(bounds.actionsLeft).toBeGreaterThanOrEqual(0);
+    expect(bounds.actionsRight).toBeLessThanOrEqual(bounds.width + 1);
+    await page.locator('[data-act="hint"]').scrollIntoViewIfNeeded();
+    await expect(page.locator('[data-act="hint"]')).toBeInViewport();
+  }
+});
+
+test('one-move mate rejects a miss, gives a legal hint, and counts only once', async ({ page }) => {
+  await boot(page);
+  await page.locator('[data-puzzle="0"]').click();
+  await move(page, 'g1', 'g2');
+  await expect(page.getByText('这一步还没将死，再想想。')).toBeVisible();
+  await expect(page.locator('.cx-count')).toContainText('0 步');
+  await page.locator('[data-act="hint"]').click();
+  await expect(page.locator('.cx-square.hint')).toHaveCount(1);
+  await move(page, 'g1', 'g8');
+  await expect(page.getByText('白方获胜')).toBeVisible();
+  await page.locator('[data-act="undo"]').click();
+  await move(page, 'g1', 'g8');
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('kg:v1:chess')!).data);
+  expect(saved.played).toBe(1);
+  expect(saved.puzzles).toEqual(['in.C1.5']);
+  await page.locator('[data-act="finish"]').click();
+  await expect(page.locator('#cx-mates .cx-section-title span')).toHaveText('1 / 8');
+  await expect(page.locator('#cx-endgames .cx-section-title span')).toHaveText('0 / 8');
+});
+
+test('visual review of the academy and board', async ({ page }, testInfo) => {
+  await boot(page);
+  await page.screenshot({ path: testInfo.outputPath('academy.png') });
+  await page.locator('[data-ai="0"]').click();
+  await page.screenshot({ path: testInfo.outputPath('board.png') });
+});

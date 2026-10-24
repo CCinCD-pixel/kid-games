@@ -8,8 +8,8 @@ import type { LaunchSource, SessionRecord } from '@kit/log';
 import type { MetricItem, MetricSummary } from '@kit/metrics';
 
 export type Place = HubEntry['place'];
-export const PLACES: Place[] = ['base', 'playground', 'classic'];
-export const PLACE_NAMES: Record<Place, string> = { base: '基地（学习）', playground: '游乐场（休息）', classic: '经典角（旧版）' };
+export const PLACES: Place[] = ['base', 'playground'];
+export const PLACE_NAMES: Record<Place, string> = { base: '基地（学习）', playground: '游乐场（休息）' };
 
 const PLATFORM = new Set(['hub', 'parent', 'credits', 'dev-kit']);
 const DAY = 86_400_000;
@@ -36,19 +36,19 @@ export interface DayBar {
   total: number;
 }
 
-/** Last `days` calendar days (oldest first), minutes per place. Unknown games count as classic. */
+/** Last `days` calendar days (oldest first), minutes per place. Unknown games join the base total. */
 export function dailyBars(sessions: SessionRecord[], placeOf: (game: string) => Place | undefined, days = 14, now = Date.now()): DayBar[] {
   const today = dayStart(now);
   const bars: DayBar[] = [];
   for (let i = days - 1; i >= 0; i -= 1) {
     const start = dayStart(today - i * DAY + DAY / 2); // DST-safe
-    bars.push({ start, minutes: { base: 0, playground: 0, classic: 0 }, total: 0 });
+    bars.push({ start, minutes: { base: 0, playground: 0 }, total: 0 });
   }
   const index = new Map(bars.map((b, i) => [b.start, i]));
   for (const s of playSessions(sessions)) {
     const i = index.get(dayStart(s.start));
     if (i === undefined) continue;
-    const p = placeOf(s.game) ?? 'classic';
+    const p = placeOf(s.game) ?? 'base';
     const m = s.activeMs / 60_000;
     bars[i].minutes[p] += m;
     bars[i].total += m;
@@ -66,14 +66,14 @@ export interface Totals {
 
 export function totals(sessions: SessionRecord[], placeOf: (game: string) => Place | undefined, days: number, now = Date.now()): Totals {
   const since = dayStart(now) - (days - 1) * DAY;
-  const out: Totals = { minutes: 0, sessions: 0, activeDays: 0, byPlace: { base: 0, playground: 0, classic: 0 } };
+  const out: Totals = { minutes: 0, sessions: 0, activeDays: 0, byPlace: { base: 0, playground: 0 } };
   const dayset = new Set<number>();
   for (const s of playSessions(sessions)) {
     if (s.start < since) continue;
     const m = s.activeMs / 60_000;
     out.minutes += m;
     out.sessions += 1;
-    out.byPlace[placeOf(s.game) ?? 'classic'] += m;
+    out.byPlace[placeOf(s.game) ?? 'base'] += m;
     dayset.add(dayStart(s.start));
   }
   out.activeDays = dayset.size;

@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const SITE_DIR = path.join(ROOT, 'site');
 
-export const PLACES = /** @type {const} */ (['base', 'playground', 'classic']);
+export const PLACES = /** @type {const} */ (['base', 'playground']);
 export const STATUSES = /** @type {const} */ (['live', 'wip', 'hidden']);
 /** Ability domains (plan §2.3). Parent-facing only; never shown to the child. */
 export const DOMAINS = /** @type {const} */ ([
@@ -37,7 +37,7 @@ export const PLATFORM_PAGES = /** @type {const} */ (['parent', 'credits', 'dev']
  * @property {string} id          folder name under site/ (also the URL path segment)
  * @property {string} title       child-facing name (Chinese)
  * @property {string} subtitle    child-facing one-liner: a fantasy action, not a skill label
- * @property {'base'|'playground'|'classic'} place   hub section: 基地 / 游乐场 / 经典角
+ * @property {'base'|'playground'} place   hub section: 基地 / 游乐场
  * @property {number} order       sort key inside the section (lower first)
  * @property {'live'|'wip'|'hidden'} status  live = on the hub; wip = on the hub as 建造中 (not enterable; ?dev makes it a link); hidden = built, URL only
  * @property {string} accent      CSS colour or a design token name ("--xg-mars")
@@ -198,7 +198,7 @@ export function buildHeaders(pages) {
 }
 
 /** Child-facing section names for the hub (plan §4.1: places, not subjects). */
-export const PLACE_LABELS = { base: '基地', playground: '游乐场', classic: '经典角' };
+export const PLACE_LABELS = { base: '基地', playground: '游乐场' };
 
 const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
@@ -207,7 +207,7 @@ const accentCss = (accent) => (accent.startsWith('--') ? `var(${accent})` : acce
 
 /**
  * Static hub markup, rendered at build time into site/index.html (placeholder `<!-- kg:hub -->`),
- * so the hub paints without waiting for JS: one tab panel per place (基地 / 游乐场 / 经典角), each a
+ * so the hub paints without waiting for JS: one tab panel per place (基地 / 游乐场), each a
  * grid of paper cards. `live` games are links; `wip` games are shown as 建造中 cards that do not
  * navigate (the hub script makes them links with ?dev); `hidden` games are never listed. The hub
  * script adds what only the device knows: progress, 继续 / 推荐 / NEW tags, parent-hidden games.

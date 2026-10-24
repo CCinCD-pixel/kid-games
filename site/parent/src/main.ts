@@ -35,7 +35,7 @@ const UNLOCK_MS = 30 * 60_000;
 const app = document.getElementById('app')!;
 const byId = new Map(registry.map((g) => [g.id, g]));
 const placeOf = (game: string): Place | undefined => byId.get(game)?.place;
-const PLACE_COLORS: Record<Place, string> = { base: '#1aa892', playground: '#df9a1c', classic: '#5466b0' };
+const PLACE_COLORS: Record<Place, string> = { base: '#1aa892', playground: '#df9a1c' };
 const STATUS_NAMES = { live: '已上线', wip: '建造中', hidden: '未列出' } as const;
 
 const session = (() => {
@@ -228,7 +228,7 @@ function overview(): Node[] {
   const maxGame = Math.max(1, ...stats30.map((g) => g.minutes));
   const games = section('各游戏（近 30 天）',
     stats30.length
-      ? h('div', { class: 'pg-hbars' }, stats30.slice(0, 10).map((g) => hbar(byId.get(g.game)?.title ?? g.game, g.minutes / maxGame, `${fmtMinutes(g.minutes)} · ${g.sessions} 次`, PLACE_COLORS[placeOf(g.game) ?? 'classic'])))
+      ? h('div', { class: 'pg-hbars' }, stats30.slice(0, 10).map((g) => hbar(byId.get(g.game)?.title ?? g.game, g.minutes / maxGame, `${fmtMinutes(g.minutes)} · ${g.sessions} 次`, PLACE_COLORS[placeOf(g.game) ?? 'base'])))
       : empty('还没有记录。'));
 
   const cards = metricCards(registry, listMetricsSummaries());
