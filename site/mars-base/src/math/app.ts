@@ -1,5 +1,5 @@
-import { PASS_SCORE, QUESTIONS_PER_STAGE, STAGES, SYMBOL, TRACKS, hintFor, questionsFor, type Problem, type Stage } from './problems';
-import { recordAnswer, stageOpen, startRun, type MathSave } from './save';
+import { PASS_SCORE, QUESTIONS_PER_STAGE, STAGES, SYMBOL, TRACKS, hintFor, questionsFor, variationFor, type Problem, type Stage } from './problems';
+import { dueReview, recordAnswer, stageOpen, startRun, type MathSave } from './save';
 import { CoachVoice } from '@kit/coach-voice';
 import { icon } from '@kit/ui';
 
@@ -26,7 +26,7 @@ function modelFor(q: Problem): string {
 export class ArithmeticApp {
   private view: View = 'home';
   private chosen = '';
-  private feedback = '';
+  private feedback: 'right' | 'reviewed' | 'wrong' | '' = '';
   private shownHint = false;
   private lastScore = 0;
   private lastStage = '';
@@ -61,7 +61,7 @@ export class ArithmeticApp {
   private get question() {
     const run = this.save.run;
     const stage = this.stage;
-    return run && stage ? questionsFor(stage, run.round)[run.index] : null;
+    return run && stage ? dueReview(run)?.problem ?? questionsFor(stage, run.round)[run.index] : null;
   }
 
   render(): void {
@@ -91,12 +91,15 @@ export class ArithmeticApp {
     const run = this.save.run, stage = this.stage, q = this.question;
     if (!run || !stage || !q) { this.view = 'home'; this.home(); return; }
     const feedback = this.view === 'feedback';
-    this.root.innerHTML = `<main class="ma-page ma-play"><header class="ma-play-header"><button class="ma-back" type="button" data-action="home" aria-label="返回选关" title="返回选关">${icon('back')}</button><div><span>${SYMBOL[stage.op]} ${stage.title}</span><strong>第 ${run.index + 1} / ${QUESTIONS_PER_STAGE} 题</strong></div><span class="ma-score">答对 ${run.correct}</span></header>
+    const retrying = run.retrying && !feedback;
+    const review = !!dueReview(run);
+    this.root.innerHTML = `<main class="ma-page ma-play"><header class="ma-play-header"><button class="ma-back" type="button" data-action="home" aria-label="返回选关" title="返回选关">${icon('back')}</button><div><span>${SYMBOL[stage.op]} ${stage.title}</span><strong>${review ? `变式复练 ${run.reviewed + 1}` : `第 ${run.index + 1} / ${QUESTIONS_PER_STAGE} 题`}</strong></div><span class="ma-score">首答 ${run.correct}</span></header>
       ${this.guide()}
       <div class="ma-progress" aria-hidden="true">${Array.from({ length: QUESTIONS_PER_STAGE }, (_, i) => `<i class="${i < run.index ? 'done' : i === run.index ? 'now' : ''}"></i>`).join('')}</div>
-      <section class="ma-task" aria-label="算术题"><div class="ma-task-label">算术任务 <span>第 ${run.index + 1} 站</span></div><div class="ma-equation">${q.a} <em>${SYMBOL[q.op]}</em> ${q.b} <em>=</em> <span class="ma-answer ${feedback ? (this.feedback === 'right' ? 'right' : 'wrong') : ''}">${this.chosen || '?'}</span></div><p class="ma-hint">${this.shownHint ? hintFor(q) : '想好了就输入答案，随时可以点提示。'}</p>${this.shownHint && !feedback ? modelFor(q) : ''}</section>
-      ${feedback ? `<div class="ma-feedback ${this.feedback}"><b>${this.feedback === 'right' ? '答对了！' : `正确答案是 ${q.answer}`}</b><span>${this.feedback === 'right' ? '点亮一格，继续前进。' : hintFor(q)}</span></div>` : `<div class="ma-keypad" aria-label="数字键盘">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 'hint', 0, 'delete'].map((x) => `<button type="button" data-key="${x}" aria-label="${x === 'hint' ? '提示' : x === 'delete' ? '删除' : x}">${x === 'hint' ? icon('hint') : x === 'delete' ? icon('backspace') : x}</button>`).join('')}</div>`}
-      <button class="ma-primary" type="button" data-action="${feedback ? 'next' : 'submit'}" ${!feedback && !this.chosen ? 'disabled' : ''}>${feedback ? '下一题 →' : '确定'}</button>
+      <section class="ma-task ${review ? 'is-review' : ''}" aria-label="算术题"><div class="ma-task-label">${review ? '再换一道试试' : '算术任务'} <span>${review ? '不计入首答成绩' : `第 ${run.index + 1} 站`}</span></div><div class="ma-equation">${q.a} <em>${SYMBOL[q.op]}</em> ${q.b} <em>=</em> <span class="ma-answer ${feedback ? (this.feedback === 'wrong' ? 'wrong' : 'right') : ''}">${this.chosen || '?'}</span></div><p class="ma-hint">${retrying ? '先看图，再自己算一次。' : this.shownHint ? hintFor(q) : '想好了就输入答案，随时可以点提示。'}</p>${(this.shownHint || retrying) && !feedback ? modelFor(q) : ''}</section>
+      ${retrying ? `<div class="ma-retry-note" role="status"><b>这道题再试一次</b><span>${hintFor(q)}</span>${run.attempts >= 2 ? '<button type="button" data-action="show-answer">看答案</button>' : ''}</div>` : ''}
+      ${feedback ? `<div class="ma-feedback ${this.feedback}"><b>${this.feedback === 'right' ? '答对了！' : this.feedback === 'reviewed' ? '自己算出来了！' : `正确答案是 ${q.answer}`}</b><span>${review ? '这道变式已经复练，继续前进。' : this.feedback === 'right' ? '点亮一格，继续前进。' : this.feedback === 'reviewed' ? '这题已经学会了，首答分数保持不变。' : hintFor(q)}</span></div>` : `<div class="ma-keypad" aria-label="数字键盘">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 'hint', 0, 'delete'].map((x) => `<button type="button" data-key="${x}" aria-label="${x === 'hint' ? '提示' : x === 'delete' ? '删除' : x}">${x === 'hint' ? icon('hint') : x === 'delete' ? icon('backspace') : x}</button>`).join('')}</div>`}
+      <button class="ma-primary" type="button" data-action="${feedback ? 'next' : 'submit'}" ${!feedback && !this.chosen ? 'disabled' : ''}>${feedback ? '下一题 →' : retrying ? '再试一次' : '确定'}</button>
     </main>`;
   }
 
@@ -127,6 +130,7 @@ export class ArithmeticApp {
       case 'replay': this.coach.replay(); break;
       case 'retry': { const stage = STAGES.find((s) => s.id === this.lastStage); if (stage) this.begin(stage); break; }
       case 'submit': this.submit(); break;
+      case 'show-answer': this.showAnswer(); break;
       case 'next': this.next(); break;
     }
   }
@@ -157,14 +161,29 @@ export class ArithmeticApp {
   private submit(): void {
     const q = this.question;
     if (this.view !== 'question' || !q || !this.chosen) return;
-    this.feedback = Number(this.chosen) === q.answer ? 'right' : 'wrong';
+    const run = this.save.run!;
+    if (Number(this.chosen) !== q.answer) {
+      if (!run.retrying && !dueReview(run)) run.reviews.push({ due: Math.min(QUESTIONS_PER_STAGE, run.index + 3), problem: variationFor(this.stage!, run.round, run.index) });
+      run.retrying = true; run.attempts = Math.min(3, run.attempts + 1);
+      this.chosen = ''; this.shownHint = true; this.persist(); this.render();
+      this.say(hintFor(q), `ma.hint.${q.op}`, 'encouraging');
+      return;
+    }
+    this.feedback = run.retrying ? 'reviewed' : 'right';
     this.view = 'feedback'; this.render();
-    this.say(this.feedback === 'right' ? '算对了，我们看下一题。' : `正确答案是 ${q.answer}。看看方法，再试下一题。`, this.feedback === 'right' ? 'ma.right' : ['ma.wrong', 'ma.answer', `num.${q.answer}`], this.feedback === 'right' ? 'celebrating' : 'encouraging');
+    this.say(this.feedback === 'right' ? '算对了，我们看下一题。' : '自己算出来了，我们看下一题。', 'ma.right', 'celebrating');
+  }
+
+  private showAnswer(): void {
+    const run = this.save.run, q = this.question;
+    if (this.view !== 'question' || !run?.retrying || run.attempts < 2 || !q) return;
+    this.feedback = 'wrong'; this.chosen = String(q.answer); this.view = 'feedback'; this.render();
+    this.say(`正确答案是 ${q.answer}。`, ['ma.answer', `num.${q.answer}`], 'encouraging');
   }
 
   private next(): void {
     if (this.view !== 'feedback' || !this.save.run) return;
-    const result = recordAnswer(this.save, this.feedback === 'right');
+    const result = recordAnswer(this.save, this.feedback === 'right' && !dueReview(this.save.run));
     this.persist();
     this.chosen = ''; this.shownHint = false;
     if (result.finished) { this.lastStage = result.stageId; this.lastScore = result.score; this.view = 'result'; }

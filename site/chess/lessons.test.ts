@@ -22,10 +22,10 @@ function reachesGoal(start: ChessState, goal: string): boolean {
 }
 
 describe('棋手学院内容', () => {
-  it('six piece courses each have two reachable targets', () => {
+  it('six piece courses each have three reachable targets', () => {
     expect(PIECE_LESSONS).toHaveLength(6);
     for (const lesson of PIECE_LESSONS) {
-      expect(lesson.tasks, lesson.id).toHaveLength(2);
+      expect(lesson.tasks, lesson.id).toHaveLength(3);
       for (const task of lesson.tasks) {
         const state = rules.fromFen(task.fen);
         expect(state.board.flat().some((piece) => piece?.color === 'w' && piece.type === lesson.piece), task.id).toBe(true);

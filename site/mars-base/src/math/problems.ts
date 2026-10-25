@@ -73,6 +73,16 @@ export function questionsFor(stage: Stage, round: number): Problem[] {
   return out;
 }
 
+export function variationFor(stage: Stage, round: number, index: number): Problem {
+  const originals = questionsFor(stage, round);
+  const used = new Set(originals.map((p) => `${p.a}:${p.b}`));
+  for (let offset = 0; offset < 20; offset++) {
+    const candidate = questionsFor(stage, round + 101 + index * 20 + offset).find((p) => !used.has(`${p.a}:${p.b}`));
+    if (candidate) return candidate;
+  }
+  throw new Error(`no variation for ${stage.id}:${round}:${index}`);
+}
+
 export function hintFor(p: Problem): string {
   if (p.op === 'add') return p.a + p.b <= 20 ? `从 ${p.a} 开始，再往后数 ${p.b} 个。` : `先加十位，再加个位。`;
   if (p.op === 'sub') return p.a <= 20 ? `从 ${p.a} 开始，往回数 ${p.b} 个。` : `先减十位，再减个位；不够减时向十位借 1 个十。`;

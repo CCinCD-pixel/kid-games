@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ context }) => { await context.addInitScript({ path: 'tools/qa/mute-audio.js' }); });
+
 test('rhino preview fills all six slots with the counter deck', async ({ page }, info) => {
-  await page.context().addInitScript({ path: 'tools/qa/mute-audio.js' });
   if (info.project.name === 'landscape-1080x810') await page.setViewportSize({ width: 844, height: 390 });
   await page.addInitScript(() => {
     const levels = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [`1-${i + 1}`, { best: 2, attempts: 1, firstTry: 'win', wins: 1, lastAt: '' }]));
@@ -25,7 +26,6 @@ test('rhino preview fills all six slots with the counter deck', async ({ page },
 });
 
 test('rhino approach shows the counter card and Mozi hint', async ({ page }, info) => {
-  await page.context().addInitScript({ path: 'tools/qa/mute-audio.js' });
   if (info.project.name === 'landscape-1080x810') await page.setViewportSize({ width: 844, height: 390 });
   await page.goto('/gear-fort/?test=1&mute=1');
   await page.getByRole('button', { name: /开始/ }).first().click();
@@ -47,7 +47,7 @@ test('live battles use the gentler pace and show the actual grain rate', async (
   }
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/gear-fort/?test=1');
+  await page.goto('/gear-fort/?test=1&mute=1');
   await page.getByRole('button', { name: /开始/ }).first().click();
   await page.waitForFunction(() => !!(window as any).__gfApp && !!(window as any).__gf);
   expect(await page.evaluate(() => ({ income: (window as any).__gf.S.im, cooldown: (window as any).__gf.S.cooldownPct }))).toEqual({ income: 100, cooldown: 100 });
@@ -69,6 +69,33 @@ test('live battles use the gentler pace and show the actual grain rate', async (
   await backToMap();
   await page.evaluate(() => (window as any).__gfApp.play('2-7', []));
   await page.waitForFunction(() => (window as any).__gf?.S.L.id === '2-7');
-  expect(await page.evaluate(() => (window as any).__gf.S.beltPeriod)).toBe(255);
+  expect(await page.evaluate(() => (window as any).__gf.S.beltPeriod)).toBe(240);
   expect(errors).toEqual([]);
+});
+
+test('a first loss at the rhino boss offers optional help and keeps the normal retry', async ({ page }, info) => {
+  if (info.project.name === 'landscape-1080x810') await page.setViewportSize({ width: 844, height: 390 });
+  await page.goto('/gear-fort/?test=1&mute=1');
+  await page.getByRole('button', { name: /开始/ }).first().click();
+  await page.waitForFunction(() => !!(window as any).__gfApp && !!(window as any).__gf);
+  await page.evaluate(() => (window as any).__gf.pause());
+  await page.locator('.gf-pausel [data-a="map"]').click();
+  await expect(page.locator('.gf-map')).toBeVisible();
+  await page.evaluate(() => (window as any).__gfApp.play('1-11', ['shooter', 'farm', 'wall', 'lobber', 'beam', 'spikes']));
+  await page.waitForFunction(() => (window as any).__gf?.S.L.id === '1-11');
+  await page.evaluate(() => {
+    const S = (window as any).__gf.S;
+    S.stats.lostTo = 'rhino'; S.stats.lostLane = 2; S.result = 'lose';
+  });
+  await expect(page.locator('.gf-debrief')).toBeVisible();
+  await expect(page.locator('[data-a="assist1"]')).toBeVisible();
+  await expect(page.locator('[data-a="restart"]')).toBeVisible();
+  await expect(page.locator('[data-a="assist2"]')).toHaveCount(0);
+  const balance = await page.evaluate(() => {
+    const sessions = JSON.parse(localStorage.getItem('kg:log:v1') ?? '[]');
+    return sessions.flatMap((session: any) => session.events ?? []).filter((event: any) => event.name === 'gf-level').at(-1)?.data?.balance;
+  });
+  expect(balance).toMatchObject({ lostLane: 2, lostTo: 'rhino', grainShortages: 0 });
+  await page.locator('[data-a="assist1"]').click();
+  await expect(page.locator('.gf-pv__help')).toContainText('墨子帮你一把');
 });

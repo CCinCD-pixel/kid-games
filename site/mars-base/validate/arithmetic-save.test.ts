@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { MemoryStorage } from '../../../tests/helpers/memory-storage';
-import { STAGES } from '../src/math/problems';
-import { MATH_SAVE_KEY, defaults, openMathStore, readMathSave, recordAnswer, stageOpen, startRun } from '../src/math/save';
+import { STAGES, variationFor } from '../src/math/problems';
+import { MATH_SAVE_KEY, defaults, dueReview, openMathStore, readMathSave, recordAnswer, stageOpen, startRun } from '../src/math/save';
 
 describe('arithmetic progress', () => {
   it('keeps the previous base save untouched and resumes an eight-question run', () => {
@@ -32,5 +32,32 @@ describe('arithmetic progress', () => {
     startRun(s, STAGES[0]);
     for (let i = 0; i < 8; i++) recordAnswer(s, i < 2);
     expect(s.best['add-1']).toBe(5);
+  });
+
+  it('keeps variation review separate from the first-answer score', () => {
+    const s = defaults();
+    const run = startRun(s, STAGES[0]);
+    run.reviews.push({ due: 3, problem: variationFor(STAGES[0], run.round, 0) });
+    for (let i = 0; i < 3; i++) recordAnswer(s, i !== 0);
+    expect(dueReview(run)).not.toBeNull();
+    recordAnswer(s, true);
+    expect(run.index).toBe(3);
+    expect(run.correct).toBe(2);
+    expect(run.reviewed).toBe(1);
+  });
+
+  it('finishes only after a review due after question eight', () => {
+    const storage = new MemoryStorage();
+    const s = defaults();
+    const run = startRun(s, STAGES[0]);
+    run.reviews.push({ due: 8, problem: variationFor(STAGES[0], run.round, 7) });
+    for (let i = 0; i < 8; i++) recordAnswer(s, i < 5);
+    expect(s.run?.index).toBe(8);
+    openMathStore(storage).save(s);
+    const restored = readMathSave(openMathStore(storage));
+    expect(dueReview(restored.run!)).not.toBeNull();
+    const result = recordAnswer(restored, false);
+    expect(result).toMatchObject({ finished: true, score: 5 });
+    expect(restored.best['add-1']).toBe(5);
   });
 });

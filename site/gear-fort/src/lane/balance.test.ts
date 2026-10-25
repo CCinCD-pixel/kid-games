@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { LEVELS } from '../content';
-import { campaignBalance } from './balance';
+import { campaignBalance, supportAfter } from './balance';
 import { act, createSim, inc, resume, snapshot, spawnEnemy } from './sim';
 import { UNITS } from './tables';
 import { recommend } from '../bots/loadout';
@@ -26,12 +26,14 @@ describe('campaign balance', () => {
     const lv = LEVELS['2-7'];
     const S = createSim(lv, 1, campaignBalance(lv));
     expect(S.im).toBe(100);
-    expect(S.beltPeriod).toBe(Math.round(lv.belt!.period * 0.85));
+    expect(S.beltPeriod).toBe(Math.round(lv.belt!.period * 0.8));
   });
 
   it('gives extra room to the first boss and the difficult wind lesson', () => {
-    expect(campaignBalance(LEVELS['1-11'])).toMatchObject({ incomePct: 125, cooldownPct: 75, rhinoCfg: { hp: 1200, p2At: 700, crackMax: 50 } });
+    expect(campaignBalance(LEVELS['1-11'])).toMatchObject({ incomePct: 125, cooldownPct: 75, rhinoCfg: { hp: 1200, p2At: 700, crackMax: 50, hatchN: 2, tele: 70 } });
     expect(campaignBalance(LEVELS['2-3'])).toMatchObject({ incomePct: 115, cooldownPct: 85 });
+    expect(supportAfter(LEVELS['1-11'])).toBe(1);
+    expect(supportAfter(LEVELS['1-5'])).toBe(2);
   });
 
   it('preserves the faster cooldown through a saved battle', () => {

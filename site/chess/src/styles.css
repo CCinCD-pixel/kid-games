@@ -161,6 +161,17 @@ body[data-xg-game="chess"] .kit-start__go:active { transform: translateY(4px); b
 .cx-replay { width: 52px; height: 52px; border: 2px solid #a4753d; border-radius: 50%; background: #f1c86d; color: #4e3b2d; box-shadow: 0 4px 0 #9c6c3e; cursor: pointer; }
 .cx-replay:active { transform: translateY(3px); box-shadow: 0 1px 0 #9c6c3e; }
 .cx-continue { border: 2px solid #478981; background: #287a70; box-shadow: 0 4px 0 #21534c; }
+.cx-path-next { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: min(100%, 1060px); min-height: 72px; margin: 0 auto 18px; padding: 12px 18px; border: 2px solid #b98150; border-radius: 3px; background: #f6dc9c; color: #3b4940; text-align: left; box-shadow: 0 5px 0 #a47649; cursor: pointer; }
+.cx-path-next > span:first-child { display: grid; gap: 3px; min-width: 0; }
+.cx-path-next small { color: #765942; font-size: 13px; font-weight: 750; }
+.cx-path-next b { font-size: 20px; }
+.cx-path-next > span:last-child { font-size: 27px; }
+.cx-path-next:active { transform: translateY(3px); box-shadow: 0 2px 0 #a47649; }
+.cx-lesson-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: min(100%, 940px); margin: 0 auto 14px; }
+.cx-lesson-steps span { padding: 7px 9px; border-bottom: 3px solid #60766d; color: #a8bdb3; text-align: center; font-size: 14px; font-weight: 700; }
+.cx-lesson-steps .is-current { border-color: #e4be75; color: #ffedbf; }
+.cx-lesson-steps .is-done { border-color: #84c9a5; color: #bde9d0; }
+.cx-lesson-reason { padding-top: 9px; border-top: 1px solid #b7bdab; color: #745034 !important; font-weight: 750 !important; }
 .cx-mode-nav { margin-bottom: 24px; gap: 7px; }
 .cx-mode-nav a, .cx-mode-nav button { min-height: 47px; border: 1px solid #8aab9f; border-radius: 2px; background: #e4f0e7; color: #244943; box-shadow: 0 3px 0 #a2b7a8; }
 .cx-mode-nav button { background: #f1d593; border-color: #a9894d; color: #543c27; box-shadow: 0 3px 0 #a9894d; }
@@ -190,7 +201,7 @@ body[data-xg-game="chess"]:has(.cx-play) .kit-back { display: none; }
 .cx-note { border-left: 4px solid #dfad6d; background: #e6f0e5; color: #26433e; font-weight: 650; }
 .cx-actions button, .cx-dialog-actions button { min-height: 50px; border: 1px solid #a5bba9; border-radius: 3px; background: #eaf2e8; color: #2d4c47; box-shadow: 0 3px 0 #839e90; cursor: pointer; }
 .cx-primary { background: #dc8157 !important; color: white !important; box-shadow: 0 4px 0 #985640 !important; }
-.cx-icon:focus-visible, .cx-replay:focus-visible, .cx-lesson:focus-visible, .cx-endgame-grid button:focus-visible, .cx-square:focus-visible { outline: 3px solid #f5c95b; outline-offset: 2px; }
+.cx-icon:focus-visible, .cx-replay:focus-visible, .cx-path-next:focus-visible, .cx-lesson:focus-visible, .cx-endgame-grid button:focus-visible, .cx-square:focus-visible { outline: 3px solid #f5c95b; outline-offset: 2px; }
 @media (max-width: 760px) {
   .cx-hero { grid-template-columns: minmax(0, 1fr) 127px; min-height: 165px; padding: 13px 6px 14px 56px; }
   .cx-brand h1 { font-size: 27px; margin-top: 7px; } .cx-brand p { font-size: 14px; margin: 6px 0 9px; }

@@ -4,14 +4,15 @@ import { createRules, START_FEN } from '@engines/board/games/chess/rules';
 
 export type Mode = 'ai' | 'f2f' | 'puzzle';
 export interface SavedGame { mode: Mode; startFen: string; moves: string[]; level: number; puzzleId?: string; completed?: boolean }
-export interface ChessSave { lessons: string[]; puzzles: string[]; played: number; wins: number; game: SavedGame | null }
-export const defaults = (): ChessSave => ({ lessons: [], puzzles: [], played: 0, wins: 0, game: null });
+export interface ChessSave { lessons: string[]; lessonProgress: Record<string, number>; puzzles: string[]; played: number; wins: number; game: SavedGame | null }
+export const defaults = (): ChessSave => ({ lessons: [], lessonProgress: {}, puzzles: [], played: 0, wins: 0, game: null });
 export const store = createStore<ChessSave>('chess', { version: 1, defaults });
 
 export function readSave(): ChessSave {
   const raw = store.load();
   const save: ChessSave = {
     lessons: Array.isArray(raw?.lessons) ? raw.lessons.filter((id): id is string => typeof id === 'string').slice(0, 80) : [],
+    lessonProgress: Object.fromEntries(Object.entries(raw?.lessonProgress ?? {}).filter(([id, step]) => /^[A-Z]1$/.test(id) && Number.isInteger(step) && step >= 0 && step <= 3)),
     puzzles: Array.isArray(raw?.puzzles) ? raw.puzzles.filter((id): id is string => typeof id === 'string').slice(0, 80) : [],
     played: Number.isInteger(raw?.played) && raw.played >= 0 ? raw.played : 0,
     wins: Number.isInteger(raw?.wins) && raw.wins >= 0 ? raw.wins : 0,

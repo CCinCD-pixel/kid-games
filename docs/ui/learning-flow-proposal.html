@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>星港学习入口 UI 提案</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 24px; background: #d5d8d1; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .set { display: flex; flex-wrap: wrap; gap: 24px; }
+    .phone { width: 390px; height: 844px; overflow: hidden; position: relative; }
+    .chess { background: #f3f0e6; color: #223e3b; }
+    .chess .top { display: flex; align-items: center; gap: 12px; height: 69px; padding: 13px 20px; background: #1f4140; color: #f7efd8; }
+    .chess .top img { width: 42px; height: 42px; }
+    .chess .top strong { font-size: 20px; font-family: Georgia, "PingFang SC", serif; }
+    .chess .top small { display: block; color: #bad5bf; font-size: 11px; }
+    .chess .top .back { margin-left: auto; font-size: 28px; color: #f1c77e; }
+    .chess .main { padding: 19px 20px 25px; }
+    .eyebrow { display: block; font-size: 11px; font-weight: 800; color: #b16c4b; }
+    .chess h1, .mars h1 { margin: 7px 0 4px; font-size: 28px; line-height: 1.18; letter-spacing: 0; }
+    .chess .sub { margin: 0 0 17px; color: #5b7168; font-size: 14px; }
+    .coach { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-left: 4px solid #d9a867; background: #fff9ec; box-shadow: 0 3px 0 #d0c8b5; }
+    .coach .bot { display: block; flex: none; width: 54px; height: 52px; object-fit: contain; }
+    .coach p { margin: 0; font-size: 13px; line-height: 1.45; font-weight: 650; }
+    .coach .sound { margin-left: auto; color: #a4653f; font-size: 23px; }
+    .lesson-head { display: flex; justify-content: space-between; align-items: baseline; margin-top: 24px; padding-bottom: 7px; border-bottom: 2px solid #c3cfb8; }
+    .lesson-head b { font-size: 16px; }
+    .lesson-head small { color: #617e72; font-size: 12px; }
+    .course { display: flex; align-items: center; gap: 15px; margin-top: 13px; padding: 14px; min-height: 136px; background: #274d4a; color: #fff5de; border-bottom: 5px solid #c69e69; }
+    .course .board { flex: none; width: 104px; height: 104px; border: 4px solid #d5b175; background: conic-gradient(#7ca69a 25%, #eee5c6 0 50%, #7ca69a 0 75%, #eee5c6 0) 0 0/52px 52px; display: grid; place-items: center; }
+    .course .board img { width: 69px; height: 69px; object-fit: contain; }
+    .course small { display: block; color: #abd6bb; font-size: 11px; font-weight: 750; }
+    .course strong { display: block; margin: 5px 0 8px; font-size: 22px; }
+    .course p { margin: 0; color: #e0ead7; font-size: 13px; line-height: 1.4; }
+    .chess .go { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 52px; padding: 0 16px; background: #df865d; border-bottom: 4px solid #98563f; color: white; font-size: 17px; font-weight: 800; }
+    .chapter { display: flex; gap: 5px; margin-top: 20px; }
+    .chapter span { flex: 1; height: 6px; background: #cad6c8; }
+    .chess .chapter span:first-child { background: #d9a85c; }
+    .chap-label { display: flex; justify-content: space-between; margin-top: 7px; color: #537369; font-size: 11px; font-weight: 700; }
+    .other { margin-top: 28px; }
+    .other h2 { margin: 0 0 10px; font-size: 16px; }
+    .other .row { display: flex; align-items: center; justify-content: space-between; min-height: 47px; border-top: 1px solid #c9d3c4; font-size: 15px; font-weight: 750; }
+    .other .row:last-child { border-bottom: 1px solid #c9d3c4; }
+    .other .row small { color: #688174; font-size: 12px; font-weight: 600; }
+    .mars { background: #142b36; color: #fff3d8; }
+    .mars .top { display: flex; align-items: center; height: 70px; padding: 12px 18px; background: #203d47; border-bottom: 3px solid #cc8b65; }
+    .mars .top img { width: 42px; height: 42px; margin-right: 11px; }
+    .mars .top strong { font-size: 20px; }
+    .mars .top small { display: block; color: #b9dad0; font-size: 11px; }
+    .mars .top .back { margin-left: auto; color: #f1c882; font-size: 28px; }
+    .mars .main { padding: 19px 19px 24px; }
+    .mars .eyebrow { color: #eeae83; }
+    .mars .sub { margin: 0 0 16px; color: #bfd7cf; font-size: 14px; }
+    .mars .coach { background: #294b4c; border-color: #e7b46f; box-shadow: 0 3px 0 #10262e; }
+    .mars .coach .sound { color: #f5c789; }
+    .segments { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 25px; }
+    .segments span { display: grid; place-items: center; height: 47px; background: #2d4c58; color: #d3e7e0; font-size: 19px; font-weight: 800; }
+    .segments span:first-child { background: #e5b86f; color: #3c4643; border-bottom: 4px solid #a9744e; }
+    .mars .lesson-head { border-color: #688582; }
+    .mars .lesson-head small { color: #b1d0c6; }
+    .mission { margin-top: 13px; padding: 18px; background: #f4ecd9; color: #2c4145; border-top: 6px solid #df9166; box-shadow: 0 5px 0 #a9765d; }
+    .mission small { color: #9b5c43; font-size: 12px; font-weight: 800; }
+    .mission strong { display: block; margin: 10px 0 5px; font-size: 23px; }
+    .mission p { margin: 0 0 15px; color: #526865; font-size: 13px; }
+    .math { display: flex; gap: 11px; align-items: center; justify-content: center; height: 84px; border: 2px solid #b8cdbf; background: #e2eee7; font-size: 36px; font-weight: 850; }
+    .math i { display: grid; place-items: center; width: 39px; height: 39px; border-radius: 50%; background: #cf795b; color: white; font-style: normal; }
+    .math em { color: #af684a; font-style: normal; }
+    .mars .go { display: flex; justify-content: space-between; align-items: center; height: 54px; margin-top: 5px; padding: 0 18px; background: #e0aa62; color: #354b48; border-bottom: 4px solid #a66d43; font-size: 18px; font-weight: 850; }
+    .mars .chapter span { background: #48656d; }
+    .mars .chapter span:first-child { background: #e5b76e; }
+    .mars .chap-label { color: #bbd4cc; }
+    .mars .other { margin-top: 25px; }
+    .mars .other .row { border-color: #42616a; }
+    .mars .other .row:last-child { border-color: #42616a; }
+    .mars .other .row small { color: #b2d0c7; }
+  </style>
+</head>
+<body>
+  <div class="set">
+    <section class="phone chess" id="chess-proposal" aria-label="棋手学院提案">
+      <div class="top"><img src="../../public/icons/games/chess.svg" alt="" /><div><small>星港 · 棋艺舱</small><strong>棋手学院</strong></div><span class="back">⌂</span></div>
+      <div class="main"><span class="eyebrow">今天的棋艺课</span><h1>学会一颗棋子</h1><p class="sub">沿着棋盘上的星星，走出新的一步。</p>
+        <div class="coach"><img class="bot" src="chess-bot.png" alt="" /><p>今天练车。先看它能走到哪里，再换个棋盘自己试。</p><span class="sound">◖))</span></div>
+        <div class="lesson-head"><b>接着学</b><small>第 1 / 6 课</small></div>
+        <div class="course"><div class="board"><img src="chess-rook.png" alt="" /></div><div><small>棋子学堂 · 三步完成</small><strong>车走直线</strong><p>看走法 → 自己走 → 换局面</p></div></div>
+        <div class="go">开始这一课 <span>→</span></div>
+        <div class="chapter"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="chap-label"><span>车　象　后　王　马　兵</span><span>0 / 6</span></div>
+        <div class="other"><h2>换个玩法</h2><div class="row"><span>一步将死</span><small>8 个小局　→</small></div><div class="row"><span>对机器人</span><small>从入门开始　→</small></div><div class="row"><span>和爸爸下</span><small>面对面　→</small></div><div class="row"><span>残局练习</span><small>8 局　→</small></div></div>
+      </div>
+    </section>
+    <section class="phone mars" id="mars-proposal" aria-label="火星基地提案">
+      <div class="top"><img src="../../public/icons/games/mars-base.svg" alt="" /><div><small>星港 · 算术站</small><strong>火星基地</strong></div><span class="back">⌂</span></div>
+      <div class="main"><span class="eyebrow">今天的训练</span><h1>四则算术</h1><p class="sub">一次八道题，走稳自己的路线。</p>
+        <div class="coach"><img class="bot" src="mars-bot.png" alt="" /><p>先从加法出发。算错了，我们会换一道再试。</p><span class="sound">◖))</span></div>
+        <div class="segments"><span>＋</span><span>−</span><span>×</span><span>÷</span></div>
+        <div class="lesson-head"><b>接着挑战</b><small>加法 · 第 1 / 6 阶</small></div>
+        <div class="mission"><small>加法训练线</small><strong>10 内相加</strong><p>从看得见的数量开始。</p><div class="math"><span>3</span><i>＋</i><span>4</span><em>=</em><span>?</span></div></div>
+        <div class="go">开始八题挑战 <span>→</span></div>
+        <div class="chapter"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="chap-label"><span>加法路线</span><span>0 / 6 阶</span></div>
+        <div class="other"><h2>其他路线</h2><div class="row"><span>减法</span><small>10 内相减　→</small></div><div class="row"><span>乘法</span><small>2 的乘法　→</small></div><div class="row"><span>除法</span><small>除以 2　→</small></div></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

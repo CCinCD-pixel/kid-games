@@ -38,18 +38,69 @@ test('four operations, eight answers, unlock and best score', async ({ page }) =
 });
 
 test('wrong answer feedback and unfinished round survive reload; old save remains', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
   await page.addInitScript(() => localStorage.setItem('kg:v1:mars-base', 'old-mars-save'));
   await boot(page);
   await page.locator('[data-stage="sub-1"]').click();
   await page.locator('[data-key="0"]').click();
   await page.locator('[data-action="submit"]').click();
-  await expect(page.locator('.ma-feedback.wrong')).toContainText('正确答案');
-  await page.locator('[data-action="next"]').click();
+  await expect(page.locator('.ma-retry-note')).toContainText('这道题再试一次');
+  await expect(page.locator('.ma-model')).toBeVisible();
+  await expect(page.locator('.ma-feedback')).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   await page.reload();
   await page.locator('.kit-start__go').click();
   await page.locator('[data-action="resume"]').click();
+  await expect(page.locator('.ma-play-header strong')).toHaveText('第 1 / 8 题');
+  await expect(page.locator('.ma-retry-note')).toBeVisible();
+  const equation = await page.locator('.ma-equation').innerText();
+  const [a, b] = equation.match(/\d+/g)!.map(Number);
+  for (const digit of String(a - b)) await page.locator(`[data-key="${digit}"]`).click();
+  await page.locator('[data-action="submit"]').click();
+  await expect(page.locator('.ma-feedback.reviewed')).toContainText('自己算出来了');
+  await page.locator('[data-action="next"]').click();
   await expect(page.locator('.ma-play-header strong')).toHaveText('第 2 / 8 题');
+  await expect(page.locator('.ma-score')).toHaveText('首答 0');
   expect(await page.evaluate(() => localStorage.getItem('kg:v1:mars-base'))).toBe('old-mars-save');
+});
+
+test('after another miss the answer is optional and does not award a first-try point', async ({ page }) => {
+  await boot(page);
+  await page.locator('[data-stage="add-1"]').click();
+  for (let i = 0; i < 2; i++) {
+    await page.locator('[data-key="0"]').click();
+    await page.locator('[data-action="submit"]').click();
+  }
+  await expect(page.locator('[data-action="show-answer"]')).toBeVisible();
+  await page.locator('[data-action="show-answer"]').click();
+  await expect(page.locator('.ma-feedback.wrong')).toContainText('正确答案');
+  await page.locator('[data-action="next"]').click();
+  await expect(page.locator('.ma-score')).toHaveText('首答 0');
+});
+
+test('a missed problem returns as a different problem after two more questions and survives reload', async ({ page }) => {
+  await boot(page);
+  await page.locator('[data-stage="add-1"]').click();
+  const first = await page.locator('.ma-equation').innerText();
+  await page.locator('[data-key="0"]').click();
+  await page.locator('[data-action="submit"]').click();
+  const [a, b] = first.match(/\d+/g)!.map(Number);
+  await answer(page, a + b);
+  for (let i = 0; i < 2; i++) {
+    const [x, y] = (await page.locator('.ma-equation').innerText()).match(/\d+/g)!.map(Number);
+    await answer(page, x + y);
+  }
+  await expect(page.locator('.ma-play-header strong')).toHaveText('变式复练 1');
+  const variation = await page.locator('.ma-equation').innerText();
+  expect(variation).not.toBe(first);
+  await page.reload();
+  await page.locator('.kit-start__go').click();
+  await page.locator('[data-action="resume"]').click();
+  await expect(page.locator('.ma-equation')).toContainText(variation.replace(/\s+/g, ' ').trim().split('=')[0].trim());
+  const [x, y] = variation.match(/\d+/g)!.map(Number);
+  await answer(page, x + y);
+  await expect(page.locator('.ma-play-header strong')).toHaveText('第 4 / 8 题');
+  await expect(page.locator('.ma-score')).toHaveText('首答 2');
 });
 
 test('robot reads the arithmetic question and replay works on a phone', async ({ page, request }) => {

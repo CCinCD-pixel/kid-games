@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PASS_SCORE, QUESTIONS_PER_STAGE, STAGES, TRACKS, questionsFor } from '../src/math/problems';
+import { PASS_SCORE, QUESTIONS_PER_STAGE, STAGES, TRACKS, questionsFor, variationFor } from '../src/math/problems';
 
 describe('new arithmetic training', () => {
   it('has four independent six-stage tracks with reachable pass score', () => {
@@ -24,6 +24,19 @@ describe('new arithmetic training', () => {
         if (q.op === 'div') expect(q.a / q.b).toBe(q.answer);
         if (stage.op === 'add' && stage.tier === 1) expect(q.answer).toBeLessThanOrEqual(10);
         if (stage.op === 'sub' && stage.tier === 1) expect(q.a).toBeLessThanOrEqual(10);
+      }
+    }
+  });
+
+  it('can revisit any missed question with a distinct problem in the same stage', () => {
+    for (const stage of STAGES) for (const round of [1, 2, 25]) {
+      const originals = questionsFor(stage, round);
+      const used = new Set(originals.map((q) => `${q.a}:${q.b}`));
+      for (let index = 0; index < QUESTIONS_PER_STAGE; index++) {
+        const q = variationFor(stage, round, index);
+        expect(used.has(`${q.a}:${q.b}`), `${stage.id}:${round}:${index}`).toBe(false);
+        expect(q.op).toBe(stage.op);
+        expect(q.answer).toBe(stage.op === 'add' ? q.a + q.b : stage.op === 'sub' ? q.a - q.b : stage.op === 'mul' ? q.a * q.b : q.a / q.b);
       }
     }
   });

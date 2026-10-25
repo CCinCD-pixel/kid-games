@@ -42,6 +42,12 @@ body[data-xg-game="mars"] { background: #101b2d; color: #f6f5ef; }
 .ma-primary:disabled { opacity: .5; }
 .ma-feedback { display: grid; place-items: center; width: min(100%, 520px); min-height: 115px; padding: 14px; border-radius: 5px; background: #1b4342; color: #d6fff0; text-align: center; font-size: 21px; font-weight: 700; }
 .ma-feedback.wrong { background: #493b34; color: #ffe6cd; }
+.ma-retry-note { display: flex; align-items: center; gap: 10px; width: min(100%, 620px); box-sizing: border-box; padding: 9px 12px; border-left: 4px solid #f0c879; background: #25444a; color: #fff1d4; font-size: 14px; }
+.ma-retry-note b { flex: none; }
+.ma-retry-note span { flex: 1; }
+.ma-retry-note button { min-height: 40px; border: 1px solid #e3c185; border-radius: 4px; background: #594738; color: #fff2d8; font: 700 14px var(--xg-font-read, system-ui); }
+.ma-task.is-review { border-top-color: #9bd4b9; }
+@media (max-width: 420px) { .ma-retry-note { flex-wrap: wrap; } .ma-retry-note span { flex-basis: calc(100% - 110px); } }
 .ma-result { display: grid; place-items: center; padding-top: max(76px, calc(env(safe-area-inset-top) + 24px)); }
 .ma-result-body { display: grid; justify-items: center; gap: 10px; width: min(100%, 500px); text-align: center; }
 .ma-result-symbol { color: #f0c879; font-size: 64px; }

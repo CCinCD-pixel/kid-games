@@ -29,10 +29,19 @@ test('piece lesson and save continue through a reload', async ({ page }) => {
   await page.locator('[data-act="next-task"]').click();
   await move(page, 'a1', 'h1');
   await page.locator('[data-act="next-task"]').click();
+  await expect(page.locator('.cx-lesson-steps .is-current')).toContainText('换局面');
+  await page.reload();
+  await page.locator('.kit-start__go').click();
+  await page.locator('[data-lesson="0"]').click();
+  await expect(page.locator('.cx-lesson-steps .is-current')).toContainText('换局面');
+  await move(page, 'd1', 'd6');
+  await expect(page.locator('.cx-lesson-reason')).toContainText('沿横线或竖线走');
+  await page.locator('[data-act="next-task"]').click();
   await expect(page.locator('#cx-learn .cx-section-title span')).toHaveText('1 / 6');
   await page.reload();
   await page.locator('.kit-start__go').click();
   await expect(page.locator('#cx-learn .cx-section-title span')).toHaveText('1 / 6');
+  await expect(page.locator('.cx-path-next')).toContainText('学 象的走法');
 
   await page.locator('[data-lesson="3"]').click();
   await move(page, 'e1', 'e2');
