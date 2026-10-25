@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8" /><title>棋手学院：课程操作对比</title><style>
+* { box-sizing: border-box; } body { width: 900px; margin: 0; padding: 22px; background: #e6e9e1; color: #223f3c; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+h1 { margin: 0 0 5px; font-size: 26px; } p { margin: 0 0 19px; color: #58746b; font-size: 14px; }
+.labels, .screens { display: grid; grid-template-columns: 390px 390px; gap: 20px; justify-content: center; }
+.labels { margin-bottom: 8px; font-size: 16px; font-weight: 800; } .screens img { display: block; width: 390px; height: 844px; border: 1px solid #aebeb2; object-fit: cover; object-position: top; }
+.notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 15px; padding-top: 12px; border-top: 1px solid #bdc9be; }
+.notes div { font-size: 13px; line-height: 1.45; } .notes b { display: block; margin-bottom: 4px; color: #ae6244; font-size: 14px; }
+</style></head><body><h1>棋手学院 · 第一堂棋子课</h1><p>同为 390 × 844 手机视口；左为本地运行实屏，右为 Skill 指导的交互提案。</p><div class="labels"><span>当前实现</span><span>课程中提案</span></div><div class="screens"><img src="skill-chess-current.png" alt="当前课程截图" /><img src="skill-chess-proposal.png" alt="课程提案截图" /></div><div class="notes"><div><b>game-ui-ux</b>棋盘居中，提示与操作区保持触手可及；窄屏纵排，横屏改双栏。</div><div><b>level-design</b>三步课程始终可见。先展示走法，再让孩子自己选棋子，最后换局面。</div><div><b>game-feel</b>到达星星后仅给短暂落子弹性和明确原因，普通落点不晃整屏。</div></div></body></html>

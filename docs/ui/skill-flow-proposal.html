@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>星港 · 学习中的一屏</title>
+  <style>
+    :root { font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    [hidden] { display: none !important; }
+    button { font: inherit; cursor: pointer; touch-action: manipulation; }
+    button:focus-visible { outline: 3px solid #d16c4f; outline-offset: 3px; }
+    .screen { min-height: 100dvh; padding: max(13px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+    .screen[hidden] { display: none; }
+    .chess { --ink: #203e3b; --muted: #5b746b; --accent: #cf764f; --line: #b6c8bb; background: #e2ebe5; color: var(--ink); }
+    .mars { --ink: #f7f0df; --muted: #c4d9d4; --accent: #efb76d; --line: #5b7c80; background: #142f39; color: var(--ink); }
+    .shell { width: min(100%, 840px); margin: auto; }
+    .top { display: flex; align-items: center; gap: 10px; min-height: 42px; }
+    .chess .top, .mars .top { margin: calc(-1 * max(13px, env(safe-area-inset-top))) calc(-1 * max(16px, env(safe-area-inset-right))) 0 calc(-1 * max(16px, env(safe-area-inset-left))); padding: max(13px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left)); border-bottom: 3px solid #d29a64; background: #214842; color: #fff4dc; }
+    .mars .top { background: #203f48; border-bottom-color: #cc8c63; }
+    .chess .top .brand small, .chess .top .counter, .mars .top .brand small, .mars .top .counter { color: #c5ded1; }
+    .chess .top .back, .mars .top .back { border-color: #8aada3; color: #fff1cc; }
+    .back { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: inherit; font-size: 26px; line-height: 1; }
+    .brand { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+    .brand img { width: 36px; height: 36px; object-fit: contain; }
+    .brand span { display: grid; gap: 1px; }
+    .brand small { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .brand strong { font-size: 18px; line-height: 1.1; }
+    .top .counter { color: var(--muted); font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .stage { margin-top: 13px; }
+    .stage-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .stage-head b { font-size: 18px; }
+    .stage-head small { color: var(--muted); font-size: 12px; font-weight: 700; text-align: right; }
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 8px; }
+    .steps span { padding: 7px 1px; border-bottom: 4px solid var(--line); color: var(--muted); text-align: center; font-size: 12px; font-weight: 750; }
+    .steps .active { border-color: var(--accent); color: var(--ink); }
+    .steps .done { border-color: #559981; color: var(--ink); }
+    .coach { display: flex; align-items: center; gap: 9px; min-height: 66px; margin-top: 13px; padding: 7px 9px; border-left: 4px solid var(--accent); background: #fffaf0; color: #294844; }
+    .coach img { width: 52px; height: 52px; object-fit: contain; flex: none; }
+    .coach p { flex: 1; margin: 0; font-size: 14px; line-height: 1.38; font-weight: 700; }
+    .coach button { width: 44px; height: 44px; flex: none; border: 1px solid #b8925b; border-radius: 50%; background: #f1d28d; color: #65482a; font-size: 17px; }
+    .chess-layout { display: grid; gap: 11px; }
+    .board-area { margin-top: 13px; }
+    .board { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); width: min(100%, 352px); aspect-ratio: 1; margin: auto; border: 5px solid #b98755; box-shadow: 0 4px 0 #805e45; }
+    .square { position: relative; display: grid; place-items: center; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; }
+    .square.light { background: #eee9d1; } .square.dark { background: #78a195; }
+    .square.path::after { content: ''; position: absolute; width: 22%; height: 22%; border-radius: 50%; background: #236e67; }
+    .square.goal { box-shadow: inset 0 0 0 4px #c55d3c; }
+    .square.goal::before { content: '★'; position: absolute; z-index: 2; right: 2px; top: 0; color: #b64d36; font-size: 19px; }
+    .square.goal.land::before { display: none; }
+    .square.current { background: #f5ce75; box-shadow: inset 0 0 0 3px #ae633f; }
+    .square img { position: relative; z-index: 3; width: 75%; height: 75%; object-fit: contain; filter: drop-shadow(0 2px 1px #1e3e3c55); }
+    .square.land img { animation: land .24s cubic-bezier(.2,1.4,.5,1) both; }
+    .board-foot { width: min(100%, 352px); margin: 5px auto 0; display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; font-weight: 750; }
+    .lesson-status { display: grid; align-content: center; gap: 3px; min-height: 62px; padding: 8px 12px; border-left: 4px solid #5e9b84; background: #e0ebdf; }
+    .lesson-status.success { border-color: #d17650; background: #fff3d6; animation: settle .3s ease-out both; }
+    .lesson-status b { font-size: 15px; }
+    .lesson-status span { color: #49665c; font-size: 13px; line-height: 1.3; }
+    .action-row { display: grid; grid-template-columns: 1fr 1.5fr; gap: 8px; margin-top: 9px; }
+    .action-row button { min-height: 50px; border-radius: 3px; font-size: 16px; font-weight: 800; }
+    .secondary { border: 1px solid #78a39a; background: #e3f0e7; color: #255b56; }
+    .primary { border: 0; background: #d98058; color: #fff9e9; box-shadow: 0 4px 0 #9f5b43; }
+    .primary:disabled { opacity: .5; box-shadow: none; }
+    .primary:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 #9f5b43; }
+    .mars .coach { background: #2a5556; color: #fff5dc; }
+    .mars .coach button { background: #e8be78; }
+    .mars-layout { display: grid; gap: 11px; }
+    .run-progress { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; margin-top: 10px; }
+    .run-progress i { height: 9px; background: #45646b; border: 1px solid #628087; }
+    .run-progress i:first-child { background: #efba6c; border-color: #efba6c; }
+    .run-progress i.reviewed { background: #80bf9f; border-color: #80bf9f; }
+    .math-task { margin-top: 12px; padding: 13px 14px 15px; border-top: 5px solid #e9a574; background: #f7efdb; color: #263f43; box-shadow: 0 5px 0 #9b785f; }
+    .math-task small { color: #946348; font-size: 12px; font-weight: 800; }
+    .math-task h1 { margin: 5px 0 8px; font-size: 20px; line-height: 1.2; }
+    .equation { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 62px; border: 2px solid #adcac0; background: #e1eee4; font-size: 33px; font-weight: 800; }
+    .equation .op { color: #c86f51; }
+    .equation .answer { display: grid; place-items: center; min-width: 43px; min-height: 44px; border-bottom: 3px solid #d27e53; color: #8c533e; }
+    .equation .answer.pop { animation: land .24s cubic-bezier(.2,1.4,.5,1) both; }
+    .math-help { display: grid; gap: 5px; margin-top: 11px; padding: 9px 11px; border-left: 4px solid #efb56d; background: #2a5255; }
+    .math-help b { font-size: 15px; color: #ffedc8; }
+    .math-help p { margin: 0; color: #d2e7df; font-size: 13px; }
+    .tokens { display: flex; align-items: center; gap: 7px; min-height: 25px; }
+    .token-group { display: flex; gap: 4px; }
+    .token-group i { width: 15px; height: 15px; border-radius: 50%; background: #f3cb79; border: 2px solid #fce7ad; }
+    .token-group.second i { background: #8dd3b3; border-color: #d0f2d6; }
+    .tokens strong { color: #fff0cd; font-size: 17px; }
+    .keypad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 11px; }
+    .keypad button { min-height: 44px; border: 1px solid #abc6bd; border-radius: 3px; background: #f7f4e8; color: #244a4a; box-shadow: 0 3px 0 #668b83; font-size: 21px; font-weight: 800; }
+    .keypad .hint { background: #f5da98; color: #654930; border-color: #d3aa67; }
+    .math-go { width: 100%; min-height: 48px; margin-top: 10px; border: 0; border-radius: 3px; background: #e6a866; color: #2f4643; box-shadow: 0 4px 0 #a46d45; font-size: 17px; font-weight: 850; }
+    .math-go:active { transform: translateY(3px); box-shadow: 0 1px 0 #a46d45; }
+    .mars .lesson-status { margin-top: 11px; background: #315d55; color: #fff5db; }
+    .mars .lesson-status span { color: #d2e9d9; }
+    @keyframes land { from { transform: scale(.68); opacity: .5; } 70% { transform: scale(1.1); opacity: 1; } to { transform: scale(1); opacity: 1; } }
+    @keyframes settle { from { transform: translateY(5px); opacity: .7; } to { transform: translateY(0); opacity: 1; } }
+    @media (min-width: 700px) { .chess-layout, .mars-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 24px; } .chess-layout .board-area { grid-column: 1; grid-row: 1 / 4; } .chess-layout .coach { grid-column: 2; grid-row: 1; } .chess-layout .lesson-status { grid-column: 2; grid-row: 2; } .chess-layout .action-row { grid-column: 2; grid-row: 3; } .mars-layout .coach, .mars-layout .math-task, .mars-layout .math-help { grid-column: 1; } .mars-layout .keypad, .mars-layout .math-go { grid-column: 2; } .mars-layout .keypad { grid-row: 1 / 4; margin-top: 13px; } .mars-layout .math-go { grid-row: 4; } }
+    @media (max-height: 500px) and (orientation: landscape) { .screen { padding-top: max(8px, env(safe-area-inset-top)); } .stage { margin-top: 4px; } .coach { min-height: 52px; margin-top: 4px; padding: 3px 7px; } .coach img { width: 42px; height: 42px; } .board { width: min(100%, 238px); } .board-foot { width: min(100%, 238px); } .chess-layout, .mars-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px 9px; } .chess-layout .board-area { grid-column: 1; grid-row: 1 / 4; margin-top: 4px; } .chess-layout .coach { grid-column: 2; grid-row: 1; } .chess-layout .lesson-status { grid-column: 2; grid-row: 2; } .chess-layout .action-row { grid-column: 2; grid-row: 3; } .mars-layout .coach, .mars-layout .math-task, .mars-layout .math-help { grid-column: 1; } .mars-layout .keypad, .mars-layout .math-go { grid-column: 2; } .mars-layout .keypad { grid-row: 1 / 3; margin-top: 4px; } .mars-layout .math-go { grid-row: 3; margin-top: 0; align-self: start; } .math-task { margin-top: 4px; padding: 6px 9px; } .math-task h1 { margin: 3px 0; font-size: 16px; } .equation { min-height: 47px; font-size: 26px; } .math-help { gap: 2px; margin-top: 4px; padding: 5px 8px; } .math-help p { font-size: 12px; } .tokens { min-height: 18px; } .keypad button { min-height: 34px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main id="chess" class="screen chess" hidden>
+    <div class="shell">
+      <header class="top"><button class="back" type="button" aria-label="返回棋艺舱" title="返回棋艺舱">←</button><div class="brand"><img src="../../public/icons/games/chess.svg" alt="" /><span><small>星港 · 棋艺舱</small><strong>棋手学院</strong></span></div><span class="counter">棋子学堂 · 1/6</span></header>
+      <section class="stage"><div class="stage-head"><b>车走直线</b><small>这颗棋子 · 三步学会</small></div><div class="steps" id="chess-steps"></div></section>
+      <div class="chess-layout">
+        <section class="coach"><img src="chess-bot.png" alt="" /><p id="chess-coach">车沿着直线走。看亮起的格子，走到星星那里。</p><button type="button" aria-label="再听一遍" title="再听一遍">↻</button></section>
+        <section class="board-area"><div id="board" class="board" role="grid" aria-label="国际象棋练习棋盘"></div><div class="board-foot"><span>点亮的格子可以走</span><span>目标：★ 星星</span></div></section>
+        <div class="lesson-status" id="chess-status" role="status"><b>看看它怎么走</b><span>先点星星，试着让车到达那里。</span></div>
+        <div class="action-row"><button class="secondary" id="chess-hint" type="button">显示走法</button><button class="primary" id="chess-next" type="button" disabled>自己试试 →</button></div>
+      </div>
+    </div>
+  </main>
+  <main id="mars" class="screen mars" hidden>
+    <div class="shell">
+      <header class="top"><button class="back" type="button" aria-label="返回选关" title="返回选关">←</button><div class="brand"><img src="../../public/icons/games/mars-base.svg" alt="" /><span><small>星港 · 算术站</small><strong>火星基地</strong></span></div><span class="counter">首答 0/8</span></header>
+      <section class="stage"><div class="stage-head"><b>再换个方法看看</b><small>10 内相加 · 第 1 题</small></div><div class="run-progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section>
+      <div class="mars-layout">
+        <section class="coach"><img src="mars-bot.png" alt="" /><p id="mars-coach">刚才这题难住了我们。先看数量，再自己算一次。</p><button type="button" aria-label="再听一遍" title="再听一遍">↻</button></section>
+        <section class="math-task"><small>看得见的加法</small><h1>数一数，再合起来</h1><div class="equation"><span id="num-a">3</span><span class="op">＋</span><span id="num-b">4</span><span>=</span><span class="answer" id="answer">?</span></div></section>
+        <section class="math-help" aria-label="算术图示"><b>先数黄色，再数绿色</b><p>两堆合在一起，共有多少个？</p><div class="tokens"><span class="token-group" id="tokens-a"></span><strong>＋</strong><span class="token-group second" id="tokens-b"></span></div></section>
+        <div class="keypad" aria-label="数字键盘"><button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button><button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button><button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button><button class="hint" type="button" data-key="hint" aria-label="提示">?</button><button type="button" data-key="0">0</button><button type="button" data-key="delete" aria-label="删除">⌫</button></div>
+        <button class="math-go" id="mars-submit" type="button">再试一次 →</button>
+      </div>
+      <div class="lesson-status" id="mars-status" role="status" hidden><b>自己算出来了！</b><span>首答分数不变；两题后会有一道新题帮你巩固。</span></div>
+    </div>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const game = params.get('game') === 'mars' ? 'mars' : 'chess';
+    document.getElementById(game).hidden = false;
+    if (game === 'chess') {
+      let step = 0, done = false, hint = true, selected = true;
+      const goals = [16, 63, 19];
+      const starts = [56, 56, 59];
+      const labels = ['看走法', '自己走', '换局面'];
+      const board = document.getElementById('board');
+      const steps = document.getElementById('chess-steps');
+      const status = document.getElementById('chess-status');
+      const coach = document.getElementById('chess-coach');
+      const next = document.getElementById('chess-next');
+      function render() {
+        steps.innerHTML = labels.map((label, i) => `<span class="${i === step ? 'active' : i < step ? 'done' : ''}">${i + 1} ${label}</span>`).join('');
+        board.innerHTML = Array.from({ length: 64 }, (_, i) => {
+          const col = i % 8, row = Math.floor(i / 8), startCol = starts[step] % 8;
+          const classes = ['square', (row + col) % 2 ? 'dark' : 'light', i === goals[step] ? 'goal' : '', i === starts[step] && selected && !done ? 'current' : '', hint && selected && col === startCol && i !== starts[step] && i !== goals[step] && !done ? 'path' : '', done && i === goals[step] ? 'land' : ''].filter(Boolean).join(' ');
+          return `<button class="${classes}" type="button" role="gridcell" aria-label="${String.fromCharCode(97 + col)}${8 - row}${i === goals[step] ? '，星星目标' : ''}">${(done ? i === goals[step] : i === starts[step]) ? '<img src="chess-rook.png" alt="车" />' : ''}</button>`;
+        }).join('');
+        status.classList.toggle('success', done);
+        status.innerHTML = done ? '<b>找到了星星！</b><span>车沿着横线或竖线直走。下一步，自己来选棋子。</span>' : `<b>${step === 0 ? '看看它怎么走' : step === 1 ? '现在自己走' : '棋盘换了，再试一次'}</b><span>${step === 0 ? '先点星星，试着让车到达那里。' : '点车，再点星星。走错也能继续试。'}</span>`;
+        coach.textContent = done ? '你找到了直线！车不能斜着走。' : step === 0 ? '车沿着直线走。看亮起的格子，走到星星那里。' : '这次没有预先点亮。自己选车，走到星星。';
+        next.disabled = !done;
+        next.textContent = step === 2 ? '完成这一课 →' : step === 0 ? '自己试试 →' : '换个棋盘 →';
+      }
+      board.addEventListener('click', (event) => {
+        const cell = event.target.closest('.square');
+        if (!cell || done) return;
+        const index = Array.from(board.children).indexOf(cell);
+        if (index === starts[step]) { selected = true; render(); }
+        else if (index === goals[step] && selected) { done = true; render(); }
+      });
+      next.addEventListener('click', () => { if (step < 2) { step++; done = false; hint = false; selected = false; render(); } });
+      document.getElementById('chess-hint').addEventListener('click', () => { hint = !hint; render(); });
+      render();
+    } else {
+      const a = Math.max(1, Math.min(9, Number(params.get('a')) || 3));
+      const b = Math.max(1, Math.min(9, Number(params.get('b')) || 4));
+      document.getElementById('num-a').textContent = a;
+      document.getElementById('num-b').textContent = b;
+      document.getElementById('tokens-a').innerHTML = '<i></i>'.repeat(a);
+      document.getElementById('tokens-b').innerHTML = '<i></i>'.repeat(b);
+      let value = '';
+      const answer = document.getElementById('answer');
+      document.querySelectorAll('[data-key]').forEach((button) => button.addEventListener('click', () => {
+        const key = button.dataset.key;
+        if (key === 'hint') { document.querySelector('.math-help').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); return; }
+        value = key === 'delete' ? value.slice(0, -1) : (value + key).slice(0, 2);
+        answer.textContent = value || '?';
+      }));
+      document.getElementById('mars-submit').addEventListener('click', () => {
+        const status = document.getElementById('mars-status');
+        status.hidden = false;
+        if (Number(value) === a + b) {
+          answer.classList.add('pop');
+          status.innerHTML = '<b>自己算出来了！</b><span>首答分数不变；两题后会有一道新题帮你巩固。</span>';
+          document.getElementById('mars-coach').textContent = '刚才的方法帮上忙了。我们继续。';
+        } else {
+          status.innerHTML = '<b>再看看图里的两堆</b><span>先数黄色，再接着数绿色；可以慢慢试。</span>';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

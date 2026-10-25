@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8" /><title>火星基地：错题复练对比</title><style>
+* { box-sizing: border-box; } body { width: 900px; margin: 0; padding: 22px; background: #e6e9e1; color: #223f3c; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+h1 { margin: 0 0 5px; font-size: 26px; } p { margin: 0 0 19px; color: #58746b; font-size: 14px; }
+.labels, .screens { display: grid; grid-template-columns: 390px 390px; gap: 20px; justify-content: center; }
+.labels { margin-bottom: 8px; font-size: 16px; font-weight: 800; } .screens img { display: block; width: 390px; height: 844px; border: 1px solid #aebeb2; object-fit: cover; object-position: top; }
+.notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 15px; padding-top: 12px; border-top: 1px solid #bdc9be; }
+.notes div { font-size: 13px; line-height: 1.45; } .notes b { display: block; margin-bottom: 4px; color: #ae6244; font-size: 14px; }
+</style></head><body><h1>火星基地 · 答错后的同题再试</h1><p>同为 390 × 844 手机视口；右侧题目和数字沿用左侧实际生成的题。</p><div class="labels"><span>当前实现</span><span>复练中提案</span></div><div class="screens"><img src="skill-mars-current.png" alt="当前错题截图" /><img src="skill-mars-proposal.png" alt="错题提案截图" /></div><div class="notes"><div><b>game-ui-ux</b>题目、数量图和数字键盘同屏可见；提示是显眼但不强制的辅助。</div><div><b>level-design</b>答错后先保留原题和图示，自己再算；变式留到两题后，避免立即重复答案。</div><div><b>game-feel</b>轻反馈确认“自己算出来”，进度更新清楚；不用强烈摇晃或闪屏惩罚错误。</div></div></body></html>
