@@ -1,0 +1,80 @@
+docs/ui/learning-flow-comparison.html
+  s_e8836c6d1c92e0::t_eb1429df08a295 1-20
+site/chess/tests/chess.spec.ts
+  s_e8836c6d1c92e0::t_7f6f31af03f57d 32-39,44
+docs/ui/learning-flow-proposal.html
+  s_e8836c6d1c92e0::t_25d3d86113b70b 1-22,24-30,32-37,39-82,84,86-93,95-105
+  s_e8836c6d1c92e0::t_45d9710956f0a7 23,31,38,83,85,94
+site/gear-fort/src/lane/balance.ts
+  s_e8836c6d1c92e0::t_dd312ae3451226 18
+  s_e8836c6d1c92e0::t_5f36cc1b65873a 7-8,11-14
+site/chess/src/styles.css
+  s_e8836c6d1c92e0::t_7f6f31af03f57d 164-174,204
+site/gear-fort/src/screens/menus.ts
+  s_e8836c6d1c92e0::t_5f36cc1b65873a 331,343,345,367
+  s_e8836c6d1c92e0::t_541d34cc9aea21 8
+docs/ui/learning-flow-comparison.md
+  s_e8836c6d1c92e0::t_eb1429df08a295 1-15
+site/chess/lessons.test.ts
+  s_e8836c6d1c92e0::t_1b78469d5ccf01 25,28
+site/chess/src/app.ts
+  s_e8836c6d1c92e0::t_3ea76945c73808 72-73,75-76,92,98,106,108-109,206-207,209,211
+  s_e8836c6d1c92e0::t_bf7aae1e8d0567 216-217
+  s_e8836c6d1c92e0::t_71a0a8fff9910c 74,80,325-331
+  s_e8836c6d1c92e0::t_29961f0e166447 99
+site/gear-fort/tests/balance.spec.ts
+  s_e8836c6d1c92e0::t_964a113b30168e 96
+  s_e8836c6d1c92e0::t_dd312ae3451226 72
+  s_e8836c6d1c92e0::t_25cbfbbc2d346b 76-77
+  s_e8836c6d1c92e0::t_82de58df7338b9 3-4,50,75,78-79,84-93,99-100
+  s_e8836c6d1c92e0::t_05fc7b6c4c2e83 80-83
+  s_e8836c6d1c92e0::t_8804763cc03a9c 94-95,97-98
+site/mars-base/src/math/styles.css
+  s_e8836c6d1c92e0::t_b532b1c0cc705b 45-48,50
+  s_e8836c6d1c92e0::t_8f7dda700e70a5 49
+site/mars-base/tests/arithmetic.spec.ts
+  s_e8836c6d1c92e0::t_25cbfbbc2d346b 41,50
+  s_e8836c6d1c92e0::t_8bf2c6595d265c 47-49,54-61,67-77
+  s_e8836c6d1c92e0::t_8f7dda700e70a5 63,78-103
+site/gear-fort/src/screens/battle.ts
+  s_e8836c6d1c92e0::t_ce510883a2742b 588,590
+  s_e8836c6d1c92e0::t_5a5d36ebed169b 414,426-429,682,808-820
+site/mars-base/validate/arithmetic.test.ts
+  s_e8836c6d1c92e0::t_386577450fb2c0 2,30-39
+site/mars-base/src/math/problems.ts
+  s_e8836c6d1c92e0::t_a5209c2465a695 76-85
+site/mars-base/src/math/save.ts
+  s_e8836c6d1c92e0::t_a5209c2465a695 2,4-5,21-29,42,46-49,53-54,57
+  s_e8836c6d1c92e0::t_b532b1c0cc705b 55-56
+site/mars-base/src/math/app.ts
+  s_e8836c6d1c92e0::t_a5209c2465a695 1-2,64,95-96,99,101,166,186
+  s_e8836c6d1c92e0::t_b532b1c0cc705b 29,94,100,102,133,164-165,167-172,174-181
+site/chess/src/lessons.ts
+  s_e8836c6d1c92e0::t_3ea76945c73808 8-14,17,23
+  s_e8836c6d1c92e0::t_7f6f31af03f57d 19-22
+site/chess/src/save.ts
+  s_e8836c6d1c92e0::t_3ea76945c73808 7-8,15
+site/mars-base/validate/arithmetic-save.test.ts
+  s_e8836c6d1c92e0::t_d6aeeb82574291 56
+  s_e8836c6d1c92e0::t_73c7a81f788906 48-55,57-62
+  s_e8836c6d1c92e0::t_8f7dda700e70a5 3-4,36-46
+site/gear-fort/src/lane/balance.test.ts
+  s_e8836c6d1c92e0::t_541d34cc9aea21 3,33,35-36
+  s_e8836c6d1c92e0::t_dd312ae3451226 29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "681a918052c946a7984dde784e68d13df3c2a649",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
