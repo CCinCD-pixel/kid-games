@@ -1,0 +1,32 @@
+docs/ui/skill-flow-proposal.html
+  s_e8836c6d1c92e0::t_b011d4f72d25c3 98
+  s_e8836c6d1c92e0::t_124381552844a8 135
+  s_e8836c6d1c92e0::t_2f411d2809ce4d 1-4,6-10,12-15,17-19,24-50,52-97,99-133,136-146,148-158,162,164-195
+  s_e8836c6d1c92e0::t_72fa1caddc215c 5,11,51,134,147,159-161,163
+  s_e8836c6d1c92e0::t_a51b82ef2ae749 16,20-23
+docs/ui/skill-mars-comparison.html
+  s_e8836c6d1c92e0::t_76a8ef368cfbcc 1-9
+docs/ui/capture-skill-flow.mjs
+  s_e8836c6d1c92e0::t_76a8ef368cfbcc 1,3-36,38-40,42,49-50,52-55,57-64,70-81
+  s_e8836c6d1c92e0::t_b011d4f72d25c3 2,37,41,43-48,51,56,65-69
+docs/ui/skill-chess-comparison.html
+  s_e8836c6d1c92e0::t_76a8ef368cfbcc 1-9
+docs/ui/skill-flow-comparison.md
+  s_e8836c6d1c92e0::t_b011d4f72d25c3 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "d3d5d306beef22a3e17de1c6611c63416d07561f",
+  "prompts": {},
+  "sessions": {
+    "s_e8836c6d1c92e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12a58-4528-7412-8789-10c4989cb676",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
