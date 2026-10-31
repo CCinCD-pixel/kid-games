@@ -1,0 +1,41 @@
+docs/specs/memory-matrix.md
+  s_0eb5d4e8842e10::t_103f821bf4e0b6 397-406
+site/memory-matrix/src/core.test.ts
+  s_0eb5d4e8842e10::t_e1e5c0b2e66610 165
+  s_0eb5d4e8842e10::t_11b320def90cfb 19,178-187
+site/memory-matrix/src/core/layout.ts
+  s_0eb5d4e8842e10::t_e1e5c0b2e66610 26
+  s_0eb5d4e8842e10::t_11b320def90cfb 43-46
+tools/memory-matrix/proto/layout.mjs
+  s_0eb5d4e8842e10::t_1ff043654433f5 10-11
+site/memory-matrix/src/view/screens.ts
+  s_0eb5d4e8842e10::t_6a6810045d05fc 159
+  s_0eb5d4e8842e10::t_4b6de62036690c 152,156-158,160-175
+site/memory-matrix/src/styles.css
+  s_0eb5d4e8842e10::t_b2a6b03b2126e4 409-418
+  s_0eb5d4e8842e10::t_4b6de62036690c 405
+  s_0eb5d4e8842e10::t_6a6810045d05fc 398-404,406-408
+docs/HANDOFF.md
+  s_0eb5d4e8842e10::t_7cc7e48d77751b 3-12
+site/memory-matrix/tests/memory-matrix-r1.spec.ts
+  s_0eb5d4e8842e10::t_98262448342005 47-51,53
+  s_0eb5d4e8842e10::t_1249e0087dea5d 75
+  s_0eb5d4e8842e10::t_9aef36642cc07e 40,52
+  s_0eb5d4e8842e10::t_4f04d1323d3ba1 38-39,46,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "c4f74d91eb9aa358d5fc372d6ecd0a69adb5b4f8",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
