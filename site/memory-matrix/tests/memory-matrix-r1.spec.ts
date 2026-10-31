@@ -35,12 +35,23 @@ const mm = <T>(page: Page, f: (m: any) => T) => page.evaluate((src) => new Funct
 /** every live button: fully inside the screen, >= 44 px, and the element under its centre is the button itself (nothing, not even the subtitle bar, covers it) */
 const reach = (page: Page, sel = 'button, .mm-lv, .mm-node, .mm-card') => page.evaluate((s) => {
   const out: string[] = [], ih = innerHeight, iw = innerWidth;
+  const subEls = Array.from(document.querySelectorAll<HTMLElement>('.kit-subtitle')).filter((e) => { const b = e.getBoundingClientRect(), cs = getComputedStyle(e); return b.width > 4 && cs.visibility !== 'hidden' && cs.display !== 'none' && parseFloat(cs.opacity) > 0.05; });
+  const subs = subEls.map((e) => e.getBoundingClientRect());
+  const live = document.createElement('style'); live.textContent = '.kit-subtitle, .kit-subtitle * { pointer-events: auto !important }';
   for (const e of Array.from(document.querySelectorAll<HTMLElement>(s))) {
     const r = e.getBoundingClientRect(), cs = getComputedStyle(e);
     if (r.width < 2 || cs.visibility === 'hidden' || cs.display === 'none' || e.closest('[hidden]') || (e as HTMLButtonElement).disabled || parseFloat(cs.opacity) === 0) continue;
     const top = document.elementFromPoint(Math.min(iw - 1, Math.max(0, r.left + r.width / 2)), Math.min(ih - 1, Math.max(0, r.top + r.height / 2)));
     const inside = r.left >= -0.5 && r.top >= -0.5 && r.right <= iw + 0.5 && r.bottom <= ih + 0.5, hit = !!top && (e === top || e.contains(top));
-    if (!inside || !hit || Math.min(r.width, r.height) < 43.5) out.push(`${(e.className + '').slice(0, 28)} "${(e.textContent ?? '').trim().slice(0, 8)}" ${Math.round(r.left)},${Math.round(r.top)} ${Math.round(r.width)}x${Math.round(r.height)}${inside ? '' : ' OUTSIDE'}${hit ? '' : ' COVERED'}`);
+    // the kit subtitle bar must not even sit visually over a control (it never swallows a tap: pointer-events none), unless the control is inside it
+    // (a bar that is merely BEHIND a modal's backdrop does not count: with pointer events switched on, the top element at the overlap must be inside the bar)
+    const under = subs.some((sr, i) => {
+      if (subEls[i].contains(e)) return false;
+      const l = Math.max(r.left, sr.left), rr = Math.min(r.right, sr.right), t = Math.max(r.top, sr.top), b = Math.min(r.bottom, sr.bottom);
+      if (rr - l <= 2 || b - t <= 2) return false;
+      document.head.append(live); const hitEl = document.elementFromPoint((l + rr) / 2, (t + b) / 2); live.remove(); return !!hitEl && subEls[i].contains(hitEl);
+    });
+    if (!inside || !hit || under || Math.min(r.width, r.height) < 43.5) out.push(`${(e.className + '').slice(0, 28)} "${(e.textContent ?? '').trim().slice(0, 8)}" ${Math.round(r.left)},${Math.round(r.top)} ${Math.round(r.width)}x${Math.round(r.height)}${inside ? '' : ' OUTSIDE'}${hit ? '' : ' COVERED'}${under ? ' UNDER-SUBTITLE' : ''}`);
   }
   return out;
 }, sel);
@@ -61,6 +72,7 @@ const NIGHT = { sector: 's1', valid: true, bad: false, gatesCleared: 1, wallBefo
 /* ============================================================================================================ A */
 for (const name of Object.keys(VP) as VpName[]) {
   test.describe(`layout contract ${name}`, () => {
+    test.describe.configure({ timeout: 90_000 }); // these walk every screen; the platform smoke config defaults to 30 s
     test('station, sector page, atlas, card detail, settings: every button on screen, uncovered, >= 44 px, even while the subtitle shows', async ({ browser }) => {
       const { ctx, page, w } = await open(browser, name);
       try {

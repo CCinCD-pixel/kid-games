@@ -1,5 +1,15 @@
 # kid-games 交接文档（HANDOFF）
 
+> **2026-10-31 最新状态（复核后，以此块为准；下面的 10-24 与 10-11 块是历史）**
+> - **线上（origin/main = fe9173e，10-24 发布）**：我重建的 星图记忆站 / 楚河棋院 / 火星基地（旧"基地任务"版）/ 机关守城 / 贪吃蛇 / 陆战棋 / 搬运工 / 消消乐，经典角已取消。
+> - **本次推送（codex/rework-games-2026-10 → main，只推一次）** 在线上基础上增加：火星基地入口改为**算术站**（`site/mars-base/src/math/*`：加减乘除 4 条线 × 6 阶，每阶 8 题、答对 5 题解锁下一阶，存档 `kg:v1:mars-arithmetic`，`kit/coach-voice.ts` 带录音）；棋手学院精简版（6 个棋子课 + 一步将死 + 对机器人 + 残局 + 和爸爸下，站在 `engines/board` 上）；推箱子 66 关（求解器校验）；机关守城再放水（皮带 0.8、犀牛 hatchN 2 / tele 70、冲击 800、更早给"墨子陪你推"）；星图记忆站按 QA 第一轮修了手机横屏/字幕条/难度曲线等。
+> - **已停放（仍在仓库，未被入口引用）**：我做的完整"基地任务"火星基地（45 个知识点、数轴/数位托盘/徽章墙/档案馆，`site/mars-base/src/{screens,stages,app,...}`）——触摸全覆盖测试发现 3 个阻断问题（多格键盘答错后卡死、阵列题每点一次多一排按钮、乘法相等判断无法恢复）及 `.tr-read` 遮挡，已在修复中被中断（`tools/mars-base/touch-sweep.mjs`、`site/mars-base/validate/stage-lint.test.ts` 已入库）；恢复前先 `tsc -p site/mars-base` + 快速 vitest。记录见 `~/kid-games-work/state/rr/qa-mars-r2.json`、`progress-fix-mars-r2.md`。
+> - **设计文档（未实现）**：`docs/specs/star-pets.md`（星币/宠物/每日补给，v2.0）、`docs/specs/sync.md`（云存档 v1.1）+ `docs/ops/kg-sync/`（服务器包）+ `kit/sync/`（合并引擎）+ `docs/specs/sync-audit.md`（接入前必须逐条处理的写入点审计）。宠物规格是按"基地任务"版写的，现在入口是算术站，需要重新对齐后才能开工。
+> - **没有合并**：`pinyin-station` 分支（worktree `~/kid-games-work/pinyin-station`，拼音站，另一个 agent 做的）。
+> - **Netlify**：免费额度紧，只在最后推送一次；`.githooks/pre-push` 会跑 `npm run check && npm run build`；`netlify.toml` 的 `ignore` 规则让只改 docs/tests 的推送不构建。
+> - **验证口径**：`npm run check`（注册表+内容+tsc+vitest）；`npm run build`；`npm run test:smoke` 全量有 1092 个用例（约 7 小时，别全跑），按游戏挑：`npx playwright test -c tests/smoke/playwright.config.ts --project=portrait-810x1080 <spec文件…>`。**以后改动必须用真实触摸把每个关卡/题型玩一遍**（hook 注入答案会漏掉真实输入问题）。
+> - **绝对规则**：公司电脑，任何时候不外放声音；Playwright 只用无界面模式并在 finally 里关闭；只杀自己启动的进程。
+
 > **2026-10-24 接续状态**：本文以下内容是 2026-10-11 的历史快照，状态、数量和“第 3 节为准”的表述已被后续会话更新。当前本地开发分支为 `iter/rebuild-2026-10`，含未提交改动；没有推送 GitHub 或触发 Netlify。导出会话最后约定的首轮本地验收以 **火星基地 + 楚河棋院** 为主；国际象棋与云存档属后续开发。星图记忆站虽已在本地重建并通过 84 项无头 WebKit 回归，但尚未经过家长真机验收。发布范围必须在推送前再次核对。
 >
 > 当前火星基地存档为 **v6**，录音清单是 **411 条常规台词 + 1001 条数字**；楚河棋院有 **250 条**录音。两作点击开始后的首句录音请求均已用静音 WebKit 验证。整仓 `npm run check` 为 **2598 通过、106 跳过、0 失败**；`npm run build` 通过；生产包整站冒烟 **56/56**、平台回归 **18/18**、手机返回与存档升级 **3/3**。历史验收记录见 [火星基地](ACCEPTANCE-mars-base.md) 和 [楚河棋院](ACCEPTANCE-xiangqi.md)。真实 iPad 的听感、后台恢复与家长试玩仍待完成。

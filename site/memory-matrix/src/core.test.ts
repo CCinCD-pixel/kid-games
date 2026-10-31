@@ -16,7 +16,7 @@ import { NDIFF, TABLE } from './core/params';
 import { CARDS } from './core/cards';
 import { SAVE_VERSION, classify as classifySave, sizeBytes } from './core/save';
 import { Engine, SECTOR_IDS, normalizeSave, type Outcome, type Plan } from './core/session';
-import { computeLayout, cellSize, starHit } from './core/layout';
+import { computeLayout, cellSize, starHit, subtitleStrip } from './core/layout';
 import { Voice, dwellMs } from './core/voice';
 import { bandMetric, breadthMetric, lookMetric } from './core/metrics';
 import { runTool } from './oracle/harness';
@@ -162,6 +162,7 @@ describe('layout (spec §2.2 table)', () => {
   const cases: [string, number, number, ReturnType<typeof computeLayout>['kind'], number, { top: number; right: number; bottom: number; left: number }?][] = [
     ['iPad portrait', 810, 1080, 'tablet-portrait', 640], ['iPad landscape', 1080, 810, 'tablet-landscape', 640],
     ['iPhone 13', 390, 664, 'phone-portrait', 366], ['iPhone SE', 320, 568, 'phone-portrait', 296], ['iPhone landscape', 844, 390, 'phone-landscape', 353, { top: 0, right: 47, bottom: 21, left: 47 }],
+    ['iPhone SE 2/3 landscape', 667, 375, 'phone-landscape', 317, { top: 0, right: 47, bottom: 21, left: 47 }], ['iPhone SE 1 landscape', 568, 320, 'phone-landscape', 304],
   ];
   for (const [name, w, h, kind, S, safe] of cases) it(`${name}: board ${S}, hit floors, home button clear of the board`, () => {
     const L = computeLayout(w, h, safe);
@@ -174,6 +175,16 @@ describe('layout (spec §2.2 table)', () => {
     const overlap = L.x < home.x + home.w && L.x + L.S > home.x && L.y < home.y + home.h && L.y + L.S > home.y;
     expect(overlap, 'board overlaps the home button').toBe(false);
     expect(L.x).toBeGreaterThanOrEqual(0); expect(L.x + L.S).toBeLessThanOrEqual(w - (safe?.right ?? 0)); expect(L.y + L.S).toBeLessThanOrEqual(h - (safe?.bottom ?? 0));
+    // QA r1 blocker: the side column (landscape) / the action bar (portrait) that carries the result sheet and the five buttons lies fully inside the safe screen and is tall enough for a 44 px button
+    const R = L.side ?? L.actRect!, bottom = h - (safe?.bottom ?? 0);
+    expect(R, 'a column or bar for the buttons').toBeTruthy(); expect(R.y).toBeGreaterThanOrEqual(0); expect(R.y + R.h, 'buttons column ends above the home indicator').toBeLessThanOrEqual(bottom + 0.5);
+    expect(R.x).toBeGreaterThanOrEqual(0); expect(R.x + R.w).toBeLessThanOrEqual(w - (safe?.right ?? 0) + 0.5); expect(R.h).toBeGreaterThanOrEqual(44);
+  });
+  it('the subtitle strip (66 px + safe bottom) is reserved on the non-round screens', () => {
+    for (const [w, h, sb] of [[810, 1080, 0], [1080, 810, 0], [390, 664, 34], [320, 568, 0], [844, 390, 21], [667, 375, 21], [568, 320, 0]] as const) {
+      const strip = subtitleStrip(h, sb);
+      expect(strip.top, `${w}x${h}`).toBe(h - sb - 10 - 56); expect(strip.top).toBeGreaterThan(h / 2);
+    }
   });
 });
 

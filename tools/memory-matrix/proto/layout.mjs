@@ -7,6 +7,8 @@ const VP = {
   'iPhone 390x664 portrait': { w: 390, h: 664, top: 60, strip: 56, act: 64, gutter: 12, gap: 4, land: false, min: 44, colW: 0, safe: { l: 0, r: 0, b: 0 }, rail: 0, pad: 8, mirror: 8 },
   'iPhone SE 320x568 portrait': { w: 320, h: 568, top: 60, strip: 48, act: 56, gutter: 12, gap: 4, land: false, min: 44, colW: 0, safe: { l: 0, r: 0, b: 0 }, rail: 0, pad: 8, mirror: 8 },
   'iPhone 844x390 landscape': { w: 844, h: 390, top: 0, strip: 0, act: 0, gutter: 8, gap: 4, land: true, min: 44, colW: 200, safe: { l: 47, r: 47, b: 21 }, rail: 64, pad: 16, mirror: 8 },
+  'iPhone 667x375 landscape': { w: 667, h: 375, top: 0, strip: 0, act: 0, gutter: 8, gap: 4, land: true, min: 44, colW: 168, safe: { l: 47, r: 47, b: 21 }, rail: 64, pad: 16, mirror: 8 },
+  'iPhone 568x320 landscape': { w: 568, h: 320, top: 0, strip: 0, act: 0, gutter: 8, gap: 4, land: true, min: 44, colW: 168, safe: { l: 0, r: 0, b: 0 }, rail: 64, pad: 16, mirror: 8 },
 };
 const CAP = 640;                                                  // a board never grows past 640 px (calm, premium; also saves fill rate)
 const HOME = 56;                                                  // kit back button size (>= 56 everywhere, platform smoke test)

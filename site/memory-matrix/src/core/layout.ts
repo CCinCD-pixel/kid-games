@@ -23,7 +23,7 @@ export function computeLayout(w: number, h: number, safe: Safe = { top: 0, right
   if (!phone && !landscape) { top = safe.top + 64; strip = 120; act = 88; colW = 0; rail = 0; gutter = 24; gap = 8; pad = 8; }
   else if (!phone) { top = safe.top + 64; strip = 0; act = 24; colW = 300; rail = 0; gutter = 24; gap = 8; pad = 8; }
   else if (!landscape) { top = safe.top + 60; strip = h >= 640 ? 56 : 48; act = h >= 640 ? 64 : 56; colW = 0; rail = 0; gutter = 12; gap = 4; pad = 8; }
-  else { top = 0; strip = 0; act = 0; colW = 200; rail = HOME + 8; gutter = 8; gap = 4; pad = 16; }
+  else { top = 0; strip = 0; act = 0; colW = w < 760 ? 168 : 200; rail = HOME + 8; gutter = 8; gap = 4; pad = 16; }      // 667x375 / 568x320: a narrower column keeps the 6x6 cells >= 44 px
   const availW = w - safe.left - safe.right - rail - 2 * gutter - colW - (landscape ? gutter : 0);
   const availH = h - top - strip - act - safe.bottom - pad - (phone && landscape ? Math.max(0, safe.top) : 0);
   const S = Math.max(160, Math.floor(Math.min(CAP, availW, availH)));
@@ -40,3 +40,7 @@ export function computeLayout(w: number, h: number, safe: Safe = { top: 0, right
 export const cellSize = (S: number, g: number, gap: number, extra = 0): number => Math.floor((S - (g - 1) * gap - extra) / g);
 /** tap radius of an s2 star: the closest two stars are 0.2 S apart */
 export const starHit = (S: number): number => Math.floor(Math.min(64, 0.2 * S - 8));
+
+/** the kit's subtitle bar (fixed on <body>, 56 px tall, 10 px above the bottom safe inset): the strip no primary control of the station / sector page / atlas may enter (styles.css reserves it; the Playwright layout contract measures it) */
+export const SUBTITLE_BAR = 56;
+export const subtitleStrip = (h: number, safeBottom = 0): { top: number; height: number } => ({ top: h - safeBottom - 10 - SUBTITLE_BAR, height: SUBTITLE_BAR });

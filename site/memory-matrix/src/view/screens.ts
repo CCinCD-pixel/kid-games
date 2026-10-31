@@ -146,28 +146,34 @@ export function mountAtlas(app: App, onBack: () => void): Screen {
   let page = 0, per = 12;
   const render = (): void => {
     const v = app.viewport(), phone = Math.min(v.w, v.h) < 600, land = v.w > v.h;
-    let cols = land ? 6 : phone ? 3 : 4, rows = land ? 2 : phone ? 4 : 3, caps = true;
     const pl = land && phone;                                                                  // phone landscape: cards on the left, pager + back in a column on the right
     const availW = v.w - v.safe.left - v.safe.right - (pl ? 76 + 16 + 160 + 14 : 32), availH = v.h - v.safe.top - v.safe.bottom - (pl ? 52 + 66 : 190 + 58);
     const fit = (c: number, r: number, cap: boolean): number => Math.floor(Math.min((availW - (c - 1) * 10) / c, (availH - (cap ? r * 28 : 0) - (r - 1) * 10) / r, 168));
+    let tries: [number, number, boolean][];
     if (pl) {                                                                                   // 6x2 / 4x3 with captions, 6x2 / 5x3 / 4x3 without: the biggest cards win; captions only while the cards stay >= 52 px
       const opts = [[6, 2, true], [4, 3, true], [6, 2, false], [5, 3, false], [4, 3, false]] as const;
       const best = opts.map(([c, r, cap]) => ({ c, r, cap, size: fit(c, r, cap) })).sort((a, b) => b.size - a.size);
-      const pick = best.find((o) => o.cap && o.size >= 52) ?? best[0]; cols = pick.c; rows = pick.r; caps = pick.cap;
+      const pick = best.find((o) => o.cap && o.size >= 52) ?? best[0]; tries = [[pick.c, pick.r, pick.cap]];
+    } else tries = land ? [[6, 2, true]] : phone ? [[3, 4, true], [3, 3, true], [3, 2, true]] : [[4, 3, true], [4, 2, true]];
+    // the real captions wrap (two or three lines on a 3-column phone page), so MEASURE: shrink the cards until the grid and the pager end ABOVE the subtitle strip; too small -> fewer rows per page (QA r1: 36 px of the pager sat under the bar on SE / iPhone 13)
+    const limit = v.h - v.safe.bottom - 68, over = (): number => Math.max(grid.getBoundingClientRect().bottom, pager.hidden || pl ? 0 : pager.getBoundingClientRect().bottom) - limit;
+    for (let k = 0; k < tries.length; k++) {
+      const [cols, rows, caps] = tries[k]; per = cols * rows; grid.classList.toggle('mm-cards--nocap', !caps);
+      let size = fit(cols, rows, caps);
+      grid.style.setProperty('--cols', String(cols)); grid.style.setProperty('--cw', `${size}px`);
+      const pages = Math.ceil(order.length / per); page = Math.min(page, pages - 1);
+      grid.innerHTML = '';
+      for (const id of order.slice(page * per, (page + 1) * per)) {
+        const c = card(id), earned = have.has(id), waiting = half.has(id);
+        const b = el('button', 'mm-card'); b.type = 'button'; b.dataset.id = id; b.dataset.state = earned ? 'on' : waiting ? 'half' : 'off'; b.dataset.act = `card-${id}`;
+        b.innerHTML = `<img alt="" draggable="false" src="${earned || waiting ? cardImage(c as never) : MYSTERY_CARD}"><b>${earned || waiting ? c.title : '？？？'}</b>${waiting ? `<small>还差 ${Math.max(1, c.need - st.nights)} 个夜航</small>` : ''}`;
+        b.addEventListener('click', () => { app.sfx('ui-select'); detail(id); });
+        grid.append(b);
+      }
+      pg.textContent = `${page + 1} / ${pages}`; prev.disabled = page === 0; nextB.disabled = page >= pages - 1; pager.hidden = pages <= 1;
+      for (let i = 0; i < 18 && size > 50 && over() > 0.5; i++) { size -= Math.max(2, Math.ceil(over() / (rows + 0.6))); grid.style.setProperty('--cw', `${size}px`); }
+      if (over() <= 0.5 || k === tries.length - 1) break;
     }
-    per = cols * rows; grid.classList.toggle('mm-cards--nocap', !caps);
-    const size = fit(cols, rows, caps);
-    grid.style.setProperty('--cols', String(cols)); grid.style.setProperty('--cw', `${size}px`);
-    const pages = Math.ceil(order.length / per); page = Math.min(page, pages - 1);
-    grid.innerHTML = '';
-    for (const id of order.slice(page * per, (page + 1) * per)) {
-      const c = card(id), earned = have.has(id), waiting = half.has(id);
-      const b = el('button', 'mm-card'); b.type = 'button'; b.dataset.id = id; b.dataset.state = earned ? 'on' : waiting ? 'half' : 'off'; b.dataset.act = `card-${id}`;
-      b.innerHTML = `<img alt="" draggable="false" src="${earned || waiting ? cardImage(c as never) : MYSTERY_CARD}"><b>${earned || waiting ? c.title : '？？？'}</b>${waiting ? `<small>还差 ${Math.max(1, c.need - st.nights)} 个夜航</small>` : ''}`;
-      b.addEventListener('click', () => { app.sfx('ui-select'); detail(id); });
-      grid.append(b);
-    }
-    pg.textContent = `${page + 1} / ${pages}`; prev.disabled = page === 0; nextB.disabled = page >= pages - 1; pager.hidden = pages <= 1;
   };
   const go = (d: number): void => { page += d; app.sfx('ui-slide', { volume: 0.5 }); render(); };
   const detail = (id: string): void => {
