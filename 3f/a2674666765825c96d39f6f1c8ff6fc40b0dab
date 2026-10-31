@@ -1,0 +1,21 @@
+site/mars-base/src/math/styles.css
+  s_0eb5d4e8842e10::t_0fde8fcb3dacaa 54-61
+site/mars-base/src/math/app.ts
+  s_0eb5d4e8842e10::t_0fde8fcb3dacaa 109,111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "3fa2674666765825c96d39f6f1c8ff6fc40b0dab",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
