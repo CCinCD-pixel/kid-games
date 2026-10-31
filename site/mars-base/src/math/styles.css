@@ -51,6 +51,14 @@ body[data-xg-game="mars"] { background: #101b2d; color: #f6f5ef; }
 .ma-result { display: grid; place-items: center; padding-top: max(76px, calc(env(safe-area-inset-top) + 24px)); }
 .ma-result-body { display: grid; justify-items: center; gap: 10px; width: min(100%, 500px); text-align: center; }
 .ma-result-symbol { color: #f0c879; font-size: 64px; }
+.ma-stars { display: flex; gap: 10px; margin: 4px 0 2px; }
+.ma-star { font-style: normal; font-size: 64px; line-height: 1; color: #3a4f66; text-shadow: 0 2px 0 rgba(0, 0, 0, .25); }
+.ma-star:nth-child(2) { transform: translateY(-10px) scale(1.12); }
+.ma-star.is-on { color: #f0c879; text-shadow: 0 0 22px rgba(240, 200, 121, .65), 0 2px 0 rgba(0, 0, 0, .25); animation: ma-star-pop .55s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: calc(var(--i) * .2s); }
+@keyframes ma-star-pop { 0% { transform: scale(0) rotate(-30deg); opacity: 0; } 70% { transform: scale(1.35) rotate(6deg); opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+.ma-star:nth-child(2).is-on { animation-name: ma-star-pop-mid; }
+@keyframes ma-star-pop-mid { 0% { transform: translateY(-10px) scale(0) rotate(-30deg); opacity: 0; } 70% { transform: translateY(-10px) scale(1.45) rotate(6deg); opacity: 1; } 100% { transform: translateY(-10px) scale(1.12) rotate(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ma-star.is-on { animation: none; } }
 .ma-result h1 { margin: 0; color: #fff5d6; font-size: 32px; }
 .ma-result p { margin: 0; color: #c6d7da; font-size: 18px; }
 .ma-result strong { color: #f0c879; font: 800 68px/1 var(--xg-font-num, system-ui); }

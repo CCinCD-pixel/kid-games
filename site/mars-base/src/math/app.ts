@@ -106,8 +106,9 @@ export class ArithmeticApp {
   private result(): void {
     const stage = STAGES.find((s) => s.id === this.lastStage)!;
     const passed = this.lastScore >= PASS_SCORE;
+    const earned = this.lastScore >= QUESTIONS_PER_STAGE ? 3 : this.lastScore >= QUESTIONS_PER_STAGE - 1 ? 2 : passed ? 1 : 0;   // 8/8 = 3 stars, 7 = 2, pass (5-6) = 1
     const next = STAGES.find((s) => s.op === stage.op && s.tier === stage.tier + 1);
-    this.root.innerHTML = `<main class="ma-page ma-result"><div class="ma-result-body">${this.guide()}<div class="ma-result-symbol">${passed ? '★' : '↗'}</div><h1>${passed ? '完成挑战' : '再练一轮'}</h1><p>${stage.title}</p><strong>${this.lastScore} <small>/ ${QUESTIONS_PER_STAGE}</small></strong><p>${passed ? (next ? '下一阶已经开启' : '这一条训练线完成了') : `答对 ${PASS_SCORE} 题就能开启下一阶`}</p><div class="ma-result-actions"><button type="button" data-action="retry">再练一轮</button>${passed && next ? `<button class="ma-primary" type="button" data-stage="${next.id}">下一阶 →</button>` : ''}<button type="button" data-action="home">返回选关</button></div></div></main>`;
+    this.root.innerHTML = `<main class="ma-page ma-result"><div class="ma-result-body">${this.guide()}<div class="ma-stars" role="img" aria-label="${earned} 颗星，共 3 颗">${[1, 2, 3].map((i) => `<i class="ma-star${i <= earned ? ' is-on' : ''}" style="--i:${i}" aria-hidden="true">★</i>`).join('')}</div><h1>${passed ? '完成挑战' : '再练一轮'}</h1><p>${stage.title}</p><strong>${this.lastScore} <small>/ ${QUESTIONS_PER_STAGE}</small></strong><p>${passed ? (next ? '下一阶已经开启' : '这一条训练线完成了') : `答对 ${PASS_SCORE} 题就能开启下一阶`}</p><div class="ma-result-actions"><button type="button" data-action="retry">再练一轮</button>${passed && next ? `<button class="ma-primary" type="button" data-stage="${next.id}">下一阶 →</button>` : ''}<button type="button" data-action="home">返回选关</button></div></div></main>`;
   }
 
   private begin(stage: Stage): void {
