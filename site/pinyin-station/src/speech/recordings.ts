@@ -18,7 +18,35 @@ export interface Recording {
   expected?: 'correct' | Dim;
   verdict?: Verdict;
   parent?: 'correct' | Dim;
+  /** On-device scorer summary (trial; never feeds mastery). Kept for later calibration against parent labels. */
+  local?: {
+    verdict: 'match' | 'unsure' | 'differs';
+    confidence: number;
+    reason?: string;
+    heard?: string;
+    scorers: string[];
+    /** 10-point semitone contour, median Hz and the scorer's feature numbers: what a later calibration needs. */
+    contour?: number[];
+    medianHz?: number;
+    rangeSt?: number;
+    features?: Record<string, number | string>;
+    elapsedMs?: number;
+  };
+  /** Parent pressed 拿不准 in batch review: not a label, so it never feeds mastery or calibration. */
+  unsure?: boolean;
+  /** Everything needed to interpret the recording later; local only. */
+  meta?: RecordingMeta;
 }
+export interface RecordingMeta {
+  v: 1;
+  target?: { syllable: string; initial: string; final: string; tone: number };
+  confusions?: { tones?: number[]; initials?: string[]; finals?: string[] };
+  device: { ua: string; viewport: [number, number]; dpr: number; standalone: boolean };
+  capture: { source: 'worklet' | 'script-processor' | 'legacy-mic'; quality?: Record<string, number | boolean> };
+  speakerN?: number;
+}
+/** Local library size. Calibration needs a few hundred labelled clips, so this is larger than the AI-trial era's 200. */
+export const MAX_RECORDINGS = 500;
 let connection: Promise<IDBDatabase> | null = null;
 function db(): Promise<IDBDatabase> {
   return (connection ??= new Promise((resolve, reject) => {
@@ -70,7 +98,7 @@ export async function saveRecording(recording: Recording) {
     store.put(stored);
     const count = store.count();
     count.onsuccess = () => {
-      let extra = count.result - 200;
+      let extra = count.result - MAX_RECORDINGS;
       if (extra <= 0) return;
       const cursor = store.index('at').openCursor();
       cursor.onsuccess = () => {

@@ -53,7 +53,8 @@ export interface Bank {
   lessons: { id: number; title: string; unit: number }[];
   praise: string[];
 }
-export type Judge = 'deterministic' | 'ai' | 'parent' | 'self';
+/** 'local' = the on-device scorer (score/). Like 'ai' it never counts toward mastery until calibrated. */
+export type Judge = 'deterministic' | 'ai' | 'local' | 'parent' | 'self';
 export interface Attempt {
   id: string;
   skill: string;
@@ -90,6 +91,10 @@ export interface Save {
   settings: {
     lesson: number;
     ai: boolean;
+    /** On-device tone-contour feedback (trial). Absent = off. */
+    localScore?: boolean;
+    /** Keep each (heard) recording in the local library for parent review and calibration. Absent = on, as before. */
+    keepRecordings?: boolean;
     strictness: 'gentle' | 'balanced' | 'precise';
     scaffold: 'initial' | 'final' | 'tone' | 'full';
   };

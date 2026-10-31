@@ -910,6 +910,61 @@
       "id": "py.word.gege-dushu",
       "role": "word",
       "text": "哥哥读书"
+    },
+    {
+      "id": "py.local.match",
+      "role": "companion",
+      "text": "你的声音，和示范很像！"
+    },
+    {
+      "id": "py.local.t1",
+      "role": "companion",
+      "text": "试试让声音平平的，像小路。"
+    },
+    {
+      "id": "py.local.t2",
+      "role": "companion",
+      "text": "听，再看：你的声音上扬了吗？"
+    },
+    {
+      "id": "py.local.t3",
+      "role": "companion",
+      "text": "试试先低下去，再抬起来。"
+    },
+    {
+      "id": "py.local.t4",
+      "role": "companion",
+      "text": "试试从高处，一下滑下来。"
+    },
+    {
+      "id": "py.local.unsure",
+      "role": "companion",
+      "text": "再试一次，我听得更清楚"
+    },
+    {
+      "id": "py.local.quiet",
+      "role": "companion",
+      "text": "声音再大一点点，我就听见啦"
+    },
+    {
+      "id": "py.local.noisy",
+      "role": "companion",
+      "text": "周围有点吵，找个安静的地方"
+    },
+    {
+      "id": "py.local.loud",
+      "role": "companion",
+      "text": "离远一点点，轻轻地读"
+    },
+    {
+      "id": "py.local.short",
+      "role": "companion",
+      "text": "声音太短啦，慢慢读完整"
+    },
+    {
+      "id": "py.local.warmup",
+      "role": "companion",
+      "text": "我在认识你的声音，再读几个吧"
     }
   ]
 }

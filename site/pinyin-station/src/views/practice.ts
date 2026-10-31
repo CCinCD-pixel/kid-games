@@ -11,6 +11,16 @@ import { displayPinyin, parseSyllable } from '../domain/pinyin';
 import { beginSession, insertContrasts, nextQuestion, recordAttempt, schedule } from '../domain/learning';
 import type { Question } from '../domain/types';
 import { Microphone } from '../speech/mic';
+import { Capture, type CaptureResult } from '../score/capture';
+import { toInt16 } from '../score/resample';
+import type { ScoreResult } from '../score/types';
+import { hasNarration, modelContour } from '../score/reference';
+import { unsureResult } from '../score/scorer';
+import { addRecording as addSpeakerSample, loadSpeaker, saveSpeaker } from '../score/speaker';
+import { deviceInfo } from '../score/device';
+import { analyzeClip } from '../score/vad';
+import { fromInt16 } from '../score/resample';
+import { buildScoreCard, getLocalScorer, scoreCopy, scoreTarget } from './score-card';
 import { assess } from '../speech/client';
 import { questionPlan } from '../speech/reference';
 import { saveRecording, type Recording } from '../speech/recordings';
@@ -25,6 +35,10 @@ const titles = {
   F: '图画也会说拼音',
   G: '把一句话接通',
 };
+function heardLocalQuality(local: CaptureResult | null, int16: Int16Array): Record<string, number | boolean> {
+  const q = local ? local.quality : analyzeClip(fromInt16(int16)).quality;
+  return { ...q };
+}
 export class Practice {
   readonly el = h('section', { class: 'practice', 'aria-label': '电台节目' });
   private queue: Question[];
@@ -33,6 +47,7 @@ export class Practice {
   private stopped = false;
   private generation = 0;
   private mic = new Microphone();
+  private local = new Capture();
   private abort: AbortController | null = null;
   private recorded: Recording[] = [];
   locked = false;
@@ -65,6 +80,11 @@ export class Practice {
   private get assessment() {
     return questionPlan(this.q, this.ctx.bank, this.q.kind === 'C' ? undefined : this.word);
   }
+  /** The single syllable (tone 1-4) this question asks the child to say, if local scoring can judge it. */
+  private localSyllable(): string | null {
+    const id = this.q.kind === 'C' ? this.q.target : this.word?.syllables.length === 1 ? this.word.syllables[0] : null;
+    return id ? (scoreTarget(id, this.ctx.bank) ? id : null) : null;
+  }
   async stimulus() {
     if (this.el.classList.contains('is-recording')) return;
     if (this.q.kind === 'A') {
@@ -75,7 +95,7 @@ export class Practice {
   }
   private render() {
     if (this.stopped) return;
-    this.el.classList.remove('is-resolved', 'has-recording');
+    this.el.classList.remove('is-resolved', 'has-recording', 'has-score');
     this.generation++;
     this.locked = false;
     this.assisted = this.q.practiceOnly ?? false;
@@ -346,20 +366,32 @@ export class Practice {
       .querySelectorAll<HTMLButtonElement>('.listening-tools button, .practice-stage button')
       .forEach((b) => (b.disabled = true));
     this.ctx.stopAudio();
+    this.el.querySelector('.score-card')?.remove();
+    this.el.classList.remove('has-score');
     this.abort?.abort();
     this.abort = new AbortController();
     const gen = this.generation;
+    // Local scoring trial (parent switch, default off): capture with the score/ pipeline instead of speech/mic.
+    const localId = this.ctx.save.settings.localScore === true ? this.localSyllable() : null;
+    let localCapture: CaptureResult | null = null;
     const meter = h(
       'div',
       { class: 'voice-meter', 'aria-label': '正在收听' },
       Array.from({ length: 7 }, () => h('i')),
     );
     this.feedback.replaceChildren(meter, h('span', null, '台长正在收听'));
-    this.actions.replaceChildren(button('我读好了', () => this.mic.stop(), 'primary', 'mic'));
+    this.actions.replaceChildren(
+      button('我读好了', () => (localId ? this.local.stop() : this.mic.stop()), 'primary', 'mic'),
+    );
     try {
-      const capture = await this.mic.record((rms) =>
-        meter.style.setProperty('--level', String(Math.min(1, rms * 12))),
-      );
+      const capture = localId
+        ? await this.local
+            .start({ onLevel: (level) => meter.style.setProperty('--level', String(level)) })
+            .then((r) => {
+              localCapture = r;
+              return { pcm: toInt16(r.pcm), blob: r.wavBlob(), heard: r.heard };
+            })
+        : await this.mic.record((rms) => meter.style.setProperty('--level', String(Math.min(1, rms * 12))));
       if (this.stopped || gen !== this.generation) return;
       const record: Recording = {
         id: crypto.randomUUID(),
@@ -397,12 +429,59 @@ export class Practice {
         (!requested ||
           (record.verdict && !['no_speech', 'incomplete'].includes(record.verdict.reason ?? '')));
       let stored = false;
+      let localScore: ScoreResult | null = null;
+      // Calibration data: every heard recording carries what is needed to interpret it later (local only).
+      const targetInfo = (() => {
+        const id = this.localSyllable();
+        return id ? scoreTarget(id, this.ctx.bank) : null;
+      })();
+      const speaker = loadSpeaker();
+      if (capture.heard) {
+        const quality = heardLocalQuality(localCapture as CaptureResult | null, capture.pcm);
+        record.meta = {
+          v: 1,
+          target: targetInfo?.target,
+          confusions: targetInfo?.confusions,
+          device: deviceInfo(),
+          capture: { source: localId ? (localCapture as CaptureResult | null)?.source ?? 'worklet' : 'legacy-mic', quality },
+          speakerN: speaker.recent.length,
+        };
+      }
+      const heardLocal = localCapture as CaptureResult | null;
+      // Nothing audible at all: say so gently on the same card (model curve only) instead of leaving the child with a blank.
+      if (localId && heardLocal && !heardLocal.heard) localScore = unsureResult('too_quiet', ['tone-shape']);
+      if (localId && heardLocal?.heard) {
+        const t = scoreTarget(localId, this.ctx.bank)!;
+        try {
+          localScore = await getLocalScorer().score({ pcm: heardLocal.pcm, sampleRate: 16000, speaker, ...t });
+          record.local = {
+            verdict: localScore.verdict,
+            confidence: Math.round(localScore.confidence * 100) / 100,
+            reason: localScore.reason,
+            heard: localScore.parts.tone?.heard,
+            scorers: localScore.scorers,
+            contour: localScore.evidence.contour?.points.map((x) => Math.round(x * 100) / 100),
+            medianHz: localScore.evidence.contour ? Math.round(localScore.evidence.contour.medianHz) : undefined,
+            rangeSt: localScore.evidence.contour ? Math.round(localScore.evidence.contour.rangeSt * 100) / 100 : undefined,
+            features: localScore.evidence.features['tone-shape'],
+            elapsedMs: Math.round(localScore.elapsedMs),
+          };
+          // His pitch centre/range keep adapting from every clean recording (no labels needed).
+          const c = localScore.evidence.contour;
+          if (c && !localScore.evidence.quality.unreliable) saveSpeaker(addSpeakerSample(speaker, { hz: c.medianHz, range: c.rangeSt }));
+        } catch {
+          /* Scoring is a bonus; the recording is kept either way. */
+        }
+        if (this.stopped || gen !== this.generation) return;
+      }
       if (usable) {
         this.recorded.push(record);
         this.el.classList.add('has-recording');
         try {
-          await saveRecording(record);
-          stored = true;
+          if (this.ctx.save.settings.keepRecordings !== false) {
+            await saveRecording(record);
+            stored = true;
+          }
         } catch {
           /* Local replay remains available. */
         }
@@ -441,7 +520,7 @@ export class Practice {
                   : '声音收到啦，这次可以现场回听',
         ),
       );
-      this.speak(record.verdict?.status === 'unsure' || !capture.heard ? 'py.unsure' : 'py.saved');
+      if (!localScore) this.speak(record.verdict?.status === 'unsure' || !capture.heard ? 'py.unsure' : 'py.saved');
       this.actions.replaceChildren(
         button('听我的声音', () => void this.ctx.replay(record.blob), 'secondary', 'replay'),
         button('听台长读', () => void this.stimulus(), 'secondary', 'listen'),
@@ -456,6 +535,7 @@ export class Practice {
         ),
         button('我再读一遍', () => void this.record(), 'quiet', 'mic'),
       );
+      if (localId && localScore && heardLocal) void this.showLocal(localId, localScore, heardLocal, gen);
     } catch {
       if (this.stopped || gen !== this.generation) return;
       this.locked = false;
@@ -468,9 +548,43 @@ export class Practice {
         .forEach((b) => (b.disabled = false));
     }
   }
+  private async showLocal(id: string, score: ScoreResult, mine: CaptureResult, gen: number) {
+    const model = await modelContour(id, getLocalScorer());
+    if (this.stopped || gen !== this.generation) return;
+    const t = scoreTarget(id, this.ctx.bank)!;
+    const copy = scoreCopy(score, t.target.tone);
+    const listen = button('听我的', () => void this.ctx.replay(mine.wavBlob()), 'secondary', 'replay');
+    listen.disabled = !mine.heard;
+    const card = buildScoreCard({
+      syllable: id,
+      result: score,
+      mine: score.evidence.contour?.curve ?? null,
+      model: model?.curve ?? null,
+      copy,
+      actions: [
+        button('再听示范', () => void this.stimulus(), 'secondary', 'listen'),
+        listen,
+        button('再读一次', () => void this.record(), 'secondary', 'mic'),
+        button(
+          '接下一条',
+          () => {
+            this.remember(true, undefined, 'self');
+            this.advance();
+          },
+          'primary',
+          'next',
+        ),
+      ],
+    });
+    this.el.classList.add('has-score');
+    this.el.append(card);
+    // Words are always on screen; the clip plays only once it has been generated for this id.
+    if (await hasNarration(copy.id)) this.speak(copy.id);
+  }
   advance() {
     this.abort?.abort();
     this.mic.stop();
+    this.local.stop();
     this.ctx.stopAudio();
     this.index++;
     this.tries = 0;
@@ -486,6 +600,7 @@ export class Practice {
     this.generation++;
     this.abort?.abort();
     this.mic.dispose();
+    this.local.dispose();
     this.ctx.stopAudio();
   }
 }

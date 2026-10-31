@@ -9,7 +9,7 @@ export function initialSave(): Save {
     history: [],
     confusions: {},
     customWords: [],
-    settings: { lesson: 4, ai: false, strictness: 'gentle', scaffold: 'initial' },
+    settings: { lesson: 4, ai: false, localScore: false, strictness: 'gentle', scaffold: 'initial' },
   };
 }
 export function beginSession(s: Save, now = Date.now()): number {
@@ -21,7 +21,7 @@ export function beginSession(s: Save, now = Date.now()): number {
   return s.sessions;
 }
 function apply(s: Save, a: Attempt) {
-  if (a.judge === 'ai' || a.judge === 'self' || (a.assisted && a.correct)) return;
+  if (a.judge === 'ai' || a.judge === 'local' || a.judge === 'self' || (a.assisted && a.correct)) return;
   const atom: Atom = s.atoms[a.skill] ?? {
     box: 0,
     due: 0,

@@ -24,3 +24,9 @@ node site/pinyin-station/tools/local-preview.mjs
 不再制作源码 ZIP、校验包或成品副本，以本分支、私有试用地址和一页清单为准。
 
 长期存档：共享存储保留进度快照和最近 60 场；较旧明细归档到本机 IndexedDB。家长改判旧录音会从归档重算。清除站点数据也会删除归档；导出录音校准资料后再清理设备。
+
+## 本地评分（试用，默认关闭）
+
+家长页“本地评分 · 试用”开关打开后，孩子读完单个音节会在设备上用音高曲线比较声调，画出“我的声音 / 示范”两条曲线；声音不上传，结果不计入掌握。代码在 `src/score/`（音高 pitch、曲线 contour、端点 vad、麦克风 capture、评分接口 scorer、Worker）。声调只在孩子已读约 8 条之后、且把握 ≥ 0.9 时才给出“相似/不同”，其余一律“再试一次，我听得更清楚”。每条录音连同目标音节、音高特征、质量标志、设备信息一起存在本机，家长页“快速点评”可逐条盲标，“导出标注集”得到 ZIP（manifest.json + wav，仅本机下载），用 `node site/pinyin-station/tools/export-to-lab.mjs <zip>` 转成 pinyin-lab 脚本可读的目录。
+
+测试：`npx vitest run site/pinyin-station`（含音高、曲线、VAD、capture、评分、导出）；浏览器：`npx playwright test -c site/pinyin-station/tests/playwright.score.config.ts`（Vite 开发服务器，WebKit 用桩麦克风，Chromium 用真实的 fake-device 音频文件）。

@@ -7,6 +7,8 @@ import { historyArchive, recordings, savePicture, saveRecording } from '../speec
 import { reviseAttempt } from '../domain/history';
 import { button, type Context } from './common';
 import { labPanel } from './lab';
+import { batchReviewPanel } from './batch-review';
+import { downloadExport } from './export';
 import { reviewPanel } from './review';
 import { familyToken, saveFamilyToken, checkConnection } from '../speech/family';
 import type { Word } from '../domain/types';
@@ -172,7 +174,7 @@ export function parentView(ctx: Context): HTMLElement {
       h(
         'p',
         null,
-        '开启后，录音从设备直达腾讯云；服务端只签名。不开启时使用本地跟读。最近 200 条录音仅保存在本机。',
+        '开启后，录音从设备直达腾讯云；服务端只签名。不开启时使用本地跟读。最近 500 条录音仅保存在本机。',
       ),
       field('允许上传录音到腾讯评测', ai),
       field('家庭口令', token),
@@ -185,6 +187,42 @@ export function parentView(ctx: Context): HTMLElement {
         { class: 'parent-note' },
         'AI 和孩子自评均不计入掌握。家长回听改判后才记入“读”的学习记录。音调检测无效时不判声调。',
       ),
+    );
+    const local = h('input', { type: 'checkbox', checked: s.settings.localScore === true, 'aria-label': '本地评分（试用）' });
+    local.onchange = () => {
+      s.settings.localScore = local.checked;
+      ctx.persist();
+    };
+    const localCard = h(
+      'section',
+      { class: 'parent-card' },
+      h('h3', null, '本地评分 · 试用'),
+      h(
+        'p',
+        null,
+        '孩子读完单个音节后，在设备上用音高曲线比较声调，并画出“我的声音”和“示范”两条曲线。声音不上传，也不需要网络。',
+      ),
+      field('开启本地评分（试用）', local),
+      h(
+        'p',
+        { class: 'parent-note' },
+        '默认关闭。目前只比较声调的升降形状，没听清时只会说“再试一次”，不会判错；结果不计入掌握，也不影响复习安排，等家长抽查校准后再决定。',
+      ),
+    );
+    const keep = h('input', { type: 'checkbox', checked: s.settings.keepRecordings !== false, 'aria-label': '保存录音到本机' });
+    keep.onchange = () => {
+      s.settings.keepRecordings = keep.checked;
+      ctx.persist();
+    };
+    const keepCard = h(
+      'section',
+      { class: 'parent-card' },
+      h('h3', null, '录音保存与点评'),
+      h('p', null, '孩子读完后，录音和读音目标、音高曲线、设备信息会一起留在本机（最近 500 条），方便家长回听点评。不上传。'),
+      field('保存录音到本机', keep),
+      button('快速点评（一条一条听）', () => host.append(batchReviewPanel(ctx, () => host.querySelector('.batch-sheet')?.remove())), 'primary', 'play'),
+      button('导出标注集（ZIP）', async () => void (await downloadExport(await recordings())), 'secondary', 'next'),
+      h('p', { class: 'parent-note' }, '导出文件含孩子的声音，只保存在本机，不要提交仓库。'),
     );
     const weak = Object.entries(s.confusions)
       .sort((a, b) => b[1] - a[1])
@@ -449,6 +487,8 @@ export function parentView(ctx: Context): HTMLElement {
         ),
         config,
         consent,
+        localCard,
+        keepCard,
         progress,
         add,
         review,
