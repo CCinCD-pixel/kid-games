@@ -156,6 +156,48 @@ test('second mate opens directly after leaving an unfinished first mate', async 
   await expect(page.getByText('白方获胜')).toBeVisible();
 });
 
+test('a finished piece lesson never leaves the next puzzle or game with a dead board', async ({ page }) => {
+  // Regression: `lessonSuccess` stayed set after the last lesson task, so every later tap was ignored until a reload.
+  await boot(page);
+  const index = (s: string) => (8 - Number(s[1])) * 8 + s.charCodeAt(0) - 97;
+  await page.locator('[data-lesson="0"]').click();
+  await move(page, 'a1', 'a6'); await page.locator('[data-act="next-task"]').click();
+  await move(page, 'a1', 'h1'); await page.locator('[data-act="next-task"]').click();
+  await move(page, 'd1', 'd6'); await page.locator('[data-act="next-task"]').click();   // last task -> back to the home screen, NO reload
+  await page.locator('[data-puzzle="0"]').click();
+  await page.locator(`[data-sq="${index('g1')}"]`).click();
+  await expect(page.locator('.cx-square.selected')).toHaveCount(1);
+  await page.locator(`[data-sq="${index('g8')}"]`).click();
+  await expect(page.getByText('白方获胜')).toBeVisible();
+  await page.locator('[data-act="finish"]').click();
+  // a game right after a lesson, and a lesson abandoned on its success screen
+  await page.locator('[data-lesson="1"]').click();
+  await move(page, 'c1', 'h6');
+  await expect(page.getByText('找到了这一步！')).toBeVisible();
+  await page.locator('[data-act="back"]').click();            // leave from the success screen
+  await page.locator('[data-ai="0"]').click();
+  await page.locator(`[data-sq="${index('e2')}"]`).click();
+  await expect(page.locator('.cx-square.selected')).toHaveCount(1);
+  await expect(page.locator('.cx-square.legal').first()).toBeVisible();
+});
+
+test('leaving a lesson mid-way, a pending robot move or a promotion dialog never blocks the next board', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await boot(page);
+  const index = (s: string) => (8 - Number(s[1])) * 8 + s.charCodeAt(0) - 97;
+  await page.locator('[data-ai="0"]').tap();
+  await page.locator(`[data-sq="${index('e2')}"]`).tap();
+  await page.locator(`[data-sq="${index('e4')}"]`).tap();      // the robot starts thinking (board busy)
+  await page.locator('[data-act="back"]').tap();               // leave while it thinks
+  await page.locator('[data-puzzle="1"]').tap();
+  if (await page.locator('[data-act="confirm-new"]').count()) await page.locator('[data-act="confirm-new"]').tap();
+  await page.waitForTimeout(600);                              // the stale robot answer must not freeze or change the new board
+  await page.locator(`[data-sq="${index('a1')}"]`).tap();
+  await expect(page.locator('.cx-square.selected')).toHaveCount(1);
+  await page.locator(`[data-sq="${index('a8')}"]`).tap();
+  await expect(page.getByText('白方获胜')).toBeVisible();
+});
+
 test('all one-move mates respond to phone taps and accept their solution', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await boot(page);

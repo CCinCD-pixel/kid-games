@@ -42,9 +42,16 @@ export class ChessApp {
     window.addEventListener('keydown', (event) => { if (event.key === 'Escape' && this.view !== 'home') this.back(); });
   }
 
+  /** Everything that can block the board must be cleared whenever the screen changes (a finished lesson used to leave
+   *  `lessonSuccess` set, so the next game or 一步将死 puzzle ignored every tap until a page reload). */
+  private clearTransient(): void {
+    this.epoch++; this.busy = false; this.lessonSuccess = false; this.promotion = null; this.resetOpen = false;
+    this.selected = null; this.hintSq = null; this.missSq = null; this.note = '';
+  }
+
   back(): boolean {
     if (this.view === 'home') return false;
-    this.epoch++; this.busy = false; this.view = 'home'; this.selected = null; this.missSq = null; this.promotion = null; this.resetOpen = false; this.render();
+    this.clearTransient(); this.view = 'home'; this.render();
     this.tell('欢迎回来，挑一项棋艺继续练习吧。', 'cx.home');
     return true;
   }
@@ -89,6 +96,7 @@ export class ChessApp {
 
   private startLesson(index: number): void {
     const lesson = PIECE_LESSONS[index]; if (!lesson) return;
+    this.clearTransient();
     this.view = 'lesson'; this.lessonIdx = index; this.taskIdx = this.save.lessons.includes(lesson.id) ? 0 : Math.min(lesson.tasks.length - 1, this.save.lessonProgress[lesson.id] ?? 0); this.loadTask();
   }
 
@@ -112,6 +120,7 @@ export class ChessApp {
 
   private resume(): void {
     const rec = this.save.game; if (!rec) return;
+    this.clearTransient();
     this.game = replayMoves(rules, rec.startFen, rec.moves).game;
     this.view = 'game'; this.selected = null; this.missSq = null; this.bottom = 'w'; this.render();
     this.tell('接着下吧，点自己的棋子，看看能走到哪里。', rec.mode === 'puzzle' ? 'cx.mate' : 'cx.game');
@@ -119,8 +128,7 @@ export class ChessApp {
   }
 
   private startGame(mode: Mode, level = 0, puzzleIndex = 0): void {
-    this.epoch++;
-    this.resetOpen = false;
+    this.clearTransient();
     const puzzle = mode === 'puzzle' ? PUZZLES[Math.max(0, puzzleIndex)] : null;
     this.save.game = freshGame(mode, level, puzzle?.fen, puzzle?.id);
     this.game = createGame(rules, this.save.game.startFen);
@@ -159,7 +167,7 @@ export class ChessApp {
   }
 
   private squareClick(n: number): void {
-    if (this.busy || this.lessonSuccess || this.promotion || this.resetOpen) return;
+    if (this.busy || (this.view === 'lesson' && this.lessonSuccess) || this.promotion || this.resetOpen) return;
     const state = this.view === 'lesson' ? this.lessonState : this.game?.state();
     if (!state || (this.view === 'game' && this.game?.status().over)) return;
     const p = state.board[Math.floor(n / 8)][n % 8];
