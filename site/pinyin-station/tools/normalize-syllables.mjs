@@ -8,6 +8,7 @@
  *   node site/pinyin-station/tools/normalize-syllables.mjs --check --json     same, machine-readable (used by normalize-syllables.test.ts)
  *   node site/pinyin-station/tools/normalize-syllables.mjs --selftest   synthetic DSP checks (short-clip fallback, hum notch)
  *   node site/pinyin-station/tools/normalize-syllables.mjs --regain-synthetic   gain-only fix for TTS call-sounds that missed -16 +- 0.5 LUFS
+ *   node site/pinyin-station/tools/normalize-syllables.mjs --regain-ids id1,id2   the same gain-only fix for any listed manifest ids (TTS lines the AAC encoder left off -16 +- 0.5)
  *   options: --originals DIR   backup of the untouched downloads (default ~/kid-games-work/pinyin-audit/originals/human)
  *            --dir DIR         audio dir (default public/audio/pinyin-station)   --only a1,ba1   --report FILE (apply)
  *
@@ -314,10 +315,16 @@ function recordings(manifest) {
 }
 const sha8 = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
 
-function findOriginal(originalsDir, name) {
-  const hit = fs.readdirSync(originalsDir).find((f) => new RegExp(`^human\\.${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.[0-9a-f]{8}\\.(mp3|m4a)$`).test(f));
-  if (!hit) throw new Error(`no original for ${name} in ${originalsDir}`);
-  return path.join(originalsDir, hit);
+function findOriginal(originalsDir, name, audioDir) {
+  const re = new RegExp(`^human\\.${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.[0-9a-f]{8}\\.(mp3|m4a)$`);
+  const hit = fs.existsSync(originalsDir) ? fs.readdirSync(originalsDir).find((f) => re.test(f)) : undefined;
+  if (hit) return path.join(originalsDir, hit);
+  // a freshly imported download (import-human-audio.mjs) still sits in the audio dir as human.<name>.<sha8>.mp3: keep it as the original
+  const fresh = fs.readdirSync(audioDir).find((f) => re.test(f) && f.endsWith('.mp3'));
+  if (!fresh) throw new Error(`no original for ${name} in ${originalsDir}`);
+  fs.mkdirSync(originalsDir, { recursive: true });
+  fs.copyFileSync(path.join(audioDir, fresh), path.join(originalsDir, fresh));
+  return path.join(originalsDir, fresh);
 }
 
 // ------------------------------------------------------------------------------------------------ modes
@@ -329,7 +336,7 @@ function apply({ dir, originalsDir, only, reportFile }) {
   {
     for (const [name, ids] of names) {
       if (only && !ids.some((i) => only.includes(i.replace('py.syl.', '')))) continue;
-      const original = findOriginal(originalsDir, name);
+      const original = findOriginal(originalsDir, name, dir);
       const r = processClip(original, work());
       const hash = sha8(r.tmp);
       const outName = `human.${name}.${hash}.m4a`;
@@ -360,12 +367,12 @@ function apply({ dir, originalsDir, only, reportFile }) {
  * Synthetic call-sounds come out of tools/voice, whose BS.1770 pre-measurement is unreliable for 0.3-0.4 s of speech: the decoded
  * m4a can land 0.2-0.5 dB outside -16 +- 0.5. Re-gain just those (decode -> same gain/limiter/AAC search -> new content-addressed name).
  */
-export function regainSynthetic({ dir, tolerance = 0.5 }) {
+export function regainSynthetic({ dir, tolerance = 0.5, ids = null }) {
   const manifestPath = path.join(dir, 'audio-manifest.json');
   const manifest = loadManifest(dir);
   const done = [];
   for (const [id, clip] of Object.entries(manifest)) {
-    if (!id.startsWith('py.syl.') || !clip.synthetic) continue;
+    if (ids ? !ids.includes(id) : !id.startsWith('py.syl.') || !clip.synthetic) continue;
     const file = path.join(dir, clip.src.split('/').pop());
     const m = measureFile(file);
     if (m.I !== null && Math.abs(m.I - TARGET_LUFS) <= tolerance && m.TP <= TP_MAX_DBTP) continue;
@@ -464,6 +471,7 @@ function parseArgs(argv) {
     else if (k === '--json') a.json = true;
     else if (k === '--selftest') a.selftest = true;
     else if (k === '--regain-synthetic') a.regain = true;
+    else if (k === '--regain-ids') { a.regain = true; a.ids = argv[++i].split(','); }
     else if (k === '--dir') a.dir = path.resolve(argv[++i]);
     else if (k === '--originals') a.originalsDir = path.resolve(argv[++i]);
     else if (k === '--only') a.only = argv[++i].split(',');

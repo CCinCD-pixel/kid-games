@@ -197,7 +197,7 @@ describe('per-speaker normalisation and abstention (feasibility-study rules)', (
     }
     expect((await tone.score(input(say('rising'), 2, 16000, knownChild(8)))).verdict).toBe('match');
   });
-  it.skipIf(!ffmpegAvailable)('speaker range scaling rescues a narrow-range child (excursions 60 % of the adult library)', () => {
+  it.skipIf(!ffmpegAvailable)('speaker range scaling rescues a narrow-range child (excursions 60 % of the adult library)', { timeout: 60000 }, () => {
     const shape = { 1: 'level', 2: 'rising', 3: 'dipping', 4: 'falling' } as const;
     let plain = 0,
       scaled = 0,

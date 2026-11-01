@@ -3016,3 +3016,63 @@ body:has(.parent-panel) .kit-subtitle {
     min-height: 72px;
   }
 }
+
+/* ===== round 3: tips show the two letters, real recordings play beside them ===== */
+.tip-chips {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  width: 100%;
+  margin-top: 8px;
+}
+.tip-chip {
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  height: 64px;
+  padding: 0 14px;
+  border-radius: 16px;
+  border: 2px solid var(--station-line);
+  background: var(--station-paper);
+  color: var(--station-ink);
+  font-size: 36px;
+  line-height: 1;
+}
+.tip-chip.focus {
+  border-color: var(--station-accent);
+  background: var(--xg-jade-100);
+}
+.tip-chip.active {
+  border-color: var(--xg-gold-600);
+  background: #fff3d6;
+  transform: scale(1.12);
+  box-shadow: 0 0 0 4px rgba(242, 183, 64, 0.35);
+}
+.tip-listen {
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  color: var(--station-muted);
+}
+.feedback:has(.tip-chips) {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.feedback:has(.tip-chips) > .glyph {
+  display: none;
+}
+@media (max-width: 599px), (orientation: landscape) and (max-height: 599px) {
+  .tip-chip {
+    min-width: 44px;
+    height: 44px;
+    font-size: 26px;
+    padding: 0 10px;
+  }
+  .tip-chips {
+    margin-top: 4px;
+    gap: 10px;
+  }
+  .tip-listen {
+    font-size: 13px;
+  }
+}

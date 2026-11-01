@@ -1,4 +1,4 @@
-import type { Bank } from './types';
+import type { Bank, Letter } from './types';
 
 const VALID: Record<string, string> = {
   '': 'a o e i u ai ei ao ou an en ang eng er',
@@ -69,3 +69,5 @@ export function validateBank(b: Bank): string[] {
     for (const pair of c.minimalPairs) for (const id of pair) if (!ids.has(id)) errors.push(`pair: ${id}`);
   return errors;
 }
+/** How a letter's call sound is written on its card and in the subtitle: the tone of the REAL recording (er plays ér). */
+export const callLabel = (l: Letter): string => l.callDisplay ?? displayPinyin(l.callSound);

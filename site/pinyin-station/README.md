@@ -45,3 +45,20 @@ node site/pinyin-station/tools/local-preview.mjs
 - **废弃但仍留在 yaml 里的 6 条台词**（代码不再引用，先不删，免得动 manifest）：`py.E` `py.F` `py.C` `py.recording` `py.follow` `py.scene.family`。另外 `py.praise.16`（“你把这幅图说给拼音听了”）也不再被任何题型使用。
 - **开放课 9–13 之前要补的音频**：18 条字母口诀 `py.mnemonic.{ai ei ui ao ou iu ie ve er an en in un vn ang eng ing ong}`（`ye yue yin yun yuan ying` 是整体认读，不进卡册，暂不需要口诀）；8 个轻声音节 `py.syl.{pa0 ba0 ma0 di0 le0 ge0 gu0 zi0}`（目前词用整词音，单独点轻声音节触不到）。家长页现在只开放到第 8 档。
 - 首页、信号卡册、本台播出三个屏幕在底部给字幕条留了一条车道（`#app[data-view]`，字幕条出现时不会盖住任何按钮）；信号卡册的卡片区自己滚动，“去当小播音员”固定在卡片区下方。
+
+## 发音与音频原则（2026-11-01，爸爸耳朵验收之后）
+
+- 机器人（Qwen3-TTS）**只说普通中文句子**。任何需要孩子听了模仿的声音（字母名、声母、韵母、呼读音、口诀里重复的音）一律用**真人录音**（`py.syl.*`），不得由 TTS 朗读；朗读文本（`norm ?? text`）里不得有拉丁字母、带声调符号的拼音，也不得有“单字用逗号隔开”的裸声音。自动检查：`site/pinyin-station/tools/spoken-text.mjs` + `spoken-text.test.ts`（接在 `npm run check` 的 vitest 里）。**待改写清单已清空**：17 条（口诀 a o e i u v y w，提示 b-p d-t b-d l-n p-f g-k j-q z-c zh-ch）已由界面改写成普通句子（第 3 轮），文本在 yaml 和 `bank.json` 里一致；它们的**音频还是旧录音，等配音步骤重新合成**（清单 `~/kid-games-work/state/pinyin-lab/lines-to-voice-r3.json`），合成后重跑 `tools/audit/run-audit.sh`。
+- 课 9–13 的呼读音全部是真人录音（同一公有领域库、固定提交 `aa25ecce…`，经 `tools/normalize-syllables.mjs` 归一到 −16 LUFS）。卡片 call-sound id → 真人文件：ai1→ai1，ei1→ei1，ui1→wei1，ao1→ao1，ou1→ou1，iu1→you1，ie1→ye1，ve1→yue1，**er1→er2（真人是二声 ér，卡片标注应改为 ér，界面文字待界面 agent 改；清单里 `py.syl.er1` 的字幕已是 ér）**，an1→an1，en1→en1，in1→yin1，un1→wen1，vn1→yun1，ang1→ang1，ing1→ying1，ong1→weng1，ye1/yue1/yin1/yun1/yuan1/ying1 同名。manifest 的 key 仍是 `py.syl.<卡片id>`，没有 `synthetic` 标记；合成呼读音已删除（备份在 `~/kid-games-work/pinyin-audit/originals-r3/`）。
+- **需要真人补录：`py.syl.eng1`**（ēng）。上游库没有 eng1，Wikimedia Commons / Lingua Libre（CC0）也没有单字“鞥”或单独 ēng 的录音；暂缺。课 9–13 目前家长页不开放，不可达。点到缺失 clip 时 `syllable()` 因 `narrator.has` 守卫直接返回 `'skipped'`、隐藏字幕，不会崩，也**不会退化到设备语音**（`spoken-text.test.ts` 有断言）。补录后：放进 `~/kid-games-work/pinyin-audit/originals/human/`，在 `import-human-audio.mjs` 的 `CALL_MISSING` 里去掉 eng1，再跑导入 + `normalize-syllables.mjs`，并把测试里的 `REGISTERED_MISSING` 清空。
+- 合成呼读音例外：无。
+- 可复跑的发音审计：`site/pinyin-station/tools/audit/run-audit.sh`（音高追踪器判声调 + 混淆矩阵 + F0 图、ASR→pinyin-pro 带声调对比、机器人台词与词音逐音节对比；ASR 只是线索，不能判断声调和口音，结论以耳朵为准）。报告：`~/kid-games-work/state/pinyin-lab/audio-audit-r3.md`。
+
+## 第 3 轮（爸爸 ear-check 之后，界面这一半）
+
+- **口诀卡**：机器人只描述嘴型/样子（“张大嘴巴”“小树分杈，认一认它的样子”），不念字母和声音；卡片上的小字、字幕、朗读是同一句话（`bank.json` 的 `mnemonic` = yaml 文本，`voice-r3.test.ts` 检查）。点卡片的顺序不变：先口诀，再真人呼读音（`py.syl.*`）。
+- **易混淆提示**：提示句只用“左边这个/右边这个”，并在屏幕上画出那两个字母（要指的那个高亮，`bank.json` 的 `confusions[].focus`）；说完以后，按顺序播放两个字母的**真人呼读音**，播到哪个字母哪个亮，字幕栏同时显示普通句“听一听：先听左边，再听右边。”（`Context.listen()`，字幕里不印拼音），最后静默重放题目的声音。机器人不再念任何声音。
+- **没有录音的东西不会被设备语音念出来**：口诀/提示/场景在没有录音时只显示字幕（`explain()` 不再退回设备语音，设备语音会把字母按英语读）。
+- **er 的呼读音是真人 er2**：卡片的读音标注写 **ér**（`Letter.callDisplay`，`callLabel()`），字幕也是 ér；`voice-r3.test.ts` 保证所有卡片的标注/字幕声调与真人文件名里的声调一致（ui→wei1 一声 等）。
+- **eng 暂无录音**（`py.syl.eng1`，需要真人补录，见上）：卡片不会显示成可播放的样子（状态行写“点一点，看看样子”），点它只播口诀字幕（课 9–13 目前也没有口诀音频）、不崩、不出声。课 9–13 家长页不开放，所以孩子够不到。
+- **窃听器测试**：`tests/voice-r3.spec.ts` 用只记录不播放的 Web Audio 探针，逐张口诀卡、逐条提示核对：实际开始的 clip 序列、当时的字幕、当时亮着的字母，并断言除口诀/提示这一句外没有任何机器人的 clip。因为这 17 条的音频文件还是旧的，测试把 manifest 里它们的文字换成 yaml 的新文字再核对（配音步骤会做同样的事）。

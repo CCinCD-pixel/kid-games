@@ -12,6 +12,11 @@ export interface Context {
   /** One voice channel: a new line cuts the old one. `quiet` plays the sound without printing it as a subtitle. */
   say: (id: string, quiet?: boolean) => Promise<Played>;
   syllable: (id: string, quiet?: boolean) => Promise<Played>;
+  /**
+   * Play real recordings one after the other (never robot speech) while the subtitle bar shows one plain caption.
+   * `onClip(i)` runs right before clip i starts, so the screen can highlight what is about to be heard.
+   */
+  listen: (ids: string[], caption: string, onClip?: (index: number) => void) => Promise<Played>;
   word: (word: Word, quiet?: boolean) => Promise<Played>;
   replay: (blob: Blob) => Promise<void>;
   picture: (word: Word) => HTMLElement;

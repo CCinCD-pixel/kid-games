@@ -3,6 +3,8 @@ export interface Letter {
   id: string;
   kind: 'initial' | 'final' | 'whole';
   callSound: string;
+  /** How the call sound is written when it differs from the id of the clip (er: the real recording is ér, the clip id is er1). */
+  callDisplay?: string;
   mnemonic: string;
   lesson: number;
   grid: string;
@@ -41,6 +43,8 @@ export interface Confusion {
   type: string;
   minimalPairs: string[][];
   tip: string;
+  /** Which of the two letters the tip points at ("右边这个"): the screen highlights it while the tip is said. */
+  focus?: 'left' | 'right' | 'both';
 }
 export interface Scene {
   id: string;

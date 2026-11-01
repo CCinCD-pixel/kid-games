@@ -9,7 +9,7 @@ import { h, shouldAutoSkip } from '@kit/ui';
 import { mount } from '@kit/companion';
 import { displayPinyin } from '../domain/pinyin';
 import { beginSession, insertContrasts, nextQuestion, recordAttempt, schedule } from '../domain/learning';
-import type { Question, ResumeState } from '../domain/types';
+import type { Confusion, Letter, Question, ResumeState } from '../domain/types';
 import { Microphone } from '../speech/mic';
 import { Capture, type CaptureResult } from '../score/capture';
 import { toInt16 } from '../score/resample';
@@ -421,14 +421,56 @@ export class Practice {
     const line = this.tries >= 2 && (this.q.kind === 'F' || this.q.kind === 'C') ? HINT.split : HINT.first;
     this.feedback.replaceChildren(glyph('hint'), h('span', null, c?.tip ?? line.text));
     if (this.tries >= 2) this.reveal();
-    if (c) this.play(() => this.ctx.explain(c.tip), () => this.stimulus());
-    else
-      this.play(
-        // A wrong blend is played back as the syllable it really makes, then the line, then the target.
-        ...(this.q.kind === 'C' && this.lastChoice ? [() => this.ctx.syllable(this.lastChoice!, true)] : []),
-        () => this.ctx.say(line.id),
-        () => this.stimulus(),
-      );
+    if (c) {
+      this.play(() => this.ctx.explain(c.tip), ...this.compareSounds(c), () => this.stimulus());
+      return;
+    }
+    this.play(
+      // A wrong blend is played back as the syllable it really makes, then the line, then the target.
+      ...(this.q.kind === 'C' && this.lastChoice ? [() => this.ctx.syllable(this.lastChoice!, true)] : []),
+      () => this.ctx.say(line.id),
+      () => this.stimulus(),
+    );
+  }
+  /**
+   * After a tip about two easily mixed letters: the two letters sit on the screen (the one the tip points at lit up),
+   * then their REAL call-sound recordings play one after the other, each letter lighting up as it sounds.
+   * The robot only says the plain tip sentence; it never says a letter or a sound.
+   */
+  private compareSounds(c: Confusion): Array<() => Promise<unknown>> {
+    const letters = c.pair.map((id) => this.ctx.bank.letters.find((l) => l.id === id));
+    if (letters.some((l) => !l)) return [];
+    const picked = letters as Letter[];
+    const focus = c.focus ?? 'both';
+    const chips = h(
+      'div',
+      { class: 'tip-chips', 'aria-label': '两个字母' },
+      picked.map((l, i) =>
+        h(
+          'span',
+          {
+            class: `tip-chip pinyin ${focus === 'both' || focus === (i ? 'right' : 'left') ? 'focus' : ''}`,
+            'data-side': i ? 'right' : 'left',
+            'data-clip': l.callSound,
+          },
+          l.id,
+        ),
+      ),
+    );
+    this.feedback.append(chips);
+    return [
+      () => {
+        const caption = '听一听：先听左边，再听右边。';
+        this.feedback.append(h('span', { class: 'tip-listen' }, caption));
+        return this.ctx
+          .listen(
+            picked.map((l) => l.callSound),
+            caption,
+            (i) => chips.querySelectorAll('.tip-chip').forEach((chip, n) => chip.classList.toggle('active', n === i)),
+          )
+          .finally(() => chips.querySelectorAll('.tip-chip').forEach((chip) => chip.classList.remove('active')));
+      },
+    ];
   }
   private demonstrate() {
     this.assisted = true;

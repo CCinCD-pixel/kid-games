@@ -72,7 +72,7 @@
       "kind": "final",
       "lesson": 1,
       "callSound": "a1",
-      "mnemonic": "张大嘴巴 a a a",
+      "mnemonic": "张大嘴巴",
       "grid": "middle"
     },
     {
@@ -80,7 +80,7 @@
       "kind": "final",
       "lesson": 1,
       "callSound": "o1",
-      "mnemonic": "圆圆嘴巴 o o o",
+      "mnemonic": "圆圆嘴巴",
       "grid": "middle"
     },
     {
@@ -88,7 +88,7 @@
       "kind": "final",
       "lesson": 1,
       "callSound": "e1",
-      "mnemonic": "扁扁嘴巴 e e e",
+      "mnemonic": "扁扁嘴巴",
       "grid": "middle"
     },
     {
@@ -96,7 +96,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "i1",
-      "mnemonic": "牙齿对齐 i i i",
+      "mnemonic": "牙齿对齐",
       "grid": "middle"
     },
     {
@@ -104,7 +104,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "u1",
-      "mnemonic": "嘴巴突出 u u u",
+      "mnemonic": "嘴巴突出",
       "grid": "middle"
     },
     {
@@ -112,7 +112,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "yu1",
-      "mnemonic": "嘴吹口哨 ü ü ü，两点要留住",
+      "mnemonic": "嘴吹口哨，两点要留住",
       "grid": "middle"
     },
     {
@@ -120,7 +120,7 @@
       "kind": "initial",
       "lesson": 2,
       "callSound": "yi1",
-      "mnemonic": "小树分杈，认一认 y 的样子",
+      "mnemonic": "小树分杈，认一认它的样子",
       "grid": "middle-lower"
     },
     {
@@ -128,7 +128,7 @@
       "kind": "initial",
       "lesson": 2,
       "callSound": "wu1",
-      "mnemonic": "屋顶相连，认一认 w 的样子",
+      "mnemonic": "屋顶相连，认一认它的样子",
       "grid": "middle"
     },
     {
@@ -369,7 +369,8 @@
       "lesson": 11,
       "callSound": "er1",
       "mnemonic": "看一看，听一听，再读给台长听",
-      "grid": "middle"
+      "grid": "middle",
+      "callDisplay": "ér"
     },
     {
       "id": "an",
@@ -4065,7 +4066,8 @@
           "pu4"
         ]
       ],
-      "tip": "把小纸条放嘴前，读 p 时让它飘起来。"
+      "tip": "把小纸条放嘴前，读右边这个声音时，让纸条飘起来。",
+      "focus": "right"
     },
     {
       "pair": [
@@ -4083,7 +4085,8 @@
           "tu4"
         ]
       ],
-      "tip": "把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。"
+      "tip": "把小纸条放嘴前，舌尖弹一下，读右边这个声音时，让纸条飘起来。",
+      "focus": "right"
     },
     {
       "pair": [
@@ -4097,7 +4100,8 @@
           "da1"
         ]
       ],
-      "tip": "先找小肚子的方向：b 在右下，d 在左下。"
+      "tip": "先看小肚子的方向：左边这个在右下，右边这个在左下。",
+      "focus": "both"
     },
     {
       "pair": [
@@ -4119,7 +4123,8 @@
           "ni2"
         ]
       ],
-      "tip": "轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。"
+      "tip": "轻轻捏住鼻子读，右边这个声音会被挡住，左边这个还能读出来。",
+      "focus": "both"
     },
     {
       "pair": [
@@ -4179,7 +4184,8 @@
           "fo2"
         ]
       ],
-      "tip": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。"
+      "tip": "左边这个，先合上嘴唇再送气；右边这个，用上牙轻碰下唇。",
+      "focus": "both"
     },
     {
       "pair": [
@@ -4193,7 +4199,8 @@
           "ke4"
         ]
       ],
-      "tip": "小纸条放嘴前，读 k 时送出一口气。"
+      "tip": "小纸条放嘴前，读右边这个声音时，送出一口气。",
+      "focus": "right"
     },
     {
       "pair": [
@@ -4207,7 +4214,8 @@
           "qi1"
         ]
       ],
-      "tip": "读 q 时气送得多一点，看看小纸条会不会动。"
+      "tip": "读右边这个声音时，气送得多一点，看看小纸条会不会动。",
+      "focus": "right"
     },
     {
       "pair": [
@@ -4221,7 +4229,8 @@
           "ca1"
         ]
       ],
-      "tip": "舌尖不翘起，读 c 时轻轻送气。"
+      "tip": "舌尖不翘起，读右边这个声音时，轻轻送气。",
+      "focus": "right"
     },
     {
       "pair": [
@@ -4235,7 +4244,8 @@
           "chu1"
         ]
       ],
-      "tip": "两次都翘舌，读 ch 时多送一口气。"
+      "tip": "两次都翘舌，读右边这个声音时，多送一口气。",
+      "focus": "right"
     },
     {
       "pair": [
@@ -4249,7 +4259,8 @@
           "zhu3"
         ]
       ],
-      "tip": "先不翘舌，再轻轻翘起舌尖，听听声音的小变化。"
+      "tip": "先不翘舌，再轻轻翘起舌尖，听听声音的小变化。",
+      "focus": "both"
     },
     {
       "pair": [
@@ -4263,7 +4274,8 @@
           "sha1"
         ]
       ],
-      "tip": "先让舌尖平放，再轻轻翘起，慢慢比较两个声音。"
+      "tip": "先让舌尖平放，再轻轻翘起，慢慢比较两个声音。",
+      "focus": "both"
     }
   ],
   "praise": [

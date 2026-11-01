@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { parseSyllable } from '../domain/pinyin';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const SITE_ROOT = path.resolve(here, '../..');
@@ -150,6 +151,13 @@ export function syllableIds(): string[] {
     .filter((k) => !(manifest[k] as { synthetic?: boolean } | null)?.synthetic)   // real-person recordings only (call-sounds for lessons 9–13 are synthetic)
     .map((k) => k.slice(7))
     .filter((id) => /[1-4]$/.test(id))
+    // 2026-11-01: lesson 9-13 call sounds (ai1, ang1, ...) are real recordings but not syllables of the bank's table, and an alias
+    // whose file has another tone (py.syl.er1 plays er2) is not a clean sample of its own tone: neither belongs to the baseline.
+    .filter((id) => parseSyllable(id) !== null)
+    .filter((id) => {
+      const file = /human\.(.+?)\.[0-9a-f]{8}\./.exec((manifest[`py.syl.${id}`] as { src?: string } | null)?.src ?? '')?.[1];
+      return !file || file.slice(-1) === id.slice(-1);
+    })
     .sort();
 }
 export const ffmpegAvailable = (() => {

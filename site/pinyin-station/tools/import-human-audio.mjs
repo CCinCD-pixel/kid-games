@@ -20,6 +20,21 @@ for (const syl of bank.syllables.filter((s) => s.tone > 0)) {
   index[source].push(syl);
 }
 const failures = [];
+// Call sounds of lessons 9-13 (letters whose callSound is not a bank syllable): REAL recordings of the same library, never TTS
+// (2026-11-01, dad: a TTS voice cannot be trusted to say an isolated final). callSound id -> library file; ids not listed use
+// their own name. eng1 has no recording in the library (see README "需要真人补录"): it stays absent, the game plays nothing.
+const CALL_SOURCE = { ui1: 'wei1', iu1: 'you1', ie1: 'ye1', ve1: 'yue1', er1: 'er2', in1: 'yin1', un1: 'wen1', vn1: 'yun1', ing1: 'ying1', ong1: 'weng1' };
+const CALL_MISSING = ['eng1'];
+const CALL_DISPLAY = { ai1: 'āi', ei1: 'ēi', ui1: 'uī', ao1: 'āo', ou1: 'ōu', iu1: 'iū', ie1: 'iē', ve1: 'üē', er1: 'ér', an1: 'ān', en1: 'ēn', in1: 'īn', un1: 'ūn', vn1: 'ǖn', ang1: 'āng', ing1: 'īng', ong1: 'ōng', ye1: 'yē', yue1: 'yuē', yin1: 'yīn', yun1: 'yūn', yuan1: 'yuān', ying1: 'yīng' };
+const syllableIds = new Set(bank.syllables.map((s) => s.id));
+for (const letter of bank.letters.filter((l) => l.lesson >= 9 && !syllableIds.has(l.callSound))) {
+  if (CALL_MISSING.includes(letter.callSound)) continue;
+  const display = CALL_DISPLAY[letter.callSound];
+  if (!display) throw new Error(`no display for call sound ${letter.callSound}`);
+  const source = CALL_SOURCE[letter.callSound] ?? letter.callSound;
+  index[source] ??= [];
+  index[source].push({ id: letter.callSound, audio: `py.syl.${letter.callSound}`, display });
+}
 // Recordings already re-encoded by tools/normalize-syllables.mjs (manifest "processing") are final: a re-import must never
 // replace them with the raw download. To start over, restore the originals and re-run normalize-syllables.mjs.
 const entries = Object.entries(index).filter(([, syllables]) => !manifest[syllables[0].audio]?.processing);
@@ -29,7 +44,7 @@ for (let start = 0; start < entries.length; start += 4) {
   const data = await Promise.all(
     batch.map(async ([id]) => {
       const existing = manifest[`py.syl.${batch.find(([key]) => key === id)[1][0].id}`];
-      if (existing && fs.existsSync(new URL('public' + existing.src, root)))
+      if (existing && /^davinfifield/.test(existing.source ?? '') && fs.existsSync(new URL('public' + existing.src, root)))
         return fs.readFileSync(new URL('public' + existing.src, root));
       const response = await fetch(
         `https://raw.githubusercontent.com/davinfifield/mp3-chinese-pinyin-sound/${revision}/mp3/${id}.mp3`,

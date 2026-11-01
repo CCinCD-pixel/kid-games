@@ -7,7 +7,7 @@ import { decodeClip, playBuffer, releaseClips, type Voice } from '@kit/audio';
 import { bank } from './domain/content';
 import { initialSave, mastery } from './domain/learning';
 import { compactHistory } from './domain/history';
-import { displayPinyin } from './domain/pinyin';
+import { callLabel, displayPinyin } from './domain/pinyin';
 import { getPicture, historyArchive, type Recording } from './speech/recordings';
 import { illustration, radio } from './views/art';
 import { button, glyph, pinyin, type Context } from './views/common';
@@ -159,6 +159,23 @@ async function syllable(id: string, quiet = false): Promise<Played> {
   sub.el.hidden = true;
   return 'skipped';
 }
+/** A row of real recordings with one plain caption in the subtitle bar: the robot reads nothing here. */
+async function listen(ids: string[], caption: string, onClip?: (index: number) => void): Promise<Played> {
+  stopAudio();
+  const version = audioVersion;
+  await narrator.ready();
+  if (version !== audioVersion) return 'interrupted';
+  sub.attach(narrator);
+  expectedCue = caption; // the clips' own cues are filtered out; the caption is what the bar shows
+  sub.onCue({ id: null, text: caption, source: 'text' });
+  for (const [i, id] of ids.entries()) {
+    if (version !== audioVersion) return 'interrupted';
+    if (!narrator.has(`py.syl.${id}`)) continue;
+    onClip?.(i);
+    if (played(await narrator.say(`py.syl.${id}`, { interrupt: true })) === 'interrupted') return 'interrupted';
+  }
+  return 'done';
+}
 async function word(w: Word, quiet = false): Promise<Played> {
   const version = audioVersion;
   await narrator.ready();
@@ -237,6 +254,13 @@ const explain = async (text: string): Promise<Played> => {
         : '';
   if (id && narrator.has(id)) return say(id);
   stopAudio();
+  if (id) {
+    // A scene, mnemonic or tip without a recording is shown as a subtitle only. The device voice would read letters
+    // and sounds in its own (English) way, which is exactly what must never happen.
+    sub.attach(narrator);
+    expectedCue = text;
+    return played(await narrator.say(text, { interrupt: true }));
+  }
   sub.attach(familyNarrator);
   expectedCue = text;
   return played(await familyNarrator.say(text, { interrupt: true }));
@@ -248,6 +272,7 @@ const ctx: Context = {
   say,
   explain,
   syllable,
+  listen,
   word,
   replay,
   picture,
@@ -417,14 +442,16 @@ function album() {
         {
           type: 'button',
           class: `signal-card ${lit ? 'lit' : ''}`,
-          'aria-label': `${l.id}，${l.mnemonic}`,
+          'data-letter': l.id,
+          'aria-label': `${l.id.replace('v', 'ü')}，${l.mnemonic}，读音 ${callLabel(l)}`,
           onclick: () => {
             void explain(l.mnemonic).then((r) => (r === 'interrupted' ? r : syllable(l.callSound)));
           },
         },
         pinyin(l.id.replace('v', 'ü')),
         h('small', null, l.mnemonic),
-        h('span', null, lit ? '信号已接通' : '点一点，先听听'),
+        // No recording for this call sound yet (eng): do not promise a sound.
+        h('span', null, lit ? '信号已接通' : narrator.has(`py.syl.${l.callSound}`) ? '点一点，先听听' : '点一点，看看样子'),
       ),
     );
   }
