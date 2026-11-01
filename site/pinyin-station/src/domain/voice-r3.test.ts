@@ -71,22 +71,22 @@ describe('call-sound labels match the real recording', () => {
     let checked = 0;
     for (const l of bank.letters) {
       const clip = manifest[`py.syl.${l.callSound}`];
-      if (!clip) continue; // eng: registered missing (README)
+      if (!clip) continue; // eng, ong: registered missing (README)
       const file = /human\.[a-z]+([0-4])\./.exec(clip.src)?.[1];
       expect(file, `${l.id} file ${clip.src}`).toBeDefined();
       expect(toneOf(callLabel(l)), `${l.id} card label ${callLabel(l)} vs ${clip.src}`).toBe(Number(file));
       expect(toneOf(clip.text), `${l.id} subtitle ${clip.text} vs ${clip.src}`).toBe(Number(file));
       checked++;
     }
-    expect(checked).toBe(bank.letters.length - 1);
+    expect(checked).toBe(bank.letters.length - 2);
   });
   it('er is written ér, because the recording is er2', () => {
     const er = bank.letters.find((l) => l.id === 'er')!;
     expect(callLabel(er)).toBe('ér');
     expect(manifest['py.syl.er1'].src).toMatch(/human\.er2\./);
   });
-  it('a card whose call sound has no recording (eng) is registered, and promises no sound', () => {
+  it('a card whose call sound has no recording (eng, ong) is registered, and promises no sound', () => {
     const missing = bank.letters.filter((l) => !manifest[`py.syl.${l.callSound}`]).map((l) => l.id);
-    expect(missing).toEqual(['eng']);
+    expect(missing).toEqual(['eng', 'ong']);
   });
 });

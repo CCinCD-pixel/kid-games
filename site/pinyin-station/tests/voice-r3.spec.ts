@@ -124,6 +124,7 @@ test.describe('mnemonic cards: a plain sentence, then the real call-sound record
     // er: the label and the subtitle both say ér (the recording is er2); eng: nothing plays and nothing breaks
     await expect(page.locator('.signal-card[data-letter="er"]')).toHaveAttribute('aria-label', /读音 ér$/);
     await expect(page.locator('.signal-card[data-letter="eng"] > span:last-child')).toHaveText('点一点，看看样子');
+    await expect(page.locator('.signal-card[data-letter="ong"] > span:last-child')).toHaveText('点一点，看看样子');
     keep('eavesdrop-cards', rows);
   });
 });

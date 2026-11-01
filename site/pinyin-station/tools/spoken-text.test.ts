@@ -66,7 +66,7 @@ describe('call sounds are real recordings', () => {
   /** Synthetic py.syl.* clips are not allowed unless listed here AND registered in site/pinyin-station/README.md. */
   const SYNTHETIC_EXCEPTIONS: string[] = [];
   /** Cards whose call sound has no real recording yet (README: 需要真人补录). The game plays nothing for them. */
-  const REGISTERED_MISSING = ['py.syl.eng1'];
+  const REGISTERED_MISSING = ['py.syl.eng1', 'py.syl.ong1'];
 
   it('no py.syl.* clip is synthetic, except registered exceptions', () => {
     const synth = Object.entries(manifest).filter(([id, c]) => id.startsWith('py.syl.') && c.synthetic).map(([id]) => id);

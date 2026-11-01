@@ -22,9 +22,10 @@ for (const syl of bank.syllables.filter((s) => s.tone > 0)) {
 const failures = [];
 // Call sounds of lessons 9-13 (letters whose callSound is not a bank syllable): REAL recordings of the same library, never TTS
 // (2026-11-01, dad: a TTS voice cannot be trusted to say an isolated final). callSound id -> library file; ids not listed use
-// their own name. eng1 has no recording in the library (see README "需要真人补录"): it stays absent, the game plays nothing.
-const CALL_SOURCE = { ui1: 'wei1', iu1: 'you1', ie1: 'ye1', ve1: 'yue1', er1: 'er2', in1: 'yin1', un1: 'wen1', vn1: 'yun1', ing1: 'ying1', ong1: 'weng1' };
-const CALL_MISSING = ['eng1'];
+// their own name. eng1 and ong1 have no usable recording (see README "需要真人补录"): they stay absent, the game plays nothing.
+const CALL_SOURCE = { ui1: 'wei1', iu1: 'you1', ie1: 'ye1', ve1: 'yue1', er1: 'er2', in1: 'yin1', un1: 'wen1', vn1: 'yun1', ing1: 'ying1' };
+// ong1: the library's weng1 was withdrawn on 2026-11-01 (dad doubted it, ASR heard 温): needs a real ōng recording, see README.
+const CALL_MISSING = ['eng1', 'ong1'];
 const CALL_DISPLAY = { ai1: 'āi', ei1: 'ēi', ui1: 'uī', ao1: 'āo', ou1: 'ōu', iu1: 'iū', ie1: 'iē', ve1: 'üē', er1: 'ér', an1: 'ān', en1: 'ēn', in1: 'īn', un1: 'ūn', vn1: 'ǖn', ang1: 'āng', ing1: 'īng', ong1: 'ōng', ye1: 'yē', yue1: 'yuē', yin1: 'yīn', yun1: 'yūn', yuan1: 'yuān', ying1: 'yīng' };
 const syllableIds = new Set(bank.syllables.map((s) => s.id));
 for (const letter of bank.letters.filter((l) => l.lesson >= 9 && !syllableIds.has(l.callSound))) {

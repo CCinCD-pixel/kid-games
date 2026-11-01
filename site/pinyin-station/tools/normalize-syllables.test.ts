@@ -52,7 +52,7 @@ describe.skipIf(!hasFfmpeg)('syllable audio loudness (ffmpeg BS.1770 measurement
 
   it('every real-person clip is -16 +- 1 LUFS with a true peak <= -1.5 dBTP', () => {
     const rec = result.clips.filter((c) => c.recording);
-    expect(rec.length).toBeGreaterThanOrEqual(235);
+    expect(rec.length).toBeGreaterThanOrEqual(234); // 235 before ong1 (weng1) was withdrawn on 2026-11-01
     for (const c of rec) {
       expect(c.lufs, c.id).not.toBeNull();
       expect(Math.abs((c.lufs as number) + 16), `${c.id} ${c.lufs} LUFS`).toBeLessThanOrEqual(1);
@@ -67,8 +67,9 @@ describe.skipIf(!hasFfmpeg)('syllable audio loudness (ffmpeg BS.1770 measurement
     expect(result.clips.filter((c) => c.synthetic).map((c) => c.id)).toEqual([]);
     const callSounds = bank.letters.filter((l) => l.lesson >= 9).map((l) => `py.syl.${l.callSound}`);
     expect(callSounds).toHaveLength(24);
-    for (const id of callSounds.filter((x) => x !== 'py.syl.eng1')) expect(manifest[id]?.processing, id).toBe('normalize-syllables@1');
+    for (const id of callSounds.filter((x) => x !== 'py.syl.eng1' && x !== 'py.syl.ong1')) expect(manifest[id]?.processing, id).toBe('normalize-syllables@1');
     expect(manifest['py.syl.eng1']).toBeUndefined(); // no real recording exists yet: README "需要真人补录"
+    expect(manifest['py.syl.ong1']).toBeUndefined(); // withdrawn 2026-11-01, same
   });
 });
 
@@ -101,7 +102,8 @@ describe('manifest ids <-> files <-> content', () => {
 
   it('every syllable and call-sound the bank can play (tone 1-4, all lessons) has a clip', () => {
     const ids = new Set([...bank.letters.map((l) => `py.syl.${l.callSound}`), ...bank.syllables.filter((s) => s.tone > 0).map((s) => s.audio)]);
-    ids.delete('py.syl.eng1'); // registered gap, see spoken-text.test.ts
+    ids.delete('py.syl.eng1'); // registered gaps, see spoken-text.test.ts
+    ids.delete('py.syl.ong1');
     for (const id of ids) expect(manifest[id], id).toBeDefined();
   });
 

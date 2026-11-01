@@ -13822,14 +13822,6 @@
     "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ying1",
     "processing": "normalize-syllables@1"
   },
-  "py.syl.ong1": {
-    "src": "/audio/pinyin-station/human.weng1.1861ae2c.m4a",
-    "text": "ōng",
-    "durationMs": 1649,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/weng1",
-    "processing": "normalize-syllables@1"
-  },
   "py.syl.yuan1": {
     "src": "/audio/pinyin-station/human.yuan1.a7f9678b.m4a",
     "text": "yuān",
