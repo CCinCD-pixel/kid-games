@@ -5,11 +5,11 @@ import { blending } from './kinds/blending';
 import { spelling } from './kinds/spelling';
 import { listening } from './kinds/listening';
 import { readPicture } from './kinds/readPicture';
-import { h } from '@kit/ui';
+import { h, shouldAutoSkip } from '@kit/ui';
 import { mount } from '@kit/companion';
-import { displayPinyin, parseSyllable } from '../domain/pinyin';
+import { displayPinyin } from '../domain/pinyin';
 import { beginSession, insertContrasts, nextQuestion, recordAttempt, schedule } from '../domain/learning';
-import type { Question } from '../domain/types';
+import type { Question, ResumeState } from '../domain/types';
 import { Microphone } from '../speech/mic';
 import { Capture, type CaptureResult } from '../score/capture';
 import { toInt16 } from '../score/resample';
@@ -24,7 +24,9 @@ import { buildScoreCard, getLocalScorer, scoreCopy, scoreTarget } from './score-
 import { assess } from '../speech/client';
 import { questionPlan } from '../speech/reference';
 import { saveRecording, type Recording } from '../speech/recordings';
-import { button, glyph, pinyin, type Context } from './common';
+import { button, glyph, type Context, type Played } from './common';
+import { HINT, INSTRUCTION, PRAISE, RECORDING, type Line } from './lines';
+import type { SpellLevel } from './kinds/types';
 
 const titles = {
   A: '声音来信',
@@ -50,9 +52,19 @@ export class Practice {
   private local = new Capture();
   private abort: AbortController | null = null;
   private recorded: Recording[] = [];
+  /** Recordings that were really kept (参数 keepRecordings on and the save worked): the ending page only speaks of those. */
+  private savedCount = 0;
+  private timers = new Set<ReturnType<typeof setTimeout>>();
+  private entering = false;
+  private pendingStep: Line | null = null;
+  private guided = false;
+  private lastChoice: string | undefined;
   locked = false;
   syllableIndex = 0;
   fullParts = 0;
+  spellLevel: SpellLevel | undefined = undefined;
+  wordNamed = false;
+  fillAll: (() => void) | undefined = undefined;
   assisted = false;
   private insertedContrasts = new Set<string>();
   sentence: string[] = [];
@@ -63,9 +75,13 @@ export class Practice {
   actions = h('div', { class: 'practice-actions' });
   constructor(
     readonly ctx: Context,
-    mode: string,
+    private readonly mode: string,
+    resume?: ResumeState,
   ) {
-    this.queue = schedule(ctx.save, ctx.bank, mode);
+    if (resume) {
+      this.queue = resume.queue;
+      this.index = Math.min(resume.index, resume.queue.length - 1);
+    } else this.queue = schedule(ctx.save, ctx.bank, mode);
     this.render();
   }
   get q() {
@@ -77,6 +93,24 @@ export class Practice {
   private speak(id: string) {
     void this.ctx.say(id);
   }
+  /** Run audio steps in order. A newer sound (the child tapped something) or another question cancels the rest. */
+  play(...steps: Array<() => Promise<unknown>>) {
+    const gen = this.generation;
+    void (async () => {
+      for (const step of steps) {
+        if (this.stopped || gen !== this.generation) return;
+        if ((await step()) === 'interrupted') return;
+      }
+    })();
+  }
+  later(ms: number, fn: () => void) {
+    const gen = this.generation;
+    const timer = setTimeout(() => {
+      this.timers.delete(timer);
+      if (!this.stopped && gen === this.generation) fn();
+    }, ms);
+    this.timers.add(timer);
+  }
   private get assessment() {
     return questionPlan(this.q, this.ctx.bank, this.q.kind === 'C' ? undefined : this.word);
   }
@@ -85,54 +119,111 @@ export class Practice {
     const id = this.q.kind === 'C' ? this.q.target : this.word?.syllables.length === 1 ? this.word.syllables[0] : null;
     return id ? (scoreTarget(id, this.ctx.bank) ? id : null) : null;
   }
-  async stimulus() {
-    if (this.el.classList.contains('is-recording')) return;
+  /** The sound this question is about. Listening questions play it silently (a subtitle would print the answer). */
+  async stimulus(): Promise<Played> {
+    if (this.el.classList.contains('is-recording')) return 'skipped';
     if (this.q.kind === 'A') {
       const l = this.ctx.bank.letters.find((l) => l.id === this.q.target);
-      if (l) await this.ctx.syllable(l.callSound);
-    } else if (this.q.kind === 'B' || this.q.kind === 'C') await this.ctx.syllable(this.q.target);
-    else await this.ctx.word(this.word);
+      return l ? this.ctx.syllable(l.callSound, true) : 'skipped';
+    }
+    if (this.q.kind === 'B' || this.q.kind === 'C') return this.ctx.syllable(this.q.target, true);
+    if (this.q.kind === 'G' && this.word.frame) return 'skipped'; // a gap-fill read aloud would give the answer
+    // 看图拼音 asks the child to spell the word: the sound plays, but its pinyin must not be printed as a subtitle.
+    return this.ctx.word(this.word, this.q.kind === 'F');
+  }
+  setInstruction(line: Line) {
+    this.instruction.textContent = line.text;
+    this.instruction.dataset.line = line.id;
+  }
+  /** F: name the picture once, then say the small step. Called when the step is drawn. */
+  speakStep(line: Line) {
+    this.pendingStep = line;
+    this.instruction.dataset.line = line.id;
+    if (!this.entering) this.play(...this.stepSteps());
+  }
+  private stepSteps(): Array<() => Promise<unknown>> {
+    const line = this.pendingStep;
+    if (!line) return [];
+    const name = !this.wordNamed;
+    this.wordNamed = true;
+    return [...(name ? [() => this.stimulus()] : []), () => this.ctx.say(line.id)];
+  }
+  guide(target: Element | null | undefined) {
+    if (!this.guided || !target) return;
+    target.classList.add('guide-target');
+    target.append(h('span', { class: 'guide-hand', 'aria-hidden': 'true' }, '👆'));
+  }
+  markTried(el: HTMLElement) {
+    el.classList.add('tried');
+    (el as HTMLButtonElement).disabled = true;
+  }
+  /** Second rung of the hint ladder: light up the right answer (the answer is never printed anywhere before this). */
+  reveal() {
+    this.stage.querySelectorAll('[data-answer]').forEach((a) => a.classList.add('clue'));
+  }
+  private markTutorial() {
+    if (!this.guided) return;
+    this.guided = false;
+    this.ctx.save.tutorial = { ...this.ctx.save.tutorial, [this.q.kind]: true };
+    this.stage.querySelectorAll('.guide-hand').forEach((x) => x.remove());
+    this.stage.querySelectorAll('.guide-target').forEach((x) => x.classList.remove('guide-target'));
   }
   private render() {
     if (this.stopped) return;
+    this.timers.forEach(clearTimeout);
+    this.timers.clear();
     this.el.classList.remove('is-resolved', 'has-recording', 'has-score');
     this.generation++;
     this.locked = false;
-    this.assisted = this.q.practiceOnly ?? false;
+    // D (read aloud) has no right answer to point at, so it has no guide.
+    this.guided = this.q.kind !== 'D' && !this.ctx.save.tutorial?.[this.q.kind] && !shouldAutoSkip();
+    // A guided question points at the right answer, so it cannot count toward mastery.
+    this.assisted = (this.q.practiceOnly ?? false) || this.guided;
     this.syllableIndex = 0;
     this.fullParts = 0;
+    this.spellLevel = undefined;
+    this.wordNamed = false;
+    this.pendingStep = null;
+    this.fillAll = undefined;
+    this.lastChoice = undefined;
     this.sentence = [];
     this.used.clear();
-    const phase = this.q.phase === 'warmup' ? '热身信号' : '主节目';
+    // Leaving half way (lock screen, 回电台, the album…) resumes right here.
+    this.ctx.save.resume = { mode: this.mode, queue: this.queue, index: this.index, at: Date.now() };
+    this.ctx.persist();
+    // The same names as the three steps on the home screen.
+    const phase = this.q.phase === 'warmup' ? '热热耳朵' : '接通信号';
     const steps = h(
       'div',
-      { class: 'signal-steps', 'aria-label': `${phase}，正在接通信号` },
-      this.queue
-        .slice(0, 15)
-        .map((_, i) => h('i', { class: i < this.index ? 'lit' : i === this.index ? 'current' : '' })),
+      { class: 'signal-steps', 'aria-label': `${phase}，第 ${this.index + 1} 条，共 ${this.queue.length} 条` },
+      this.queue.map((_, i) => h('i', { class: i < this.index ? 'lit' : i === this.index ? 'current' : '' })),
     );
     const header = h(
       'div',
       { class: 'practice-header' },
-      button('收好电台', () => this.finish(), 'quiet', 'back'),
+      button('回电台', () => this.ctx.home(), 'quiet', 'back'),
       h('div', null, h('small', null, phase), h('h2', null, titles[this.q.kind])),
       steps,
+      h('span', { class: 'step-count', 'aria-hidden': 'true' }, `${this.index + 1} / ${this.queue.length}`),
     );
-    this.instruction = h('p', { class: 'instruction', 'aria-live': 'polite' }, this.prompt());
+    this.instruction = h('p', { class: 'instruction', 'aria-live': 'polite' });
+    if (this.q.kind !== 'F') this.setInstruction(INSTRUCTION[this.q.kind]);
     this.stage = h('div', { class: `practice-stage type-${this.q.kind}` });
     this.feedback = h('div', { class: 'feedback', 'aria-live': 'polite' });
     this.actions = h('div', { class: 'practice-actions' });
     const coach = h('div', { class: 'coach-mini' });
     mount(coach, { size: 80 });
+    const listensToSound = ['A', 'B', 'C'].includes(this.q.kind);
     const controls = h(
       'div',
       { class: 'listening-tools' },
       button(
-        '再听一遍',
+        // The name says what it does: A/B/C play the sound again; the rest say the instruction again.
+        // (The subtitle bar has its own 再听一遍 for the last line, so this one must not share the name.)
+        listensToSound ? '再听这个声音' : '再听指令',
         () => {
-          void this.ctx
-            .say(`py.${this.q.kind}`)
-            .then(() => (['A', 'B', 'F'].includes(this.q.kind) ? this.stimulus() : undefined));
+          if (listensToSound) return this.play(() => this.stimulus());
+          this.play(() => this.ctx.say(this.instruction.dataset.line ?? INSTRUCTION.A.id));
         },
         'quiet',
         'replay',
@@ -146,7 +237,9 @@ export class Practice {
       this.feedback,
       this.actions,
     );
+    this.entering = true;
     this.draw();
+    this.entering = false;
     const scene = this.ctx.bank.scenes?.find((scene) => scene.id === this.q.scene);
     if (scene) {
       this.stage.prepend(
@@ -157,29 +250,20 @@ export class Practice {
           h('div', null, h('b', null, scene.title), h('p', null, scene.prompt)),
         ),
       );
-      const gen = this.generation;
-      void this.ctx.explain(scene.prompt).then(() => {
-        if (gen === this.generation && !this.stopped) this.speak(`py.${this.q.kind}`);
-      });
-      return;
     }
-    if (this.q.kind === 'A' || this.q.kind === 'B') {
-      const gen = this.generation;
-      void this.ctx.say(`py.${this.q.kind}`).then(() => {
-        if (gen === this.generation && !this.stopped) void this.stimulus();
-      });
-    } else this.speak(`py.${this.q.kind}`);
-  }
-  private prompt() {
-    return {
-      A: '听声音，找到它',
-      B: '哪个声音和来信一样？',
-      C: '点一点，让两个声音相遇',
-      D: '把这条声音送到星港',
-      E: '读一读，哪幅图住在里面？',
-      F: '看图，把它的声音拼出来',
-      G: '点点词卡，接成一句话',
-    }[this.q.kind];
+    // The opening sound: scene story (if any) -> the instruction (or F's first step) -> the sound to work with.
+    const kind = this.q.kind;
+    this.play(
+      ...(scene ? [() => this.ctx.explain(scene.prompt)] : []),
+      ...(kind === 'F'
+        ? this.stepSteps()
+        : [
+            // A sentence is read out before it is built (never a gap-fill: that would read out the answer).
+            ...(kind === 'G' && !this.word.frame ? [() => this.stimulus()] : []),
+            () => this.ctx.say(INSTRUCTION[kind].id),
+            ...(kind === 'A' || kind === 'B' || kind === 'C' ? [() => this.stimulus()] : []),
+          ]),
+    );
   }
   draw() {
     this.stage.replaceChildren();
@@ -207,7 +291,9 @@ export class Practice {
     blending.call(this);
   }
 
+  /** The three “声母 韵母 声调” lamps only mean something when the cloud check is on; otherwise nothing is drawn. */
   lamps() {
+    if (!this.ctx.save.settings.ai) return null;
     return h(
       'div',
       { class: 'three-lamps' },
@@ -242,8 +328,32 @@ export class Practice {
     });
     this.ctx.persist();
   }
+  /** Which praise line fits what the child actually did (never “you said it” for a tap). */
+  private praiseId(): number {
+    if (this.tries > 0) return PRAISE.retry;
+    const pick = (ids: readonly number[]) => ids[this.index % ids.length];
+    switch (this.q.kind) {
+      case 'F':
+        return this.spellLevel === 'initial'
+          ? pick(PRAISE.Finitial)
+          : this.spellLevel === 'final'
+            ? pick(PRAISE.Ffinal)
+            : this.spellLevel === 'tone'
+              ? pick(PRAISE.Ftone)
+              : pick(PRAISE.Ffull);
+      case 'A':
+      case 'B':
+      case 'C':
+      case 'D':
+      case 'E':
+      case 'G':
+        return pick(PRAISE[this.q.kind]);
+    }
+  }
   answer(correct: boolean, choice?: string) {
     if (this.locked) return;
+    this.markTutorial();
+    this.lastChoice = choice;
     const confusion =
       this.q.kind === 'B'
         ? this.q.skill.split(':')[1]
@@ -259,14 +369,12 @@ export class Practice {
     ) {
       this.queue = insertContrasts(this.queue, this.index, this.ctx.bank, confusion);
       this.insertedContrasts.add(confusion);
+      this.ctx.save.resume = { mode: this.mode, queue: this.queue, index: this.index, at: Date.now() };
     }
     if (correct) {
       this.locked = true;
       this.el.classList.add('is-resolved');
-      const choices = { A: [2, 13], B: [5], C: [3], D: [19], E: [0, 16], F: [7, 9, 12, 17], G: [18, 7] }[
-        this.q.kind
-      ];
-      const praiseId = this.tries > 0 ? 8 : choices[this.index % choices.length];
+      const praiseId = this.praiseId();
       this.feedback.replaceChildren(glyph('star'), h('span', null, this.ctx.bank.praise[praiseId]));
       this.feedback.classList.add('is-lit');
       this.speak(`py.praise.${praiseId}`);
@@ -286,11 +394,11 @@ export class Practice {
         ),
       );
       this.queue = next.queue;
+      this.ctx.save.resume = { mode: this.mode, queue: this.queue, index: this.index, at: Date.now() };
       if (next.action === 'demonstrate') {
         this.locked = true;
-        this.feedback.replaceChildren(h('span', null, '一起看示范，再接下一条信号'));
+        this.feedback.replaceChildren(h('span', null, HINT.demo.text));
         this.demonstrate();
-        this.speak('py.demo');
         this.actions.replaceChildren(button('接下一条', () => this.advance(), 'primary', 'next'));
       } else {
         this.hint();
@@ -302,43 +410,60 @@ export class Practice {
       }
     }
   }
+  /**
+   * The hint ladder. H1 (first wrong tap or 给我线索): the line + the sound again. H2 (second wrong): the right
+   * answer lights up. H3 (third wrong): a demonstration that fills the answer in. A wrong tap never dead-ends.
+   */
   private hint() {
     if (this.el.classList.contains('is-recording')) return;
     this.assisted = true;
     const c = this.ctx.bank.confusions.find((c) => this.q.skill.includes(c.pair.join('|')));
-    this.feedback.replaceChildren(
-      glyph('hint'),
-      h('span', null, c?.tip ?? (this.tries >= 2 ? '把声音拆小一点，再接起来' : '先听一听，找一个小线索')),
-    );
-    if (c) void this.ctx.explain(c.tip);
-    else this.speak(this.tries >= 2 ? 'py.hint2' : 'py.hint1');
-    if (this.tries >= 2 && this.q.kind === 'F') {
-      const sy = parseSyllable(this.word.syllables[this.syllableIndex])!;
-      this.feedback.append(pinyin(`${sy.initial} · ＿`, 'hint-pinyin'));
-    }
-    if (!c) void this.stimulus();
-  }
-  private demonstrate(full = true) {
-    this.assisted = true;
-    if (this.q.kind === 'A' || this.q.kind === 'B') {
-      const answer = this.stage.querySelector(`[data-choice="${this.q.target}"]`);
-      answer?.classList.add('clue');
-    } else if (this.q.kind === 'E') {
-      const name = this.word.hanzi;
-      [...this.stage.querySelectorAll('button')]
-        .find((b) => b.getAttribute('aria-label') === name)
-        ?.classList.add('clue');
-    } else if (this.q.kind === 'F') {
-      const w = this.word;
-      this.feedback.append(
-        pinyin(full ? w.display : displayPinyin(w.syllables[this.syllableIndex]), 'hint-pinyin'),
+    const line = this.tries >= 2 && (this.q.kind === 'F' || this.q.kind === 'C') ? HINT.split : HINT.first;
+    this.feedback.replaceChildren(glyph('hint'), h('span', null, c?.tip ?? line.text));
+    if (this.tries >= 2) this.reveal();
+    if (c) this.play(() => this.ctx.explain(c.tip), () => this.stimulus());
+    else
+      this.play(
+        // A wrong blend is played back as the syllable it really makes, then the line, then the target.
+        ...(this.q.kind === 'C' && this.lastChoice ? [() => this.ctx.syllable(this.lastChoice!, true)] : []),
+        () => this.ctx.say(line.id),
+        () => this.stimulus(),
       );
-    } else if (this.q.kind === 'G') this.feedback.append(pinyin(this.word.display, 'hint-pinyin'));
-    void this.stimulus();
+  }
+  private demonstrate() {
+    this.assisted = true;
+    this.reveal();
+    this.stage.querySelectorAll<HTMLButtonElement>('button[data-choice],button[data-final]').forEach((b) => {
+      if (!b.dataset.answer) b.disabled = true;
+    });
+    if (this.q.kind === 'F') this.fillAll?.();
+    else if (this.q.kind === 'G') {
+      this.sentence = [...(this.word.chunks ?? [])];
+      this.used = new Set(this.q.choices.map((_, i) => i));
+      this.stage.replaceChildren();
+      this.ordering();
+      this.stage.querySelectorAll<HTMLButtonElement>('button').forEach((b) => (b.disabled = true));
+    } else if (this.q.kind === 'C') {
+      const slot = this.stage.querySelector('.blend-slot');
+      const right = this.stage.querySelector<HTMLElement>('[data-answer]');
+      if (slot && right) {
+        slot.textContent = right.textContent;
+        slot.classList.remove('miss');
+        slot.classList.add('ok');
+      }
+      const result = this.stage.querySelector('.blend-result');
+      if (result) result.textContent = displayPinyin(this.q.target);
+    } else if (this.q.kind === 'E') {
+      const right = this.stage.querySelector<HTMLElement>('[data-answer]');
+      if (right && !right.querySelector('.picture-caption'))
+        right.append(h('span', { class: 'picture-caption' }, this.word.hanzi));
+    }
+    // The demonstration line first, then the sound itself, so neither swallows the other.
+    this.play(() => this.ctx.say(HINT.demo.id), () => this.stimulus());
   }
   follow() {
-    this.feedback.replaceChildren(h('span', null, '跟台长读一遍，声音也能慢慢接通'));
-    this.speak('py.follow');
+    this.feedback.replaceChildren(h('span', null, RECORDING.follow.text));
+    this.speak(RECORDING.follow.id);
     this.actions.replaceChildren(
       button(
         '我读过啦',
@@ -349,7 +474,7 @@ export class Practice {
         'primary',
         'next',
       ),
-      button('再听一遍', () => void this.stimulus(), 'secondary', 'listen'),
+      button('再听台长读', () => void this.stimulus(), 'secondary', 'listen'),
     );
   }
   async record() {
@@ -481,6 +606,7 @@ export class Practice {
           if (this.ctx.save.settings.keepRecordings !== false) {
             await saveRecording(record);
             stored = true;
+            this.savedCount++;
           }
         } catch {
           /* Local replay remains available. */
@@ -501,26 +627,29 @@ export class Practice {
           }
         });
       }
+      // Only say what is true: "saved" needs a saved recording, "heard" a recording that was picked up but not kept.
+      const line = !capture.heard ? RECORDING.unsure : stored ? RECORDING.saved : RECORDING.heard;
       this.feedback.replaceChildren(
         h(
           'span',
           null,
           !capture.heard
-            ? '台长还没听清，可以再试试'
+            ? RECORDING.unsure.text
             : record.verdict?.status === 'unsure' || (requested && !record.verdict)
               ? record.verdict?.reason === 'tone_unconfirmed'
                 ? '声音收到啦，声调一起再听听'
-                : '台长还没听清，可以再试试'
+                : RECORDING.unsure.text
               : record.verdict?.level === 1
                 ? record.verdict.dims.initial?.heard
                   ? `这次更像 ${displayPinyin(record.verdict.dims.initial.heard)}，一起听听小变化`
                   : '声音收到啦，一起听听小变化'
-                : stored
-                  ? '声音收到啦，听听自己的节目'
-                  : '声音收到啦，这次可以现场回听',
+                : line.text,
         ),
       );
-      if (!localScore) this.speak(record.verdict?.status === 'unsure' || !capture.heard ? 'py.unsure' : 'py.saved');
+      if (!localScore)
+        this.speak(
+          record.verdict?.status === 'unsure' || !capture.heard ? RECORDING.unsure.id : line.id,
+        );
       this.actions.replaceChildren(
         button('听我的声音', () => void this.ctx.replay(record.blob), 'secondary', 'replay'),
         button('听台长读', () => void this.stimulus(), 'secondary', 'listen'),
@@ -586,6 +715,7 @@ export class Practice {
     this.mic.stop();
     this.local.stop();
     this.ctx.stopAudio();
+    this.markTutorial();
     this.index++;
     this.tries = 0;
     if (this.index >= this.queue.length) this.finish();
@@ -593,11 +723,21 @@ export class Practice {
   }
   private finish() {
     this.stop();
-    this.ctx.finish(this.recorded);
+    this.ctx.finish(this.recorded, this.savedCount);
+  }
+  /** Lock screen / app switch: silence everything, but keep this screen, this question and the saved place. */
+  pause() {
+    if (this.stopped) return;
+    this.abort?.abort();
+    this.mic.stop();
+    this.local.stop();
+    this.ctx.stopAudio();
   }
   stop() {
     this.stopped = true;
     this.generation++;
+    this.timers.forEach(clearTimeout);
+    this.timers.clear();
     this.abort?.abort();
     this.mic.dispose();
     this.local.dispose();

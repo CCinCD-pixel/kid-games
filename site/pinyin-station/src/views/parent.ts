@@ -15,7 +15,48 @@ import type { Word } from '../domain/types';
 
 export function parentView(ctx: Context): HTMLElement {
   const host = h('section', { class: 'parent-panel', 'aria-label': '电台家长页' });
+  let adultChecked = false;
+  // First visit (no PIN yet): a child must not be able to set the PIN and lock the parents out, so a small
+  // grown-up question comes first and the PIN screen says who it is for.
+  const adultQuestion = () => {
+    const a = 6 + Math.floor(Math.random() * 4),
+      b = 12 + Math.floor(Math.random() * 8);
+    const answer = h('input', {
+        type: 'text',
+        inputmode: 'numeric',
+        autocomplete: 'off',
+        maxlength: 4,
+        'aria-label': '算术答案',
+      }),
+      status = h('p', { 'aria-live': 'polite' });
+    host.replaceChildren(
+      h(
+        'form',
+        {
+          class: 'pin-gate',
+          onsubmit: (event: Event) => {
+            event.preventDefault();
+            if (answer.value.trim() === String(a * b)) {
+              adultChecked = true;
+              gate();
+            } else {
+              answer.value = '';
+              status.textContent = '再算一算';
+            }
+          },
+        },
+        h('h2', null, '家长专区'),
+        h('p', null, '这里是爸爸妈妈设置和查看的地方。请先回答：'),
+        h('p', { class: 'adult-question' }, `${a} × ${b} = ？`),
+        answer,
+        status,
+        h('button', { class: 'station-btn station-btn--primary', type: 'submit' }, '继续'),
+        button('回到电台', ctx.home, 'quiet'),
+      ),
+    );
+  };
   const gate = () => {
+    if (!hasPin() && !adultChecked) return adultQuestion();
     const pin = h('input', {
         type: 'password',
         inputmode: 'numeric',
@@ -53,7 +94,7 @@ export function parentView(ctx: Context): HTMLElement {
         },
       },
       h('h2', null, hasPin() ? '家长来接班' : '设置家长 PIN'),
-      h('p', null, '与星港家长中心共用 PIN'),
+      h('p', null, hasPin() ? '与星港家长中心共用 PIN' : '给爸爸妈妈用的 4–6 位数字，设置后孩子就进不来这里。与星港家长中心共用。'),
       pin,
       status,
       h('button', { class: 'station-btn station-btn--primary', type: 'submit' }, '进入家长页'),

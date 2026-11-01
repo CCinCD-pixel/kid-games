@@ -30,6 +30,11 @@ export interface Word {
   frame?: string[];
   custom?: boolean;
   semanticGroup?: string;
+  /**
+   * Hold-out: the picture is hard to read, so the word is not asked (nor used as a wrong choice) until it is redrawn.
+   * The text says why; delete the field once the new picture is in. Kept in the bank for the parent review page.
+   */
+  hold?: string;
 }
 export interface Confusion {
   pair: string[];
@@ -52,6 +57,12 @@ export interface Bank {
   confusions: Confusion[];
   lessons: { id: number; title: string; unit: number }[];
   praise: string[];
+  /**
+   * Pictures that more than one word shares (兔/大兔/兔子 …). The first listed word whose lesson is open is the
+   * only one an exercise may use for that picture; every other word of the picture is an alias (kept for the
+   * parent review and old progress, never asked).
+   */
+  pictureOwners?: Record<string, string[]>;
 }
 /** 'local' = the on-device scorer (score/). Like 'ai' it never counts toward mastery until calibrated. */
 export type Judge = 'deterministic' | 'ai' | 'local' | 'parent' | 'self';
@@ -88,6 +99,12 @@ export interface Save {
   };
   confusions: Record<string, number>;
   customWords: Word[];
+  /** Kinds whose first-time guide (a pointing hand on the right answer) has been played. */
+  tutorial?: Partial<Record<Kind, boolean>>;
+  /** The programme the child left half way (lock screen, 回电台, opened the album…) so it can be picked up again. */
+  resume?: ResumeState;
+  /** When the last full programme was finished (for the “今天已完成” note on the home screen). */
+  lastFinishAt?: number;
   settings: {
     lesson: number;
     ai: boolean;
@@ -109,4 +126,10 @@ export interface Question {
   scene?: string;
   practiceOnly?: boolean;
   choices: string[];
+}
+export interface ResumeState {
+  mode: string;
+  queue: Question[];
+  index: number;
+  at: number;
 }

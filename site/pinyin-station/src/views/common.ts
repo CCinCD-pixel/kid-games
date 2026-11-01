@@ -1,18 +1,22 @@
 import { h, icon, type UiIconName } from '@kit/ui';
 import type { Bank, Save, Word } from '../domain/types';
 import type { Recording } from '../speech/recordings';
+/** How a clip ended. 'interrupted' = something newer started (the caller must not carry on with its own sequence). */
+export type Played = 'done' | 'interrupted' | 'skipped';
 export interface Context {
   save: Save;
   bank: Bank;
   persist: () => void;
-  explain: (text: string) => Promise<unknown>;
+  explain: (text: string) => Promise<Played>;
   storageOkay: () => boolean;
-  say: (id: string) => Promise<unknown>;
-  syllable: (id: string) => Promise<unknown>;
-  word: (word: Word) => Promise<unknown>;
+  /** One voice channel: a new line cuts the old one. `quiet` plays the sound without printing it as a subtitle. */
+  say: (id: string, quiet?: boolean) => Promise<Played>;
+  syllable: (id: string, quiet?: boolean) => Promise<Played>;
+  word: (word: Word, quiet?: boolean) => Promise<Played>;
   replay: (blob: Blob) => Promise<void>;
   picture: (word: Word) => HTMLElement;
-  finish: (records: Recording[]) => void;
+  /** `saved` = how many recordings were really kept (the ending page only talks about those). */
+  finish: (records: Recording[], saved: number) => void;
   home: () => void;
   stopAudio: () => void;
 }

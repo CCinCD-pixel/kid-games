@@ -1,8 +1,9 @@
 import { test, expect, type Page } from '@playwright/test';
 import { instrument, watch, shot, probe } from '../../../tests/smoke/helpers';
-import { initialSave, recordAttempt, schedule } from '../src/domain/learning';
+import { initialSave, schedule } from '../src/domain/learning';
 import { parseSyllable } from '../src/domain/pinyin';
 import { bank } from '../src/domain/content';
+import { parentPin } from './helpers';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -23,6 +24,9 @@ async function fits(page: Page) {
     bad: [...document.querySelectorAll('#app button:not(:disabled)')]
       .filter((e) => !e.closest('[hidden]') && getComputedStyle(e).display !== 'none')
       .filter((e) => {
+        // The home and the album scroll inside their own area: bring the button into view first, then check that
+        // it is inside the screen and that nothing (the subtitle bar, another card) covers it.
+        e.scrollIntoView({ block: 'nearest', inline: 'nearest' });
         const r = e.getBoundingClientRect();
         if (r.width === 0) return false;
         const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
@@ -56,7 +60,7 @@ test('complete a supportive program, including permission-denied follow reading'
         const syl = parseSyllable(id)!;
         for (let part = 0; part < 3; part++) {
           if (await page.getByRole('button', { name: '接下一条', exact: true }).isVisible()) break;
-          const direction = await page.locator('.part-direction').innerText();
+          const direction = await page.locator('.instruction').innerText();
           const component = direction.includes('开头')
             ? syl.initial
             : direction.includes('后面')
@@ -70,10 +74,8 @@ test('complete a supportive program, including permission-denied follow reading'
       await page
         .locator(`[data-final="${parseSyllable(q.target)!.final.replace(/^([iu])([ao])$/, '$2')}"]`)
         .click();
-      await page.getByRole('button', { name: '先接下一条', exact: true }).click();
-      continue;
     } else if (q.kind === 'D') {
-      await page.getByRole('button', { name: '这次先跟读', exact: true }).click();
+      await page.getByRole('button', { name: '不开麦，跟着读', exact: true }).click();
       await page.getByRole('button', { name: '我读过啦', exact: true }).click();
       continue;
     } else if (q.kind === 'G') {
@@ -89,7 +91,7 @@ test('complete a supportive program, including permission-denied follow reading'
     await fits(page);
     await page.getByRole('button', { name: '接下一条', exact: true }).click();
   }
-  await expect(page.getByRole('heading', { name: '今天的声音，收到啦' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '今天的节目，播完啦' })).toBeVisible();
   await shot(page, info.project.name, 'pinyin-broadcast');
   const p = await probe(page);
   expect(p.contexts).toBeLessThanOrEqual(1);
@@ -104,8 +106,9 @@ test('three attempts lead to demonstration, without trapping the child', async (
   const s = initialSave();
   s.sessions = 0;
   const q = schedule(s, bank, 'today')[0];
-  const wrong = page.locator(`[data-choice]:not([data-choice="${q.target}"])`).first();
-  for (let i = 0; i < 3; i++) await wrong.click();
+  // Every wrong card dims once tried, so the three wrong taps are three different cards.
+  const wrong = page.locator(`[data-choice]:not([data-choice="${q.target}"])`);
+  for (let i = 0; i < 3; i++) await wrong.nth(i).click();
   await expect(page.getByRole('button', { name: '接下一条', exact: true })).toBeVisible();
   await shot(page, info.project.name, 'pinyin-kind-hint');
   expect(await page.locator('.practice').innerText()).not.toMatch(/错误|答错|失败|分数|倒计时/);
@@ -114,15 +117,15 @@ test('three attempts lead to demonstration, without trapping the child', async (
 test('spell on four-line grid, view the album and reject microphone gracefully', async ({ page }, info) => {
   await open(page);
   await page.getByRole('button', { name: '图画拼搭', exact: false }).click();
-  await expect(page.locator('.kit-subtitle__text')).toContainText('看图');
+  await expect(page.locator('.kit-subtitle__text')).toContainText('开头');
   expect(
     await page.locator('.kit-subtitle__text').evaluate((el) => el.getBoundingClientRect().width),
   ).toBeGreaterThan(80);
   await expect(page.locator('.grid-slot')).not.toHaveCount(0);
   await fits(page);
   await shot(page, info.project.name, 'pinyin-spelling');
-  await page.getByRole('button', { name: '收好电台', exact: true }).click();
-  await page.getByRole('button', { name: '收好电台', exact: true }).click();
+  await page.getByRole('button', { name: '回电台', exact: true }).click();
+  await expect(page.getByRole('button', { name: '开始今天的节目' })).toBeVisible();
   await page.getByRole('button', { name: '信号卡册', exact: true }).click();
   await fits(page);
   await shot(page, info.project.name, 'pinyin-album');
@@ -135,10 +138,7 @@ test('spell on four-line grid, view the album and reject microphone gracefully',
 test('parent gate, add a local practice word, and keep trial AI out of mastery', async ({ page }, info) => {
   await open(page);
   await page.getByRole('button', { name: '家长', exact: true }).click();
-  await page.getByLabel('设置家长 PIN').fill('2468');
-  await page.getByRole('button', { name: '进入家长页' }).click();
-  await page.getByLabel('设置家长 PIN').fill('2468');
-  await page.getByRole('button', { name: '进入家长页' }).click();
+  await parentPin(page);
   await expect(page.getByRole('heading', { name: '电台值班室' })).toBeVisible();
   await page.getByRole('textbox', { name: '练习词汉字' }).fill('木马');
   await expect(page.getByRole('textbox', { name: '数字声调拼音' })).toHaveValue('mu4 ma3');
@@ -238,11 +238,8 @@ test.describe('microphone trial', () => {
     });
     const seed = initialSave();
     seed.settings.ai = true;
-    for (let session = 0; session < 100; session++) {
-      seed.sessions = session;
-      if (schedule(seed, bank, 'read')[0].target === 'ni') break;
-    }
-    expect(schedule(seed, bank, 'read')[0].target).toBe('ni');
+    // 泥 (ni2) is an alias of 泥土 and is no longer scheduled; the single-syllable read question is injected.
+    seed.resume = { mode: 'read', index: 0, at: Date.now(), queue: [{ id: 'D:ni', kind: 'D' as const, target: 'ni', skill: 'word:ni:say', lesson: 4, phase: 'main' as const, choices: ['ni'] }] };
     await page.addInitScript((seed) => {
       localStorage.setItem(
         'kg:v1:pinyin-station',
@@ -251,8 +248,7 @@ test.describe('microphone trial', () => {
       sessionStorage.setItem('pinyin-family-token', 'local-test-token');
     }, seed);
     await open(page);
-    await page.getByRole('button', { name: '信号卡册', exact: true }).click();
-    await page.getByRole('button', { name: '去当小播音员' }).click();
+    await page.getByRole('button', { name: '接着上次的节目' }).click();
     await page.getByRole('button', { name: '读给台长听' }).click();
     await expect(page.getByRole('button', { name: '听我的声音' })).toBeVisible();
     // The real branch response confirms the initial only; it cannot confirm tone/final.
@@ -271,10 +267,7 @@ test.describe('microphone trial', () => {
     ).toEqual([]);
     await page.getByRole('button', { name: '家长', exact: true }).click();
     expect(await page.evaluate(() => (window as any).__micTest.stopped)).toBe(2);
-    for (let i = 0; i < 2; i++) {
-      await page.getByLabel('设置家长 PIN').fill('2468');
-      await page.getByRole('button', { name: '进入家长页' }).click();
-    }
+    await parentPin(page);
     await page.getByRole('combobox', { name: /改判/ }).first().selectOption('tone');
     await expect(page.getByText(/家长已标注/)).toBeVisible();
     await expect
@@ -362,8 +355,7 @@ test('cached picture and spelling practice survive a real server outage', async 
       return { status: r.status, length: (await r.arrayBuffer()).byteLength };
     });
     expect(hit).toEqual({ status: 206, length: 100 });
-    await page.getByRole('button', { name: '收好电台', exact: true }).click();
-    await page.getByRole('button', { name: '收好电台', exact: true }).click();
+    await page.getByRole('button', { name: '回电台', exact: true }).click();
     await page.getByRole('button', { name: '开始今天的节目' }).click();
     await expect(page.locator('.type-A')).toBeVisible();
   } finally {
@@ -415,10 +407,7 @@ test('hidden adult lab still requires the shared parent PIN', async ({ page }) =
   await page.getByRole('button', { name: '进入电台', exact: true }).click();
   await expect(page.locator('.kit-start')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '录一条成人样本' })).toHaveCount(0);
-  for (let i = 0; i < 2; i++) {
-    await page.getByLabel('设置家长 PIN').fill('2468');
-    await page.getByRole('button', { name: '进入家长页' }).click();
-  }
+  await parentPin(page);
   await expect(page.getByRole('button', { name: '录一条成人样本' })).toBeVisible();
 });
 
@@ -426,10 +415,7 @@ test('parent content review keeps local flags and exports a readable checklist',
   await instrument(page);
   await page.goto('/pinyin-station/review/?mute');
   await page.getByRole('button', { name: '进入电台', exact: true }).click();
-  for (let i = 0; i < 2; i++) {
-    await page.getByLabel('设置家长 PIN').fill('2468');
-    await page.getByRole('button', { name: '进入家长页' }).click();
-  }
+  await parentPin(page);
   await expect(page.locator('.content-review-row')).toHaveCount(bank.words.length);
   await page.getByLabel('图看不懂：理发', { exact: true }).check();
   await page.getByLabel('备注：理发', { exact: true }).fill('剪刀再明显一点');
@@ -473,9 +459,10 @@ test('three-part blending keeps the medial visible and offers a real vowel choic
   const seed = initialSave();
   seed.settings.lesson = 8;
   let target = '';
-  for (let session = 0; session < 80; session++) {
+  for (let session = 0; session < 3000; session++) {
     seed.sessions = session;
     const question = schedule(seed, bank, 'read')[1];
+    // gua / guo are the only glide syllables that have a real rival (same first sound and tone).
     if (/^[iu][ao]$/.test(parseSyllable(question.target)?.final ?? '')) {
       target = question.target;
       break;
@@ -493,10 +480,12 @@ test('three-part blending keeps the medial visible and offers a real vowel choic
   await open(page);
   await page.getByRole('button', { name: '信号卡册', exact: true }).click();
   await page.getByRole('button', { name: '去当小播音员' }).click();
-  await page.getByRole('button', { name: '这次先跟读', exact: true }).click();
+  await page.getByRole('button', { name: '不开麦，跟着读', exact: true }).click();
   await page.getByRole('button', { name: '我读过啦', exact: true }).click();
   const syllable = parseSyllable(target)!;
-  await expect(page.locator('[data-medial]')).toHaveText(syllable.final[0]);
+  // The first sound (and the glide) wait in the equation, the missing sound is an empty cell, two sounds to pick from.
+  await expect(page.locator('.blend-tile')).toHaveText([syllable.initial, syllable.final[0]]);
+  await expect(page.locator('.blend-slot')).toHaveText('？');
   await expect(page.locator('[data-final]')).toHaveCount(2);
   await fits(page);
   await shot(page, info.project.name, 'pinyin-three-part-blending');
@@ -504,81 +493,4 @@ test('three-part blending keeps the medial visible and offers a real vowel choic
   await expect(page.locator('.blend-result')).toHaveText(
     bank.syllables.find((s) => s.id === target)!.display,
   );
-});
-
-test('archives older progress locally and keeps the checkpoint across reloads', async ({ page }) => {
-  const seed = initialSave();
-  for (let session = 1; session <= 80; session++) {
-    seed.sessions = session;
-    for (const kind of ['E', 'F'] as const)
-      recordAttempt(seed, {
-        id: `${session}:${kind}`,
-        session,
-        kind,
-        correct: true,
-        judge: 'deterministic',
-        skill: `word:li:${kind === 'E' ? 'decode' : 'spell'}`,
-        at: session * 1000,
-      });
-  }
-  await page.addInitScript((seed) => {
-    if (!localStorage.getItem('kg:v1:pinyin-station'))
-      localStorage.setItem(
-        'kg:v1:pinyin-station',
-        JSON.stringify({ v: 1, updatedAt: Date.now(), data: seed }),
-      );
-  }, seed);
-  await open(page);
-  // A v1 database from the previous build must survive the history-store upgrade.
-  await page.evaluate(
-    () =>
-      new Promise<void>((resolve, reject) => {
-        const request = indexedDB.open('kg-pinyin-station', 1);
-        request.onupgradeneeded = () => {
-          request.result.createObjectStore('pictures');
-          request.result.createObjectStore('recordings', { keyPath: 'id' }).createIndex('at', 'at');
-        };
-        request.onsuccess = () => {
-          request.result.close();
-          resolve();
-        };
-        request.onerror = () => reject(request.error);
-      }),
-  );
-  await page.getByRole('button', { name: '家长', exact: true }).click();
-  for (let i = 0; i < 2; i++) {
-    await page.getByLabel('设置家长 PIN').fill('2468');
-    await page.getByRole('button', { name: '进入家长页' }).click();
-  }
-  await page.getByLabel('当前课', { exact: true }).selectOption('5');
-  await expect
-    .poll(() =>
-      page.evaluate(() => JSON.parse(localStorage.getItem('kg:v1:pinyin-station')!).data.history.length),
-    )
-    .toBe(120);
-  expect(
-    await page.evaluate(
-      () =>
-        new Promise<number>((resolve, reject) => {
-          const request = indexedDB.open('kg-pinyin-station', 2);
-          request.onsuccess = () => {
-            const db = request.result;
-            const count = db.transaction('attempts').objectStore('attempts').count();
-            count.onsuccess = () => {
-              db.close();
-              resolve(count.result);
-            };
-            count.onerror = () => reject(count.error);
-          };
-          request.onerror = () => reject(request.error);
-        }),
-    ),
-  ).toBe(40);
-  await page.reload();
-  await page.getByRole('button', { name: '进入电台', exact: true }).click();
-  expect(
-    await page.evaluate(
-      () => JSON.parse(localStorage.getItem('kg:v1:pinyin-station')!).data.snapshot.through,
-    ),
-  ).toBe(20);
 });

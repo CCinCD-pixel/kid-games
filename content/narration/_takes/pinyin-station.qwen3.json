@@ -14,6 +14,19 @@
     1236
    ]
   },
+  "py.finish2": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "cbb5b846b9da4323fa95d02771ee0b44d0dcafcb",
+   "score": 0.416,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
   "py.initial": {
    "seed": 1236,
    "base": 1234,
@@ -26,15 +39,48 @@
     1236
    ]
   },
-  "py.mnemonic.a": {
+  "py.local.loud": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "53009cb1e457ec18753003d5fc53a64d1c78380e",
+   "score": 232.778,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.local.quiet": {
    "seed": 1235,
    "base": 1234,
-   "sig": "02351a670ab61f6adb7ee74293a860ea6e72164b",
-   "score": 0.0,
+   "sig": "0da32d8511e5b76fe9cff5fd15cd222662bc93b9",
+   "score": 101.916,
+   "flags": [
+    "cer(asr-homophone)",
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.mnemonic.a": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "94e6d0417c1c13610520a424549d46eec404d87c",
+   "score": 0.42,
    "flags": [],
    "tried": [
     1234,
-    1235
+    1235,
+    1236
    ]
   },
   "py.mnemonic.b": {
@@ -49,11 +95,13 @@
    ]
   },
   "py.mnemonic.e": {
-   "seed": 1237,
+   "seed": 1235,
    "base": 1234,
-   "sig": "b43e4dbc71d9f94fcdf5100ce33e3d3082e7bb39",
-   "score": 0.0,
-   "flags": [],
+   "sig": "813a19d168f66a9e05267f94b8f0c0dc8b1be87f",
+   "score": 109.92,
+   "flags": [
+    "pace"
+   ],
    "tried": [
     1234,
     1235,
@@ -64,9 +112,10 @@
   "py.mnemonic.i": {
    "seed": 1237,
    "base": 1234,
-   "sig": "0386ca1b3c210b1a00414fb8926f47b2cba261d5",
-   "score": 103.3,
+   "sig": "3309f0ab44efd4fc56eabae8b7b9660241f5be26",
+   "score": 104.143,
    "flags": [
+    "cer(asr-homophone)",
     "pace"
    ],
    "tried": [
@@ -78,10 +127,26 @@
    ]
   },
   "py.mnemonic.o": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "2c6d160cd320d580c00237b44e38e07cf50c6e30",
+   "score": 110.0,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+   ]
+  },
+  "py.mnemonic.u": {
    "seed": 1234,
    "base": 1234,
-   "sig": "4e23adb85ee6273c3ab4132843397d6df2e16b05",
-   "score": 120.971,
+   "sig": "1141fb684ae39608625262a0a6fe0ee53a72b18e",
+   "score": 107.143,
    "flags": [
     "cer(asr-homophone)",
     "pace"
@@ -93,30 +158,14 @@
     1237
    ]
   },
-  "py.mnemonic.u": {
+  "py.mnemonic.v": {
    "seed": 1235,
    "base": 1234,
-   "sig": "22fd56d89f9258715fe465ac5b2f734db04291e9",
-   "score": 103.714,
+   "sig": "8f9864782f0911d0d8a819989562db4a25bc6bad",
+   "score": 103.35,
    "flags": [
     "cer(asr-homophone)",
     "pace"
-   ],
-   "tried": [
-    1234,
-    1235,
-    1236,
-    1237,
-    1238
-   ]
-  },
-  "py.mnemonic.v": {
-   "seed": 1236,
-   "base": 1234,
-   "sig": "763006f656e2ece960bdad539f1426c947c57331",
-   "score": 229.25,
-   "flags": [
-    "cer"
    ],
    "tried": [
     1234,
@@ -251,6 +300,32 @@
     1238
    ]
   },
+  "py.praise.22": {
+   "seed": 1237,
+   "base": 1234,
+   "sig": "d54b96bf14c7382bf423249292772e232522939d",
+   "score": 101.5,
+   "flags": [
+    "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.praise.24": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "522c77dce7dff82529bfa8dbe75f3eade5ab1a6e",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
   "py.praise.4": {
    "seed": 1234,
    "base": 1234,
@@ -258,6 +333,196 @@
    "score": 102.1,
    "flags": [
     "pace"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.an1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "b6e244f4c9bd7551c72c145834c04f10f4dbf76b",
+   "score": 155.0,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.ang1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "7278525d4f2f541990a079954c7cefae03fc80cc",
+   "score": 255.0,
+   "flags": [
+    "cer",
+    "polyphone"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.ao1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "bca2c2903fc2571cf6ceec4aa8a14fd8ee97fc17",
+   "score": 155.0,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.ei1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "5001468a369ccf57b57a60e5a7010b29d32afdf6",
+   "score": 155.0,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.en1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "b04d0be9e8be650e9df4a66a76fc697e317a56bc",
+   "score": 155.0,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.eng1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "b3dd725f96f039bd418d4ff7cd8195918dfbd975",
+   "score": 155.0,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.er1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "d091beaec589f4268d2ba686edaaf0703c033609",
+   "score": 5.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "py.syl.ie1": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "87095e85ef83b48a2c5400928fa0d220d8dc7b98",
+   "score": 5.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "py.syl.in1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "d0b3184abe189bd1467a02864962e84280acfc63",
+   "score": 262.8,
+   "flags": [
+    "empty",
+    "dur"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.ou1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "20dbe466ec921efceb13f749082e7941412de066",
+   "score": 155.0,
+   "flags": [
+    "cer"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236,
+    1237
+   ]
+  },
+  "py.syl.un1": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "edd77d2bbab9a90f069afa7063d54cdf3a832879",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "py.syl.ye1": {
+   "seed": 1236,
+   "base": 1234,
+   "sig": "87095e85ef83b48a2c5400928fa0d220d8dc7b98",
+   "score": 5.0,
+   "flags": [
+    "cer(asr-homophone)"
+   ],
+   "tried": [
+    1234,
+    1235,
+    1236
+   ]
+  },
+  "py.syl.yin1": {
+   "seed": 1234,
+   "base": 1234,
+   "sig": "d0b3184abe189bd1467a02864962e84280acfc63",
+   "score": 262.8,
+   "flags": [
+    "empty",
+    "dur"
    ],
    "tried": [
     1234,
@@ -279,9 +544,9 @@
    ]
   },
   "py.tip.l-n": {
-   "seed": 1235,
+   "seed": 1234,
    "base": 1234,
-   "sig": "00ab1d4f155922ea4f8b94503bc38465673206b4",
+   "sig": "e789de2e6afa17136a6fb246cc24fd40f2c7d7a2",
    "score": 131.19,
    "flags": [
     "cer"
@@ -290,8 +555,7 @@
     1234,
     1235,
     1236,
-    1237,
-    1238
+    1237
    ]
   },
   "py.tip.p-f": {
@@ -309,8 +573,8 @@
   "py.tip.z-c": {
    "seed": 1235,
    "base": 1234,
-   "sig": "6e4c6e680e08e28f0abf11bef7552629f979603e",
-   "score": 0.416,
+   "sig": "0b0b39258fe6d809a99fcb1abc27971fef07712f",
+   "score": 0.454,
    "flags": [
     "cer(asr-homophone)"
    ],

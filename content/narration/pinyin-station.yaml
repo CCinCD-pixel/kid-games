@@ -42,6 +42,47 @@
       "text": "点点词卡，把话接起来。"
     },
     {
+      "id": "py.C2",
+      "role": "companion",
+      "text": "听一听，选出缺的那一段声音。"
+    },
+    {
+      "id": "py.E2",
+      "role": "companion",
+      "text": "看一看拼音，点出它的图。"
+    },
+    {
+      "id": "py.heard",
+      "role": "companion",
+      "text": "我听到你的声音啦。"
+    },
+    {
+      "id": "py.follow2",
+      "role": "companion",
+      "text": "跟着台长读一遍。"
+    },
+    {
+      "id": "py.finish2",
+      "role": "companion",
+      "text": "今天的节目播完啦，歇一歇吧。"
+    },
+    {
+      "id": "py.praise.22",
+      "role": "companion",
+      "text": "你听出了这个字母",
+      "speed": 0.92
+    },
+    {
+      "id": "py.praise.23",
+      "role": "companion",
+      "text": "你找到了开头的声音"
+    },
+    {
+      "id": "py.praise.24",
+      "role": "companion",
+      "text": "你找到了后面的声音"
+    },
+    {
       "id": "py.hint1",
       "role": "companion",
       "text": "先听一听，再找线索。"
@@ -419,22 +460,26 @@
     {
       "id": "py.tip.b-p",
       "role": "companion",
-      "text": "把小纸条放嘴前，读 p 时让它飘起来。"
+      "text": "把小纸条放嘴前，读 p 时让它飘起来。",
+      "norm": "把小纸条放嘴前，读坡，让它飘起来。"
     },
     {
       "id": "py.tip.d-t",
       "role": "companion",
-      "text": "把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。"
+      "text": "把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。",
+      "norm": "把小纸条放嘴前，舌尖弹一下，读特，让纸条飘起来。"
     },
     {
       "id": "py.tip.b-d",
       "role": "companion",
-      "text": "先找小肚子的方向：b 在右下，d 在左下。"
+      "text": "先找小肚子的方向：b 在右下，d 在左下。",
+      "norm": "先找小肚子的方向：波，在右下；德，在左下。"
     },
     {
       "id": "py.tip.l-n",
       "role": "companion",
-      "text": "轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。"
+      "text": "轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。",
+      "norm": "轻轻捏住鼻子读，讷的声音会被挡住，乐还能读出来。"
     },
     {
       "id": "py.tip.2-3",
@@ -454,27 +499,32 @@
     {
       "id": "py.tip.p-f",
       "role": "companion",
-      "text": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。"
+      "text": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。",
+      "norm": "读坡，先合上嘴唇再送气；读佛，用上牙轻碰下唇。"
     },
     {
       "id": "py.tip.g-k",
       "role": "companion",
-      "text": "小纸条放嘴前，读 k 时送出一口气。"
+      "text": "小纸条放嘴前，读 k 时送出一口气。",
+      "norm": "小纸条放嘴前，读科，送出一口气。"
     },
     {
       "id": "py.tip.j-q",
       "role": "companion",
-      "text": "读 q 时气送得多一点，看看小纸条会不会动。"
+      "text": "读 q 时气送得多一点，看看小纸条会不会动。",
+      "norm": "读欺，气送得多一点，看看小纸条会不会动。"
     },
     {
       "id": "py.tip.z-c",
       "role": "companion",
-      "text": "舌尖不翘起，读 c 时轻轻送气。"
+      "text": "舌尖不翘起，读 c 时轻轻送气。",
+      "norm": "舌尖不翘起，读雌，轻轻送气。"
     },
     {
       "id": "py.tip.zh-ch",
       "role": "companion",
-      "text": "两次都翘舌，读 ch 时多送一口气。"
+      "text": "两次都翘舌，读 ch 时多送一口气。",
+      "norm": "两次都翘舌，读吃，多送一口气。"
     },
     {
       "id": "py.tip.z-zh",
@@ -489,42 +539,194 @@
     {
       "id": "py.mnemonic.a",
       "role": "companion",
-      "text": "张大嘴巴 a a a"
+      "text": "张大嘴巴 a a a",
+      "norm": "张大嘴巴，啊，啊，啊。"
     },
     {
       "id": "py.mnemonic.o",
       "role": "companion",
-      "text": "圆圆嘴巴 o o o"
+      "text": "圆圆嘴巴 o o o",
+      "norm": "圆圆嘴巴，哦，哦，哦。"
     },
     {
       "id": "py.mnemonic.e",
       "role": "companion",
-      "text": "扁扁嘴巴 e e e"
+      "text": "扁扁嘴巴 e e e",
+      "norm": "扁扁嘴巴，鹅鹅鹅。"
     },
     {
       "id": "py.mnemonic.i",
       "role": "companion",
-      "text": "牙齿对齐 i i i"
+      "text": "牙齿对齐 i i i",
+      "norm": "牙齿对齐，衣，衣，衣。"
     },
     {
       "id": "py.mnemonic.u",
       "role": "companion",
-      "text": "嘴巴突出 u u u"
+      "text": "嘴巴突出 u u u",
+      "norm": "嘴巴突出，乌，乌，乌。"
     },
     {
       "id": "py.mnemonic.v",
       "role": "companion",
-      "text": "嘴吹口哨 ü ü ü，两点要留住"
+      "text": "嘴吹口哨 ü ü ü，两点要留住",
+      "norm": "嘴吹口哨，迂，迂，迂，两点要留住"
     },
     {
       "id": "py.mnemonic.y",
       "role": "companion",
-      "text": "小树分杈，认一认 y 的样子"
+      "text": "小树分杈，认一认 y 的样子",
+      "norm": "小树分杈，认一认，衣，的样子"
     },
     {
       "id": "py.mnemonic.w",
       "role": "companion",
-      "text": "屋顶相连，认一认 w 的样子"
+      "text": "屋顶相连，认一认 w 的样子",
+      "norm": "屋顶相连，认一认，乌，的样子"
+    },
+    {
+      "id": "py.syl.ai1",
+      "role": "word",
+      "text": "āi",
+      "norm": "哀"
+    },
+    {
+      "id": "py.syl.ei1",
+      "role": "word",
+      "text": "ēi",
+      "norm": "诶"
+    },
+    {
+      "id": "py.syl.ui1",
+      "role": "word",
+      "text": "uī",
+      "norm": "威"
+    },
+    {
+      "id": "py.syl.ao1",
+      "role": "word",
+      "text": "āo",
+      "norm": "熬"
+    },
+    {
+      "id": "py.syl.ou1",
+      "role": "word",
+      "text": "ōu",
+      "norm": "欧"
+    },
+    {
+      "id": "py.syl.iu1",
+      "role": "word",
+      "text": "iū",
+      "norm": "优"
+    },
+    {
+      "id": "py.syl.ie1",
+      "role": "word",
+      "text": "iē",
+      "norm": "噎"
+    },
+    {
+      "id": "py.syl.ve1",
+      "role": "word",
+      "text": "üē",
+      "norm": "曰"
+    },
+    {
+      "id": "py.syl.er1",
+      "role": "word",
+      "text": "ēr",
+      "norm": "儿"
+    },
+    {
+      "id": "py.syl.an1",
+      "role": "word",
+      "text": "ān",
+      "norm": "安"
+    },
+    {
+      "id": "py.syl.en1",
+      "role": "word",
+      "text": "ēn",
+      "norm": "恩"
+    },
+    {
+      "id": "py.syl.in1",
+      "role": "word",
+      "text": "īn",
+      "norm": "因"
+    },
+    {
+      "id": "py.syl.un1",
+      "role": "word",
+      "text": "ūn",
+      "norm": "温"
+    },
+    {
+      "id": "py.syl.vn1",
+      "role": "word",
+      "text": "ǖn",
+      "norm": "晕"
+    },
+    {
+      "id": "py.syl.ang1",
+      "role": "word",
+      "text": "āng",
+      "norm": "肮"
+    },
+    {
+      "id": "py.syl.eng1",
+      "role": "word",
+      "text": "ēng",
+      "norm": "鞥"
+    },
+    {
+      "id": "py.syl.ing1",
+      "role": "word",
+      "text": "īng",
+      "norm": "英"
+    },
+    {
+      "id": "py.syl.ong1",
+      "role": "word",
+      "text": "ōng",
+      "norm": "翁"
+    },
+    {
+      "id": "py.syl.ye1",
+      "role": "word",
+      "text": "yē",
+      "norm": "噎"
+    },
+    {
+      "id": "py.syl.yue1",
+      "role": "word",
+      "text": "yuē",
+      "norm": "曰"
+    },
+    {
+      "id": "py.syl.yin1",
+      "role": "word",
+      "text": "yīn",
+      "norm": "因"
+    },
+    {
+      "id": "py.syl.yun1",
+      "role": "word",
+      "text": "yūn",
+      "norm": "晕"
+    },
+    {
+      "id": "py.syl.yuan1",
+      "role": "word",
+      "text": "yuān",
+      "norm": "冤"
+    },
+    {
+      "id": "py.syl.ying1",
+      "role": "word",
+      "text": "yīng",
+      "norm": "英"
     },
     {
       "id": "py.mnemonic.b",
@@ -754,7 +956,7 @@
     {
       "id": "py.word.mudi",
       "role": "word",
-      "text": "木笛"
+      "text": "牧笛"
     },
     {
       "id": "py.word.damu",
@@ -944,7 +1146,8 @@
     {
       "id": "py.local.quiet",
       "role": "companion",
-      "text": "声音再大一点点，我就听见啦"
+      "text": "声音再大一点点，我就听见啦",
+      "speed": 0.92
     },
     {
       "id": "py.local.noisy",
@@ -954,7 +1157,8 @@
     {
       "id": "py.local.loud",
       "role": "companion",
-      "text": "离远一点点，轻轻地读"
+      "text": "离远一点点，轻轻地读",
+      "norm": "离远一点点，轻轻的读"
     },
     {
       "id": "py.local.short",

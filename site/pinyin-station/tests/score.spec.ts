@@ -1,18 +1,15 @@
 import { test, expect, type Page } from '@playwright/test';
+import { parentPin } from './helpers';
 import fs from 'node:fs';
 import { instrument, watch, shot } from '../../../tests/smoke/helpers';
-import { initialSave, schedule } from '../src/domain/learning';
-import { bank } from '../src/domain/content';
+import { initialSave } from '../src/domain/learning';
 
 /** Saved game with the local-scoring switch on and a first 'read' question whose answer is ni2 (rising tone). */
 function seedSave(localScore: boolean) {
   const seed = initialSave();
   seed.settings.localScore = localScore;
-  for (let session = 0; session < 100; session++) {
-    seed.sessions = session;
-    if (schedule(seed, bank, 'read')[0].target === 'ni') break;
-  }
-  expect(schedule(seed, bank, 'read')[0].target).toBe('ni');
+  // 泥 (ni2) is an alias of 泥土 and is no longer scheduled; the single-syllable read question is injected.
+  seed.resume = { mode: 'read', index: 0, at: Date.now(), queue: [{ id: 'D:ni', kind: 'D' as const, target: 'ni', skill: 'word:ni:say', lesson: 4, phase: 'main' as const, choices: ['ni'] }] };
   return seed;
 }
 async function start(page: Page, localScore = true, knownChild = true) {
@@ -30,8 +27,7 @@ async function start(page: Page, localScore = true, knownChild = true) {
   await page.goto('/pinyin-station/?mute');
   await page.getByRole('button', { name: '进入电台', exact: true }).click();
   await expect(page.getByRole('button', { name: '开始今天的节目' })).toBeVisible();
-  await page.getByRole('button', { name: '信号卡册', exact: true }).click();
-  await page.getByRole('button', { name: '去当小播音员' }).click();
+  await page.getByRole('button', { name: '接着上次的节目' }).click();
 }
 /** WebKit cannot fake audio: stand in for getUserMedia + the capture worklet with synthetic child-pitched PCM. */
 async function stubMic(page: Page, kind: 'rising' | 'falling' | 'quiet') {
@@ -149,10 +145,7 @@ test('parent page has the "local scoring (trial)" switch, default off, persisted
   await page.goto('/pinyin-station/?mute');
   await page.getByRole('button', { name: '进入电台', exact: true }).click();
   await page.getByRole('button', { name: '家长', exact: true }).click();
-  for (let i = 0; i < 2; i++) {
-    await page.getByLabel('设置家长 PIN').fill('2468');
-    await page.getByRole('button', { name: '进入家长页' }).click();
-  }
+  await parentPin(page);
   const toggle = page.getByLabel('本地评分（试用）');
   await expect(toggle).not.toBeChecked();
   await expect(page.getByText('不会判错')).toBeVisible();
@@ -300,10 +293,7 @@ test('parent batch review: blind one-at-a-time labelling, separate stats, local 
   await page.goto('/pinyin-station/?mute');
   await page.getByRole('button', { name: '进入电台', exact: true }).click();
   await page.getByRole('button', { name: '家长', exact: true }).click();
-  for (let i = 0; i < 2; i++) {
-    await page.getByLabel('设置家长 PIN').fill('2468');
-    await page.getByRole('button', { name: '进入家长页' }).click();
-  }
+  await parentPin(page);
   await expect(page.getByLabel('保存录音到本机')).toBeChecked();
   // Three recordings as the scoring trial would have stored them (raw IndexedDB: the app opened the database above).
   await page.evaluate(

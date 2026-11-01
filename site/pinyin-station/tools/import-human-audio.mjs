@@ -20,7 +20,9 @@ for (const syl of bank.syllables.filter((s) => s.tone > 0)) {
   index[source].push(syl);
 }
 const failures = [];
-const entries = Object.entries(index);
+// Recordings already re-encoded by tools/normalize-syllables.mjs (manifest "processing") are final: a re-import must never
+// replace them with the raw download. To start over, restore the originals and re-run normalize-syllables.mjs.
+const entries = Object.entries(index).filter(([, syllables]) => !manifest[syllables[0].audio]?.processing);
 // Four small HTTP transfers; conversion/inspection stays sequential. No audio is played.
 for (let start = 0; start < entries.length; start += 4) {
   const batch = entries.slice(start, start + 4);

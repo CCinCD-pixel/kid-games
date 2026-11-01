@@ -2419,7 +2419,8 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "baba"
+      "semanticGroup": "baba",
+      "hold": "图画（大伯）只是戴帽子的普通男人，难辨认；重画后再放回"
     },
     {
       "id": "nv",
@@ -2834,7 +2835,8 @@
         "个",
         ""
       ],
-      "semanticGroup": "li"
+      "semanticGroup": "li",
+      "hold": "图画（8 个梨）像一排葫芦，数不清；重画后再放回"
     },
     {
       "id": "didi-milu",
@@ -3092,7 +3094,8 @@
       "lesson": 4,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "ma"
+      "semanticGroup": "ma",
+      "hold": "图画（马蹄）难辨认，像靴子或墨水瓶；重画后再放回"
     },
     {
       "id": "daba",
@@ -3111,7 +3114,7 @@
     },
     {
       "id": "mudi",
-      "hanzi": "木笛",
+      "hanzi": "牧笛",
       "syllables": [
         "mu4",
         "di2"
@@ -4285,7 +4288,10 @@
     "你把句子的意思接通了",
     "你慢慢读，台长听见了你的努力",
     "你发现了两个声音的不同",
-    "你把熟悉的声音认出来了"
+    "你把熟悉的声音认出来了",
+    "你听出了这个字母",
+    "你找到了开头的声音",
+    "你找到了后面的声音"
   ],
   "scenes": [
     {
@@ -4303,8 +4309,7 @@
       "title": "整理衣柜",
       "prompt": "读读卡片，把衣物放进小衣柜。",
       "targets": [
-        "yi",
-        "bu"
+        "yi"
       ],
       "lesson": 2
     },
@@ -4402,19 +4407,6 @@
         "tu-earth"
       ],
       "lesson": 4
-    },
-    {
-      "id": "family",
-      "title": "家人来信",
-      "prompt": "读读拼音，找到这封来信提到的家人。",
-      "targets": [
-        "baba",
-        "mama",
-        "didi",
-        "po",
-        "dabo"
-      ],
-      "lesson": 3
     },
     {
       "id": "waterfall",
@@ -4720,5 +4712,63 @@
       ],
       "lesson": 5
     }
-  ]
+  ],
+  "pictureOwners": {
+    "dabo": [
+      "dabo"
+    ],
+    "mabu": [
+      "mabu"
+    ],
+    "ditu": [
+      "ditu"
+    ],
+    "nitu": [
+      "nitu"
+    ],
+    "muma": [
+      "muma"
+    ],
+    "labi": [
+      "labi"
+    ],
+    "mama": [
+      "mama"
+    ],
+    "mi": [
+      "mi"
+    ],
+    "tu": [
+      "tuzi",
+      "tu"
+    ],
+    "li": [
+      "li"
+    ],
+    "house": [
+      "jia",
+      "wu"
+    ],
+    "land": [
+      "tudi"
+    ],
+    "bus": [
+      "daba"
+    ],
+    "drum": [
+      "gu"
+    ],
+    "melon": [
+      "xigua",
+      "gua"
+    ],
+    "washing": [
+      "xiyi",
+      "xi"
+    ],
+    "bamboo": [
+      "zhuzi",
+      "zhu"
+    ]
+  }
 }

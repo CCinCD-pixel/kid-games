@@ -1255,60 +1255,60 @@
     ]
   },
   "py.praise.1": {
-    "src": "/audio/pinyin-station/py.praise.1.cc7967d5.m4a",
+    "src": "/audio/pinyin-station/py.praise.1.e08e025f.m4a",
     "text": "你找到了词语里的意思",
-    "durationMs": 2253,
+    "durationMs": 2415,
     "role": "companion",
     "words": [
       {
         "ch": "你",
         "t0": 50,
-        "t1": 240
+        "t1": 256
       },
       {
         "ch": "找",
-        "t0": 240,
-        "t1": 431
+        "t0": 256,
+        "t1": 461
       },
       {
         "ch": "到",
-        "t0": 431,
-        "t1": 621
+        "t0": 461,
+        "t1": 667
       },
       {
         "ch": "了",
-        "t0": 621,
-        "t1": 812
+        "t0": 667,
+        "t1": 872
       },
       {
         "ch": "词",
-        "t0": 812,
-        "t1": 1002
+        "t0": 872,
+        "t1": 1078
       },
       {
         "ch": "语",
-        "t0": 1002,
-        "t1": 1193
+        "t0": 1078,
+        "t1": 1283
       },
       {
         "ch": "里",
-        "t0": 1193,
-        "t1": 1383
+        "t0": 1283,
+        "t1": 1489
       },
       {
         "ch": "的",
-        "t0": 1383,
-        "t1": 1574
+        "t0": 1489,
+        "t1": 1694
       },
       {
         "ch": "意",
-        "t0": 1574,
-        "t1": 1764
+        "t0": 1694,
+        "t1": 1900
       },
       {
         "ch": "思",
-        "t0": 1764,
-        "t1": 1955
+        "t0": 1900,
+        "t1": 2105
       }
     ]
   },
@@ -2472,128 +2472,128 @@
     ]
   },
   "py.praise.20": {
-    "src": "/audio/pinyin-station/py.praise.20.0b930689.m4a",
+    "src": "/audio/pinyin-station/py.praise.20.a68d8112.m4a",
     "text": "你发现了两个声音的不同",
-    "durationMs": 2415,
+    "durationMs": 2508,
     "role": "companion",
     "words": [
       {
         "ch": "你",
         "t0": 50,
-        "t1": 237
+        "t1": 246
       },
       {
         "ch": "发",
-        "t0": 237,
-        "t1": 424
+        "t0": 246,
+        "t1": 442
       },
       {
         "ch": "现",
-        "t0": 424,
-        "t1": 610
+        "t0": 442,
+        "t1": 638
       },
       {
         "ch": "了",
-        "t0": 610,
-        "t1": 797
+        "t0": 638,
+        "t1": 834
       },
       {
         "ch": "两",
-        "t0": 797,
-        "t1": 984
+        "t0": 834,
+        "t1": 1030
       },
       {
         "ch": "个",
-        "t0": 984,
-        "t1": 1171
+        "t0": 1030,
+        "t1": 1225
       },
       {
         "ch": "声",
-        "t0": 1171,
-        "t1": 1358
+        "t0": 1225,
+        "t1": 1421
       },
       {
         "ch": "音",
-        "t0": 1358,
-        "t1": 1545
+        "t0": 1421,
+        "t1": 1617
       },
       {
         "ch": "的",
-        "t0": 1545,
-        "t1": 1731
+        "t0": 1617,
+        "t1": 1813
       },
       {
         "ch": "不",
-        "t0": 1731,
-        "t1": 1918
+        "t0": 1813,
+        "t1": 2009
       },
       {
         "ch": "同",
-        "t0": 1918,
-        "t1": 2105
+        "t0": 2009,
+        "t1": 2205
       }
     ]
   },
   "py.praise.21": {
-    "src": "/audio/pinyin-station/py.praise.21.93145665.m4a",
+    "src": "/audio/pinyin-station/py.praise.21.77d66f83.m4a",
     "text": "你把熟悉的声音认出来了",
-    "durationMs": 2160,
+    "durationMs": 3065,
     "role": "companion",
     "words": [
       {
         "ch": "你",
         "t0": 50,
-        "t1": 213
+        "t1": 295
       },
       {
         "ch": "把",
-        "t0": 213,
-        "t1": 376
-      },
-      {
-        "ch": "熟",
-        "t0": 376,
+        "t0": 295,
         "t1": 540
       },
       {
-        "ch": "悉",
+        "ch": "熟",
         "t0": 540,
-        "t1": 703
+        "t1": 785
+      },
+      {
+        "ch": "悉",
+        "t0": 785,
+        "t1": 1030
       },
       {
         "ch": "的",
-        "t0": 703,
-        "t1": 866
+        "t0": 1030,
+        "t1": 1275
       },
       {
         "ch": "声",
-        "t0": 866,
-        "t1": 1029
+        "t0": 1275,
+        "t1": 1520
       },
       {
         "ch": "音",
-        "t0": 1029,
-        "t1": 1192
+        "t0": 1520,
+        "t1": 1765
       },
       {
         "ch": "认",
-        "t0": 1192,
-        "t1": 1355
+        "t0": 1765,
+        "t1": 2010
       },
       {
         "ch": "出",
-        "t0": 1355,
-        "t1": 1519
+        "t0": 2010,
+        "t1": 2255
       },
       {
         "ch": "来",
-        "t0": 1519,
-        "t1": 1682
+        "t0": 2255,
+        "t1": 2500
       },
       {
         "ch": "了",
-        "t0": 1682,
-        "t1": 1845
+        "t0": 2500,
+        "t1": 2745
       }
     ]
   },
@@ -2831,29 +2831,6 @@
       }
     ]
   },
-  "py.word.eight-pears": {
-    "src": "/audio/pinyin-station/py.word.eight-pears.5e057bf7.m4a",
-    "text": "八个梨",
-    "durationMs": 1185,
-    "role": "word",
-    "words": [
-      {
-        "ch": "八",
-        "t0": 50,
-        "t1": 335
-      },
-      {
-        "ch": "个",
-        "t0": 335,
-        "t1": 620
-      },
-      {
-        "ch": "梨",
-        "t0": 620,
-        "t1": 905
-      }
-    ]
-  },
   "py.word.didi-milu": {
     "src": "/audio/pinyin-station/py.word.didi-milu.000addbb.m4a",
     "text": "弟弟迷路了",
@@ -2887,1560 +2864,1701 @@
       }
     ]
   },
-  "py.word.baba-pati": {
-    "src": "/audio/pinyin-station/py.word.baba-pati.c820ced3.m4a",
-    "text": "爸爸爬梯",
-    "durationMs": 1301,
-    "role": "word",
-    "words": [
-      {
-        "ch": "爸",
-        "t0": 50,
-        "t1": 294
-      },
-      {
-        "ch": "爸",
-        "t0": 294,
-        "t1": 538
-      },
-      {
-        "ch": "爬",
-        "t0": 538,
-        "t1": 781
-      },
-      {
-        "ch": "梯",
-        "t0": 781,
-        "t1": 1025
-      }
-    ]
-  },
-  "py.word.rabbit-carrot": {
-    "src": "/audio/pinyin-station/py.word.rabbit-carrot.eacf73ad.m4a",
-    "text": "小白兔在拔萝卜",
-    "durationMs": 1974,
-    "role": "word",
-    "words": [
-      {
-        "ch": "小",
-        "t0": 70,
-        "t1": 295
-      },
-      {
-        "ch": "白",
-        "t0": 295,
-        "t1": 520
-      },
-      {
-        "ch": "兔",
-        "t0": 520,
-        "t1": 745
-      },
-      {
-        "ch": "在",
-        "t0": 745,
-        "t1": 970
-      },
-      {
-        "ch": "拔",
-        "t0": 970,
-        "t1": 1195
-      },
-      {
-        "ch": "萝",
-        "t0": 1195,
-        "t1": 1420
-      },
-      {
-        "ch": "卜",
-        "t0": 1420,
-        "t1": 1645
-      }
-    ]
-  },
   "py.syl.a1": {
-    "src": "/audio/pinyin-station/human.a1.7bc98799.mp3",
+    "src": "/audio/pinyin-station/human.a1.de8c85ac.m4a",
     "text": "ā",
-    "durationMs": 653,
+    "durationMs": 906,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.e1": {
-    "src": "/audio/pinyin-station/human.e1.7dab1424.mp3",
+    "src": "/audio/pinyin-station/human.e1.eb89d958.m4a",
     "text": "ē",
-    "durationMs": 810,
+    "durationMs": 1045,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.i1": {
-    "src": "/audio/pinyin-station/human.yi1.c904f8d0.mp3",
+    "src": "/audio/pinyin-station/human.yi1.dd2bf4f8.m4a",
     "text": "ī",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yi1": {
-    "src": "/audio/pinyin-station/human.yi1.c904f8d0.mp3",
+    "src": "/audio/pinyin-station/human.yi1.dd2bf4f8.m4a",
     "text": "yī",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.u1": {
-    "src": "/audio/pinyin-station/human.wu1.c0cb02c0.mp3",
+    "src": "/audio/pinyin-station/human.wu1.8b835f53.m4a",
     "text": "ū",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.wu1": {
-    "src": "/audio/pinyin-station/human.wu1.c0cb02c0.mp3",
+    "src": "/audio/pinyin-station/human.wu1.8b835f53.m4a",
     "text": "wū",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yu1": {
-    "src": "/audio/pinyin-station/human.yu1.8fb492ae.mp3",
+    "src": "/audio/pinyin-station/human.yu1.500dbb14.m4a",
     "text": "yū",
-    "durationMs": 758,
+    "durationMs": 999,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bo1": {
-    "src": "/audio/pinyin-station/human.bo1.5ce3a4f3.mp3",
+    "src": "/audio/pinyin-station/human.bo1.67e83ebf.m4a",
     "text": "bō",
-    "durationMs": 705,
+    "durationMs": 952,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.po1": {
-    "src": "/audio/pinyin-station/human.po1.39848083.mp3",
+    "src": "/audio/pinyin-station/human.po1.c62f75cd.m4a",
     "text": "pō",
-    "durationMs": 862,
+    "durationMs": 1115,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mo1": {
-    "src": "/audio/pinyin-station/human.mo1.e10f3407.mp3",
+    "src": "/audio/pinyin-station/human.mo1.73f02c1d.m4a",
     "text": "mō",
-    "durationMs": 1123,
+    "durationMs": 1347,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fo1": {
-    "src": "/audio/pinyin-station/human.fo1.f613c6b2.mp3",
+    "src": "/audio/pinyin-station/human.fo1.ca8b5328.m4a",
     "text": "fō",
-    "durationMs": 1306,
+    "durationMs": 1556,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.de1": {
-    "src": "/audio/pinyin-station/human.de1.abae2f52.mp3",
+    "src": "/audio/pinyin-station/human.de1.121c91bb.m4a",
     "text": "dē",
-    "durationMs": 914,
+    "durationMs": 1161,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.te1": {
-    "src": "/audio/pinyin-station/human.te1.fa90de10.mp3",
+    "src": "/audio/pinyin-station/human.te1.47f52355.m4a",
     "text": "tē",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ne1": {
-    "src": "/audio/pinyin-station/human.ne1.da12374a.mp3",
+    "src": "/audio/pinyin-station/human.ne1.44039ea7.m4a",
     "text": "nē",
-    "durationMs": 1071,
+    "durationMs": 1301,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.le1": {
-    "src": "/audio/pinyin-station/human.le1.11285590.mp3",
+    "src": "/audio/pinyin-station/human.le1.7a857d50.m4a",
     "text": "lē",
-    "durationMs": 1045,
+    "durationMs": 1301,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ba1": {
-    "src": "/audio/pinyin-station/human.ba1.f06db941.mp3",
+    "src": "/audio/pinyin-station/human.ba1.a8ec12ec.m4a",
     "text": "bā",
-    "durationMs": 731,
+    "durationMs": 976,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pa1": {
-    "src": "/audio/pinyin-station/human.pa1.65428fd0.mp3",
+    "src": "/audio/pinyin-station/human.pa1.7e321e14.m4a",
     "text": "pā",
-    "durationMs": 888,
+    "durationMs": 1138,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bo2": {
-    "src": "/audio/pinyin-station/human.bo2.75019471.mp3",
+    "src": "/audio/pinyin-station/human.bo2.f100464f.m4a",
     "text": "bó",
-    "durationMs": 1254,
+    "durationMs": 1486,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.po2": {
-    "src": "/audio/pinyin-station/human.po2.f2e096e1.mp3",
+    "src": "/audio/pinyin-station/human.po2.5af50fde.m4a",
     "text": "pó",
-    "durationMs": 862,
+    "durationMs": 1115,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bu4": {
-    "src": "/audio/pinyin-station/human.bu4.5fbbea89.mp3",
+    "src": "/audio/pinyin-station/human.bu4.0f998063.m4a",
     "text": "bù",
-    "durationMs": 993,
+    "durationMs": 1231,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pu4": {
-    "src": "/audio/pinyin-station/human.pu4.8aa41445.mp3",
+    "src": "/audio/pinyin-station/human.pu4.e2abe62a.m4a",
     "text": "pù",
-    "durationMs": 1384,
+    "durationMs": 1626,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.da1": {
-    "src": "/audio/pinyin-station/human.da1.a4050482.mp3",
+    "src": "/audio/pinyin-station/human.da1.fa47a515.m4a",
     "text": "dā",
-    "durationMs": 862,
+    "durationMs": 1115,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ta1": {
-    "src": "/audio/pinyin-station/human.ta1.f121df3a.mp3",
+    "src": "/audio/pinyin-station/human.ta1.b004a92b.m4a",
     "text": "tā",
-    "durationMs": 967,
+    "durationMs": 1208,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.du4": {
-    "src": "/audio/pinyin-station/human.du4.9c546120.mp3",
+    "src": "/audio/pinyin-station/human.du4.d29cfe88.m4a",
     "text": "dù",
-    "durationMs": 1620,
+    "durationMs": 1858,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.tu4": {
-    "src": "/audio/pinyin-station/human.tu4.dfb79fe3.mp3",
+    "src": "/audio/pinyin-station/human.tu4.061e2269.m4a",
     "text": "tù",
-    "durationMs": 1306,
+    "durationMs": 1533,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.lv2": {
-    "src": "/audio/pinyin-station/human.luu2.4c3ec7e0.mp3",
+    "src": "/audio/pinyin-station/human.luu2.89cc75e0.m4a",
     "text": "lǘ",
-    "durationMs": 1672,
+    "durationMs": 1904,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.nv2": {
-    "src": "/audio/pinyin-station/human.nuu2.ea3bea0e.mp3",
+    "src": "/audio/pinyin-station/human.nuu2.cb4db7ed.m4a",
     "text": "nǘ",
-    "durationMs": 1176,
+    "durationMs": 1417,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.lu4": {
-    "src": "/audio/pinyin-station/human.lu4.f9188633.mp3",
+    "src": "/audio/pinyin-station/human.lu4.f894e778.m4a",
     "text": "lù",
-    "durationMs": 1019,
+    "durationMs": 1254,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.nu4": {
-    "src": "/audio/pinyin-station/human.nu4.06dc26ec.mp3",
+    "src": "/audio/pinyin-station/human.nu4.24d9cd53.m4a",
     "text": "nù",
-    "durationMs": 1384,
+    "durationMs": 1626,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ba2": {
-    "src": "/audio/pinyin-station/human.ba2.50bd89c4.mp3",
+    "src": "/audio/pinyin-station/human.ba2.d2359767.m4a",
     "text": "bá",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ba3": {
-    "src": "/audio/pinyin-station/human.ba3.566642c3.mp3",
+    "src": "/audio/pinyin-station/human.ba3.db6e2746.m4a",
     "text": "bǎ",
-    "durationMs": 967,
+    "durationMs": 1208,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bi2": {
-    "src": "/audio/pinyin-station/human.bi2.e7280087.mp3",
+    "src": "/audio/pinyin-station/human.bi2.a9c04f93.m4a",
     "text": "bí",
-    "durationMs": 1123,
+    "durationMs": 1370,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.nv3": {
-    "src": "/audio/pinyin-station/human.nuu3.c30bd868.mp3",
+    "src": "/audio/pinyin-station/human.nuu3.3a19ba37.m4a",
     "text": "nǚ",
-    "durationMs": 1411,
+    "durationMs": 1649,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pi2": {
-    "src": "/audio/pinyin-station/human.pi2.89297d92.mp3",
+    "src": "/audio/pinyin-station/human.pi2.979f737c.m4a",
     "text": "pí",
-    "durationMs": 1176,
+    "durationMs": 1417,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.la3": {
-    "src": "/audio/pinyin-station/human.la3.a5df15b1.mp3",
+    "src": "/audio/pinyin-station/human.la3.4e73ee57.m4a",
     "text": "lǎ",
-    "durationMs": 1228,
+    "durationMs": 1463,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bi3": {
-    "src": "/audio/pinyin-station/human.bi3.a8912d15.mp3",
+    "src": "/audio/pinyin-station/human.bi3.bc9140f8.m4a",
     "text": "bǐ",
-    "durationMs": 1202,
+    "durationMs": 1440,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ma1": {
-    "src": "/audio/pinyin-station/human.ma1.b3a707db.mp3",
+    "src": "/audio/pinyin-station/human.ma1.b5f16ebb.m4a",
     "text": "mā",
-    "durationMs": 705,
+    "durationMs": 952,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.di4": {
-    "src": "/audio/pinyin-station/human.di4.99227add.mp3",
+    "src": "/audio/pinyin-station/human.di4.bfd3e31f.m4a",
     "text": "dì",
-    "durationMs": 1071,
+    "durationMs": 1324,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.tu2": {
-    "src": "/audio/pinyin-station/human.tu2.555e6f74.mp3",
+    "src": "/audio/pinyin-station/human.tu2.c37ea244.m4a",
     "text": "tú",
-    "durationMs": 1176,
+    "durationMs": 1417,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mo4": {
-    "src": "/audio/pinyin-station/human.mo4.ff83505c.mp3",
+    "src": "/audio/pinyin-station/human.mo4.e9b4054f.m4a",
     "text": "mò",
-    "durationMs": 1019,
+    "durationMs": 1254,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ti1": {
-    "src": "/audio/pinyin-station/human.ti1.d6857750.mp3",
+    "src": "/audio/pinyin-station/human.ti1.9956ff81.m4a",
     "text": "tī",
-    "durationMs": 836,
+    "durationMs": 1092,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pu1": {
-    "src": "/audio/pinyin-station/human.pu1.654ff318.mp3",
+    "src": "/audio/pinyin-station/human.pu1.617b390d.m4a",
     "text": "pū",
-    "durationMs": 1071,
+    "durationMs": 1324,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.la1": {
-    "src": "/audio/pinyin-station/human.la1.1b1e50f1.mp3",
+    "src": "/audio/pinyin-station/human.la1.f04abcdf.m4a",
     "text": "lā",
-    "durationMs": 1280,
+    "durationMs": 1510,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pa2": {
-    "src": "/audio/pinyin-station/human.pa2.b9c07059.mp3",
+    "src": "/audio/pinyin-station/human.pa2.6a8abf37.m4a",
     "text": "pá",
-    "durationMs": 1176,
+    "durationMs": 1417,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ni2": {
-    "src": "/audio/pinyin-station/human.ni2.bc2f1644.mp3",
+    "src": "/audio/pinyin-station/human.ni2.e7d2e944.m4a",
     "text": "ní",
-    "durationMs": 1332,
+    "durationMs": 1579,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.tu3": {
-    "src": "/audio/pinyin-station/human.tu3.6ef6fec9.mp3",
+    "src": "/audio/pinyin-station/human.tu3.eae9c1a6.m4a",
     "text": "tǔ",
-    "durationMs": 1306,
+    "durationMs": 1556,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mu4": {
-    "src": "/audio/pinyin-station/human.mu4.bcfac833.mp3",
+    "src": "/audio/pinyin-station/human.mu4.3a977763.m4a",
     "text": "mù",
-    "durationMs": 1254,
+    "durationMs": 1486,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ma3": {
-    "src": "/audio/pinyin-station/human.ma3.f331d049.mp3",
+    "src": "/audio/pinyin-station/human.ma3.925b048a.m4a",
     "text": "mǎ",
-    "durationMs": 1358,
+    "durationMs": 1603,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.la4": {
-    "src": "/audio/pinyin-station/human.la4.e2c42d37.mp3",
+    "src": "/audio/pinyin-station/human.la4.4965b020.m4a",
     "text": "là",
-    "durationMs": 1332,
+    "durationMs": 1579,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fu2": {
-    "src": "/audio/pinyin-station/human.fu2.406eda00.mp3",
+    "src": "/audio/pinyin-station/human.fu2.7dbecdcb.m4a",
     "text": "fú",
-    "durationMs": 1515,
+    "durationMs": 1765,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ba4": {
-    "src": "/audio/pinyin-station/human.ba4.34a89d80.mp3",
+    "src": "/audio/pinyin-station/human.ba4.c6762618.m4a",
     "text": "bà",
-    "durationMs": 1672,
+    "durationMs": 1904,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ba4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mi2": {
-    "src": "/audio/pinyin-station/human.mi2.6a9923a5.mp3",
+    "src": "/audio/pinyin-station/human.mi2.c9fe2838.m4a",
     "text": "mí",
-    "durationMs": 1254,
+    "durationMs": 1486,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mi3": {
-    "src": "/audio/pinyin-station/human.mi3.71404fd5.mp3",
+    "src": "/audio/pinyin-station/human.mi3.9b72e78c.m4a",
     "text": "mǐ",
-    "durationMs": 1672,
+    "durationMs": 1904,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.li2": {
-    "src": "/audio/pinyin-station/human.li2.60bfb071.mp3",
+    "src": "/audio/pinyin-station/human.li2.42c03047.m4a",
     "text": "lí",
-    "durationMs": 1437,
+    "durationMs": 1672,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ge4": {
-    "src": "/audio/pinyin-station/human.ge4.90c78158.mp3",
+    "src": "/audio/pinyin-station/human.ge4.da7da9f3.m4a",
     "text": "gè",
-    "durationMs": 1254,
+    "durationMs": 1486,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ge4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ge4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.xiao3": {
-    "src": "/audio/pinyin-station/human.xiao3.93bf6791.mp3",
+    "src": "/audio/pinyin-station/human.xiao3.c9539039.m4a",
     "text": "xiǎo",
-    "durationMs": 1149,
+    "durationMs": 1394,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xiao3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xiao3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bai2": {
-    "src": "/audio/pinyin-station/human.bai2.018da546.mp3",
+    "src": "/audio/pinyin-station/human.bai2.204add7b.m4a",
     "text": "bái",
-    "durationMs": 862,
+    "durationMs": 1115,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bai2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bai2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.zai4": {
-    "src": "/audio/pinyin-station/human.zai4.712e8882.mp3",
+    "src": "/audio/pinyin-station/human.zai4.17379bc3.m4a",
     "text": "zài",
-    "durationMs": 1306,
+    "durationMs": 1533,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zai4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zai4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.luo2": {
-    "src": "/audio/pinyin-station/human.luo2.c5f4e115.mp3",
+    "src": "/audio/pinyin-station/human.luo2.6345a5bb.m4a",
     "text": "luó",
-    "durationMs": 1123,
+    "durationMs": 1370,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luo2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luo2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.a2": {
-    "src": "/audio/pinyin-station/human.a2.fab1e822.mp3",
+    "src": "/audio/pinyin-station/human.a2.ee23aa30.m4a",
     "text": "á",
-    "durationMs": 862,
+    "durationMs": 1115,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.a3": {
-    "src": "/audio/pinyin-station/human.a3.e2f1a12b.mp3",
+    "src": "/audio/pinyin-station/human.a3.a17c36df.m4a",
     "text": "ǎ",
-    "durationMs": 1123,
+    "durationMs": 1347,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.a4": {
-    "src": "/audio/pinyin-station/human.a4.d7eb8aff.mp3",
+    "src": "/audio/pinyin-station/human.a4.9101f979.m4a",
     "text": "à",
-    "durationMs": 1045,
+    "durationMs": 1301,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/a4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.e2": {
-    "src": "/audio/pinyin-station/human.e2.c4647921.mp3",
+    "src": "/audio/pinyin-station/human.e2.76680a2c.m4a",
     "text": "é",
-    "durationMs": 1646,
+    "durationMs": 1881,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.e3": {
-    "src": "/audio/pinyin-station/human.e3.9a619321.mp3",
+    "src": "/audio/pinyin-station/human.e3.e2c4641f.m4a",
     "text": "ě",
-    "durationMs": 1149,
+    "durationMs": 1394,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.e4": {
-    "src": "/audio/pinyin-station/human.e4.3a7b963a.mp3",
+    "src": "/audio/pinyin-station/human.e4.c9af12e8.m4a",
     "text": "è",
-    "durationMs": 1724,
+    "durationMs": 1951,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/e4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yi2": {
-    "src": "/audio/pinyin-station/human.yi2.ae25c11f.mp3",
+    "src": "/audio/pinyin-station/human.yi2.007ba0f2.m4a",
     "text": "yí",
-    "durationMs": 1123,
+    "durationMs": 1347,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yi3": {
-    "src": "/audio/pinyin-station/human.yi3.d370c3eb.mp3",
+    "src": "/audio/pinyin-station/human.yi3.41fe01cc.m4a",
     "text": "yǐ",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yi4": {
-    "src": "/audio/pinyin-station/human.yi4.77edb9a8.mp3",
+    "src": "/audio/pinyin-station/human.yi4.b2c7f657.m4a",
     "text": "yì",
-    "durationMs": 1306,
+    "durationMs": 1533,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yi4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.wu2": {
-    "src": "/audio/pinyin-station/human.wu2.aea13c2a.mp3",
+    "src": "/audio/pinyin-station/human.wu2.0ad57adb.m4a",
     "text": "wú",
-    "durationMs": 1123,
+    "durationMs": 1347,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.wu3": {
-    "src": "/audio/pinyin-station/human.wu3.7fd999b8.mp3",
+    "src": "/audio/pinyin-station/human.wu3.e9adfea7.m4a",
     "text": "wǔ",
-    "durationMs": 1202,
+    "durationMs": 1440,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.wu4": {
-    "src": "/audio/pinyin-station/human.wu4.584ebf0a.mp3",
+    "src": "/audio/pinyin-station/human.wu4.e769ded8.m4a",
     "text": "wù",
-    "durationMs": 1593,
+    "durationMs": 1835,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yu2": {
-    "src": "/audio/pinyin-station/human.yu2.65e0a612.mp3",
+    "src": "/audio/pinyin-station/human.yu2.5671a0a0.m4a",
     "text": "yú",
-    "durationMs": 1228,
+    "durationMs": 1463,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yu3": {
-    "src": "/audio/pinyin-station/human.yu3.3b85c1e6.mp3",
+    "src": "/audio/pinyin-station/human.yu3.4ee10064.m4a",
     "text": "yǔ",
-    "durationMs": 940,
+    "durationMs": 1185,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.yu4": {
-    "src": "/audio/pinyin-station/human.yu4.c016e643.mp3",
+    "src": "/audio/pinyin-station/human.yu4.29eb421f.m4a",
     "text": "yù",
-    "durationMs": 1489,
+    "durationMs": 1742,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/yu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pa3": {
-    "src": "/audio/pinyin-station/human.pa3.986076a1.mp3",
+    "src": "/audio/pinyin-station/human.pa3.6f3a1f2c.m4a",
     "text": "pǎ",
-    "durationMs": 1411,
+    "durationMs": 1649,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pa4": {
-    "src": "/audio/pinyin-station/human.pa4.32d5c866.mp3",
+    "src": "/audio/pinyin-station/human.pa4.6def9330.m4a",
     "text": "pà",
-    "durationMs": 1306,
+    "durationMs": 1533,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pa4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ma2": {
-    "src": "/audio/pinyin-station/human.ma2.b7b771aa.mp3",
+    "src": "/audio/pinyin-station/human.ma2.ba19d5a0.m4a",
     "text": "má",
-    "durationMs": 1332,
+    "durationMs": 1579,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ma4": {
-    "src": "/audio/pinyin-station/human.ma4.d31b7468.mp3",
+    "src": "/audio/pinyin-station/human.ma4.09cf77b1.m4a",
     "text": "mà",
-    "durationMs": 1384,
+    "durationMs": 1626,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ma4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bo3": {
-    "src": "/audio/pinyin-station/human.bo3.a870d99b.mp3",
+    "src": "/audio/pinyin-station/human.bo3.4f7a1d0a.m4a",
     "text": "bǒ",
-    "durationMs": 1202,
+    "durationMs": 1440,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bo4": {
-    "src": "/audio/pinyin-station/human.bo4.11bcecd9.mp3",
+    "src": "/audio/pinyin-station/human.bo4.c7b3cbdd.m4a",
     "text": "bò",
-    "durationMs": 1202,
+    "durationMs": 1440,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bo4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.po3": {
-    "src": "/audio/pinyin-station/human.po3.d837ecfa.mp3",
+    "src": "/audio/pinyin-station/human.po3.ab49a02d.m4a",
     "text": "pǒ",
-    "durationMs": 1202,
+    "durationMs": 1440,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.po4": {
-    "src": "/audio/pinyin-station/human.po4.dcb9d8ff.mp3",
+    "src": "/audio/pinyin-station/human.po4.82e6eaa1.m4a",
     "text": "pò",
-    "durationMs": 1776,
+    "durationMs": 2021,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/po4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mo2": {
-    "src": "/audio/pinyin-station/human.mo2.c9169166.mp3",
+    "src": "/audio/pinyin-station/human.mo2.5ad2e9bf.m4a",
     "text": "mó",
-    "durationMs": 1437,
+    "durationMs": 1672,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mo3": {
-    "src": "/audio/pinyin-station/human.mo3.2e9ad8ee.mp3",
+    "src": "/audio/pinyin-station/human.mo3.0afe12bc.m4a",
     "text": "mǒ",
-    "durationMs": 1411,
+    "durationMs": 1649,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mo3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fo2": {
-    "src": "/audio/pinyin-station/human.fo2.0de847e4.mp3",
+    "src": "/audio/pinyin-station/human.fo2.d99694a2.m4a",
     "text": "fó",
-    "durationMs": 1254,
+    "durationMs": 1510,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fo3": {
-    "src": "/audio/pinyin-station/human.fo3.fadc7073.mp3",
+    "src": "/audio/pinyin-station/human.fo3.c90b8075.m4a",
     "text": "fǒ",
-    "durationMs": 1045,
+    "durationMs": 1277,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fo4": {
-    "src": "/audio/pinyin-station/human.fo4.d161727a.mp3",
+    "src": "/audio/pinyin-station/human.fo4.b6b38cd7.m4a",
     "text": "fò",
-    "durationMs": 1620,
+    "durationMs": 1858,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fo4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bu1": {
-    "src": "/audio/pinyin-station/human.bu1.25c75e1a.mp3",
+    "src": "/audio/pinyin-station/human.bu1.631b8eb9.m4a",
     "text": "bū",
-    "durationMs": 758,
+    "durationMs": 999,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bu2": {
-    "src": "/audio/pinyin-station/human.bu2.7dd701c0.mp3",
+    "src": "/audio/pinyin-station/human.bu2.38f835f3.m4a",
     "text": "bú",
-    "durationMs": 1071,
+    "durationMs": 1324,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.bu3": {
-    "src": "/audio/pinyin-station/human.bu3.9cca0c95.mp3",
+    "src": "/audio/pinyin-station/human.bu3.34f0c2d4.m4a",
     "text": "bǔ",
-    "durationMs": 1176,
+    "durationMs": 1417,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pu2": {
-    "src": "/audio/pinyin-station/human.pu2.772c7a10.mp3",
+    "src": "/audio/pinyin-station/human.pu2.b2f77e27.m4a",
     "text": "pú",
-    "durationMs": 1123,
+    "durationMs": 1370,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.pu3": {
-    "src": "/audio/pinyin-station/human.pu3.f6f23a37.mp3",
+    "src": "/audio/pinyin-station/human.pu3.3ea742a9.m4a",
     "text": "pǔ",
-    "durationMs": 1567,
+    "durationMs": 1812,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mu1": {
-    "src": "/audio/pinyin-station/human.mu1.04730c72.mp3",
+    "src": "/audio/pinyin-station/human.mu1.390f02a5.m4a",
     "text": "mū",
-    "durationMs": 1019,
+    "durationMs": 1277,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mu2": {
-    "src": "/audio/pinyin-station/human.mu2.deefd5b9.mp3",
+    "src": "/audio/pinyin-station/human.mu2.b9060e5b.m4a",
     "text": "mú",
-    "durationMs": 1176,
+    "durationMs": 1417,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.mu3": {
-    "src": "/audio/pinyin-station/human.mu3.70493094.mp3",
+    "src": "/audio/pinyin-station/human.mu3.2d155937.m4a",
     "text": "mǔ",
-    "durationMs": 1280,
+    "durationMs": 1510,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fu1": {
-    "src": "/audio/pinyin-station/human.fu1.0da052b9.mp3",
+    "src": "/audio/pinyin-station/human.fu1.74a68020.m4a",
     "text": "fū",
-    "durationMs": 1097,
+    "durationMs": 1347,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu1",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fu3": {
-    "src": "/audio/pinyin-station/human.fu3.9e964a1c.mp3",
+    "src": "/audio/pinyin-station/human.fu3.54b5e25b.m4a",
     "text": "fǔ",
-    "durationMs": 1202,
+    "durationMs": 1440,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.fu4": {
-    "src": "/audio/pinyin-station/human.fu4.d20ac236.mp3",
+    "src": "/audio/pinyin-station/human.fu4.52a65906.m4a",
     "text": "fù",
-    "durationMs": 1541,
+    "durationMs": 1765,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fu4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.da2": {
-    "src": "/audio/pinyin-station/human.da2.7ff3e8b7.mp3",
+    "src": "/audio/pinyin-station/human.da2.cdfafe90.m4a",
     "text": "dá",
-    "durationMs": 1071,
+    "durationMs": 1301,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da2"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da2",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.da3": {
-    "src": "/audio/pinyin-station/human.da3.e696a2aa.mp3",
+    "src": "/audio/pinyin-station/human.da3.3b19638d.m4a",
     "text": "dǎ",
-    "durationMs": 967,
+    "durationMs": 1208,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da3"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da3",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.da4": {
-    "src": "/audio/pinyin-station/human.da4.fb81ac3d.mp3",
+    "src": "/audio/pinyin-station/human.da4.587104d1.m4a",
     "text": "dà",
-    "durationMs": 1149,
+    "durationMs": 1394,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da4"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/da4",
+    "processing": "normalize-syllables@1"
   },
   "py.syl.ta2": {
-    "src": "/audio/pinyin-station/human.ta2.169dfcef.mp3",
+    "src": "/audio/pinyin-station/human.ta2.ef1e2e0c.m4a",
     "text": "tá",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta2"
-  },
-  "py.syl.ta3": {
-    "src": "/audio/pinyin-station/human.ta3.a9a7bac9.mp3",
-    "text": "tǎ",
-    "durationMs": 1411,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta3"
-  },
-  "py.syl.ta4": {
-    "src": "/audio/pinyin-station/human.ta4.918a32ec.mp3",
-    "text": "tà",
-    "durationMs": 1384,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta4"
-  },
-  "py.syl.na1": {
-    "src": "/audio/pinyin-station/human.na1.a0cc0d4c.mp3",
-    "text": "nā",
-    "durationMs": 993,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na1"
-  },
-  "py.syl.na2": {
-    "src": "/audio/pinyin-station/human.na2.fa6f3332.mp3",
-    "text": "ná",
-    "durationMs": 1176,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na2"
-  },
-  "py.syl.na3": {
-    "src": "/audio/pinyin-station/human.na3.6b30b952.mp3",
-    "text": "nǎ",
-    "durationMs": 1411,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na3"
-  },
-  "py.syl.na4": {
-    "src": "/audio/pinyin-station/human.na4.afdf596d.mp3",
-    "text": "nà",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na4"
-  },
-  "py.syl.la2": {
-    "src": "/audio/pinyin-station/human.la2.afc08c01.mp3",
-    "text": "lá",
-    "durationMs": 1515,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la2"
-  },
-  "py.syl.de2": {
-    "src": "/audio/pinyin-station/human.de2.bf486223.mp3",
-    "text": "dé",
-    "durationMs": 1384,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de2"
-  },
-  "py.syl.de3": {
-    "src": "/audio/pinyin-station/human.de3.1bf272c5.mp3",
-    "text": "dě",
-    "durationMs": 1123,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de3"
-  },
-  "py.syl.de4": {
-    "src": "/audio/pinyin-station/human.de4.4d74f16d.mp3",
-    "text": "dè",
-    "durationMs": 1437,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de4"
-  },
-  "py.syl.te2": {
-    "src": "/audio/pinyin-station/human.te2.9cb67fd3.mp3",
-    "text": "té",
-    "durationMs": 967,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te2"
-  },
-  "py.syl.te3": {
-    "src": "/audio/pinyin-station/human.te3.f482c08a.mp3",
-    "text": "tě",
-    "durationMs": 1306,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te3"
-  },
-  "py.syl.te4": {
-    "src": "/audio/pinyin-station/human.te4.cc6bc968.mp3",
-    "text": "tè",
-    "durationMs": 1593,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te4"
-  },
-  "py.syl.ne2": {
-    "src": "/audio/pinyin-station/human.ne2.3eb10e70.mp3",
-    "text": "né",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne2"
-  },
-  "py.syl.ne3": {
-    "src": "/audio/pinyin-station/human.ne3.c7906d99.mp3",
-    "text": "ně",
-    "durationMs": 1280,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne3"
-  },
-  "py.syl.ne4": {
-    "src": "/audio/pinyin-station/human.ne4.7cf015d5.mp3",
-    "text": "nè",
-    "durationMs": 1437,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne4"
-  },
-  "py.syl.le2": {
-    "src": "/audio/pinyin-station/human.le2.eb232c90.mp3",
-    "text": "lé",
-    "durationMs": 1437,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le2"
-  },
-  "py.syl.le3": {
-    "src": "/audio/pinyin-station/human.le3.0eb49e73.mp3",
-    "text": "lě",
-    "durationMs": 1332,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le3"
-  },
-  "py.syl.le4": {
-    "src": "/audio/pinyin-station/human.le4.16d26910.mp3",
-    "text": "lè",
-    "durationMs": 1437,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le4"
-  },
-  "py.syl.di1": {
-    "src": "/audio/pinyin-station/human.di1.a66b92a4.mp3",
-    "text": "dī",
-    "durationMs": 888,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di1"
-  },
-  "py.syl.di2": {
-    "src": "/audio/pinyin-station/human.di2.13eae7a2.mp3",
-    "text": "dí",
-    "durationMs": 1384,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di2"
-  },
-  "py.syl.di3": {
-    "src": "/audio/pinyin-station/human.di3.ddc0f7fc.mp3",
-    "text": "dǐ",
-    "durationMs": 1097,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di3"
-  },
-  "py.syl.ti2": {
-    "src": "/audio/pinyin-station/human.ti2.7ebbb8b5.mp3",
-    "text": "tí",
-    "durationMs": 1176,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti2"
-  },
-  "py.syl.ti3": {
-    "src": "/audio/pinyin-station/human.ti3.dfab8df4.mp3",
-    "text": "tǐ",
-    "durationMs": 1750,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti3"
-  },
-  "py.syl.ti4": {
-    "src": "/audio/pinyin-station/human.ti4.64430c7b.mp3",
-    "text": "tì",
-    "durationMs": 1306,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti4"
-  },
-  "py.syl.ni1": {
-    "src": "/audio/pinyin-station/human.ni1.28ba682a.mp3",
-    "text": "nī",
-    "durationMs": 914,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni1"
-  },
-  "py.syl.ni3": {
-    "src": "/audio/pinyin-station/human.ni3.3789abde.mp3",
-    "text": "nǐ",
-    "durationMs": 1541,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni3"
-  },
-  "py.syl.ni4": {
-    "src": "/audio/pinyin-station/human.ni4.94ebab03.mp3",
-    "text": "nì",
-    "durationMs": 1384,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni4"
-  },
-  "py.syl.li1": {
-    "src": "/audio/pinyin-station/human.li1.508ad4f1.mp3",
-    "text": "lī",
-    "durationMs": 1071,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li1"
-  },
-  "py.syl.li3": {
-    "src": "/audio/pinyin-station/human.li3.42c29635.mp3",
-    "text": "lǐ",
-    "durationMs": 1489,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li3"
-  },
-  "py.syl.li4": {
-    "src": "/audio/pinyin-station/human.li4.c841fe75.mp3",
-    "text": "lì",
-    "durationMs": 1437,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li4"
-  },
-  "py.syl.du1": {
-    "src": "/audio/pinyin-station/human.du1.25805aa1.mp3",
-    "text": "dū",
-    "durationMs": 1045,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du1"
-  },
-  "py.syl.du2": {
-    "src": "/audio/pinyin-station/human.du2.55cd14f7.mp3",
-    "text": "dú",
-    "durationMs": 993,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du2"
-  },
-  "py.syl.du3": {
-    "src": "/audio/pinyin-station/human.du3.4a182b10.mp3",
-    "text": "dǔ",
-    "durationMs": 967,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du3"
-  },
-  "py.syl.tu1": {
-    "src": "/audio/pinyin-station/human.tu1.e82c66a6.mp3",
-    "text": "tū",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu1"
-  },
-  "py.syl.nu1": {
-    "src": "/audio/pinyin-station/human.nu1.a5379321.mp3",
-    "text": "nū",
-    "durationMs": 1228,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu1"
-  },
-  "py.syl.nu2": {
-    "src": "/audio/pinyin-station/human.nu2.22286082.mp3",
-    "text": "nú",
-    "durationMs": 1176,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu2"
-  },
-  "py.syl.nu3": {
-    "src": "/audio/pinyin-station/human.nu3.ba5d80bd.mp3",
-    "text": "nǔ",
-    "durationMs": 1411,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu3"
-  },
-  "py.syl.lu1": {
-    "src": "/audio/pinyin-station/human.lu1.507ed3e3.mp3",
-    "text": "lū",
-    "durationMs": 967,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu1"
-  },
-  "py.syl.lu2": {
-    "src": "/audio/pinyin-station/human.lu2.1c31c9ea.mp3",
-    "text": "lú",
-    "durationMs": 1515,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu2"
-  },
-  "py.syl.lu3": {
-    "src": "/audio/pinyin-station/human.lu3.d0108058.mp3",
-    "text": "lǔ",
-    "durationMs": 1802,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu3"
-  },
-  "py.syl.nv1": {
-    "src": "/audio/pinyin-station/human.nuu1.de7b6776.mp3",
-    "text": "nǖ",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu1"
-  },
-  "py.syl.nv4": {
-    "src": "/audio/pinyin-station/human.nuu4.3d822a2c.mp3",
-    "text": "nǜ",
-    "durationMs": 1437,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu4"
-  },
-  "py.syl.lv1": {
-    "src": "/audio/pinyin-station/human.luu1.c462ecce.mp3",
-    "text": "lǖ",
-    "durationMs": 1176,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu1"
-  },
-  "py.syl.lv3": {
-    "src": "/audio/pinyin-station/human.luu3.7cb93345.mp3",
-    "text": "lǚ",
-    "durationMs": 1567,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu3"
-  },
-  "py.syl.lv4": {
-    "src": "/audio/pinyin-station/human.luu4.2f53e597.mp3",
-    "text": "lǜ",
-    "durationMs": 1149,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu4"
-  },
-  "py.syl.o1": {
-    "src": "/audio/pinyin-station/human.o1.208428d1.m4a",
-    "text": "ō",
-    "durationMs": 914,
-    "role": "word",
-    "source": "Lingua Libre / Cookai1205 / CC0"
-  },
-  "py.syl.fa4": {
-    "src": "/audio/pinyin-station/human.fa4.036bf6ba.mp3",
-    "text": "fà",
-    "durationMs": 1149,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa4"
-  },
-  "py.syl.fa1": {
-    "src": "/audio/pinyin-station/human.fa1.ac897661.mp3",
-    "text": "fā",
-    "durationMs": 914,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa1"
-  },
-  "py.syl.fa2": {
-    "src": "/audio/pinyin-station/human.fa2.5159626f.mp3",
-    "text": "fá",
-    "durationMs": 1071,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa2"
-  },
-  "py.syl.bi1": {
-    "src": "/audio/pinyin-station/human.bi1.640e14b6.mp3",
-    "text": "bī",
-    "durationMs": 653,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi1"
-  },
-  "py.syl.bi4": {
-    "src": "/audio/pinyin-station/human.bi4.9c0435c0.mp3",
-    "text": "bì",
-    "durationMs": 1672,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi4"
-  },
-  "py.syl.pi1": {
-    "src": "/audio/pinyin-station/human.pi1.547f9769.mp3",
-    "text": "pī",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi1"
-  },
-  "py.syl.pi3": {
-    "src": "/audio/pinyin-station/human.pi3.90705960.mp3",
-    "text": "pǐ",
-    "durationMs": 1358,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi3"
-  },
-  "py.syl.pi4": {
-    "src": "/audio/pinyin-station/human.pi4.65943b44.mp3",
-    "text": "pì",
-    "durationMs": 1384,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi4"
-  },
-  "py.syl.mi1": {
-    "src": "/audio/pinyin-station/human.mi1.1efc3ca1.mp3",
-    "text": "mī",
-    "durationMs": 1097,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi1"
-  },
-  "py.syl.mi4": {
-    "src": "/audio/pinyin-station/human.mi4.2e8f9e69.mp3",
-    "text": "mì",
-    "durationMs": 1672,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi4"
-  },
-  "py.syl.ge1": {
-    "src": "/audio/pinyin-station/human.ge1.25bfdfd6.mp3",
-    "text": "gē",
-    "durationMs": 1071,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ge1"
-  },
-  "py.syl.ke1": {
-    "src": "/audio/pinyin-station/human.ke1.ca83389e.mp3",
-    "text": "kē",
-    "durationMs": 1176,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ke1"
-  },
-  "py.syl.he1": {
-    "src": "/audio/pinyin-station/human.he1.ab4653f7.mp3",
-    "text": "hē",
-    "durationMs": 1097,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/he1"
-  },
-  "py.syl.ji1": {
-    "src": "/audio/pinyin-station/human.ji1.3ec77cdc.mp3",
-    "text": "jī",
-    "durationMs": 914,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ji1"
-  },
-  "py.syl.qi1": {
-    "src": "/audio/pinyin-station/human.qi1.437f4bda.mp3",
-    "text": "qī",
-    "durationMs": 1123,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/qi1"
-  },
-  "py.syl.xi1": {
-    "src": "/audio/pinyin-station/human.xi1.22805556.mp3",
-    "text": "xī",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xi1"
-  },
-  "py.syl.zi1": {
-    "src": "/audio/pinyin-station/human.zi1.90a3759a.mp3",
-    "text": "zī",
-    "durationMs": 836,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi1"
-  },
-  "py.syl.ci1": {
-    "src": "/audio/pinyin-station/human.ci1.d4a94793.mp3",
-    "text": "cī",
-    "durationMs": 1071,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ci1"
-  },
-  "py.syl.si1": {
-    "src": "/audio/pinyin-station/human.si1.2905e0ed.mp3",
-    "text": "sī",
-    "durationMs": 1123,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/si1"
-  },
-  "py.syl.zhi1": {
-    "src": "/audio/pinyin-station/human.zhi1.2d707033.mp3",
-    "text": "zhī",
-    "durationMs": 1280,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhi1"
-  },
-  "py.syl.chi1": {
-    "src": "/audio/pinyin-station/human.chi1.e618ff5e.mp3",
-    "text": "chī",
-    "durationMs": 810,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chi1"
-  },
-  "py.syl.shi1": {
-    "src": "/audio/pinyin-station/human.shi1.582b475f.mp3",
-    "text": "shī",
-    "durationMs": 1176,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shi1"
-  },
-  "py.syl.ri1": {
-    "src": "/audio/pinyin-station/human.ri1.8829d7d5.mp3",
-    "text": "rī",
-    "durationMs": 1071,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ri1"
-  },
-  "py.syl.gu1": {
-    "src": "/audio/pinyin-station/human.gu1.1ea5478d.mp3",
-    "text": "gū",
-    "durationMs": 1123,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gu1"
-  },
-  "py.syl.gu3": {
-    "src": "/audio/pinyin-station/human.gu3.4d517171.mp3",
-    "text": "gǔ",
-    "durationMs": 1280,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gu3"
-  },
-  "py.syl.ku1": {
-    "src": "/audio/pinyin-station/human.ku1.e6418612.mp3",
-    "text": "kū",
-    "durationMs": 1149,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ku1"
-  },
-  "py.syl.he2": {
-    "src": "/audio/pinyin-station/human.he2.21199927.mp3",
-    "text": "hé",
-    "durationMs": 1437,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/he2"
-  },
-  "py.syl.hu2": {
-    "src": "/audio/pinyin-station/human.hu2.ab1cc251.mp3",
-    "text": "hú",
-    "durationMs": 1515,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hu2"
-  },
-  "py.syl.hua1": {
-    "src": "/audio/pinyin-station/human.hua1.5ed1f7b1.mp3",
-    "text": "huā",
-    "durationMs": 1306,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hua1"
-  },
-  "py.syl.gua1": {
-    "src": "/audio/pinyin-station/human.gua1.7cda5f46.mp3",
-    "text": "guā",
-    "durationMs": 914,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gua1"
-  },
-  "py.syl.guo1": {
-    "src": "/audio/pinyin-station/human.guo1.6d1a0627.mp3",
-    "text": "guō",
-    "durationMs": 993,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/guo1"
-  },
-  "py.syl.huo3": {
-    "src": "/audio/pinyin-station/human.huo3.079f2b6c.mp3",
-    "text": "huǒ",
-    "durationMs": 1384,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/huo3"
-  },
-  "py.syl.ku3": {
-    "src": "/audio/pinyin-station/human.ku3.1226a188.mp3",
-    "text": "kǔ",
-    "durationMs": 1332,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ku3"
-  },
-  "py.syl.hua4": {
-    "src": "/audio/pinyin-station/human.hua4.b99bd7e5.mp3",
-    "text": "huà",
-    "durationMs": 1332,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hua4"
-  },
-  "py.syl.qi2": {
-    "src": "/audio/pinyin-station/human.qi2.2038975c.mp3",
-    "text": "qí",
-    "durationMs": 1567,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/qi2"
-  },
-  "py.syl.xia1": {
-    "src": "/audio/pinyin-station/human.xia1.dca5b45e.mp3",
-    "text": "xiā",
-    "durationMs": 993,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xia1"
-  },
-  "py.syl.xi3": {
-    "src": "/audio/pinyin-station/human.xi3.b903508d.mp3",
-    "text": "xǐ",
-    "durationMs": 1149,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xi3"
-  },
-  "py.syl.ju2": {
-    "src": "/audio/pinyin-station/human.ju2.61ecb838.mp3",
-    "text": "jú",
-    "durationMs": 1593,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ju2"
-  },
-  "py.syl.jia1": {
-    "src": "/audio/pinyin-station/human.jia1.c7bbe899.mp3",
-    "text": "jiā",
-    "durationMs": 758,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/jia1"
-  },
-  "py.syl.zi4": {
-    "src": "/audio/pinyin-station/human.zi4.f4f5011a.mp3",
-    "text": "zì",
-    "durationMs": 1097,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi4"
-  },
-  "py.syl.si4": {
-    "src": "/audio/pinyin-station/human.si4.a7ad8325.mp3",
-    "text": "sì",
-    "durationMs": 1489,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/si4"
-  },
-  "py.syl.zi3": {
-    "src": "/audio/pinyin-station/human.zi3.bc32951d.mp3",
-    "text": "zǐ",
-    "durationMs": 1097,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi3"
-  },
-  "py.syl.ca1": {
-    "src": "/audio/pinyin-station/human.ca1.66dc0eaf.mp3",
-    "text": "cā",
-    "durationMs": 784,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ca1"
-  },
-  "py.syl.zuo4": {
-    "src": "/audio/pinyin-station/human.zuo4.3ea37853.mp3",
-    "text": "zuò",
-    "durationMs": 1384,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zuo4"
-  },
-  "py.syl.wa4": {
-    "src": "/audio/pinyin-station/human.wa4.9668a144.mp3",
-    "text": "wà",
-    "durationMs": 1593,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wa4"
-  },
-  "py.syl.che1": {
-    "src": "/audio/pinyin-station/human.che1.fb9e7e2d.mp3",
-    "text": "chē",
-    "durationMs": 1045,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/che1"
-  },
-  "py.syl.shu1": {
-    "src": "/audio/pinyin-station/human.shu1.95098285.mp3",
-    "text": "shū",
-    "durationMs": 967,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shu1"
-  },
-  "py.syl.shu4": {
-    "src": "/audio/pinyin-station/human.shu4.8da96fa2.mp3",
-    "text": "shù",
-    "durationMs": 1985,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shu4"
-  },
-  "py.syl.ri4": {
-    "src": "/audio/pinyin-station/human.ri4.e5509a31.mp3",
-    "text": "rì",
-    "durationMs": 1306,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ri4"
-  },
-  "py.syl.zhu2": {
-    "src": "/audio/pinyin-station/human.zhu2.c0771e4b.mp3",
-    "text": "zhú",
-    "durationMs": 1071,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu2"
-  },
-  "py.syl.cha2": {
-    "src": "/audio/pinyin-station/human.cha2.2a349dc3.mp3",
-    "text": "chá",
-    "durationMs": 1123,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/cha2"
-  },
-  "py.syl.shua1": {
-    "src": "/audio/pinyin-station/human.shua1.74df7687.mp3",
-    "text": "shuā",
-    "durationMs": 1202,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shua1"
-  },
-  "py.syl.ya2": {
-    "src": "/audio/pinyin-station/human.ya2.659596b4.mp3",
-    "text": "yá",
-    "durationMs": 1228,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ya2"
-  },
-  "py.syl.chu1": {
-    "src": "/audio/pinyin-station/human.chu1.a1280809.mp3",
-    "text": "chū",
-    "durationMs": 758,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chu1"
-  },
-  "py.syl.zhuo1": {
-    "src": "/audio/pinyin-station/human.zhuo1.a264ca3c.mp3",
-    "text": "zhuō",
-    "durationMs": 1019,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhuo1"
-  },
-  "py.syl.chi3": {
-    "src": "/audio/pinyin-station/human.chi3.b6d8f602.mp3",
-    "text": "chǐ",
-    "durationMs": 1515,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chi3"
-  },
-  "py.syl.ke4": {
-    "src": "/audio/pinyin-station/human.ke4.29291d4d.mp3",
-    "text": "kè",
-    "durationMs": 1802,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ke4"
-  },
-  "py.syl.za1": {
-    "src": "/audio/pinyin-station/human.za1.45a7f747.mp3",
-    "text": "zā",
-    "durationMs": 836,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/za1"
-  },
-  "py.syl.zhu1": {
-    "src": "/audio/pinyin-station/human.zhu1.40895e60.mp3",
-    "text": "zhū",
-    "durationMs": 1071,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu1"
-  },
-  "py.syl.zu3": {
-    "src": "/audio/pinyin-station/human.zu3.950b7219.mp3",
-    "text": "zǔ",
-    "durationMs": 914,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zu3"
-  },
-  "py.syl.zhu3": {
-    "src": "/audio/pinyin-station/human.zhu3.bb80ece4.mp3",
-    "text": "zhǔ",
-    "durationMs": 940,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu3"
-  },
-  "py.syl.sa1": {
-    "src": "/audio/pinyin-station/human.sa1.6b26a4c8.mp3",
-    "text": "sā",
-    "durationMs": 784,
-    "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/sa1"
-  },
-  "py.syl.sha1": {
-    "src": "/audio/pinyin-station/human.sha1.f92de399.mp3",
-    "text": "shā",
     "durationMs": 1254,
     "role": "word",
-    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/sha1"
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ta3": {
+    "src": "/audio/pinyin-station/human.ta3.ea5810da.m4a",
+    "text": "tǎ",
+    "durationMs": 1649,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ta4": {
+    "src": "/audio/pinyin-station/human.ta4.ce42976e.m4a",
+    "text": "tà",
+    "durationMs": 1626,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ta4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.na1": {
+    "src": "/audio/pinyin-station/human.na1.62a328aa.m4a",
+    "text": "nā",
+    "durationMs": 1231,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.na2": {
+    "src": "/audio/pinyin-station/human.na2.7f6af31a.m4a",
+    "text": "ná",
+    "durationMs": 1417,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.na3": {
+    "src": "/audio/pinyin-station/human.na3.f00e1b23.m4a",
+    "text": "nǎ",
+    "durationMs": 1649,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.na4": {
+    "src": "/audio/pinyin-station/human.na4.24949237.m4a",
+    "text": "nà",
+    "durationMs": 1254,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/na4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.la2": {
+    "src": "/audio/pinyin-station/human.la2.7fa95185.m4a",
+    "text": "lá",
+    "durationMs": 1765,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/la2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.de2": {
+    "src": "/audio/pinyin-station/human.de2.be35bf71.m4a",
+    "text": "dé",
+    "durationMs": 1626,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.de3": {
+    "src": "/audio/pinyin-station/human.de3.24e21ccc.m4a",
+    "text": "dě",
+    "durationMs": 1347,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.de4": {
+    "src": "/audio/pinyin-station/human.de4.ffbc122c.m4a",
+    "text": "dè",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/de4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.te2": {
+    "src": "/audio/pinyin-station/human.te2.8d9cf88f.m4a",
+    "text": "té",
+    "durationMs": 1208,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.te3": {
+    "src": "/audio/pinyin-station/human.te3.263fb932.m4a",
+    "text": "tě",
+    "durationMs": 1556,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.te4": {
+    "src": "/audio/pinyin-station/human.te4.d1078b7e.m4a",
+    "text": "tè",
+    "durationMs": 1835,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/te4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ne2": {
+    "src": "/audio/pinyin-station/human.ne2.3491ef3c.m4a",
+    "text": "né",
+    "durationMs": 1254,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ne3": {
+    "src": "/audio/pinyin-station/human.ne3.e8cb682b.m4a",
+    "text": "ně",
+    "durationMs": 1510,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ne4": {
+    "src": "/audio/pinyin-station/human.ne4.4157aa63.m4a",
+    "text": "nè",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ne4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.le2": {
+    "src": "/audio/pinyin-station/human.le2.a805e62a.m4a",
+    "text": "lé",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.le3": {
+    "src": "/audio/pinyin-station/human.le3.5ce20106.m4a",
+    "text": "lě",
+    "durationMs": 1556,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.le4": {
+    "src": "/audio/pinyin-station/human.le4.32b66cf0.m4a",
+    "text": "lè",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/le4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.di1": {
+    "src": "/audio/pinyin-station/human.di1.46323be0.m4a",
+    "text": "dī",
+    "durationMs": 1138,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.di2": {
+    "src": "/audio/pinyin-station/human.di2.52c6b905.m4a",
+    "text": "dí",
+    "durationMs": 1626,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.di3": {
+    "src": "/audio/pinyin-station/human.di3.24620735.m4a",
+    "text": "dǐ",
+    "durationMs": 1347,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/di3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ti2": {
+    "src": "/audio/pinyin-station/human.ti2.dba39881.m4a",
+    "text": "tí",
+    "durationMs": 1417,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ti3": {
+    "src": "/audio/pinyin-station/human.ti3.53470cfb.m4a",
+    "text": "tǐ",
+    "durationMs": 1997,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ti4": {
+    "src": "/audio/pinyin-station/human.ti4.f2ccfcc4.m4a",
+    "text": "tì",
+    "durationMs": 1533,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ti4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ni1": {
+    "src": "/audio/pinyin-station/human.ni1.039acb20.m4a",
+    "text": "nī",
+    "durationMs": 1138,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ni3": {
+    "src": "/audio/pinyin-station/human.ni3.3b9c6e0d.m4a",
+    "text": "nǐ",
+    "durationMs": 1788,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ni4": {
+    "src": "/audio/pinyin-station/human.ni4.1823706c.m4a",
+    "text": "nì",
+    "durationMs": 1626,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ni4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.li1": {
+    "src": "/audio/pinyin-station/human.li1.dfe58d2a.m4a",
+    "text": "lī",
+    "durationMs": 1301,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.li3": {
+    "src": "/audio/pinyin-station/human.li3.361a206b.m4a",
+    "text": "lǐ",
+    "durationMs": 1742,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.li4": {
+    "src": "/audio/pinyin-station/human.li4.6c6a12be.m4a",
+    "text": "lì",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/li4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.du1": {
+    "src": "/audio/pinyin-station/human.du1.d16d8b8d.m4a",
+    "text": "dū",
+    "durationMs": 1301,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.du2": {
+    "src": "/audio/pinyin-station/human.du2.2b1f4955.m4a",
+    "text": "dú",
+    "durationMs": 1231,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.du3": {
+    "src": "/audio/pinyin-station/human.du3.89b6bb70.m4a",
+    "text": "dǔ",
+    "durationMs": 1208,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/du3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.tu1": {
+    "src": "/audio/pinyin-station/human.tu1.d728b331.m4a",
+    "text": "tū",
+    "durationMs": 1254,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/tu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.nu1": {
+    "src": "/audio/pinyin-station/human.nu1.88ab3461.m4a",
+    "text": "nū",
+    "durationMs": 1486,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.nu2": {
+    "src": "/audio/pinyin-station/human.nu2.c47557ce.m4a",
+    "text": "nú",
+    "durationMs": 1417,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.nu3": {
+    "src": "/audio/pinyin-station/human.nu3.42f2613d.m4a",
+    "text": "nǔ",
+    "durationMs": 1649,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nu3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.lu1": {
+    "src": "/audio/pinyin-station/human.lu1.3f3bc478.m4a",
+    "text": "lū",
+    "durationMs": 1208,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.lu2": {
+    "src": "/audio/pinyin-station/human.lu2.334d1de7.m4a",
+    "text": "lú",
+    "durationMs": 1742,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.lu3": {
+    "src": "/audio/pinyin-station/human.lu3.4c8cf8a7.m4a",
+    "text": "lǔ",
+    "durationMs": 2044,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/lu3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.nv1": {
+    "src": "/audio/pinyin-station/human.nuu1.3878381c.m4a",
+    "text": "nǖ",
+    "durationMs": 1254,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.nv4": {
+    "src": "/audio/pinyin-station/human.nuu4.aa35d95b.m4a",
+    "text": "nǜ",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/nuu4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.lv1": {
+    "src": "/audio/pinyin-station/human.luu1.866a7d89.m4a",
+    "text": "lǖ",
+    "durationMs": 1417,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.lv3": {
+    "src": "/audio/pinyin-station/human.luu3.2965c88e.m4a",
+    "text": "lǚ",
+    "durationMs": 1812,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.lv4": {
+    "src": "/audio/pinyin-station/human.luu4.4237c148.m4a",
+    "text": "lǜ",
+    "durationMs": 1394,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/luu4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.o1": {
+    "src": "/audio/pinyin-station/human.o1.59fc1da8.m4a",
+    "text": "ō",
+    "durationMs": 1185,
+    "role": "word",
+    "source": "Lingua Libre / Cookai1205 / CC0",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.fa4": {
+    "src": "/audio/pinyin-station/human.fa4.60db974f.m4a",
+    "text": "fà",
+    "durationMs": 1394,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.fa1": {
+    "src": "/audio/pinyin-station/human.fa1.a539efd2.m4a",
+    "text": "fā",
+    "durationMs": 1161,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.fa2": {
+    "src": "/audio/pinyin-station/human.fa2.d60b90b0.m4a",
+    "text": "fá",
+    "durationMs": 1301,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/fa2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.bi1": {
+    "src": "/audio/pinyin-station/human.bi1.106f8697.m4a",
+    "text": "bī",
+    "durationMs": 883,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.bi4": {
+    "src": "/audio/pinyin-station/human.bi4.5db06c47.m4a",
+    "text": "bì",
+    "durationMs": 1904,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/bi4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.pi1": {
+    "src": "/audio/pinyin-station/human.pi1.93185640.m4a",
+    "text": "pī",
+    "durationMs": 1277,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.pi3": {
+    "src": "/audio/pinyin-station/human.pi3.e179b3a0.m4a",
+    "text": "pǐ",
+    "durationMs": 1603,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.pi4": {
+    "src": "/audio/pinyin-station/human.pi4.26e55b64.m4a",
+    "text": "pì",
+    "durationMs": 1626,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/pi4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.mi1": {
+    "src": "/audio/pinyin-station/human.mi1.8fd5bae7.m4a",
+    "text": "mī",
+    "durationMs": 1347,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.mi4": {
+    "src": "/audio/pinyin-station/human.mi4.c001b6a8.m4a",
+    "text": "mì",
+    "durationMs": 1904,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/mi4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ge1": {
+    "src": "/audio/pinyin-station/human.ge1.a7155f77.m4a",
+    "text": "gē",
+    "durationMs": 1301,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ge1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ke1": {
+    "src": "/audio/pinyin-station/human.ke1.504a1334.m4a",
+    "text": "kē",
+    "durationMs": 1417,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ke1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.he1": {
+    "src": "/audio/pinyin-station/human.he1.5aa756a9.m4a",
+    "text": "hē",
+    "durationMs": 1347,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/he1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ji1": {
+    "src": "/audio/pinyin-station/human.ji1.f42f27a7.m4a",
+    "text": "jī",
+    "durationMs": 1161,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ji1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.qi1": {
+    "src": "/audio/pinyin-station/human.qi1.10b47d64.m4a",
+    "text": "qī",
+    "durationMs": 1370,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/qi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.xi1": {
+    "src": "/audio/pinyin-station/human.xi1.2f6013ed.m4a",
+    "text": "xī",
+    "durationMs": 1254,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zi1": {
+    "src": "/audio/pinyin-station/human.zi1.7954a3c5.m4a",
+    "text": "zī",
+    "durationMs": 1092,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ci1": {
+    "src": "/audio/pinyin-station/human.ci1.56a4c376.m4a",
+    "text": "cī",
+    "durationMs": 1324,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ci1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.si1": {
+    "src": "/audio/pinyin-station/human.si1.c87cb442.m4a",
+    "text": "sī",
+    "durationMs": 1370,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/si1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zhi1": {
+    "src": "/audio/pinyin-station/human.zhi1.ca8b1b93.m4a",
+    "text": "zhī",
+    "durationMs": 1533,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.chi1": {
+    "src": "/audio/pinyin-station/human.chi1.631d9261.m4a",
+    "text": "chī",
+    "durationMs": 1045,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.shi1": {
+    "src": "/audio/pinyin-station/human.shi1.289d469a.m4a",
+    "text": "shī",
+    "durationMs": 1417,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shi1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ri1": {
+    "src": "/audio/pinyin-station/human.ri1.b8f0ab42.m4a",
+    "text": "rī",
+    "durationMs": 1324,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ri1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.gu1": {
+    "src": "/audio/pinyin-station/human.gu1.1c5100e7.m4a",
+    "text": "gū",
+    "durationMs": 1347,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.gu3": {
+    "src": "/audio/pinyin-station/human.gu3.6268038a.m4a",
+    "text": "gǔ",
+    "durationMs": 1533,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gu3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ku1": {
+    "src": "/audio/pinyin-station/human.ku1.b5529596.m4a",
+    "text": "kū",
+    "durationMs": 1394,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ku1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.he2": {
+    "src": "/audio/pinyin-station/human.he2.15c7c09b.m4a",
+    "text": "hé",
+    "durationMs": 1672,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/he2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.hu2": {
+    "src": "/audio/pinyin-station/human.hu2.4ce61dab.m4a",
+    "text": "hú",
+    "durationMs": 1742,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hu2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.hua1": {
+    "src": "/audio/pinyin-station/human.hua1.486da04d.m4a",
+    "text": "huā",
+    "durationMs": 1556,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hua1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.gua1": {
+    "src": "/audio/pinyin-station/human.gua1.f5c5ef67.m4a",
+    "text": "guā",
+    "durationMs": 1161,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/gua1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.guo1": {
+    "src": "/audio/pinyin-station/human.guo1.8c46c3dd.m4a",
+    "text": "guō",
+    "durationMs": 1231,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/guo1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.huo3": {
+    "src": "/audio/pinyin-station/human.huo3.d76dcd6f.m4a",
+    "text": "huǒ",
+    "durationMs": 1626,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/huo3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ku3": {
+    "src": "/audio/pinyin-station/human.ku3.6cb702c0.m4a",
+    "text": "kǔ",
+    "durationMs": 1556,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ku3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.hua4": {
+    "src": "/audio/pinyin-station/human.hua4.0f500a06.m4a",
+    "text": "huà",
+    "durationMs": 1579,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/hua4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.qi2": {
+    "src": "/audio/pinyin-station/human.qi2.514cd0ce.m4a",
+    "text": "qí",
+    "durationMs": 1812,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/qi2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.xia1": {
+    "src": "/audio/pinyin-station/human.xia1.141ea28a.m4a",
+    "text": "xiā",
+    "durationMs": 1231,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xia1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.xi3": {
+    "src": "/audio/pinyin-station/human.xi3.26465ad0.m4a",
+    "text": "xǐ",
+    "durationMs": 1394,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/xi3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ju2": {
+    "src": "/audio/pinyin-station/human.ju2.4ed600d8.m4a",
+    "text": "jú",
+    "durationMs": 1835,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ju2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.jia1": {
+    "src": "/audio/pinyin-station/human.jia1.f14d7239.m4a",
+    "text": "jiā",
+    "durationMs": 999,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/jia1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zi4": {
+    "src": "/audio/pinyin-station/human.zi4.2e1a3d30.m4a",
+    "text": "zì",
+    "durationMs": 1347,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.si4": {
+    "src": "/audio/pinyin-station/human.si4.aa37c659.m4a",
+    "text": "sì",
+    "durationMs": 1742,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/si4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zi3": {
+    "src": "/audio/pinyin-station/human.zi3.9a34d532.m4a",
+    "text": "zǐ",
+    "durationMs": 1347,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zi3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ca1": {
+    "src": "/audio/pinyin-station/human.ca1.c558e560.m4a",
+    "text": "cā",
+    "durationMs": 1022,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ca1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zuo4": {
+    "src": "/audio/pinyin-station/human.zuo4.49ef1359.m4a",
+    "text": "zuò",
+    "durationMs": 1626,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zuo4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.wa4": {
+    "src": "/audio/pinyin-station/human.wa4.590d62f6.m4a",
+    "text": "wà",
+    "durationMs": 1835,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/wa4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.che1": {
+    "src": "/audio/pinyin-station/human.che1.6f8527c5.m4a",
+    "text": "chē",
+    "durationMs": 1277,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/che1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.shu1": {
+    "src": "/audio/pinyin-station/human.shu1.361e950b.m4a",
+    "text": "shū",
+    "durationMs": 1208,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.shu4": {
+    "src": "/audio/pinyin-station/human.shu4.60292f93.m4a",
+    "text": "shù",
+    "durationMs": 2230,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shu4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ri4": {
+    "src": "/audio/pinyin-station/human.ri4.05674169.m4a",
+    "text": "rì",
+    "durationMs": 1533,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ri4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zhu2": {
+    "src": "/audio/pinyin-station/human.zhu2.a2760c05.m4a",
+    "text": "zhú",
+    "durationMs": 1301,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.cha2": {
+    "src": "/audio/pinyin-station/human.cha2.412d248e.m4a",
+    "text": "chá",
+    "durationMs": 1370,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/cha2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.shua1": {
+    "src": "/audio/pinyin-station/human.shua1.4a3a737d.m4a",
+    "text": "shuā",
+    "durationMs": 1440,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/shua1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ya2": {
+    "src": "/audio/pinyin-station/human.ya2.947a2b93.m4a",
+    "text": "yá",
+    "durationMs": 1463,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ya2",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.chu1": {
+    "src": "/audio/pinyin-station/human.chu1.f6ddf0db.m4a",
+    "text": "chū",
+    "durationMs": 999,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zhuo1": {
+    "src": "/audio/pinyin-station/human.zhuo1.f971ad12.m4a",
+    "text": "zhuō",
+    "durationMs": 1277,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhuo1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.chi3": {
+    "src": "/audio/pinyin-station/human.chi3.19b22cb0.m4a",
+    "text": "chǐ",
+    "durationMs": 1765,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/chi3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.ke4": {
+    "src": "/audio/pinyin-station/human.ke4.d5199d34.m4a",
+    "text": "kè",
+    "durationMs": 2044,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/ke4",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.za1": {
+    "src": "/audio/pinyin-station/human.za1.69d43a5c.m4a",
+    "text": "zā",
+    "durationMs": 1092,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/za1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zhu1": {
+    "src": "/audio/pinyin-station/human.zhu1.86783dfc.m4a",
+    "text": "zhū",
+    "durationMs": 1324,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zu3": {
+    "src": "/audio/pinyin-station/human.zu3.ca0dd15a.m4a",
+    "text": "zǔ",
+    "durationMs": 1161,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zu3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.zhu3": {
+    "src": "/audio/pinyin-station/human.zhu3.0e995bc2.m4a",
+    "text": "zhǔ",
+    "durationMs": 1185,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/zhu3",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.sa1": {
+    "src": "/audio/pinyin-station/human.sa1.4a367f6c.m4a",
+    "text": "sā",
+    "durationMs": 1022,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/sa1",
+    "processing": "normalize-syllables@1"
+  },
+  "py.syl.sha1": {
+    "src": "/audio/pinyin-station/human.sha1.e24c1bc6.m4a",
+    "text": "shā",
+    "durationMs": 1510,
+    "role": "word",
+    "source": "davinfifield/aa25ecce7b7fb02757b2c2b8e3c01aa975812edc/sha1",
+    "processing": "normalize-syllables@1"
   },
   "py.scene.pond": {
     "src": "/audio/pinyin-station/py.scene.pond.8846f88b.m4a",
@@ -8134,454 +8252,454 @@
     ]
   },
   "py.tip.b-p": {
-    "src": "/audio/pinyin-station/py.tip.b-p.2b1c44ba.m4a",
+    "src": "/audio/pinyin-station/py.tip.b-p.bb86c16f.m4a",
     "text": "把小纸条放嘴前，读 p 时让它飘起来。",
-    "durationMs": 4412,
+    "durationMs": 4621,
     "role": "companion",
     "words": [
       {
         "ch": "把",
         "t0": 70,
-        "t1": 319
+        "t1": 350
       },
       {
         "ch": "小",
-        "t0": 319,
-        "t1": 567
+        "t0": 350,
+        "t1": 630
       },
       {
         "ch": "纸",
-        "t0": 567,
-        "t1": 816
+        "t0": 630,
+        "t1": 910
       },
       {
         "ch": "条",
-        "t0": 816,
-        "t1": 1064
+        "t0": 910,
+        "t1": 1190
       },
       {
         "ch": "放",
-        "t0": 1064,
-        "t1": 1313
+        "t0": 1190,
+        "t1": 1470
       },
       {
         "ch": "嘴",
-        "t0": 1313,
-        "t1": 1561
+        "t0": 1470,
+        "t1": 1750
       },
       {
         "ch": "前",
-        "t0": 1561,
-        "t1": 1810
+        "t0": 1750,
+        "t1": 2030
       },
       {
         "ch": "，",
-        "t0": 1810,
-        "t1": 2060
+        "t0": 2030,
+        "t1": 2350
       },
       {
         "ch": "读",
-        "t0": 2060,
-        "t1": 2316
+        "t0": 2350,
+        "t1": 2596
       },
       {
         "ch": "p",
-        "t0": 2316,
-        "t1": 2571
+        "t0": 2596,
+        "t1": 2841
       },
       {
         "ch": "时",
-        "t0": 2571,
-        "t1": 2827
+        "t0": 2841,
+        "t1": 3087
       },
       {
         "ch": "让",
-        "t0": 2827,
-        "t1": 3082
+        "t0": 3087,
+        "t1": 3332
       },
       {
         "ch": "它",
-        "t0": 3082,
-        "t1": 3338
+        "t0": 3332,
+        "t1": 3578
       },
       {
         "ch": "飘",
-        "t0": 3338,
-        "t1": 3594
+        "t0": 3578,
+        "t1": 3824
       },
       {
         "ch": "起",
-        "t0": 3594,
-        "t1": 3849
+        "t0": 3824,
+        "t1": 4069
       },
       {
         "ch": "来",
-        "t0": 3849,
-        "t1": 4105
+        "t0": 4069,
+        "t1": 4315
       },
       {
         "ch": "。",
-        "t0": 4105,
-        "t1": 4105
+        "t0": 4315,
+        "t1": 4315
       }
     ]
   },
   "py.tip.d-t": {
-    "src": "/audio/pinyin-station/py.tip.d-t.b83209e6.m4a",
+    "src": "/audio/pinyin-station/py.tip.d-t.f9ddb622.m4a",
     "text": "把小纸条放嘴前，舌尖弹一下，读 t 时让纸条飘起来。",
-    "durationMs": 7059,
+    "durationMs": 6247,
     "role": "companion",
     "words": [
       {
         "ch": "把",
         "t0": 70,
-        "t1": 324
+        "t1": 311
       },
       {
         "ch": "小",
-        "t0": 324,
-        "t1": 579
+        "t0": 311,
+        "t1": 553
       },
       {
         "ch": "纸",
-        "t0": 579,
-        "t1": 833
+        "t0": 553,
+        "t1": 794
       },
       {
         "ch": "条",
-        "t0": 833,
-        "t1": 1087
+        "t0": 794,
+        "t1": 1036
       },
       {
         "ch": "放",
-        "t0": 1087,
-        "t1": 1341
+        "t0": 1036,
+        "t1": 1277
       },
       {
         "ch": "嘴",
-        "t0": 1341,
-        "t1": 1596
+        "t0": 1277,
+        "t1": 1519
       },
       {
         "ch": "前",
-        "t0": 1596,
-        "t1": 1850
+        "t0": 1519,
+        "t1": 1760
       },
       {
         "ch": "，",
-        "t0": 1850,
+        "t0": 1760,
         "t1": 2120
       },
       {
         "ch": "舌",
         "t0": 2120,
-        "t1": 2376
+        "t1": 2318
       },
       {
         "ch": "尖",
-        "t0": 2376,
-        "t1": 2632
+        "t0": 2318,
+        "t1": 2516
       },
       {
         "ch": "弹",
-        "t0": 2632,
-        "t1": 2888
+        "t0": 2516,
+        "t1": 2714
       },
       {
         "ch": "一",
-        "t0": 2888,
-        "t1": 3144
+        "t0": 2714,
+        "t1": 2912
       },
       {
         "ch": "下",
-        "t0": 3144,
-        "t1": 3400
+        "t0": 2912,
+        "t1": 3110
       },
       {
         "ch": "，",
-        "t0": 3400,
-        "t1": 3820
+        "t0": 3110,
+        "t1": 3840
       },
       {
         "ch": "读",
-        "t0": 3820,
-        "t1": 4145
+        "t0": 3840,
+        "t1": 4073
       },
       {
         "ch": "t",
-        "t0": 4145,
-        "t1": 4470
+        "t0": 4073,
+        "t1": 4306
       },
       {
         "ch": "时",
-        "t0": 4470,
-        "t1": 4795
+        "t0": 4306,
+        "t1": 4538
       },
       {
         "ch": "让",
-        "t0": 4795,
-        "t1": 5120
+        "t0": 4538,
+        "t1": 4771
       },
       {
         "ch": "纸",
-        "t0": 5120,
-        "t1": 5445
+        "t0": 4771,
+        "t1": 5004
       },
       {
         "ch": "条",
-        "t0": 5445,
-        "t1": 5770
+        "t0": 5004,
+        "t1": 5237
       },
       {
         "ch": "飘",
-        "t0": 5770,
-        "t1": 6095
+        "t0": 5237,
+        "t1": 5469
       },
       {
         "ch": "起",
-        "t0": 6095,
-        "t1": 6420
+        "t0": 5469,
+        "t1": 5702
       },
       {
         "ch": "来",
-        "t0": 6420,
-        "t1": 6745
+        "t0": 5702,
+        "t1": 5935
       },
       {
         "ch": "。",
-        "t0": 6745,
-        "t1": 6745
+        "t0": 5935,
+        "t1": 5935
       }
     ]
   },
   "py.tip.b-d": {
-    "src": "/audio/pinyin-station/py.tip.b-d.19a62fc9.m4a",
+    "src": "/audio/pinyin-station/py.tip.b-d.6bf1cf6f.m4a",
     "text": "先找小肚子的方向：b 在右下，d 在左下。",
-    "durationMs": 4877,
+    "durationMs": 5852,
     "role": "companion",
     "words": [
       {
         "ch": "先",
         "t0": 70,
-        "t1": 302
+        "t1": 264
       },
       {
         "ch": "找",
-        "t0": 302,
-        "t1": 535
+        "t0": 264,
+        "t1": 458
       },
       {
         "ch": "小",
-        "t0": 535,
-        "t1": 768
+        "t0": 458,
+        "t1": 651
       },
       {
         "ch": "肚",
-        "t0": 768,
-        "t1": 1000
+        "t0": 651,
+        "t1": 845
       },
       {
         "ch": "子",
-        "t0": 1000,
-        "t1": 1232
+        "t0": 845,
+        "t1": 1039
       },
       {
         "ch": "的",
-        "t0": 1232,
-        "t1": 1465
+        "t0": 1039,
+        "t1": 1233
       },
       {
         "ch": "方",
-        "t0": 1465,
-        "t1": 1698
+        "t0": 1233,
+        "t1": 1426
       },
       {
         "ch": "向",
-        "t0": 1698,
-        "t1": 1930
+        "t0": 1426,
+        "t1": 1620
       },
       {
         "ch": "：",
-        "t0": 1930,
+        "t0": 1620,
         "t1": 2310
       },
       {
         "ch": "b",
         "t0": 2310,
-        "t1": 2540
+        "t1": 2670
       },
       {
         "ch": "在",
-        "t0": 2540,
-        "t1": 2770
+        "t0": 2670,
+        "t1": 3030
       },
       {
         "ch": "右",
-        "t0": 2770,
-        "t1": 3000
+        "t0": 3030,
+        "t1": 3390
       },
       {
         "ch": "下",
-        "t0": 3000,
-        "t1": 3230
+        "t0": 3390,
+        "t1": 3750
       },
       {
         "ch": "，",
-        "t0": 3230,
-        "t1": 3640
+        "t0": 3750,
+        "t1": 4150
       },
       {
         "ch": "d",
-        "t0": 3640,
-        "t1": 3871
+        "t0": 4150,
+        "t1": 4496
       },
       {
         "ch": "在",
-        "t0": 3871,
-        "t1": 4102
+        "t0": 4496,
+        "t1": 4842
       },
       {
         "ch": "左",
-        "t0": 4102,
-        "t1": 4334
+        "t0": 4842,
+        "t1": 5189
       },
       {
         "ch": "下",
-        "t0": 4334,
-        "t1": 4565
+        "t0": 5189,
+        "t1": 5535
       },
       {
         "ch": "。",
-        "t0": 4565,
-        "t1": 4565
+        "t0": 5535,
+        "t1": 5535
       }
     ]
   },
   "py.tip.l-n": {
-    "src": "/audio/pinyin-station/py.tip.l-n.7cd45b82.m4a",
+    "src": "/audio/pinyin-station/py.tip.l-n.574e48f9.m4a",
     "text": "轻轻捏住鼻子读，n 的声音会被挡住，l 还能读出来。",
-    "durationMs": 5225,
+    "durationMs": 5504,
     "role": "companion",
     "words": [
       {
         "ch": "轻",
-        "t0": 60,
-        "t1": 229
+        "t0": 70,
+        "t1": 299
       },
       {
         "ch": "轻",
-        "t0": 229,
-        "t1": 397
+        "t0": 299,
+        "t1": 527
       },
       {
         "ch": "捏",
-        "t0": 397,
-        "t1": 566
+        "t0": 527,
+        "t1": 756
       },
       {
         "ch": "住",
-        "t0": 566,
-        "t1": 734
+        "t0": 756,
+        "t1": 984
       },
       {
         "ch": "鼻",
-        "t0": 734,
-        "t1": 903
+        "t0": 984,
+        "t1": 1213
       },
       {
         "ch": "子",
-        "t0": 903,
-        "t1": 1071
+        "t0": 1213,
+        "t1": 1441
       },
       {
         "ch": "读",
-        "t0": 1071,
-        "t1": 1240
+        "t0": 1441,
+        "t1": 1670
       },
       {
         "ch": "，",
-        "t0": 1240,
-        "t1": 1750
+        "t0": 1670,
+        "t1": 2140
       },
       {
         "ch": "n",
-        "t0": 1750,
-        "t1": 1931
+        "t0": 2140,
+        "t1": 2343
       },
       {
         "ch": "的",
-        "t0": 1931,
-        "t1": 2112
+        "t0": 2343,
+        "t1": 2545
       },
       {
         "ch": "声",
-        "t0": 2112,
-        "t1": 2294
+        "t0": 2545,
+        "t1": 2748
       },
       {
         "ch": "音",
-        "t0": 2294,
-        "t1": 2475
+        "t0": 2748,
+        "t1": 2950
       },
       {
         "ch": "会",
-        "t0": 2475,
-        "t1": 2656
+        "t0": 2950,
+        "t1": 3153
       },
       {
         "ch": "被",
-        "t0": 2656,
-        "t1": 2838
+        "t0": 3153,
+        "t1": 3355
       },
       {
         "ch": "挡",
-        "t0": 2838,
-        "t1": 3019
+        "t0": 3355,
+        "t1": 3558
       },
       {
         "ch": "住",
-        "t0": 3019,
-        "t1": 3200
+        "t0": 3558,
+        "t1": 3760
       },
       {
         "ch": "，",
-        "t0": 3200,
-        "t1": 3660
+        "t0": 3760,
+        "t1": 4100
       },
       {
         "ch": "l",
-        "t0": 3660,
-        "t1": 3871
+        "t0": 4100,
+        "t1": 4276
       },
       {
         "ch": "还",
-        "t0": 3871,
-        "t1": 4082
+        "t0": 4276,
+        "t1": 4452
       },
       {
         "ch": "能",
-        "t0": 4082,
-        "t1": 4292
+        "t0": 4452,
+        "t1": 4627
       },
       {
         "ch": "读",
-        "t0": 4292,
-        "t1": 4503
+        "t0": 4627,
+        "t1": 4803
       },
       {
         "ch": "出",
-        "t0": 4503,
-        "t1": 4714
+        "t0": 4803,
+        "t1": 4979
       },
       {
         "ch": "来",
-        "t0": 4714,
-        "t1": 4925
+        "t0": 4979,
+        "t1": 5155
       },
       {
         "ch": "。",
-        "t0": 4925,
-        "t1": 4925
+        "t0": 5155,
+        "t1": 5155
       }
     ]
   },
@@ -8820,472 +8938,472 @@
     ]
   },
   "py.tip.p-f": {
-    "src": "/audio/pinyin-station/py.tip.p-f.017b91a2.m4a",
+    "src": "/audio/pinyin-station/py.tip.p-f.3e143096.m4a",
     "text": "读 p 先合上嘴唇再送气，读 f 用上牙轻碰下唇。",
-    "durationMs": 5341,
+    "durationMs": 6757,
     "role": "companion",
     "words": [
       {
         "ch": "读",
-        "t0": 50,
-        "t1": 259
+        "t0": 60,
+        "t1": 342
       },
       {
         "ch": "p",
-        "t0": 259,
-        "t1": 468
+        "t0": 342,
+        "t1": 624
       },
       {
         "ch": "先",
-        "t0": 468,
-        "t1": 677
+        "t0": 624,
+        "t1": 906
       },
       {
         "ch": "合",
-        "t0": 677,
-        "t1": 886
+        "t0": 906,
+        "t1": 1188
       },
       {
         "ch": "上",
-        "t0": 886,
-        "t1": 1095
+        "t0": 1188,
+        "t1": 1470
       },
       {
         "ch": "嘴",
-        "t0": 1095,
-        "t1": 1304
+        "t0": 1470,
+        "t1": 1752
       },
       {
         "ch": "唇",
-        "t0": 1304,
-        "t1": 1513
+        "t0": 1752,
+        "t1": 2034
       },
       {
         "ch": "再",
-        "t0": 1513,
-        "t1": 1722
+        "t0": 2034,
+        "t1": 2316
       },
       {
         "ch": "送",
-        "t0": 1722,
-        "t1": 1931
+        "t0": 2316,
+        "t1": 2598
       },
       {
         "ch": "气",
-        "t0": 1931,
-        "t1": 2140
+        "t0": 2598,
+        "t1": 2880
       },
       {
         "ch": "，",
-        "t0": 2140,
-        "t1": 2620
+        "t0": 2880,
+        "t1": 3580
       },
       {
         "ch": "读",
-        "t0": 2620,
-        "t1": 2888
+        "t0": 3580,
+        "t1": 3901
       },
       {
         "ch": "f",
-        "t0": 2888,
-        "t1": 3157
+        "t0": 3901,
+        "t1": 4221
       },
       {
         "ch": "用",
-        "t0": 3157,
-        "t1": 3425
+        "t0": 4221,
+        "t1": 4542
       },
       {
         "ch": "上",
-        "t0": 3425,
-        "t1": 3693
+        "t0": 4542,
+        "t1": 4862
       },
       {
         "ch": "牙",
-        "t0": 3693,
-        "t1": 3962
+        "t0": 4862,
+        "t1": 5183
       },
       {
         "ch": "轻",
-        "t0": 3962,
-        "t1": 4230
+        "t0": 5183,
+        "t1": 5503
       },
       {
         "ch": "碰",
-        "t0": 4230,
-        "t1": 4498
+        "t0": 5503,
+        "t1": 5824
       },
       {
         "ch": "下",
-        "t0": 4498,
-        "t1": 4767
+        "t0": 5824,
+        "t1": 6144
       },
       {
         "ch": "唇",
-        "t0": 4767,
-        "t1": 5035
+        "t0": 6144,
+        "t1": 6465
       },
       {
         "ch": "。",
-        "t0": 5035,
-        "t1": 5035
+        "t0": 6465,
+        "t1": 6465
       }
     ]
   },
   "py.tip.g-k": {
-    "src": "/audio/pinyin-station/py.tip.g-k.17fe2d30.m4a",
+    "src": "/audio/pinyin-station/py.tip.g-k.548e0cee.m4a",
     "text": "小纸条放嘴前，读 k 时送出一口气。",
-    "durationMs": 3832,
+    "durationMs": 4435,
     "role": "companion",
     "words": [
       {
         "ch": "小",
         "t0": 70,
-        "t1": 316
+        "t1": 353
       },
       {
         "ch": "纸",
-        "t0": 316,
-        "t1": 562
+        "t0": 353,
+        "t1": 637
       },
       {
         "ch": "条",
-        "t0": 562,
-        "t1": 808
+        "t0": 637,
+        "t1": 920
       },
       {
         "ch": "放",
-        "t0": 808,
-        "t1": 1054
+        "t0": 920,
+        "t1": 1203
       },
       {
         "ch": "嘴",
-        "t0": 1054,
-        "t1": 1300
+        "t0": 1203,
+        "t1": 1487
       },
       {
         "ch": "前",
-        "t0": 1300,
-        "t1": 1546
+        "t0": 1487,
+        "t1": 1770
       },
       {
         "ch": "，",
-        "t0": 1546,
-        "t1": 1546
+        "t0": 1770,
+        "t1": 2100
       },
       {
         "ch": "读",
-        "t0": 1546,
-        "t1": 1793
+        "t0": 2100,
+        "t1": 2352
       },
       {
         "ch": "k",
-        "t0": 1793,
-        "t1": 2039
+        "t0": 2352,
+        "t1": 2604
       },
       {
         "ch": "时",
-        "t0": 2039,
-        "t1": 2285
+        "t0": 2604,
+        "t1": 2856
       },
       {
         "ch": "送",
-        "t0": 2285,
-        "t1": 2531
+        "t0": 2856,
+        "t1": 3108
       },
       {
         "ch": "出",
-        "t0": 2531,
-        "t1": 2777
+        "t0": 3108,
+        "t1": 3359
       },
       {
         "ch": "一",
-        "t0": 2777,
-        "t1": 3023
+        "t0": 3359,
+        "t1": 3611
       },
       {
         "ch": "口",
-        "t0": 3023,
-        "t1": 3269
+        "t0": 3611,
+        "t1": 3863
       },
       {
         "ch": "气",
-        "t0": 3269,
-        "t1": 3515
+        "t0": 3863,
+        "t1": 4115
       },
       {
         "ch": "。",
-        "t0": 3515,
-        "t1": 3515
+        "t0": 4115,
+        "t1": 4115
       }
     ]
   },
   "py.tip.j-q": {
-    "src": "/audio/pinyin-station/py.tip.j-q.e6b801ea.m4a",
+    "src": "/audio/pinyin-station/py.tip.j-q.8fc28d8c.m4a",
     "text": "读 q 时气送得多一点，看看小纸条会不会动。",
-    "durationMs": 5225,
+    "durationMs": 5039,
     "role": "companion",
     "words": [
       {
         "ch": "读",
         "t0": 50,
-        "t1": 310
+        "t1": 300
       },
       {
         "ch": "q",
-        "t0": 310,
-        "t1": 570
+        "t0": 300,
+        "t1": 550
       },
       {
         "ch": "时",
-        "t0": 570,
-        "t1": 830
+        "t0": 550,
+        "t1": 800
       },
       {
         "ch": "气",
-        "t0": 830,
-        "t1": 1090
+        "t0": 800,
+        "t1": 1050
       },
       {
         "ch": "送",
-        "t0": 1090,
-        "t1": 1350
+        "t0": 1050,
+        "t1": 1300
       },
       {
         "ch": "得",
-        "t0": 1350,
-        "t1": 1610
+        "t0": 1300,
+        "t1": 1550
       },
       {
         "ch": "多",
-        "t0": 1610,
-        "t1": 1870
+        "t0": 1550,
+        "t1": 1800
       },
       {
         "ch": "一",
-        "t0": 1870,
-        "t1": 2130
+        "t0": 1800,
+        "t1": 2050
       },
       {
         "ch": "点",
-        "t0": 2130,
-        "t1": 2390
+        "t0": 2050,
+        "t1": 2300
       },
       {
         "ch": "，",
-        "t0": 2390,
-        "t1": 2990
+        "t0": 2300,
+        "t1": 2720
       },
       {
         "ch": "看",
-        "t0": 2990,
-        "t1": 3204
+        "t0": 2720,
+        "t1": 2943
       },
       {
         "ch": "看",
-        "t0": 3204,
-        "t1": 3418
+        "t0": 2943,
+        "t1": 3166
       },
       {
         "ch": "小",
-        "t0": 3418,
-        "t1": 3632
+        "t0": 3166,
+        "t1": 3388
       },
       {
         "ch": "纸",
-        "t0": 3632,
-        "t1": 3846
+        "t0": 3388,
+        "t1": 3611
       },
       {
         "ch": "条",
-        "t0": 3846,
-        "t1": 4059
+        "t0": 3611,
+        "t1": 3834
       },
       {
         "ch": "会",
-        "t0": 4059,
-        "t1": 4273
+        "t0": 3834,
+        "t1": 4057
       },
       {
         "ch": "不",
-        "t0": 4273,
-        "t1": 4487
+        "t0": 4057,
+        "t1": 4279
       },
       {
         "ch": "会",
-        "t0": 4487,
-        "t1": 4701
+        "t0": 4279,
+        "t1": 4502
       },
       {
         "ch": "动",
-        "t0": 4701,
-        "t1": 4915
+        "t0": 4502,
+        "t1": 4725
       },
       {
         "ch": "。",
-        "t0": 4915,
-        "t1": 4915
+        "t0": 4725,
+        "t1": 4725
       }
     ]
   },
   "py.tip.z-c": {
-    "src": "/audio/pinyin-station/py.tip.z-c.dff72508.m4a",
+    "src": "/audio/pinyin-station/py.tip.z-c.4118069d.m4a",
     "text": "舌尖不翘起，读 c 时轻轻送气。",
-    "durationMs": 3553,
+    "durationMs": 4250,
     "role": "companion",
     "words": [
       {
         "ch": "舌",
         "t0": 70,
-        "t1": 336
+        "t1": 350
       },
       {
         "ch": "尖",
-        "t0": 336,
-        "t1": 602
+        "t0": 350,
+        "t1": 630
       },
       {
         "ch": "不",
-        "t0": 602,
-        "t1": 868
+        "t0": 630,
+        "t1": 910
       },
       {
         "ch": "翘",
-        "t0": 868,
-        "t1": 1134
+        "t0": 910,
+        "t1": 1190
       },
       {
         "ch": "起",
-        "t0": 1134,
-        "t1": 1400
-      },
-      {
-        "ch": "，",
-        "t0": 1400,
-        "t1": 1640
-      },
-      {
-        "ch": "读",
-        "t0": 1640,
-        "t1": 1871
-      },
-      {
-        "ch": "c",
-        "t0": 1871,
-        "t1": 2101
-      },
-      {
-        "ch": "时",
-        "t0": 2101,
-        "t1": 2332
-      },
-      {
-        "ch": "轻",
-        "t0": 2332,
-        "t1": 2563
-      },
-      {
-        "ch": "轻",
-        "t0": 2563,
-        "t1": 2794
-      },
-      {
-        "ch": "送",
-        "t0": 2794,
-        "t1": 3024
-      },
-      {
-        "ch": "气",
-        "t0": 3024,
-        "t1": 3255
-      },
-      {
-        "ch": "。",
-        "t0": 3255,
-        "t1": 3255
-      }
-    ]
-  },
-  "py.tip.zh-ch": {
-    "src": "/audio/pinyin-station/py.tip.zh-ch.1f38295e.m4a",
-    "text": "两次都翘舌，读 ch 时多送一口气。",
-    "durationMs": 3716,
-    "role": "companion",
-    "words": [
-      {
-        "ch": "两",
-        "t0": 50,
-        "t1": 334
-      },
-      {
-        "ch": "次",
-        "t0": 334,
-        "t1": 618
-      },
-      {
-        "ch": "都",
-        "t0": 618,
-        "t1": 902
-      },
-      {
-        "ch": "翘",
-        "t0": 902,
-        "t1": 1186
-      },
-      {
-        "ch": "舌",
-        "t0": 1186,
+        "t0": 1190,
         "t1": 1470
       },
       {
         "ch": "，",
         "t0": 1470,
-        "t1": 1810
+        "t1": 1840
       },
       {
         "ch": "读",
-        "t0": 1810,
-        "t1": 2008
+        "t0": 1840,
+        "t1": 2138
       },
       {
-        "ch": "ch",
-        "t0": 2008,
-        "t1": 2206
+        "ch": "c",
+        "t0": 2138,
+        "t1": 2436
       },
       {
         "ch": "时",
-        "t0": 2206,
-        "t1": 2404
+        "t0": 2436,
+        "t1": 2734
       },
       {
-        "ch": "多",
-        "t0": 2404,
-        "t1": 2602
+        "ch": "轻",
+        "t0": 2734,
+        "t1": 3031
+      },
+      {
+        "ch": "轻",
+        "t0": 3031,
+        "t1": 3329
       },
       {
         "ch": "送",
-        "t0": 2602,
-        "t1": 2801
-      },
-      {
-        "ch": "一",
-        "t0": 2801,
-        "t1": 2999
-      },
-      {
-        "ch": "口",
-        "t0": 2999,
-        "t1": 3197
+        "t0": 3329,
+        "t1": 3627
       },
       {
         "ch": "气",
-        "t0": 3197,
-        "t1": 3395
+        "t0": 3627,
+        "t1": 3925
       },
       {
         "ch": "。",
-        "t0": 3395,
-        "t1": 3395
+        "t0": 3925,
+        "t1": 3925
+      }
+    ]
+  },
+  "py.tip.zh-ch": {
+    "src": "/audio/pinyin-station/py.tip.zh-ch.ac18bc07.m4a",
+    "text": "两次都翘舌，读 ch 时多送一口气。",
+    "durationMs": 4528,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "两",
+        "t0": 50,
+        "t1": 384
+      },
+      {
+        "ch": "次",
+        "t0": 384,
+        "t1": 718
+      },
+      {
+        "ch": "都",
+        "t0": 718,
+        "t1": 1052
+      },
+      {
+        "ch": "翘",
+        "t0": 1052,
+        "t1": 1386
+      },
+      {
+        "ch": "舌",
+        "t0": 1386,
+        "t1": 1720
+      },
+      {
+        "ch": "，",
+        "t0": 1720,
+        "t1": 2060
+      },
+      {
+        "ch": "读",
+        "t0": 2060,
+        "t1": 2329
+      },
+      {
+        "ch": "ch",
+        "t0": 2329,
+        "t1": 2599
+      },
+      {
+        "ch": "时",
+        "t0": 2599,
+        "t1": 2868
+      },
+      {
+        "ch": "多",
+        "t0": 2868,
+        "t1": 3138
+      },
+      {
+        "ch": "送",
+        "t0": 3138,
+        "t1": 3407
+      },
+      {
+        "ch": "一",
+        "t0": 3407,
+        "t1": 3676
+      },
+      {
+        "ch": "口",
+        "t0": 3676,
+        "t1": 3946
+      },
+      {
+        "ch": "气",
+        "t0": 3946,
+        "t1": 4215
+      },
+      {
+        "ch": "。",
+        "t0": 4215,
+        "t1": 4215
       }
     ]
   },
@@ -9526,426 +9644,426 @@
     ]
   },
   "py.mnemonic.a": {
-    "src": "/audio/pinyin-station/py.mnemonic.a.090108dd.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.a.96c73694.m4a",
     "text": "张大嘴巴 a a a",
-    "durationMs": 2856,
+    "durationMs": 2903,
     "role": "companion",
     "words": [
       {
         "ch": "张",
-        "t0": 70,
-        "t1": 424
+        "t0": 50,
+        "t1": 414
       },
       {
         "ch": "大",
-        "t0": 424,
+        "t0": 414,
         "t1": 777
       },
       {
         "ch": "嘴",
         "t0": 777,
-        "t1": 1131
+        "t1": 1141
       },
       {
         "ch": "巴",
-        "t0": 1131,
-        "t1": 1484
+        "t0": 1141,
+        "t1": 1504
       },
       {
         "ch": "a",
-        "t0": 1484,
-        "t1": 1838
+        "t0": 1504,
+        "t1": 1868
       },
       {
         "ch": "a",
-        "t0": 1838,
-        "t1": 2191
+        "t0": 1868,
+        "t1": 2231
       },
       {
         "ch": "a",
-        "t0": 2191,
-        "t1": 2545
+        "t0": 2231,
+        "t1": 2595
       }
     ]
   },
   "py.mnemonic.o": {
-    "src": "/audio/pinyin-station/py.mnemonic.o.689f0142.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.o.9210771b.m4a",
     "text": "圆圆嘴巴 o o o",
-    "durationMs": 6409,
+    "durationMs": 4343,
     "role": "companion",
     "words": [
       {
         "ch": "圆",
-        "t0": 70,
-        "t1": 949
+        "t0": 50,
+        "t1": 615
       },
       {
         "ch": "圆",
-        "t0": 949,
-        "t1": 1829
+        "t0": 615,
+        "t1": 1180
       },
       {
         "ch": "嘴",
-        "t0": 1829,
-        "t1": 2708
+        "t0": 1180,
+        "t1": 1745
       },
       {
         "ch": "巴",
-        "t0": 2708,
-        "t1": 3587
+        "t0": 1745,
+        "t1": 2310
       },
       {
         "ch": "o",
-        "t0": 3587,
-        "t1": 4466
+        "t0": 2310,
+        "t1": 2875
       },
       {
         "ch": "o",
-        "t0": 4466,
-        "t1": 5346
+        "t0": 2875,
+        "t1": 3440
       },
       {
         "ch": "o",
-        "t0": 5346,
-        "t1": 6225
+        "t0": 3440,
+        "t1": 4005
       }
     ]
   },
   "py.mnemonic.e": {
-    "src": "/audio/pinyin-station/py.mnemonic.e.c1eb80ab.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.e.ef60df7c.m4a",
     "text": "扁扁嘴巴 e e e",
-    "durationMs": 1997,
+    "durationMs": 2949,
     "role": "companion",
     "words": [
       {
         "ch": "扁",
         "t0": 50,
-        "t1": 284
+        "t1": 418
       },
       {
         "ch": "扁",
-        "t0": 284,
-        "t1": 517
+        "t0": 418,
+        "t1": 786
       },
       {
         "ch": "嘴",
-        "t0": 517,
-        "t1": 751
+        "t0": 786,
+        "t1": 1154
       },
       {
         "ch": "巴",
-        "t0": 751,
-        "t1": 984
+        "t0": 1154,
+        "t1": 1521
       },
       {
         "ch": "e",
-        "t0": 984,
-        "t1": 1218
+        "t0": 1521,
+        "t1": 1889
       },
       {
         "ch": "e",
-        "t0": 1218,
-        "t1": 1451
+        "t0": 1889,
+        "t1": 2257
       },
       {
         "ch": "e",
-        "t0": 1451,
-        "t1": 1685
+        "t0": 2257,
+        "t1": 2625
       }
     ]
   },
   "py.mnemonic.i": {
-    "src": "/audio/pinyin-station/py.mnemonic.i.4079fde4.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.i.e69be499.m4a",
     "text": "牙齿对齐 i i i",
-    "durationMs": 3391,
+    "durationMs": 3205,
     "role": "companion",
     "words": [
       {
         "ch": "牙",
         "t0": 50,
-        "t1": 476
+        "t1": 456
       },
       {
         "ch": "齿",
-        "t0": 476,
-        "t1": 903
+        "t0": 456,
+        "t1": 863
       },
       {
         "ch": "对",
-        "t0": 903,
-        "t1": 1329
+        "t0": 863,
+        "t1": 1269
       },
       {
         "ch": "齐",
-        "t0": 1329,
-        "t1": 1756
+        "t0": 1269,
+        "t1": 1676
       },
       {
         "ch": "i",
-        "t0": 1756,
-        "t1": 2182
+        "t0": 1676,
+        "t1": 2082
       },
       {
         "ch": "i",
-        "t0": 2182,
-        "t1": 2609
+        "t0": 2082,
+        "t1": 2489
       },
       {
         "ch": "i",
-        "t0": 2609,
-        "t1": 3035
+        "t0": 2489,
+        "t1": 2895
       }
     ]
   },
   "py.mnemonic.u": {
-    "src": "/audio/pinyin-station/py.mnemonic.u.b004f37e.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.u.4053ad19.m4a",
     "text": "嘴巴突出 u u u",
-    "durationMs": 3321,
+    "durationMs": 3576,
     "role": "companion",
     "words": [
       {
         "ch": "嘴",
         "t0": 70,
-        "t1": 491
+        "t1": 526
       },
       {
         "ch": "巴",
-        "t0": 491,
-        "t1": 911
+        "t0": 526,
+        "t1": 983
       },
       {
         "ch": "突",
-        "t0": 911,
-        "t1": 1332
+        "t0": 983,
+        "t1": 1439
       },
       {
         "ch": "出",
-        "t0": 1332,
-        "t1": 1753
+        "t0": 1439,
+        "t1": 1896
       },
       {
         "ch": "u",
-        "t0": 1753,
-        "t1": 2174
+        "t0": 1896,
+        "t1": 2352
       },
       {
         "ch": "u",
-        "t0": 2174,
-        "t1": 2594
+        "t0": 2352,
+        "t1": 2809
       },
       {
         "ch": "u",
-        "t0": 2594,
-        "t1": 3015
+        "t0": 2809,
+        "t1": 3265
       }
     ]
   },
   "py.mnemonic.v": {
-    "src": "/audio/pinyin-station/py.mnemonic.v.271e21c6.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.v.068d081b.m4a",
     "text": "嘴吹口哨 ü ü ü，两点要留住",
-    "durationMs": 5248,
+    "durationMs": 5875,
     "role": "companion",
     "words": [
       {
         "ch": "嘴",
-        "t0": 70,
-        "t1": 798
+        "t0": 80,
+        "t1": 768
       },
       {
         "ch": "吹",
-        "t0": 798,
-        "t1": 1525
+        "t0": 768,
+        "t1": 1455
       },
       {
         "ch": "口",
-        "t0": 1525,
-        "t1": 2252
+        "t0": 1455,
+        "t1": 2142
       },
       {
         "ch": "哨",
-        "t0": 2252,
-        "t1": 2980
+        "t0": 2142,
+        "t1": 2830
       },
       {
         "ch": "ü",
-        "t0": 2980,
-        "t1": 3530
+        "t0": 2830,
+        "t1": 3360
       },
       {
         "ch": "ü",
-        "t0": 2980,
-        "t1": 3530
+        "t0": 2830,
+        "t1": 3360
       },
       {
         "ch": "ü",
-        "t0": 2980,
-        "t1": 3530
+        "t0": 2830,
+        "t1": 3360
       },
       {
         "ch": "，",
-        "t0": 2980,
-        "t1": 3530
+        "t0": 2830,
+        "t1": 3360
       },
       {
         "ch": "两",
-        "t0": 3530,
-        "t1": 3811
+        "t0": 3360,
+        "t1": 3801
       },
       {
         "ch": "点",
-        "t0": 3811,
-        "t1": 4092
+        "t0": 3801,
+        "t1": 4242
       },
       {
         "ch": "要",
-        "t0": 4092,
-        "t1": 4373
+        "t0": 4242,
+        "t1": 4683
       },
       {
         "ch": "留",
-        "t0": 4373,
-        "t1": 4654
+        "t0": 4683,
+        "t1": 5124
       },
       {
         "ch": "住",
-        "t0": 4654,
-        "t1": 4935
+        "t0": 5124,
+        "t1": 5565
       }
     ]
   },
   "py.mnemonic.y": {
-    "src": "/audio/pinyin-station/py.mnemonic.y.24518c17.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.y.e6f938bc.m4a",
     "text": "小树分杈，认一认 y 的样子",
-    "durationMs": 3646,
+    "durationMs": 4273,
     "role": "companion",
     "words": [
       {
         "ch": "小",
         "t0": 70,
-        "t1": 325
+        "t1": 670
       },
       {
         "ch": "树",
-        "t0": 325,
-        "t1": 580
+        "t0": 670,
+        "t1": 1270
       },
       {
         "ch": "分",
-        "t0": 580,
-        "t1": 835
+        "t0": 1270,
+        "t1": 1870
       },
       {
         "ch": "杈",
-        "t0": 835,
-        "t1": 1090
+        "t0": 1870,
+        "t1": 2470
       },
       {
         "ch": "，",
-        "t0": 1090,
-        "t1": 1670
+        "t0": 2470,
+        "t1": 2990
       },
       {
         "ch": "认",
-        "t0": 1670,
-        "t1": 1906
+        "t0": 2990,
+        "t1": 3131
       },
       {
         "ch": "一",
-        "t0": 1906,
-        "t1": 2143
+        "t0": 3131,
+        "t1": 3271
       },
       {
         "ch": "认",
-        "t0": 2143,
-        "t1": 2379
+        "t0": 3271,
+        "t1": 3412
       },
       {
         "ch": "y",
-        "t0": 2379,
-        "t1": 2616
+        "t0": 3412,
+        "t1": 3553
       },
       {
         "ch": "的",
-        "t0": 2616,
-        "t1": 2852
+        "t0": 3553,
+        "t1": 3694
       },
       {
         "ch": "样",
-        "t0": 2852,
-        "t1": 3089
+        "t0": 3694,
+        "t1": 3834
       },
       {
         "ch": "子",
-        "t0": 3089,
-        "t1": 3325
+        "t0": 3834,
+        "t1": 3975
       }
     ]
   },
   "py.mnemonic.w": {
-    "src": "/audio/pinyin-station/py.mnemonic.w.44ee0506.m4a",
+    "src": "/audio/pinyin-station/py.mnemonic.w.7d7fb07a.m4a",
     "text": "屋顶相连，认一认 w 的样子",
-    "durationMs": 3507,
+    "durationMs": 3716,
     "role": "companion",
     "words": [
       {
         "ch": "屋",
-        "t0": 50,
+        "t0": 60,
         "t1": 350
       },
       {
         "ch": "顶",
         "t0": 350,
-        "t1": 650
+        "t1": 640
       },
       {
         "ch": "相",
-        "t0": 650,
-        "t1": 950
+        "t0": 640,
+        "t1": 930
       },
       {
         "ch": "连",
-        "t0": 950,
-        "t1": 1250
+        "t0": 930,
+        "t1": 1220
       },
       {
         "ch": "，",
-        "t0": 1250,
-        "t1": 1500
+        "t0": 1220,
+        "t1": 1580
       },
       {
         "ch": "认",
-        "t0": 1500,
-        "t1": 1744
+        "t0": 1580,
+        "t1": 1841
       },
       {
         "ch": "一",
-        "t0": 1744,
-        "t1": 1987
+        "t0": 1841,
+        "t1": 2101
       },
       {
         "ch": "认",
-        "t0": 1987,
-        "t1": 2231
+        "t0": 2101,
+        "t1": 2362
       },
       {
         "ch": "w",
-        "t0": 2231,
-        "t1": 2474
+        "t0": 2362,
+        "t1": 2623
       },
       {
         "ch": "的",
-        "t0": 2474,
-        "t1": 2718
+        "t0": 2623,
+        "t1": 2884
       },
       {
         "ch": "样",
-        "t0": 2718,
-        "t1": 2961
+        "t0": 2884,
+        "t1": 3144
       },
       {
         "ch": "子",
-        "t0": 2961,
-        "t1": 3205
+        "t0": 3144,
+        "t1": 3405
       }
     ]
   },
@@ -11468,20 +11586,20 @@
     ]
   },
   "py.word.mudi": {
-    "src": "/audio/pinyin-station/py.word.mudi.ccf476e9.m4a",
-    "text": "木笛",
-    "durationMs": 1417,
+    "src": "/audio/pinyin-station/py.word.mudi.e84a6e8e.m4a",
+    "text": "牧笛",
+    "durationMs": 860,
     "role": "word",
     "words": [
       {
-        "ch": "木",
+        "ch": "牧",
         "t0": 50,
-        "t1": 592
+        "t1": 322
       },
       {
         "ch": "笛",
-        "t0": 592,
-        "t1": 1135
+        "t0": 322,
+        "t1": 595
       }
     ]
   },
@@ -12115,6 +12233,1735 @@
         "ch": "书",
         "t0": 774,
         "t1": 1015
+      }
+    ]
+  },
+  "py.syl.ai1": {
+    "src": "/audio/pinyin-station/py.syl.ai1.997c3c31.m4a",
+    "text": "āi",
+    "durationMs": 651,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ā",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "i",
+        "t0": 50,
+        "t1": 355
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending",
+    "regain": "normalize-syllables@1"
+  },
+  "py.syl.ei1": {
+    "src": "/audio/pinyin-station/py.syl.ei1.b9e37b39.m4a",
+    "text": "ēi",
+    "durationMs": 558,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ē",
+        "t0": 60,
+        "t1": 60
+      },
+      {
+        "ch": "i",
+        "t0": 60,
+        "t1": 265
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.ui1": {
+    "src": "/audio/pinyin-station/py.syl.ui1.d3ae2d0f.m4a",
+    "text": "uī",
+    "durationMs": 627,
+    "role": "word",
+    "words": [
+      {
+        "ch": "u",
+        "t0": 50,
+        "t1": 345
+      },
+      {
+        "ch": "ī",
+        "t0": 345,
+        "t1": 345
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.ao1": {
+    "src": "/audio/pinyin-station/py.syl.ao1.cf6172fc.m4a",
+    "text": "āo",
+    "durationMs": 674,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ā",
+        "t0": 60,
+        "t1": 60
+      },
+      {
+        "ch": "o",
+        "t0": 60,
+        "t1": 425
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending; cropped from the \"读，X\" lead-in take (the model cannot say this final alone)"
+  },
+  "py.syl.ou1": {
+    "src": "/audio/pinyin-station/py.syl.ou1.e292ab94.m4a",
+    "text": "ōu",
+    "durationMs": 1138,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ō",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "u",
+        "t0": 50,
+        "t1": 825
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.iu1": {
+    "src": "/audio/pinyin-station/py.syl.iu1.dd4209d8.m4a",
+    "text": "iū",
+    "durationMs": 697,
+    "role": "word",
+    "words": [
+      {
+        "ch": "i",
+        "t0": 50,
+        "t1": 405
+      },
+      {
+        "ch": "ū",
+        "t0": 405,
+        "t1": 405
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.ie1": {
+    "src": "/audio/pinyin-station/py.syl.ie1.9f296bb6.m4a",
+    "text": "iē",
+    "durationMs": 836,
+    "role": "word",
+    "words": [
+      {
+        "ch": "i",
+        "t0": 80,
+        "t1": 535
+      },
+      {
+        "ch": "ē",
+        "t0": 535,
+        "t1": 535
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.ve1": {
+    "src": "/audio/pinyin-station/py.syl.ve1.8f8ac63b.m4a",
+    "text": "üē",
+    "durationMs": 720,
+    "role": "word",
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.er1": {
+    "src": "/audio/pinyin-station/py.syl.er1.a84a5c7d.m4a",
+    "text": "ēr",
+    "durationMs": 860,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ē",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "r",
+        "t0": 50,
+        "t1": 565
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.an1": {
+    "src": "/audio/pinyin-station/py.syl.an1.4d312efe.m4a",
+    "text": "ān",
+    "durationMs": 720,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ā",
+        "t0": 60,
+        "t1": 60
+      },
+      {
+        "ch": "n",
+        "t0": 60,
+        "t1": 475
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending; cropped from the \"读，X\" lead-in take (the model cannot say this final alone)"
+  },
+  "py.syl.en1": {
+    "src": "/audio/pinyin-station/py.syl.en1.fb9c0f54.m4a",
+    "text": "ēn",
+    "durationMs": 906,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ē",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "n",
+        "t0": 50,
+        "t1": 645
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.in1": {
+    "src": "/audio/pinyin-station/py.syl.in1.e5fba1ce.m4a",
+    "text": "īn",
+    "durationMs": 720,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ī",
+        "t0": 70,
+        "t1": 70
+      },
+      {
+        "ch": "n",
+        "t0": 70,
+        "t1": 465
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending; cropped from the \"读，X\" lead-in take (the model cannot say this final alone)"
+  },
+  "py.syl.un1": {
+    "src": "/audio/pinyin-station/py.syl.un1.16e735b5.m4a",
+    "text": "ūn",
+    "durationMs": 767,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ū",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "n",
+        "t0": 50,
+        "t1": 485
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.vn1": {
+    "src": "/audio/pinyin-station/py.syl.vn1.45c599d5.m4a",
+    "text": "ǖn",
+    "durationMs": 1022,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ǖ",
+        "t0": 60,
+        "t1": 60
+      },
+      {
+        "ch": "n",
+        "t0": 60,
+        "t1": 735
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.ang1": {
+    "src": "/audio/pinyin-station/py.syl.ang1.06a431b1.m4a",
+    "text": "āng",
+    "durationMs": 767,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ā",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "ng",
+        "t0": 50,
+        "t1": 485
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.eng1": {
+    "src": "/audio/pinyin-station/py.syl.eng1.5e1102f3.m4a",
+    "text": "ēng",
+    "durationMs": 860,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ē",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "ng",
+        "t0": 50,
+        "t1": 585
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.ing1": {
+    "src": "/audio/pinyin-station/py.syl.ing1.3252330d.m4a",
+    "text": "īng",
+    "durationMs": 720,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ī",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "ng",
+        "t0": 50,
+        "t1": 415
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending",
+    "regain": "normalize-syllables@1"
+  },
+  "py.syl.ong1": {
+    "src": "/audio/pinyin-station/py.syl.ong1.3b36b786.m4a",
+    "text": "ōng",
+    "durationMs": 674,
+    "role": "word",
+    "words": [
+      {
+        "ch": "ō",
+        "t0": 50,
+        "t1": 50
+      },
+      {
+        "ch": "ng",
+        "t0": 50,
+        "t1": 395
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.ye1": {
+    "src": "/audio/pinyin-station/py.syl.ye1.9f296bb6.m4a",
+    "text": "yē",
+    "durationMs": 836,
+    "role": "word",
+    "words": [
+      {
+        "ch": "y",
+        "t0": 80,
+        "t1": 535
+      },
+      {
+        "ch": "ē",
+        "t0": 535,
+        "t1": 535
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.yue1": {
+    "src": "/audio/pinyin-station/py.syl.yue1.8f8ac63b.m4a",
+    "text": "yuē",
+    "durationMs": 720,
+    "role": "word",
+    "words": [
+      {
+        "ch": "yu",
+        "t0": 50,
+        "t1": 435
+      },
+      {
+        "ch": "ē",
+        "t0": 435,
+        "t1": 435
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.yin1": {
+    "src": "/audio/pinyin-station/py.syl.yin1.e5fba1ce.m4a",
+    "text": "yīn",
+    "durationMs": 720,
+    "role": "word",
+    "words": [
+      {
+        "ch": "y",
+        "t0": 70,
+        "t1": 268
+      },
+      {
+        "ch": "ī",
+        "t0": 268,
+        "t1": 268
+      },
+      {
+        "ch": "n",
+        "t0": 268,
+        "t1": 465
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending; cropped from the \"读，X\" lead-in take (the model cannot say this final alone)"
+  },
+  "py.syl.yun1": {
+    "src": "/audio/pinyin-station/py.syl.yun1.45c599d5.m4a",
+    "text": "yūn",
+    "durationMs": 1022,
+    "role": "word",
+    "words": [
+      {
+        "ch": "y",
+        "t0": 60,
+        "t1": 398
+      },
+      {
+        "ch": "ū",
+        "t0": 398,
+        "t1": 398
+      },
+      {
+        "ch": "n",
+        "t0": 398,
+        "t1": 735
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending"
+  },
+  "py.syl.yuan1": {
+    "src": "/audio/pinyin-station/py.syl.yuan1.da420c4c.m4a",
+    "text": "yuān",
+    "durationMs": 720,
+    "role": "word",
+    "words": [
+      {
+        "ch": "yu",
+        "t0": 50,
+        "t1": 233
+      },
+      {
+        "ch": "ā",
+        "t0": 233,
+        "t1": 233
+      },
+      {
+        "ch": "n",
+        "t0": 233,
+        "t1": 415
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending",
+    "regain": "normalize-syllables@1"
+  },
+  "py.syl.ying1": {
+    "src": "/audio/pinyin-station/py.syl.ying1.3252330d.m4a",
+    "text": "yīng",
+    "durationMs": 720,
+    "role": "word",
+    "words": [
+      {
+        "ch": "y",
+        "t0": 50,
+        "t1": 233
+      },
+      {
+        "ch": "ī",
+        "t0": 233,
+        "t1": 233
+      },
+      {
+        "ch": "ng",
+        "t0": 233,
+        "t1": 415
+      }
+    ],
+    "synthetic": true,
+    "source": "synthetic: Qwen3-TTS 0.6B CustomVoice (role word, Serena) via tools/voice - not a human recording; ear check pending",
+    "regain": "normalize-syllables@1"
+  },
+  "py.C2": {
+    "src": "/audio/pinyin-station/py.C2.6d6fccc4.m4a",
+    "text": "听一听，选出缺的那一段声音。",
+    "durationMs": 3785,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "听",
+        "t0": 60,
+        "t1": 323
+      },
+      {
+        "ch": "一",
+        "t0": 323,
+        "t1": 587
+      },
+      {
+        "ch": "听",
+        "t0": 587,
+        "t1": 850
+      },
+      {
+        "ch": "，",
+        "t0": 850,
+        "t1": 1360
+      },
+      {
+        "ch": "选",
+        "t0": 1360,
+        "t1": 1595
+      },
+      {
+        "ch": "出",
+        "t0": 1595,
+        "t1": 1830
+      },
+      {
+        "ch": "缺",
+        "t0": 1830,
+        "t1": 2065
+      },
+      {
+        "ch": "的",
+        "t0": 2065,
+        "t1": 2300
+      },
+      {
+        "ch": "那",
+        "t0": 2300,
+        "t1": 2535
+      },
+      {
+        "ch": "一",
+        "t0": 2535,
+        "t1": 2770
+      },
+      {
+        "ch": "段",
+        "t0": 2770,
+        "t1": 3005
+      },
+      {
+        "ch": "声",
+        "t0": 3005,
+        "t1": 3240
+      },
+      {
+        "ch": "音",
+        "t0": 3240,
+        "t1": 3475
+      },
+      {
+        "ch": "。",
+        "t0": 3475,
+        "t1": 3475
+      }
+    ]
+  },
+  "py.E2": {
+    "src": "/audio/pinyin-station/py.E2.9ee1a37f.m4a",
+    "text": "看一看拼音，点出它的图。",
+    "durationMs": 2926,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "看",
+        "t0": 50,
+        "t1": 284
+      },
+      {
+        "ch": "一",
+        "t0": 284,
+        "t1": 518
+      },
+      {
+        "ch": "看",
+        "t0": 518,
+        "t1": 752
+      },
+      {
+        "ch": "拼",
+        "t0": 752,
+        "t1": 986
+      },
+      {
+        "ch": "音",
+        "t0": 986,
+        "t1": 1220
+      },
+      {
+        "ch": "，",
+        "t0": 1220,
+        "t1": 1520
+      },
+      {
+        "ch": "点",
+        "t0": 1520,
+        "t1": 1741
+      },
+      {
+        "ch": "出",
+        "t0": 1741,
+        "t1": 1962
+      },
+      {
+        "ch": "它",
+        "t0": 1962,
+        "t1": 2183
+      },
+      {
+        "ch": "的",
+        "t0": 2183,
+        "t1": 2404
+      },
+      {
+        "ch": "图",
+        "t0": 2404,
+        "t1": 2625
+      },
+      {
+        "ch": "。",
+        "t0": 2625,
+        "t1": 2625
+      }
+    ]
+  },
+  "py.heard": {
+    "src": "/audio/pinyin-station/py.heard.e73b141a.m4a",
+    "text": "我听到你的声音啦。",
+    "durationMs": 1928,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "我",
+        "t0": 50,
+        "t1": 246
+      },
+      {
+        "ch": "听",
+        "t0": 246,
+        "t1": 441
+      },
+      {
+        "ch": "到",
+        "t0": 441,
+        "t1": 637
+      },
+      {
+        "ch": "你",
+        "t0": 637,
+        "t1": 832
+      },
+      {
+        "ch": "的",
+        "t0": 832,
+        "t1": 1028
+      },
+      {
+        "ch": "声",
+        "t0": 1028,
+        "t1": 1224
+      },
+      {
+        "ch": "音",
+        "t0": 1224,
+        "t1": 1419
+      },
+      {
+        "ch": "啦",
+        "t0": 1419,
+        "t1": 1615
+      },
+      {
+        "ch": "。",
+        "t0": 1615,
+        "t1": 1615
+      }
+    ]
+  },
+  "py.follow2": {
+    "src": "/audio/pinyin-station/py.follow2.f9b11eaa.m4a",
+    "text": "跟着台长读一遍。",
+    "durationMs": 1765,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "跟",
+        "t0": 60,
+        "t1": 262
+      },
+      {
+        "ch": "着",
+        "t0": 262,
+        "t1": 464
+      },
+      {
+        "ch": "台",
+        "t0": 464,
+        "t1": 666
+      },
+      {
+        "ch": "长",
+        "t0": 666,
+        "t1": 869
+      },
+      {
+        "ch": "读",
+        "t0": 869,
+        "t1": 1071
+      },
+      {
+        "ch": "一",
+        "t0": 1071,
+        "t1": 1273
+      },
+      {
+        "ch": "遍",
+        "t0": 1273,
+        "t1": 1475
+      },
+      {
+        "ch": "。",
+        "t0": 1475,
+        "t1": 1475
+      }
+    ]
+  },
+  "py.finish2": {
+    "src": "/audio/pinyin-station/py.finish2.6ad64a10.m4a",
+    "text": "今天的节目播完啦，歇一歇吧。",
+    "durationMs": 2833,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "今",
+        "t0": 70,
+        "t1": 241
+      },
+      {
+        "ch": "天",
+        "t0": 241,
+        "t1": 412
+      },
+      {
+        "ch": "的",
+        "t0": 412,
+        "t1": 584
+      },
+      {
+        "ch": "节",
+        "t0": 584,
+        "t1": 755
+      },
+      {
+        "ch": "目",
+        "t0": 755,
+        "t1": 926
+      },
+      {
+        "ch": "播",
+        "t0": 926,
+        "t1": 1098
+      },
+      {
+        "ch": "完",
+        "t0": 1098,
+        "t1": 1269
+      },
+      {
+        "ch": "啦",
+        "t0": 1269,
+        "t1": 1440
+      },
+      {
+        "ch": "，",
+        "t0": 1440,
+        "t1": 1680
+      },
+      {
+        "ch": "歇",
+        "t0": 1680,
+        "t1": 1894
+      },
+      {
+        "ch": "一",
+        "t0": 1894,
+        "t1": 2108
+      },
+      {
+        "ch": "歇",
+        "t0": 2108,
+        "t1": 2321
+      },
+      {
+        "ch": "吧",
+        "t0": 2321,
+        "t1": 2535
+      },
+      {
+        "ch": "。",
+        "t0": 2535,
+        "t1": 2535
+      }
+    ]
+  },
+  "py.praise.22": {
+    "src": "/audio/pinyin-station/py.praise.22.d61ac908.m4a",
+    "text": "你听出了这个字母",
+    "durationMs": 1974,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "你",
+        "t0": 50,
+        "t1": 253
+      },
+      {
+        "ch": "听",
+        "t0": 253,
+        "t1": 456
+      },
+      {
+        "ch": "出",
+        "t0": 456,
+        "t1": 659
+      },
+      {
+        "ch": "了",
+        "t0": 659,
+        "t1": 862
+      },
+      {
+        "ch": "这",
+        "t0": 862,
+        "t1": 1066
+      },
+      {
+        "ch": "个",
+        "t0": 1066,
+        "t1": 1269
+      },
+      {
+        "ch": "字",
+        "t0": 1269,
+        "t1": 1472
+      },
+      {
+        "ch": "母",
+        "t0": 1472,
+        "t1": 1675
+      }
+    ]
+  },
+  "py.praise.23": {
+    "src": "/audio/pinyin-station/py.praise.23.a788643e.m4a",
+    "text": "你找到了开头的声音",
+    "durationMs": 2578,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "你",
+        "t0": 50,
+        "t1": 299
+      },
+      {
+        "ch": "找",
+        "t0": 299,
+        "t1": 549
+      },
+      {
+        "ch": "到",
+        "t0": 549,
+        "t1": 798
+      },
+      {
+        "ch": "了",
+        "t0": 798,
+        "t1": 1048
+      },
+      {
+        "ch": "开",
+        "t0": 1048,
+        "t1": 1297
+      },
+      {
+        "ch": "头",
+        "t0": 1297,
+        "t1": 1547
+      },
+      {
+        "ch": "的",
+        "t0": 1547,
+        "t1": 1796
+      },
+      {
+        "ch": "声",
+        "t0": 1796,
+        "t1": 2046
+      },
+      {
+        "ch": "音",
+        "t0": 2046,
+        "t1": 2295
+      }
+    ]
+  },
+  "py.praise.24": {
+    "src": "/audio/pinyin-station/py.praise.24.2742d8ad.m4a",
+    "text": "你找到了后面的声音",
+    "durationMs": 2183,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "你",
+        "t0": 50,
+        "t1": 252
+      },
+      {
+        "ch": "找",
+        "t0": 252,
+        "t1": 453
+      },
+      {
+        "ch": "到",
+        "t0": 453,
+        "t1": 655
+      },
+      {
+        "ch": "了",
+        "t0": 655,
+        "t1": 857
+      },
+      {
+        "ch": "后",
+        "t0": 857,
+        "t1": 1058
+      },
+      {
+        "ch": "面",
+        "t0": 1058,
+        "t1": 1260
+      },
+      {
+        "ch": "的",
+        "t0": 1260,
+        "t1": 1462
+      },
+      {
+        "ch": "声",
+        "t0": 1462,
+        "t1": 1663
+      },
+      {
+        "ch": "音",
+        "t0": 1663,
+        "t1": 1865
+      }
+    ]
+  },
+  "py.local.match": {
+    "src": "/audio/pinyin-station/py.local.match.8b0e359d.m4a",
+    "text": "你的声音，和示范很像！",
+    "durationMs": 2810,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "你",
+        "t0": 50,
+        "t1": 308
+      },
+      {
+        "ch": "的",
+        "t0": 308,
+        "t1": 565
+      },
+      {
+        "ch": "声",
+        "t0": 565,
+        "t1": 822
+      },
+      {
+        "ch": "音",
+        "t0": 822,
+        "t1": 1080
+      },
+      {
+        "ch": "，",
+        "t0": 1080,
+        "t1": 1460
+      },
+      {
+        "ch": "和",
+        "t0": 1460,
+        "t1": 1669
+      },
+      {
+        "ch": "示",
+        "t0": 1669,
+        "t1": 1878
+      },
+      {
+        "ch": "范",
+        "t0": 1878,
+        "t1": 2087
+      },
+      {
+        "ch": "很",
+        "t0": 2087,
+        "t1": 2296
+      },
+      {
+        "ch": "像",
+        "t0": 2296,
+        "t1": 2505
+      },
+      {
+        "ch": "！",
+        "t0": 2505,
+        "t1": 2505
+      }
+    ]
+  },
+  "py.local.t1": {
+    "src": "/audio/pinyin-station/py.local.t1.e7bdb943.m4a",
+    "text": "试试让声音平平的，像小路。",
+    "durationMs": 3089,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "试",
+        "t0": 70,
+        "t1": 275
+      },
+      {
+        "ch": "试",
+        "t0": 275,
+        "t1": 480
+      },
+      {
+        "ch": "让",
+        "t0": 480,
+        "t1": 685
+      },
+      {
+        "ch": "声",
+        "t0": 685,
+        "t1": 890
+      },
+      {
+        "ch": "音",
+        "t0": 890,
+        "t1": 1095
+      },
+      {
+        "ch": "平",
+        "t0": 1095,
+        "t1": 1300
+      },
+      {
+        "ch": "平",
+        "t0": 1300,
+        "t1": 1505
+      },
+      {
+        "ch": "的",
+        "t0": 1505,
+        "t1": 1710
+      },
+      {
+        "ch": "，",
+        "t0": 1710,
+        "t1": 2070
+      },
+      {
+        "ch": "像",
+        "t0": 2070,
+        "t1": 2308
+      },
+      {
+        "ch": "小",
+        "t0": 2308,
+        "t1": 2547
+      },
+      {
+        "ch": "路",
+        "t0": 2547,
+        "t1": 2785
+      },
+      {
+        "ch": "。",
+        "t0": 2785,
+        "t1": 2785
+      }
+    ]
+  },
+  "py.local.t2": {
+    "src": "/audio/pinyin-station/py.local.t2.04f0944e.m4a",
+    "text": "听，再看：你的声音上扬了吗？",
+    "durationMs": 3669,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "听",
+        "t0": 70,
+        "t1": 257
+      },
+      {
+        "ch": "，",
+        "t0": 257,
+        "t1": 257
+      },
+      {
+        "ch": "再",
+        "t0": 257,
+        "t1": 443
+      },
+      {
+        "ch": "看",
+        "t0": 443,
+        "t1": 630
+      },
+      {
+        "ch": "：",
+        "t0": 630,
+        "t1": 990
+      },
+      {
+        "ch": "你",
+        "t0": 990,
+        "t1": 1288
+      },
+      {
+        "ch": "的",
+        "t0": 1288,
+        "t1": 1586
+      },
+      {
+        "ch": "声",
+        "t0": 1586,
+        "t1": 1884
+      },
+      {
+        "ch": "音",
+        "t0": 1884,
+        "t1": 2182
+      },
+      {
+        "ch": "上",
+        "t0": 2182,
+        "t1": 2481
+      },
+      {
+        "ch": "扬",
+        "t0": 2481,
+        "t1": 2779
+      },
+      {
+        "ch": "了",
+        "t0": 2779,
+        "t1": 3077
+      },
+      {
+        "ch": "吗",
+        "t0": 3077,
+        "t1": 3375
+      },
+      {
+        "ch": "？",
+        "t0": 3375,
+        "t1": 3375
+      }
+    ]
+  },
+  "py.local.t3": {
+    "src": "/audio/pinyin-station/py.local.t3.0d0be66c.m4a",
+    "text": "试试先低下去，再抬起来。",
+    "durationMs": 2299,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "试",
+        "t0": 60,
+        "t1": 235
+      },
+      {
+        "ch": "试",
+        "t0": 235,
+        "t1": 410
+      },
+      {
+        "ch": "先",
+        "t0": 410,
+        "t1": 585
+      },
+      {
+        "ch": "低",
+        "t0": 585,
+        "t1": 760
+      },
+      {
+        "ch": "下",
+        "t0": 760,
+        "t1": 935
+      },
+      {
+        "ch": "去",
+        "t0": 935,
+        "t1": 1110
+      },
+      {
+        "ch": "，",
+        "t0": 1110,
+        "t1": 1370
+      },
+      {
+        "ch": "再",
+        "t0": 1370,
+        "t1": 1531
+      },
+      {
+        "ch": "抬",
+        "t0": 1531,
+        "t1": 1693
+      },
+      {
+        "ch": "起",
+        "t0": 1693,
+        "t1": 1854
+      },
+      {
+        "ch": "来",
+        "t0": 1854,
+        "t1": 2015
+      },
+      {
+        "ch": "。",
+        "t0": 2015,
+        "t1": 2015
+      }
+    ]
+  },
+  "py.local.t4": {
+    "src": "/audio/pinyin-station/py.local.t4.e8130f06.m4a",
+    "text": "试试从高处，一下滑下来。",
+    "durationMs": 3019,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "试",
+        "t0": 70,
+        "t1": 302
+      },
+      {
+        "ch": "试",
+        "t0": 302,
+        "t1": 534
+      },
+      {
+        "ch": "从",
+        "t0": 534,
+        "t1": 766
+      },
+      {
+        "ch": "高",
+        "t0": 766,
+        "t1": 998
+      },
+      {
+        "ch": "处",
+        "t0": 998,
+        "t1": 1230
+      },
+      {
+        "ch": "，",
+        "t0": 1230,
+        "t1": 1690
+      },
+      {
+        "ch": "一",
+        "t0": 1690,
+        "t1": 1893
+      },
+      {
+        "ch": "下",
+        "t0": 1893,
+        "t1": 2096
+      },
+      {
+        "ch": "滑",
+        "t0": 2096,
+        "t1": 2299
+      },
+      {
+        "ch": "下",
+        "t0": 2299,
+        "t1": 2502
+      },
+      {
+        "ch": "来",
+        "t0": 2502,
+        "t1": 2705
+      },
+      {
+        "ch": "。",
+        "t0": 2705,
+        "t1": 2705
+      }
+    ]
+  },
+  "py.local.unsure": {
+    "src": "/audio/pinyin-station/py.local.unsure.5c1cc529.m4a",
+    "text": "再试一次，我听得更清楚",
+    "durationMs": 2369,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "再",
+        "t0": 70,
+        "t1": 265
+      },
+      {
+        "ch": "试",
+        "t0": 265,
+        "t1": 460
+      },
+      {
+        "ch": "一",
+        "t0": 460,
+        "t1": 655
+      },
+      {
+        "ch": "次",
+        "t0": 655,
+        "t1": 850
+      },
+      {
+        "ch": "，",
+        "t0": 850,
+        "t1": 1120
+      },
+      {
+        "ch": "我",
+        "t0": 1120,
+        "t1": 1274
+      },
+      {
+        "ch": "听",
+        "t0": 1274,
+        "t1": 1428
+      },
+      {
+        "ch": "得",
+        "t0": 1428,
+        "t1": 1583
+      },
+      {
+        "ch": "更",
+        "t0": 1583,
+        "t1": 1737
+      },
+      {
+        "ch": "清",
+        "t0": 1737,
+        "t1": 1891
+      },
+      {
+        "ch": "楚",
+        "t0": 1891,
+        "t1": 2045
+      }
+    ]
+  },
+  "py.local.quiet": {
+    "src": "/audio/pinyin-station/py.local.quiet.d630ec89.m4a",
+    "text": "声音再大一点点，我就听见啦",
+    "durationMs": 2833,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "声",
+        "t0": 70,
+        "t1": 259
+      },
+      {
+        "ch": "音",
+        "t0": 259,
+        "t1": 447
+      },
+      {
+        "ch": "再",
+        "t0": 447,
+        "t1": 636
+      },
+      {
+        "ch": "大",
+        "t0": 636,
+        "t1": 824
+      },
+      {
+        "ch": "一",
+        "t0": 824,
+        "t1": 1013
+      },
+      {
+        "ch": "点",
+        "t0": 1013,
+        "t1": 1201
+      },
+      {
+        "ch": "点",
+        "t0": 1201,
+        "t1": 1390
+      },
+      {
+        "ch": "，",
+        "t0": 1390,
+        "t1": 1670
+      },
+      {
+        "ch": "我",
+        "t0": 1670,
+        "t1": 1837
+      },
+      {
+        "ch": "就",
+        "t0": 1837,
+        "t1": 2004
+      },
+      {
+        "ch": "听",
+        "t0": 2004,
+        "t1": 2171
+      },
+      {
+        "ch": "见",
+        "t0": 2171,
+        "t1": 2338
+      },
+      {
+        "ch": "啦",
+        "t0": 2338,
+        "t1": 2505
+      }
+    ]
+  },
+  "py.local.noisy": {
+    "src": "/audio/pinyin-station/py.local.noisy.e395bf24.m4a",
+    "text": "周围有点吵，找个安静的地方",
+    "durationMs": 3460,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "周",
+        "t0": 70,
+        "t1": 322
+      },
+      {
+        "ch": "围",
+        "t0": 322,
+        "t1": 574
+      },
+      {
+        "ch": "有",
+        "t0": 574,
+        "t1": 826
+      },
+      {
+        "ch": "点",
+        "t0": 826,
+        "t1": 1078
+      },
+      {
+        "ch": "吵",
+        "t0": 1078,
+        "t1": 1330
+      },
+      {
+        "ch": "，",
+        "t0": 1330,
+        "t1": 1720
+      },
+      {
+        "ch": "找",
+        "t0": 1720,
+        "t1": 1922
+      },
+      {
+        "ch": "个",
+        "t0": 1922,
+        "t1": 2124
+      },
+      {
+        "ch": "安",
+        "t0": 2124,
+        "t1": 2326
+      },
+      {
+        "ch": "静",
+        "t0": 2326,
+        "t1": 2529
+      },
+      {
+        "ch": "的",
+        "t0": 2529,
+        "t1": 2731
+      },
+      {
+        "ch": "地",
+        "t0": 2731,
+        "t1": 2933
+      },
+      {
+        "ch": "方",
+        "t0": 2933,
+        "t1": 3135
+      }
+    ]
+  },
+  "py.local.loud": {
+    "src": "/audio/pinyin-station/py.local.loud.ac1067ef.m4a",
+    "text": "离远一点点，轻轻地读",
+    "durationMs": 2438,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "离",
+        "t0": 50,
+        "t1": 262
+      },
+      {
+        "ch": "远",
+        "t0": 262,
+        "t1": 474
+      },
+      {
+        "ch": "一",
+        "t0": 474,
+        "t1": 686
+      },
+      {
+        "ch": "点",
+        "t0": 686,
+        "t1": 898
+      },
+      {
+        "ch": "点",
+        "t0": 898,
+        "t1": 1110
+      },
+      {
+        "ch": "，",
+        "t0": 1110,
+        "t1": 1320
+      },
+      {
+        "ch": "轻",
+        "t0": 1320,
+        "t1": 1521
+      },
+      {
+        "ch": "轻",
+        "t0": 1521,
+        "t1": 1723
+      },
+      {
+        "ch": "地",
+        "t0": 1723,
+        "t1": 1924
+      },
+      {
+        "ch": "读",
+        "t0": 1924,
+        "t1": 2125
+      }
+    ]
+  },
+  "py.local.short": {
+    "src": "/audio/pinyin-station/py.local.short.596785b8.m4a",
+    "text": "声音太短啦，慢慢读完整",
+    "durationMs": 3367,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "声",
+        "t0": 70,
+        "t1": 358
+      },
+      {
+        "ch": "音",
+        "t0": 358,
+        "t1": 646
+      },
+      {
+        "ch": "太",
+        "t0": 646,
+        "t1": 934
+      },
+      {
+        "ch": "短",
+        "t0": 934,
+        "t1": 1222
+      },
+      {
+        "ch": "啦",
+        "t0": 1222,
+        "t1": 1510
+      },
+      {
+        "ch": "，",
+        "t0": 1510,
+        "t1": 1820
+      },
+      {
+        "ch": "慢",
+        "t0": 1820,
+        "t1": 2069
+      },
+      {
+        "ch": "慢",
+        "t0": 2069,
+        "t1": 2318
+      },
+      {
+        "ch": "读",
+        "t0": 2318,
+        "t1": 2567
+      },
+      {
+        "ch": "完",
+        "t0": 2567,
+        "t1": 2816
+      },
+      {
+        "ch": "整",
+        "t0": 2816,
+        "t1": 3065
+      }
+    ]
+  },
+  "py.local.warmup": {
+    "src": "/audio/pinyin-station/py.local.warmup.2a1f1f1d.m4a",
+    "text": "我在认识你的声音，再读几个吧",
+    "durationMs": 2949,
+    "role": "companion",
+    "words": [
+      {
+        "ch": "我",
+        "t0": 60,
+        "t1": 234
+      },
+      {
+        "ch": "在",
+        "t0": 234,
+        "t1": 408
+      },
+      {
+        "ch": "认",
+        "t0": 408,
+        "t1": 581
+      },
+      {
+        "ch": "识",
+        "t0": 581,
+        "t1": 755
+      },
+      {
+        "ch": "你",
+        "t0": 755,
+        "t1": 929
+      },
+      {
+        "ch": "的",
+        "t0": 929,
+        "t1": 1102
+      },
+      {
+        "ch": "声",
+        "t0": 1102,
+        "t1": 1276
+      },
+      {
+        "ch": "音",
+        "t0": 1276,
+        "t1": 1450
+      },
+      {
+        "ch": "，",
+        "t0": 1450,
+        "t1": 1690
+      },
+      {
+        "ch": "再",
+        "t0": 1690,
+        "t1": 1881
+      },
+      {
+        "ch": "读",
+        "t0": 1881,
+        "t1": 2072
+      },
+      {
+        "ch": "几",
+        "t0": 2072,
+        "t1": 2263
+      },
+      {
+        "ch": "个",
+        "t0": 2263,
+        "t1": 2454
+      },
+      {
+        "ch": "吧",
+        "t0": 2454,
+        "t1": 2645
       }
     ]
   }

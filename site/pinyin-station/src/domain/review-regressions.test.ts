@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { bank } from './content';
 import * as learning from './learning';
-import { initialSave, insertContrasts, mastery, rebuildAtoms, recordAttempt, schedule } from './learning';
+import {
+  aliasWordIds,
+  initialSave,
+  insertContrasts,
+  mastery,
+  rebuildAtoms,
+  recordAttempt,
+  schedule,
+} from './learning';
 import type { Attempt, Bank, Save, Word } from './types';
 
 const word = (id: string, semanticGroup?: string): Word & { semanticGroup?: string } => ({
@@ -156,7 +164,10 @@ describe('session boundaries follow actual practice', () => {
 describe('scheduler coverage and review intervals', () => {
   it('offers every eligible seed word and both eligible sentences within twenty-four sessions', () => {
     const save = initialSave();
-    const required = bank.words.filter((item) => item.lesson <= save.settings.lesson && !item.beyond);
+    const aliases = aliasWordIds(bank, save.settings.lesson);
+    const required = bank.words.filter(
+      (item) => item.lesson <= save.settings.lesson && !item.beyond && !item.hold && !aliases.has(item.id),
+    );
     expect(required.filter((item) => item.kind === 'sentence').length).toBeGreaterThanOrEqual(2);
     const seen = new Set<string>();
     for (let session = 1; session <= 24; session++) {
@@ -178,7 +189,7 @@ describe('scheduler coverage and review intervals', () => {
     expect(required.filter((item) => !seen.has(item.id)).map((item) => item.id)).toEqual([]);
   });
 
-  it.each(['B', 'C'] as const)('uses both sides of a minimal pair as the %s target', (kind) => {
+  it('uses both sides of a minimal pair as the B target', () => {
     const pairBank: Bank = {
       ...bank,
       confusions: [{ pair: ['b', 'p'], type: 'initial', minimalPairs: [['ba1', 'pa1']], tip: '' }],
@@ -188,11 +199,30 @@ describe('scheduler coverage and review intervals', () => {
     for (let session = 1; session <= 24; session++) {
       save.sessions = session;
       for (const question of schedule(save, pairBank, 'today')) {
-        if (question.kind === kind) targets.add(question.target);
+        if (question.kind === 'B') targets.add(question.target);
       }
     }
 
     expect([...targets].sort()).toEqual(['ba1', 'pa1']);
+  });
+
+  it('builds every C question from a syllable and a real rival (same first sound and tone)', () => {
+    const save = initialSave();
+    const targets = new Set<string>();
+    for (let session = 1; session <= 24; session++) {
+      save.sessions = session;
+      for (const question of schedule(save, bank, 'read')) {
+        if (question.kind !== 'C') continue;
+        targets.add(question.target);
+        expect(question.choices).toHaveLength(2);
+        expect(question.choices).toContain(question.target);
+        const [a, b] = question.choices.map((id) => bank.syllables.find((sy) => sy.id === id)!);
+        expect(a.initial).toBe(b.initial);
+        expect(a.tone).toBe(b.tone);
+        expect(a.final).not.toBe(b.final);
+      }
+    }
+    expect(targets.size).toBeGreaterThanOrEqual(12);
   });
 
   it.each([6, 99])('keeps a known word due in session %i out of the current main fresh pool', (due) => {

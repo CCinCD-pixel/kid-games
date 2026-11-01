@@ -33,23 +33,43 @@ export function ordering(this: PracticeView) {
           if (this.locked) return;
           this.used.add(i);
           this.sentence.push(s);
-          if (this.sentence.length === chunks.length)
-            this.answer(this.sentence.every((x, j) => x === chunks[j]));
-          else {
-            this.stage.replaceChildren();
-            this.ordering();
+          // Echo first, always: the card lands in the sentence before anything is judged.
+          const finished = this.sentence.length === chunks.length;
+          const right = this.sentence.every((x, j) => x === chunks[j]);
+          this.stage.replaceChildren();
+          this.ordering();
+          if (finished) {
+            this.locked = true;
+            this.later(right ? 750 : 1200, () => {
+              this.locked = false;
+              this.answer(right);
+            });
           }
         },
       },
       s.split(' ').map(displayPinyin).join(' '),
     );
+    // The next card the sentence is waiting for (shown by the first-use guide and by the second hint).
+    if (!this.used.has(i) && s === chunks[this.sentence.length]) {
+      key.dataset.answer = '1';
+      this.guide(key);
+    }
     row.append(key);
   });
-  this.stage.append(h('div', { class: 'sentence-picture' }, this.ctx.picture(this.word)), result, row);
+  // The sentence being built is also written in characters (sentences only; the gap-fill shows its own frame).
+  const target = this.word.frame ? null : h('p', { class: 'sentence-target' }, this.word.hanzi);
+  this.stage.classList.toggle('has-target', !!target);
+  this.stage.append(
+    h('div', { class: 'sentence-picture' }, this.ctx.picture(this.word)),
+    h('div', { class: 'sentence-line' }, ...(target ? [target] : []), result),
+    row,
+  );
   this.actions.replaceChildren(
+    ...(this.word.frame ? [] : [button('听整句', () => void this.stimulus(), 'secondary', 'listen')]),
     button(
       '重新接一接',
       () => {
+        if (this.locked) return;
         this.sentence = [];
         this.used.clear();
         this.draw();

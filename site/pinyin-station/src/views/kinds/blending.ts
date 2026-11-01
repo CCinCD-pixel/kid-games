@@ -1,77 +1,89 @@
 import { h } from '@kit/ui';
 import { createRng } from '@kit/rng';
 import { displayPinyin, parseSyllable } from '../../domain/pinyin';
+import { INSTRUCTION } from '../lines';
 import { button, pinyin } from '../common';
 import type { PracticeView } from './types';
 
+/**
+ * 把声音接起来: the child HEARS a syllable (played on entry, 听一听 plays it again), sees the first sound waiting in the
+ * equation and picks the missing last sound out of two. The tapped sound lands in the empty cell at once; a wrong
+ * one is played back as the syllable it really makes, then the target again, so the two can be compared.
+ */
 export function blending(this: PracticeView) {
   const s = parseSyllable(this.q.target)!;
   const medial = /^([iu])([ao])$/.exec(s.final);
-  const finalPart = medial?.[2] ?? s.final;
-  const merged = pinyin('·', 'blend-result');
-  const initial = button(
-    s.initial || '听',
-    () => {
-      void this.ctx.syllable(
-        this.ctx.bank.letters.find((l) => l.id === s.initial)?.callSound ?? this.q.target,
-      );
-    },
-    'secondary',
+  const part = (id: string) => {
+    const f = parseSyllable(id)!.final;
+    return f.replace(/^([iu])([ao])$/, '$2');
+  };
+  const slot = h('span', { class: 'blend-slot pinyin', 'aria-label': '缺的声音' }, '？');
+  const result = pinyin('', 'blend-result');
+  const tile = (text: string) => h('span', { class: 'blend-tile pinyin' }, text);
+  const equation = h(
+    'div',
+    { class: 'blend-parts blend-equation' },
+    tile(s.initial),
+    ...(medial ? [h('span', { class: 'blend-plus' }, '+'), tile(medial[1])] : []),
+    h('span', { class: 'blend-plus' }, '+'),
+    slot,
   );
-  initial.classList.add('pinyin-key', 'pinyin');
-  const parts: HTMLElement[] = [initial];
-  if (medial) {
-    const glide = button(medial[1], () => void this.ctx.syllable(`${medial[1]}1`), 'secondary');
-    glide.classList.add('pinyin-key', 'pinyin');
-    glide.dataset.medial = medial[1];
-    parts.push(h('span', { class: 'blend-plus' }, '+'), glide);
-  }
-  const finals = [
-    ...new Set([
-      finalPart,
-      ...this.q.choices.map((id) => parseSyllable(id)!.final.replace(/^([iu])([ao])$/, '$2')),
-      ...['a', 'o', 'e', 'i', 'u', 'v'],
-    ]),
-  ].slice(0, 2);
   const rng = createRng(`${this.ctx.save.sessions}:${this.index}:blend`);
-  const choices = rng.shuffle(finals).map((final) => {
-    const key = button(
-      displayPinyin(final + s.tone),
-      () => {
-        if (this.locked) return;
-        if (final !== finalPart) {
-          this.answer(false);
-          return;
-        }
-        merged.textContent = displayPinyin(this.q.target);
-        this.remember(true);
-        this.locked = true;
-        void this.stimulus();
-        this.actions.replaceChildren(
-          button(
-            '读给台长听',
-            () => {
-              this.locked = false;
-              void this.record();
-            },
-            'primary',
-            'mic',
-          ),
-          button('先接下一条', () => this.advance(), 'quiet', 'next'),
-        );
+  const row = h('div', { class: 'syllable-choices blend-choices' });
+  for (const id of rng.shuffle(this.q.choices)) {
+    const right = id === this.q.target;
+    const final = part(id);
+    const key = h(
+      'button',
+      {
+        type: 'button',
+        class: 'pinyin-key pinyin',
+        'data-final': final,
+        'data-choice': id,
+        onclick: () => {
+          if (this.locked) return;
+          slot.textContent = displayPinyin(final + s.tone);
+          slot.classList.remove('ok', 'miss');
+          slot.classList.add(right ? 'ok' : 'miss');
+          key.classList.add(right ? 'ok' : 'miss');
+          if (right) {
+            result.textContent = displayPinyin(this.q.target);
+            this.answer(true);
+            this.actions.append(
+              button(
+                '读给台长听',
+                () => {
+                  this.locked = false;
+                  void this.record();
+                },
+                'quiet',
+                'mic',
+              ),
+            );
+          } else {
+            this.markTried(key);
+            this.answer(false, id);
+            this.later(1100, () => {
+              slot.textContent = '？';
+              slot.classList.remove('miss');
+            });
+          }
+        },
       },
-      'secondary',
+      displayPinyin(final + s.tone),
     );
-    key.classList.add('pinyin-key', 'pinyin');
-    key.dataset.final = final;
-    return key;
-  });
+    if (right) {
+      key.dataset.answer = '1';
+      this.guide(key);
+    }
+    row.append(key);
+  }
   this.stage.append(
-    h('div', { class: 'blend-parts' }, ...parts, h('span', { class: 'blend-plus' }, '+'), ...choices),
-    merged,
-    this.lamps(),
+    button('听一听', () => void this.stimulus(), 'listen', 'listen'),
+    equation,
+    row,
+    result,
+    ...[this.lamps()].filter((x): x is HTMLElement => !!x),
   );
-  this.instruction.textContent = medial
-    ? '开头和中间已就位，选后面的声音，再把三段接起来'
-    : '看开头，选后面的声音，再把它们接起来';
+  this.setInstruction(INSTRUCTION.C);
 }

@@ -15,7 +15,7 @@ export function extendCurriculum(word, words) {
     ['dali', '大梨', 'da4 li2'],
     ['mali', '马蹄', 'ma3 ti2'],
     ['daba', '大巴', 'da4 ba1'],
-    ['mudi', '木笛', 'mu4 di2'],
+    ['mudi', '牧笛', 'mu4 di2'],
     ['damu', '大木马', 'da4 mu4 ma3'],
     ['gege', '哥哥', 'ge1 ge0'],
     ['gugu', '姑姑', 'gu1 gu0'],
@@ -192,7 +192,7 @@ export function extendCurriculum(word, words) {
 export function sceneBank(words) {
   const rows = [
     ['pond', '池塘边', '池塘里来了一位小客人，读读拼音，帮它找到位置。', ['e', 'yu']],
-    ['wardrobe', '整理衣柜', '读读卡片，把衣物放进小衣柜。', ['yi', 'bu']],
+    ['wardrobe', '整理衣柜', '读读卡片，把衣物放进小衣柜。', ['yi']],
     ['rice', '早餐桌', '早餐准备好了，读读拼音，找到桌上需要的东西。', ['mi', 'dami']],
     ['music', '小小音乐会', '音乐会要开场了，读读卡片，找到乐器。', ['pipa', 'laba', 'mudi']],
     ['art', '画画时间', '读读拼音，找出画画时要用的东西。', ['bi', 'labi', 'mo']],
@@ -202,7 +202,6 @@ export function sceneBank(words) {
     ['travel', '准备出门', '读读卡片，找出这次出门会见到的东西。', ['ditu', 'lu', 'daba']],
     ['fruit', '水果小摊', '读读拼音，帮小摊找到要摆出的水果。', ['li', 'dali']],
     ['garden', '泥土花园', '小花园开工了，读读卡片，找出地上的东西。', ['nitu', 'ni', 'tu-earth']],
-    ['family', '家人来信', '读读拼音，找到这封来信提到的家人。', ['baba', 'mama', 'didi', 'po', 'dabo']],
     ['waterfall', '山间旅行', '读读卡片，找出旅途中看到的景物。', ['pubu', 'dadi']],
     [
       'movement',

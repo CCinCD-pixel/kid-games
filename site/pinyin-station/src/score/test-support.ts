@@ -147,6 +147,7 @@ export function syllableIds(): string[] {
   ) as Record<string, unknown>;
   return Object.keys(manifest)
     .filter((k) => k.startsWith('py.syl.'))
+    .filter((k) => !(manifest[k] as { synthetic?: boolean } | null)?.synthetic)   // real-person recordings only (call-sounds for lessons 9–13 are synthetic)
     .map((k) => k.slice(7))
     .filter((id) => /[1-4]$/.test(id))
     .sort();
