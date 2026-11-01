@@ -1,0 +1,22 @@
+site/chess/src/app.ts
+  s_0eb5d4e8842e10::t_eb05eafce57d5a 45-51,54,99,123,131,170
+site/chess/tests/chess.spec.ts
+  s_0eb5d4e8842e10::t_bbb32976f285a5 193
+  s_0eb5d4e8842e10::t_06325e55293c5c 159-192,194-200
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "7af6c134f5b3c03a8cd1dc9ab0402302fe7a05d1",
+  "prompts": {},
+  "sessions": {
+    "s_0eb5d4e8842e10": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abfdd1db-26e6-45e9-915c-a7b2e424f4d8",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "cc48344 <cc48344@ly.com>"
+    }
+  }
+}
