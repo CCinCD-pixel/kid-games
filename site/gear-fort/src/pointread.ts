@@ -1,12 +1,12 @@
 // 点读 (spec §2.6, rev d / D24 — "点任何汉字读出整词"): every label, subtitle and caption on screen can be tapped. A
-// character inside one of the 45 point-read words (fort.w.*: 25 card/machine/Boss names + 墨子 鲁班 + 18 interface words)
+// character inside one of the 46 point-read words (fort.w.*: 25 card/machine/Boss names + 墨子 鲁班 + 19 interface words, 首领 = the 图谱 tab)
 // reads that word; any other character re-reads the sentence it belongs to (the nearest [data-line]). Buttons and cards
 // keep their own tap action; on them a long press (≥ 450 ms) reads their [data-word] (the 选牒 cards, spec §2.3).
 import type { AppCtx } from './ctx';
 
 export const WORDS = ['连弩车', '禾田', '木垒', '籍车', '铁蒺藜', '陷坑', '火油罐', '礌石', '阳燧', '粮仓', '转射机', '风箱', '钩拒',
   '木甲兵', '盾甲兵', '冲车', '蚁傅', '铜甲力士', '木鹊', '烟车', '云梯车', '鼓车', '铜犀冲车', '夜枭木鸢', '墨子', '鲁班', '檑木', '机关令',
-  '机关匣', '橐', '铜盾甲兵', '牒', '推演', '沙盘', '战鼓', '大波', '锦囊', '图谱', '驿站', '复盘', '附加题', '粮斗', '鲁班线', '宋城', '守得稳'] as const;
+  '机关匣', '橐', '铜盾甲兵', '牒', '推演', '沙盘', '战鼓', '大波', '锦囊', '图谱', '驿站', '复盘', '附加题', '粮斗', '鲁班线', '宋城', '守得稳', '首领'] as const;
 const BY_LEN = [...WORDS].sort((a, b) => b.length - a.length);
 export const wordId = (w: string): string => `fort.w.${w}`;
 

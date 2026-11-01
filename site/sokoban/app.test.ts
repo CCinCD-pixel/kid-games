@@ -150,6 +150,21 @@ describe('unlock', () => {
     expect(nextAfter(s, 'C1', true)).toEqual({ kind: 'level', id: 'C2' });
   });
 
+  it('the extended route continues from chapter 4 through chapter 8', () => {
+    const s = defaults();
+    for (const chapter of CHAPTERS) {
+      for (const level of chapterLevels(chapter.ch)) {
+        if (level.kind !== 'quiz') pass(s, level.id);
+        else applyQuizResult(s, level, 1, 1);
+      }
+      if (chapter.ch < 4) continue;
+      const last = chapterLevels(chapter.ch).at(-1)!;
+      expect(nextAfter(s, last.id, false), last.id).toEqual(chapter.ch === 8
+        ? { kind: 'map' }
+        : { kind: 'level', id: `${chapter.ch + 1}-1`, newChapter: chapter.ch + 1 });
+    }
+  });
+
   it('naming follows the lessons (corner = 0-3, wall = 3-2, pair = 3-4, square = 4-2)', () => {
     const s = defaults();
     expect(canName(s, 'corner', '0-3')).toBe(true);

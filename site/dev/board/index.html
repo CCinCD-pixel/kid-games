@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-xg-theme="night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="robots" content="noindex">
+  <title>棋盘引擎游乐场</title>
+  <link rel="manifest" href="/manifest.json">
+  <script type="module" src="./main.ts"></script>
+</head>
+<body data-xg-game="xiangqi">
+  <div class="bd-root" id="root">
+    <div class="bd-status" id="status" role="status" aria-live="polite"></div>
+    <div class="bd-host" id="host"></div>
+    <section class="bd-panel" id="panel" aria-label="控制">
+      <div class="bd-trays"><span class="bd-tray" id="tray0" data-side="0"></span><span class="bd-tray" id="tray1" data-side="1"></span></div>
+      <div class="bd-btns" id="btns"></div>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 /**
  * Unlocking (spec §5.5, §3.8): pure functions over the save and the content.
  *  - Chapter 0 opens at once and is strictly in order (0-3 is the only undo lesson).
- *  - Chapters 1–4: in order, but two unpassed levels are always open at the same time.
+ *  - Chapters 1–8: in order, but two unpassed levels are always open at the same time.
  *  - Next chapter: ≥ ceil(0.7 × levels) passed (quizzes count), or its boss passed; the 跳级考试
  *    (cert) counts as all of chapter 1 passed.
  *  - 经典仓库: open from the start with the same two-open rule; an imported old save opens it up to
@@ -12,8 +12,8 @@ import { CHAPTERS, CLASSIC_LEVELS, certLevels, chapterLevels, levelById, type Le
 import { levelBroken } from './broken';
 import type { DeadKind, SaveV1 } from './save';
 
-/** v1 main track size (34 = 32 push levels + 2 quizzes) — the hub card's progress denominator. */
-export const V1_MAIN_TOTAL = 34;
+/** Main track size (64 push levels + 2 quizzes) — the hub card's progress denominator. */
+export const V1_MAIN_TOTAL = CHAPTERS.reduce((n, c) => n + chapterLevels(c.ch).length, 0);
 
 /** The lesson that teaches each deadlock type (naming rule, spec §3.6). */
 export const LESSON_LEVEL: Record<DeadKind, string> = { corner: '0-3', wall: '3-2', pair: '3-4', square: '4-2' };

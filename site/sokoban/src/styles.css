@@ -171,10 +171,10 @@ body { margin: 0; overflow: hidden; }
 .sok-node--boss .sok-node__stars { top: calc(100% - 16px); }
 .sok-node__legacy { position: absolute; right: -16px; top: -10px; padding: 3px 7px; border-radius: 10px; background: var(--xg-night-700); color: var(--xg-paper-100); font: 700 12px/1 var(--xg-font-ui); box-shadow: 0 0 0 2px var(--xg-paper-50); }
 .sok-node .xg-node__marker { translate: -50% -2px; }
-.sok-tabs { position: absolute; z-index: 7; display: flex; justify-content: center; align-items: center; gap: 8px; }
-[data-orient="landscape"] .sok-tabs { flex-direction: column; justify-content: flex-start; gap: 6px; }
+.sok-tabs { position: absolute; z-index: 7; display: flex; justify-content: flex-start; align-items: center; gap: 8px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+[data-orient="landscape"] .sok-tabs { flex-direction: column; justify-content: flex-start; gap: 6px; overflow-x: hidden; overflow-y: auto; }
 .sok-tab {
-  position: relative; width: 76px; height: 76px; border: 0; border-radius: 22px; cursor: pointer; display: grid; place-items: center; touch-action: manipulation;
+  position: relative; flex: 0 0 auto; width: 76px; height: 76px; border: 0; border-radius: 22px; cursor: pointer; display: grid; place-items: center; touch-action: manipulation;
   background: var(--xg-night-700); color: var(--xg-paper-100); box-shadow: 0 5px 0 var(--xg-night-950), inset 0 1.5px 0 rgba(255,255,255,.18);
 }
 [data-orient="landscape"] .sok-tab { width: 72px; height: 72px; }
@@ -604,8 +604,8 @@ body { margin: 0; overflow: hidden; }
 [data-phone] .sok-tab__icon { font-size: 28px; }
 [data-phone] .sok-tab__num { right: 5px; bottom: 4px; font-size: 16px; }
 [data-phone] .sok-tab__lock .xg-icon { font-size: 22px; }
-.sok-map[data-phone][data-orient="landscape"] .sok-tabs { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-content: flex-start; padding: 0; }
-.sok-map[data-phone][data-orient="landscape"] .sok-tab { flex: 0 0 calc((100% - 12px) / 3); height: 56px; }
+.sok-map[data-phone][data-orient="landscape"] .sok-tabs { flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; align-content: center; overflow-x: auto; overflow-y: hidden; padding: 0; }
+.sok-map[data-phone][data-orient="landscape"] .sok-tab { flex: 0 0 56px; height: 56px; }
 
 /* ---------------------------------------------------------------- hangar */
 .sok-hangar[data-phone] .sok-hangar__turntable, .sok-hangar[data-phone] .sok-hangar__base { width: calc(var(--sok-robot, 160px) * 1.1); margin-left: calc(var(--sok-robot, 160px) * -.55); }

@@ -1,0 +1,19 @@
+game: chess
+seed: 1241
+lines:
+  - {id: cx.home, role: narrator, text: 欢迎来到棋手学院，我是小星棋友。先认识棋子，再一起试试一步将死。}
+  - {id: cx.lesson, role: narrator, text: 我们把这颗棋子，走到星星那里吧。}
+  - {id: cx.lesson.step, role: narrator, text: 走得好，再看看下一步。}
+  - {id: cx.lesson.win, role: narrator, text: 找到了，这颗棋子的走法，你学会了。}
+  - {id: cx.mate, role: narrator, text: 这一局只需一步。先点白棋，我们一起找终点。}
+  - {id: cx.select, role: narrator, text: 选中了。亮起的格子都能走，慢慢找一找。}
+  - {id: cx.illegal, role: narrator, text: 这格还走不到。看看亮起的格子。}
+  - {id: cx.miss, role: narrator, text: 这一格还没将死，换一个位置试试。}
+  - {id: cx.hint, role: narrator, text: 我把起点和终点点亮了，我们走一次。}
+  - {id: cx.win, role: narrator, text: 将死了，你找到了关键的一步。}
+  - {id: cx.game, role: narrator, text: 先照顾好自己的王，再看看怎么进攻。}
+  - {id: cx.turn, role: narrator, text: 这步走好了，等对手想一想。}
+  - {id: cx.robot, role: narrator, text: 机器人走好了，现在轮到你。}
+  - {id: cx.check, role: narrator, text: 王受到攻击了，我们先保护它。}
+  - {id: cx.f2f, role: narrator, text: 两个人轮流走棋，白方先走。}
+  - {id: cx.endgame, role: narrator, text: 这是一个残局。我们一起想想，怎样将死黑王。}

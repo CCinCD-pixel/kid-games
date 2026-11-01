@@ -12,7 +12,8 @@ import type { Shell, LayoutInfo } from '@kit/shell';
 import { Match, type MatchEvent } from './match';
 import type { Renderer } from './render/gl';
 import { WorldView } from './render/view';
-import { VersusSession } from './versus';
+import { VersusSession, type VersusHooks } from './versus';
+import { versusIntro } from './versus-intro';
 import { menuMusic } from './menu-music';
 import { Hud } from './hud';
 import { TouchRouter } from './input/touch-router';
@@ -31,10 +32,10 @@ import { PHYS, turnRateOf, angDiff, type KillTag } from './sim/core';
 /** S9 praise that fits what the level asked for (QA r3/r4): one pool per objective type, rotating, never the same line
  * as the previous S9 (the last id is kept in the save); a 1★ clear gets a 'you used what you learned' line instead
  * of praise for the very skill he struggled with */
-/** the 教一招 tip for a death: the cut tips name the 猎手, so a cut by any other persona gets the persona-neutral
- * "look ahead, go round the body" tip (QA r5: '这条是 贪吃' next to '看到猎手，往它身后拐') */
+/** the 教一招 tip for a death: the cut tips .1/.2 name the 猎手, so a cut by any other persona gets one of the two
+ * persona-neutral 截击 tips (.3/.4, voiced 2026-10-20; QA r5: '这条是 贪吃' next to '看到猎手，往它身后拐') */
 function tipFor(tag: string, killer: { persona?: string; missionPersona?: string } | null | undefined, n: number): string {
-  if (tag === 'cut' && (killer?.missionPersona ?? killer?.persona) !== 'hunter') return 'snake.tip.body.1';
+  if (tag === 'cut' && (killer?.missionPersona ?? killer?.persona) !== 'hunter') return `snake.tip.cut.${n % 2 ? 3 : 4}`;
   return `snake.tip.${tag}.${n}`;
 }
 function praiseFor(ms: Mission, stars: number, n: number, last?: string) {
@@ -151,6 +152,7 @@ export class App {
     this.lobby = renderLobby(this.root, this.save, this.venue, name, {
       onPlay: (mode, v) => { this.venue = v; void this.startMatch(mode, v); },
       onVersus: (v) => this.startVersus(v),
+      onVersusHelp: () => this.showVersusHelp(),
       onVenue: (v, locked) => {
         if (locked) { void this.say(`snake.venue.locked.${v}`).then(() => this.say('snake.venue.locked.or')); return; }
         this.venue = v;
@@ -176,6 +178,18 @@ export class App {
     setHubProgress('snake-battle', { label: `${VENUES[this.venue].name}` });
   }
 
+  /** what the 双人分屏对战 session borrows from the app: the voice + subtitle, and the once-flag of its 怎么玩 card */
+  private versusHooks(): VersusHooks {
+    return { say: (id, o) => this.say(id, o), hush: () => this.hush(), introSeen: () => this.save.seen('versus:intro'), markIntroSeen: () => this.save.markSeen('versus:intro'), autoSkip: () => shouldAutoSkip() };
+  }
+
+  /** the lobby's ？ beside 双人分屏对战: the same card, no match behind it */
+  showVersusHelp() {
+    if (this.root.querySelector('.sb-vsintro')) return;
+    const hooks = this.versusHooks(); this.voice.inMatch = false;
+    versusIntro(this.root, { say: hooks.say, hush: hooks.hush, doneLabel: '知道了', onClose: () => hooks.markIntroSeen() });
+  }
+
   startVersus(venue: VenueId) {
     this.lobby?.dispose(); this.lobby = null;
     this.closeMenus(); this.teardownMatch();
@@ -184,7 +198,7 @@ export class App {
     document.body.classList.add('sb-playing');
     document.getElementById('sb-back')?.setAttribute('hidden', '');
     this.venue = venue;
-    this.versus = new VersusSession(this.root, venue, () => this.startVersus(venue), () => this.showLobby(), this.save.data.settings.matchMusic);
+    this.versus = new VersusSession(this.root, venue, () => this.startVersus(venue), () => this.showLobby(), this.save.data.settings.matchMusic, this.versusHooks());
     if (this.test) (window as unknown as { __sbVersus: VersusSession }).__sbVersus = this.versus;
   }
 

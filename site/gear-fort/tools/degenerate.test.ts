@@ -7,12 +7,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createSim, step } from '../src/lane/sim';
+import { campaignBalance } from '../src/lane/balance';
 import { levelFor } from '../src/bots/run';
 import { makeDegenerate, DEGENERATE } from '../src/bots/degenerate';
 import { LEVELS, CAMPAIGN } from '../src/content';
 import BANDS from '../../../content/gear-fort/bands.json';
 
-const FULL = !!process.env.GF_FULL; const VOL = +(process.env.GF_VOL || 1); const N = FULL ? 20 : 3;
+// GF_CAMPAIGN=1 plays the same bots at the live campaign pace (src/lane/balance.ts) instead of the authored rules (review 2026-10-12: 0 bad, volumes 1+2).
+const CAMP = !!process.env.GF_CAMPAIGN; const FULL = !!process.env.GF_FULL; const VOL = +(process.env.GF_VOL || 1); const N = FULL ? 20 : 3;
 const TYPE = (BANDS as unknown as { TYPE: Record<string, { R: [number, number] }> }).TYPE;
 
 describe(`V21 degenerate strategies, volume ${VOL} (N=${N})`, () => {
@@ -25,7 +27,7 @@ describe(`V21 degenerate strategies, volume ${VOL} (N=${N})`, () => {
         for (let s = 1; s <= N; s++) {
           const lv = levelFor(LEVELS[id], 'R', s); const deck = lv.belt ? lv.belt.seq : lv.loadout || []; const card = kind.split(':')[1];
           if (card && !deck.includes(card)) break; if (kind === 'wall' && !deck.includes('wall')) break; if (kind === 'econ' && !deck.includes('farm') && !deck.includes('bank')) break;
-          const S = createSim(lv, s); const b = makeDegenerate(lv, s, kind);
+          const S = createSim(lv, s, CAMP ? campaignBalance(LEVELS[id]) : {}); const b = makeDegenerate(lv, s, kind);
           while (!S.result && S.tick < 20 * 60 * 12) step(S, b(S));
           n++; if (S.result === 'win') { w++; if ((S.stats.logsUsed || 0) <= 2) two++; }
         }
@@ -35,7 +37,7 @@ describe(`V21 degenerate strategies, volume ${VOL} (N=${N})`, () => {
       }
       out[id] = row;
     }
-    if (FULL) { const dir = path.join(os.homedir(), 'kid-games-work/reports/gear-fort'); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, `degenerate-v${VOL}.json`), JSON.stringify({ out, notes, bad }, null, 1)); }
+    if (FULL) { const dir = path.join(os.homedir(), 'kid-games-work/reports/gear-fort'); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, `degenerate${CAMP ? '-campaign' : ''}-v${VOL}.json`), JSON.stringify({ out, notes, bad }, null, 1)); }
     expect(bad).toEqual([]);
   }, 600_000);
 });

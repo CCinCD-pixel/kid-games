@@ -8,7 +8,7 @@ const s = (game: string, daysAgo: number, minutes: number, source: SessionRecord
   const start = NOW - daysAgo * DAY - 3_600_000;
   return { id: `${game}-${daysAgo}-${minutes}`, game, source, start, lastBeat: start + minutes * 60_000, activeMs: minutes * 60_000, events: [] };
 };
-const place = (g: string) => (({ 'mars-base': 'base', 'snake-battle': 'playground', sokoban: 'classic' }) as const)[g as 'sokoban'];
+const place = (g: string) => (({ 'mars-base': 'base', 'snake-battle': 'playground', sokoban: 'playground' }) as const)[g as 'sokoban'];
 const log = [s('mars-base', 0, 12), s('snake-battle', 0, 6, 'resume'), s('sokoban', 2, 10, 'suggested'), s('hub', 0, 3), s('mars-base', 9, 20), s('mars-base', 40, 30)];
 
 describe('parent page statistics', () => {
@@ -17,7 +17,7 @@ describe('parent page statistics', () => {
     expect(t7.minutes).toBeCloseTo(28);
     expect(t7.sessions).toBe(3);
     expect(t7.activeDays).toBe(2);
-    expect(t7.byPlace).toEqual({ base: 12, playground: 6, classic: 10 });
+    expect(t7.byPlace).toEqual({ base: 12, playground: 16 });
     expect(totals(log, place, 30, NOW).minutes).toBeCloseTo(48);
   });
 
@@ -25,8 +25,8 @@ describe('parent page statistics', () => {
     const bars = dailyBars(log, place, 14, NOW);
     expect(bars).toHaveLength(14);
     expect(bars[13].start).toBe(dayStart(NOW));
-    expect(bars[13].minutes).toEqual({ base: 12, playground: 6, classic: 0 });
-    expect(bars[11].minutes.classic).toBe(10);
+    expect(bars[13].minutes).toEqual({ base: 12, playground: 6 });
+    expect(bars[11].minutes.playground).toBe(10);
     expect(bars[4].minutes.base).toBe(20);
   });
 

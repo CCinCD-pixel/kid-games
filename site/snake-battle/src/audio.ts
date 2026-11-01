@@ -138,7 +138,7 @@ export const lineText = (id: string) => LINES.find((l) => l.id === id)?.text ?? 
  */
 export type Prio = 0 | 1 | 2;
 export function prioOf(id: string): Prio {
-  if (/^snake\.(death\.|match\.go|match\.end|intro\.|story\.|retry\.|praise|m\.c\dm\d\.brief)/.test(id)) return 0;
+  if (/^snake\.(death\.|match\.go|match\.end|intro\.|story\.|retry\.|praise|m\.c\dm\d\.brief|vs\.)/.test(id)) return 0;   // vs.* = 双人对战说明 / 结果 (read once, never dropped)
   if (/^snake\.(ann\.|match\.rank1|match\.last10|len\.|king\.|wake|m\.|hint\.|pu\.saved)/.test(id)) return 1;
   return 2;
 }

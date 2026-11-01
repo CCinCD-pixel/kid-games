@@ -59,7 +59,12 @@ html[data-orientation='landscape'] .sb-bot { left: calc(var(--sb-sl) + 45px); ri
 
 /* ================================================================ match */
 .sb-world { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-.sb-versus-entry { position: absolute; right: 14px; top: 14px; z-index: 2; min-height: 52px; padding: 0 18px; border-radius: 8px; font: 700 20px/1 var(--sb-font-ui); }
+.sb-versus-entry .sb-versus-entry__icon { display: none; place-items: center; width: 30px; height: 30px; font-size: 30px; }
+.sb-versus-entry__icon svg { width: 100%; height: 100%; }
+.sb-versus-box { position: absolute; right: 14px; top: 14px; z-index: 2; display: flex; align-items: center; gap: 8px; }
+.sb-versus-entry { min-height: 52px; padding: 0 18px; border-radius: 8px; font: 700 20px/1 var(--sb-font-ui); }
+.sb-versus-help { width: 52px; min-width: 52px; min-height: 52px; padding: 0; border-radius: 8px; display: grid; place-items: center; }
+.sb-versus-help svg { width: 28px; height: 28px; }
 .sb-versus { position: absolute; inset: 0; display: flex; background: #101832; }
 .sb-versus__pane { position: relative; flex: 1 1 50%; min-width: 0; min-height: 0; overflow: hidden; touch-action: none; }
 .sb-versus__pane--1 { border-right: 3px solid #ffd23f; }
@@ -67,12 +72,14 @@ html[data-orientation='landscape'] .sb-bot { left: calc(var(--sb-sl) + 45px); ri
 .sb-versus__score { position: absolute; top: calc(var(--sb-st) + 10px); left: 10px; max-width: calc(100% - 24px); box-sizing: border-box; padding: 8px 12px; border-radius: 8px; background: rgba(8,16,32,.82); color: #d8f9ba; font: 700 16px/1.3 var(--sb-font-ui); pointer-events: none; }
 .sb-versus__pane--2 .sb-versus__score { color: #ffd1a8; }
 .sb-versus__boost.sb-boost { position: absolute; width: 72px; height: 72px; right: 20px; bottom: calc(var(--sb-sb) + 20px); font-size: 38px; border: 0; z-index: 2; touch-action: none; }
+.sb-versus__boost.sb-boost svg { width: 40px; height: 40px; }
 .sb-versus__clock { position: absolute; z-index: 3; left: 50%; top: 50%; transform: translate(-50%, -50%); min-width: 84px; height: 48px; box-sizing: border-box; border: 2px solid #ffd23f; border-radius: 8px; background: #172341; display: grid; place-items: center; color: #fff6e3; font: 700 24px/1 var(--sb-font-num); pointer-events: none; }
 .sb-versus__pause { position: absolute; z-index: 4; top: calc(var(--sb-st) + 10px); right: calc(var(--sb-sr) + 12px); width: 50px; height: 50px; border: 0; border-radius: 8px; background: #f6e8bd; color: #243154; font: 700 27px/1 var(--sb-font-ui); }
 .sb-versus__modal { position: absolute; z-index: 5; inset: 0; display: grid; place-items: center; padding: 16px; box-sizing: border-box; background: rgba(6,11,27,.72); }
 .sb-versus__card { width: min(460px, 100%); box-sizing: border-box; padding: 24px; border: 2px solid #ffd23f; border-radius: 8px; background: #172341; text-align: center; box-shadow: 0 16px 40px rgba(0,0,0,.4); }
 .sb-versus__card h2 { margin: 0 0 14px; color: #ffe084; font: 400 32px/1.2 var(--sb-font-title); }
-.sb-versus__card p { margin: 0 0 18px; font: 600 17px/1.5 var(--sb-font-ui); }
+.sb-versus__card p { margin: 0 0 18px; font: 600 17px/1.5 var(--sb-font-ui); display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 22px; }
+.sb-versus__card p span { white-space: nowrap; }
 .sb-versus__actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
 .sb-versus__actions .xg-btn { min-height: 52px; padding: 0 18px; border-radius: 8px; }
 @media (orientation: portrait) {
@@ -82,17 +89,22 @@ html[data-orientation='landscape'] .sb-bot { left: calc(var(--sb-sl) + 45px); ri
   .sb-versus__pane--1 .sb-versus__boost { bottom: 18px; }
 }
 @media (max-width: 700px), (max-height: 500px) {
-  .sb-versus-entry { min-height: 44px; padding: 0 10px; font-size: 16px; right: 8px; top: 8px; }
+  .sb-versus-box { right: 8px; top: 8px; gap: 6px; }
+  .sb-versus-entry { min-height: 44px; padding: 0 10px; font-size: 16px; }
+  .sb-versus-help { width: 44px; min-width: 44px; min-height: 44px; }
   .sb-versus__score { font-size: 13px; padding: 6px 8px; }
   .sb-versus__boost.sb-boost { width: 62px; height: 62px; font-size: 30px; right: 12px; bottom: 12px; }
+  .sb-versus__boost.sb-boost svg { width: 34px; height: 34px; }
   .sb-versus__clock { min-width: 68px; height: 42px; font-size: 20px; }
   .sb-versus__pause { width: 44px; height: 44px; }
   .sb-versus__card { padding: 18px; }
 }
 @media (orientation: landscape) and (max-width: 700px) and (max-height: 359px) {
-  .sb-versus-entry { width: 48px; min-width: 48px; padding: 0; top: 2px; }
+  .sb-versus-box { top: 2px; }
+  .sb-versus-entry { width: 48px; min-width: 48px; min-height: 48px; padding: 0; }
+  .sb-versus-help { width: 48px; min-width: 48px; min-height: 48px; }
   .sb-versus-entry__label { display: none; }
-  .sb-versus-entry::before { content: '⚔'; font: 700 27px/1 var(--sb-font-ui); }
+  .sb-versus-entry .sb-versus-entry__icon { display: grid; }
 }
 body.sb-playing .kit-subtitle { top: calc(var(--sb-st) + 124px); bottom: auto; max-width: 320px; padding: 6px 14px; font-size: 18px; background: rgba(16,20,44,.72); box-shadow: none; pointer-events: none; }
 body.sb-playing .kit-subtitle__replay { display: none; }
@@ -621,3 +633,62 @@ body:has(.sb-story) .kit-subtitle, body:has(.sb-brief) .kit-subtitle, body:has(.
 }
 /* the 3-2-1 after a rotation or a pause never draws over a banner still on screen: the banner waits (hud.ts) and shows after */
 .sb-hud:has(> .sb-count:not([hidden])) > .sb-banner { visibility: hidden; }
+
+/* ================================================================ 双人对战 · 怎么玩 (versus-intro.ts) + result line
+   The card is the subtitle (its rows light up as they are read), so the kit bar hides under it. */
+.sb-vsintro { position: absolute; inset: 0; z-index: 45; display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+  padding: calc(var(--sb-st) + 70px) calc(var(--sb-sr) + 16px) calc(var(--sb-sb) + 16px) calc(var(--sb-sl) + 16px); background: rgba(6, 11, 27, .9); color: #fff6e3; animation: sb-fade-in .2s ease-out; }
+.sb-vsintro__card { width: min(660px, 100%); max-height: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; border: 2px solid #ffd23f; border-radius: 8px; background: #172341; box-shadow: 0 16px 40px rgba(0, 0, 0, .4); }
+.sb-vsintro__title { margin: 0; text-align: center; color: #ffe084; font: 400 30px/1.2 var(--sb-font-title); }
+.sb-vsintro__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.sb-vsintro__row { display: grid; grid-template-columns: 44px 1fr; align-items: center; gap: 12px; min-height: 58px; padding: 6px 12px; box-sizing: border-box; border: 2px solid transparent; border-radius: 8px; background: rgba(255, 255, 255, .06); font: 600 21px/1.4 var(--sb-font-ui); text-wrap: balance; transition: background .2s, border-color .2s; }
+.sb-vsintro__row.is-on { background: rgba(255, 210, 63, .24); border-color: #ffd23f; }
+.sb-vsintro__art { width: 44px; height: 44px; display: grid; place-items: center; }
+.sb-vsintro__art svg { width: 38px; height: 38px; }
+.sb-vsintro__actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+.sb-vsintro__actions .xg-btn { width: auto; min-height: 52px; padding: 0 20px; border-radius: 8px; }
+.sb-vsintro__replay { display: inline-flex; align-items: center; gap: 8px; }
+.sb-vsintro__replay .xg-icon { width: 24px; height: 24px; }
+.xg-skip.sb-vsskip { --xg-skip-top: calc(var(--sb-st) + 10px); --xg-skip-right: calc(var(--sb-sr) + 12px); }
+body:has(.sb-vsintro) .kit-subtitle, body:has(.sb-versus__modal) .kit-subtitle { display: none; }
+/* the line the voice says at the end of a match, shown in the result card (its own 再听一遍 beside the buttons) */
+.sb-versus__say { margin: 0 0 16px; font: 600 19px/1.4 var(--sb-font-ui); color: #fff6e3; text-wrap: balance; }
+.sb-versus__replay { display: inline-flex; align-items: center; gap: 8px; }
+.sb-versus__replay .xg-icon { width: 22px; height: 22px; }
+/* in a versus match the kit bar ("三，二，一，出发！", 比赛结束！) sits just above the clock on the seam: clear of both
+   score labels, both boost keys and the pause key at every size (tests/versus-intro.spec.ts) */
+html[data-orientation] body.sb-playing.sb-vs .kit-subtitle, body.sb-playing.sb-vs .kit-subtitle { top: auto; bottom: calc(50% + 32px); left: 50%; right: auto; transform: translateX(-50%); max-width: min(280px, calc(100vw - 172px)); font-size: 16px; padding: 5px 12px; text-align: center; }
+/* phone portrait: the seam is horizontal and pane 1's boost key sits just above it at the right — the pill hugs the left edge instead */
+@media (orientation: portrait) and (max-width: 599px) {
+  html[data-orientation] body.sb-playing.sb-vs .kit-subtitle { left: calc(var(--sb-sl) + 12px); transform: none; max-width: calc(100vw - 128px - var(--sb-sl) - var(--sb-sr)); text-align: left; }
+}
+@media (max-width: 700px), (max-height: 500px) {
+  .sb-vsintro { padding-top: calc(var(--sb-st) + 64px); padding-bottom: calc(var(--sb-sb) + 10px); }
+  .sb-vsintro__card { padding: 12px 14px; gap: 10px; }
+  .sb-vsintro__title { font-size: 24px; }
+  .sb-vsintro__row { grid-template-columns: 36px 1fr; gap: 10px; min-height: 52px; padding: 4px 10px; font-size: 17px; }
+  .sb-vsintro__art { width: 36px; height: 36px; }
+  .sb-vsintro__art svg { width: 32px; height: 32px; }
+  .sb-vsintro__actions .xg-btn { min-height: 48px; padding: 0 16px; }
+  .sb-versus__say { font-size: 16px; margin-bottom: 12px; }
+}
+/* wide-and-short (phone landscape): the four rows sit two by two so card + buttons fit under the 跳过 band */
+@media (orientation: landscape) and (max-height: 500px) {
+  .sb-vsintro { padding-top: calc(var(--sb-st) + 56px); }
+  html[data-orientation] .xg-skip.sb-vsskip { --xg-skip-top: calc(var(--sb-st) + 6px); height: 44px; min-width: 84px; font-size: 16px; padding: 0 12px 0 16px; }
+  .sb-vsintro__card { width: min(760px, 100%); gap: 8px; padding: 8px 12px 10px; }
+  .sb-vsintro__title { font-size: 20px; line-height: 1.1; }
+  .sb-vsintro__list { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .sb-vsintro__row { min-height: 50px; font-size: 15px; line-height: 1.3; }
+}
+@media (orientation: portrait) and (max-width: 359px) {
+  .sb-vsintro__title { display: none; }
+  .sb-vsintro__list { gap: 6px; }
+  .sb-vsintro__row { grid-template-columns: 32px 1fr; gap: 8px; min-height: 46px; font-size: 16px; }
+  .sb-vsintro__art { width: 32px; height: 32px; }
+  .sb-vsintro__art svg { width: 28px; height: 28px; }
+}
+@media (orientation: landscape) and (max-height: 359px) {
+  .sb-vsintro__title { display: none; }   /* (the dialog keeps its aria-label) */
+  .sb-vsintro__row { min-height: 46px; }
+}

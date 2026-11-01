@@ -162,7 +162,7 @@ instead, and must be fully playable in phone landscape.
 initShell(opts: {
   game: string;                                  // registry id (logging)
   startGate?: { title?; subtitle?; buttonLabel? } | false;   // default: shown
-  back?: { href?; label?; compact?; adopt? } | false;         // default: 🏠 返回 → "/"
+  back?: { href?; label?; compact?; adopt?; onClick? } | false; // default: 🏠 返回 → "/"; onClick() → true = handled in-page (a game's own 回上一层), no navigation
   onBeforeLeave?: () => void | Promise<void>;    // awaited ≤400 ms before navigating away
   onPause?, onResume?: () => void;               // visibilitychange
   onLayout?: (l: LayoutInfo) => void;            // { width, height, orientation, safe, dpr }; rAF-throttled
@@ -175,6 +175,12 @@ shell.on('pause' | 'resume' | 'beforeleave', cb) / shell.on('layout', (l) => …
 shell.leave(href?)                  // save + navigate (default hub)
 shell.session?.mark('level-complete', { level: 3, stars: 2 })   // goes to the play log
 ```
+**Dev / test switches** (`@kit/dev`; honoured only on the Vite dev server or under WebDriver, never for the child): `isDevServer()`,
+`isAutomated()`, `isTestEnv()`; `?safe=top,right,bottom,left` (px; e.g. `?safe=47,0,34,0` = iPhone portrait, `?safe=0,59,21,59` = iPhone
+landscape; remembered for the tab, `?safe=off` clears) feeds `readSafeArea()` / `onLayout.safe` and the `--kit-safe-top/right/bottom/left`
+CSS tokens — **write `var(--kit-safe-top)` instead of `env(safe-area-inset-top)` in game CSS**, so Playwright can test real insets.
+Back-button position: `--kit-back-size / --kit-back-x / --kit-back-y` (defaults unchanged). Playwright side: `isDevServer(page)`,
+`SAFE`, `withSafe(url, …)` in tests/smoke/helpers.ts.
 
 ### audio
 ```ts
@@ -186,6 +192,10 @@ music.play('/audio/x/menu.m4a', { volume: 0.5, fadeMs: 600 }); music.stop(400)  
 playSuccess(step) ; playSoftMiss() ; playTone(freq, sec, opts) ; PENTATONIC
 setMuted(bool); setBusVolume('music', 0.4); getBus('sfx') // connect your own nodes to a bus, never to destination
 ```
+Big voice sets: decoded clips are cached once (`decodeClip`); opt in to a memory budget with `setClipCacheLimit(bytes)` (LRU; sfx are
+pinned; `decodedBytes()`, `clipCacheStats()`), drop a chapter's clips with `releaseClips(urls)`, and warm the offline cache **without
+decoding** via `await prefetchUrls(urls, { concurrency: 3, onProgress })` (fetch → service-worker media cache; decoded PCM is 4 bytes ×
+samples × channels, ≈0.5 MB for a 3 s mono line). The default is unlimited, as before.
 Never create your own AudioContext (the smoke test fails on >1). Never play anything before the
 first tap. Feedback must be immediate (<100 ms): preload during the start gate.
 
@@ -198,7 +208,13 @@ n.say('mars.hint.2', { interrupt: true })
 n.say('mars.count', { vars: { n: 5 } })      // fills {n} in the subtitle text
 n.replay()                                   // 再听一遍
 n.prefetch(['mars.l2.intro', 'mars.l2.hint']) ; n.stop() ; n.has(id) ; n.text(id)
+await n.prefetch(ids, { decode: false, concurrency: 3 })   // → { ok, failed }: only warm the SW cache, hold no decoded audio
+n.releaseLines(ids)                                        // drop decoded PCM of lines no longer needed (keeps the SW cache)
 ```
+**Zone / lazy manifests** (hundreds of lines): `new Narrator({ manifestUrl: core.json })` — `ready()` waits for that one only, so the
+first line is never held back; `void n.addManifest('/audio/x/numbers.json')` loads a shard in the background (deduplicated while in
+flight, a failed one can be retried, `n.isManifestLoaded(url)`, `n.loadingShards`). A `say()` for an id that lives in a shard that is
+still loading waits for it (≤ 4 s) and later `say()`s queue behind it, so the order never changes; `stop()` cancels the waiting ones.
 Every instruction has voice + a ≤15-character subtitle + 再听一遍 (`createSubtitleBar` does both).
 Unknown ascii ids are skipped with a warning; Chinese literal text is spoken by the speech fallback (fine for prototyping; ship real clips).
 
@@ -210,6 +226,24 @@ requestPersistence(); exportProgress(); importProgress(bundle, { overwrite }); d
 readLegacySokoban / readLegacyLadders  // old saves; snapshots also live in kg:v1:legacy-<game>
 ```
 Bump `version` and add a migration whenever the shape changes. Never delete a legacy key.
+A save written by a **newer** schema version (e.g. a stale cached page) is never overwritten, reset or downgraded: `save()` returns false,
+`reset()` is a no-op, and `importProgress(bundle, { overwrite, skipped })` skips a per-game save whose stored `v` is higher than the
+backup's (the keys land in `skipped`).
+
+### metrics (parent page numbers, `@kit/metrics`)
+Each game may show **≤ 3 numbers** on the parent page 概览 (never to the child, never feeding difficulty / stars / unlocks, no age norms):
+```ts
+const metrics = registerMetrics('xiangqi', [
+  { id: 'lessons', label: '课程进度', value: () => ({ value: `${done} / 33`, frac: done / 33, detail: '学堂已通关的课', status: 'ok' }) },
+  { id: 'mate1', label: '一步杀首次做对率', value: () => rate == null ? null : ({ value: `${Math.round(rate * 100)}%`, frac: rate, detail: '近 30 题',
+      status: rate < 0.4 ? 'watch' : 'ok', hint: rate < 0.4 ? '这一块有点吃力，可以陪他玩一次' : undefined }) },
+]);                       // evaluates now, on pagehide / hidden; call metrics.refresh() after each round or lesson
+writeMetricsSummary('mars-base', { metrics: [{ id: 'pae', label: '估算准确度', value: '良好', status: 'ok' }], data: { pae: [...] } });   // same file, no defs
+```
+The parent page never imports game code: the summary is the contract — `kg:metrics:v1:<game>` = `{ v:1, updatedAt, metrics:[{id,label≤16,value≤16,
+frac?,detail≤48,status:'ok'|'watch'|'note',hint≤48}], data? }`, ≤ 4 KB (`data` is dropped first), max 3 metrics, ids `[a-z0-9-]`. A `value()` that
+returns null / throws means "not enough data yet" and is omitted. `status:'watch'` + `hint` is the gentle 「这一块有点吃力，可以陪他玩一次」
+nudge (use it for e.g. three bad nights in a row), shown as a callout and listed at the top of the section. Exported with the progress backup.
 
 ### log
 `startSession` is done by the shell. Use `shell.session?.mark(name, data)` for milestones
@@ -239,12 +273,18 @@ await shell.ready; await installKitSfx();               // 62 kit sounds via kit
 bindPress(document);                                    // press/squash + sounds on .xg-btn/.xg-card/.xg-key…
 h('button', { class: 'xg-btn xg-btn--primary xg-btn--lg', onclick }, '下一关')   // or the base kit-btn
 const id = await showResult({ ribbon: '过关啦', stars: 2, title: '…', actions: [{ id: 'next', label: '下一关', kind: 'primary' }] })
-nodeMap(el, nodes, { onPick }) ; mountKeypad(el, { maxLength: 3, onSubmit }) ; segmented(el, { options, onChange })
+nodeMap(el, nodes, { onPick, nodeSize: 72 }) ; mountKeypad(el, { maxLength: 3, onSubmit }) ; segmented(el, { options, onChange })
+// nodeMap node states: 'locked' | 'open' | 'done' | 'current' | 'skipped' (dashed ring, 跳过过, still tappable; counts as passed on the road)
+// nodeSize: node diameter px (default 76; current ×1.26, boss ×1.37) — 72 for phones, 96 for big iPad maps; numbers/icons scale with it
+const pad = mountKeypad(el, { layout: '4x3', keySize: { w: 56, h: 48 }, mask: false }); pad.setEnabled(false)   // layout '3x4' (default) | '4x3'; keys ≥ 44 px on phones
+await showResult({ stars: 3, confetti: false, … })       // calm games: no paper confetti on 3 stars
+if (await askParentPin({ title: '家长角', text: '请输入家长 PIN' })) openParentCorner()   // family PIN (kit/settings); false = cancelled / no PIN yet (then it points to /parent/)
 ghostTap(el) ; ghostDrag(from, to) ; startDrag(src, ev, targets) ; confetti() ; icon('hint') ; emblem('mars')
 replayButton() ; setPlaying(btn, true) ; setHintReady(btn, true) ; xgToast('已保存', { tone: 'ok' })
 const unmount = mountSkipButton(container, onSkip, { delayMs: 1500, label: '跳过' }) ; shouldAutoSkip()   // see below
 await showModal({ … }) ; toast(…) ; createSubtitleBar() ; starRow(2, 3)                 // base components
 const bot = mount(hostEl, { size: 140, bubble: 'right', sfx: (n) => sfx.play(n) }); bot.setMood('thinking'); bot.react('hop')
+bot.setAccessory('junshi'); bot.react('fan')          // accessory 'junshi' (军师巾 + 羽扇) | 'coach' (靛蓝教练帽 + 马头帽徽) | null; also mount(…, { accessory })
 await sayLine(bot, narrator, 'mars.hint.1', { mood: 'encouraging' })
 chime(combo)                                            // pentatonic ladder for chains (eat, cascade)
 ```
@@ -283,19 +323,25 @@ async function runIntro() {
 
 Fonts: `--xg-font-read` (霞鹜文楷, reading/instructions), `--xg-font-title` (站酷快乐体, big titles
 only), `--xg-font-num` (Baloo 2, numbers). The subsets hold 3500 common characters + extras; if your
-text needs a rarer character, ask the platform to re-run the subsetter. The companion has no sad
+text needs a rarer character, add it to `tools/fonts/extra-chars.txt` and run `node tools/fonts/patch-subset.mjs --write`
+(`--check` lists glyphs your source text uses that the subsets lack; the rebuild is fontTools from the OFL sources, see `tools/fonts/`).
+Game-local patch fonts (gf-*-extra, xq-pieces) can be dropped once the kit subsets carry the glyphs. 站酷快乐体's source lacks 礌 轒 辒 (the title
+font falls back to 文楷 for them). The companion has no sad
 mood and never guilt-trips (lint-enforced). Catalogue: /dev/kit/ and assets-src/design-system/README.md.
 
 ### settings / hub progress
 ```ts
-import { getSettings, onSettingsChange, skipIntros } from '@kit/settings';
+import { getSettings, onSettingsChange, skipIntros, unlockAll } from '@kit/settings';
 const { displayName, pinyin } = getSettings();          // parent page; narration on/off is applied by kit/narration
 skipIntros()                                            // 跳过开场和教学 (games call shouldAutoSkip() from @kit/ui)
+unlockAll()                                             // 全部解锁 (parent switch, default off): read it when you compute what is unlocked; never skips teaching or changes progress
 import { setHubProgress } from '@kit/progress';
 setHubProgress('mars-base', { label: '第 2 章', value: 0.45 });   // the line under your hub card (a place in the story, never a score)
 ```
 
-Live examples of all of the above: `/dev/kit/` (site/dev/kit/main.ts).
+Live examples of all of the above: `/dev/kit/` (site/dev/kit/main.ts); the 2026-10-13 platform additions (accessories, `chart` / `xiangqi`
+themes, font patch glyphs, nodeMap `skipped` + `nodeSize`, keypad layouts, `askParentPin`, `confetti:false`, metrics, dev switches) are in
+the lab: `/dev/platform/` (`?only=map|misc|themes|glyphs|hero|moods|heads`).
 
 ## 5. Narration content
 

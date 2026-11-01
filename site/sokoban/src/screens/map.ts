@@ -1,5 +1,5 @@
 /**
- * S2 星港货运图 (spec §2.2, §5.5): chapter tabs (第 0–4 章 + 经典仓库), a chapter card (emblem, name,
+ * S2 星港货运图 (spec §2.2, §5.5): chapter tabs (第 0–8 章 + 经典仓库), a chapter card (emblem, name,
  * goal, progress pips, route destination) and the level road (kit `nodeMap`) with crate-shaped
  * nodes, rocket-shaped bosses, magnifier 侦探题 nodes, stars under passed levels, ribbons on the
  * levels a passed 跳级考试 covers and 小推 floating over the current node. Chapter 1 starts with the
@@ -268,6 +268,11 @@ export class MapScreen implements Screen {
       });
       this.tabs.append(b);
     }
+    const activeTab = this.tabs.querySelector<HTMLElement>('.is-on');
+    if (activeTab) {
+      if (this.el.dataset.orient === 'landscape' && !this.el.hasAttribute('data-phone')) this.tabs.scrollTop = activeTab.offsetTop - this.tabs.clientHeight / 2 + activeTab.clientHeight / 2;
+      else this.tabs.scrollLeft = activeTab.offsetLeft - this.tabs.clientWidth / 2 + activeTab.clientWidth / 2;
+    }
     // chapter card
     const isClassic = this.tab === 'classic';
     const chapter = isClassic ? null : CHAPTERS.find((c) => c.ch === this.tab)!;
@@ -303,7 +308,7 @@ export class MapScreen implements Screen {
       return { id: l.id, label: l.id, state: st, stars: starsOf(l), boss: l.role === 'boss' };
     });
     const extraFirst = this.tab === 1 && certOpen(save) && !save.cert.passed;
-    const extraLast = this.tab === 4;
+    const extraLast = this.tab === CHAPTERS[CHAPTERS.length - 1].ch;
     if (extraFirst) nodes.unshift({ id: 'cert', label: '跳级考试', state: 'open' });
     if (extraLast) nodes.push({ id: 'coming', label: '新货单在路上', state: 'open' });
     const marker = robotMarker(save);

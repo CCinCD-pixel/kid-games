@@ -25,7 +25,13 @@ const ALIAS: Record<MoodAlias, Mood> = { think: 'thinking', cheer: 'celebrating'
 export const normalizeMood = (m: Mood | MoodAlias | string): Mood | null =>
   (MOODS as readonly string[]).includes(m) ? (m as Mood) : (ALIAS as Record<string, Mood>)[m] ?? null;
 
+/** Accessories drawn in code on the robot (kit request K6): 军师 = 军师巾 + 羽扇 (楚河棋院), 教练 = 靛蓝教练帽 + 金马徽 (棋手学院). */
+export type AccessoryId = 'junshi' | 'coach';
+export const ACCESSORIES: readonly AccessoryId[] = ['junshi', 'coach'];
+
 export interface CompanionOptions {
+  /** start with an accessory (same as calling setAccessory right after mount) */
+  accessory?: AccessoryId | null;
   /** rendered width: px number or any CSS length ('8rem'); height follows the art's aspect */
   size?: number | string;
   /** 'full' robot or 'head' only (HUD avatar, hub header) */
@@ -72,7 +78,10 @@ export interface Companion {
   say(text: string, opts?: SayOptions): Promise<void>;
   hush(): void;
   /** brief reaction without changing the base mood (e.g. a hop on a correct answer) */
-  react(kind: 'hop' | 'nod' | 'wiggle' | 'jolt'): void;
+  react(kind: 'hop' | 'nod' | 'wiggle' | 'jolt' | 'fan' | 'cap'): void;
+  /** put on / take off an accessory (null = none). Follows the head in every mood; 'head' variants show the headwear only. */
+  setAccessory(id: AccessoryId | null): void;
+  readonly accessory: AccessoryId | null;
   lookAt(x: number, y: number): void;
   destroy(): void;
 }
@@ -297,8 +306,26 @@ const CSS = `
 .xg-bot-bubble .ch{opacity:0;transition:opacity .12s linear}
 .xg-bot-bubble .ch.v{opacity:1}
 .xg-bot-bubble .acc{display:flex;justify-content:flex-end;margin-top:8px}
+/* --- accessories (setAccessory) ----------------------------------------- */
+.xg-bot .b-acc-tail{animation:xgbot-tail 3.4s ease-in-out infinite}
+.xg-bot .b-acc-tail.r{animation-delay:-1.1s;animation-direction:reverse}
+.xg-bot .b-acc-front.acc-in{animation:xgbot-acc-in .62s cubic-bezier(.34,1.56,.64,1) both}
+.xg-bot .b-acc-front{transform-origin:120px 62px}
+.xg-bot .b-acc-fan{transform-origin:166px 186px}
+.xg-bot[data-variant=head] .b-acc-hand{display:none}
+.xg-bot[data-acc=junshi][data-mood=thinking] .b-hand-r{transform:translate(8px,-24px) rotate(12deg)}
+.xg-bot[data-acc=junshi][data-mood=encouraging] .b-hand-r{transform:translate(18px,-40px) rotate(6deg)}
+.xg-bot[data-acc=junshi][data-mood=surprised] .b-hand-r{transform:translate(14px,-18px) rotate(14deg)}
+.xg-bot.r-fan .b-hand-r>g{animation:xgbot-fan 1s ease-in-out}
+.xg-bot.r-fan .b-acc-fan{animation:xgbot-fan-flutter 1s ease-in-out}
+.xg-bot.r-cap .b-acc-front{animation:xgbot-cap .8s cubic-bezier(.3,0,.4,1)}
+@keyframes xgbot-tail{0%,100%{transform:rotate(0)}50%{transform:rotate(3.2deg)}}
+@keyframes xgbot-acc-in{0%{transform:translateY(-22px) scale(.82,1.12);opacity:0}55%{opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes xgbot-fan{0%,100%{transform:rotate(0)}18%{transform:rotate(-20deg)}42%{transform:rotate(16deg)}64%{transform:rotate(-14deg)}84%{transform:rotate(8deg)}}
+@keyframes xgbot-fan-flutter{0%,100%{transform:scale(1)}30%,66%{transform:scale(.94,1.03)}48%{transform:scale(1.04,.98)}}
+@keyframes xgbot-cap{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-7px) rotate(-7deg)}55%{transform:translateY(-2px) rotate(-3deg)}}
 @media (prefers-reduced-motion: reduce){
-  .xg-bot .b-float,.xg-bot .b-shadow,.xg-bot .b-hand-l>g,.xg-bot .b-hand-r>g,.xg-bot .b-tip,.xg-bot .b-tipglow{animation:none}
+  .xg-bot .b-float,.xg-bot .b-shadow,.xg-bot .b-hand-l>g,.xg-bot .b-hand-r>g,.xg-bot .b-tip,.xg-bot .b-tipglow,.xg-bot .b-acc-tail{animation:none}
 }
 `;
 
@@ -385,6 +412,7 @@ function buildSvg(o: Required<Pick<CompanionOptions, 'accent' | 'led' | 'shell' 
       <path d="M120 40V22" stroke="${shellDD}" stroke-width="4.5" stroke-linecap="round"/>
       <circle class="b-tipglow" cx="120" cy="17" r="15" fill="url(#${id}-tipglow)"/>
       ${tip}
+      <g class="b-acc-back"></g>
       <g>
         <circle cx="53" cy="98" r="17" fill="url(#${id}-ear)" stroke="${accD}" stroke-width="1.4"/>
         <circle cx="53" cy="98" r="8.5" fill="${shell}"/>
@@ -405,16 +433,108 @@ function buildSvg(o: Required<Pick<CompanionOptions, 'accent' | 'led' | 'shell' 
         <path d="M86 66c6-4 13-6 20-6.5" stroke="#fff" stroke-width="3.2" stroke-linecap="round" fill="none" opacity=".35"/>
       </g>
       <rect x="70" y="58" width="100" height="76" rx="30" fill="none" stroke="#0a0f28" stroke-width="1.5"/>
+      <g class="b-acc-front"></g>
       <g fill="${o.led}" font-family="Baloo 2, system-ui, sans-serif" font-weight="800">
         <text class="b-z" x="176" y="56" font-size="14">z</text>
         <text class="b-z" x="176" y="56" font-size="18">z</text>
         <text class="b-z" x="176" y="56" font-size="22">Z</text>
       </g>
     </g>
-    <g class="b-hand-r"><g>${hand(164, 1)}</g></g>
+    <g class="b-hand-r"><g><g class="b-acc-hand"></g>${hand(164, 1)}</g></g>
    </g>
   </g>
 </svg>`;
+}
+
+/* ------------------------------------------------------------------ accessories
+   Drawn in the robot's own coordinate system (viewBox 240×260; head shell x56–184, y36–150, visor y58–134, antenna
+   tip at 120,17). Three layers: `back` (behind ears / shell), `front` (over the head, inside .b-head so it follows
+   every mood pose) and `hand` (behind the right fist, inside .b-hand-r so it follows the arm). */
+export type AccPart = 'back' | 'front' | 'hand';
+
+const KNIGHT = 'M5.5 21C6.4 17.6 8.4 15.4 11.2 13.5C9.6 13.7 8 14.3 6.5 15L3.2 13.4C3 12 4 11 5 10L9.6 5.2L10.6 3L12.4 4.4C16 4.9 19.4 8 19.8 13L20 21Z';
+
+/** exported for the unit tests (string-level checks) */
+export function accessorySvg(kind: AccessoryId, part: AccPart, id: string): string {
+  const a = `${id}-acc`;
+  if (kind === 'junshi') {
+    const cloth = ['#4a86a3', '#2b6079', '#17394b'];
+    const gold = '#f1c04f', goldD = '#c98d1a';
+    if (part === 'back') {
+      // two cloth tails hanging behind the ear pods, gently swaying
+      const tail = `<path d="M74 62C61 76 53 96 50 118C48.5 130 46 141 40 153L55 147L61 158C66 140 67 120 73 100C77 88 82 78 87 70Z" fill="url(#${a}-tail)" stroke="${cloth[2]}" stroke-width="1.3" stroke-linejoin="round"/>
+        <path d="M60 112C58 128 54 140 47 152" stroke="#8fc2d8" stroke-opacity=".45" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M44 150L55 147" stroke="${gold}" stroke-width="2" stroke-linecap="round"/>`;
+      return `<defs><linearGradient id="${a}-tail" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${cloth[0]}"/><stop offset=".55" stop-color="${cloth[1]}"/><stop offset="1" stop-color="${cloth[2]}"/></linearGradient></defs>
+      <g class="b-acc-tail" style="transform-origin:76px 66px">${tail}</g>
+      <g class="b-acc-tail r" style="transform-origin:164px 66px"><g transform="translate(240 0) scale(-1 1)">${tail}</g></g>`;
+    }
+    if (part === 'front') {
+      return `<defs>
+        <linearGradient id="${a}-cloth" x1=".1" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="${cloth[0]}"/><stop offset=".5" stop-color="${cloth[1]}"/><stop offset="1" stop-color="${cloth[2]}"/></linearGradient>
+        <linearGradient id="${a}-band" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a7592"/><stop offset=".5" stop-color="#2b6079"/><stop offset="1" stop-color="#1c4558"/></linearGradient>
+        <radialGradient id="${a}-gem" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#d6fff2"/><stop offset=".45" stop-color="#58d6b0"/><stop offset="1" stop-color="#1f8f78"/></radialGradient>
+        <linearGradient id="${a}-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="${goldD}"/></linearGradient>
+      </defs>
+      <ellipse cx="120" cy="27.5" rx="7.4" ry="3" fill="url(#${a}-gold)" stroke="${goldD}" stroke-width=".9"/>
+      <path d="M58 70C52.5 52 61 36 81 30C97 25 143 25 159 30C179 36 187.5 52 182 70C160 60.5 80 60.5 58 70Z" fill="url(#${a}-cloth)" stroke="${cloth[2]}" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M93 33C100 43 101 52 97 61M147 33C140 43 139 52 143 61" stroke="${cloth[2]}" stroke-opacity=".55" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <path d="M72 44C77 37 87 32 100 30" stroke="#bfe3f2" stroke-opacity=".7" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+      <path d="M55.5 70C80 56.5 160 56.5 184.5 70L184.5 77.5C160 64.5 80 64.5 55.5 77.5Z" fill="url(#${a}-band)" stroke="${cloth[2]}" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M57.5 70.6C82 58.2 158 58.2 182.5 70.6" stroke="url(#${a}-gold)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path d="M60 76C84 64.4 156 64.4 180 76" stroke="${gold}" stroke-opacity=".5" stroke-width="1" stroke-dasharray="2.4 3" stroke-linecap="round" fill="none"/>
+      <circle cx="120" cy="64.4" r="7.2" fill="url(#${a}-gold)" stroke="${goldD}" stroke-width="1"/>
+      <circle cx="120" cy="64.4" r="4.6" fill="url(#${a}-gem)"/>
+      <circle cx="118.4" cy="62.7" r="1.4" fill="#fff" opacity=".85"/>`;
+    }
+    // hand: a 羽扇 behind the fist — 7 white feathers, brass ring, red tassel
+    const px = 166, py = 186;
+    const blades: string[] = [];
+    const n = 7;
+    for (let i = 0; i < n; i++) {
+      const t = i / (n - 1);
+      const ang = 4 + t * 92;                        // clockwise from "up"
+      const len = 62 + 13 * Math.sin(Math.PI * t);   // middle feathers longer
+      const w = 10;
+      const q = (v: number) => v.toFixed(1);
+      blades.push(`<g transform="translate(${px} ${py}) rotate(${q(ang)})">
+        <path d="M0 -4C${q(w)} ${q(-len * 0.2)} ${q(w * 1.2)} ${q(-len * 0.72)} 0 ${q(-len)}C${q(-w * 1.2)} ${q(-len * 0.72)} ${q(-w)} ${q(-len * 0.2)} 0 -4Z" fill="url(#${a}-feather)" stroke="#9d96ba" stroke-width="1.15" stroke-linejoin="round"/>
+        <path d="M0 -6L0 ${q(-len + 5)}" stroke="#8d86ac" stroke-width="1" stroke-linecap="round"/>
+        <path d="M0 ${q(-len * 0.3)}L${q(w * 0.78)} ${q(-len * 0.4)}M0 ${q(-len * 0.3)}L${q(-w * 0.78)} ${q(-len * 0.4)}M0 ${q(-len * 0.5)}L${q(w * 0.86)} ${q(-len * 0.62)}M0 ${q(-len * 0.5)}L${q(-w * 0.86)} ${q(-len * 0.62)}M0 ${q(-len * 0.7)}L${q(w * 0.6)} ${q(-len * 0.82)}M0 ${q(-len * 0.7)}L${q(-w * 0.6)} ${q(-len * 0.82)}" stroke="#bdb7d6" stroke-width=".8" stroke-linecap="round" fill="none"/>
+      </g>`);
+    }
+    return `<defs>
+      <linearGradient id="${a}-feather" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d9d4ea"/><stop offset=".4" stop-color="#fffefb"/><stop offset=".85" stop-color="#f2effa"/><stop offset="1" stop-color="#c9d9f0"/></linearGradient>
+      <linearGradient id="${a}-brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="${goldD}"/></linearGradient>
+    </defs>
+    <g class="b-acc-fan">
+      ${blades.join('')}
+      <g transform="translate(${px} ${py}) rotate(52)"><rect x="-2.4" y="-8" width="4.8" height="26" rx="2.4" fill="#7a4a2a" stroke="#4f2f19" stroke-width=".9"/><rect x="-3.4" y="-11" width="6.8" height="5" rx="2" fill="url(#${a}-brass)" stroke="${goldD}" stroke-width=".8"/></g>
+      <path d="M${px - 11} ${py + 14}C${px - 12} ${py + 22} ${px - 14} ${py + 26} ${px - 14} ${py + 30}" stroke="#d4452f" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <path d="M${px - 14} ${py + 28}l-3.2 8.6M${px - 14} ${py + 28}l.2 9.2M${px - 14} ${py + 28}l3.4 8.2" stroke="#e4513d" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="${px - 14}" cy="${py + 28}" r="2.6" fill="#f1c04f" stroke="${goldD}" stroke-width=".7"/>
+    </g>`;
+  }
+  // coach: indigo peaked cap + gold horse-head badge
+  if (part !== 'front') return '';
+  const ind = ['#6c7be0', '#3d4bbd', '#232e87'];
+  const goldD = '#c98d1a';
+  return `<defs>
+    <linearGradient id="${a}-crown" x1=".1" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="${ind[0]}"/><stop offset=".5" stop-color="${ind[1]}"/><stop offset="1" stop-color="${ind[2]}"/></linearGradient>
+    <linearGradient id="${a}-peak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a59cc"/><stop offset="1" stop-color="#1a2468"/></linearGradient>
+    <linearGradient id="${a}-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="${goldD}"/></linearGradient>
+  </defs>
+  <ellipse cx="120" cy="29.5" rx="7" ry="2.8" fill="url(#${a}-gold)" stroke="${goldD}" stroke-width=".9"/>
+  <path d="M60 69C53 50 62 35 80 28.5C96 23.5 144 23.5 160 28.5C178 35 187 50 180 69C158 61 82 61 60 69Z" fill="url(#${a}-crown)" stroke="${ind[2]}" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M120 27C100 31 89 43 85 62M120 27C140 31 151 43 155 62" stroke="${ind[2]}" stroke-opacity=".5" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <path d="M71 46C75 38 85 31.5 98 29" stroke="#cbd2ff" stroke-opacity=".75" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+  <path d="M58 67C82 58.6 158 58.6 182 67" stroke="#f6f1e2" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <path d="M62 66C90 55.5 150 55.5 178 66C175 70 150 72.4 120 72.4C90 72.4 65 70 62 66Z" fill="url(#${a}-peak)" stroke="${ind[2]}" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M72 64.6C96 58.4 144 58.4 168 64.6" stroke="#9aa6ff" stroke-opacity=".55" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <circle cx="120" cy="44.6" r="11.6" fill="url(#${a}-gold)" stroke="${goldD}" stroke-width="1.2"/>
+  <circle cx="120" cy="44.6" r="9.2" fill="none" stroke="#fff3c4" stroke-opacity=".7" stroke-width=".8"/>
+  <path d="${KNIGHT}" transform="translate(110.1 34.6) scale(.85)" fill="${ind[2]}"/>
+  <circle cx="118.6" cy="41.6" r=".95" fill="#ffe08a"/>`;
 }
 
 /* ------------------------------------------------------------------ mount */
@@ -456,6 +576,19 @@ export function mount(el: HTMLElement, opts: CompanionOptions = {}): Companion {
   let lookOffset = 0;
   let bubble: HTMLDivElement | null = null;
   let sayToken = 0;
+  let accessory: AccessoryId | null = null;
+  const accLayer = (part: AccPart) => root.querySelector<SVGGElement>(`.b-acc-${part}`)!;
+
+  function setAccessory(next: AccessoryId | null) {
+    if (next !== null && !(ACCESSORIES as readonly string[]).includes(next)) throw new Error(`[companion] unknown accessory "${next}"`);
+    const changed = next !== accessory;
+    accessory = next;
+    for (const part of ['back', 'front', 'hand'] as const) accLayer(part).innerHTML = next ? accessorySvg(next, part, id) : '';
+    if (next) root.dataset.acc = next; else delete root.dataset.acc;
+    const front = accLayer('front');
+    front.classList.remove('acc-in');
+    if (next && changed) { void (front as unknown as HTMLElement).getBoundingClientRect(); front.classList.add('acc-in'); window.setTimeout(() => front.classList.remove('acc-in'), 800); }
+  }
 
   function render(fc: Face, stagger = false) {
     for (let y = 0; y < ROWS; y++) {
@@ -523,12 +656,14 @@ export function mount(el: HTMLElement, opts: CompanionOptions = {}): Companion {
     scheduleIdle();
   }
 
-  function react(kind: 'hop' | 'nod' | 'wiggle' | 'jolt') {
-    root.classList.remove('r-hop', 'r-nod', 'r-wiggle', 'r-jolt');
+  function react(kind: 'hop' | 'nod' | 'wiggle' | 'jolt' | 'fan' | 'cap') {
+    // signature moves: 羽扇一摇 needs the 军师 fan, 脱帽致意 needs a cap — without one they degrade to a nod
+    if ((kind === 'fan' && accessory !== 'junshi') || (kind === 'cap' && !accessory)) kind = 'nod';
+    root.classList.remove('r-hop', 'r-nod', 'r-wiggle', 'r-jolt', 'r-fan', 'r-cap');
     void root.offsetWidth;
     root.classList.add(`r-${kind}`);
     window.clearTimeout(reactTimer);
-    reactTimer = window.setTimeout(() => root.classList.remove(`r-${kind}`), 1000);
+    reactTimer = window.setTimeout(() => root.classList.remove(`r-${kind}`), 1100);
   }
 
   function confetti() {
@@ -659,6 +794,7 @@ export function mount(el: HTMLElement, opts: CompanionOptions = {}): Companion {
   }
 
   root.dataset.mood = mood;
+  if (opts.accessory) setAccessory(opts.accessory);
   render(moodFace(mood));
   if (MOOD_SPEC[mood].dim) root.dataset.dim = '';
   scheduleBlink();
@@ -668,6 +804,7 @@ export function mount(el: HTMLElement, opts: CompanionOptions = {}): Companion {
   return {
     el: root, svg,
     get mood() { return mood; },
-    setMood, say, hush, react, lookAt, destroy,
+    get accessory() { return accessory; },
+    setMood, say, hush, react, lookAt, destroy, setAccessory,
   };
 }

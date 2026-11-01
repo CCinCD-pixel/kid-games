@@ -15,7 +15,7 @@ export default defineConfig({
     // Pure-logic tests run in Node (no DOM emulation dependency). Anything that needs a real
     // browser is covered by the WebKit smoke tests (tests/smoke).
     environment: 'node',
-    include: ['tests/unit/**/*.test.ts', 'kit/**/*.test.ts', 'engines/**/*.test.ts', 'site/**/*.test.ts'],
+    include: ['tests/unit/**/*.test.ts', 'tests/sync-server/**/*.test.ts','tests/sync/**/*.test.ts', 'tests/economy/**/*.test.ts', 'kit/**/*.test.ts', 'engines/**/*.test.ts', 'site/**/*.test.ts'],
     // One worker pool, few threads: this machine is shared with other agents (RESOURCE RULES).
     pool: 'threads',
     maxWorkers: 2,

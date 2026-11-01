@@ -17,7 +17,7 @@ describe('V10 lines', () => {
   it('lines.json ⇔ narration.yaml', () => {
     const yaml = fs.readFileSync(path.join(ROOT, 'content/snake-battle/narration.yaml'), 'utf8');
     const ys = [...yaml.matchAll(/^\s*- id:\s*(\S+)/gm)].map((m) => m[1]);
-    expect(ys.length).toBe(238);
+    expect(ys.length).toBe(249);   // 238 + snake.tip.cut.3/.4 (persona-neutral 截击 tips) + 9 snake.vs.* (双人分屏对战: 6 rules, 3 results)
     expect([...ys].sort()).toEqual([...IDS].sort());
     for (const l of lines as { id: string; text: string }[]) expect(l.text.trim().length, l.id).toBeGreaterThan(0);
   });

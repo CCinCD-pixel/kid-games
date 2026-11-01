@@ -97,6 +97,37 @@ lines:
   - id: snake.match.resume
     role: companion
     text: 准备，继续！
+  - id: snake.vs.intro.1
+    role: companion
+    text: 一人一半屏，拖手指控制蛇。
+  - id: snake.vs.intro.2
+    role: companion
+    text: 吃星尘，蛇会变长。
+    pinyin: { 变长: biàn cháng }
+  - id: snake.vs.intro.3
+    role: companion
+    text: 撞到别的蛇的身体，就出局。
+  - id: snake.vs.intro.4
+    role: companion
+    text: 出局三秒后，就会复活。
+  - id: snake.vs.intro.5
+    role: companion
+    text: 按住闪电加速，会变短。
+  - id: snake.vs.intro.6
+    role: companion
+    text: 三分钟后，谁更长谁赢。
+    pinyin: { 更长: gèng cháng }
+  - id: snake.vs.win.1
+    role: companion
+    text: 1号赢啦！2号也玩得很棒！
+    norm: 一号赢啦！二号也玩得很棒！
+  - id: snake.vs.win.2
+    role: companion
+    text: 2号赢啦！1号也玩得很棒！
+    norm: 二号赢啦！一号也玩得很棒！
+  - id: snake.vs.draw
+    role: companion
+    text: 平局！你们一样棒！
   - id: snake.ann.kill
     role: companion
     text: 击败！
@@ -201,6 +232,12 @@ lines:
   - id: snake.tip.cut.2
     role: companion
     text: 别和猎手并排游。
+  - id: snake.tip.cut.3
+    role: companion
+    text: 前面有蛇横过来，赶紧转弯。
+  - id: snake.tip.cut.4
+    role: companion
+    text: 离蛇头远一点，就不会被截住。
   - id: snake.tip.headon.1
     role: companion
     text: 比它短，就别迎头碰。

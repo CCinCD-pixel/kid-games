@@ -25,7 +25,7 @@ describe('game registry', () => {
     const games = loadRegistry();
     expect(games.length).toBeGreaterThanOrEqual(7);
     const places = games.map((g: { place: string }) => g.place);
-    expect([...places]).toEqual([...places].sort((a, b) => ['base', 'playground', 'classic'].indexOf(a) - ['base', 'playground', 'classic'].indexOf(b)));
+    expect([...places]).toEqual([...places].sort((a, b) => ['base', 'playground'].indexOf(a) - ['base', 'playground'].indexOf(b)));
     for (const g of games) expect(g.href).toBe(`/${g.id}/`);
     expect(findPages()).toContain('dev/kit/index.html'); // dev pages are built but not registered
     expect(games.find((g: { id: string }) => g.id === 'dev')).toBeUndefined();
@@ -64,7 +64,7 @@ describe('game registry', () => {
     expect(html).toMatch(/<div class="xg-card hub-card" role="link" aria-disabled="true"[^>]*data-href="\/lab\/" data-wip data-game="lab"/);
     expect(html).toContain('建造中');
     expect(html).not.toContain('secret');
-    for (const place of ['base', 'playground', 'classic']) expect(html).toContain(`id="hub-panel-${place}"`);
+    for (const place of ['base', 'playground']) expect(html).toContain(`id="hub-panel-${place}"`);
     expect(html).toContain('aria-label="基地"');
   });
 

@@ -9,7 +9,7 @@
   "theme": "porter",
   "icon": "/icons/games/sokoban.svg",
   "domains": ["planning", "spatial"],
-  "parentNote": "规划谜题：先想后推、看出推不动的死局；主线 34 关 + 跳级考试 + 经典 10 关 + 随机新仓库。",
+  "parentNote": "规划谜题：先想后推、看出推不动的死局；主线 66 关 + 跳级考试 + 经典 10 关 + 随机新仓库。",
   "orientation": "any",
   "smoke": { "waitFor": "#app[data-ready]" }
 }

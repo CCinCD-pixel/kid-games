@@ -14,7 +14,11 @@
  * Options (all optional): size (px number or CSS length; height follows the art), variant 'full' |
  * 'head' (HUD / map marker), accent / led / shell colours and antenna 'star' | 'orb' (chapter-unlock
  * customisation hooks), bubble 'right' | 'left' | 'top' | 'auto', bubbleMax, mood, sfx(name) for the
- * robot's blips (names in public/audio/sfx/manifest.json: blip-happy, blip-think, blip-talk …), name.
+ * robot's blips (names in public/audio/sfx/manifest.json: blip-happy, blip-think, blip-talk …), name,
+ * accessory 'junshi' | 'coach' | null — headwear (+ the 军师's 羽扇) drawn in code that follows the head in every mood:
+ *   bot.setAccessory('junshi');  bot.react('fan');   // 军师巾 + 羽扇: 羽扇一摇 (a fan wave)
+ *   bot.setAccessory('coach');   bot.react('cap');   // 靛蓝教练帽 + 金马徽: a tip of the cap
+ *   bot.setAccessory(null);                          // back to the plain 领航员
  *
  * House rule (plan §3.0 / §4.4, enforced by tests/unit/companion.test.ts and the tone lint):
  * the companion never looks or sounds sad, never guilt-trips when the child stops or leaves.
@@ -26,6 +30,8 @@ import type { Narrator, SayResult } from '../narration';
 import {
   mount as mountArt,
   normalizeMood,
+  ACCESSORIES,
+  type AccessoryId,
   type Companion,
   type CompanionOptions,
   type Mood,
@@ -33,8 +39,8 @@ import {
   type SayOptions,
 } from './art';
 
-export type { Companion, CompanionOptions, Mood, MoodAlias, SayOptions };
-export { normalizeMood };
+export type { Companion, CompanionOptions, Mood, MoodAlias, SayOptions, AccessoryId };
+export { normalizeMood, ACCESSORIES };
 
 export const MOODS: readonly Mood[] = ['idle', 'happy', 'thinking', 'surprised', 'encouraging', 'celebrating', 'sleepy'];
 

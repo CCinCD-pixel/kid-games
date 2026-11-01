@@ -13,6 +13,10 @@
  *   bindPress(document);                                 // press/squash + sounds on every .xg-btn/.xg-card…
  *   const choice = await showResult({ ribbon: '过关啦', stars: 2, actions: [{ id: 'next', label: '下一关', kind: 'primary' }] });
  *
+ * Level maps: `nodeMap(el, nodes, { nodeSize: 72 })` — node states locked/open/done/current/skipped. Keypad:
+ * `mountKeypad(el, { layout: '4x3', keySize: 56, setEnabled })`. `showResult({ confetti: false })` for calm games.
+ * In-game parent corner: `await askParentPin({ title: '家长角' })` (family PIN from kit/settings; false = cancelled / no PIN yet).
+ *
  * Intros / cutscenes / tutorials: `mountSkipButton(container, onSkip)` shows the shared 跳过 (top-right,
  * after 1.5 s; returns a disposer) and `shouldAutoSkip()` is the parent's 跳过开场和教学 — see skip.ts.
  *
@@ -35,7 +39,9 @@ export {
   confetti, icon, emblem, starSvg, starRating, replayButton, setPlaying, setHintReady, setSfx, sound,
   toast as xgToast, UI_ICONS, GAME_EMBLEMS,
 } from './xg';
-export type { UiIconName, GameEmblemId, MapNode, ResultOptions, ResultAction, KeypadOptions, NodeMapOptions, DragHandle } from './xg';
+export type { UiIconName, GameEmblemId, MapNode, ResultOptions, ResultAction, KeypadOptions, KeypadHandle, NodeMapOptions, DragHandle } from './xg';
+export { askParentPin } from './pin';
+export type { ParentPinOptions } from './pin';
 export { mountSkipButton, shouldAutoSkip, createSkipController, SKIP_DELAY_MS } from './skip';
 export type { SkipButtonOptions, SkipController, SkipState } from './skip';
 

@@ -1,0 +1,2414 @@
+{
+ "version": 2,
+ "chapters": [
+  [
+   1,
+   "认识棋盘"
+  ],
+  [
+   2,
+   "车与炮"
+  ],
+  [
+   3,
+   "马与象"
+  ],
+  [
+   4,
+   "仕帅兵"
+  ],
+  [
+   5,
+   "将军与将死"
+  ],
+  [
+   6,
+   "吃与护"
+  ],
+  [
+   7,
+   "一步杀"
+  ],
+  [
+   8,
+   "两步杀"
+  ],
+  [
+   9,
+   "实战入门"
+  ]
+ ],
+ "lessons": [
+  {
+   "id": "L01",
+   "ch": 1,
+   "name": "点与线",
+   "teaches": "棋子站在线的交叉点上",
+   "lines": [
+    "l01.intro",
+    "l01.river",
+    "l01.sides"
+   ],
+   "steps": [
+    {
+     "id": "L01.1",
+     "k": "tap",
+     "pos": "9/9/9/9/9/4R4/9/9/9/9 w",
+     "targets": [
+      "e5",
+      "a1",
+      "i10"
+     ],
+     "say": "l01.tap",
+     "note": "点亮的交叉点"
+    },
+    {
+     "id": "L01.2",
+     "k": "tap",
+     "pos": "9/9/9/9/9/9/9/9/9/9 w",
+     "targets": [
+      "e5",
+      "e6"
+     ],
+     "say": "l01.tapriver",
+     "note": "河：楚河汉界在第五、六条横线之间",
+     "pre": [
+      "l01.river"
+     ]
+    },
+    {
+     "id": "L01.3",
+     "k": "tap",
+     "pos": "4k4/9/9/9/9/9/9/9/9/4K4 w",
+     "targets": [
+      "e1",
+      "e10"
+     ],
+     "say": "l01.kings",
+     "note": "红在下、黑在上：点红帅、点黑将",
+     "pre": [
+      "l01.sides"
+     ]
+    }
+   ],
+   "stamp": "river",
+   "minutes": 0.6,
+   "intro": [
+    "l01.intro"
+   ]
+  },
+  {
+   "id": "L02",
+   "ch": 1,
+   "name": "九宫",
+   "teaches": "帅和仕只能待在九宫里",
+   "lines": [
+    "l02.intro",
+    "l02.rule"
+   ],
+   "steps": [
+    {
+     "id": "L02.1",
+     "k": "tap",
+     "pos": "9/9/9/9/9/9/9/9/9/9 w",
+     "targets": [
+      "d1",
+      "f1",
+      "d3",
+      "f3"
+     ],
+     "say": "l02.corners",
+     "note": "九宫四个角"
+    },
+    {
+     "id": "L02.2",
+     "k": "quiz",
+     "q": "palace",
+     "pos": "9/9/9/9/9/9/9/9/9/9 w",
+     "opts": [
+      "e2",
+      "c2",
+      "e5"
+     ],
+     "say": "l02.q",
+     "twin": "mirror",
+     "note": "哪个点在红方九宫里",
+     "answer": [
+      "e2"
+     ],
+     "pre": [
+      "l02.rule"
+     ]
+    },
+    {
+     "id": "L02.3",
+     "k": "quiz",
+     "q": "palace",
+     "pos": "9/9/9/9/9/9/9/9/9/9 w",
+     "opts": [
+      "g3",
+      "f2",
+      "d4"
+     ],
+     "say": "l02.q",
+     "twin": "mirror",
+     "note": "哪个点在红方九宫里",
+     "answer": [
+      "f2"
+     ]
+    }
+   ],
+   "stamp": "palace",
+   "minutes": 1,
+   "intro": [
+    "l02.intro"
+   ]
+  },
+  {
+   "id": "L03",
+   "ch": 1,
+   "name": "摆开棋阵",
+   "teaches": "认识 7 种棋子与开局位置",
+   "lines": [
+    "l03.intro",
+    "l03.names",
+    "l03.done"
+   ],
+   "steps": [
+    {
+     "id": "L03.1",
+     "k": "setup",
+     "part": "pawns",
+     "say": "l03.pawns",
+     "note": "把 5 个兵放到点亮的位置",
+     "pieces": 5
+    },
+    {
+     "id": "L03.2",
+     "k": "setup",
+     "part": "cannons",
+     "say": "l03.cannons",
+     "note": "把 2 个炮放好",
+     "pieces": 2
+    },
+    {
+     "id": "L03.3",
+     "k": "setup",
+     "part": "back",
+     "say": "l03.back",
+     "note": "后排 9 个：车马相仕帅仕相马车",
+     "pieces": 9
+    }
+   ],
+   "minutes": 3.6,
+   "intro": [
+    "l03.intro"
+   ],
+   "post": [
+    "l03.names",
+    "l03.done"
+   ]
+  },
+  {
+   "id": "L04",
+   "ch": 2,
+   "name": "车走直线",
+   "teaches": "车横竖直走，格数不限",
+   "lines": [
+    "l04.intro",
+    "l04.rule"
+   ],
+   "steps": [
+    {
+     "id": "L04.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/R8 w",
+     "hero": "a1",
+     "stars": [
+      "a6"
+     ],
+     "par": 1,
+     "say": "p.stars"
+    },
+    {
+     "id": "L04.2",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/2R6/9 w",
+     "hero": "c2",
+     "stars": [
+      "c8",
+      "g8"
+     ],
+     "par": 2,
+     "say": "p.stars2",
+     "pre": [
+      "l04.rule"
+     ]
+    },
+    {
+     "id": "L04.3",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/P8/9/R8 w",
+     "hero": "a1",
+     "stars": [
+      "a6"
+     ],
+     "note": "自己的子挡路，要绕",
+     "par": 3,
+     "say": "p.stars"
+    },
+    {
+     "id": "L04.4",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/4R4 w",
+     "hero": "e1",
+     "stars": [
+      "b4",
+      "h4",
+      "e9"
+     ],
+     "par": 4,
+     "say": "p.stars2"
+    }
+   ],
+   "minutes": 3.5,
+   "intro": [
+    "l04.intro"
+   ]
+  },
+  {
+   "id": "L05",
+   "ch": 2,
+   "name": "车吃子",
+   "teaches": "车沿直线吃第一个对方子",
+   "lines": [
+    "l05.intro",
+    "l05.rule"
+   ],
+   "steps": [
+    {
+     "id": "L05.1",
+     "k": "capture",
+     "pos": "9/9/9/4p4/9/9/9/9/4R4/9 w",
+     "hero": "e2",
+     "targets": [
+      "e7"
+     ],
+     "par": 1,
+     "say": "p.capture"
+    },
+    {
+     "id": "L05.2",
+     "k": "capture",
+     "pos": "9/9/9/9/p3p4/9/9/9/9/R8 w",
+     "hero": "a1",
+     "targets": [
+      "a6",
+      "e6"
+     ],
+     "par": 2,
+     "say": "p.capture",
+     "pre": [
+      "l05.rule"
+     ]
+    },
+    {
+     "id": "L05.3",
+     "k": "capture",
+     "pos": "9/9/9/p8/9/9/9/P8/9/R8 w",
+     "hero": "a1",
+     "targets": [
+      "a7"
+     ],
+     "note": "不能吃自己的子，也不能跳过去",
+     "par": 3,
+     "say": "p.capture"
+    },
+    {
+     "id": "L05.4",
+     "k": "capture",
+     "pos": "9/9/4p4/9/9/4P4/9/9/9/1p2R4 w",
+     "hero": "e1",
+     "targets": [
+      "e8",
+      "b1"
+     ],
+     "par": 3,
+     "say": "p.capture"
+    }
+   ],
+   "minutes": 3.4,
+   "intro": [
+    "l05.intro"
+   ]
+  },
+  {
+   "id": "L06",
+   "ch": 2,
+   "name": "炮的走法",
+   "teaches": "炮不吃子时走法和车一样",
+   "lines": [
+    "l06.intro",
+    "l06.rule"
+   ],
+   "steps": [
+    {
+     "id": "L06.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/1C7/9/9 w",
+     "hero": "b3",
+     "stars": [
+      "b9"
+     ],
+     "par": 1,
+     "say": "p.stars"
+    },
+    {
+     "id": "L06.2",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/7C1/9/9 w",
+     "hero": "h3",
+     "stars": [
+      "h7",
+      "c7"
+     ],
+     "par": 2,
+     "say": "p.stars2",
+     "pre": [
+      "l06.rule"
+     ]
+    },
+    {
+     "id": "L06.3",
+     "k": "stars",
+     "pos": "9/9/9/9/9/1P7/9/1C7/9/9 w",
+     "hero": "b3",
+     "stars": [
+      "b9"
+     ],
+     "note": "炮不能跳过去",
+     "par": 3,
+     "say": "p.stars"
+    },
+    {
+     "id": "L06.4",
+     "k": "stars",
+     "pos": "9/9/9/9/4p4/9/9/9/4C4/9 w",
+     "hero": "e2",
+     "stars": [
+      "e9"
+     ],
+     "note": "炮不吃子时也不能跳",
+     "par": 3,
+     "say": "p.stars"
+    }
+   ],
+   "minutes": 3.4,
+   "intro": [
+    "l06.intro"
+   ]
+  },
+  {
+   "id": "L07",
+   "ch": 2,
+   "name": "炮隔山打牛",
+   "teaches": "炮要隔一个子才能吃",
+   "lines": [
+    "l07.intro",
+    "l07.rule",
+    "l07.screen",
+    "l07.two"
+   ],
+   "steps": [
+    {
+     "id": "L07.1",
+     "k": "capture",
+     "pos": "9/1p7/9/9/9/1P7/9/1C7/9/9 w",
+     "hero": "b3",
+     "targets": [
+      "b9"
+     ],
+     "reasons": "screen",
+     "par": 1,
+     "say": "p.capture",
+     "pre": [
+      {
+       "say": "l07.rule",
+       "focus": [
+        "b5"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "L07.2",
+     "k": "capture",
+     "pos": "9/9/9/4p4/9/4P4/9/2C6/9/9 w",
+     "hero": "c3",
+     "targets": [
+      "e7"
+     ],
+     "note": "先走到能隔山的位置",
+     "reasons": "screen",
+     "par": 2,
+     "say": "p.capture"
+    },
+    {
+     "id": "L07.3",
+     "k": "capture",
+     "pos": "9/4p4/9/9/4p4/4P4/9/4C4/9/9 w",
+     "hero": "e3",
+     "targets": [
+      "e6",
+      "e9"
+     ],
+     "note": "一次一个，吃完再找架子",
+     "reasons": "screen",
+     "par": 5,
+     "say": "p.capture",
+     "pre": [
+      "l07.screen"
+     ]
+    },
+    {
+     "id": "L07.4",
+     "k": "capture",
+     "pos": "9/2p3p2/9/9/2P6/2P3P2/9/2C6/9/9 w",
+     "hero": "c3",
+     "targets": [
+      "c9"
+     ],
+     "note": "中间有两个子不行：换一条线找架子",
+     "reasons": "screen",
+     "par": 3,
+     "say": "p.capture",
+     "pre": [
+      {
+       "say": "l07.two",
+       "focus": [
+        "c5",
+        "c6"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "B1",
+     "k": "battle",
+     "optional": true,
+     "name": "车炮守城",
+     "pos": "9/9/1p2p2p1/9/9/9/9/7C1/9/R3K4 w",
+     "par": 6,
+     "forgiving": 1,
+     "stars": {
+      "three": 6,
+      "two": 7,
+      "one": "win"
+     },
+     "redMovesAvailable": 7,
+     "say": "bt.intro"
+    }
+   ],
+   "minutes": 6.7,
+   "intro": [
+    "l07.intro"
+   ]
+  },
+  {
+   "id": "L08",
+   "ch": 3,
+   "name": "马走日",
+   "teaches": "马走\"日\"字：一直一斜",
+   "lines": [
+    "l08.intro",
+    "l08.rule"
+   ],
+   "steps": [
+    {
+     "id": "L08.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/4N4/9/9/9/9 w",
+     "hero": "e5",
+     "stars": [
+      "d7"
+     ],
+     "par": 1,
+     "say": "p.stars"
+    },
+    {
+     "id": "L08.2",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/1N7 w",
+     "hero": "b1",
+     "stars": [
+      "e4"
+     ],
+     "par": 2,
+     "say": "p.stars",
+     "pre": [
+      "l08.rule"
+     ]
+    },
+    {
+     "id": "L08.3",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/N8 w",
+     "hero": "a1",
+     "stars": [
+      "c6",
+      "h5"
+     ],
+     "par": 7,
+     "say": "p.stars2"
+    },
+    {
+     "id": "L08.4",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/9/4N4/9/9/9/9 w",
+     "from": "e5",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "点出马能到的所有点",
+     "answer": [
+      "c4",
+      "c6",
+      "d3",
+      "d7",
+      "f3",
+      "f7",
+      "g4",
+      "g6"
+     ]
+    }
+   ],
+   "minutes": 3.4,
+   "intro": [
+    "l08.intro"
+   ]
+  },
+  {
+   "id": "L09",
+   "ch": 3,
+   "name": "别马腿",
+   "teaches": "马先直走一格，被堵就走不了",
+   "lines": [
+    "l09.intro",
+    "l09.rule",
+    "l09.foot",
+    "l09.stuck",
+    "l09.way"
+   ],
+   "steps": [
+    {
+     "id": "L09.1",
+     "k": "stars",
+     "pos": "9/9/9/9/4R4/4N4/9/9/9/9 w",
+     "hero": "e5",
+     "stars": [
+      "d7"
+     ],
+     "movers": [
+      "e5",
+      "e6"
+     ],
+     "say": "l09.stuck",
+     "reasons": "horse",
+     "note": "马被别住了：让路或绕",
+     "par": 2,
+     "pre": [
+      "l09.foot"
+     ]
+    },
+    {
+     "id": "L09.2",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/1R7/1NR6 w",
+     "hero": "b1",
+     "stars": [
+      "d2"
+     ],
+     "movers": [
+      "b1",
+      "b2",
+      "c1"
+     ],
+     "say": "l09.way",
+     "reasons": "horse",
+     "note": "两条腿都被堵",
+     "par": 2,
+     "pre": [
+      "l09.rule"
+     ]
+    },
+    {
+     "id": "L09.3",
+     "k": "stars",
+     "pos": "9/9/9/9/9/4p4/3RN4/9/9/9 w",
+     "hero": "e4",
+     "stars": [
+      "f6"
+     ],
+     "movers": [
+      "e4",
+      "d4"
+     ],
+     "say": "l09.way",
+     "reasons": "horse",
+     "note": "对方的子也能别马腿",
+     "par": 3
+    },
+    {
+     "id": "L09.4",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/4R4/4N4/9/9/9/9 w",
+     "from": "e5",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "被别住后少了哪些点",
+     "answer": [
+      "c4",
+      "c6",
+      "d3",
+      "f3",
+      "g4",
+      "g6"
+     ]
+    }
+   ],
+   "minutes": 2.9,
+   "intro": [
+    "l09.intro"
+   ]
+  },
+  {
+   "id": "L10",
+   "ch": 3,
+   "name": "象走田",
+   "teaches": "象走\"田\"字，不能过河",
+   "lines": [
+    "l10.intro",
+    "l10.rule"
+   ],
+   "steps": [
+    {
+     "id": "L10.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/2B6 w",
+     "hero": "c1",
+     "stars": [
+      "e3"
+     ],
+     "par": 1,
+     "say": "p.stars"
+    },
+    {
+     "id": "L10.2",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/2B6 w",
+     "hero": "c1",
+     "stars": [
+      "g5"
+     ],
+     "par": 2,
+     "say": "p.stars",
+     "pre": [
+      "l10.rule"
+     ]
+    },
+    {
+     "id": "L10.3",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/9/9/9/4B4/9/9 w",
+     "from": "e3",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "象能到的点",
+     "answer": [
+      "c1",
+      "c5",
+      "g1",
+      "g5"
+     ]
+    },
+    {
+     "id": "L10.4",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/9/2B6/9/9/9/9 w",
+     "from": "c5",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "象在河边：不能过河",
+     "answer": [
+      "a3",
+      "e3"
+     ]
+    }
+   ],
+   "minutes": 2.3,
+   "intro": [
+    "l10.intro"
+   ]
+  },
+  {
+   "id": "L11",
+   "ch": 3,
+   "name": "象眼",
+   "teaches": "田字中心被堵就走不了",
+   "lines": [
+    "l11.intro",
+    "l11.rule",
+    "l11.eye"
+   ],
+   "steps": [
+    {
+     "id": "L11.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/3R5/2B6 w",
+     "hero": "c1",
+     "stars": [
+      "e3"
+     ],
+     "movers": [
+      "c1",
+      "d2"
+     ],
+     "say": "p.stars",
+     "post": [{ "say": "l11.eye", "focus": ["d2"] }],
+     "reasons": "eye",
+     "note": "象眼被塞住了",
+     "par": 2,
+     "pre": [
+      "l11.rule"
+     ]
+    },
+    {
+     "id": "L11.2",
+     "k": "capture",
+     "pos": "9/9/9/9/9/6p2/3R5/4B4/9/9 w",
+     "hero": "e3",
+     "targets": [
+      "g5"
+     ],
+     "movers": [
+      "e3",
+      "d4"
+     ],
+     "reasons": "eye",
+     "note": "象也能吃子（走田字落点）",
+     "par": 1,
+     "say": "p.capture"
+    },
+    {
+     "id": "L11.3",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/9/9/3R5/4B4/9/9 w",
+     "from": "e3",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "塞象眼后少了哪个点",
+     "answer": [
+      "c1",
+      "g1",
+      "g5"
+     ]
+    },
+    {
+     "id": "B2",
+     "k": "battle",
+     "optional": true,
+     "name": "马象守城",
+     "pos": "9/9/p2p2p2/9/9/9/9/2B6/9/1N2K4 w",
+     "par": 6,
+     "forgiving": 0.75,
+     "stars": {
+      "three": 6,
+      "two": 7,
+      "one": "win"
+     },
+     "redMovesAvailable": 7,
+     "say": "bt.intro"
+    }
+   ],
+   "minutes": 4.8,
+   "intro": [
+    "l11.intro"
+   ]
+  },
+  {
+   "id": "L12",
+   "ch": 4,
+   "name": "仕走斜线",
+   "teaches": "仕斜走一格，不出九宫",
+   "lines": [
+    "l12.intro",
+    "l12.rule"
+   ],
+   "steps": [
+    {
+     "id": "L12.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/3A5 w",
+     "hero": "d1",
+     "stars": [
+      "f3"
+     ],
+     "par": 2,
+     "say": "p.stars"
+    },
+    {
+     "id": "L12.2",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/3A5/9/9 w",
+     "hero": "d3",
+     "stars": [
+      "f1"
+     ],
+     "par": 2,
+     "say": "p.stars",
+     "pre": [
+      "l12.rule"
+     ]
+    },
+    {
+     "id": "L12.3",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/9/9/9/3A5/9/9 w",
+     "from": "d3",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "仕在九宫角：只有一个方向",
+     "answer": [
+      "e2"
+     ]
+    }
+   ],
+   "minutes": 2,
+   "intro": [
+    "l12.intro"
+   ]
+  },
+  {
+   "id": "L13",
+   "ch": 4,
+   "name": "帅走一格",
+   "teaches": "帅横竖走一格，不出九宫",
+   "lines": [
+    "l13.intro",
+    "l13.rule"
+   ],
+   "steps": [
+    {
+     "id": "L13.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/4K4 w",
+     "hero": "e1",
+     "stars": [
+      "e3"
+     ],
+     "par": 2,
+     "say": "p.stars"
+    },
+    {
+     "id": "L13.2",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/9/9/9/3K5 w",
+     "hero": "d1",
+     "stars": [
+      "f3"
+     ],
+     "par": 4,
+     "say": "p.stars",
+     "pre": [
+      "l13.rule"
+     ]
+    },
+    {
+     "id": "L13.3",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/9/9/9/9/9/3K5 w",
+     "from": "d1",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "帅在九宫角",
+     "answer": [
+      "d2",
+      "e1"
+     ]
+    }
+   ],
+   "minutes": 2.3,
+   "intro": [
+    "l13.intro"
+   ]
+  },
+  {
+   "id": "L14",
+   "ch": 4,
+   "name": "见面线",
+   "teaches": "两个将中间没有子，就会见面（不行）",
+   "lines": [
+    "l14.intro",
+    "l14.rule",
+    "l14.demo",
+    "l14.block",
+    "l14.pin",
+    "l14.use"
+   ],
+   "steps": [
+    {
+     "id": "L14.1",
+     "k": "demo",
+     "pos": "4k4/9/9/9/9/9/9/9/9/3K5 w",
+     "ghost": [
+      "d1e1"
+     ],
+     "say": "l14.demo",
+     "note": "幽灵手：帅走到 e 线，金线亮起、闪朱砂，悔回",
+     "pre": [
+      "l14.rule"
+     ]
+    },
+    {
+     "id": "L14.2",
+     "k": "stars",
+     "pos": "4k4/9/9/9/9/R8/9/9/9/3K5 w",
+     "hero": "d1",
+     "stars": [
+      "f1"
+     ],
+     "movers": [
+      "d1",
+      "a5"
+     ],
+     "say": "l14.block",
+     "reasons": "face",
+     "needBlocker": true,
+     "note": "帅过不去 e 线：先把车放到两个将中间",
+     "par": 3
+    },
+    {
+     "id": "L14.3",
+     "k": "stars",
+     "pos": "4k4/9/9/9/9/4C4/9/9/9/4K4 w",
+     "hero": "e5",
+     "stars": [
+      "e8",
+      "e3"
+     ],
+     "movers": [
+      "e5"
+     ],
+     "say": "l14.pin",
+     "reasons": "face",
+     "note": "中间的炮不能离开 e 线（离开就见面）",
+     "par": 2
+    },
+    {
+     "id": "L14.4",
+     "k": "bank",
+     "theme": "face",
+     "n": 1,
+     "say": "l14.use",
+     "note": "见面线也能当武器：预告白脸将",
+     "ids": [
+      "m1.face.29"
+     ],
+     "checkpoint": "per-puzzle"
+    },
+    {
+     "id": "L14.5",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "3k5/9/9/9/9/9/9/9/9/4K4 w",
+     "from": "e1",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "黑将在 d 线：帅不能去 d 线",
+     "answer": [
+      "e2",
+      "f1"
+     ]
+    }
+   ],
+   "minutes": 3.4,
+   "intro": [
+    "l14.intro"
+   ]
+  },
+  {
+   "id": "L15",
+   "ch": 4,
+   "name": "兵向前",
+   "teaches": "兵没过河只能向前一步",
+   "lines": [
+    "l15.intro",
+    "l15.rule"
+   ],
+   "steps": [
+    {
+     "id": "L15.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/9/4P4/9/9/9 w",
+     "hero": "e4",
+     "stars": [
+      "e5"
+     ],
+     "par": 1,
+     "say": "p.stars"
+    },
+    {
+     "id": "L15.2",
+     "k": "capture",
+     "pos": "9/9/9/9/9/2p6/2P6/9/9/9 w",
+     "hero": "c4",
+     "targets": [
+      "c5"
+     ],
+     "par": 1,
+     "say": "p.capture",
+     "pre": [
+      "l15.rule"
+     ]
+    },
+    {
+     "id": "L15.3",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/9/9/6P2/9/9/9 w",
+     "from": "g4",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "没过河的兵",
+     "answer": [
+      "g5"
+     ]
+    }
+   ],
+   "minutes": 1.7,
+   "intro": [
+    "l15.intro"
+   ]
+  },
+  {
+   "id": "L16",
+   "ch": 4,
+   "name": "兵过河",
+   "teaches": "过河后可以左右走，不能后退",
+   "lines": [
+    "l16.intro",
+    "l16.rule",
+    "l16.edge"
+   ],
+   "steps": [
+    {
+     "id": "L16.1",
+     "k": "stars",
+     "pos": "9/9/9/9/9/2P6/9/9/9/9 w",
+     "hero": "c5",
+     "stars": [
+      "d6",
+      "d7"
+     ],
+     "par": 3,
+     "say": "p.stars2"
+    },
+    {
+     "id": "L16.2",
+     "k": "capture",
+     "pos": "9/9/9/4p4/2Pp5/9/9/9/9/9 w",
+     "hero": "c6",
+     "targets": [
+      "d6",
+      "e7"
+     ],
+     "par": 3,
+     "say": "p.capture",
+     "pre": [
+      "l16.rule"
+     ]
+    },
+    {
+     "id": "L16.3",
+     "k": "stars",
+     "pos": "9/4P4/9/9/9/9/9/9/9/9 w",
+     "hero": "e9",
+     "stars": [
+      "e10",
+      "f10"
+     ],
+     "say": "l16.edge",
+     "note": "走到底线，只能横着走",
+     "par": 2
+    },
+    {
+     "id": "L16.4",
+     "k": "quiz",
+     "q": "moves",
+     "pos": "9/9/9/9/4P4/9/9/9/9/9 w",
+     "from": "e6",
+     "say": "p.moves",
+     "twin": "mirror",
+     "note": "过河兵三个方向",
+     "answer": [
+      "d6",
+      "e7",
+      "f6"
+     ]
+    },
+    {
+     "id": "B3",
+     "k": "battle",
+     "optional": true,
+     "name": "兵马炮守城",
+     "pos": "9/1p1p1p1p1/9/9/9/9/4P4/7C1/9/2N1K4 w",
+     "par": 6,
+     "forgiving": 1,
+     "stars": {
+      "three": 6,
+      "two": 7,
+      "one": "win"
+     },
+     "redMovesAvailable": 8,
+     "say": "bt.intro"
+    }
+   ],
+   "minutes": 6.1,
+   "intro": [
+    "l16.intro"
+   ]
+  },
+  {
+   "id": "L17",
+   "ch": 5,
+   "name": "将军",
+   "teaches": "攻击对方帅将叫将军",
+   "lines": [
+    "l17.intro",
+    "l17.rule",
+    "l17.leg"
+   ],
+   "steps": [
+    {
+     "id": "L17.1",
+     "k": "make",
+     "goal": "check",
+     "pos": "5k3/9/9/9/9/R8/9/9/9/3K5 w",
+     "say": "p.make.check",
+     "note": "走一步，将军：车",
+     "accepted": [
+      "a5a10",
+      "a5f5"
+     ],
+     "decoyChecks": 0,
+     "twin": "mirror"
+    },
+    {
+     "id": "L17.2",
+     "k": "make",
+     "goal": "check",
+     "pos": "4k4/9/9/9/4P4/9/9/2C6/9/3K5 w",
+     "say": "p.make.check",
+     "note": "走一步，将军：炮要有炮架",
+     "accepted": [
+      "c3e3"
+     ],
+     "decoyChecks": 0,
+     "twin": "mirror"
+    },
+    {
+     "id": "L17.3",
+     "k": "quiz",
+     "q": "incheck",
+     "pos": "3k5/9/9/9/9/9/9/5n3/5P3/4K4 w",
+     "side": "w",
+     "say": "p.incheck",
+     "post": ["l17.leg"],
+     "twin": "mirror",
+     "note": "马把帅将军了吗（看马腿）",
+     "answer": "no",
+     "pre": [
+      "l17.rule"
+     ]
+    },
+    {
+     "id": "L17.4",
+     "k": "quiz",
+     "q": "incheck",
+     "pos": "3k5/9/9/9/4c4/9/4P4/9/9/4K4 w",
+     "side": "w",
+     "say": "p.incheck",
+     "twin": "mirror",
+     "note": "炮将军（要有炮架）",
+     "answer": "yes"
+    }
+   ],
+   "minutes": 2,
+   "intro": [
+    "l17.intro"
+   ]
+  },
+  {
+   "id": "L18",
+   "ch": 5,
+   "name": "应将三法",
+   "teaches": "走开 · 挡住 · 吃掉",
+   "lines": [
+    "l18.intro",
+    "l18.rule"
+   ],
+   "steps": [
+    {
+     "id": "L18.1",
+     "k": "escape",
+     "pos": "3k5/4r4/9/9/9/9/9/9/9/R3K4 w",
+     "mode": "king",
+     "say": "p.esc.king",
+     "note": "帅走开（挡不住也吃不到）",
+     "kinds": [
+      "king"
+     ],
+     "pre": [
+      "l18.rule"
+     ]
+    },
+    {
+     "id": "L18.2",
+     "k": "escape",
+     "pos": "3k5/4r4/9/9/9/R8/9/9/9/3AKA3 w",
+     "mode": "block",
+     "say": "p.esc.block",
+     "note": "用车挡住",
+     "kinds": [
+      "block"
+     ]
+    },
+    {
+     "id": "L18.3",
+     "k": "escape",
+     "pos": "3k5/9/9/9/9/9/9/9/4p4/3AKA3 w",
+     "mode": "capture",
+     "say": "p.esc.cap",
+     "note": "吃掉将军的兵（兵挡不了）",
+     "kinds": [
+      "capture"
+     ]
+    },
+    {
+     "id": "L18.4",
+     "k": "escape",
+     "pos": "3k5/9/R3r4/9/9/9/9/2N6/9/4K4 w",
+     "mode": "any",
+     "say": "p.esc.any",
+     "note": "三种办法都可以：随你选",
+     "kinds": [
+      "block",
+      "capture",
+      "king"
+     ]
+    }
+   ],
+   "minutes": 2.4,
+   "intro": [
+    "l18.intro"
+   ]
+  },
+  {
+   "id": "L19",
+   "ch": 5,
+   "name": "将死",
+   "teaches": "将军，而且无法应将",
+   "lines": [
+    "l19.intro",
+    "l19.make",
+    "l19.perp"
+   ],
+   "steps": [
+    {
+     "id": "L19.1",
+     "k": "make",
+     "goal": "mate",
+     "pick": [
+      "rook",
+      0
+     ],
+     "say": "l19.make",
+     "note": "让将无路可逃：车",
+     "pos": "8R/9/3k5/1n7/9/9/9/4K4/9/9 w",
+     "fromPool": true,
+     "accepted": [
+      "i10d10"
+     ],
+     "decoyChecks": 1,
+     "twin": "mirror"
+    },
+    {
+     "id": "L19.2",
+     "k": "make",
+     "goal": "mate",
+     "pick": [
+      "knight",
+      0
+     ],
+     "say": "l19.make",
+     "note": "让将无路可逃：马",
+     "pos": "9/4a4/4kaN2/9/9/9/9/3K5/9/9 w",
+     "fromPool": true,
+     "accepted": [
+      "g8f6"
+     ],
+     "decoyChecks": 1,
+     "twin": "mirror"
+    },
+    {
+     "id": "L19.3",
+     "k": "quiz",
+     "q": "mated",
+     "puzSel": [
+      "cannon",
+      0,
+      false
+     ],
+     "side": "b",
+     "say": "p.mated",
+     "twin": "mirror",
+     "note": "将军，还能逃吗",
+     "answer": "mate"
+    },
+    {
+     "id": "L19.4",
+     "k": "demo",
+     "pos": "4k4/R8/9/9/9/9/9/9/9/3K5 w",
+     "ghost": [
+      "a9a10",
+      "e10e9",
+      "a10a9",
+      "e9e10",
+      "a9a10"
+     ],
+     "say": "l19.perp",
+     "note": "30 秒：一直将军不行（幽灵手重复将军，第三次弹出 perp.warn，说\"换个走法\"）"
+    }
+   ],
+   "unlocksR1": true,
+   "minutes": 2,
+   "intro": [
+    "l19.intro"
+   ]
+  },
+  {
+   "id": "L20",
+   "ch": 5,
+   "name": "困毙判负",
+   "teaches": "无子可动也是输（象棋与国际象棋不同）",
+   "lines": [
+    "l20.intro",
+    "l20.rule",
+    "l20.q",
+    "l20.contrast"
+   ],
+   "steps": [
+    {
+     "id": "L20.1",
+     "k": "card",
+     "say": "l20.contrast",
+     "note": "对照卡：两张小棋盘——国际象棋 = 和，象棋 = 输",
+     "pre": [
+      "l20.rule"
+     ]
+    },
+    {
+     "id": "L20.2",
+     "k": "quiz",
+     "q": "stalemate",
+     "pos": "3k5/R8/9/9/9/9/9/9/4R4/5K3 w",
+     "side": "b",
+     "say": "l20.q",
+     "twin": "mirror",
+     "note": "黑方没被将军，但没有路",
+     "answer": "stalemate"
+    },
+    {
+     "id": "L20.3",
+     "k": "bank",
+     "theme": "stale1",
+     "ids": [
+      "s1.1",
+      "s1.2"
+     ],
+     "seg": 1,
+     "note": "走一步，让黑方无子可动",
+     "checkpoint": "per-puzzle",
+     "say": "p.stale1"
+    },
+    {
+     "id": "L20.4",
+     "k": "bank",
+     "theme": "stale1",
+     "ids": [
+      "s1.3",
+      "s1.4"
+     ],
+     "seg": 2,
+     "note": "再来两道",
+     "checkpoint": "per-puzzle",
+     "say": "p.stale1"
+    }
+   ],
+   "minutes": 3.8,
+   "intro": [
+    "l20.intro"
+   ]
+  },
+  {
+   "id": "L21",
+   "ch": 6,
+   "name": "谁吃得到谁",
+   "teaches": "数一数谁在攻击我",
+   "lines": [
+    "l21.intro",
+    "l21.beams"
+   ],
+   "steps": [
+    {
+     "id": "L21.1",
+     "k": "quiz",
+     "q": "attackers",
+     "pos": "3k5/4r4/9/9/9/1c2P4/9/9/9/4K4 w",
+     "target": "e5",
+     "say": "p.attackers",
+     "post": ["l21.beams"],
+     "twin": "mirror",
+     "note": "点出能吃兵的黑子（画光束）",
+     "answer": [
+      "e9"
+     ]
+    },
+    {
+     "id": "L21.2",
+     "k": "quiz",
+     "q": "attackers",
+     "pos": "3k5/9/9/9/2n3p2/4N4/9/9/9/4K4 w",
+     "target": "e5",
+     "say": "p.attackers",
+     "post": ["l21.beams"],
+     "twin": "mirror",
+     "note": "点出能吃马的黑子",
+     "answer": [
+      "c6"
+     ]
+    },
+    {
+     "id": "L21.3",
+     "k": "trade",
+     "goal": "any",
+     "pos": "3k5/9/9/5p3/9/4N4/9/9/9/4K4 w",
+     "say": "p.trade.go",
+     "note": "吃掉没人保护的兵",
+     "options": [
+      {
+       "m": "e5f7",
+       "net": 1
+      }
+     ],
+     "twin": "mirror"
+    },
+    {
+     "id": "L21.4",
+     "k": "trade",
+     "goal": "any",
+     "pos": "3k5/p8/9/9/9/R8/9/9/9/4K4 w",
+     "say": "p.trade.go",
+     "note": "车吃兵",
+     "options": [
+      {
+       "m": "a5a9",
+       "net": 1
+      }
+     ],
+     "twin": "mirror"
+    }
+   ],
+   "minutes": 2.2,
+   "intro": [
+    "l21.intro"
+   ]
+  },
+  {
+   "id": "L22",
+   "ch": 6,
+   "name": "保护",
+   "teaches": "有保护的子，吃了会被吃回来",
+   "lines": [
+    "l22.intro",
+    "l22.rule"
+   ],
+   "steps": [
+    {
+     "id": "L22.1",
+     "k": "trade",
+     "goal": "any",
+     "pos": "3k5/9/4p4/9/9/4R4/9/9/9/4K4 w",
+     "say": "p.trade.go",
+     "note": "没人保护：白赚",
+     "options": [
+      {
+       "m": "e5e8",
+       "net": 1
+      }
+     ],
+     "twin": "mirror"
+    },
+    {
+     "id": "L22.2",
+     "k": "trade",
+     "goal": "any",
+     "pos": "3k5/9/3rp4/9/9/4R4/9/9/9/4K4 w",
+     "say": "p.trade.go",
+     "note": "有保护：吃了会被吃回来",
+     "options": [
+      {
+       "m": "e5e8",
+       "net": -8
+      }
+     ],
+     "twin": "mirror",
+     "pre": [
+      "l22.rule"
+     ]
+    },
+    {
+     "id": "L22.3",
+     "k": "trade",
+     "goal": "any",
+     "pos": "5k3/2r6/9/2p6/9/1N7/9/9/9/4K4 w",
+     "say": "p.trade.go",
+     "note": "马吃有保护的兵",
+     "options": [
+      {
+       "m": "b5c7",
+       "net": -3
+      }
+     ],
+     "twin": "mirror"
+    },
+    {
+     "id": "L22.4",
+     "k": "quiz",
+     "q": "recapture",
+     "pos": "3k5/9/3rp4/9/9/4R4/9/9/9/4K4 w",
+     "from": "e5",
+     "to": "e8",
+     "say": "p.recap",
+     "twin": "mirror",
+     "note": "吃了会被吃回来吗",
+     "answer": "yes"
+    }
+   ],
+   "minutes": 2.5,
+   "intro": [
+    "l22.intro"
+   ]
+  },
+  {
+   "id": "L23",
+   "ch": 6,
+   "name": "子力价值与换子",
+   "teaches": "车 9 · 炮马 4 · 仕相 2 · 兵 1（过河 2）",
+   "lines": [
+    "l23.intro",
+    "l23.rule",
+    "l23.trade",
+    "l23.chips"
+   ],
+   "steps": [
+    {
+     "id": "L23.1",
+     "k": "trade",
+     "goal": "win",
+     "pos": "3k5/9/3rp4/9/9/c3R4/9/9/9/4K4 w",
+     "say": "p.trade.win",
+     "note": "两个能吃：一个赚、一个亏",
+     "options": [
+      {
+       "m": "e5e8",
+       "net": -8
+      },
+      {
+       "m": "e5a5",
+       "net": 4
+      }
+     ],
+     "accepted": [
+      "e5a5"
+     ],
+     "twin": "mirror",
+     "pre": [
+      "l23.rule"
+     ]
+    },
+    {
+     "id": "L23.2",
+     "k": "trade",
+     "goal": "win",
+     "pos": "5k3/9/9/3c1pr2/9/4N4/9/9/9/4K4 w",
+     "say": "p.trade.win",
+     "note": "马吃兵会亏，吃炮才赚",
+     "options": [
+      {
+       "m": "e5f7",
+       "net": -3
+      },
+      {
+       "m": "e5d7",
+       "net": 4
+      }
+     ],
+     "accepted": [
+      "e5d7"
+     ],
+     "twin": "mirror",
+     "pre": [
+      "l23.chips"
+     ]
+    },
+    {
+     "id": "L23.3",
+     "k": "trade",
+     "goal": "any",
+     "pos": "5k3/2a6/2r6/9/9/2C6/9/9/9/4K4 w",
+     "say": "p.trade.go",
+     "note": "炮打仕：会不会亏",
+     "options": [
+      {
+       "m": "c5c9",
+       "net": -2
+      }
+     ],
+     "twin": "mirror",
+     "pre": [
+      "l23.trade"
+     ]
+    },
+    {
+     "id": "L23.4",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "3k5/9/9/5nr2/9/4N4/9/9/9/4K4 w",
+     "from": "e5",
+     "to": "f7",
+     "say": "p.trade",
+     "twin": "mirror",
+     "note": "马换马",
+     "answer": "even"
+    },
+    {
+     "id": "L23.5",
+     "k": "quiz",
+     "q": "trade",
+     "pos": "3k5/c8/9/9/pp7/R8/9/9/9/4K4 w",
+     "from": "a5",
+     "to": "a6",
+     "say": "p.trade",
+     "twin": "mirror",
+     "note": "车吃兵",
+     "answer": "win"
+    }
+   ],
+   "minutes": 2.9,
+   "intro": [
+    "l23.intro"
+   ]
+  },
+  {
+   "id": "L24",
+   "ch": 6,
+   "name": "走之前先看一眼",
+   "teaches": "每走一步先问：我的子安全吗",
+   "lines": [
+    "l24.intro",
+    "l24.rule",
+    "l24.eye",
+    "l24.safe"
+   ],
+   "steps": [
+    {
+     "id": "L24.1",
+     "k": "sweep",
+     "pos": "3k5/9/9/4n4/R8/9/9/9/9/4K4 w",
+     "hero": "a6",
+     "stars": [
+      "g1"
+     ],
+     "say": "p.sweep",
+     "note": "点小眼睛：琥珀斜纹 = 会被吃的点",
+     "par": 3,
+     "parUnsafe": 2,
+     "pre": [
+      "l24.rule"
+     ]
+    },
+    {
+     "id": "L24.2",
+     "k": "sweep",
+     "pos": "3k5/9/9/4n4/3C5/9/9/9/9/4K4 w",
+     "hero": "d6",
+     "stars": [
+      "g5"
+     ],
+     "say": "p.sweep",
+     "note": "炮也要先看一眼",
+     "par": 3,
+     "parUnsafe": 2,
+     "pre": [
+      "l24.eye"
+     ]
+    },
+    {
+     "id": "L24.3",
+     "k": "sweep",
+     "pos": "3k5/r8/9/9/1N7/9/9/9/9/4K4 w",
+     "hero": "b6",
+     "stars": [
+      "e4"
+     ],
+     "say": "p.sweep",
+     "note": "马绕开 a 线",
+     "par": 3,
+     "parUnsafe": 3,
+     "pre": [
+      "l24.safe"
+     ]
+    },
+    {
+     "id": "L24.4",
+     "k": "quiz",
+     "q": "safe",
+     "pos": "3k5/r8/9/9/9/4R4/9/9/9/4K4 w",
+     "from": "e5",
+     "to": "a5",
+     "say": "p.safe",
+     "twin": "mirror",
+     "note": "走过去安全吗（不安全）",
+     "answer": "unsafe"
+    },
+    {
+     "id": "L24.5",
+     "k": "quiz",
+     "q": "safe",
+     "pos": "3k5/2r6/9/9/9/2C6/9/9/9/4K4 w",
+     "from": "c5",
+     "to": "a5",
+     "say": "p.safe",
+     "twin": "mirror",
+     "note": "走过去安全吗（安全）",
+     "answer": "safe"
+    }
+   ],
+   "minutes": 4.6,
+   "intro": [
+    "l24.intro"
+   ]
+  },
+  {
+   "id": "L25",
+   "ch": 7,
+   "name": "车杀",
+   "teaches": "车的一步杀",
+   "lines": [
+    "l25.intro",
+    "stop.seg",
+    "stop.goon"
+   ],
+   "steps": [
+    {
+     "id": "L25.1",
+     "k": "bank",
+     "theme": "rook",
+     "n": 4,
+     "seg": 1,
+     "ids": [
+      "m1.rook.01",
+      "m1.rook.02",
+      "m1.rook.03",
+      "m1.rook.04"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    },
+    {
+     "id": "L25.2",
+     "k": "bank",
+     "theme": "rook",
+     "n": 4,
+     "seg": 2,
+     "ids": [
+      "m1.rook.05",
+      "m1.rook.06",
+      "m1.rook.07",
+      "m1.rook.08"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    }
+   ],
+   "minutes": 6.4,
+   "intro": [
+    "l25.intro"
+   ]
+  },
+  {
+   "id": "L26",
+   "ch": 7,
+   "name": "炮杀",
+   "teaches": "炮的一步杀",
+   "lines": [
+    "l26.intro"
+   ],
+   "steps": [
+    {
+     "id": "L26.1",
+     "k": "bank",
+     "theme": "cannon",
+     "n": 4,
+     "seg": 1,
+     "ids": [
+      "m1.cannon.09",
+      "m1.cannon.10",
+      "m1.cannon.11",
+      "m1.cannon.12"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    },
+    {
+     "id": "L26.2",
+     "k": "bank",
+     "theme": "cannon",
+     "n": 4,
+     "seg": 2,
+     "ids": [
+      "m1.cannon.13",
+      "m1.cannon.14",
+      "m1.cannon.15",
+      "m1.cannon.16"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    }
+   ],
+   "minutes": 6.4,
+   "intro": [
+    "l26.intro"
+   ]
+  },
+  {
+   "id": "L27",
+   "ch": 7,
+   "name": "马杀与兵杀",
+   "teaches": "马与兵的一步杀",
+   "lines": [
+    "l27.intro"
+   ],
+   "steps": [
+    {
+     "id": "L27.1",
+     "k": "bank",
+     "theme": "knight",
+     "n": 4,
+     "seg": 1,
+     "ids": [
+      "m1.knight.17",
+      "m1.knight.18",
+      "m1.knight.19",
+      "m1.knight.20"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    },
+    {
+     "id": "L27.2",
+     "k": "bank",
+     "theme": "knight",
+     "n": 4,
+     "seg": 2,
+     "ids": [
+      "m1.knight.21",
+      "m1.knight.22",
+      "m1.knight.23",
+      "m1.knight.24"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    },
+    {
+     "id": "L27.3",
+     "k": "bank",
+     "theme": "pawn",
+     "n": 4,
+     "seg": 3,
+     "ids": [
+      "m1.pawn.25",
+      "m1.pawn.26",
+      "m1.pawn.27",
+      "m1.pawn.28"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    }
+   ],
+   "minutes": 9.6,
+   "intro": [
+    "l27.intro"
+   ]
+  },
+  {
+   "id": "L28",
+   "ch": 7,
+   "name": "见面杀与配合",
+   "teaches": "将帅见面、两子配合",
+   "lines": [
+    "l28.intro",
+    "l28.team"
+   ],
+   "steps": [
+    {
+     "id": "L28.1",
+     "k": "bank",
+     "theme": "face",
+     "n": 3,
+     "seg": 1,
+     "ids": [
+      "m1.face.30",
+      "m1.face.31",
+      "m1.face.32"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    },
+    {
+     "id": "L28.2",
+     "k": "bank",
+     "theme": "combo",
+     "n": 4,
+     "seg": 2,
+     "ids": [
+      "m1.combo.33",
+      "m1.combo.34",
+      "m1.combo.35",
+      "m1.combo.36"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1",
+     "pre": [
+      "l28.team"
+     ]
+    },
+    {
+     "id": "L28.3",
+     "k": "bank",
+     "theme": "combo",
+     "n": 4,
+     "seg": 3,
+     "ids": [
+      "m1.combo.37",
+      "m1.combo.38",
+      "m1.combo.39",
+      "m1.combo.40"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate1"
+    }
+   ],
+   "minutes": 8.8,
+   "intro": [
+    "l28.intro"
+   ]
+  },
+  {
+   "id": "L29",
+   "ch": 8,
+   "name": "双车错",
+   "teaches": "两个车轮流将军",
+   "lines": [
+    "l29.intro"
+   ],
+   "steps": [
+    {
+     "id": "L29.1",
+     "k": "bank2",
+     "theme": "shuangche",
+     "n": 3,
+     "guided": true,
+     "seg": 1,
+     "ids": [
+      "m2.shuangche.chk.01",
+      "m2.shuangche.chk.02",
+      "m2.shuangche.chk.03"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate2.guided"
+    },
+    {
+     "id": "L29.2",
+     "k": "bank2",
+     "theme": "shuangche",
+     "n": 3,
+     "seg": 2,
+     "ids": [
+      "m2.shuangche.qt.04",
+      "m2.shuangche.qt.05",
+      "m2.shuangche.qt.06"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate2"
+    }
+   ],
+   "minutes": 6.6,
+   "intro": [
+    "l29.intro"
+   ]
+  },
+  {
+   "id": "L30",
+   "ch": 8,
+   "name": "车炮配合",
+   "teaches": "车和炮一前一后",
+   "lines": [
+    "l30.intro"
+   ],
+   "steps": [
+    {
+     "id": "L30.1",
+     "k": "bank2",
+     "theme": "chepao",
+     "n": 3,
+     "guided": true,
+     "seg": 1,
+     "ids": [
+      "m2.chepao.chk.07",
+      "m2.chepao.chk.08",
+      "m2.chepao.chk.09"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate2.guided"
+    },
+    {
+     "id": "L30.2",
+     "k": "bank2",
+     "theme": "chepao",
+     "n": 3,
+     "seg": 2,
+     "ids": [
+      "m2.chepao.qt.10",
+      "m2.chepao.qt.11",
+      "m2.chepao.qt.12"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate2"
+    }
+   ],
+   "minutes": 6.6,
+   "intro": [
+    "l30.intro"
+   ]
+  },
+  {
+   "id": "L31",
+   "ch": 8,
+   "name": "两步杀综合",
+   "teaches": "先将军，还是先安静",
+   "lines": [
+    "l31.intro",
+    "l31.q"
+   ],
+   "steps": [
+    {
+     "id": "L31.1",
+     "k": "bank2",
+     "theme": "mixed",
+     "n": 3,
+     "seg": 1,
+     "ids": [
+      "m2.mixed.chk.13",
+      "m2.mixed.chk.14",
+      "m2.mixed.chk.15"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate2"
+    },
+    {
+     "id": "L31.2",
+     "k": "bank2",
+     "theme": "mixed",
+     "n": 3,
+     "seg": 2,
+     "ids": [
+      "m2.mixed.chk.16",
+      "m2.mixed.chk.17",
+      "m2.mixed.chk.18"
+     ],
+     "checkpoint": "per-puzzle",
+     "say": "p.mate2",
+     "pre": [
+      "l31.q"
+     ]
+    }
+   ],
+   "minutes": 6.6,
+   "intro": [
+    "l31.intro"
+   ]
+  },
+  {
+   "id": "L32",
+   "ch": 9,
+   "name": "双捉",
+   "teaches": "一步棋同时攻击两个子",
+   "lines": [
+    "l32.intro",
+    "l32.rule"
+   ],
+   "steps": [
+    {
+     "id": "L32.1",
+     "k": "bank",
+     "theme": "fork",
+     "ids": [
+      "f.1",
+      "f.2",
+      "f.3"
+     ],
+     "seg": 1,
+     "checkpoint": "per-puzzle",
+     "say": "p.fork"
+    },
+    {
+     "id": "L32.2",
+     "k": "bank",
+     "theme": "fork",
+     "ids": [
+      "f.4",
+      "f.5",
+      "f.6"
+     ],
+     "seg": 2,
+     "checkpoint": "per-puzzle",
+     "say": "p.fork",
+     "pre": [
+      "l32.rule"
+     ]
+    }
+   ],
+   "minutes": 7.2,
+   "intro": [
+    "l32.intro"
+   ]
+  },
+  {
+   "id": "L33",
+   "ch": 9,
+   "name": "第一盘棋",
+   "teaches": "开局三件事：出车、架炮、护九宫",
+   "lines": [
+    "l33.intro",
+    "l33.rook",
+    "l33.cannon",
+    "l33.guard"
+   ],
+   "steps": [
+    {
+     "id": "L33.1",
+     "k": "play",
+     "robot": "R1",
+     "format": "full",
+     "checklist": [
+      "rook",
+      "cannon",
+      "guard"
+     ],
+     "note": "和滑轮下一盘（可悔棋、可请教练）；也可选\"小局\"代替整盘",
+     "say": "l33.intro"
+    }
+   ],
+   "minutes": 8,
+   "intro": []
+  }
+ ],
+ "placement": [
+  {
+   "id": "PL.1",
+   "chapter": 2,
+   "k": "capture",
+   "pos": "9/9/9/4p4/9/9/9/9/4R4/9 w",
+   "hero": "e2",
+   "targets": [
+    "e7"
+   ],
+   "note": "车吃子",
+   "par": 1,
+   "say": "p.capture",
+   "tests": [
+    "L04",
+    "L05"
+   ]
+  },
+  {
+   "id": "PL.2",
+   "chapter": 2,
+   "k": "capture",
+   "pos": "9/1p7/9/9/9/1P7/9/1C7/9/9 w",
+   "hero": "b3",
+   "targets": [
+    "b9"
+   ],
+   "note": "炮架",
+   "par": 1,
+   "say": "p.capture",
+   "tests": [
+    "L06",
+    "L07"
+   ]
+  },
+  {
+   "id": "PL.3",
+   "chapter": 3,
+   "k": "qmoves",
+   "q": "moves",
+   "pos": "9/9/9/9/4P4/3PN4/9/9/9/9 w",
+   "from": "e5",
+   "note": "马腿",
+   "answer": [
+    "d3",
+    "f3",
+    "g4",
+    "g6"
+   ],
+   "say": "p.moves",
+   "tests": [
+    "L08",
+    "L09"
+   ]
+  },
+  {
+   "id": "PL.4",
+   "chapter": 3,
+   "k": "qmoves",
+   "q": "moves",
+   "pos": "9/9/9/9/9/9/3P5/4B4/9/9 w",
+   "from": "e3",
+   "note": "象眼",
+   "answer": [
+    "c1",
+    "g1",
+    "g5"
+   ],
+   "say": "p.moves",
+   "tests": [
+    "L10",
+    "L11"
+   ]
+  },
+  {
+   "id": "PL.5",
+   "chapter": 4,
+   "k": "qmoves",
+   "q": "moves",
+   "pos": "3k5/9/9/9/9/9/9/9/9/4K4 w",
+   "from": "e1",
+   "note": "见面",
+   "answer": [
+    "e2",
+    "f1"
+   ],
+   "say": "p.moves",
+   "tests": [
+    "L13",
+    "L14"
+   ]
+  },
+  {
+   "id": "PL.6",
+   "chapter": 4,
+   "k": "qmoves",
+   "q": "moves",
+   "pos": "9/9/9/9/4P4/9/9/9/9/9 w",
+   "from": "e6",
+   "note": "兵过河",
+   "answer": [
+    "d6",
+    "e7",
+    "f6"
+   ],
+   "say": "p.moves",
+   "tests": [
+    "L15",
+    "L16"
+   ]
+  },
+  {
+   "id": "PL.7",
+   "chapter": 5,
+   "k": "make",
+   "goal": "check",
+   "pos": "5k3/9/9/9/9/R8/9/9/9/3K5 w",
+   "note": "将军",
+   "accepted": [
+    "a5a10",
+    "a5f5"
+   ],
+   "say": "p.make.check",
+   "tests": [
+    "L17"
+   ]
+  },
+  {
+   "id": "PL.8",
+   "chapter": 6,
+   "k": "trade",
+   "goal": "win",
+   "pos": "3k5/9/3rp4/9/9/c3R4/9/9/9/4K4 w",
+   "note": "子力",
+   "options": [
+    {
+     "m": "e5e8",
+     "net": -8
+    },
+    {
+     "m": "e5a5",
+     "net": 4
+    }
+   ],
+   "accepted": [
+    "e5a5"
+   ],
+   "say": "p.trade.win",
+   "tests": [
+    "L22",
+    "L23"
+   ]
+  },
+  {
+   "id": "PL.9",
+   "chapter": 7,
+   "k": "bank",
+   "theme": "rook",
+   "n": 1,
+   "ids": [
+    "m1.rook.01"
+   ],
+   "checkpoint": "per-puzzle",
+   "note": "一步杀",
+   "say": "p.mate1",
+   "tests": [
+    "L25"
+   ]
+  }
+ ]
+}

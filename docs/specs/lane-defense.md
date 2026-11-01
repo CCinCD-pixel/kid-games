@@ -2162,7 +2162,7 @@ interface SaveV1 {                        // localStorage，≤20 KB（save.test
 |---|---|---|---|---|
 | `fort.dock.1` | 伙伴 | talk | 两千多年前，有一位叫墨子的科学家。 |  |
 | `fort.dock.2` | 伙伴 | talk | 2016年，中国把量子卫星叫作墨子号。 | 二零一六年，中国把量子卫星叫作墨子号。 |
-| `fort.dock.3` | 伙伴 | talk | 走，我们去见见墨子！ |  |
+| `fort.dock.3` | 伙伴 | talk | 走，我们跟墨子去守城！ | 2026-10-20 改（原：走，我们去见见墨子！，与序幕矛盾） |
 | `fort.dock.v1` | 伙伴 | talk | 墨子号卫星，就是用他的名字命名的。 |  |
 | `fort.dock.v2` | 伙伴 | talk | 第二卷推演完成！你守住了十天十夜。 |  |
 | `fort.story.0.1` | 旁白 | talk | 很久以前，楚王想去攻打小小的宋国。 |  |
@@ -2402,7 +2402,7 @@ interface SaveV1 {                        // localStorage，≤20 KB（save.test
 | `fort.env.night` | 墨子 | sub | 天黑了，没有人送粮了。 |  |
 | `fort.env.fog` | 墨子 | sub | 起雾了，右边看不清。 |  |
 | `fort.env.dawn` | 墨子 | sub | 天亮了！阳燧能用了。 |  |
-| `fort.belt.full` | 墨子 | sub | 传送带堆满了。 |  |
+| `fort.belt.full` | 墨子 | sub | 牒放满啦，先用掉一张！ | 2026-10-20 改驿马说法（原：传送带堆满了。） |
 | `fort.pz.intro` | 墨子 | sub | 先摆好，再按开始推演。 |  |
 | `fort.pz.budget` | 墨子 | sub | 这道题有{n}粮。 | 看看这道题有多少粮。 |
 | `fort.pz.notyet` | 墨子 | sub | 还没守住，改一改再推。 |  |

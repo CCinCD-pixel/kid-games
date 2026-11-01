@@ -1,0 +1,210 @@
+{
+ "version": 1,
+ "_doc": "Playback policy for content/memory-matrix/narration.yaml (the voice pipeline does not know these fields). Enforced by src/core/voice.ts; narration-lint.mjs checks every id exists. Fields: night1 = only the first round of a night; onRuleChange; afterAwayMin; whenChanged; maxPerRound/maxPerNight/maxPerSession/maxPerWeek; cooldownRounds/cooldownNights; onlyOnPass; drop = discard (never queue) when the narrator is busy.",
+ "queue": {
+  "default": "queue in order; prompts and instructions are never dropped",
+  "interrupt": [
+   "再听一遍 (replays the last prompt)",
+   "跳过",
+   "🏠",
+   "the next action button"
+  ],
+  "dropIfBusy": [
+   "mm.fb.ok*",
+   "mm.fb.slip*",
+   "mm.fb.hint0",
+   "mm.res.*",
+   "mm.fb.up",
+   "mm.fb.down"
+  ],
+  "neverSpeakDuring": [
+   "show",
+   "fog"
+  ],
+  "silenceBeforeDisplayMs": 300,
+  "hintsVsPrompt": "hint lines (H2/H3/tips) wait for the current line to end; a tap on the board never cuts a line, only 跳过 / 再听一遍 / 🏠 do"
+ },
+ "lines": {
+  "mm.st.1": {
+   "once": true
+  },
+  "mm.st.2": {
+   "once": true
+  },
+  "mm.st.3": {
+   "once": true
+  },
+  "mm.st.vet": {
+   "once": true
+  },
+  "mm.st.home": {
+   "maxPerSession": 1
+  },
+  "mm.st.back": {
+   "maxPerSession": 1,
+   "afterAwayMin": 20160
+  },
+  "mm.st.flight": {
+   "maxPerSession": 1
+  },
+  "mm.st.bridge": {
+   "maxPerSession": 1
+  },
+  "mm.s1.prompt": {
+   "night1": true,
+   "onRuleChange": true,
+   "afterAwayMin": 2
+  },
+  "mm.s1.fog": {
+   "night1": true
+  },
+  "mm.s2.prompt": {
+   "night1": true,
+   "onRuleChange": true,
+   "afterAwayMin": 2
+  },
+  "mm.s2.promptb": {
+   "night1": true,
+   "onRuleChange": true,
+   "afterAwayMin": 2
+  },
+  "mm.s2.back1": {
+   "onRuleChange": true,
+   "maxPerSession": 1
+  },
+  "mm.s3.prompt": {
+   "night1": true,
+   "afterAwayMin": 2
+  },
+  "mm.s4.axis.LR": {
+   "whenChanged": "axis"
+  },
+  "mm.s4.axis.UD": {
+   "whenChanged": "axis"
+  },
+  "mm.s1.cluster": {
+   "cooldownNights": 3,
+   "notAfterSlip": true
+  },
+  "mm.s1.words": {
+   "cooldownNights": 3,
+   "notAfterSlip": true
+  },
+  "mm.s3.tip": {
+   "cooldownNights": 3,
+   "notAfterSlip": true
+  },
+  "mm.s3.visit": {
+   "maxPerNight": 1
+  },
+  "mm.s3.lure": {
+   "maxPerRound": 1
+  },
+  "mm.fb.ok1": {
+   "onlyOnPass": true,
+   "cooldownRounds": 3
+  },
+  "mm.fb.ok2": {
+   "onlyOnPass": true,
+   "cooldownRounds": 3
+  },
+  "mm.fb.ok3": {
+   "onlyOnPass": true,
+   "cooldownRounds": 3
+  },
+  "mm.fb.slip1": {
+   "maxPerRound": 1,
+   "maxPerNight": 2
+  },
+  "mm.fb.rewatch1": {
+   "maxPerNight": 1
+  },
+  "mm.fb.rewatch3": {
+   "maxPerWeek": 1,
+   "neutralOnly": true
+  },
+  "mm.fb.hint0": {
+   "maxPerRound": 1
+  },
+  "mm.fb.down": {
+   "maxPerNight": 1
+  },
+  "mm.fb.mercy": {
+   "maxPerNight": 1
+  },
+  "mm.fb.break": {
+   "maxPerSession": 1
+  },
+  "mm.fb.soft": {
+   "onRuleChange": true
+  },
+  "mm.res.3": {
+   "onlyWhenLevelFirstLit": true
+  },
+  "mm.res.2": {
+   "onlyWhenLevelFirstLit": true
+  },
+  "mm.res.1": {
+   "onlyWhenLevelFirstLit": true
+  },
+  "mm.g.intro": {
+   "maxPerSession": 1
+  },
+  "mm.g.rule": {
+   "once": true
+  },
+  "mm.g.nohint": {
+   "maxPerRound": 1
+  },
+  "mm.fb.reveal": {
+   "maxPerRound": 1
+  },
+  "mm.s4.peek": {
+   "maxPerSession": 1,
+   "mode": "peek"
+  },
+  "mm.s4.copy": {
+   "maxPerRound": 1,
+   "maxPerNight": 2
+  },
+  "mm.s4.flip": {
+   "maxPerRound": 1,
+   "maxPerNight": 2
+  },
+  "mm.fb.miss2": {
+   "maxPerNight": 1
+  },
+  "mm.sec.s1": {
+   "maxPerSession": 1
+  },
+  "mm.sec.s2": {
+   "maxPerSession": 1
+  },
+  "mm.sec.s3": {
+   "maxPerSession": 1
+  },
+  "mm.sec.s4": {
+   "maxPerSession": 1
+  }
+ },
+ "tutorialOnly": [
+  "mm.s1.t1",
+  "mm.s1.t2",
+  "mm.s1.t3",
+  "mm.s1.t4",
+  "mm.s2.t1",
+  "mm.s2.t2",
+  "mm.s2.t3",
+  "mm.s3.t1",
+  "mm.s3.t2",
+  "mm.s3.t3",
+  "mm.s3.t4",
+  "mm.s4.t1",
+  "mm.s4.t2",
+  "mm.s4.t3",
+  "mm.s4.t4",
+  "mm.s4.ex.LR",
+  "mm.s4.ex.UD",
+  "mm.s4.primer"
+ ]
+}

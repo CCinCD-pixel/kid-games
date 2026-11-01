@@ -8,7 +8,7 @@ const entry = (id: string, place: HubEntry['place'], status: HubEntry['status'] 
 });
 const sess = (game: string, lastBeat: number, activeMs = 60_000): SessionRecord => ({ id: `${game}${lastBeat}`, game, source: 'hub', start: lastBeat - activeMs, lastBeat, activeMs, events: [] });
 
-const reg = [entry('mars-base', 'base'), entry('moon-builder', 'base'), entry('story-box', 'base', 'wip'), entry('snake-battle', 'playground'), entry('sokoban', 'classic')];
+const reg = [entry('mars-base', 'base'), entry('moon-builder', 'base'), entry('story-box', 'base', 'wip'), entry('snake-battle', 'playground'), entry('sokoban', 'playground')];
 const all = new Set(reg.map((e) => e.id));
 
 describe('hub: 继续 / 推荐 / NEW (plan §4.1)', () => {
@@ -59,7 +59,7 @@ describe('hub: greeting and first tab', () => {
   });
 
   it('opens the remembered tab, else the 继续 card\'s place, else the first place with a live card', () => {
-    expect(initialPlace(reg, all, null, 'classic')).toBe('classic');
+    expect(initialPlace(reg, all, null, 'classic')).toBe('base');
     expect(initialPlace(reg, all, 'snake-battle')).toBe('playground');
     expect(initialPlace(reg, all, null)).toBe('base');
     expect(initialPlace([entry('x', 'base', 'wip'), entry('y', 'playground')], new Set(['x', 'y']), null)).toBe('playground');

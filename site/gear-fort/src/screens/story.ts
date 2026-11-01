@@ -248,9 +248,9 @@ const SCENES: Record<StoryId, () => Shot[]> = {
   dock: () => [
     dockShot(2.9, 'fort.dock.1', [560, 420, 1, 600, 400, 1.05], 0), // ≤ 8 s in all (spec §6.3b)
     { ...dockShot(2.9, 'fort.dock.2', [640, 360, 1.05, 820, 260, 1.5], 0), draw: (e) => dockShot(0, '', undefined, clamp01(e.s / 1.2)).draw(e) },
-    // QA r5: 「走，我们去见见墨子！」 contradicted the prologue the child just watched (he already set out with 墨子); the
-    // closing hop stays silent until the narration step re-voices fort.dock.3 (new copy in game.json notes)
-    { ...dockShot(1.6, '', [600, 400, 1, 600, 400, 1], 1, true) },
+    // QA r5: the old 「走，我们去见见墨子！」 contradicted the prologue the child just watched (he already set out with 墨子);
+    // the closing hop now says 「走，我们跟墨子去守城！」 (fort.dock.3, re-voiced 2026-10-20); the shot waits for the line
+    { ...dockShot(2.2, 'fort.dock.3', [600, 400, 1, 600, 400, 1], 1, true) },
   ],
   v1end: () => [
     foldShot('rhino', 'fort.story.1.end.1', false),

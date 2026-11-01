@@ -44,6 +44,36 @@ describe('progress store', () => {
     expect(storage.getItem('kg:v1:mars-base')).toBe(raw);
   });
 
+  it('reset() keeps a save written by a newer build; removes a current one', () => {
+    const storage = new MemoryStorage();
+    const raw = JSON.stringify({ v: 9, updatedAt: 1, data: { future: true } });
+    storage.setItem('kg:v1:mars-base', raw);
+    const store = createStore<V1>('mars-base', { version: 1, defaults: () => ({ level: 1 }), storage });
+    store.reset();
+    expect(storage.getItem('kg:v1:mars-base')).toBe(raw);
+    storage.setItem('kg:v1:mars-base', JSON.stringify({ v: 1, updatedAt: 1, data: { level: 5 } }));
+    store.reset();
+    expect(storage.getItem('kg:v1:mars-base')).toBeNull();
+  });
+
+  it('importProgress never downgrades a per-game save to an older schema version', () => {
+    const src = new MemoryStorage();
+    src.setItem('kg:v1:chess', JSON.stringify({ v: 1, updatedAt: 1, data: { old: true } }));
+    src.setItem('kg:v1:xiangqi', JSON.stringify({ v: 2, updatedAt: 1, data: { n: 1 } }));
+    src.setItem('kg:settings:v1', JSON.stringify({ narration: false }));
+    const bundle = JSON.parse(JSON.stringify(exportProgress(src)));
+    const dst = new MemoryStorage();
+    const newer = JSON.stringify({ v: 3, updatedAt: 9, data: { new: true } });
+    dst.setItem('kg:v1:chess', newer);
+    dst.setItem('kg:v1:xiangqi', JSON.stringify({ v: 2, updatedAt: 5, data: { n: 99 } }));
+    const skipped: string[] = [];
+    expect(importProgress(bundle, { storage: dst, skipped })).toBe(2);
+    expect(skipped).toEqual(['kg:v1:chess']);
+    expect(dst.getItem('kg:v1:chess')).toBe(newer);
+    expect(JSON.parse(dst.getItem('kg:v1:xiangqi')!).data).toEqual({ n: 1 }); // same version: restore replaces
+    expect(dst.getItem('kg:settings:v1')).not.toBeNull();
+  });
+
   it('imports a legacy key once when the store is empty', () => {
     const storage = new MemoryStorage();
     storage.setItem('sokoban_save', JSON.stringify({ best: { 0: 12, 3: 40 }, unlocked: 4 }));
@@ -96,6 +126,8 @@ describe('export / import', () => {
     const a = new MemoryStorage();
     a.setItem('kg:v1:mars-base', '{"v":1,"updatedAt":1,"data":{}}');
     a.setItem('kg:log:v1', '[]');
+    a.setItem('kg:clock:v1', '{"dev":"local","lc":7}');
+    a.setItem('kg:sync:token', 'local-secret');
     a.setItem('sokoban_save', '{"best":{},"unlocked":0}');
     a.setItem('unrelated', 'x');
     const bundle = exportProgress(a);
@@ -106,6 +138,19 @@ describe('export / import', () => {
     expect(b.getItem('kg:log:v1')).toBe('["keep"]');
     expect(importProgress(bundle, { storage: b })).toBe(3);
     expect(b.getItem('kg:log:v1')).toBe('[]');
+    expect(b.getItem('kg:clock:v1')).toBeNull();
+    expect(b.getItem('kg:sync:token')).toBeNull();
     expect(() => importProgress({ format: 'other' }, { storage: b })).toThrow();
+  });
+  it('unions a restored economy ledger even when overwriting is disabled', () => {
+    const item = (id: string, amount: number) => ({ id, d: 'deviceA', lc: id.endsWith('1') ? 1 : 2, ts: 0, kind: 'earn', amount, src: 'mission.new', ref: 'orbit.O1.1' });
+    const a = new MemoryStorage(), b = new MemoryStorage();
+    a.setItem('kg:v1:economy', JSON.stringify({ v: 1, ledger: [item('mn:orbit.O1.1:1:deviceA', 26)], pet: { active: 'rover' }, seen: ['intro'] }));
+    b.setItem('kg:v1:economy', JSON.stringify({ v: 1, ledger: [item('mn:orbit.O1.2:1:deviceA', 26)], pet: { active: 'dragon' }, seen: ['gift'] }));
+    expect(importProgress(exportProgress(a), { storage: b, overwrite: false })).toBe(1);
+    const merged = JSON.parse(b.getItem('kg:v1:economy')!);
+    expect(merged.ledger.map((e: { id: string }) => e.id).sort()).toEqual(['mn:orbit.O1.1:1:deviceA', 'mn:orbit.O1.2:1:deviceA']);
+    expect(merged.pet.active).toBe('dragon');
+    expect(merged.seen.sort()).toEqual(['gift', 'intro']);
   });
 });

@@ -1,0 +1,39 @@
+{
+ "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
+ "engine": "qwen3",
+ "takes": {
+  "num.25": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "e5796222444cc2da41121277534b86f09f5bc00c",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "num.54": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "9fa22972bef26b64eec81ee69926a5659e0a29e7",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  },
+  "num.81": {
+   "seed": 1235,
+   "base": 1234,
+   "sig": "db49183e497defc519fe089d3224ed9a4d9be558",
+   "score": 0.0,
+   "flags": [],
+   "tried": [
+    1234,
+    1235
+   ]
+  }
+ }
+}

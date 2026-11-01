@@ -1,0 +1,273 @@
+{
+ "version": "v1.1",
+ "schema": "RobotLevel",
+ "easy": {
+  "slipAdd": 0.15,
+  "nodesMul": 0.7,
+  "mateSightSub": 0.2,
+  "pcapMul": 0.5
+ },
+ "unlock": {
+  "R1": "ch1–8 完成 | 摸底通过 | 家长开关",
+  "next": "整盘胜 | 3 个不同小局胜"
+ },
+ "levels": [
+  {
+   "id": "R1",
+   "depth": 0,
+   "nodes": 0,
+   "slip": 1,
+   "glanceMargin": 300,
+   "glanceTemp": 0,
+   "temp": 0,
+   "margin": 0,
+   "mateSight": 0,
+   "pcap": 0,
+   "resign": {
+    "afterPly": 36,
+    "behind": 12
+   },
+   "coachCap": 3,
+   "look": {
+    "order": 1,
+    "ui": {
+     "name": "小螺丝",
+     "line": "随便走，从不吃子",
+     "weakness": "ch8（将军与将死）",
+     "tell": "单轮摇摇晃晃，LED 眼睛乱飘；有子可吃时愣一下\"咦？\"",
+     "sound": "单声软 tick",
+     "look": {
+      "body": "round",
+      "head": "dome",
+      "prop": "screw-antenna",
+      "wheels": "mono",
+      "color": "--xg-rabbit"
+     }
+    },
+    "reasons": [
+     "missMate",
+     "stalemate"
+    ],
+    "qs": false,
+    "stalemateCap": 2,
+    "thinkMs": [
+     600,
+     1800
+    ]
+   }
+  },
+  {
+   "id": "R2",
+   "depth": 1,
+   "nodes": 3000,
+   "slip": 0.7,
+   "glanceMargin": 300,
+   "glanceTemp": 160,
+   "temp": 100,
+   "margin": 250,
+   "mateSight": 0.4,
+   "resign": {
+    "afterPly": 40,
+    "behind": 15
+   },
+   "coachCap": 2,
+   "look": {
+    "order": 2,
+    "ui": {
+     "name": "吊车",
+     "line": "看见子就想抓",
+     "weakness": "V6（别吃有毒的子）",
+     "tell": "眼睛锁住它能吃的子，一条细琥珀线连过去",
+     "sound": "双声",
+     "look": {
+      "body": "box",
+      "head": "cab",
+      "prop": "crane-arm",
+      "wheels": "tracks",
+      "color": "--xg-porter"
+     }
+    },
+    "reasons": [
+     "missMate",
+     "allowMate",
+     "hang",
+     "stalemate"
+    ],
+    "qs": true,
+    "stalemateCap": 2,
+    "thinkMs": [
+     600,
+     1800
+    ]
+   }
+  },
+  {
+   "id": "R3",
+   "depth": 1,
+   "nodes": 3000,
+   "slip": 0.65,
+   "glanceMargin": 300,
+   "glanceTemp": 110,
+   "temp": 80,
+   "margin": 200,
+   "mateSight": 0.6,
+   "resign": {
+    "afterPly": 50,
+    "behind": 20
+   },
+   "coachCap": 1,
+   "look": {
+    "order": 3,
+    "ui": {
+     "name": "探照灯",
+     "line": "会看自己的子安不安全",
+     "weakness": "M2（底线杀）",
+     "tell": "走子前一道扫描线扫过它自己的子",
+     "sound": "三声扫描",
+     "look": {
+      "body": "tall",
+      "head": "lamp",
+      "prop": "light-cone",
+      "wheels": "legs",
+      "color": "--xg-lab"
+     }
+    },
+    "reasons": [
+     "missMate",
+     "allowMate",
+     "hang",
+     "stalemate"
+    ],
+    "qs": true,
+    "stalemateCap": 2,
+    "thinkMs": [
+     600,
+     1800
+    ]
+   }
+  },
+  {
+   "id": "R4",
+   "depth": 1,
+   "nodes": 4000,
+   "slip": 0.59,
+   "glanceMargin": 300,
+   "glanceTemp": 80,
+   "temp": 60,
+   "margin": 150,
+   "mateSight": 1,
+   "coachCap": 1,
+   "look": {
+    "order": 4,
+    "ui": {
+     "name": "机械臂",
+     "line": "一步杀从不放过",
+     "weakness": null,
+     "tell": "磁针似的指针转向它看见的杀点（免费预警）",
+     "sound": "叮",
+     "look": {
+      "body": "base",
+      "head": "claw",
+      "prop": "jointed-arm",
+      "wheels": "rail",
+      "color": "--xg-mars"
+     }
+    },
+    "reasons": [
+     "missMate",
+     "allowMate",
+     "hang",
+     "stalemate"
+    ],
+    "qs": true,
+    "stalemateCap": 2,
+    "thinkMs": [
+     600,
+     1800
+    ]
+   }
+  },
+  {
+   "id": "R5",
+   "depth": 2,
+   "nodes": 8000,
+   "slip": 0.56,
+   "glanceMargin": 300,
+   "glanceTemp": 65,
+   "temp": 55,
+   "margin": 120,
+   "mateSight": 1,
+   "coachCap": 1,
+   "look": {
+    "order": 5,
+    "ui": {
+     "name": "鹊桥",
+     "line": "会想两步，偶尔分神",
+     "weakness": null,
+     "tell": "想事情时头顶\"嗒、嗒\"两下",
+     "sound": "咔环",
+     "look": {
+      "body": "satellite",
+      "head": "dish",
+      "prop": "solar-wings",
+      "wheels": "none",
+      "color": "--xg-moon"
+     }
+    },
+    "reasons": [
+     "missMate",
+     "allowMate",
+     "hang",
+     "stalemate"
+    ],
+    "qs": true,
+    "stalemateCap": 2,
+    "thinkMs": [
+     600,
+     1800
+    ]
+   }
+  },
+  {
+   "id": "R6",
+   "depth": 2,
+   "nodes": 9000,
+   "slip": 0.452,
+   "glanceMargin": 300,
+   "glanceTemp": 60,
+   "temp": 50,
+   "margin": 110,
+   "mateSight": 1,
+   "coachCap": 1,
+   "look": {
+    "order": 6,
+    "ui": {
+     "name": "悟空",
+     "line": "棋艺舱里最强的",
+     "weakness": null,
+     "tell": "七盏小灯逐颗亮起，数完才落子",
+     "sound": "琶音",
+     "look": {
+      "body": "probe",
+      "head": "crown-sensor",
+      "prop": "staff-boom",
+      "wheels": "none",
+      "color": "--xg-porter"
+     }
+    },
+    "reasons": [
+     "missMate",
+     "allowMate",
+     "hang",
+     "stalemate"
+    ],
+    "qs": true,
+    "stalemateCap": 2,
+    "thinkMs": [
+     600,
+     1800
+    ]
+   }
+  }
+ ]
+}

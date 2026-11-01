@@ -1,0 +1,132 @@
+{
+ "stale1": [
+  {
+   "id": "s1.1",
+   "fen": "3k5/9/5a3/7NR/9/9/9/3N5/9/4K4 w",
+   "sol": "h7f8",
+   "notation": "马二进四",
+   "decoys": 1,
+   "pieces": 6
+  },
+  {
+   "id": "s1.2",
+   "fen": "1N1k4C/9/9/9/9/9/9/9/5K3/9 w",
+   "sol": "f2e2",
+   "notation": "帅四平五",
+   "decoys": 1,
+   "pieces": 4
+  },
+  {
+   "id": "s1.3",
+   "fen": "9/4k4/9/2N6/4N4/9/6R2/9/9/3K5 w",
+   "sol": "e6d8",
+   "notation": "马五进六",
+   "decoys": 1,
+   "pieces": 5
+  },
+  {
+   "id": "s1.4",
+   "fen": "9/6N2/5k3/5C3/9/9/9/9/2R6/4K4 w",
+   "sol": "c2c9",
+   "notation": "车七进七",
+   "decoys": 3,
+   "pieces": 5
+  },
+  {
+   "id": "s1.5",
+   "fen": "9/1C3k3/3R5/9/9/9/9/9/9/2R1K4 w",
+   "sol": "c1c10",
+   "notation": "车七进九",
+   "decoys": 3,
+   "pieces": 5
+  },
+  {
+   "id": "s1.6",
+   "fen": "3k5/4a2R1/9/9/9/6N2/9/9/9/5K3 w",
+   "sol": "h9e9",
+   "notation": "车二平五",
+   "decoys": 1,
+   "pieces": 5
+  },
+  {
+   "id": "s1.7",
+   "fen": "5k3/9/5C3/8R/9/9/9/9/4K3N/9 w",
+   "sol": "i7i9",
+   "notation": "车一进二",
+   "decoys": 1,
+   "pieces": 5
+  },
+  {
+   "id": "s1.8",
+   "fen": "3ak4/2R6/7C1/9/9/9/4C4/9/9/3K5 w",
+   "sol": "c9f9",
+   "notation": "车七平四",
+   "decoys": 2,
+   "pieces": 6
+  }
+ ],
+ "fork": [
+  {
+   "id": "f.1",
+   "fen": "9/3ck4/9/9/9/9/9/9/4AK3/1R7 w",
+   "sol": "b1b9",
+   "notation": "车八进八",
+   "gain": 4,
+   "second": 0,
+   "mover": 5,
+   "pieces": 5
+  },
+  {
+   "id": "f.2",
+   "fen": "1R7/3ck4/9/9/9/9/9/4C4/9/5K3 w",
+   "sol": "b10b9",
+   "notation": "车八退一",
+   "gain": 4,
+   "second": 0,
+   "mover": 5,
+   "pieces": 5
+  },
+  {
+   "id": "f.3",
+   "fen": "9/N3k4/3c5/9/9/c8/N8/3K5/9/9 w",
+   "sol": "a9b7",
+   "notation": "前马退八",
+   "gain": 4,
+   "second": 0,
+   "mover": 4,
+   "pieces": 6
+  },
+  {
+   "id": "f.4",
+   "fen": "9/3k5/9/9/9/9/9/N5N2/3c1c3/3K5 w",
+   "sol": "g3e4",
+   "notation": "马三进五",
+   "gain": 4,
+   "second": 0,
+   "mover": 4,
+   "pieces": 6
+  },
+  {
+   "id": "f.5",
+   "fen": "9/9/5k3/9/9/5r3/9/5A3/8C/3K1A3 w",
+   "sol": "i2f2",
+   "notation": "炮一平四",
+   "gain": 9,
+   "second": 0,
+   "mover": 6,
+   "pieces": 6
+  },
+  {
+   "id": "f.6",
+   "fen": "5k3/9/9/9/9/9/9/3K2Nnn/9/5C3 w",
+   "sol": "f1f3",
+   "notation": "炮四进二",
+   "gain": 4,
+   "second": 0,
+   "mover": 6,
+   "pieces": 6
+  }
+ ],
+ "poolStale": 400,
+ "poolFork": 60
+}

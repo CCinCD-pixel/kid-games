@@ -70,3 +70,21 @@ export async function shot(page: Page, project: string, name: string, dir = path
   fs.mkdirSync(dir, { recursive: true });
   await page.screenshot({ path: path.join(dir, `${name}.png`) });
 }
+
+/**
+ * True when the page is served by the Vite dev server (`npm run dev`) rather than a production build / `vite preview`.
+ * Tests that import source modules or rely on dev-only hooks (`?dev=…`, HMR-free reloads) can `test.skip(!(await isDevServer(page)))`
+ * instead of each game inventing its own detection. (In the page itself use `isDevServer()` from '@kit/dev'.)
+ */
+export async function isDevServer(page: Page): Promise<boolean> {
+  return page.evaluate(() => !!document.querySelector('script[src*="/@vite/client"], script[src^="/@vite"]') || document.documentElement.innerHTML.includes('/@vite/client'));
+}
+
+/** iPhone-class safe-area presets for `?safe=` (kit/dev.ts, honoured under webdriver / dev only). */
+export const SAFE = {
+  iphonePortrait: '47,0,34,0',
+  iphoneLandscape: '0,59,21,59',
+  iphoneSePortrait: '20,0,0,0',
+} as const;
+export const withSafe = (url: string, preset: keyof typeof SAFE | string): string =>
+  `${url}${url.includes('?') ? '&' : '?'}safe=${(SAFE as Record<string, string>)[preset] ?? preset}`;

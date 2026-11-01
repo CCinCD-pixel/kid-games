@@ -65,21 +65,22 @@ afterAll(() => {
 });
 
 describe('levels: G rules + lesson assertions (fast)', () => {
-  it('ships the v1 content (spec §0A.1): chapters 0–4 = 34 (32 push levels + 2 quizzes), cert 2, 经典仓库 10', () => {
+  it('ships 66 main levels, two cert levels, and ten classic levels', () => {
     expect(chapterLevels(0).map((l) => l.id)).toEqual(['0-1', '0-2', '0-3', '0-4']);
     expect(chapterLevels(1).map((l) => l.id)).toEqual(['1-1', '1-2', '1-3', '1-4', '1-5', '1-6']);
     expect(chapterLevels(2).map((l) => l.id)).toEqual(['2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7', '2-8']);
     expect(chapterLevels(3).map((l) => l.id)).toEqual(['3-1', '3-2', '3-3', '3-4', '3-5', '3-6', '3-7', '3-8']);
     expect(chapterLevels(4).map((l) => l.id)).toEqual(['4-1', '4-2', '4-3', '4-4', '4-5', '4-6', '4-7', '4-8']);
-    expect(CHAPTERS.flatMap((c) => chapterLevels(c.ch)).length).toBe(34);
+    for (const ch of [5, 6, 7, 8]) expect(chapterLevels(ch).map((l) => l.id)).toEqual(Array.from({ length: 8 }, (_, i) => `${ch}-${i + 1}`));
+    expect(CHAPTERS.flatMap((c) => chapterLevels(c.ch)).length).toBe(66);
     expect(CHAPTERS.flatMap((c) => chapterLevels(c.ch)).filter(isQuiz).map((l) => l.id)).toEqual(['3-3', '3-5']);
     expect(certLevels().map((l) => l.id)).toEqual(['cert-1', 'cert-2']);
     expect(CLASSIC_LEVELS.map((l) => l.id)).toEqual(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10']);
-    expect(all.length).toBe(44);
+    expect(all.length).toBe(76);
     expect(new Set(all.map((l) => l.id)).size).toBe(all.length);
     // roles per chapter: one boss each from chapter 1 on; reviews ≥ 20 % from chapter 3 on (C4)
-    for (const c of [1, 2, 3, 4]) expect(chapterLevels(c).filter((l) => l.role === 'boss').length).toBe(1);
-    for (const c of [3, 4]) expect(chapterLevels(c).filter((l) => l.review).length).toBeGreaterThanOrEqual(Math.ceil(0.2 * chapterLevels(c).length));
+    for (const c of [1, 2, 3, 4, 5, 6, 7, 8]) expect(chapterLevels(c).filter((l) => l.role === 'boss').length).toBe(1);
+    for (const c of [3, 4, 5, 6, 7, 8]) expect(chapterLevels(c).filter((l) => l.review).length).toBeGreaterThanOrEqual(Math.ceil(0.2 * chapterLevels(c).length));
     // every 镜子仓库 twin resolves (same rules, mirrored map, transformed reference line)
     for (const L of all) {
       if (L.track === 'cert') continue;

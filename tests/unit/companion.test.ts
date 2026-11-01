@@ -27,3 +27,34 @@ describe('companion house rules (plan §4.4)', () => {
     expect(ART).toContain("'idle', 'happy', 'thinking', 'surprised', 'encouraging', 'celebrating', 'sleepy'");
   });
 });
+
+describe('accessories (setAccessory)', () => {
+  it('declares the 军师 and 教练 accessories and the signature reactions', () => {
+    expect(ART).toContain("export type AccessoryId = 'junshi' | 'coach'");
+    expect(ART).toContain('setAccessory');
+    expect(ART).toContain("'fan'");
+    expect(ART).toContain("'cap'");
+    expect(INDEX).toContain('ACCESSORIES');
+    // never adds a sad look through the back door
+    expect(ART.slice(ART.indexOf('export type AccPart'), ART.indexOf('/* ------------------------------------------------------------------ mount')).replace(/[^a-z]/gi, ' ')).not.toMatch(/\b(sad|cry|crying|tear|tears)\b/i);
+  });
+
+  it('draws well-formed SVG for every accessory part', async () => {
+    const { accessorySvg, ACCESSORIES } = await import('../../kit/companion/art');
+    for (const kind of ACCESSORIES) {
+      for (const part of ['back', 'front', 'hand'] as const) {
+        const svg = accessorySvg(kind, part, 'x1');
+        expect(svg).not.toMatch(/NaN|undefined|Infinity/);
+        expect((svg.match(/<g[ >]/g) ?? []).length).toBe((svg.match(/<\/g>/g) ?? []).length);
+        for (const m of svg.matchAll(/url\(#([^)]+)\)/g)) expect(svg, `${kind}/${part} uses #${m[1]}`).toContain(`id="${m[1]}"`);
+        const ids = [...svg.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
+        expect(new Set(ids).size).toBe(ids.length);
+      }
+    }
+    expect(accessorySvg('junshi', 'front', 'x1').length).toBeGreaterThan(500);
+    expect(accessorySvg('junshi', 'hand', 'x1')).toContain('b-acc-fan');
+    expect(accessorySvg('coach', 'front', 'x1').length).toBeGreaterThan(500);
+    expect(accessorySvg('coach', 'hand', 'x1')).toBe('');
+  });
+});
+

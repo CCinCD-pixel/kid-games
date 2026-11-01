@@ -6,7 +6,7 @@
  *  - today's real moon phase (computed offline, site/_hub/moon.ts) on the paper-cut sky
  *  - the companion: idle on the skyline, greeting bubble on arrival; tapping it speaks (voice
  *    needs that first tap on iOS); tapping the moon names today's phase
- *  - place tabs 基地 / 游乐场 / 经典角, card progress, 继续 / 推荐 / NEW tags, parent-hidden games
+ *  - place tabs 基地 / 游乐场, card progress, 继续 / 推荐 / NEW tags, parent-hidden games
  *  - 建造中 (wip) cards answer with a voiced line instead of navigating (?dev makes them links)
  *  - parent entry: hold the 家长 button or the 星港 title for 3 s → /parent/ (PIN there)
  * No timers, locks, streaks or rewards (plan §4.1, Dad's rule 10).
@@ -30,8 +30,8 @@ import './hub.css';
 const SEEN_KEY = 'kg:hub:seen';
 const TAB_KEY = 'kg:hub:tab';
 const VISITED_KEY = 'kg:hub:visited';
-const PLACE_LABEL: Record<Place, string> = { base: '基地', playground: '游乐场', classic: '经典角' };
-const PLACE_ICON = { base: 'rocket', playground: 'play', classic: 'star' } as const;
+const PLACE_LABEL: Record<Place, string> = { base: '基地', playground: '游乐场' };
+const PLACE_ICON = { base: 'rocket', playground: 'play' } as const;
 
 const shell = initShell({
   game: 'hub',

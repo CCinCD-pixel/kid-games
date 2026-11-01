@@ -74,34 +74,49 @@ const DEFAULT_SFX: [string, string][] = [
  * data-sfx="none" silences an element.
  */
 const handledDowns = new WeakSet<Event>();
+/**
+ * The release side is page-wide and shared: ONE pair of window listeners serves every bound root (installed with the first bindPress, removed with the last disposer).
+ * A screen that is built per visit and calls `bindPress(el)` / `nodeMap()` (which never gets a disposer) therefore leaves nothing on `window` behind — before, each
+ * call added two window listeners whose closure kept the whole screen's DOM alive (soak gate V11 of 火星基地: +21 listeners / +73 nodes per chapter-map visit).
+ */
+const pressed = new Set<HTMLElement>();
+const releasePressed = () => {
+  if (!pressed.size) return;
+  const list = [...pressed]; pressed.clear();
+  for (const t of list) {
+    t.classList.remove('is-pressed');
+    void t.offsetWidth;
+    t.classList.add('is-released');
+    window.setTimeout(() => t.classList.remove('is-released'), 400);
+  }
+};
+let pressRefs = 0;
 export function bindPress(root: HTMLElement | Document = document): () => void {
-  let active: HTMLElement | null = null;
   const down = (e: PointerEvent) => {
     if (!e.isPrimary || e.button > 0 || handledDowns.has(e)) return;
     const t = (e.target as Element).closest<HTMLElement>(PRESSABLE);
     if (!t || t.hasAttribute('disabled')) return;
     handledDowns.add(e);
-    active = t;
+    pressed.add(t);
     t.classList.remove('is-released');
     t.classList.add('is-pressed');
     const s = t.dataset.sfx ?? DEFAULT_SFX.find(([sel]) => t.matches(sel))?.[1];
     if (s && s !== 'none') sound(s, t.classList.contains('xg-key') ? { semitones: keyPitch(t) } : undefined);
   };
-  const up = () => {
-    if (!active) return;
-    const t = active; active = null;
-    t.classList.remove('is-pressed');
-    void t.offsetWidth;
-    t.classList.add('is-released');
-    window.setTimeout(() => t.classList.remove('is-released'), 400);
-  };
   root.addEventListener('pointerdown', down as EventListener, { passive: true });
-  window.addEventListener('pointerup', up, { passive: true });
-  window.addEventListener('pointercancel', up, { passive: true });
+  if (pressRefs++ === 0) {
+    window.addEventListener('pointerup', releasePressed, { passive: true });
+    window.addEventListener('pointercancel', releasePressed, { passive: true });
+  }
+  let off = false;
   return () => {
+    if (off) return;
+    off = true;
     root.removeEventListener('pointerdown', down as EventListener);
-    window.removeEventListener('pointerup', up);
-    window.removeEventListener('pointercancel', up);
+    if (--pressRefs === 0) {
+      window.removeEventListener('pointerup', releasePressed);
+      window.removeEventListener('pointercancel', releasePressed);
+    }
   };
 }
 function keyPitch(k: HTMLElement): number {
@@ -144,6 +159,8 @@ export interface ResultOptions {
   actions?: ResultAction[];   // never auto-advance (plan §3.0)
   closable?: boolean;
   accentGame?: string;        // sets data-xg-game on the scrim
+  /** Paper confetti on a 3-star result (default true). `false` for quiet / calm games (board games, bedtime ones). */
+  confetti?: boolean;
   onOpen?: (panel: HTMLElement) => void;
 }
 export function showResult(o: ResultOptions): Promise<string> {
@@ -179,7 +196,7 @@ export function showResult(o: ResultOptions): Promise<string> {
       }, 520 + i * 420);
     });
     if (stars > 0) window.setTimeout(() => sound('level-complete', { gain: 0.8 }), 520 + stars * 420 + 120);
-    if (stars === 3) window.setTimeout(() => confetti(70), 520 + 3 * 420);
+    if (stars === 3 && o.confetti !== false) window.setTimeout(() => confetti(70), 520 + 3 * 420);
     o.onOpen?.(scrim.querySelector('.xg-modal') as HTMLElement);
     scrim.addEventListener('click', (e) => {
       const b = (e.target as Element).closest<HTMLElement>('[data-act]');
@@ -199,25 +216,56 @@ export interface KeypadOptions {
   onChange?: (v: string) => void;
   onSubmit?: (v: string) => void | boolean; // return false → gentle nudge (not "wrong")
   display?: HTMLElement | null;             // existing .xg-display, or one is created above the keys
+  /**
+   * '3x4' (default): 1 2 3 / 4 5 6 / 7 8 9 / ⌫ 0 ✓.   '4x3': 1 2 3 ⌫ / 4 5 6 0 / 7 8 9 ✓ (short, wide — phone portrait).
+   * The DOM follows the visual order, so tab order matches what you see.
+   */
+  layout?: '3x4' | '4x3';
+  /** Key size in px: a number (square) or { w, h }. Default = --xg-hit-key (76). Games must keep ≥44 px on phones. */
+  keySize?: number | { w: number; h: number };
+  /** Show • instead of the digits (PIN entry). */
+  mask?: boolean;
 }
-export function mountKeypad(el: HTMLElement, o: KeypadOptions = {}) {
+export interface KeypadHandle {
+  value: string;
+  clear(): void;
+  /** false → every key is disabled and dimmed (e.g. while an answer is being checked or a robot is thinking). */
+  setEnabled(on: boolean): void;
+  readonly enabled: boolean;
+  /** The .xg-keypad element (for game-local CSS). */
+  readonly pad: HTMLElement;
+}
+const KEY_ORDER: Record<'3x4' | '4x3', string[]> = {
+  '3x4': ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'],
+  '4x3': ['1', '2', '3', 'del', '4', '5', '6', '0', '7', '8', '9', 'ok'],
+};
+export function mountKeypad(el: HTMLElement, o: KeypadOptions = {}): KeypadHandle {
   let value = '';
+  let enabled = true;
+  const layout = o.layout ?? '3x4';
   const disp = o.display ?? document.createElement('div');
   if (!o.display) { disp.className = 'xg-display'; el.appendChild(disp); }
   const pad = document.createElement('div');
   pad.className = 'xg-keypad';
-  const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'];
-  pad.innerHTML = keys.map((k) => k === 'del'
+  if (layout !== '3x4') { pad.dataset.layout = layout; pad.style.setProperty('--xg-key-cols', '4'); }
+  if (o.keySize !== undefined) {
+    const k = typeof o.keySize === 'number' ? { w: o.keySize, h: o.keySize } : o.keySize;
+    pad.style.setProperty('--xg-key-w', `${k.w}px`);
+    pad.style.setProperty('--xg-key-h', `${k.h}px`);
+  }
+  pad.innerHTML = KEY_ORDER[layout].map((k) => k === 'del'
     ? `<button class="xg-key xg-key--del" data-key="del" data-sfx="ui-key-delete" aria-label="删除">${icon('backspace')}</button>`
     : k === 'ok' ? `<button class="xg-key xg-key--ok" data-key="ok" data-sfx="ui-confirm" aria-label="确定">${icon('check')}</button>`
     : `<button class="xg-key" data-key="${k}">${k}</button>`).join('');
   el.appendChild(pad);
   const render = () => {
     disp.classList.toggle('is-empty', !value);
-    disp.innerHTML = value ? `<span>${value}</span><i class="xg-display__caret"></i>` : `<span class="xg-display__ph">${o.placeholder ?? '?'}</span><i class="xg-display__caret"></i>`;
+    const shown = o.mask ? '•'.repeat(value.length) : value;
+    disp.innerHTML = value ? `<span>${shown}</span><i class="xg-display__caret"></i>` : `<span class="xg-display__ph">${o.placeholder ?? '?'}</span><i class="xg-display__caret"></i>`;
   };
   render();
   pad.addEventListener('click', (e) => {
+    if (!enabled) return;
     const k = (e.target as Element).closest<HTMLElement>('[data-key]')?.dataset.key;
     if (!k) return;
     if (k === 'del') value = value.slice(0, -1);
@@ -225,10 +273,21 @@ export function mountKeypad(el: HTMLElement, o: KeypadOptions = {}) {
       const r = o.onSubmit?.(value);
       if (r === false) { disp.classList.remove('is-shake'); void disp.offsetWidth; disp.classList.add('is-shake'); }
       return;
-    } else if (value.length < (o.maxLength ?? 3)) value = value === '0' ? k : value + k;
+    } else if (value.length < (o.maxLength ?? 3)) value = value === '0' && !o.mask ? k : value + k;
     render(); o.onChange?.(value);
   });
-  return { get value() { return value; }, set value(v: string) { value = v; render(); }, clear() { value = ''; render(); } };
+  return {
+    get value() { return value; },
+    set value(v: string) { value = v; render(); },
+    clear() { value = ''; render(); },
+    setEnabled(on: boolean) {
+      enabled = on;
+      pad.toggleAttribute('data-disabled', !on);
+      pad.querySelectorAll<HTMLButtonElement>('.xg-key').forEach((b) => { b.disabled = !on; });
+    },
+    get enabled() { return enabled; },
+    pad,
+  };
 }
 
 /* ------------------------------------------------------------------ segmented */
@@ -262,13 +321,20 @@ export function setProgress(el: HTMLElement, value: number) {
 }
 
 /* ------------------------------------------------------------------ level node map */
-export interface MapNode { id: string; label?: string; state: 'locked' | 'open' | 'done' | 'current'; stars?: number; boss?: boolean }
+/** `skipped` = passed over without playing it (placement test, 跳过): dashed ring, still tappable, counts as passed on the road. */
+export interface MapNode { id: string; label?: string; state: 'locked' | 'open' | 'done' | 'current' | 'skipped'; stars?: number; boss?: boolean }
 export interface NodeMapOptions {
   marker?: HTMLElement;            // e.g. a companion head, floats above the current node
   onPick?: (n: MapNode) => void;
   pad?: number;                    // keep node centres this far from the box edge (default 70)
   waves?: number;                  // how many S-bends the road makes (default 1.25 landscape / 1.5 portrait)
+  /**
+   * Node diameter in px (default 76; the current node is ×1.26 = 96, a boss ×1.37 = 104). 72 suits phones, 96 big iPad maps.
+   * Numbers and icons scale with it; `pad` defaults to keep the biggest node inside the box.
+   */
+  nodeSize?: number;
 }
+const pressBound = new WeakSet<HTMLElement>();
 /**
  * Lays nodes at EQUAL ARC-LENGTH along a smooth winding road that fills the container
  * (landscape: left→right wave; portrait: bottom→top zig-zag), so nodes never crowd.
@@ -278,7 +344,19 @@ export function nodeMap(el: HTMLElement, nodes: MapNode[], o: NodeMapOptions = {
   el.classList.add('xg-map');
   const w = el.clientWidth, h = el.clientHeight, n = nodes.length;
   const landscape = w >= h;
-  const pad = o.pad ?? 70;
+  const size = o.nodeSize;
+  const pad = o.pad ?? (size ? Math.max(70, Math.round((size * 1.26) / 2) + 22) : 70);
+  if (size) {
+    el.style.setProperty('--xg-node-s', `${size}px`);
+    el.style.setProperty('--xg-node-s-current', `${Math.round(size * 1.26)}px`);
+    el.style.setProperty('--xg-node-s-boss', `${Math.round(size * 1.37)}px`);
+    el.style.setProperty('--xg-node-fs', `${Math.round(size * 0.42)}px`);
+    el.style.setProperty('--xg-node-fs-current', `${Math.round(size * 1.26 * 0.42)}px`);
+    el.style.setProperty('--xg-node-icon', `${Math.round(size * 0.4)}px`);
+    el.style.setProperty('--xg-node-icon-boss', `${Math.round(size * 0.5)}px`);
+  } else {
+    for (const v of ['s', 's-current', 's-boss', 'fs', 'fs-current', 'icon', 'icon-boss']) el.style.removeProperty(`--xg-node-${v}`);
+  }
   const waves = o.waves ?? (landscape ? 1.25 : 1.5);
   const N = 480;
   const raw: [number, number][] = [];
@@ -299,7 +377,7 @@ export function nodeMap(el: HTMLElement, nodes: MapNode[], o: NodeMapOptions = {
   };
   const pts = nodes.map((_, i) => at(n === 1 ? total / 2 : (total * i) / (n - 1)));
   const poly = (upTo: number) => raw.filter((_, i) => cum[i] <= upTo + 0.5).map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join('');
-  const cur = nodes.reduce((a, nd, i) => (nd.state === 'done' || nd.state === 'current' ? i : a), -1);
+  const cur = nodes.reduce((a, nd, i) => (nd.state === 'done' || nd.state === 'current' || nd.state === 'skipped' ? i : a), -1);
   const doneLen = cur < 0 ? 0 : (n === 1 ? total / 2 : (total * cur) / (n - 1));
   const d = poly(total);
   el.innerHTML = `<svg class="xg-map__path" viewBox="0 0 ${w} ${h}" aria-hidden="true">
@@ -312,8 +390,9 @@ export function nodeMap(el: HTMLElement, nodes: MapNode[], o: NodeMapOptions = {
     const b = document.createElement('button');
     const st = nd.state;
     b.className = `xg-node xg-node--${st === 'current' ? 'done xg-node--current' : st}${nd.boss ? ' xg-node--boss' : ''}`;
+    b.dataset.state = st;
     b.style.left = `${pts[i][0]}px`; b.style.top = `${pts[i][1]}px`;
-    b.setAttribute('aria-label', `${nd.label ?? i + 1}${st === 'locked' ? '（未解锁）' : ''}`);
+    b.setAttribute('aria-label', `${nd.label ?? i + 1}${st === 'locked' ? '（未解锁）' : st === 'skipped' ? '（跳过过，可以回来玩）' : ''}`);
     b.innerHTML = nd.boss ? icon(st === 'locked' ? 'lock' : 'star') : st === 'locked' ? icon('lock') : `<span>${nd.label ?? i + 1}</span>`;
     if ((st === 'done' || (nd.boss && st !== 'locked')) && nd.stars !== undefined) b.innerHTML += `<span class="xg-node__stars">${starRating(nd.stars, 3, 'xg-stars--arc')}</span>`;
     if (st === 'current' && o.marker) { const m = document.createElement('span'); m.className = 'xg-node__marker'; m.appendChild(o.marker); b.appendChild(m); }
@@ -321,7 +400,7 @@ export function nodeMap(el: HTMLElement, nodes: MapNode[], o: NodeMapOptions = {
     el.appendChild(b);
     return b;
   });
-  bindPress(el);
+  if (!pressBound.has(el)) { pressBound.add(el); bindPress(el); }   // once per map element (a re-layout calls nodeMap again on the same element)
   return els;
 }
 

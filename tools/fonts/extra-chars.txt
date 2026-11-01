@@ -1,0 +1,19 @@
+# Characters the kit font subsets (public/fonts/*.woff2) must carry beyond the 3500 一级字 + 68 design-system extras.
+# Lines starting with # are comments; every other line is plain text (spaces ignored). Appended by hand or by
+#   node tools/fonts/patch-subset.mjs --record      (adds what the scan finds missing)
+# The subsets are rebuilt from the OFL sources by: node tools/fonts/patch-subset.mjs --write   (docs/GAME_AUTHORING.md "Fonts")
+
+# 机关守城 (gear-fort): the 28 glyphs its local gf-wenkai-extra.woff2 patched (K4)
+偃咔嗒噗埙帧弩徵攒枭橐檑牒瓮礌篝缪蒺藜轒轳辒辘郢闩韬驿鸢
+
+# 楚河棋院 (xiangqi, 2026-10-13): 仕 蹩 + the 14 piece names + board / rule terms
+车马炮象士将帅仕相兵卒蹩 楚河汉界 棋弈 将军 九宫 帅府 象眼 马腿 蹩马腿 炮架 过河 长将 长捉 棋谱
+# 棋手学院 (chess) and shared board terms
+王后车象马兵 升变 易位 吃过路兵 逼和 将杀 开局 中局 残局
+# 火星基地 (mars-base) / 星图记忆站 (memory-matrix) words that are rarer than 一级字
+琥珀 晶体 星图 星区 流星 镜像 星门 靛蓝
+# 军师 / 教练 accessory (companion)
+军师 教练 羽扇 头巾 帽徽
+
+# found by --extra scan (2026-10-12)
+坞胫阱韦

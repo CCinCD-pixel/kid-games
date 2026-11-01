@@ -1,0 +1,18 @@
+game: mars-arithmetic
+seed: 1242
+lines:
+  - {id: ma.home, role: narrator, text: 欢迎来到火星算术站，我是火星搭档。选一条路线，我们一起做八道题。}
+  - {id: ma.ask, role: narrator, text: 等于几？}
+  - {id: ma.op.add, role: narrator, text: 加}
+  - {id: ma.op.sub, role: narrator, text: 减}
+  - {id: ma.op.mul, role: narrator, text: 乘}
+  - {id: ma.op.div, role: narrator, text: 除以}
+  - {id: ma.hint.add, role: narrator, text: 从第一个数开始，再往后数。}
+  - {id: ma.hint.sub, role: narrator, text: 从第一个数开始，再往回数。}
+  - {id: ma.hint.mul, role: narrator, text: 想想有几组，每组几个。}
+  - {id: ma.hint.div, role: narrator, text: 平均分成几组，每组几个？}
+  - {id: ma.right, role: narrator, text: 算对了，我们看下一题。}
+  - {id: ma.wrong, role: narrator, text: 没关系，看看正确答案，再试下一题。}
+  - {id: ma.answer, role: narrator, text: 正确答案是}
+  - {id: ma.pass, role: narrator, text: 八道题做完了，下一阶已经开启。}
+  - {id: ma.retry, role: narrator, text: 这一轮做完了，再练一次也可以。}

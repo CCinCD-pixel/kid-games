@@ -1,12 +1,15 @@
 {
   "id": "memory-matrix",
-  "title": "记忆方块",
-  "subtitle": "看一眼，记住亮起的星星",
-  "place": "classic",
-  "order": 10,
+  "title": "星图记忆站",
+  "subtitle": "看一眼，把星图复原",
+  "place": "base",
+  "order": 20,
   "status": "live",
-  "accent": "#7bdff2",
+  "accent": "--xg-chart",
+  "theme": "chart",
   "icon": "/icons/games/memory-matrix.svg",
   "domains": ["memory", "spatial"],
-  "parentNote": "视觉空间记忆小练习（旧版）。之后会并入月宫建造师的「看一眼就搭」一章。"
+  "parentNote": "四个星区练习图案、顺序、位置与镜像；难度约八成做对。近迁移有证据，远迁移没有可靠证据。",
+  "orientation": "any",
+  "smoke": { "waitFor": ".kit-start__go" }
 }

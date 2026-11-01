@@ -100,6 +100,19 @@
   --xg-snake:   #83d766; --xg-snake-deep:   #58a53b; --xg-snake-soft:   #e3f2de; --xg-snake-hi:   #aaf292; --xg-snake-on:   #123802;  /* 贪吃蛇 */
   --xg-match:   #c8459d; --xg-match-deep:   #92136f; --xg-match-soft:   #fde5f2; --xg-match-hi:   #dd6eb5; --xg-match-on:   #fff;     /* 消消乐 */
   --xg-defense: #5ca753; --xg-defense-deep: #317829; --xg-defense-soft: #e1f3df; --xg-defense-hi: #81c179; --xg-defense-on: #fff;     /* 塔防 (theme TBD) */
+  --xg-xiangqi: #c93a2c; --xg-xiangqi-deep: #8f241a; --xg-xiangqi-soft: #fbe3dd; --xg-xiangqi-hi: #e5604d; --xg-xiangqi-on: #fff;     /* 楚河棋院 朱砂 (white on it 5.09:1; on the deep-indigo table only 3.6:1 — seals, big shapes, icons, never small text) */
+  --xg-chart:   #2fb4d6; --xg-chart-deep:   #0a7c9c; --xg-chart-soft:   #d6f1f8; --xg-chart-hi:   #6fd3ea; --xg-chart-on:   #04222d;  /* 星图记忆站 星图青 (night-sky: use -hi / base on #0c1230; ink-on-accent = -on 8.1:1) */
+
+  /* Safe area as tokens: = env() on a real device; the shell overrides them inline for ?safe=t,r,b,l (tests/dev only,
+     kit/dev.ts) so Playwright can emulate iPhone notches. Use these (not env()) in game CSS. */
+  --kit-safe-top: env(safe-area-inset-top, 0px);
+  --kit-safe-right: env(safe-area-inset-right, 0px);
+  --kit-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --kit-safe-left: env(safe-area-inset-left, 0px);
+  /* The 🏠 button box (56×56 at the top-left safe corner). Games keep that corner free and may align their own top bar to it. */
+  --kit-back-size: var(--xg-hit-back, 56px);
+  --kit-back-x: max(12px, var(--kit-safe-left));
+  --kit-back-y: max(12px, var(--kit-safe-top));
 
   /* Role aliases (themes override these, not the ramps) */
   --xg-bg: var(--xg-paper-100);
@@ -123,7 +136,7 @@
      Baloo 2 for numerals (tabular, round, very legible at 72px+). */
   --xg-font-ui: "PingFang SC", -apple-system, "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
   --xg-font-read: "XG WenKai", "LXGW WenKai GB", "Kaiti SC", "STKaiti", "KaiTi", serif;
-  --xg-font-title: "XG KuaiLe", "ZCOOL KuaiLe", "PingFang SC", system-ui, sans-serif;
+  --xg-font-title: "XG KuaiLe", "ZCOOL KuaiLe", "XG WenKai", "PingFang SC", system-ui, sans-serif;
   --xg-font-num: "XG Baloo", "Baloo 2", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
 
   /* Scale (px). Tuned for a 6-year-old at arm's length on a 10.2" iPad. Body
@@ -274,6 +287,8 @@
 [data-xg-game="army"]     { --xg-accent: var(--xg-army); --xg-accent-deep: var(--xg-army-deep); --xg-accent-soft: var(--xg-army-soft); --xg-accent-hi: var(--xg-army-hi); --xg-accent-on: var(--xg-army-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
 [data-xg-game="snake"]    { --xg-accent: var(--xg-snake); --xg-accent-deep: var(--xg-snake-deep); --xg-accent-soft: var(--xg-snake-soft); --xg-accent-hi: var(--xg-snake-hi); --xg-accent-on: var(--xg-snake-on); --xg-accent-on-sh: rgba(255, 255, 255, .45); }
 [data-xg-game="match"]    { --xg-accent: var(--xg-match); --xg-accent-deep: var(--xg-match-deep); --xg-accent-soft: var(--xg-match-soft); --xg-accent-hi: var(--xg-match-hi); --xg-accent-on: var(--xg-match-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="xiangqi"]  { --xg-accent: var(--xg-xiangqi); --xg-accent-deep: var(--xg-xiangqi-deep); --xg-accent-soft: var(--xg-xiangqi-soft); --xg-accent-hi: var(--xg-xiangqi-hi); --xg-accent-on: var(--xg-xiangqi-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
+[data-xg-game="chart"]    { --xg-accent: var(--xg-chart); --xg-accent-deep: var(--xg-chart-deep); --xg-accent-soft: var(--xg-chart-soft); --xg-accent-hi: var(--xg-chart-hi); --xg-accent-on: var(--xg-chart-on); --xg-accent-on-sh: rgba(255, 255, 255, .45); }
 [data-xg-game="defense"]  { --xg-accent: var(--xg-defense); --xg-accent-deep: var(--xg-defense-deep); --xg-accent-soft: var(--xg-defense-soft); --xg-accent-hi: var(--xg-defense-hi); --xg-accent-on: var(--xg-defense-on); --xg-accent-on-sh: rgba(0, 0, 0, .24); }
 
 @media (prefers-reduced-motion: reduce) {

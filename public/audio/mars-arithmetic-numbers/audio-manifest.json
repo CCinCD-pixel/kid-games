@@ -1,0 +1,1315 @@
+{
+ "num.0": {
+  "src": "/audio/mars-arithmetic-numbers/num.0.b80e3ce7.m4a",
+  "text": "0",
+  "durationMs": 767,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "0",
+    "t0": 50,
+    "t1": 475
+   }
+  ]
+ },
+ "num.1": {
+  "src": "/audio/mars-arithmetic-numbers/num.1.3a19b89b.m4a",
+  "text": "1",
+  "durationMs": 720,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "1",
+    "t0": 50,
+    "t1": 445
+   }
+  ]
+ },
+ "num.2": {
+  "src": "/audio/mars-arithmetic-numbers/num.2.6ca10c3d.m4a",
+  "text": "2",
+  "durationMs": 883,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "2",
+    "t0": 50,
+    "t1": 605
+   }
+  ]
+ },
+ "num.2.liang": {
+  "src": "/audio/mars-arithmetic-numbers/num.2.liang.4c68d382.m4a",
+  "text": "2",
+  "durationMs": 1045,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "2",
+    "t0": 70,
+    "t1": 735
+   }
+  ]
+ },
+ "num.3": {
+  "src": "/audio/mars-arithmetic-numbers/num.3.5b015c6d.m4a",
+  "text": "3",
+  "durationMs": 952,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "3",
+    "t0": 80,
+    "t1": 675
+   }
+  ]
+ },
+ "num.4": {
+  "src": "/audio/mars-arithmetic-numbers/num.4.5f7b2bc1.m4a",
+  "text": "4",
+  "durationMs": 1092,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "4",
+    "t0": 80,
+    "t1": 765
+   }
+  ]
+ },
+ "num.5": {
+  "src": "/audio/mars-arithmetic-numbers/num.5.c38518ee.m4a",
+  "text": "5",
+  "durationMs": 813,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "5",
+    "t0": 50,
+    "t1": 495
+   }
+  ]
+ },
+ "num.6": {
+  "src": "/audio/mars-arithmetic-numbers/num.6.3429a3d4.m4a",
+  "text": "6",
+  "durationMs": 651,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "6",
+    "t0": 50,
+    "t1": 345
+   }
+  ]
+ },
+ "num.7": {
+  "src": "/audio/mars-arithmetic-numbers/num.7.927246eb.m4a",
+  "text": "7",
+  "durationMs": 1115,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "7",
+    "t0": 50,
+    "t1": 845
+   }
+  ]
+ },
+ "num.8": {
+  "src": "/audio/mars-arithmetic-numbers/num.8.c70499cc.m4a",
+  "text": "8",
+  "durationMs": 627,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "8",
+    "t0": 50,
+    "t1": 375
+   }
+  ]
+ },
+ "num.9": {
+  "src": "/audio/mars-arithmetic-numbers/num.9.5e4f733c.m4a",
+  "text": "9",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "9",
+    "t0": 60,
+    "t1": 855
+   }
+  ]
+ },
+ "num.10": {
+  "src": "/audio/mars-arithmetic-numbers/num.10.f22ed274.m4a",
+  "text": "10",
+  "durationMs": 860,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "10",
+    "t0": 70,
+    "t1": 575
+   }
+  ]
+ },
+ "num.11": {
+  "src": "/audio/mars-arithmetic-numbers/num.11.aa290f70.m4a",
+  "text": "11",
+  "durationMs": 1556,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "11",
+    "t0": 60,
+    "t1": 1265
+   }
+  ]
+ },
+ "num.12": {
+  "src": "/audio/mars-arithmetic-numbers/num.12.7180e764.m4a",
+  "text": "12",
+  "durationMs": 1231,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "12",
+    "t0": 90,
+    "t1": 945
+   }
+  ]
+ },
+ "num.13": {
+  "src": "/audio/mars-arithmetic-numbers/num.13.4f471ef1.m4a",
+  "text": "13",
+  "durationMs": 976,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "13",
+    "t0": 80,
+    "t1": 695
+   }
+  ]
+ },
+ "num.14": {
+  "src": "/audio/mars-arithmetic-numbers/num.14.d98c49ee.m4a",
+  "text": "14",
+  "durationMs": 1045,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "14",
+    "t0": 80,
+    "t1": 745
+   }
+  ]
+ },
+ "num.15": {
+  "src": "/audio/mars-arithmetic-numbers/num.15.c53461c6.m4a",
+  "text": "15",
+  "durationMs": 1069,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "15",
+    "t0": 60,
+    "t1": 775
+   }
+  ]
+ },
+ "num.16": {
+  "src": "/audio/mars-arithmetic-numbers/num.16.e1ad6d5a.m4a",
+  "text": "16",
+  "durationMs": 1695,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "16",
+    "t0": 70,
+    "t1": 1405
+   }
+  ]
+ },
+ "num.17": {
+  "src": "/audio/mars-arithmetic-numbers/num.17.4fe813a0.m4a",
+  "text": "17",
+  "durationMs": 976,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "17",
+    "t0": 70,
+    "t1": 695
+   }
+  ]
+ },
+ "num.18": {
+  "src": "/audio/mars-arithmetic-numbers/num.18.acbe48de.m4a",
+  "text": "18",
+  "durationMs": 1394,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "18",
+    "t0": 70,
+    "t1": 1085
+   }
+  ]
+ },
+ "num.19": {
+  "src": "/audio/mars-arithmetic-numbers/num.19.3b88db5e.m4a",
+  "text": "19",
+  "durationMs": 1161,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "19",
+    "t0": 70,
+    "t1": 865
+   }
+  ]
+ },
+ "num.20": {
+  "src": "/audio/mars-arithmetic-numbers/num.20.c5738196.m4a",
+  "text": "20",
+  "durationMs": 976,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "20",
+    "t0": 50,
+    "t1": 685
+   }
+  ]
+ },
+ "num.21": {
+  "src": "/audio/mars-arithmetic-numbers/num.21.f6dbdbb0.m4a",
+  "text": "21",
+  "durationMs": 1301,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "21",
+    "t0": 50,
+    "t1": 1015
+   }
+  ]
+ },
+ "num.22": {
+  "src": "/audio/mars-arithmetic-numbers/num.22.aca52856.m4a",
+  "text": "22",
+  "durationMs": 1324,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "22",
+    "t0": 60,
+    "t1": 1025
+   }
+  ]
+ },
+ "num.23": {
+  "src": "/audio/mars-arithmetic-numbers/num.23.87191978.m4a",
+  "text": "23",
+  "durationMs": 1486,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "23",
+    "t0": 50,
+    "t1": 1205
+   }
+  ]
+ },
+ "num.24": {
+  "src": "/audio/mars-arithmetic-numbers/num.24.73e18999.m4a",
+  "text": "24",
+  "durationMs": 976,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "24",
+    "t0": 50,
+    "t1": 685
+   }
+  ]
+ },
+ "num.25": {
+  "src": "/audio/mars-arithmetic-numbers/num.25.6244821a.m4a",
+  "text": "25",
+  "durationMs": 1231,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "25",
+    "t0": 50,
+    "t1": 915
+   }
+  ]
+ },
+ "num.26": {
+  "src": "/audio/mars-arithmetic-numbers/num.26.da01546b.m4a",
+  "text": "26",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "26",
+    "t0": 50,
+    "t1": 855
+   }
+  ]
+ },
+ "num.27": {
+  "src": "/audio/mars-arithmetic-numbers/num.27.14eb0bbb.m4a",
+  "text": "27",
+  "durationMs": 999,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "27",
+    "t0": 50,
+    "t1": 685
+   }
+  ]
+ },
+ "num.28": {
+  "src": "/audio/mars-arithmetic-numbers/num.28.1c1d35f3.m4a",
+  "text": "28",
+  "durationMs": 1161,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "28",
+    "t0": 50,
+    "t1": 865
+   }
+  ]
+ },
+ "num.29": {
+  "src": "/audio/mars-arithmetic-numbers/num.29.c2585861.m4a",
+  "text": "29",
+  "durationMs": 999,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "29",
+    "t0": 50,
+    "t1": 715
+   }
+  ]
+ },
+ "num.30": {
+  "src": "/audio/mars-arithmetic-numbers/num.30.b249819e.m4a",
+  "text": "30",
+  "durationMs": 1324,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "30",
+    "t0": 80,
+    "t1": 1035
+   }
+  ]
+ },
+ "num.31": {
+  "src": "/audio/mars-arithmetic-numbers/num.31.3377a6a4.m4a",
+  "text": "31",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "31",
+    "t0": 80,
+    "t1": 835
+   }
+  ]
+ },
+ "num.32": {
+  "src": "/audio/mars-arithmetic-numbers/num.32.cd9d96f4.m4a",
+  "text": "32",
+  "durationMs": 1254,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "32",
+    "t0": 80,
+    "t1": 945
+   }
+  ]
+ },
+ "num.33": {
+  "src": "/audio/mars-arithmetic-numbers/num.33.3b98c144.m4a",
+  "text": "33",
+  "durationMs": 1417,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "33",
+    "t0": 80,
+    "t1": 1095
+   }
+  ]
+ },
+ "num.34": {
+  "src": "/audio/mars-arithmetic-numbers/num.34.31d51840.m4a",
+  "text": "34",
+  "durationMs": 1788,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "34",
+    "t0": 70,
+    "t1": 1485
+   }
+  ]
+ },
+ "num.35": {
+  "src": "/audio/mars-arithmetic-numbers/num.35.c1c557cf.m4a",
+  "text": "35",
+  "durationMs": 1394,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "35",
+    "t0": 80,
+    "t1": 1105
+   }
+  ]
+ },
+ "num.36": {
+  "src": "/audio/mars-arithmetic-numbers/num.36.74e938b1.m4a",
+  "text": "36",
+  "durationMs": 1486,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "36",
+    "t0": 80,
+    "t1": 1175
+   }
+  ]
+ },
+ "num.37": {
+  "src": "/audio/mars-arithmetic-numbers/num.37.8560f6c1.m4a",
+  "text": "37",
+  "durationMs": 1092,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "37",
+    "t0": 60,
+    "t1": 815
+   }
+  ]
+ },
+ "num.38": {
+  "src": "/audio/mars-arithmetic-numbers/num.38.92061ade.m4a",
+  "text": "38",
+  "durationMs": 2021,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "38",
+    "t0": 70,
+    "t1": 1735
+   }
+  ]
+ },
+ "num.39": {
+  "src": "/audio/mars-arithmetic-numbers/num.39.ce5f9c59.m4a",
+  "text": "39",
+  "durationMs": 1765,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "39",
+    "t0": 70,
+    "t1": 1455
+   }
+  ]
+ },
+ "num.40": {
+  "src": "/audio/mars-arithmetic-numbers/num.40.45a8dd62.m4a",
+  "text": "40",
+  "durationMs": 1510,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "40",
+    "t0": 70,
+    "t1": 1225
+   }
+  ]
+ },
+ "num.41": {
+  "src": "/audio/mars-arithmetic-numbers/num.41.950a431b.m4a",
+  "text": "41",
+  "durationMs": 1324,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "41",
+    "t0": 70,
+    "t1": 1025
+   }
+  ]
+ },
+ "num.42": {
+  "src": "/audio/mars-arithmetic-numbers/num.42.dc0cb5a3.m4a",
+  "text": "42",
+  "durationMs": 1394,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "42",
+    "t0": 80,
+    "t1": 1105
+   }
+  ]
+ },
+ "num.43": {
+  "src": "/audio/mars-arithmetic-numbers/num.43.4d0f8e93.m4a",
+  "text": "43",
+  "durationMs": 1254,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "43",
+    "t0": 70,
+    "t1": 955
+   }
+  ]
+ },
+ "num.44": {
+  "src": "/audio/mars-arithmetic-numbers/num.44.30fb7645.m4a",
+  "text": "44",
+  "durationMs": 1208,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "44",
+    "t0": 70,
+    "t1": 915
+   }
+  ]
+ },
+ "num.45": {
+  "src": "/audio/mars-arithmetic-numbers/num.45.0c0f3e97.m4a",
+  "text": "45",
+  "durationMs": 1672,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "45",
+    "t0": 70,
+    "t1": 1385
+   }
+  ]
+ },
+ "num.46": {
+  "src": "/audio/mars-arithmetic-numbers/num.46.d7e040e6.m4a",
+  "text": "46",
+  "durationMs": 1347,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "46",
+    "t0": 80,
+    "t1": 1045
+   }
+  ]
+ },
+ "num.47": {
+  "src": "/audio/mars-arithmetic-numbers/num.47.a2136232.m4a",
+  "text": "47",
+  "durationMs": 1394,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "47",
+    "t0": 70,
+    "t1": 1125
+   }
+  ]
+ },
+ "num.48": {
+  "src": "/audio/mars-arithmetic-numbers/num.48.6c2a7237.m4a",
+  "text": "48",
+  "durationMs": 1301,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "48",
+    "t0": 80,
+    "t1": 1005
+   }
+  ]
+ },
+ "num.49": {
+  "src": "/audio/mars-arithmetic-numbers/num.49.94abd374.m4a",
+  "text": "49",
+  "durationMs": 1742,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "49",
+    "t0": 70,
+    "t1": 1465
+   }
+  ]
+ },
+ "num.50": {
+  "src": "/audio/mars-arithmetic-numbers/num.50.4da7b189.m4a",
+  "text": "50",
+  "durationMs": 1069,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "50",
+    "t0": 50,
+    "t1": 775
+   }
+  ]
+ },
+ "num.51": {
+  "src": "/audio/mars-arithmetic-numbers/num.51.31d2bef2.m4a",
+  "text": "51",
+  "durationMs": 1092,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "51",
+    "t0": 50,
+    "t1": 825
+   }
+  ]
+ },
+ "num.52": {
+  "src": "/audio/mars-arithmetic-numbers/num.52.228044cb.m4a",
+  "text": "52",
+  "durationMs": 1092,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "52",
+    "t0": 50,
+    "t1": 805
+   }
+  ]
+ },
+ "num.53": {
+  "src": "/audio/mars-arithmetic-numbers/num.53.088bc9c5.m4a",
+  "text": "53",
+  "durationMs": 1301,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "53",
+    "t0": 50,
+    "t1": 1025
+   }
+  ]
+ },
+ "num.54": {
+  "src": "/audio/mars-arithmetic-numbers/num.54.61b270fc.m4a",
+  "text": "54",
+  "durationMs": 1092,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "54",
+    "t0": 60,
+    "t1": 805
+   }
+  ]
+ },
+ "num.55": {
+  "src": "/audio/mars-arithmetic-numbers/num.55.3cec4529.m4a",
+  "text": "55",
+  "durationMs": 1069,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "55",
+    "t0": 50,
+    "t1": 745
+   }
+  ]
+ },
+ "num.56": {
+  "src": "/audio/mars-arithmetic-numbers/num.56.6f82c085.m4a",
+  "text": "56",
+  "durationMs": 1347,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "56",
+    "t0": 50,
+    "t1": 1015
+   }
+  ]
+ },
+ "num.57": {
+  "src": "/audio/mars-arithmetic-numbers/num.57.0688e1f6.m4a",
+  "text": "57",
+  "durationMs": 1115,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "57",
+    "t0": 50,
+    "t1": 835
+   }
+  ]
+ },
+ "num.58": {
+  "src": "/audio/mars-arithmetic-numbers/num.58.32b494fa.m4a",
+  "text": "58",
+  "durationMs": 1510,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "58",
+    "t0": 50,
+    "t1": 1225
+   }
+  ]
+ },
+ "num.59": {
+  "src": "/audio/mars-arithmetic-numbers/num.59.2fcbb861.m4a",
+  "text": "59",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "59",
+    "t0": 50,
+    "t1": 865
+   }
+  ]
+ },
+ "num.60": {
+  "src": "/audio/mars-arithmetic-numbers/num.60.6fed2fb0.m4a",
+  "text": "60",
+  "durationMs": 860,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "60",
+    "t0": 50,
+    "t1": 565
+   }
+  ]
+ },
+ "num.61": {
+  "src": "/audio/mars-arithmetic-numbers/num.61.3b1853af.m4a",
+  "text": "61",
+  "durationMs": 1324,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "61",
+    "t0": 50,
+    "t1": 1045
+   }
+  ]
+ },
+ "num.62": {
+  "src": "/audio/mars-arithmetic-numbers/num.62.2769c3f0.m4a",
+  "text": "62",
+  "durationMs": 1208,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "62",
+    "t0": 50,
+    "t1": 915
+   }
+  ]
+ },
+ "num.63": {
+  "src": "/audio/mars-arithmetic-numbers/num.63.ec2e7f70.m4a",
+  "text": "63",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "63",
+    "t0": 50,
+    "t1": 845
+   }
+  ]
+ },
+ "num.64": {
+  "src": "/audio/mars-arithmetic-numbers/num.64.04a384b7.m4a",
+  "text": "64",
+  "durationMs": 1208,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "64",
+    "t0": 50,
+    "t1": 885
+   }
+  ]
+ },
+ "num.65": {
+  "src": "/audio/mars-arithmetic-numbers/num.65.2179b58a.m4a",
+  "text": "65",
+  "durationMs": 1301,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "65",
+    "t0": 50,
+    "t1": 975
+   }
+  ]
+ },
+ "num.66": {
+  "src": "/audio/mars-arithmetic-numbers/num.66.bb956d1c.m4a",
+  "text": "66",
+  "durationMs": 1092,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "66",
+    "t0": 50,
+    "t1": 765
+   }
+  ]
+ },
+ "num.67": {
+  "src": "/audio/mars-arithmetic-numbers/num.67.382d159b.m4a",
+  "text": "67",
+  "durationMs": 1301,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "67",
+    "t0": 50,
+    "t1": 985
+   }
+  ]
+ },
+ "num.68": {
+  "src": "/audio/mars-arithmetic-numbers/num.68.9a3759dd.m4a",
+  "text": "68",
+  "durationMs": 1347,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "68",
+    "t0": 50,
+    "t1": 1045
+   }
+  ]
+ },
+ "num.69": {
+  "src": "/audio/mars-arithmetic-numbers/num.69.ba891173.m4a",
+  "text": "69",
+  "durationMs": 1463,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "69",
+    "t0": 50,
+    "t1": 1165
+   }
+  ]
+ },
+ "num.70": {
+  "src": "/audio/mars-arithmetic-numbers/num.70.259575fe.m4a",
+  "text": "70",
+  "durationMs": 906,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "70",
+    "t0": 60,
+    "t1": 595
+   }
+  ]
+ },
+ "num.71": {
+  "src": "/audio/mars-arithmetic-numbers/num.71.86a0901b.m4a",
+  "text": "71",
+  "durationMs": 1324,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "71",
+    "t0": 60,
+    "t1": 1005
+   }
+  ]
+ },
+ "num.72": {
+  "src": "/audio/mars-arithmetic-numbers/num.72.6e5b04fc.m4a",
+  "text": "72",
+  "durationMs": 1208,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "72",
+    "t0": 70,
+    "t1": 915
+   }
+  ]
+ },
+ "num.73": {
+  "src": "/audio/mars-arithmetic-numbers/num.73.5a53681d.m4a",
+  "text": "73",
+  "durationMs": 1231,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "73",
+    "t0": 60,
+    "t1": 955
+   }
+  ]
+ },
+ "num.74": {
+  "src": "/audio/mars-arithmetic-numbers/num.74.c5177171.m4a",
+  "text": "74",
+  "durationMs": 999,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "74",
+    "t0": 60,
+    "t1": 695
+   }
+  ]
+ },
+ "num.75": {
+  "src": "/audio/mars-arithmetic-numbers/num.75.2971b1d4.m4a",
+  "text": "75",
+  "durationMs": 1881,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "75",
+    "t0": 50,
+    "t1": 1605
+   }
+  ]
+ },
+ "num.76": {
+  "src": "/audio/mars-arithmetic-numbers/num.76.40e7b642.m4a",
+  "text": "76",
+  "durationMs": 1022,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "76",
+    "t0": 70,
+    "t1": 755
+   }
+  ]
+ },
+ "num.77": {
+  "src": "/audio/mars-arithmetic-numbers/num.77.23b006c8.m4a",
+  "text": "77",
+  "durationMs": 1231,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "77",
+    "t0": 60,
+    "t1": 895
+   }
+  ]
+ },
+ "num.78": {
+  "src": "/audio/mars-arithmetic-numbers/num.78.fa06c82c.m4a",
+  "text": "78",
+  "durationMs": 1161,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "78",
+    "t0": 70,
+    "t1": 875
+   }
+  ]
+ },
+ "num.79": {
+  "src": "/audio/mars-arithmetic-numbers/num.79.2d8968d1.m4a",
+  "text": "79",
+  "durationMs": 1719,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "79",
+    "t0": 70,
+    "t1": 1435
+   }
+  ]
+ },
+ "num.80": {
+  "src": "/audio/mars-arithmetic-numbers/num.80.adb17cce.m4a",
+  "text": "80",
+  "durationMs": 999,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "80",
+    "t0": 50,
+    "t1": 685
+   }
+  ]
+ },
+ "num.81": {
+  "src": "/audio/mars-arithmetic-numbers/num.81.24ce42ac.m4a",
+  "text": "81",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "81",
+    "t0": 50,
+    "t1": 865
+   }
+  ]
+ },
+ "num.82": {
+  "src": "/audio/mars-arithmetic-numbers/num.82.36f89b80.m4a",
+  "text": "82",
+  "durationMs": 1115,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "82",
+    "t0": 60,
+    "t1": 835
+   }
+  ]
+ },
+ "num.83": {
+  "src": "/audio/mars-arithmetic-numbers/num.83.b1fc46de.m4a",
+  "text": "83",
+  "durationMs": 1301,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "83",
+    "t0": 50,
+    "t1": 1025
+   }
+  ]
+ },
+ "num.84": {
+  "src": "/audio/mars-arithmetic-numbers/num.84.ba619292.m4a",
+  "text": "84",
+  "durationMs": 1161,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "84",
+    "t0": 50,
+    "t1": 885
+   }
+  ]
+ },
+ "num.85": {
+  "src": "/audio/mars-arithmetic-numbers/num.85.7ea83398.m4a",
+  "text": "85",
+  "durationMs": 1231,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "85",
+    "t0": 50,
+    "t1": 945
+   }
+  ]
+ },
+ "num.86": {
+  "src": "/audio/mars-arithmetic-numbers/num.86.45bb8147.m4a",
+  "text": "86",
+  "durationMs": 1324,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "86",
+    "t0": 50,
+    "t1": 1015
+   }
+  ]
+ },
+ "num.87": {
+  "src": "/audio/mars-arithmetic-numbers/num.87.76d7cae2.m4a",
+  "text": "87",
+  "durationMs": 1185,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "87",
+    "t0": 50,
+    "t1": 905
+   }
+  ]
+ },
+ "num.88": {
+  "src": "/audio/mars-arithmetic-numbers/num.88.19ba7f70.m4a",
+  "text": "88",
+  "durationMs": 1208,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "88",
+    "t0": 50,
+    "t1": 905
+   }
+  ]
+ },
+ "num.89": {
+  "src": "/audio/mars-arithmetic-numbers/num.89.f5461029.m4a",
+  "text": "89",
+  "durationMs": 1881,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "89",
+    "t0": 50,
+    "t1": 1585
+   }
+  ]
+ },
+ "num.90": {
+  "src": "/audio/mars-arithmetic-numbers/num.90.cfa6fabf.m4a",
+  "text": "90",
+  "durationMs": 1649,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "90",
+    "t0": 70,
+    "t1": 1375
+   }
+  ]
+ },
+ "num.91": {
+  "src": "/audio/mars-arithmetic-numbers/num.91.9ecfc17b.m4a",
+  "text": "91",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "91",
+    "t0": 60,
+    "t1": 835
+   }
+  ]
+ },
+ "num.92": {
+  "src": "/audio/mars-arithmetic-numbers/num.92.c9d65a73.m4a",
+  "text": "92",
+  "durationMs": 1556,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "92",
+    "t0": 50,
+    "t1": 1275
+   }
+  ]
+ },
+ "num.93": {
+  "src": "/audio/mars-arithmetic-numbers/num.93.f6294a92.m4a",
+  "text": "93",
+  "durationMs": 1603,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "93",
+    "t0": 80,
+    "t1": 1305
+   }
+  ]
+ },
+ "num.94": {
+  "src": "/audio/mars-arithmetic-numbers/num.94.64a0b693.m4a",
+  "text": "94",
+  "durationMs": 1138,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "94",
+    "t0": 60,
+    "t1": 845
+   }
+  ]
+ },
+ "num.95": {
+  "src": "/audio/mars-arithmetic-numbers/num.95.35a7fd94.m4a",
+  "text": "95",
+  "durationMs": 1533,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "95",
+    "t0": 60,
+    "t1": 1255
+   }
+  ]
+ },
+ "num.96": {
+  "src": "/audio/mars-arithmetic-numbers/num.96.ecc5ad9c.m4a",
+  "text": "96",
+  "durationMs": 999,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "96",
+    "t0": 60,
+    "t1": 705
+   }
+  ]
+ },
+ "num.97": {
+  "src": "/audio/mars-arithmetic-numbers/num.97.20b088e2.m4a",
+  "text": "97",
+  "durationMs": 1301,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "97",
+    "t0": 60,
+    "t1": 1015
+   }
+  ]
+ },
+ "num.98": {
+  "src": "/audio/mars-arithmetic-numbers/num.98.9b8e162a.m4a",
+  "text": "98",
+  "durationMs": 1161,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "98",
+    "t0": 60,
+    "t1": 855
+   }
+  ]
+ },
+ "num.99": {
+  "src": "/audio/mars-arithmetic-numbers/num.99.7cf5cc01.m4a",
+  "text": "99",
+  "durationMs": 1347,
+  "role": "narrator",
+  "words": [
+   {
+    "ch": "99",
+    "t0": 50,
+    "t1": 1055
+   }
+  ]
+ }
+}

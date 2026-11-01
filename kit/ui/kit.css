@@ -215,7 +215,7 @@
 /* ======================================================================= HUD */
 .xg-hud {
   position: relative; z-index: var(--xg-z-hud); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
-  padding: calc(env(safe-area-inset-top, 0px) + 12px) calc(env(safe-area-inset-right, 0px) + 16px) 8px calc(env(safe-area-inset-left, 0px) + 16px);
+  padding: calc(var(--kit-safe-top, env(safe-area-inset-top, 0px)) + 12px) calc(var(--kit-safe-right, env(safe-area-inset-right, 0px)) + 16px) 8px calc(var(--kit-safe-left, env(safe-area-inset-left, 0px)) + 16px);
 }
 .xg-hud__left, .xg-hud__right { display: flex; align-items: center; gap: 12px; }
 .xg-hud__center { display: flex; justify-content: center; min-width: 0; }
@@ -293,7 +293,7 @@
 .xg-toggle input:focus-visible + .xg-toggle__track { box-shadow: var(--xg-focus-ring); }
 
 /* ============================================================ TOAST / BUBBLE */
-.xg-toast-layer { position: fixed; left: 0; right: 0; top: calc(env(safe-area-inset-top, 0px) + 14px); z-index: var(--xg-z-toast); display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none; }
+.xg-toast-layer { position: fixed; left: 0; right: 0; top: calc(var(--kit-safe-top, env(safe-area-inset-top, 0px)) + 14px); z-index: var(--xg-z-toast); display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none; }
 .xg-toast {
   display: inline-flex; align-items: center; gap: 12px; max-width: min(560px, 92vw); padding: 10px 22px 10px 10px; border-radius: var(--xg-r-pill);
   background: var(--xg-paper-0); color: var(--xg-ink-900); font: 700 20px/1.3 var(--xg-font-ui); letter-spacing: .03em;
@@ -328,15 +328,17 @@
 
 /* ============================================================== MODAL / RESULT */
 .xg-scrim {
-  position: fixed; inset: 0; z-index: var(--xg-z-modal); display: grid; place-items: center; padding: 24px;
+  position: fixed; inset: 0; z-index: var(--xg-z-modal); display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: 24px;
   background: radial-gradient(120% 90% at 50% 40%, rgba(19, 27, 66, .55), rgba(7, 11, 31, .82));
   animation: xg-fade-in var(--xg-dur-base) ease both;
 }
+/* safety net (QA fix-mars-r2 T1): a card taller than the screen scrolls INSIDE the scrim instead of running off it — `margin-block: auto` centres it when it fits and starts it at the top when it does not (the ribbon above the card stays reachable) */
+.xg-scrim { overflow-y: auto; overscroll-behavior: contain; } .xg-scrim > .xg-modal { align-self: start; margin-block: auto; max-height: none; }   /* the old max-height cut the card 6 px short of its own buttons on an SE */
 .xg-scrim.is-leaving { animation: xg-fade-out var(--xg-dur-base) ease both; }
 @keyframes xg-fade-in { from { opacity: 0; } }
 @keyframes xg-fade-out { to { opacity: 0; } }
 .xg-modal {
-  position: relative; width: min(560px, 100%); max-height: calc(100% - 20px); padding: 72px 36px 34px; border-radius: var(--xg-r-xl);
+  position: relative; width: min(560px, 100%); min-width: 0; max-height: calc(100% - 20px); padding: 72px 36px 34px; border-radius: var(--xg-r-xl);
   background: var(--xg-paper-0) url("../textures/paper-light.webp") 0 0 / 256px 256px; text-align: center;
   box-shadow: 0 6px 0 var(--xg-paper-400), var(--xg-sh-4), inset 0 2px 0 #fff;
   animation: xg-modal-in var(--xg-dur-slow) var(--xg-ease-spring) both;
@@ -369,6 +371,32 @@
 .xg-modal__text { font: 500 22px/1.55 var(--xg-font-read); color: var(--xg-ink-700); margin: 0 0 22px; letter-spacing: .04em; text-wrap: balance; }
 .xg-modal__actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
 
+/* shared parent-PIN dialog (kit/ui/pin.ts) — selectors start with .xg-pin so they beat the generic .xg-modal landscape rules below */
+.xg-pin .xg-pin__card { width: min(400px, 100%); padding: 58px 26px 24px; }
+.xg-pin .xg-pin__card .xg-modal__title { font-size: 34px; margin-bottom: 6px; }
+.xg-pin .xg-pin__card .xg-modal__text { font-size: 20px; margin-bottom: 14px; min-height: 1.55em; }
+.xg-pin .xg-pin__display { height: 64px; min-width: 0; margin: 0 auto 16px; font-size: 44px; letter-spacing: .2em; }
+.xg-pin .xg-pin__display .xg-display__caret { height: 38px; }
+.xg-pin .xg-pin__body { display: flex; flex-direction: column; align-items: center; }
+.xg-pin a.xg-btn { text-decoration: none; }
+/* short + wide (landscape phone): title / text / dots on the left, the 4×3 keypad on the right — the whole dialog fits 390 px */
+@media (max-height: 560px) and (min-width: 560px) {
+  .xg-pin .xg-pin__card:not(.xg-pin__card--nopin) {
+    width: min(580px, 100%); padding: 16px 22px 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto 1fr;
+    grid-template-areas: ". pad" "title pad" "text pad" "disp pad"; column-gap: 26px; align-items: center;
+  }
+  .xg-pin .xg-pin__card--nopin { width: min(440px, 100%); padding: 40px 24px 20px; }
+  .xg-pin .xg-pin__card .xg-modal__close { left: 10px; right: auto; top: 10px; }
+  .xg-pin .xg-pin__card .xg-modal__title { grid-area: title; align-self: end; font-size: 26px; margin: 0 0 2px; }
+  .xg-pin .xg-pin__card .xg-modal__text { grid-area: text; font-size: 16px; margin: 0 0 8px; min-height: 0; }
+  .xg-pin .xg-pin__body { display: contents; }
+  .xg-pin .xg-pin__display { grid-area: disp; align-self: start; width: 100%; height: 44px; font-size: 32px; margin: 0; }
+  .xg-pin .xg-pin__display .xg-display__caret { height: 28px; }
+  .xg-pin .xg-pin__card .xg-keypad { grid-area: pad; gap: 6px 8px; align-self: center; }
+  .xg-pin .xg-pin__card .xg-key { margin-bottom: 4px; border-radius: 14px; font-size: 28px; }
+  .xg-pin .xg-pin__card .xg-key .xg-icon { font-size: 26px; }
+}
+
 /* result stars: three slots, middle raised. Earned stars drop in with pop + burst */
 .xg-result-stars { display: flex; justify-content: center; align-items: flex-end; gap: 6px; height: 128px; margin: -6px 0 8px; }
 .xg-rstar { position: relative; width: 96px; height: 96px; }
@@ -392,6 +420,52 @@
   .xg-modal__actions { flex-wrap: nowrap; margin-top: 20px; }
   .xg-result-stars { height: 116px; }
 }
+/* narrow phones (320–440 px wide): the card may never be wider than the screen (the star row used to force a 396 px min-content width: 30 px off-screen on an iPhone 13, 3rd star + title cut on an SE) */
+@media (max-width: 440px) {
+  .xg-scrim { padding: 12px; }
+  .xg-modal { padding-left: 18px; padding-right: 18px; }
+  .xg-ribbon { min-width: 0; max-width: calc(100vw - 24px); padding: 0 44px; font-size: min(36px, 9vw); }
+  .xg-result-stars { gap: 4px; height: calc(min(120px, 25vw) + 8px); }
+  .xg-rstar { width: min(96px, 20vw); height: min(96px, 20vw); }
+  .xg-rstar:nth-child(2) { width: min(120px, 25vw); height: min(120px, 25vw); transform: translateY(-10px); }
+  .xg-modal__title { font-size: min(var(--xg-fs-h2), 8vw); }
+  .xg-modal__text { font-size: 19px; }
+}
+/* iPhone-sized portrait screens up to 720 px tall (390×664): a card with ribbon + stars + title + text + 3 stats + 2 buttons was 656 px tall, 14 px past the bottom with the ribbon 8 px above the top (QA fix-mars-r2 T1) */
+@media (max-width: 440px) and (min-height: 641px) and (max-height: 720px) {
+  .xg-scrim { padding-top: 40px; }
+  .xg-modal { padding-top: 58px; padding-bottom: 22px; }
+  .xg-ribbon { height: 62px; top: -26px; font-size: min(30px, 8vw); }
+  .xg-result-stars { height: calc(min(120px, 25vw) - 6px); margin-bottom: 2px; }
+  .xg-modal__title { font-size: min(32px, 8vw); } .xg-modal__text { font-size: 18px; line-height: 1.4; margin-bottom: 12px; }
+  .xg-stat { min-width: 104px; padding: 8px 12px 6px; } .xg-stat b { font-size: 30px; }
+  .xg-modal__actions { margin-top: 14px; }
+}
+/* short narrow phones (SE 320×568): keep the ribbon on screen */
+@media (max-width: 440px) and (max-height: 640px) {
+  .xg-modal { padding-top: 52px; padding-bottom: 18px; max-height: none; }
+  .xg-ribbon { height: 62px; top: -26px; font-size: min(30px, 8vw); }
+  .xg-result-stars { height: calc(min(120px, 25vw) - 12px); margin-bottom: 0; }
+  .xg-modal__title { font-size: min(26px, 8vw); } .xg-modal__text { font-size: 16px; line-height: 1.35; margin-bottom: 8px; }
+  .xg-stat { min-width: 100px; padding: 6px 10px 4px; } .xg-stat b { font-size: 26px; }
+  .xg-modal__actions { margin-top: 10px; }
+}
+/* very short screens (landscape phones, 390 px tall): a smaller ribbon + stars so the result card and its buttons fit */
+@media (max-height: 480px) {
+  .xg-scrim { padding: 28px 8px 8px; }   /* the ribbon sticks out 22 px above the card: it must stay on screen (fix-mars-r1 audit: -2 px on an iPhone 13 landscape) */
+  .xg-modal { padding: 50px 24px 14px; max-height: 100%; }
+  .xg-ribbon { height: 54px; top: -22px; min-width: 240px; padding: 0 44px; font-size: 28px; }
+  .xg-result-stars { height: 76px; margin: -2px 0 2px; }
+  .xg-rstar { width: 62px; height: 62px; }
+  .xg-rstar:nth-child(2) { width: 78px; height: 78px; transform: translateY(-9px); }
+  .xg-modal__title { font-size: 28px; margin-bottom: 2px; }
+  .xg-modal__text { font-size: 17px; line-height: 1.4; margin-bottom: 6px; }
+  .xg-modal__actions { margin-top: 8px; gap: 12px; }
+  .xg-result-stats { margin-top: 2px; gap: 8px; }
+  .xg-stat { min-width: 96px; padding: 6px 10px 5px; }
+  .xg-stat b { font-size: 26px; }
+  .xg-stat span { font-size: 13px; margin-top: 2px; }
+}
 
 /* ============================================================ STAR RATING */
 .xg-stars { display: inline-flex; gap: .12em; font-size: 28px; line-height: 0; }
@@ -403,24 +477,28 @@
 .xg-map { position: relative; }
 .xg-map__path { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .xg-node {
-  --s: 76px; --face-1: var(--xg-paper-0); --face-2: var(--xg-paper-100); --edge: var(--xg-paper-400); --ink: var(--xg-ink-800);
+  --s: var(--xg-node-s, 76px); --face-1: var(--xg-paper-0); --face-2: var(--xg-paper-100); --edge: var(--xg-paper-400); --ink: var(--xg-ink-800);
   position: absolute; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); padding: 0; border: 0; border-radius: 50%; cursor: pointer;
-  display: grid; place-items: center; color: var(--ink); font: 800 32px/1 var(--xg-font-num);
+  display: grid; place-items: center; color: var(--ink); font: 800 var(--xg-node-fs, 32px)/1 var(--xg-font-num);
   background: radial-gradient(110% 100% at 30% 18%, var(--face-1), var(--face-2));
   box-shadow: 0 6px 0 var(--edge), 0 12px 16px -6px rgba(var(--xg-shadow-color), .45), inset 0 2px 0 rgba(255, 255, 255, .55);
   transition: transform var(--xg-dur-press) var(--xg-ease-press); touch-action: manipulation;
 }
-.xg-node .xg-icon { font-size: 30px; }
+.xg-node .xg-icon { font-size: var(--xg-node-icon, 30px); }
 .xg-node.is-pressed { transform: translateY(4px) scale(.95); box-shadow: 0 2px 0 var(--edge), inset 0 2px 0 rgba(255, 255, 255, .5); }
 .xg-node.is-released { animation: xg-squash var(--xg-dur-release) var(--xg-ease-out); }
 .xg-node--open { box-shadow: 0 6px 0 var(--edge), 0 12px 16px -6px rgba(var(--xg-shadow-color), .45), inset 0 0 0 4px var(--xg-accent), inset 0 2px 0 rgba(255, 255, 255, .55); color: var(--xg-accent-deep); }
 .xg-node--done { --face-1: var(--xg-accent-hi); --face-2: var(--xg-accent); --edge: var(--xg-accent-deep); --ink: var(--xg-accent-on); text-shadow: 0 2px 0 var(--xg-accent-on-sh, rgba(0, 0, 0, .18)); }
 .xg-node--locked { --face-1: var(--xg-paper-200); --face-2: var(--xg-paper-300); --edge: var(--xg-paper-500); --ink: var(--xg-ink-400); }
-.xg-node--current { --s: 96px; font-size: 40px; }
+.xg-node--current { --s: var(--xg-node-s-current, 96px); font-size: var(--xg-node-fs-current, 40px); }
 .xg-node--current::before, .xg-node--current::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 4px solid var(--xg-accent); opacity: 0; animation: xg-ring 2s var(--xg-ease-out) infinite; pointer-events: none; }
 .xg-node--current::after { animation-delay: 1s; }
-.xg-node--boss { --s: 104px; border-radius: 34%; font-size: 0; --face-1: #ffe08a; --face-2: var(--xg-gold-500); --edge: var(--xg-gold-700); --ink: #6a4000; }
-.xg-node--boss .xg-icon { font-size: 52px; }
+.xg-node--boss { --s: var(--xg-node-s-boss, 104px); border-radius: 34%; font-size: 0; --face-1: #ffe08a; --face-2: var(--xg-gold-500); --edge: var(--xg-gold-700); --ink: #6a4000; }
+.xg-node--boss .xg-icon { font-size: var(--xg-node-icon-boss, 52px); }
+/* skipped = passed over without playing: paper face, dashed accent ring (never a "failed" look), still tappable */
+.xg-node--skipped { --face-1: var(--xg-paper-0); --face-2: var(--xg-paper-100); --edge: var(--xg-paper-400); --ink: var(--xg-accent-deep); }
+.xg-node--skipped::before { content: ""; position: absolute; inset: 5px; border-radius: inherit; border: 3px dashed var(--xg-accent); opacity: .85; pointer-events: none; }
+.xg-node--skipped.xg-node--boss { --face-1: #fff3cf; --face-2: #f6e0a0; --edge: var(--xg-gold-700); --ink: #8a5a00; }
 .xg-node--boss.xg-node--locked { --face-1: var(--xg-paper-200); --face-2: var(--xg-paper-300); --edge: var(--xg-paper-500); --ink: var(--xg-ink-400); }
 .xg-node__stars { position: absolute; left: 50%; top: 100%; translate: -50% 2px; font-size: 24px; filter: drop-shadow(0 2px 0 rgba(var(--xg-shadow-color), .18)); }
 .xg-node__stars .xg-stars--arc .xg-s:nth-child(2) { transform: translateY(.18em) scale(1.12); }
@@ -428,7 +506,8 @@
 .xg-node__marker { position: absolute; left: 50%; bottom: 100%; translate: -50% -4px; animation: xg-float 2.4s ease-in-out infinite; pointer-events: none; line-height: 0; }
 
 /* ============================================================ NUMERIC KEYPAD */
-.xg-keypad { display: grid; grid-template-columns: repeat(3, var(--xg-hit-key)); gap: 12px 14px; justify-content: center; }
+.xg-keypad { display: grid; grid-template-columns: repeat(var(--xg-key-cols, 3), var(--xg-key-w, var(--xg-hit-key))); gap: 12px 14px; justify-content: center; }
+.xg-keypad[data-disabled] .xg-key { opacity: .45; filter: saturate(.5); pointer-events: none; }
 .xg-display {
   display: flex; align-items: center; justify-content: center; gap: 2px; height: 84px; min-width: 200px; padding: 0 24px; border-radius: var(--xg-r-lg);
   background: var(--xg-paper-100); box-shadow: inset 0 3px 6px rgba(var(--xg-shadow-color), .16), inset 0 -1px 0 #fff, 0 0 0 3px var(--xg-paper-300);
@@ -441,7 +520,7 @@
 @keyframes xg-nudge { 0%, 100% { transform: none; } 25% { transform: translateX(-8px); } 60% { transform: translateX(6px); } 85% { transform: translateX(-2px); } }
 .xg-key {
   --face-1: var(--xg-paper-0); --face-2: var(--xg-paper-100); --edge: var(--xg-paper-400); --ink: var(--xg-ink-900);
-  width: var(--xg-hit-key); height: var(--xg-hit-key); margin-bottom: 6px; border: 0; padding: 0; border-radius: 24px; cursor: pointer;
+  width: var(--xg-key-w, var(--xg-hit-key)); height: var(--xg-key-h, var(--xg-hit-key)); margin-bottom: 6px; border: 0; padding: 0; border-radius: 24px; cursor: pointer;
   display: grid; place-items: center; color: var(--ink); font: 800 40px/1 var(--xg-font-num);
   background: linear-gradient(180deg, var(--face-1), var(--face-2));
   box-shadow: 0 6px 0 var(--edge), 0 10px 14px -6px rgba(var(--xg-shadow-color), .35), inset 0 2px 0 #fff;
@@ -502,10 +581,10 @@
    has to sit below the 🏠 button. */
 .xg-skip {
   position: fixed; z-index: var(--xg-z-skip, calc(var(--xg-z-modal) + 30));
-  top: calc(var(--xg-skip-top, max(12px, env(safe-area-inset-top))) + var(--xg-skip-drop, 0px));
-  right: var(--xg-skip-right, max(12px, env(safe-area-inset-right)));
+  top: calc(var(--xg-skip-top, max(12px, var(--kit-safe-top, env(safe-area-inset-top, 0px)))) + var(--xg-skip-drop, 0px));
+  right: var(--xg-skip-right, max(12px, var(--kit-safe-right, env(safe-area-inset-right, 0px))));
   display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box;
-  min-width: 96px; max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  min-width: 96px; max-width: calc(100vw - 24px - var(--kit-safe-left, env(safe-area-inset-left, 0px)) - var(--kit-safe-right, env(safe-area-inset-right, 0px)));
   height: var(--xg-hit-back, 56px); min-height: 48px; margin: 0; padding: 0 16px 0 20px;
   border: 0; border-radius: var(--xg-r-pill); cursor: pointer;
   font: 800 18px/1 var(--xg-font-ui); letter-spacing: .12em; color: var(--xg-ink-700); white-space: nowrap;

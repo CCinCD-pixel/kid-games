@@ -411,6 +411,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     return best < 0 ? c : { lane: best, col: c.col };
   };
   const why = (card: string, lane: number, col: number): string | null => canPlace(S, card, lane, col);
+  const grainWait = new Map<string, number>(); let grainWaitTicks = 0; let grainShortages = 0;
   function tryPlace(card: string, lane: number, col: number, quiet = false): boolean {
     if (ghost) return false;
     if (pz && !setup) { app.ui('ui-locked', 0.5); return false; } // the drill runs on its own once started
@@ -422,7 +423,10 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     }
     // one action per card and per cell per tick (the kernel would reject the 2nd; say so before it happens)
     const dup = queue.some((a) => a.t === 'place' && ((a.lane === lane && a.col === col) || (!L.belt && a.card === card)));
-    if (r) { app.ui('ui-locked', 0.6); flashReason(card, r); return false; }
+    if (r) {
+      if (r === 'grain' && !L.belt) { grainShortages++; if (!grainWait.has(card)) grainWait.set(card, S.tick); }
+      app.ui('ui-locked', 0.6); flashReason(card, r); return false;
+    }
     if (dup) return false; // a double tap: the first placement is already queued — no error flash for the second
     queue.push({ t: 'place', card, lane, col }); stopHand();
     // spec §2.7 rule ①: a grain bag resting on that cell is collected on the way (顺手收掉)
@@ -581,9 +585,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     pauseLayer.querySelectorAll('button[data-a]').forEach((b) => b.addEventListener('click', () => {
       const a = (b as HTMLElement).dataset.a; pauseLayer.classList.remove('is-on'); if (tip.parentElement !== hud) { tip.classList.remove('is-on'); hud.appendChild(tip); }
       if (a === 'go') { paused = false; kick(); }
-      else if (a === 'cp' && checkpoint) { const R = restoreSnap(checkpoint, L, { events: true, assist: tier }); if (R) { S = R; actLog = actLog.filter(([t]) => t < S.tick); stage.reset(); resetHud(); paused = false; kick(); } }
+      else if (a === 'cp' && checkpoint) { const R = restoreSnap(checkpoint, L, { events: true, assist: tier }); if (R) { S = R; grainWait.clear(); grainWaitTicks = 0; grainShortages = 0; actLog = actLog.filter(([t]) => t < S.tick); stage.reset(); resetHud(); paused = false; kick(); } }
       else if (a === 'resetup') { resetup(); paused = false; kick(); }
-      else if (a === 'restart') { curSeed = o.seed + 1; S = fresh(curSeed); actLog = []; logFrom = 0; stage.reset(); checkpoint = null; checkpointFlag = 0; resetHud(); paused = false; kick(); }
+      else if (a === 'restart') { curSeed = o.seed + 1; S = fresh(curSeed); grainWait.clear(); grainWaitTicks = 0; grainShortages = 0; actLog = []; logFrom = 0; stage.reset(); checkpoint = null; checkpointFlag = 0; resetHud(); paused = false; kick(); }
       else if (a === 'map') { if (!ghost && !pz) o.onAbandon?.({ actions: actLog, from: logFrom, tick: S.tick, seed: curSeed }); finish(null); }
     }));
   }
@@ -675,6 +679,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       if (!ghost) luban(checkpointFlag === 1 ? (tut ? 'fort.story.0.b2' : 'fort.luban.flag.1') : 'fort.luban.flag.2');
     }
     const k0 = performance.now(); step(S, acts); const k1 = performance.now(); stepMs += k1 - k0; stepN++;
+    for (const [card, from] of grainWait) if (S.grain >= UNITS[card].cost) { grainWaitTicks += S.tick - from; grainWait.delete(card); }
     o.dev?.tick?.(S, stage);
     stage.afterStep(S, performance.now());
     if (S.bolts.length > lastBolts) sfx.play('shoot.crossbow', { lane: S.bolts[S.bolts.length - 1].lane });
@@ -800,7 +805,19 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     }
     ended = true; const win = S.result === 'win'; const stars = starsOf(S);
     sfx.stopLoops(); if (win) { luban('fort.luban.win'); stinger('win'); } else { luban('fort.luban.lose'); stinger('lose'); }
-    app.mark('gf-level', { id: o.level.id, result: S.result, stars, assist: tier, logs: S.stats.logsUsed, sec: Math.round(S.tick / TPS), asked, hash: hash(S), reads: takeReads(), ...(perfNote ? { perf: perfNote } : {}) });
+    const born = new Map<number, number>(); let lifeTicks = 0, lifeCount = 0, bossAt = -1, bossLife = 0;
+    for (const event of S.ev ?? []) {
+      if (event.type === 'spawn' && event.id != null) born.set(event.id, event.tick);
+      if (event.type === 'gone' && event.id != null && born.has(event.id)) { lifeTicks += event.tick - born.get(event.id)!; lifeCount++; born.delete(event.id); }
+      if (event.type === 'bossIn') bossAt = event.tick;
+      if (event.type === 'bossDone' && bossAt >= 0) bossLife = event.tick - bossAt;
+    }
+    for (const from of born.values()) { lifeTicks += S.tick - from; lifeCount++; }
+    if (bossAt >= 0 && !bossLife) bossLife = S.tick - bossAt;
+    const balance = { lostLane: win ? null : S.stats.lostLane, lostTo: win ? null : S.stats.lostTo,
+      grainShortages, grainWaitSec: Math.round((grainWaitTicks + [...grainWait.values()].reduce((sum, from) => sum + S.tick - from, 0)) / TPS),
+      enemyLifeSec: lifeCount ? Math.round(lifeTicks / lifeCount / TPS) : 0, bossLifeSec: Math.round(bossLife / TPS) };
+    app.mark('gf-level', { id: o.level.id, result: S.result, stars, assist: tier, logs: S.stats.logsUsed, sec: Math.round(S.tick / TPS), asked, balance, hash: hash(S), reads: takeReads(), ...(perfNote ? { perf: perfNote } : {}) });
     // a Boss fold (it starts when the stage eats the boss's last event, i.e. after this frame) plays out before the result
     const later = (): void => { const w = stage.foldLeft(performance.now()); if (w > 0 && !destroyed) { setTimeout(later, w + 300); return; } finish({ result: win ? 'win' : 'lose', S, stars, checkpoint, checkpointFlag, asked, hints: hintTicks, actions: actLog, from: logFrom, seed: curSeed, quick: firstPlaceTick >= 0 && (firstHintTick < 0 || firstPlaceTick <= firstHintTick + 3 * TPS) }); };
     setTimeout(later, 1400);

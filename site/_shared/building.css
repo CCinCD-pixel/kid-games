@@ -4,7 +4,7 @@
   position: fixed; inset: 0; overflow: hidden; color: var(--xg-moon-50);
   background: var(--xg-night-900) url("../../kit/textures/scene-landscape.webp") 50% 0 / cover no-repeat;
   display: grid; place-items: center;
-  padding: calc(env(safe-area-inset-top, 0px) + 88px) calc(env(safe-area-inset-right, 0px) + 32px) calc(env(safe-area-inset-bottom, 0px) + 32px) calc(env(safe-area-inset-left, 0px) + 32px);
+  padding: calc(var(--kit-safe-top, env(safe-area-inset-top, 0px)) + 88px) calc(var(--kit-safe-right, env(safe-area-inset-right, 0px)) + 32px) calc(var(--kit-safe-bottom, env(safe-area-inset-bottom, 0px)) + 32px) calc(var(--kit-safe-left, env(safe-area-inset-left, 0px)) + 32px);
 }
 html[data-orientation="portrait"] .bld { background-image: url("../../kit/textures/scene-portrait.webp"); }
 .bld::before { /* darken the lower half so the card reads */

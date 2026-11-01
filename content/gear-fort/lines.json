@@ -13,7 +13,7 @@
  "fort.dock.3": {
   "role": "companion",
   "kind": "talk",
-  "text": "走，我们去见见墨子！"
+  "text": "走，我们跟墨子去守城！"
  },
  "fort.dock.v1": {
   "role": "companion",
@@ -1252,7 +1252,7 @@
  "fort.belt.full": {
   "role": "dad",
   "kind": "sub",
-  "text": "传送带堆满了。"
+  "text": "牒放满啦，先用掉一张！"
  },
  "fort.pz.intro": {
   "role": "dad",

@@ -5,6 +5,7 @@ import { CAMPAIGN, LEVELS, PLAYABLE_VOLUMES, previewKinds, nameOf, UNIT_INFO, EN
 import { sayCard, endCard } from '../pointread';
 import { recommend } from '../bots/loadout';
 import { learned } from '../lane/learn';
+import { supportAfter } from '../lane/balance';
 import { FEARS } from '../lane/tags';
 import { rigIcon, portrait } from '../art/icons';
 import { atlasFor, type AppCtx } from '../ctx';
@@ -327,6 +328,7 @@ export function mountPreview(root: HTMLElement, app: AppCtx, lv: Level, onStart:
 export type DebriefAct = 'checkpoint' | 'restart' | 'map' | 'ghost' | 'assist1' | 'assist2';
 /** three sentences (spec §5.3): ① cause ② tip (a different one when the same cause repeats) ③ one thing that went well */
 export function mountDebrief(root: HTMLElement, app: AppCtx, lv: Level, cause: Cause, flagN: number, onAct: (a: DebriefAct) => void, streak = 0, extra: { good?: { id: string; vars: Record<string, number> }[]; repeat?: number; units?: { k: string; lane: number; col: number }[] } = {}): { destroy(): void } {
+  const supportAt = supportAfter(lv);
   const el = h('div', 'gf-menu gf-debrief xg-root'); el.dataset.xgTheme = 'night'; root.appendChild(el);
   const { cause: cId, tip: tId } = causeLines(cause, extra.repeat ?? 0); const good = extra.good ?? [];
   const cVars = { lane: (cause.lane ?? 0) + 1, n: cause.vars?.n ?? '' };
@@ -338,9 +340,9 @@ export function mountDebrief(root: HTMLElement, app: AppCtx, lv: Level, cause: C
     <div class="gf-db__acts">${flagN ? `<button class="xg-btn xg-btn--primary xg-btn--lg" data-a="checkpoint">${icon('flag')}从第 ${flagN} 面战鼓重来</button>` : ''}
     <button class="xg-btn ${flagN ? 'xg-btn--secondary' : 'xg-btn--primary xg-btn--lg'}" data-a="restart">${icon('restart')}整关重来</button>
     <button class="xg-btn xg-btn--ghost" data-a="map">${icon('map')}回地图</button></div>
-    ${streak >= 2 ? `<div class="gf-db__help"><button class="gf-helpcard" data-a="ghost">${icon('eye')}<b>看看墨子怎么守</b><small>课的那一段</small></button>
+    ${streak >= supportAt ? `<div class="gf-db__help"><button class="gf-helpcard" data-a="ghost">${icon('eye')}<b>看看墨子怎么守</b><small>课的那一段</small></button>
       <button class="gf-helpcard" data-a="assist1">${icon('hand')}<b>请墨子帮一把</b><small>多一些粮，慢一点</small></button>
-      ${streak >= 3 ? `<button class="gf-helpcard" data-a="assist2">${icon('robot')}<b>墨子陪你推一局</b><small>他的手帮你摆</small></button>` : ''}</div>` : ''}</div>`;
+      ${streak >= supportAt + 1 ? `<button class="gf-helpcard" data-a="assist2">${icon('robot')}<b>墨子陪你推一局</b><small>他的手帮你摆</small></button>` : ''}</div>` : ''}</div>`;
   (el.querySelector('.gf-db__mozi') as HTMLElement).append(portrait('mozi', 84, app.dpr, 'think'));
   // mini sand table: 5 lanes × 8 columns; the lost lane framed in red with the machine's silhouette
   const mini = el.querySelector('.gf-db__mini') as HTMLElement;
@@ -362,6 +364,6 @@ export function mountDebrief(root: HTMLElement, app: AppCtx, lv: Level, cause: C
   el.querySelectorAll<HTMLElement>('[data-a]').forEach((b) => b.addEventListener('click', () => { live = false; app.ui('ui-confirm', 0.5); app.voice.stop(); onAct(b.dataset.a as DebriefAct); }));
   el.querySelector('.gf-db__good')?.addEventListener('click', () => { void speak(good, true); });
   bindPress(el);
-  void speak([...(cId ? [{ id: cId, vars: cVars }] : []), ...(tId ? [{ id: tId }] : []), ...good, ...(streak >= 3 ? [{ id: 'fort.result.assist2' }] : streak >= 2 ? [{ id: 'fort.result.assist' }] : [])]);
+  void speak([...(cId ? [{ id: cId, vars: cVars }] : []), ...(tId ? [{ id: tId }] : []), ...good, ...(streak >= supportAt + 1 ? [{ id: 'fort.result.assist2' }] : streak >= supportAt ? [{ id: 'fort.result.assist' }] : [])]);
   return { destroy: () => { live = false; chain++; el.remove(); } };
 }

@@ -1,16 +1,21 @@
 {
   "id": "mars-base",
   "title": "火星基地",
-  "subtitle": "给祝融基地装货、建造",
+  "subtitle": "加减乘除，一阶一阶来",
   "place": "base",
   "order": 10,
-  "status": "hidden",
+  "status": "live",
   "accent": "--xg-mars",
   "theme": "mars",
   "icon": "/icons/games/mars-base.svg",
-  "domains": ["number", "measurement"],
-  "parentNote": "数学主力：0–1000 数轴、位值、两位数加减认证、乘除意义、等式天平、人民币和钟表。",
+  "domains": [
+    "number",
+    "memory"
+  ],
+  "parentNote": "四则运算分阶训练：每轮八题，五题答对开启下一阶；保留各阶最好成绩。",
   "orientation": "any",
-  "smoke": {"waitFor": "#app[data-ready]"},
-  "notes": "上线那次提交：删除 site/number-adventure/，加 \"redirectFrom\": [\"/number-adventure\"]，status 改 live（docs/specs/mars-base.md §8.8）。"
+  "redirectFrom": ["/number-adventure"],
+  "smoke": {
+    "waitFor": ".ma-track"
+  }
 }

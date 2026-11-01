@@ -1,15 +1,15 @@
 {
   "id": "xiangqi",
   "title": "楚河棋院",
-  "subtitle": "和小军师研究下一步",
+  "subtitle": "楚河边，摆开棋阵",
   "place": "base",
   "order": 78,
   "status": "live",
-  "accent": "--xg-army",
-  "theme": "army",
+  "accent": "#c93a2c",
+  "theme": "xiangqi",
   "icon": "/icons/games/xiangqi.svg",
   "domains": ["strategy", "planning", "social"],
-  "parentNote": "标准中国象棋：同屏对弈、儿童 AI、一步将死残局。练习观察棋路、保护棋子和提前想一步。",
+  "parentNote": "标准中国象棋的完整产品：和六位机关人对弈（小局 2–4 分钟、整盘随时存）、和爸爸面对面（让子、家规可调）、教练防漏着、复盘。练走前先看一眼和多步规划。",
   "orientation": "any",
   "smoke": { "waitFor": "#app[data-ready]" }
 }

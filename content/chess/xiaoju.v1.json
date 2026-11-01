@@ -1,0 +1,449 @@
+{
+ "version": "v1.1",
+ "gate": "R3 hold-out 2: strong>=0.60 weak>=0.30 medWinPly<=30; no mate-in-1 at start",
+ "cap": 60,
+ "items": [
+  {
+   "id": "kq.007",
+   "theme": "kq",
+   "zh": "后王杀",
+   "fen": "5k2/7K/8/8/3Q4/8/8/8 w - - 0 1",
+   "tier": 3,
+   "need": "E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.93,
+    "weak": 0.47,
+    "medWinPly": 7
+   }
+  },
+  {
+   "id": "kq.149",
+   "theme": "kq",
+   "zh": "后王杀",
+   "fen": "8/8/5Q2/8/8/4K3/8/2k5 w - - 0 1",
+   "tier": 2,
+   "need": "E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.97,
+    "weak": 0.63,
+    "medWinPly": 7
+   }
+  },
+  {
+   "id": "kq.148",
+   "theme": "kq",
+   "zh": "后王杀",
+   "fen": "2k5/8/4K2Q/8/8/8/8/8 w - - 0 1",
+   "tier": 2,
+   "need": "E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.97,
+    "weak": 0.7,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "kq.152",
+   "theme": "kq",
+   "zh": "后王杀",
+   "fen": "8/8/8/QK6/8/8/8/1k6 w - - 0 1",
+   "tier": 3,
+   "need": "E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.97,
+    "weak": 0.45,
+    "medWinPly": 7
+   }
+  },
+  {
+   "id": "rr.086",
+   "theme": "rr",
+   "zh": "双车梯",
+   "fen": "8/6k1/8/8/8/6K1/3R4/3R4 w - - 0 1",
+   "tier": 1,
+   "need": "E1",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.97,
+    "weak": 0.82,
+    "medWinPly": 9
+   }
+  },
+  {
+   "id": "rr.039",
+   "theme": "rr",
+   "zh": "双车梯",
+   "fen": "8/8/7k/8/R7/8/8/3R2K1 w - - 0 1",
+   "tier": 2,
+   "need": "E1",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.95,
+    "weak": 0.65,
+    "medWinPly": 9
+   }
+  },
+  {
+   "id": "rr.147",
+   "theme": "rr",
+   "zh": "双车梯",
+   "fen": "8/8/8/8/K6k/8/R7/4R3 w - - 0 1",
+   "tier": 2,
+   "need": "E1",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 1,
+    "weak": 0.75,
+    "medWinPly": 9
+   }
+  },
+  {
+   "id": "rr.074",
+   "theme": "rr",
+   "zh": "双车梯",
+   "fen": "5R2/6R1/8/8/8/8/K2k4/8 w - - 0 1",
+   "tier": 2,
+   "need": "E1",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 1,
+    "weak": 0.68,
+    "medWinPly": 9
+   }
+  },
+  {
+   "id": "kp.138",
+   "theme": "kp",
+   "zh": "兵冲到底线",
+   "fen": "8/4P3/8/8/1k6/8/3K4/8 w - - 0 1",
+   "tier": 3,
+   "need": "P3+E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.93,
+    "weak": 0.3,
+    "medWinPly": 11
+   }
+  },
+  {
+   "id": "kp.119",
+   "theme": "kp",
+   "zh": "兵冲到底线",
+   "fen": "2K5/k2P4/8/8/8/8/8/8 w - - 0 1",
+   "tier": 2,
+   "need": "P3+E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.93,
+    "weak": 0.57,
+    "medWinPly": 7
+   }
+  },
+  {
+   "id": "kp.126",
+   "theme": "kp",
+   "zh": "兵冲到底线",
+   "fen": "8/6P1/8/6K1/8/8/6k1/8 w - - 0 1",
+   "tier": 3,
+   "need": "P3+E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.9,
+    "weak": 0.45,
+    "medWinPly": 11
+   }
+  },
+  {
+   "id": "m2c.m2.check.040",
+   "theme": "m2c",
+   "zh": "两步杀：先将军",
+   "fen": "8/6k1/3Q4/1P2PP2/8/6K1/8/3R4 w - - 0 1",
+   "tier": 2,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.63,
+    "weak": 0.57,
+    "medWinPly": 15
+   }
+  },
+  {
+   "id": "m2c.m2.check.013",
+   "theme": "m2c",
+   "zh": "两步杀：先将军",
+   "fen": "6k1/5pN1/4r3/3P4/8/8/K5Q1/8 w - - 0 1",
+   "tier": 2,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.78,
+    "weak": 0.55,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "m2c.m2.check.019",
+   "theme": "m2c",
+   "zh": "两步杀：先将军",
+   "fen": "8/k4bR1/8/1Q4p1/p7/6N1/3K4/8 w - - 0 1",
+   "tier": 1,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.95,
+    "weak": 0.95,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "m2c.m2.check.039",
+   "theme": "m2c",
+   "zh": "两步杀：先将军",
+   "fen": "7b/8/k7/5p2/b7/2Q5/8/1R4K1 w - - 0 1",
+   "tier": 2,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.68,
+    "weak": 0.6,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "m2c.m2.check.033",
+   "theme": "m2c",
+   "zh": "两步杀：先将军",
+   "fen": "6r1/8/7k/8/6Rr/2Q5/6K1/6N1 w - - 0 1",
+   "tier": 2,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.78,
+    "weak": 0.65,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "m2q.m2.quiet.023",
+   "theme": "m2q",
+   "zh": "两步杀：安静的一步",
+   "fen": "k7/8/8/2b4R/8/6P1/3K4/1R6 w - - 0 1",
+   "tier": 2,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.9,
+    "weak": 0.65,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "m2q.m2.quiet.040",
+   "theme": "m2q",
+   "zh": "两步杀：安静的一步",
+   "fen": "6k1/1pQ5/3R4/3r4/1P6/P4K2/8/8 w - - 0 1",
+   "tier": 2,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.82,
+    "weak": 0.7,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "m2q.m2.quiet.037",
+   "theme": "m2q",
+   "zh": "两步杀：安静的一步",
+   "fen": "1k6/p5nQ/8/8/3p2P1/5R2/8/6K1 w - - 0 1",
+   "tier": 2,
+   "need": "M2",
+   "models": [
+    "k2n",
+    "k15n"
+   ],
+   "r3": {
+    "strong": 0.82,
+    "weak": 0.6,
+    "medWinPly": 3
+   }
+  },
+  {
+   "id": "qp.472",
+   "theme": "qp",
+   "zh": "多一个后",
+   "fen": "8/1P3k2/8/6Q1/8/4p3/1K6/8 w - - 0 1",
+   "tier": 1,
+   "need": "E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.97,
+    "weak": 0.8,
+    "medWinPly": 7
+   }
+  },
+  {
+   "id": "qp.202",
+   "theme": "qp",
+   "zh": "多一个后",
+   "fen": "8/Qp4P1/8/8/6k1/4K3/8/8 w - - 0 1",
+   "tier": 1,
+   "need": "E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 1,
+    "weak": 0.9,
+    "medWinPly": 5
+   }
+  },
+  {
+   "id": "qp.074",
+   "theme": "qp",
+   "zh": "多一个后",
+   "fen": "8/5P2/6p1/1K6/5k2/8/6Q1/8 w - - 0 1",
+   "tier": 1,
+   "need": "E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.97,
+    "weak": 0.95,
+    "medWinPly": 7
+   }
+  },
+  {
+   "id": "hang.417",
+   "theme": "hang",
+   "zh": "先吃白送的子",
+   "fen": "1Q6/8/8/3K4/5b2/8/8/k7 w - - 0 1",
+   "tier": 3,
+   "need": "V3+E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.82,
+    "weak": 0.53,
+    "medWinPly": 13
+   }
+  },
+  {
+   "id": "hang.179",
+   "theme": "hang",
+   "zh": "先吃白送的子",
+   "fen": "7k/8/8/6QK/8/4r3/8/8 w - - 0 1",
+   "tier": 2,
+   "need": "V3+E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.93,
+    "weak": 0.6,
+    "medWinPly": 7
+   }
+  },
+  {
+   "id": "hang.041",
+   "theme": "hang",
+   "zh": "先吃白送的子",
+   "fen": "k7/8/8/8/r7/1K1Q4/8/8 w - - 0 1",
+   "tier": 3,
+   "need": "V3+E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.93,
+    "weak": 0.45,
+    "medWinPly": 11
+   }
+  },
+  {
+   "id": "hang.413",
+   "theme": "hang",
+   "zh": "先吃白送的子",
+   "fen": "8/1Q6/2r5/8/8/3K4/8/4k3 w - - 0 1",
+   "tier": 2,
+   "need": "V3+E3",
+   "models": [
+    "k2",
+    "k15"
+   ],
+   "r3": {
+    "strong": 0.9,
+    "weak": 0.65,
+    "medWinPly": 5
+   }
+  }
+ ]
+}

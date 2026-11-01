@@ -1,0 +1,258 @@
+{
+ "version": 1,
+ "softCapPlies": 60,
+ "positions": [
+  {
+   "id": "danche.1328",
+   "name": "单车擒将·一",
+   "theme": "danche",
+   "tier": 2,
+   "fen": "3a5/9/4ka3/R2P5/9/9/9/9/9/5K3 w",
+   "k2R3": 90,
+   "k15R3": 75
+  },
+  {
+   "id": "danche.1374",
+   "name": "单车擒将·二",
+   "theme": "danche",
+   "tier": 2,
+   "fen": "9/3k5/b4a3/4P4/9/9/9/9/5R3/4K4 w",
+   "k2R3": 85,
+   "k15R3": 80
+  },
+  {
+   "id": "danche.679",
+   "name": "单车擒将·三",
+   "theme": "danche",
+   "tier": 3,
+   "fen": "2b2P3/5k3/5a3/R8/9/9/9/9/9/4K4 w",
+   "k2R3": 75,
+   "k15R3": 35
+  },
+  {
+   "id": "shuangche.1063",
+   "name": "双车围宫·一",
+   "theme": "shuangche",
+   "tier": 2,
+   "fen": "5k3/9/b2a1a3/9/3R2b2/9/9/9/3K5/3R5 w",
+   "k2R3": 85,
+   "k15R3": 68
+  },
+  {
+   "id": "shuangche.253",
+   "name": "双车围宫·二",
+   "theme": "shuangche",
+   "tier": 2,
+   "fen": "9/5k3/3ab4/9/2b6/7R1/6R2/9/4K4/9 w",
+   "k2R3": 80,
+   "k15R3": 75
+  },
+  {
+   "id": "shuangche.935",
+   "name": "双车围宫·三",
+   "theme": "shuangche",
+   "tier": 2,
+   "fen": "5kb2/9/3a1a3/R8/9/9/9/4K4/9/4R4 w",
+   "k2R3": 90,
+   "k15R3": 70
+  },
+  {
+   "id": "chepao.1202",
+   "name": "车炮联攻·一",
+   "theme": "chepao",
+   "tier": 2,
+   "fen": "1Cb2a3/9/3a1k3/9/1P7/9/9/9/9/R3K4 w",
+   "k2R3": 80,
+   "k15R3": 65
+  },
+  {
+   "id": "chepao.1229",
+   "name": "车炮联攻·二",
+   "theme": "chepao",
+   "tier": 2,
+   "fen": "3k5/9/b2a5/8P/9/8R/1C7/4K4/9/9 w",
+   "k2R3": 75,
+   "k15R3": 78
+  },
+  {
+   "id": "chepao.811",
+   "name": "车炮联攻·三",
+   "theme": "chepao",
+   "tier": 2,
+   "fen": "3a1k3/9/9/1R2P1C2/6b2/9/9/4K4/9/9 w",
+   "k2R3": 80,
+   "k15R3": 78
+  },
+  {
+   "id": "chepao.1201",
+   "name": "车炮联攻·四",
+   "theme": "chepao",
+   "tier": 3,
+   "fen": "5k2P/9/5a2b/9/9/9/9/4K2C1/4R4/9 w",
+   "k2R3": 72,
+   "k15R3": 58
+  },
+  {
+   "id": "mapao.214",
+   "name": "马炮联攻·一",
+   "theme": "mapao",
+   "tier": 1,
+   "fen": "9/9/3Pbk3/1C7/2N6/9/9/4K4/9/9 w",
+   "k2R3": 85,
+   "k15R3": 95
+  },
+  {
+   "id": "mapao.484",
+   "name": "马炮联攻·二",
+   "theme": "mapao",
+   "tier": 2,
+   "fen": "9/9/3kC4/7N1/8P/9/9/9/4K4/9 w",
+   "k2R3": 82,
+   "k15R3": 75
+  },
+  {
+   "id": "mapao.1210",
+   "name": "马炮联攻·三",
+   "theme": "mapao",
+   "tier": 3,
+   "fen": "3a4N/4k4/5P3/9/9/2C6/9/9/3K5/9 w",
+   "k2R3": 80,
+   "k15R3": 62
+  },
+  {
+   "id": "chebing.1148",
+   "name": "车兵取胜·一",
+   "theme": "chebing",
+   "tier": 1,
+   "fen": "9/2P6/5k3/2R1P4/9/9/9/9/9/4K4 w",
+   "k2R3": 90,
+   "k15R3": 90
+  },
+  {
+   "id": "chebing.217",
+   "name": "车兵取胜·二",
+   "theme": "chebing",
+   "tier": 1,
+   "fen": "6b2/3k5/3a1aP2/3P5/9/9/8R/9/5K3/9 w",
+   "k2R3": 95,
+   "k15R3": 85
+  },
+  {
+   "id": "chebing.1469",
+   "name": "车兵取胜·三",
+   "theme": "chebing",
+   "tier": 2,
+   "fen": "5aP2/3k5/3a5/5P3/2b6/9/9/2RK5/9/9 w",
+   "k2R3": 95,
+   "k15R3": 82
+  },
+  {
+   "id": "chebing.573",
+   "name": "车兵取胜·四",
+   "theme": "chebing",
+   "tier": 2,
+   "fen": "9/4k4/3a5/3P5/2b3P2/6R2/9/3K5/9/9 w",
+   "k2R3": 92,
+   "k15R3": 80
+  },
+  {
+   "id": "shuangpao.702",
+   "name": "双炮破防·一",
+   "theme": "shuangpao",
+   "tier": 1,
+   "fen": "2N2k3/9/9/9/9/9/3C5/8C/4K4/9 w",
+   "k2R3": 100,
+   "k15R3": 88
+  },
+  {
+   "id": "shuangpao.1235",
+   "name": "双炮破防·二",
+   "theme": "shuangpao",
+   "tier": 2,
+   "fen": "N2k5/9/9/9/5Cb2/8C/9/9/4K4/9 w",
+   "k2R3": 95,
+   "k15R3": 78
+  },
+  {
+   "id": "shuangpao.1374",
+   "name": "双炮破防·三",
+   "theme": "shuangpao",
+   "tier": 2,
+   "fen": "5kC2/8N/6C2/9/9/9/9/9/4K4/9 w",
+   "k2R3": 92,
+   "k15R3": 80
+  },
+  {
+   "id": "duozi.198",
+   "name": "多子取胜·一",
+   "theme": "duozi",
+   "tier": 1,
+   "fen": "8R/9/4k4/9/6b2/9/4N4/9/9/3Kc3C w",
+   "k2R3": 85,
+   "k15R3": 90
+  },
+  {
+   "id": "duozi.586",
+   "name": "多子取胜·二",
+   "theme": "duozi",
+   "tier": 1,
+   "fen": "5a3/5k3/9/1N4C2/9/9/9/3R1r3/3K5/9 w",
+   "k2R3": 92,
+   "k15R3": 98
+  },
+  {
+   "id": "duozi.362",
+   "name": "多子取胜·三",
+   "theme": "duozi",
+   "tier": 2,
+   "fen": "9/8c/4bk3/5NC2/9/9/9/9/5KR2/9 w",
+   "k2R3": 88,
+   "k15R3": 72
+  },
+  {
+   "id": "duozi.847",
+   "name": "多子取胜·四",
+   "theme": "duozi",
+   "tier": 2,
+   "fen": "3k5/9/4C4/9/1N7/5c3/9/9/9/2R1K4 w",
+   "k2R3": 88,
+   "k15R3": 80
+  },
+  {
+   "id": "jianfeng.049",
+   "name": "见面杀势·一",
+   "theme": "jianfeng",
+   "tier": 2,
+   "fen": "4k4/9/C2a2n2/9/9/9/6N2/9/3K3R1/9 w",
+   "k2R3": 85,
+   "k15R3": 65
+  },
+  {
+   "id": "jianfeng.403",
+   "name": "见面杀势·二",
+   "theme": "jianfeng",
+   "tier": 2,
+   "fen": "9/N3kC3/3a5/9/9/9/9/pR7/9/3K5 w",
+   "k2R3": 82,
+   "k15R3": 68
+  },
+  {
+   "id": "jianfeng.615",
+   "name": "见面杀势·三",
+   "theme": "jianfeng",
+   "tier": 2,
+   "fen": "3k5/4C4/3a5/9/9/9/5N3/n2RK4/9/9 w",
+   "k2R3": 85,
+   "k15R3": 70
+  },
+  {
+   "id": "jianfeng.1204",
+   "name": "见面杀势·四",
+   "theme": "jianfeng",
+   "tier": 3,
+   "fen": "5a3/2n2k3/4C4/9/7N1/9/9/R2K5/9/9 w",
+   "k2R3": 78,
+   "k15R3": 60
+  }
+ ]
+}
