@@ -1,18 +1,63 @@
 game: mars-arithmetic
 seed: 1242
 lines:
-  - {id: ma.home, role: narrator, text: 欢迎来到火星算术站，我是火星搭档。选一条路线，我们一起做八道题。}
-  - {id: ma.ask, role: narrator, text: 等于几？}
-  - {id: ma.op.add, role: narrator, text: 加}
-  - {id: ma.op.sub, role: narrator, text: 减}
-  - {id: ma.op.mul, role: narrator, text: 乘}
-  - {id: ma.op.div, role: narrator, text: 除以}
-  - {id: ma.hint.add, role: narrator, text: 从第一个数开始，再往后数。}
-  - {id: ma.hint.sub, role: narrator, text: 从第一个数开始，再往回数。}
-  - {id: ma.hint.mul, role: narrator, text: 想想有几组，每组几个。}
-  - {id: ma.hint.div, role: narrator, text: 平均分成几组，每组几个？}
-  - {id: ma.right, role: narrator, text: 算对了，我们看下一题。}
-  - {id: ma.wrong, role: narrator, text: 没关系，看看正确答案，再试下一题。}
-  - {id: ma.answer, role: narrator, text: 正确答案是}
-  - {id: ma.pass, role: narrator, text: 八道题做完了，下一阶已经开启。}
-  - {id: ma.retry, role: narrator, text: 这一轮做完了，再练一次也可以。}
+  - {id: ma.home, role: companion, text: 欢迎来到火星算术站，我是火星搭档。选一条路线，我们一起做八道题。}
+  - {id: ma.hint.add, role: companion, text: 从第一个数开始，再往后数。}
+  - {id: ma.hint.sub, role: companion, text: 从第一个数开始，再往回数。}
+  - {id: ma.hint.mul, role: companion, text: 想想有几组，每组几个。}
+  - {id: ma.hint.div, role: companion, text: 平均分成几组，每组几个？}
+  - {id: ma.right, role: companion, text: 算对了，我们看下一题。}
+  - {id: ma.wrong, role: companion, text: 没关系，看看正确答案，再试下一题。}
+  - {id: ma.pass, role: companion, text: 八道题做完了，下一阶已经开启。}
+  - {id: ma.retry, role: companion, text: 这一轮做完了，再练一次也可以。}
+  - {id: ma.home.again, role: companion, text: 选一条路线，接着练吧。}
+  - {id: ma.home.tip, role: companion, text: 不想从头开始？点测起点，我来看看你该从哪一阶出发。}
+  - {id: ma.ask.cmp, role: companion, text: 比大小，选一个符号。}
+  - {id: ma.intro.fill, role: companion, text: 这一阶要填空格里的数。}
+  - {id: ma.intro.cmp, role: companion, text: 这一阶要比大小。点大于、小于或者等于。}
+  - {id: ma.intro.two, role: companion, text: 这一阶有两步。先算乘或除，再算加或减。}
+  - {id: ma.intro.split, role: companion, text: 不会算的时候，点拆一拆，我带你一步一步算。}
+  - {id: ma.warm, role: companion, text: 先带你做两题。我们把数拆开，一块一块地算。, norm: 先带你做两题。我们把数拆开，一块一块的算。}
+  - {id: ma.hint.add.big, role: companion, text: 一位一位地加，满十就向前进一。, norm: 一位一位的加，满十就向前进一。}
+  - {id: ma.hint.sub.big, role: companion, text: 一位一位地减，不够减就向前借一。, norm: 一位一位的减，不够减就向前借一。}
+  - {id: ma.hint.zero, role: companion, text: 先算前面的数，再补上后面的零。}
+  - {id: ma.hint.mul.big, role: companion, text: 把大数拆成整十和个位，分别乘，再相加。}
+  - {id: ma.hint.div.big, role: companion, text: 把被除数拆成好除的两块，分别除，再相加。}
+  - {id: ma.hint.chain, role: companion, text: 从左往右，一个数一个数地加。, norm: 从左往右，一个数一个数的加。}
+  - {id: ma.hint.fill.add, role: companion, text: 总数减去已知的数，就是空格里的数。}
+  - {id: ma.hint.fill.sub1, role: companion, text: 大数减去结果，就是空格里的数。}
+  - {id: ma.hint.fill.sub2, role: companion, text: 结果加上减去的数，就是空格里的数。}
+  - {id: ma.hint.fill.mul, role: companion, text: 用右边的数，除以已知的数。}
+  - {id: ma.hint.fill.div1, role: companion, text: 总数除以结果，就是空格里的数。}
+  - {id: ma.hint.fill.div2, role: companion, text: 结果乘已知的数，就是空格里的数。}
+  - {id: ma.hint.cmp, role: companion, text: 先把算式算出来，再和另一边比一比。}
+  - {id: ma.hint.two, role: companion, text: 先算乘或除，再算加或减。}
+  - {id: ma.step.add.1, role: companion, text: 先加第一块。}
+  - {id: ma.step.add.2, role: companion, text: 再加下一块。}
+  - {id: ma.step.sub.1, role: companion, text: 先减第一块。}
+  - {id: ma.step.sub.2, role: companion, text: 再减下一块。}
+  - {id: ma.step.part.1, role: companion, text: 先算第一块。}
+  - {id: ma.step.part.2, role: companion, text: 再算第二块。}
+  - {id: ma.step.merge, role: companion, text: 最后把两块合起来。}
+  - {id: ma.split.again, role: companion, text: 这一步再想想，看看图上的数。}
+  - {id: ma.split.done, role: companion, text: 全部算完了，合起来就是答案。}
+  - {id: ma.streak, role: companion, text: 连续答对三道，能量满格了！}
+  - {id: ma.place.start, role: companion, text: 我来出几道题，看看你该从哪一阶出发。不会的就猜一猜，没关系。}
+  - {id: ma.place.done, role: companion, text: 测完了，前面的阶都算通过，我们从这里出发。}
+  - {id: ma.place.same, role: companion, text: 测完了。你已经开启得更远了，这里保持不变。}
+  - {id: ma.place.first, role: companion, text: 测完了，我们从第一阶出发。}
+  - {id: ma.sprint.best, role: companion, text: 新的最好成绩！}
+  - {id: ma.sprint.miss, role: companion, text: 有的题没算出来，这次不计入最好成绩。}
+  - {id: ma.sprint.locked, role: companion, text: 通过这条线的第三阶，就能开启超频。}
+  - {id: ma.pass.last, role: companion, text: 这一条训练线全部完成了。}
+  - {id: ma.how.calc, role: companion, text: 算一算，等于多少？}
+  - {id: ma.how.fill, role: companion, text: 方框里填多少？}
+  - {id: ma.how.rem, role: companion, text: 商是多少，还剩多少？}
+  - {id: ma.how.two, role: companion, text: 先算乘除，再算加减，等于多少？}
+  - {id: ma.intro.rem2, role: companion, text: 这一阶有剩下的数。商和剩下的数，都要填。}
+  - {id: ma.hint.rem2, role: companion, text: 想一想，哪个乘法最接近，再看还剩下多少。}
+  - {id: ma.sprint.start2, role: companion, text: 超频开始！十道题，做完看用时。}
+  - {id: ma.sprint.keep, role: companion, text: 这次没有超过最好成绩，再来一次吧。}
+  - {id: ma.res.faster2, role: companion, text: 这次比上次快了。}
+  - {id: ma.res.more2, role: companion, text: 这次比以前多对了。}
+  - {id: ma.res.used2, role: companion, text: 这次的用时已经记下来了。}

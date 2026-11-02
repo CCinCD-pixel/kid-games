@@ -28,7 +28,8 @@ describe('arithmetic progress', () => {
     expect(s.best['add-1']).toBe(5);
     expect(stageOpen(s, STAGES[1])).toBe(true);
     expect(stageOpen(s, STAGES[2])).toBe(false);
-    expect(stageOpen(s, STAGES[6])).toBe(true);
+    expect(stageOpen(s, STAGES.find((x) => x.id === 'sub-1')!)).toBe(true);
+    expect(stageOpen(s, STAGES.find((x) => x.id === 'add-7')!)).toBe(false);
     startRun(s, STAGES[0]);
     for (let i = 0; i < 8; i++) recordAnswer(s, i < 2);
     expect(s.best['add-1']).toBe(5);

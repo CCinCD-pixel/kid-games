@@ -2,78 +2,154 @@
  "_": "seeds chosen by `voice build --reroll` (QC-scored); delete an entry to re-roll that line",
  "engine": "qwen3",
  "takes": {
+  "ma.hint.add.big": {
+   "seed": 1244,
+   "base": 1242,
+   "sig": "a45338bf97db73d6101f4c5653cda779f5dd5f63",
+   "score": 0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
+   ]
+  },
   "ma.home": {
    "seed": 1243,
    "base": 1242,
-   "sig": "3936f0512a62de1e5eef335a0b7053ef17e19989",
-   "score": 0.0,
+   "sig": "fe4d50d438b0ac7c701bcadb5760b6e274b16436",
+   "score": 0,
    "flags": [],
-   "tried": [
-    1242,
-    1243
-   ]
-  },
-  "ma.op.div": {
-   "seed": 1243,
-   "base": 1242,
-   "sig": "adce09155112a41a94263ad27401eb6232e7fcb0",
-   "score": 0.0,
-   "flags": [],
-   "tried": [
-    1242,
-    1243
-   ]
-  },
-  "ma.op.sub": {
-   "seed": 1245,
-   "base": 1242,
-   "sig": "394de3e575b17f93d73989291c406589143404d0",
-   "score": 5.0,
-   "flags": [
-    "cer(asr-homophone)"
-   ],
    "tried": [
     1242,
     1243,
     1244,
-    1245
+    1245,
+    1246,
+    1247
    ]
   },
-  "ma.pass": {
-   "seed": 1243,
-   "base": 1242,
-   "sig": "3980be41b115b5a8d348ab7867c5d3015c851320",
-   "score": 0.0,
-   "flags": [],
-   "tried": [
-    1242,
-    1243
-   ]
-  },
-  "ma.resume": {
+  "ma.home.tip": {
    "seed": 1244,
    "base": 1242,
-   "sig": "213082ec7f81e856ff122aff11bbe49e0f60b5f4",
-   "score": 100.7,
-   "flags": [
-    "pace"
-   ],
+   "sig": "8017113fff42bd5d4c0428fd1e5b6a54d50d41d8",
+   "score": 0,
+   "flags": [],
    "tried": [
     1242,
     1243,
     1244,
-    1245
+    1245,
+    1246,
+    1247
    ]
   },
-  "ma.retry": {
-   "seed": 1243,
+  "ma.intro.fill": {
+   "seed": 1246,
    "base": 1242,
-   "sig": "68699ec77cc98d01e9b7722aac3ef34611509ada",
-   "score": 0.0,
+   "sig": "5d3dce23fa09bb791971b11f4686b63bc0b9bd5a",
+   "score": 0,
    "flags": [],
    "tried": [
     1242,
-    1243
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
+   ]
+  },
+  "ma.intro.two": {
+   "seed": 1244,
+   "base": 1242,
+   "sig": "75f55b0ae14ba21c7024c9002645d2e8f32e83e6",
+   "score": 0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
+   ]
+  },
+  "ma.res.faster2": {
+   "seed": 1244,
+   "base": 1242,
+   "sig": "31c601499a8a45b758c26c46a2563bf6be1180a3",
+   "score": 0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
+   ]
+  },
+  "ma.res.more2": {
+   "seed": 1245,
+   "base": 1242,
+   "sig": "ebab23821e1e3845db504daae7b400e3500dda5a",
+   "score": 0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
+   ]
+  },
+  "ma.sprint.keep": {
+   "seed": 1244,
+   "base": 1242,
+   "sig": "f95e7dd11199af3d22fc203da4cb0c3007f5a042",
+   "score": 0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
+   ]
+  },
+  "ma.sprint.locked": {
+   "seed": 1243,
+   "base": 1242,
+   "sig": "cb1e3104d588f995526a5451868b506fe3f38817",
+   "score": 0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
+   ]
+  },
+  "ma.step.merge": {
+   "seed": 1245,
+   "base": 1242,
+   "sig": "e3daadc5b5d8782de41325ad5047c26b71d2a4de",
+   "score": 0,
+   "flags": [],
+   "tried": [
+    1242,
+    1243,
+    1244,
+    1245,
+    1246,
+    1247
    ]
   }
  }

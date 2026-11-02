@@ -1,7 +1,7 @@
 {
   "id": "mars-base",
   "title": "火星基地",
-  "subtitle": "加减乘除，一阶一阶来",
+  "subtitle": "加减乘除，从你的起点出发",
   "place": "base",
   "order": 10,
   "status": "live",
@@ -12,7 +12,7 @@
     "number",
     "memory"
   ],
-  "parentNote": "四则运算分阶训练：每轮八题，五题答对开启下一阶；保留各阶最好成绩。",
+  "parentNote": "四则运算 44 个任务（每条线 10 阶 + 混合挑战）：可先点「测起点」，乘除难题有「拆一拆」分步带算，每轮八题、答对五题开启下一阶；「超频」只和自己的最好成绩比。孩子的进度只保存在这台设备上。",
   "orientation": "any",
   "redirectFrom": ["/number-adventure"],
   "smoke": {
