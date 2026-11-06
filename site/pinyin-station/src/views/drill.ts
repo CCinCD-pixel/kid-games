@@ -1,5 +1,6 @@
 import { h } from '@kit/ui';
 import { cellLabel, compareTime, type DrillTable } from '../domain/drill';
+import { DRILL_DAYS, nextDrillDue } from '../domain/progress';
 import { button, glyph, type Context } from './common';
 
 /**
@@ -22,7 +23,8 @@ export function drillView(ctx: Context, table: DrillTable, leave: () => void): H
     const best = (ctx.save.drillBest ??= {});
     const before = best[table.id];
     const message = compareTime(before?.last, seconds);
-    best[table.id] = { best: Math.min(before?.best ?? seconds, seconds), last: seconds, at: Date.now() };
+    const box = Math.min(DRILL_DAYS.length - 1, (before?.box ?? -1) + 1);
+    best[table.id] = { best: Math.min(before?.best ?? seconds, seconds), last: seconds, at: Date.now(), box, due: nextDrillDue(box, Date.now()) };
     ctx.persist();
     cells.forEach((c) => c.classList.add('done'));
     cells.forEach((c) => c.classList.remove('current'));

@@ -11,6 +11,7 @@ import { labPanel } from './lab';
 import { batchReviewPanel } from './batch-review';
 import { downloadExport } from './export';
 import { reviewPanel } from './review';
+import { pageReport } from './pagereport';
 import { familyToken, saveFamilyToken, checkConnection } from '../speech/family';
 import type { Word } from '../domain/types';
 
@@ -528,6 +529,7 @@ export function parentView(ctx: Context): HTMLElement {
         localCard,
         keepCard,
         progress,
+        ...pageReport(ctx),
         add,
         review,
         ...(location.pathname.includes('/lab/') ? [labPanel(ctx)] : []),

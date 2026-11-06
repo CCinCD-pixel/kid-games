@@ -17,6 +17,10 @@ import type { ResumeState, Word } from './domain/types';
 import { lineText } from './views/lines';
 import { defaultTable, drillTables } from './domain/drill';
 import { drillView } from './views/drill';
+import { readBookView } from './views/readbook';
+import { printView } from './views/printpage';
+import { buildWeeklyQuiz, buildWorksheet } from './domain/worksheet';
+import { dueSummary } from './domain/progress';
 import { rulesView } from './views/rules';
 import './styles.css';
 
@@ -90,7 +94,7 @@ type Played = 'done' | 'interrupted' | 'skipped';
 const played = (result: unknown): Played =>
   result === 'interrupted' ? 'interrupted' : result === 'done' ? 'done' : 'skipped';
 // ---- navigation: home <-> exactly one sub-view (practice / album / parent / finish). One back step = one level.
-type ViewName = 'home' | 'practice' | 'album' | 'parent' | 'finish' | 'recall' | 'drill' | 'rules';
+type ViewName = 'home' | 'practice' | 'album' | 'parent' | 'finish' | 'recall' | 'drill' | 'rules' | 'book' | 'print';
 const NAV = 'ps';
 let view: ViewName = 'home';
 try {
@@ -286,6 +290,7 @@ const ctx: Context = {
   },
   stopAudio,
   storageOkay: () => lastSaveOkay,
+  print: (kind, scope) => printSheet(kind, scope),
 };
 function header() {
   return h(
@@ -323,6 +328,7 @@ const modeNames: Record<string, string> = {
   repair: '老朋友重逢',
   read: '小播音员',
   review: '阶段复习',
+  week: '一周回顾',
 };
 function home() {
   resetView();
@@ -372,6 +378,17 @@ function home() {
           ),
         )
       : null;
+  // 复习队列: a quiet note when old friends are due (never a count of failures, never when today's programme is done).
+  const due = dueSummary(save, bank);
+  const dueHint =
+    due.total && !(save.lastFinishAt !== undefined && sameDay(save.lastFinishAt, Date.now()))
+      ? h(
+          'p',
+          { class: 'due-hint', role: 'note' },
+          `今天有 ${due.total > 20 ? '好多' : due.total} 个老朋友想见你。`,
+          due.pages.length ? h('small', null, `它们住在${due.pages.slice(0, 3).map((p) => `第 ${p.page} 页`).join('、')}，开始今天的节目就会遇到。`) : null,
+        )
+      : null;
   const doneToday = save.lastFinishAt !== undefined && sameDay(save.lastFinishAt, Date.now());
   const program = h(
     'aside',
@@ -406,6 +423,7 @@ function home() {
           button('接着上次的节目', () => startPractice(resume.mode, resume), 'primary', 'play'),
         )
       : null,
+    dueHint,
     resume ? quietStart : start,
     reviewBtn,
     drillBtn,
@@ -419,6 +437,8 @@ function home() {
     route('听听声音', '两个声音，找一个小变化', 'listen', 'listen'),
     route('图画拼搭', '把图里的声音搭出来', 'spell', 'grid'),
     route('老朋友重逢', '和想再见的词语碰个面', 'repair', 'hint'),
+    routeTo('book', '朗读册', '读一页，记一遍', 'book', readBook),
+    routeTo('week', '一周回顾', '这一周练过的，小卷一张', 'hint', () => startPractice('week')),
   );
   app.replaceChildren(
     header(),
@@ -441,6 +461,22 @@ function route(title: string, desc: string, mode: string, symbol: 'listen' | 'gr
     h('span', null, h('b', null, title), h('small', null, desc)),
     glyph('next'),
   );
+}
+function routeTo(cls: string, title: string, desc: string, symbol: 'listen' | 'grid' | 'hint' | 'book', go: () => void) {
+  return h('button', { type: 'button', class: `route-card route-${cls}`, onclick: go }, glyph(symbol), h('span', null, h('b', null, title), h('small', null, desc)), glyph('next'));
+}
+/** 朗读册: the child's page-by-page reading counter. */
+function readBook() {
+  resetView();
+  open('book');
+  app.replaceChildren(header(), readBookView(ctx));
+}
+/** 打印练习页 / 一周回顾卷: a preview of the A4 paper; the print style leaves only the paper. */
+function printSheet(kind: 'weak' | 'week', scope?: number) {
+  resetView();
+  open('print');
+  const sheet = kind === 'week' ? buildWeeklyQuiz(save, bank) : buildWorksheet(save, bank, scope ?? 'weak');
+  app.replaceChildren(header(), printView(sheet, () => void showParent()));
 }
 function startPractice(mode: string, resume?: ResumeState) {
   resetView();
@@ -516,7 +552,7 @@ function drill() {
         'button',
         {
           type: 'button',
-          class: `drill-choice ${t === pointed ? 'recommended' : ''}`,
+          class: `drill-choice ${t === pointed ? 'recommended' : ''} ${mine?.due !== undefined && mine.due <= Date.now() ? 'due' : ''}`,
           'data-table': t.id,
           onclick: () => {
             stopAudio();
@@ -525,7 +561,7 @@ function drill() {
         },
         h('b', null, t.title),
         h('small', null, t.note),
-        h('span', null, mine ? `上次读了 ${mine.last} 秒` : `${t.cells.length} 格`),
+        h('span', null, mine ? `上次读了 ${mine.last} 秒${mine.due !== undefined && mine.due <= Date.now() ? ' · 该再读一读啦' : ''}` : `${t.cells.length} 格`),
       ),
     );
   }

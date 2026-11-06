@@ -130,7 +130,9 @@ export interface Save {
   /** The programme the child left half way (lock screen, 回电台, opened the album…) so it can be picked up again. */
   resume?: ResumeState;
   /** 练读表 times per table (seconds), only ever shown back to the child; never a ranking. */
-  drillBest?: Record<string, { best: number; last: number; at: number }>;
+  drillBest?: Record<string, { best: number; last: number; at: number; box?: number; due?: number }>;
+  /** 朗读册: how many times the child read a book page aloud and whether a parent stamped it (a mirror of the paper habit, device only). */
+  book?: Record<string, { reads: number; signedAt?: number }>;
   /** 小规则 cards the child has seen or skipped (the first-time hint appears once). */
   rulesSeen?: Record<string, boolean>;
   /** When the last full programme was finished (for the “今天已完成” note on the home screen). */

@@ -1596,6 +1596,11 @@
       "id": "py.drill.done",
       "role": "companion",
       "text": "这一张读完啦，歇一歇。"
+    },
+    {
+      "id": "py.book.plus",
+      "role": "companion",
+      "text": "记下啦，又读了一遍。"
     }
   ]
 }

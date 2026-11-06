@@ -1,6 +1,7 @@
 import { createRng } from '@kit/rng';
 import type { Attempt, Atom, Bank, Kind, Question, Save, Syllable, Word } from './types';
 import { medialSplit, parseSyllable } from './pinyin';
+import { dueRoots, weekRoots } from './progress';
 
 export function initialSave(): Save {
   return {
@@ -132,11 +133,16 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   // Within one programme a letter / pair / target is not asked again before every other one has had a turn.
   const used = new Map<string, number>();
   const previous = new Map<string, string>();
-  const pickLeast = <T>(items: T[], key: (item: T) => string, scope: string): T => {
+  // 复习队列: old friends (a due skill) and, in the weekly review, this week's skills are met first, each once per programme.
+  const favSet = mode === 'week' ? weekRoots(s) : ['today', 'listen', 'repair'].includes(mode) ? dueRoots(s) : null;
+  const fav = <T>(root: (item: T) => string): ((item: T) => boolean) | undefined => (favSet ? (item: T) => favSet.has(root(item)) : undefined);
+  const pickLeast = <T>(items: T[], key: (item: T) => string, scope: string, favoured?: (item: T) => boolean): T => {
     const at = (item: T) => used.get(`${scope}:${key(item)}`) ?? 0,
       // Never the same one twice in a row, even when the whole set has been used up and starts over.
       fresh = items.filter((item) => key(item) !== previous.get(scope)),
-      from = fresh.length ? fresh : items,
+      from0 = fresh.length ? fresh : items,
+      wanted = favoured ? from0.filter((item) => favoured(item) && at(item) === 0) : [],
+      from = wanted.length ? wanted : from0,
       min = Math.min(...from.map(at)),
       chosen = rng.pick(from.filter((item) => at(item) === min));
     used.set(`${scope}:${key(chosen)}`, at(chosen) + 1);
@@ -221,6 +227,8 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   const pattern: Kind[] =
     mode === 'review'
       ? ['C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C']
+      : mode === 'week'
+      ? ['E', 'C', 'D', 'A', 'E', 'B', 'F', 'H', 'D', 'C', 'E', 'A', 'B', 'F', 'E', 'D', 'C', 'H']
       : mode === 'scene'
       ? ['E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E']
       : mode === 'read'
@@ -253,7 +261,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
         scene.lesson <= s.settings.lesson && scene.targets.some((id) => words.some((w) => w.id === id)),
     ),
   );
-  return Array.from({ length: mode === 'review' ? 20 : count }, (_, i) => {
+  return Array.from({ length: mode === 'review' ? 20 : mode === 'week' ? 18 : count }, (_, i) => {
     let kind = pattern[i % pattern.length];
     const phase = i < 3 ? ('warmup' as const) : ('main' as const);
     if (kind === 'G' && !sentences.length) kind = 'E';
@@ -278,6 +286,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
         phase === 'warmup' && known.length ? known : focusSlot && focusLetters.length ? focusLetters : letters,
         (l) => l.id,
         'A',
+        fav((l: { id: string }) => `letter:${l.id}`),
       );
       // Exactly one right answer: the call sound (fō) must not also contain another choice (f + o).
       const heard = heardLetters(target.callSound);
@@ -316,7 +325,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
             : [];
         const base = near.length ? near : old.length ? old : options;
         const first = mode === 'review' ? pickLeast([...new Set(base.map((o) => o.sy.initial))], (x) => x, 'Cinit') : '';
-        const { sy, rivals } = pickLeast(mode === 'review' ? base.filter((o) => o.sy.initial === first) : base, (o) => o.sy.id, 'C');
+        const { sy, rivals } = pickLeast(mode === 'review' ? base.filter((o) => o.sy.initial === first) : base, (o) => o.sy.id, 'C', fav((o: { sy: { id: string } }) => `syl:${o.sy.id}`));
         return {
           id: `C:${sy.id}`,
           kind,
@@ -335,13 +344,13 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
       const eligible = b.confusions.filter((c) =>
         c.minimalPairs.some((p) => p.every((id) => sylPool.some((sy) => sy.id === id))),
       );
-      const pair = eligible.length ? pickLeast(eligible, (c) => c.pair.join('|'), 'Bpair') : undefined;
+      const pair = eligible.length ? pickLeast(eligible, (c) => c.pair.join('|'), 'Bpair', fav((c: { pair: string[] }) => `pair:${c.pair.join('|')}`)) : undefined;
       const candidates =
         pair?.minimalPairs.filter((p) => p.every((id) => sylPool.some((sy) => sy.id === id))) ?? [];
       let alternatives = candidates.length ? pickLeast(candidates, (p) => p.join('|'), 'Bmin') : [];
       if (!alternatives.length) {
         // Two sounds of the same series (same vowel, different tone) or the same first sound: a small, honest contrast.
-        const first = pickLeast(sylPool, (x) => x.id, 'Bfocus'),
+        const first = pickLeast(sylPool, (x) => x.id, 'Bfocus', fav((x: { id: string }) => `syl:${x.id}`)),
           mates = sylPool.filter((x) => x.id !== first.id && (x.final === first.final || x.initial === first.initial)),
           other = rng.pick(mates.length ? mates : sylPool.filter((x) => x.id !== first.id));
         alternatives = [first.id, other.id];
@@ -373,7 +382,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
     if (kind === 'H') {
       // 四声排排队: hear one tone of a series, pick it among the (ordered) four.
       const pool = focusSlot && focusTone.length ? focusTone : toneItems;
-      const series = pickLeast([...new Set(pool.map((t) => t.series))], (x) => x, 'Hseries');
+      const series = pickLeast([...new Set(pool.map((t) => t.series))], (x) => x, 'Hseries', fav((x: string) => `tone4:${x}`));
       const item = pickLeast(
         pool.filter((t) => t.series === series),
         (t) => t.id,
@@ -408,8 +417,13 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
       // All sentences are resting. Offer a listening question instead of violating the interval.
       return schedule(s, b, 'listen', count)[i];
     }
+    const weekWords = mode === 'week' ? words.filter((w) => favSet?.has(`word:${w.id}`)) : [];
     const pool =
-      mode === 'review'
+      mode === 'week'
+        ? weekWords.length >= 3
+          ? weekWords
+          : words
+        : mode === 'review'
         ? reviewWords
         : phase === 'warmup'
         ? familiar.length

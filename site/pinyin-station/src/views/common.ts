@@ -23,6 +23,8 @@ export interface Context {
   /** `saved` = how many recordings were really kept (the ending page only talks about those). */
   finish: (records: Recording[], saved: number) => void;
   home: () => void;
+  /** The printable practice page (B8) or the weekly review paper (B9). `scope` = one station, absent = the weak spots. */
+  print: (kind: 'weak' | 'week', scope?: number) => void;
   stopAudio: () => void;
 }
 export function glyph(name: UiIconName): HTMLElement {

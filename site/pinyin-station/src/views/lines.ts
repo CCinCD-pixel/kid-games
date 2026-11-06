@@ -56,6 +56,8 @@ export const RULES: { id: string; title: string; at: number; line: Line }[] = [
   { id: 'nl', title: '有的小点点要留着', at: 6, line: line('py.rule.nl', '有两个字母后面，两个小点点要好好留着。') },
   { id: 'mark', title: '声调标在哪里', at: 9, line: line('py.rule.mark', '韵母里有张大嘴巴的，声调就标在它头上；没有的话，找圆圆嘴巴和扁扁嘴巴；两个小个子并排，标在后面那个。') },
 ];
+/** 朗读册: said when the child taps "我读了一遍" (never a count, never a target). */
+export const BOOK = { plus: line('py.book.plus', '记下啦，又读了一遍。') };
 export const DRILL = {
   start: line('py.drill', '一格一格慢慢读，读好了就点下一个。'),
   done: line('py.drill.done', '这一张读完啦，歇一歇。'),
@@ -86,5 +88,6 @@ export const ALL_LINES: Line[] = [
   ...Object.values(FINISH),
   ...RULES.map((r) => r.line),
   ...Object.values(DRILL),
+  ...Object.values(BOOK),
 ];
 export const lineText = (id: string): string | undefined => ALL_LINES.find((l) => l.id === id)?.text;
