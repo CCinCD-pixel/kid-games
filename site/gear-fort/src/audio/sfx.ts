@@ -6,6 +6,7 @@
 import { getAudioContext, getBus, playBuffer, type Voice } from '@kit/audio';
 import { RECIPES, renderSfx, SR } from './synth';
 import { commonSfx, levelSfx, halfRate, HALF } from './sfxset';
+import { ultSfx } from '../theme/ultfam';
 import type { Level } from '../lane/types';
 
 const bufs = new Map<string, AudioBuffer>(); let bufCtx: AudioContext | null = null;
@@ -24,7 +25,7 @@ function buf(a: AudioContext, id: string): AudioBuffer {
 /** bytes of sound-effect samples held right now (spec §8.6 budget; read by the tech probe) */
 export function sfxBytes(): number { let n = 0; for (const b of bufs.values()) n += b.length * b.numberOfChannels * 4; return n; }
 /** synthesize ahead in idle slices (battle-critical ids first; spec: ≤150 ms on A13, split in two batches) */
-const FIRST = ['place', 'hit.wood', 'hit.metal', 'shoot.crossbow', 'collect', 'machine.break', 'parts.fly', 'unit.hurt', 'flag.drum', 'shoot.lobber', 'syll'];
+const FIRST = ['place', 'hit.wood', 'hit.arrow', 'hit.metal', 'shoot.crossbow', 'collect', 'machine.break', 'parts.fly', 'unit.hurt', 'flag.drum', 'shoot.lobber', 'syll'];
 export function warmSfx(): void { warm([...FIRST, ...commonSfx(Object.keys(RECIPES)).filter((k) => !FIRST.includes(k))]); }
 /** a battle starts: keep the common set + this level's own sounds, let the rest go (spec §8.6 "只合成用到的音效") */
 export function prepareLevel(L: Level, cards?: string[]): void {
@@ -84,6 +85,18 @@ export function parts(n: number, delay = 0.6): void {
   const now = performance.now(); if (now - partAt > 1500) partStep = 0; partAt = now;
   for (let i = 0; i < n; i++) play('parts.fly', { step: Math.min(7, partStep++), delay: delay + i * 0.09 });
 }
+// ── A2: the 连破 ladder (the same pentatonic steps as collect, C major: n = 3 starts on E5) and the ult of a card's family ──
+let cmbN = 0, cmbTimer = 0;
+/** 连破 ×n: one rising note per kill of the streak (E5 G5 A5 C6 D6 E6 …). Kills of one burst (a fire pot on a swarm) are gathered for 70 ms and the highest step plays once */
+export function combo(n: number): void {
+  cmbN = Math.max(cmbN, n); if (cmbTimer) return;
+  cmbTimer = window.setTimeout(() => { cmbTimer = 0; const k = cmbN; cmbN = 0; play('combo', { step: Math.min(7, Math.max(0, k - 1)) }); }, 70);
+}
+/** the 机关令 sound of the card it was used on: five families, not one shared sound (token.use stays as the fallback) */
+export function ult(card: string | undefined, lane?: number): void {
+  const id = RECIPES[ultSfx(card)] ? ultSfx(card) : 'token.use'; play(id, { lane });
+  setTimeout(() => { if (!loops.has(id)) bufs.delete(id); }, RECIPES[id].ms + 1000); // synthesized for this use only (sfxset.LAZY)
+}
 /** 鲁班's wooden "puppet talk" (when his voice clip is not available / he must not talk over someone): pentatonic woodblock syllables */
 export function babble(n = 4): void { for (let i = 0; i < n; i++) play('syll', { step: Math.floor(Math.random() * 6), delay: i * 0.085, rate: 0.9 + Math.random() * 0.2 }); }
-export function resetSfx(): void { live = []; recent.clear(); colStep = 0; partStep = 0; stopLoops(); }
+export function resetSfx(): void { live = []; recent.clear(); colStep = 0; partStep = 0; clearTimeout(cmbTimer); cmbTimer = 0; cmbN = 0; stopLoops(); }

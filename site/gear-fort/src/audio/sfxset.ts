@@ -6,11 +6,13 @@ import type { Level } from '../lane/types';
 
 /** recipe ids that only some levels need, by card id, machine id, `boss:<type>` or `night` */
 export const ONLY: Record<string, string[]> = {
-  spikes: ['place.spikes'], pit: ['place.pit'], lobber: ['shoot.lobber'], burner: ['shoot.burner', 'fire.burst', 'hit.fizz'],
+  spikes: ['place.spikes'], pit: ['place.pit'], lobber: ['shoot.lobber', 'hit.stone'], burner: ['shoot.burner', 'fire.burst', 'hit.fizz'],
   beam: ['beam.hum', 'hit.fizz'], radial: ['radial.shoot'], strike: ['strike.whistle', 'strike.land'], farm: ['yield.farm'], bank: ['yield.bank'],
   gust: ['gust.blow'], hook: ['hook.swing'],
-  ram: ['ram.roll', 'ram.hit', 'ram.jam'], ant: ['ant.chitter'], flyer: ['flyer.flap', 'flyer.peck', 'flyer.down'], flyer_m: ['flyer.flap', 'flyer.peck', 'flyer.down'],
-  ladder: ['ladder.raise', 'ladder.down'], shielder: ['shield.crack', 'shield.break'], shielder_m: ['shield.crack', 'shield.break'], drummer: ['drum.beat'], smoker: ['smoke.puff'],
+  // a machine taken apart: 蚁 a crumb · 铜 a clang · 重型 a deep crash (木 is the common machine.break)
+  swarm: ['ant.chitter', 'break.ant'], brute: ['break.metal'], carrier: ['break.metal', 'break.heavy'], tower: ['break.heavy'],
+  ram: ['ram.roll', 'ram.hit', 'ram.jam', 'break.heavy'], ant: ['ant.chitter', 'break.ant'], flyer: ['flyer.flap', 'flyer.peck', 'flyer.down'], flyer_m: ['flyer.flap', 'flyer.peck', 'flyer.down', 'break.metal'],
+  ladder: ['ladder.raise', 'ladder.down', 'break.heavy'], shielder: ['shield.crack', 'shield.break'], shielder_m: ['shield.crack', 'shield.break'], drummer: ['drum.beat'], smoker: ['smoke.puff'],
   'boss:rhino': ['rhino.stomp', 'rhino.crack', 'boss.gong', 'boss.phase', 'boss.fold', 'ram.roll', 'ram.hit', 'shield.crack', 'shield.break'],
   'boss:owl': ['owl.flap', 'owl.screech', 'boss.gong', 'boss.phase', 'boss.fold', 'flyer.flap', 'flyer.down', 'smoke.puff'],
   night: ['dawn'],
@@ -18,8 +20,11 @@ export const ONLY: Record<string, string[]> = {
   scene: ['repair.knock', 'newcomer'],
 };
 /** low, dark sounds (spectral centroid < 600 Hz): kept at half the sample rate — nothing audible above 11 kHz is lost */
-export const HALF = new Set(['boss.gong', 'boss.phase', 'flag.drum', 'rhino.stomp', 'log.roll', 'ladder.down', 'hit.wood.heavy', 'seal.stamp', 'drum.beat', 'gate.knock', 'capture', 'log.crush', 'strike.whistle']);
-const GATED = new Set(Object.values(ONLY).flat());
+export const HALF = new Set(['boss.gong', 'boss.phase', 'flag.drum', 'rhino.stomp', 'log.roll', 'ladder.down', 'hit.wood.heavy', 'hit.arrow', 'hit.stone', 'break.heavy', 'seal.stamp', 'drum.beat', 'gate.knock', 'capture', 'log.crush', 'strike.whistle']);
+/** A2: the 机关令 sounds (one per family; token.use is only their fallback) are NOT kept in memory: an ult is rare, so its sound is synthesized
+ *  at that moment (≈3 ms, hidden by the flash and the 0.25 s slow-mo) and dropped again 1 s after it ends (sfx.ult). Keeping all five would cost 0.8 MB */
+export const LAZY = new Set(['token.use', 'token.shoot', 'token.lob', 'token.fire', 'token.ctrl', 'token.econ']);
+const GATED = new Set([...Object.values(ONLY).flat(), ...LAZY]);
 
 /** the always-kept set: every recipe no group claims */
 export function commonSfx(all: string[]): string[] { return all.filter((id) => !GATED.has(id)); }

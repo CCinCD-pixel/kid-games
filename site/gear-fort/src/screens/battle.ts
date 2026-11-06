@@ -3,13 +3,13 @@
 // Modes: normal · assist tier 1/2 (§3.20) · ghost replay of the lesson window (「看看墨子怎么守」, §5.4).
 import { effSpeed as speedOf, held, slowmoStart, slowmoGone, PHASE_TICKS, type SpeedHold } from './timing';
 import { sayCard } from '../pointread';
-import { createSim, step, act, snapshot, restore as restoreSnap, resume as resumeSnap, canPlace, hash, type Snapshot } from '../lane/sim';
+import { createSim, step, act, addUnit, spawnEnemy, snapshot, restore as restoreSnap, resume as resumeSnap, canPlace, hash, type Snapshot } from '../lane/sim';
 import { puzzleStars, costOf, type Puzzle } from '../lane/puzzle';
 import { coachLine, makeCoachMemory, followed, askLine, conceptLineId, type CoachLine, type CoachMemory } from '../lane/coach';
 import { starsOf } from '../lane/stars';
-import { UNITS } from '../lane/tables';
+import { UNITS, ENEMIES } from '../lane/tables';
 import { campaignBalance } from '../lane/balance';
-import { TPS, T as TILE, ASSIST, ASSIST2 } from '../lane/rules';
+import { TPS, T as TILE, BOARD_X, ASSIST, ASSIST2 } from '../lane/rules';
 import { FEARS } from '../lane/tags';
 import { learned } from '../lane/learn';
 import type { Action, Level, SimEvent, SimState } from '../lane/types';
@@ -182,9 +182,10 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       const spare = tb1 - tb0 - (84 + 6 + 46 + 6 + 6 + 44 + 6); const compact = spare < 300; // (bubble + slip share it)
       const s3W = compact ? (goB ? 124 : ghost ? 112 : 88) : Math.min(204, spare - 150); star3.dataset.fit = compact ? 'compact' : 'full'; // (a drill's 开始推演 / the ghost's 跳过 take that slot)
       px(bin, tb0, Ts + 6, 84, 46); px(moziA, tb0 + 90, Ts + 6, 46, 46);
-      px(star3, tb1 - s3W, Ts + 6, s3W, 46); px(replay, tb1 - s3W - 6 - 44, Ts + 7, 44, 44);
+      const s3Top = compact ? Ts + 6 : Ts + 2, s3H = compact ? 46 : 56; // the full slip shows its whole sentence: 2 lines of 14 px + the 附 row (A 档 follow-up)
+      px(star3, tb1 - s3W, s3Top, s3W, s3H); px(replay, tb1 - s3W - 6 - 44, Ts + 7, 44, 44);
       px(moziB, bx0, Ts + 6, tb1 - s3W - 56 - bx0, 46); moziB.style.height = ''; moziB.style.minHeight = '46px';
-      px(scroll, tb0, Ts + 56, tb1 - tb0, 16);
+      px(scroll, tb0, Ts + (compact ? 56 : 60), tb1 - tb0, 16);
       // tools column (QA fb1 r1: it has to fit a 320-px-high screen): 鲁班 · ⏸ at the top; 机关匣 · 铲子 · the speed (one
       // button: 慢 → 1× → 1.5×) stacked up from the bottom, where the thumb is
       px(lubanA, rx + 4, Ts + 6, 48, 48); px(pauseB, rx + 4, Ts + 60, 48, 48);
@@ -205,19 +206,19 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       const right = W - 8; px(pauseB, right - 64, Ts + 24, 64, 64); px(box, right - 64 - 6 - 88, Ts + 8, 88, 96); px(shovel, right - 64 - 6 - 88 - 6 - 64, Ts + 24, 64, 64);
       px(scroll, 84, Ts + 108, W - 84 - 8, 32);
       const yb = g.by + g.bh + 14; const hb = Math.max(72, Math.min(92, H - yb - 8));
-      const spW = 3 * 64, s3W = 168; const bubW = Math.max(240, Math.min(400, W - (12 + hb + 8) - (6 + 52) - (14 + s3W) - (12 + spW) - (14 + hb + 12)));
+      const spW = 3 * 64, s3W = Math.min(232, Math.max(168, Math.floor(W * 0.215))), s3H = Math.min(hb, 88); const bubW = Math.max(240, Math.min(400, W - (12 + hb + 8) - (6 + 52) - (14 + s3W) - (12 + spW) - (14 + hb + 12)));
       px(moziA, 12, yb, hb, hb); px(moziB, 12 + hb + 8, yb + 4, bubW, hb - 8); const rx = 12 + hb + 8 + bubW + 6; px(replay, rx, yb + (hb - 52) / 2, 52, 52);
       // 墨子 · 附加题竹简 · speed · 鲁班: the bonus slip sits next to 墨子's side, so 鲁班's bubble (which opens beside his own
       // portrait, over the speed control for its few seconds — it takes no taps) never hides the live bonus progress (QA r5)
       const s3x = rx + 52 + 14, spx = s3x + s3W + 12;
-      px(star3, s3x, yb + (hb - 76) / 2, s3W, 76); px(speed, spx, yb + (hb - 60) / 2, spW, 60);
+      px(star3, s3x, yb + (hb - s3H) / 2, s3W, s3H); px(speed, spx, yb + (hb - 60) / 2, spW, 60);
       px(lubanA, W - 12 - hb, yb, hb, hb);
       // never over lane 5; a long line grows the bubble downwards into the free strip under the bar
       const lx = spx - 4; px(lubanB, lx, yb + 4, Math.max(150, W - 12 - hb - 8 - lx), hb - 8); lubanB.style.height = ''; lubanB.style.minHeight = hb - 8 + 'px';
       if (ghostBar) px(ghostBar, Math.round(W / 2 - 150), Ts + 104, 300, 40);
     } else {
       px(bin, 84, Ts + 8, 128, 72); px(scroll, 220, Ts + 24, W - 220 - 80, 40); px(pauseB, W - 8 - 64, Ts + 12, 64, 64);
-      px(box, 12, Ts + 92, 120, 60); px(star3, 144, Ts + 88, Math.min(320, W - 144 - 140), 64); px(lubanA, W - 12 - 56, Ts + 94, 56, 56); px(lubanB, W - 12 - 56 - 8 - 220, Ts + 96, 220, 52); lubanB.style.minHeight = '';
+      px(box, 12, Ts + 92, 120, 60); px(star3, 144, Ts + 82, Math.min(352, W - 144 - 140), 72); px(lubanA, W - 12 - 56, Ts + 94, 56, 56); px(lubanB, W - 12 - 56 - 8 - 220, Ts + 96, 220, 52); lubanB.style.minHeight = '';
       // tray band T+586..T+854 (spec §2.2): a one-row tray sits mid-band with the tools beside it, and 墨子's row stays at
       // T+878 whatever the card count (on 1-1..1-4 it used to ride up under the speed stack)
       const ty = g.by + g.bh + 24; const cw = 120, chh = 128, gap = 12; const cols = L.belt ? 3 : Math.min(4, Math.max(n, 1)); const rows = n > cols ? 2 : 1;
@@ -493,7 +494,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   box.addEventListener('pointerdown', (ev) => {
     if (paused || ended || ghost || hooking || !ev.isPrimary || drag || tdrag) return;
     if (S.tokens <= 0) { app.ui('ui-locked', 0.4); box.classList.remove('is-no'); void box.offsetWidth; box.classList.add('is-no'); return; }
-    ev.preventDefault(); const t = h('div', 'gf-dragtoken', '令'); hud.appendChild(t); tdrag = { ghost: t, pid: ev.pointerId }; onMove(ev); app.ui('ui-pick', 0.5);
+    ev.preventDefault(); stopHand(); box.classList.remove('is-nudge'); const t = h('div', 'gf-dragtoken', '令'); hud.appendChild(t); tdrag = { ghost: t, pid: ev.pointerId }; onMove(ev); app.ui('ui-pick', 0.5);
   });
   stageC.addEventListener('pointerdown', (ev) => {
     if (!ev.isPrimary || ended || ghost || hooking || drag || tdrag) return; const { x, y } = local(ev);
@@ -526,6 +527,27 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     queue.push({ t: 'collect', id }); sfx.collect(); if (tut && tut.phase === 4) stopHand();
     stage.fly('grainBag', 'grain', x, y, stage.grainBin.x, stage.grainBin.y, performance.now(), 450);
     if (tut) tut.collected = true;
+  }
+  // ── 机关令 teaching (A3): nobody ever told him the 令 can be dragged. The first three times a 令 is ready (counted in the save's story tags,
+  // so it never nags again) the box glows and the demo hand drags it onto a machine; the first time 墨子 says the recorded line too. Presentation only:
+  // the kernel coach (lane/coach.ts) is untouched, so the bots and their fixtures do not change.
+  function tokenTarget(): { lane: number; col: number } | null {
+    const us = S.units.filter((u) => !u.dead && !UNITS[u.k].flat && u.k !== 'raft'); if (!us.length) return null;
+    const busy = (u: (typeof us)[number]): boolean => S.enemies.some((e) => e.lane === u.lane && e.hp > 0 && !e.gone && e.x < BOARD_X && e.x > u.col * TILE);
+    const pick = ['shooter', 'lobber', 'burner', 'radial', 'beam'].map((k) => us.find((u) => u.k === k && busy(u))).find(Boolean) ?? us.find((u) => u.k === 'shooter') ?? us.find((u) => u.k === 'farm' || u.k === 'bank') ?? us[0];
+    return { lane: pick.lane, col: pick.col };
+  }
+  /** → true when done (shown, or nothing left to show, or the 令 is gone); false = try again in a moment */
+  function nudgeToken(): boolean {
+    const next = [1, 2, 3].find((i) => !app.save.story.includes('tok.' + i)); if (!next || S.tokens <= 0 || ended || destroyed) return true;
+    if (paused || hooking || drag || tdrag || hand.style.display === 'block' || setup) return false;
+    const to = tokenTarget(); if (!to) return false;
+    app.save.story.push('tok.' + next); app.persist();
+    box.classList.add('is-nudge'); setTimeout(() => box.classList.remove('is-nudge'), 7000);
+    const b = cardXY(box), t = cellXY(to.lane, to.col); handTo(b.x, b.y, t.x, t.y, next === 1 ? 3 : 2);
+    if (next === 1) mozi('fort.coach.token');
+    app.mark('gf-token-nudge', { n: next, level: o.level.id });
+    return true;
   }
   const tip = h('div', 'gf-tip'); hud.appendChild(tip); let tipTimer = 0;
   function infoMachine(k: string, id: number): void {
@@ -573,7 +595,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
   function suspend(now = false): Promise<void> | void { sfx.stopLoops(); if (!ghost && !ended && o.onSnap) return o.onSnap(snapshot(S), 'suspend', checkpointFlag, now); }
   const SPEED_CN = (s: number): string => (s === 0.75 ? '慢' : s === 1 ? '1×' : '1.5×');
   function openPause(now = false): void {
-    if (ended || paused) return; paused = true; app.ui('ui-open', 0.5); void suspend(now);
+    if (ended || paused) return; paused = true; holdUntil = 0; ultSlowUntil = 0; app.ui('ui-open', 0.5); void suspend(now);
     pauseLayer.innerHTML = `<div class="gf-pausel__panel xg-root"><div class="gf-pausel__title">${ghost ? '墨子的推演' : '推演暂停'}</div>
       ${ghost || pz ? '' : `<div class="gf-speed gf-pausel__speed" role="group" aria-label="速度">${SPEEDS.map((s) => `<button class="gf-speed__b${s === speedSel ? ' is-on' : ''}" data-s="${s}"${s === 1.5 && !fastOK ? ' disabled' : ''}>${SPEED_CN(s)}</button>`).join('')}</div>`}
       <button class="xg-btn xg-btn--primary xg-btn--lg" data-a="go">${icon('play')}继续</button>
@@ -605,12 +627,26 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.add('is-on'))); setTimeout(() => veil.remove(), 3600);
     if (!ghost) { mozi('fort.env.dawn'); sfx.play('dawn'); }
   }
-  function resetHud(): void { lastHud = ''; hold.slowUntil = 0; hold.phaseUntil = 0; hold.slowId = undefined; s3ok = false; s3lost = false; star3.classList.remove('is-ok', 'is-lost'); beltSeen = S.beltI; beltFullSeen = S.stats.beltFull; warn.clear(); buildTray(); delete scroll.dataset.drums; scroll.querySelectorAll('.gf-scroll__drum').forEach((d) => d.remove()); }
+  function resetHud(): void { holdUntil = 0; ultSlowUntil = 0; tokWantAt = 0; box.classList.remove('is-nudge'); lastHud = ''; hold.slowUntil = 0; hold.phaseUntil = 0; hold.slowId = undefined; s3ok = false; s3lost = false; star3.classList.remove('is-ok', 'is-lost'); beltSeen = S.beltI; beltFullSeen = S.stats.beltFull; warn.clear(); buildTray(); delete scroll.dataset.drums; scroll.querySelectorAll('.gf-scroll__drum').forEach((d) => d.remove()); }
 
   // ── kernel events → sound, voice, 鲁班 ──
+  /** presentation-only time: hit-stop (A1) and the ult's micro slow-mo (A3) change how fast wall time feeds the kernel clock, never the ticks themselves */
+  let holdUntil = 0, ultSlowUntil = 0; let tokWantAt = 0;
   let owlQuietUntil = 0; let lastBolts = 0, lastLobs = 0, lastRefunds = 0, lastTokens = 0; let fireLobs: SimState['lobs'] = []; const knocked = new Set<number>();
+  /** a machine taken apart, by size (A2): 蚁 a crumb · 木 planks · 铜 a clang over a thump · 重型 (冲车, 云梯车, 箭楼) a deep crash; Bosses keep their own fold */
+  const breakId = (k?: string): string => { if (k === 'ant') return 'break.ant'; const D = k ? ENEMIES[k] : null; if (!D || k === 'rhino' || k === 'owl') return 'machine.break'; return D.mat === 'metal' ? 'break.metal' : D.wt === 'heavy' ? 'break.heavy' : 'machine.break'; };
   stage.onFx = (kind, x) => {
-    if (kind === 'hit') sfx.play(x.mat === 'metal' ? 'hit.metal' : x.wt === 'heavy' ? 'hit.wood.heavy' : 'hit.wood', { lane: x.lane });
+    if (kind === 'hit') { // by what hit (A2): 笃 arrow · 闷响 stone · 呼 fire / burning / the sun-mirror; a bronze body still answers 叮 to an arrow (material first, spec §7.1)
+      const c = x.cause;
+      if (c === 'stone') sfx.play('hit.stone', { lane: x.lane });
+      else if (x.mat === 'metal') sfx.play('hit.metal', { lane: x.lane });
+      else if (c === 'arrow') sfx.play('hit.arrow', { lane: x.lane });
+      else if (c === 'fire') sfx.play('hit.fizz', { lane: x.lane });
+      else if (c === 'burn' || c === 'beam') sfx.play('hit.fizz', { lane: x.lane, vol: 0.5 });
+      else sfx.play(x.wt === 'heavy' ? 'hit.wood.heavy' : 'hit.wood', { lane: x.lane });
+    }
+    else if (kind === 'ke') sfx.play('counter.ke', { lane: x.lane });
+    else if (kind === 'combo') sfx.combo(x.n ?? 3);
     else if (kind === 'ding') sfx.play('hit.metal', { lane: x.lane, vol: 0.8 });
     else if (kind === 'shieldCrack' || kind === 'shieldBreak') sfx.play(kind === 'shieldBreak' ? 'shield.break' : 'shield.crack', { lane: x.lane });
     else if (kind === 'unitHurt') sfx.play('unit.hurt', { lane: x.lane });
@@ -622,7 +658,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
         seenKinds.add(e.k);
         if (!ghost && (e.k === o.level.newEnemy || (o.level.newEnemy === 'swarm' && e.k === 'ant'))) { slowmoStart(hold, S.tick, e.id); namePlate(hud, geo, e.lane ?? 2, nameOf(e.k)); stinger('newMachine'); setTimeout(() => luban(tut ? 'fort.story.0.4' : 'fort.luban.first'), 600); } // 1-1: 鲁班 introduces himself with the first 木甲兵 (spec §2.4)
       } break;
-      case 'gone': slowmoGone(hold, S.tick, e.id); if (e.log) sfx.play('log.crush', { lane: e.lane }); if (!e.log) { kills++; if (!e.captured) { sfx.play('machine.break', { lane: e.lane }); sfx.parts(e.k === 'ant' ? 1 : e.k === 'brute' || e.k === 'ram' ? 3 : 2); } if (!ghost && kills % 7 === 0 && performance.now() > lubanQuietUntil) { luban(`fort.luban.blocked.${1 + ((kills / 7) % 3)}`); lubanQuietUntil = performance.now() + 15000; } if (tut && !tut.firstGone) { tut.firstGone = true; setTimeout(() => mozi('fort.story.0.b1'), 900); } } break;
+      case 'gone': slowmoGone(hold, S.tick, e.id); if (e.log) sfx.play('log.crush', { lane: e.lane }); if (!e.log) { kills++; if (!e.captured) { sfx.play(breakId(e.k), { lane: e.lane }); sfx.parts(e.k === 'ant' ? 1 : e.k === 'brute' || e.k === 'ram' ? 3 : 2); } if (!ghost && kills % 7 === 0 && performance.now() > lubanQuietUntil) { luban(`fort.luban.blocked.${1 + ((kills / 7) % 3)}`); lubanQuietUntil = performance.now() + 15000; } if (tut && !tut.firstGone) { tut.firstGone = true; setTimeout(() => mozi('fort.story.0.b1'), 900); } } break;
       case 'impact': sfx.play('ram.hit', { lane: e.lane, vol: Math.min(1, 0.55 + (e.run || 0) / 60000) }); break;
       case 'strike': sfx.play('strike.whistle', { lane: e.lane }); break;
       case 'strikeLand': sfx.play('strike.land', { lane: e.lane }); break;
@@ -635,7 +671,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       case 'owlDown': hold.phaseUntil = S.tick + PHASE_TICKS; sfx.play('boss.phase'); if (!ghost && performance.now() > owlQuietUntil) { owlQuietUntil = performance.now() + 20000; luban('fort.luban.owl.down', true); } break;
       case 'bossIn': sfx.play('boss.gong'); if (!ghost) luban(e.k === 'owl' ? 'fort.luban.owl' : 'fort.luban.rhino', true); break;
       case 'bossDone': sfx.play('boss.fold'); setTimeout(() => stinger('bossFold'), 1500); break;
-      case 'ult': sfx.play('token.use', { lane: e.lane }); break;
+      case 'ult': sfx.ult(e.k, e.lane); if (stage.strongFx) ultSlowUntil = performance.now() + 250; break; // 机关令: the sound of its family + a 0.25 s slow-mo (the kernel clock only runs slower; no tick changes)
       case 'place': sfx.play(e.card === 'spikes' ? 'place.spikes' : e.card === 'pit' ? 'place.pit' : 'place', { lane: e.lane }); break;
       case 'unitGone': if (e.why === 'shovel') { const rf = S.stats.refunds || 0; sfx.play(rf > lastRefunds ? 'refund' : 'shovel', { lane: e.lane }); lastRefunds = rf; } else if (e.why !== 'spent') sfx.play('unit.break', { lane: e.lane }); break;
       case 'stuck': sfx.play('ram.jam', { lane: S.enemies.find((q) => q.id === e.id)?.lane }); break;
@@ -686,7 +722,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     if (S.lobs.length > lastLobs) { const l = S.lobs[S.lobs.length - 1]; sfx.play(l.fire ? 'shoot.burner' : 'shoot.lobber', { lane: l.lane }); }
     for (const l of fireLobs) if (!S.lobs.includes(l)) sfx.play('fire.burst', { lane: l.lane });
     fireLobs = S.lobs.filter((l) => l.fire); lastBolts = S.bolts.length; lastLobs = S.lobs.length;
-    if (S.tokens > lastTokens) sfx.play('token.ready'); lastTokens = S.tokens;
+    if (S.tokens > lastTokens) { sfx.play('token.ready'); if (lastTokens === 0 && !ghost && !pz && !tut) tokWantAt = performance.now() + 800; }
+    lastTokens = S.tokens;
+    if (tokWantAt && performance.now() >= tokWantAt) tokWantAt = nudgeToken() ? 0 : performance.now() + 2000;
     for (const e of S.enemies) if (e.x < TILE && e.hp > 0 && !knocked.has(e.id)) { knocked.add(e.id); sfx.play('gate.knock', { lane: e.lane }); }
     if (S.tick % 6 === 0) loopsTick();
     if (ghost) { if (!ghostEnd && (S.tick >= ghost.w1 || S.result)) { ghostEnd = true; mozi('fort.ghost.try', true); setTimeout(() => finish(null), 3200); } return; }
@@ -774,15 +812,21 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     const w0 = performance.now(); const running = !paused && !ended && !setup && !hooking;
     const dt = Math.max(0, Math.min(100, now - last)); last = now;
     if (running) {
-      acc += dt * effSpeed(); let n = 0;
-      while (acc >= 50 && n < 4) { tickOnce(); acc -= 50; n++; if (S.result || destroyed) break; }
-      if (n === 4) acc = Math.min(acc, 50);
+      // hit-stop (A1) and the ult's slow-mo (A3) only change how much wall time is fed to the kernel clock; during a stop nothing is added
+      // (the picture holds still for 45–70 ms, `last` keeps moving so there is no catch-up burst after it), and every tick still runs exactly once
+      const wall = performance.now();
+      if (wall >= holdUntil) {
+        acc += dt * effSpeed() * (wall < ultSlowUntil ? 0.4 : 1); let n = 0;
+        while (acc >= 50 && n < 4) { tickOnce(); acc -= 50; n++; if (S.result || destroyed) break; }
+        if (n === 4) acc = Math.min(acc, 50);
+      }
       if (S.result && !ended && !ghost) end();
     }
     if (destroyed) return;
     const r0 = performance.now(); drawStats.px = 0;
     o.dev?.frame?.(S, stage); // V19 stress: particles topped up around every frame, so the peak holds 200 between ticks
     stage.render(S, paused || ended ? 1 : Math.min(1, acc / 50), now, dt);
+    { const hs = stage.takeHold(); if (hs > 0 && running) holdUntil = Math.max(holdUntil, performance.now() + hs); }
     o.dev?.frame?.(S, stage);
     updateHud();
     if (boardNight !== nightNow()) { if (boardNight) dawn(); else paintBoard(); }
@@ -932,7 +976,7 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
     return { n: perf.n, mean: r2(ms.reduce((x, y) => x + y, 0) / Math.max(1, ms.length)), p50: q(0.5), p95: q(0.95), p99: q(0.99), maxCalls: Math.max(0, ...Array.from(perf.calls.slice(0, perf.n))), units: S.units.length, enemies: S.enemies.length, bolts: S.bolts.length, dpr: devicePixelRatio,
       work: { n: work.n, p50: r2(work.q(0.5)), p95: r2(work.q(0.95)), p99: r2(work.q(0.99)), max: r2(work.max()) }, fill: { n: fill.n, max: r2(fill.max()), mean: r2(fill.mean()) },
       stepUs: r2((stepMs / Math.max(1, stepN)) * 1000), steps: stepN, degrade, probe: r2(probe.median), stageDpr: stageGeo().dpr, bakeMs: r2(atlas.bakeMs), particles: stage.activeParticles() }; },
-    resetPerf: () => { perf.n = 0; perf.i = 0; work.reset(); fill.reset(); stepMs = 0; stepN = 0; }, degrade: (d: number) => applyDegrade(d), place: tryPlace, collectAll: () => { for (const d of S.drops) queue.push({ t: 'collect', id: d.id }); }, token: (lane: number, col: number) => queue.push({ t: 'token', lane, col }), mark: (id: number) => queue.push({ t: 'mark', id }), setSpeed: (s: number) => { speedSel = s; }, pause: openPause, skipHook: () => hookDone?.(), luban: (id: string) => luban(id), get hooking() { return hooking; }, go: startDrill, placed: () => placed.slice(), tile: TILE, cell: (l: number, c: number) => ({ x: cellCx(geo, c), y: feetY(geo, l) }), ghost: !!ghost, tier };
+    resetPerf: () => { perf.n = 0; perf.i = 0; work.reset(); fill.reset(); stepMs = 0; stepN = 0; }, degrade: (d: number) => applyDegrade(d), place: tryPlace, collectAll: () => { for (const d of S.drops) queue.push({ t: 'collect', id: d.id }); }, token: (lane: number, col: number) => queue.push({ t: 'token', lane, col }), mark: (id: number) => queue.push({ t: 'mark', id }), setSpeed: (s: number) => { speedSel = s; }, spawn: (k: string, lane: number, x?: number) => spawnEnemy(S, k, lane, x), addUnit: (card: string, lane: number, col: number) => addUnit(S, card, lane, col), pause: openPause, nudge: nudgeToken, hold: () => Math.max(0, holdUntil - performance.now()), slow: () => Math.max(0, ultSlowUntil - performance.now()), skipHook: () => hookDone?.(), luban: (id: string) => luban(id), get hooking() { return hooking; }, go: startDrill, placed: () => placed.slice(), tile: TILE, cell: (l: number, c: number) => ({ x: cellCx(geo, c), y: feetY(geo, l) }), ghost: !!ghost, tier };
 
   return {
     layout(l: LayoutInfo): void { geo = makeGeo(l.width, l.height, l.safe.top, app.dpr, phIns(l)); atlas = atlasFor(geo.w, app.dpr); stage.setGeo(stageGeo(), atlas); warn.clear(); paintBoard(); placeHud(); paintHover(stage.hover); kick(); },

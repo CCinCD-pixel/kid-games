@@ -150,7 +150,8 @@ export const RECIPES: Record<string, Recipe> = {
   'hit.wood': R(130, 4, 6, 0.05, 2, 0.6, (o) => { mix(o, woodblock(800, 1350, 80, 91)); }),
   'hit.wood.heavy': R(180, 3, 6, 0.05, 2, 0.65, (o) => { mix(o, woodblock(400, 675, 110, 92)); }),
   'hit.metal': R(300, 3, 6, 0.04, 2, 0.5, (o) => { mix(o, partials([[2100, 1, 250], [3400, 0.65, 170], [5300, 0.4, 110]], 300)); mix(o, noiseBurst(12000, 4000, 8, 93), 0, 0.3); }),
-  'hit.fizz': R(240, 2, 4, 0, 2, 0.45, (o) => { mix(o, noise(220, 94, 9000, 9000, 3000, (x) => (x < 0.05 ? x / 0.05 : 1 - x))); }),
+  // 呼 (A2): the breath of fire on a machine — a rising whoosh with a crackle on top; for fire pots, burning and the sun-mirror (it was a bare hiss that nothing played before)
+  'hit.fizz': R(260, 3, 5, 0.05, 2, 0.34, (o) => { mix(o, noise(250, 421, 500, 3200, 250, (x) => Math.sin(Math.PI * Math.min(1, x * 1.25)) * (1 - x * 0.35))); mix(o, grains(220, 9, 422, [2500, 9000], 3, (x) => 1 - x), 30, 0.4); }),
   'shield.crack': R(240, 2, 3, 0.05, 2, 0.6, (o) => { mix(o, noiseBurst(7000, 1500, 60, 101)); mix(o, woodblock(620, 980, 50, 102), 40, 0.8); mix(o, woodblock(560, 900, 50, 103), 95, 0.6); }),
   'shield.break': R(420, 2, 3, 0.05, 2, 0.7, (o) => { mix(o, noiseBurst(8000, 900, 120, 111)); for (let i = 0; i < 3; i++) mix(o, woodblock(640 - i * 90, 1000 - i * 120, 60, 112 + i), 50 + i * 70, 0.8); mix(o, thump(160, 0.6, 140), 30, 0.5); }),
   'machine.break': R(600, 3, 4, 0.05, 1, 0.65, (o, r) => { let t = 0; for (let i = 0; i < 5; i++) { mix(o, woodblock(300 + r() * 420, 520 + r() * 600, 60, 121 + i), t, 0.7 + r() * 0.3); t += 40 + r() * 50; } mix(o, chirp(600, 300, 260, 12), 130, 0.45); }),
@@ -172,6 +173,23 @@ export const RECIPES: Record<string, Recipe> = {
   'parts.fly': R(220, 6, 12, 0, 2, 0.35, (o) => { mix(o, ks(C6, 0.994, 220, 251)); }),
   'token.ready': R(1000, 1, 1, 0, 1, 0.55, (o) => { [C5, D5, E5, G5, A5].forEach((f, i) => mix(o, bell(f, 1.4, 2.2, 560), i * 80, 0.6)); mix(o, creak(400, 620, 120, 261), 470, 0.3); }),
   'token.use': R(1000, 1, 1, 0, 1, 0.6, (o) => { [C5, E5, G5, C6].forEach((f) => mix(o, bell(f, 1.4, 2.2, 900), 0, 0.4)); mix(o, noise(220, 271, 9000, 6000, 4000, (x) => Math.sin(Math.PI * x)), 0, 0.5); }),
+  // ── A2 出手有劲: a sound per weapon, per size of machine, per streak, per counter and per family of ult ──
+  // hits: 笃 (arrow: dry, short, a wooden tick on top) · 闷响 (stone: low and padded, no ring) · 呼 (fire: a rising breath with a crackle)
+  'hit.arrow': R(130, 4, 8, 0.05, 2, 0.8, (o) => { mix(o, woodblock(560, 940, 42, 401)); mix(o, thump(240, 0.55, 55), 0, 0.8); mix(o, noiseBurst(7000, 2500, 9, 402), 0, 0.35); }),
+  'hit.stone': R(260, 3, 5, 0.05, 2, 0.72, (o) => { mix(o, thump(88, 0.45, 230)); mix(o, noiseBurst(650, 80, 80, 411), 0, 0.7); mix(o, woodblock(170, 260, 80, 412), 6, 0.5); }),
+  // a machine taken apart, by size: 蚁 a crumb · 木 (machine.break) · 铜 a clang over a thump · 重 a deep crash
+  'break.ant': R(170, 3, 8, 0.1, 2, 0.55, (o, r) => { for (let i = 0; i < 3; i++) mix(o, woodblock(1800 + r() * 900, 3000 + r() * 800, 14, 431 + i), i * 22, 0.5 + r() * 0.3); mix(o, grains(140, 6, 438, [3000, 9000], 2, (x) => 1 - x), 10, 0.4); }),
+  'break.metal': R(520, 2, 4, 0.04, 1, 0.9, (o, r) => { mix(o, partials([[1500, 1, 700], [2350, 0.85, 560], [3700, 0.6, 420], [5200, 0.4, 280]], 520)); mix(o, thump(130, 0.55, 200), 0, 0.9); for (let i = 0; i < 4; i++) mix(o, woodblock(320 + r() * 300, 560 + r() * 400, 55, 441 + i), 40 + i * 55 + r() * 25, 0.55); mix(o, noiseBurst(9000, 1500, 70, 449), 0, 0.28); }),
+  'break.heavy': R(700, 2, 3, 0.03, 1, 0.8, (o, r) => { mix(o, thump(62, 0.5, 520)); mix(o, noiseBurst(2600, 150, 150, 451), 0, 0.7); for (let i = 0; i < 5; i++) mix(o, woodblock(200 + r() * 260, 340 + r() * 420, 70, 452 + i), 60 + i * 55 + r() * 25, 0.6); mix(o, brown(450, 459, 300, (x) => (x < 0.1 ? x / 0.1 : 1 - (x - 0.1) / 0.9)), 80, 1.4); mix(o, partials([[700, 0.6, 200], [1100, 0.4, 150]], 400), 20, 0.3); }),
+  // 连破: one bell + a spark, played up the kit's pentatonic ladder (step = the streak) · 克: a bright two-note 叮咚
+  combo: R(260, 3, 10, 0, 2, 0.42, (o) => { mix(o, bell(C5, 1.4, 2.2, 260)); mix(o, ks(C6 * 2, 0.992, 150, 461), 0, 0.5); mix(o, woodblock(1400, 2200, 18, 462), 0, 0.5); }),
+  'counter.ke': R(380, 2, 3, 0, 1, 0.45, (o) => { mix(o, bell(G5, 1.4, 2.4, 330)); mix(o, bell(C6, 1.4, 2.4, 330), 80, 0.9); mix(o, woodblock(1200, 1900, 30, 471), 0, 0.5); mix(o, noiseBurst(9000, 3000, 20, 472), 80, 0.3); }),
+  // 机关令 by family (射击 · 抛射 · 火 · 控制 · 经济): every one opens on the same 令 bell, then its own layer
+  'token.shoot': R(650, 1, 1, 0, 1, 0.62, (o) => { for (let i = 0; i < 7; i++) mix(o, ks(330 + i * 70, 0.993, 150, 481 + i, 0.5), i * 40, 0.7); mix(o, woodblock(900, 1500, 45, 489), 290, 0.8); mix(o, bell(G5, 1.4, 2.2, 320), 290, 0.4); }),
+  'token.lob': R(700, 1, 1, 0, 1, 0.89, (o) => { mix(o, thump(70, 0.5, 480)); mix(o, bell(131, 1.41, 3.5, 900, 1000), 0, 0.6); mix(o, noiseBurst(1800, 120, 130, 491), 0, 0.45); mix(o, creak(120, 90, 160, 492), 0, 0.4); mix(o, bell(C5, 1.4, 2.2, 700), 120, 0.35); }),
+  'token.fire': R(850, 1, 1, 0, 1, 0.46, (o) => { mix(o, noise(700, 501, 400, 3000, 200, (x) => Math.sin(Math.PI * Math.min(1, x * 1.2)) * (1 - x * 0.2))); mix(o, grains(600, 24, 502, [2500, 9000], 3, (x) => 1 - x * 0.6), 80, 0.5); [E5, A5, C6].forEach((f, i) => mix(o, bell(f, 1.4, 2.2, 700), 120 + i * 90, 0.38)); }),
+  'token.ctrl': R(850, 1, 1, 0, 1, 0.6, (o) => { for (let i = 0; i < 3; i++) mix(o, woodblock(250 + i * 45, 410 + i * 70, 85, 511 + i), i * 120, 0.9); mix(o, thump(110, 0.6, 160), 330, 0.6); mix(o, bell(D5, 1.4, 1.6, 850), 330, 0.5); mix(o, bell(G5 / 2, 1.4, 1.6, 850), 330, 0.55); }),
+  'token.econ': R(650, 1, 1, 0, 1, 0.55, (o) => { [A5, C6, 1318.5].forEach((f, i) => mix(o, bell(f, 1.4, 2.2, 600), i * 90, 0.6)); mix(o, grains(420, 18, 521, [3000, 10000], 4, () => 0.7), 0, 0.45); mix(o, thump(320, 0.5, 50)); }),
   'gate.knock': R(540, 1, 1, 0, 0, 0.85, (o) => { mix(o, thump(80, 0.6, 180)); mix(o, thump(76, 0.6, 200), 230); }),
   // ── volume 2 (spec §7.1): 木鹊 · 烟车 · 云梯车 · 鼓车 · 橐 · 钩拒 · 转射机 · 夜枭木鸢 · 天亮 ──
   'flyer.flap': R(360, 3, 6, 0.06, 2, 0.4, (o) => { for (let i = 0; i < 4; i++) mix(o, noise(70, 301 + i, 1800, 900, 600, (x) => Math.sin(Math.PI * x)), i * 80, 0.7); }),
