@@ -1,5 +1,6 @@
 import { bookLabel } from './book';
 import { displayPinyin } from './pinyin';
+import { blendRivals, distinctSeries, readsAsOne } from './sound';
 import type { Bank, Save, Word } from './types';
 
 /**
@@ -36,7 +37,8 @@ export function pagesOfStation(b: Bank, station: number): number[] {
   return b.lessons.find((l) => l.id === station)?.book?.pages ?? [];
 }
 export const pageText = (pages: number[]): string => (pages.length ? `第 ${pages.join('、')} 页` : '');
-export function skillStation(b: Bank, root: string): number | undefined {
+/** The station a root belongs to. A tone-pair root (pair:2|3) belongs to no letter: it is filed under `fallback` (the child's station). */
+export function skillStation(b: Bank, root: string, fallback = 1): number | undefined {
   const [type, id] = root.split(':');
   if (type === 'letter' || type === 'glyph') return b.letters.find((x) => x.id === id)?.lesson;
   if (type === 'syl') return b.syllables.find((x) => x.id === id)?.lesson;
@@ -44,7 +46,7 @@ export function skillStation(b: Bank, root: string): number | undefined {
   if (type === 'tone4') return b.tone4?.find((t) => t.series === id)?.lesson;
   if (type === 'pair') {
     const letters = id.split('|').map((x) => b.letters.find((l) => l.id === x));
-    return letters.every(Boolean) ? Math.max(...letters.map((l) => l!.lesson)) : 1;
+    return letters.every(Boolean) ? Math.max(...letters.map((l) => l!.lesson)) : fallback;
   }
   return undefined;
 }
@@ -62,7 +64,11 @@ export function skillLabel(b: Bank, root: string): string {
     const t = b.tone4?.find((x) => x.series === id);
     return t ? `四声 ${t.ids.filter((_, n) => !(t.skip ?? []).includes(n + 1)).map(displayPinyin).join(' ')}` : `四声 ${id}`;
   }
-  if (type === 'pair') return `区分 ${id.split('|').map(shown).join(' 和 ')}`;
+  if (type === 'pair') {
+    const parts = id.split('|');
+    if (parts.every((x) => /^[1-4]$/.test(x))) return `声调 ${parts.map((x) => ['', '一', '二', '三', '四'][Number(x)] + '声').join('和')}`;
+    return `区分 ${parts.map(shown).join(' 和 ')}`;
+  }
   return root;
 }
 
@@ -73,35 +79,38 @@ export interface Column {
   /** What "k/total" counts: one group per item (a blend counts once for all four of its tones). */
   groups: string[][];
 }
-const aliasIds = (b: Bank, station: number): Set<string> => {
+/** Words that only share a picture with a preferred word, at the given station (the programme looks at the child's station). */
+export const aliasIds = (b: Bank, lesson: number): Set<string> => {
   const out = new Set<string>();
   for (const [picture, order] of Object.entries(b.pictureOwners ?? {})) {
-    const open = order.find((id) => (b.words.find((w) => w.id === id)?.lesson ?? 99) <= station);
+    const open = order.find((id) => (b.words.find((w) => w.id === id)?.lesson ?? 99) <= lesson);
     for (const w of b.words) if (w.picture === picture && !['sentence', 'cloze'].includes(w.kind) && w.id !== open) out.add(w.id);
   }
   return out;
 };
 /** The words a child can be asked at a station (the same filter as the programme). */
-export const stationWords = (b: Bank, station: number): Word[] => {
-  const aliases = aliasIds(b, station);
+export const stationWords = (b: Bank, station: number, atLesson = station): Word[] => {
+  const aliases = aliasIds(b, atLesson);
   return b.words.filter((w) => w.lesson === station && !w.hold && !w.beyond && !['sentence', 'cloze'].includes(w.kind) && !aliases.has(w.id));
 };
 export const stationBlends = (b: Bank, station: number) =>
-  b.syllables.filter((x) => x.lesson === station && x.tone > 0 && !x.wordOnly && x.initial && !['y', 'w'].includes(x.initial));
+  b.syllables.filter((x) => x.lesson === station && x.tone > 0 && !x.wordOnly && x.initial && !['y', 'w'].includes(x.initial) && !readsAsOne(x));
 export const stationTones = (b: Bank, station: number) =>
-  (b.tone4 ?? []).filter((t) => t.lesson === station && t.ids.filter((_, m) => !(t.skip ?? []).includes(m + 1)).length >= 3);
+  distinctSeries(b.tone4 ?? []).filter((t) => t.lesson === station && t.ids.filter((_, m) => !(t.skip ?? []).includes(m + 1)).length >= 3);
 /** The columns ("栏目") a station has in this game: 字母, 四声, 拼一拼, 词语, 区分. Empty ones are left out. */
-export function stationColumns(b: Bank, station: number): Column[] {
+export function stationColumns(b: Bank, station: number, atLesson = station): Column[] {
   const letters = b.letters.filter((l) => l.lesson === station);
   const pairs = b.confusions.filter((c) => c.pair.every((id) => b.letters.some((l) => l.id === id)) && Math.max(...c.pair.map((id) => b.letters.find((l) => l.id === id)!.lesson)) === station);
   const bases = new Map<string, string[]>();
-  for (const x of stationBlends(b, station)) bases.set(x.initial + x.final, [...(bases.get(x.initial + x.final) ?? []), `syl:${x.id}`]);
+  const askable = b.syllables.filter((x) => x.tone > 0 && !x.wordOnly);
+  // only blends the game can really ask (they have a rival to tell them from)
+  for (const x of stationBlends(b, station).filter((y) => blendRivals(y, askable).length)) bases.set(x.initial + x.final, [...(bases.get(x.initial + x.final) ?? []), `syl:${x.id}`]);
   const single = (roots: string[]) => roots.map((r) => [r]);
   const defs: [ColumnKind, string[][]][] = [
     ['letter', single(letters.map((l) => `letter:${l.id}`))],
     ['tone', single(stationTones(b, station).map((t) => `tone4:${t.series}`))],
     ['blend', [...bases.values()]],
-    ['word', single(stationWords(b, station).map((w) => `word:${w.id}`))],
+    ['word', single(stationWords(b, station, atLesson).map((w) => `word:${w.id}`))],
     ['pair', single(pairs.map((c) => `pair:${c.pair.join('|')}`))],
   ];
   return defs.filter(([, groups]) => groups.length).map(([col, groups]) => ({ col, name: COLUMN_NAMES[col], roots: groups.flat(), groups }));
@@ -115,6 +124,7 @@ export interface PageRow {
   columns: { col: ColumnKind; name: string; done: number; total: number }[];
 }
 /** One row per station that has book pages, up to the station the teacher has reached. */
+/** One row per station that has book pages, up to the station the teacher has reached. A group of four tones counts as steady only when all of them are. */
 export function pageProgress(s: Save, b: Bank): PageRow[] {
   return b.lessons
     .filter((l) => (l.book?.pages.length ?? 0) > 0 && l.id <= s.settings.lesson)
@@ -122,7 +132,7 @@ export function pageProgress(s: Save, b: Bank): PageRow[] {
       station: l.id,
       pages: l.book!.pages,
       label: bookLabel(b, l.id),
-      columns: stationColumns(b, l.id).map((c) => ({ col: c.col, name: c.name, total: c.groups.length, done: c.groups.filter((g) => g.some((r) => steady(s, r))).length })),
+      columns: stationColumns(b, l.id, s.settings.lesson).map((c) => ({ col: c.col, name: c.name, total: c.groups.length, done: c.groups.filter((g) => g.every((r) => steady(s, r))).length })),
     }));
 }
 
@@ -146,7 +156,7 @@ export function weakItems(s: Save, b: Bank, limit = 10): Weak[] {
   }
   const rows: Weak[] = [];
   for (const [root, info] of roots) {
-    const station = skillStation(b, root);
+    const station = skillStation(b, root, s.settings.lesson);
     if (station === undefined) continue;
     const misses = miss.get(root) ?? 0;
     const score = misses * 2 + (info.review ? 3 : 0) + (info.box <= 1 && misses ? 1 : 0);
@@ -193,9 +203,9 @@ export interface DueSummary {
 /** "今天该复习": what the next programme will bring back (a new session starts when 30 minutes have passed). */
 export function dueSummary(s: Save, b: Bank, now = Date.now()): DueSummary {
   const next = !s.lastAttemptAt || now - s.lastAttemptAt >= 30 * 60000 ? s.sessions + 1 : s.sessions;
-  const roots = [...dueRoots(s, next)].filter((r) => (skillStation(b, r) ?? 99) <= s.settings.lesson);
+  const roots = [...dueRoots(s, next)].filter((r) => (skillStation(b, r, s.settings.lesson) ?? 99) <= s.settings.lesson);
   const pages = new Map<number, number>();
-  for (const r of roots) for (const p of pagesOfStation(b, skillStation(b, r)!).slice(0, 1)) pages.set(p, (pages.get(p) ?? 0) + 1);
+  for (const r of roots) for (const p of pagesOfStation(b, skillStation(b, r, s.settings.lesson)!).slice(0, 1)) pages.set(p, (pages.get(p) ?? 0) + 1);
   const drills = drillDue(s, now);
   for (const id of drills) for (const p of pagesOfStation(b, Number(id.split(':')[1])).slice(0, 1)) pages.set(p, (pages.get(p) ?? 0) + 1);
   return {

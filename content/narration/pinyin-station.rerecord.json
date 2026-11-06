@@ -1,0 +1,4 @@
+{
+  "note": "Narration ids whose yaml text was changed and still wait for the audio re-record. castle-r5.test.ts: yaml text must equal the manifest text unless the id is listed here. Empty this list after the re-record (the tests stay green). Mirrored in ~/kid-games-work/state/pinyin-lab/castle-stage5-lines.json.",
+  "pending": []
+}

@@ -6,9 +6,10 @@ import { mount } from '@kit/companion';
 import { decodeClip, playBuffer, releaseClips, type Voice } from '@kit/audio';
 import { bank } from './domain/content';
 import { initialSave, mastery } from './domain/learning';
+import { repairResume, repairSave } from './domain/saveguard';
 import { compactHistory } from './domain/history';
 import { callLabel, displayPinyin } from './domain/pinyin';
-import { bookLabel, currentBook } from './domain/book';
+import { currentBook, currentLabel } from './domain/book';
 import { getPicture, historyArchive, type Recording } from './speech/recordings';
 import { illustration, radio } from './views/art';
 import { button, glyph, pinyin, type Context } from './views/common';
@@ -26,9 +27,8 @@ import './styles.css';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const store = createStore('pinyin-station', { version: 1, defaults: initialSave });
-const save = store.load();
-// Guard older/corrupted local data without discarding unrelated platform saves.
-if (!save.settings || !Array.isArray(save.history)) Object.assign(save, initialSave());
+// Guard older / damaged / hand-edited local data: every missing piece gets a default, the station is clamped to 1-12.
+const save = repairSave(store.load());
 const sub = createSubtitleBar();
 let expectedCue: string | null = null;
 const cue: typeof sub.onCue = (value) => {
@@ -317,7 +317,10 @@ const RESUME_MS = 12 * 3600_000;
 function pendingResume(): ResumeState | null {
   const r = save.resume;
   if (!r || !Array.isArray(r.queue) || r.index >= r.queue.length || Date.now() - r.at > RESUME_MS) return null;
-  return r;
+  // a stale queue (a word that left the bank, a held or withheld item, a station above the child's) is cleaned question by question
+  const fixed = repairResume(r, bank, save);
+  if (fixed !== r) save.resume = fixed;
+  return fixed ?? null;
 }
 const sameDay = (a: number, b: number) => new Date(a).toDateString() === new Date(b).toDateString();
 const modeNames: Record<string, string> = {
@@ -385,8 +388,8 @@ function home() {
       ? h(
           'p',
           { class: 'due-hint', role: 'note' },
-          `今天有 ${due.total > 20 ? '好多' : due.total} 个老朋友想见你。`,
-          due.pages.length ? h('small', null, `它们住在${due.pages.slice(0, 3).map((p) => `第 ${p.page} 页`).join('、')}，开始今天的节目就会遇到。`) : null,
+          h('span', null, `今天有${due.total > 20 ? '好多' : ` ${due.total} `}个老朋友想见你。`),
+          due.pages.length ? h('small', null, `它们住在${due.pages.slice(0, 3).map((p) => `第 ${p.page} 页`).join('、')}。`) : null,
         )
       : null;
   const doneToday = save.lastFinishAt !== undefined && sameDay(save.lastFinishAt, Date.now());
@@ -396,9 +399,19 @@ function home() {
     h(
       'small',
       null,
-      `${bookLabel(bank, save.settings.lesson)} · 第 ${save.settings.lesson} 站 · ${bank.lessons.find((l) => l.id === save.settings.lesson)?.title ?? ''}`,
+      `${currentLabel(save, bank)} · 第 ${save.settings.lesson} 站 · ${bank.lessons.find((l) => l.id === save.settings.lesson)?.title ?? ''}`,
     ),
     h('h2', null, '你的声音，从这里出发'),
+    resume
+      ? h(
+          'div',
+          { class: 'resume-card' },
+          h('p', null, `${modeNames[resume.mode] ?? '节目'}还没播完 · 第 ${resume.index + 1} / ${resume.queue.length} 条`),
+          button('接着上次的节目', () => startPractice(resume.mode, resume), 'primary', 'play'),
+        )
+      : null,
+    resume ? quietStart : start,
+    dueHint,
     h(
       'ol',
       null,
@@ -415,24 +428,14 @@ function home() {
         ),
       ),
     ),
-    resume
-      ? h(
-          'div',
-          { class: 'resume-card' },
-          h('p', null, `${modeNames[resume.mode] ?? '节目'}还没播完 · 第 ${resume.index + 1} / ${resume.queue.length} 条`),
-          button('接着上次的节目', () => startPractice(resume.mode, resume), 'primary', 'play'),
-        )
-      : null,
-    dueHint,
-    resume ? quietStart : start,
     reviewBtn,
     drillBtn,
-    ruleHint,
     doneToday && !resume ? h('p', { class: 'program-done' }, '今天的节目已经播完一场啦，想再练也可以。') : null,
   );
   const paths = h(
     'nav',
     { class: 'practice-paths', 'aria-label': '自由选台' },
+    ruleHint,
     route('场景小剧场', '早餐、出门、花园和图书角', 'scene', 'grid'),
     route('听听声音', '两个声音，找一个小变化', 'listen', 'listen'),
     route('图画拼搭', '把图里的声音搭出来', 'spell', 'grid'),
@@ -581,7 +584,7 @@ function album() {
   const title = h(
     'div',
     { class: 'album-title' },
-    h('div', null, h('small', null, '每个字母，都是声音小伙伴'), h('h2', null, '信号卡册')),
+    h('div', null, h('small', null, '每个字母，都有自己的声音'), h('h2', null, '信号卡册')),
     button('回到电台', () => ctx.home(), 'secondary', 'back'),
   );
   const cards = h('div', { class: 'signal-album' });
@@ -608,7 +611,7 @@ function album() {
       ),
     );
   }
-  const listen = button('去当小播音员', () => startPractice('read'), 'primary', 'mic');
+  const listen = button('去读给台长听', () => startPractice('read'), 'primary', 'mic');
   const ruleLink = h('div', { class: 'album-rules-link' }, button('小规则', () => rules(), 'quiet', 'book'));
   app.replaceChildren(header(), h('main', { class: 'album-page' }, title, ruleLink, cards, listen));
 }

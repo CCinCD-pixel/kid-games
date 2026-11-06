@@ -53,8 +53,8 @@ export const RULES: { id: string; title: string; at: number; line: Line }[] = [
   { id: 'tones', title: '四声歌', at: 1, line: line('py.rule.tones', '一声平，二声扬，三声拐弯，四声降。') },
   { id: 'i', title: '小点点摘帽子', at: 2, line: line('py.rule.i', '有礼貌的小点点，标上声调就摘帽。') },
   { id: 'v', title: '两个小点点擦眼泪', at: 6, line: line('py.rule.v', '两个小点点见到这几个字母，就擦掉眼泪笑嘻嘻。') },
-  { id: 'nl', title: '有的小点点要留着', at: 6, line: line('py.rule.nl', '有两个字母后面，两个小点点要好好留着。') },
-  { id: 'mark', title: '声调标在哪里', at: 9, line: line('py.rule.mark', '韵母里有张大嘴巴的，声调就标在它头上；没有的话，找圆圆嘴巴和扁扁嘴巴；两个小个子并排，标在后面那个。') },
+  { id: 'nl', title: '有的小点点要留着', at: 6, line: line('py.rule.nl', '卡片上这两个字母后面，小点点要好好留着，不能擦掉。') },
+  { id: 'mark', title: '声调标在哪里', at: 9, line: line('py.rule.mark', '韵母里有张大嘴巴的，声调就标在它头上；没有大嘴巴，就标在圆圆嘴巴或者扁扁嘴巴头上；只剩两个小嘴巴并排，比如卡片上的最后两个，就标在后面那个。') },
 ];
 /** 朗读册: said when the child taps "我读了一遍" (never a count, never a target). */
 export const BOOK = { plus: line('py.book.plus', '记下啦，又读了一遍。') };

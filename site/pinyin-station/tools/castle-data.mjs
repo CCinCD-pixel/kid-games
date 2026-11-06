@@ -92,6 +92,7 @@ function apply() {
     }
   }
   for (const t of ['你听出了这个声调']) if (!bank.praise.includes(t)) bank.praise.push(t);
+  finalizeBank(bank);
   fs.writeFileSync(bankPath, JSON.stringify(bank, null, 2) + '\n');
   console.log(`bank.json: +${added} syllables (now ${bank.syllables.length}), ${bank.tone4.length} tone series, praise ${bank.praise.length}`);
 }
@@ -107,6 +108,12 @@ const ACTIONS = new Set(['拖地', '擦玻璃', '提水', '回家', '围绕', '�
 const REUSE = { 吃西瓜: 'xigua', 白兔: 'tu', 回家: 'jia' }; // the book word shares its picture with an existing word: a text card keeps the one-picture-one-word rule
 const STATION_OF_BOOK_PAGE = { 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 11: 8, 12: 9, 13: 10, 14: 11, 16: 12 };
 /** The standard reading wins over a misprint in the book (打嗝 dǎ gé). */
+const SANDHI = new Set(['打鼓', '水饺', '马匹', '祖母']);
+/** Flags and lessons that must hold in every run: 3-3 words are marked (not asked where the child spells what they hear); a series' syllables carry the series' lesson. */
+function finalizeBank(bank) {
+  for (const w of bank.words) if (SANDHI.has(w.hanzi)) w.sandhi = true;
+  for (const t of bank.tone4 ?? []) for (const id of t.ids) { const x = bank.syllables.find((s) => s.id === id); if (x && x.lesson !== t.lesson) x.lesson = t.lesson; }
+}
 /** Book words the content check (tools/check-content.mjs, plan §4.4: no sad words in narration) refuses. */
 const LEFT_OUT = new Set(['哭了']);
 const NORMATIVE = { 打嗝: ['da3', 'ge2'] };
@@ -176,6 +183,7 @@ function words(mapFile) {
     if (line) line.text = text;
     else yaml.lines.push({ id: `py.mnemonic.${letter}`, role: 'companion', text });
   }
+  finalizeBank(bank);
   fs.writeFileSync(bankPath, JSON.stringify(bank, null, 2) + '\n');
   // The voice step edits the same yaml: only write it when this step really changed something.
   const nextYaml = JSON.stringify(yaml, null, 2) + '\n';
@@ -306,6 +314,7 @@ function stage3(mapFile) {
       }
     }
   }
+  finalizeBank(bank);
   fs.writeFileSync(bankPath, JSON.stringify(bank, null, 2) + '\n');
   const nextYaml = JSON.stringify(yaml, null, 2) + '\n';
   if (nextYaml !== fs.readFileSync(yamlPath, 'utf8')) fs.writeFileSync(yamlPath, nextYaml);

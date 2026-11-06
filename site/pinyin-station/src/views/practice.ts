@@ -33,9 +33,9 @@ import type { SpellLevel } from './kinds/types';
 
 const titles = {
   A: '声音来信',
-  B: '小耳朵接信号',
+  B: '听音接信号',
   C: '把声音接起来',
-  D: '小小播音员',
+  D: '读给台长听',
   E: '给声音找个家',
   F: '图画也会说拼音',
   G: '把一句话接通',
@@ -359,11 +359,13 @@ export class Practice {
             : this.spellLevel === 'tone'
               ? pick(PRAISE.Ftone)
               : pick(PRAISE.Ffull);
+      case 'E':
+        // a text card is not a picture: only the line that talks about the meaning
+        return isTextCard(this.word) ? PRAISE.E[1] : pick(PRAISE.E);
       case 'A':
       case 'B':
       case 'C':
       case 'D':
-      case 'E':
       case 'G':
       case 'H':
       case 'I':

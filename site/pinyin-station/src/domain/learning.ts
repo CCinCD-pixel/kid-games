@@ -1,7 +1,9 @@
 import { createRng } from '@kit/rng';
-import type { Attempt, Atom, Bank, Kind, Question, Save, Syllable, Word } from './types';
-import { medialSplit, parseSyllable } from './pinyin';
+import type { Attempt, Atom, Bank, Kind, Question, Save, Word } from './types';
+import { parseSyllable } from './pinyin';
+import { stationOf } from './book';
 import { dueRoots, weekRoots } from './progress';
+import { blendRivals, distinctSeries, readsAsOne, soundKey } from './sound';
 
 export function initialSave(): Save {
   return {
@@ -94,10 +96,11 @@ export function aliasWordIds(b: Bank, lesson: number): Set<string> {
   return aliases;
 }
 export function eligibleWords(s: Save, b: Bank): Word[] {
-  const aliases = aliasWordIds(b, s.settings.lesson);
+  const L = stationOf(s);
+  const aliases = aliasWordIds(b, L);
   return [...b.words, ...s.customWords].filter(
     (w) =>
-      w.lesson <= s.settings.lesson &&
+      w.lesson <= L &&
       !['sentence', 'cloze'].includes(w.kind) &&
       (!w.beyond || w.custom) &&
       !w.hold &&
@@ -106,27 +109,21 @@ export function eligibleWords(s: Save, b: Bank): Word[] {
 }
 /** The letters a child can hear inside a letter's call sound (fō holds f and o, yī holds y and i, yū holds y, u and ü). */
 export function heardLetters(callSound: string): Set<string> {
-  const parsed = parseSyllable(callSound),
-    out = new Set<string>();
-  if (!parsed) return out;
-  if (parsed.initial) out.add(parsed.initial);
-  out.add(parsed.final);
-  if (parsed.initial === 'y' && parsed.final === 'u') out.add('v');
+  const out = new Set<string>();
+  // the card's id (vn1) and the real file's written name (yun1) are both what the child hears
+  for (const id of new Set([callSound, soundKey(callSound)])) {
+    const parsed = parseSyllable(id);
+    if (!parsed) continue;
+    if (parsed.initial) out.add(parsed.initial);
+    out.add(parsed.final);
+    if (parsed.initial === 'y' && parsed.final === 'u') out.add('v');
+  }
   return out;
 }
-const medialOf = (final: string) => medialSplit(final)?.medial ?? '';
-/** Same first sound and tone, a different last sound, same glide: the other choice of a “接起来” question. */
-export function blendRivals(target: Syllable, syllables: Syllable[]): Syllable[] {
-  return syllables.filter(
-    (x) =>
-      x.id !== target.id &&
-      x.initial === target.initial &&
-      x.tone === target.tone &&
-      x.final !== target.final &&
-      medialOf(x.final) === medialOf(target.final),
-  );
-}
-export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[] {
+export { blendRivals } from './sound';
+export function schedule(s0: Save, b: Bank, mode: string, count = 15): Question[] {
+  // A damaged or future save (lesson 0, 99, 13 = greyed) never breaks the generator: the station is clamped to 1-12.
+  const s = s0.settings.lesson === stationOf(s0) ? s0 : { ...s0, settings: { ...s0.settings, lesson: stationOf(s0) } };
   const rng = createRng(`pinyin:${s.sessions}:${mode}`),
     words = eligibleWords(s, b),
     aliases = aliasWordIds(b, s.settings.lesson);
@@ -184,7 +181,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   const focusWords = words.filter((w) => inFocus(w.lesson)),
     focusLetters = letters.filter((l) => inFocus(l.lesson)),
     focusSyl = syllables.filter((x) => inFocus(x.lesson));
-  const toneItems = (b.tone4 ?? [])
+  const toneItems = distinctSeries(b.tone4 ?? [])
     .filter((t) => t.lesson <= L)
     .flatMap((t) =>
       t.ids
@@ -239,7 +236,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
             ? ['F']
             : ['A', 'E', 'B', 'E', 'F', 'E', 'F', 'C', 'D', 'E', 'F', 'G', 'E', 'F', 'D'];
   // letters that sound exactly like the target (zh and zhi, i and yi and y, u and wu and w …) are never offered next to it
-  const callGroup = (l: { callSound: string }) => ({ i1: 'yi1', u1: 'wu1' })[l.callSound as 'i1' | 'u1'] ?? l.callSound;
+  const callGroup = (l: { callSound: string }) => soundKey(l.callSound);
   const confusing: Record<string, string[]> = {
     b: ['p', 'd'],
     p: ['b'],
@@ -290,14 +287,17 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
       );
       // Exactly one right answer: the call sound (fō) must not also contain another choice (f + o).
       const heard = heardLetters(target.callSound);
-      const others = rng.shuffle(
+      const others0 = rng.shuffle(
         letters.filter((l) => l.id !== target.id && callGroup(l) !== callGroup(target) && !heard.has(l.id)),
       );
-      others.sort(
+      others0.sort(
         (a, b) =>
           Number(confusing[target.id]?.includes(b.id) ?? false) -
           Number(confusing[target.id]?.includes(a.id) ?? false),
       );
+      // no two options may play the same recording (ie / ye, in / yin, i / yi ...)
+      const taken = new Set([callGroup(target)]);
+      const others = others0.filter((l) => !taken.has(callGroup(l)) && !!taken.add(callGroup(l)));
       return {
         id: `A:${target.id}`,
         kind,
@@ -310,7 +310,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
     }
     if (kind === 'C') {
       const options = syllables
-        .filter((sy) => sy.initial && !['y', 'w'].includes(sy.initial))
+        .filter((sy) => sy.initial && !['y', 'w'].includes(sy.initial) && !readsAsOne(sy))
         .map((sy) => ({ sy, rivals: blendRivals(sy, syllables) }))
         .filter((o) => o.rivals.length);
       if (options.length) {
@@ -341,18 +341,17 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
     if (kind === 'B') {
       // A focus slot listens to the new station: only its own contrasts (or, when it has none, its own syllables).
       const sylPool = focusSlot && focusSyl.length >= 2 ? focusSyl : syllables;
-      const eligible = b.confusions.filter((c) =>
-        c.minimalPairs.some((p) => p.every((id) => sylPool.some((sy) => sy.id === id))),
-      );
+      const usable = (p: string[]) => p.every((id) => sylPool.some((sy) => sy.id === id)) && soundKey(p[0]) !== soundKey(p[1]);
+      const eligible = b.confusions.filter((c) => c.minimalPairs.some(usable));
       const pair = eligible.length ? pickLeast(eligible, (c) => c.pair.join('|'), 'Bpair', fav((c: { pair: string[] }) => `pair:${c.pair.join('|')}`)) : undefined;
-      const candidates =
-        pair?.minimalPairs.filter((p) => p.every((id) => sylPool.some((sy) => sy.id === id))) ?? [];
+      const candidates = pair?.minimalPairs.filter(usable) ?? [];
       let alternatives = candidates.length ? pickLeast(candidates, (p) => p.join('|'), 'Bmin') : [];
       if (!alternatives.length) {
         // Two sounds of the same series (same vowel, different tone) or the same first sound: a small, honest contrast.
         const first = pickLeast(sylPool, (x) => x.id, 'Bfocus', fav((x: { id: string }) => `syl:${x.id}`)),
-          mates = sylPool.filter((x) => x.id !== first.id && (x.final === first.final || x.initial === first.initial)),
-          other = rng.pick(mates.length ? mates : sylPool.filter((x) => x.id !== first.id));
+          differs = sylPool.filter((x) => x.id !== first.id && soundKey(x.id) !== soundKey(first.id)),
+          mates = differs.filter((x) => x.final === first.final || x.initial === first.initial),
+          other = rng.pick(mates.length ? mates : differs);
         alternatives = [first.id, other.id];
       }
       const id = pickLeast(alternatives, (x) => x, 'Bid');
@@ -418,7 +417,7 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
       return schedule(s, b, 'listen', count)[i];
     }
     const weekWords = mode === 'week' ? words.filter((w) => favSet?.has(`word:${w.id}`)) : [];
-    const pool =
+    const pool0 =
       mode === 'week'
         ? weekWords.length >= 3
           ? weekWords
@@ -434,9 +433,12 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
           : focusSlot && mode === 'today' && focusMain.length
             ? focusMain
             : main;
+    const pool = kind === 'F' && pool0.some((w) => !w.sandhi) ? pool0.filter((w) => !w.sandhi) : pool0;
     const scene =
       mode === 'scene' && scenes.length ? scenes[(s.sessions * count + i) % scenes.length] : undefined;
-    const sceneWords = scene ? words.filter((w) => scene.targets.includes(w.id)) : [];
+    const sceneAll = scene ? words.filter((w) => scene.targets.includes(w.id)) : [];
+    // 水饺 祖母 打鼓 马匹: the whole-word voice may say the changed tone, so they are not asked where the child spells what they hear
+    const sceneWords = kind === 'F' && sceneAll.some((w) => !w.sandhi) ? sceneAll.filter((w) => !w.sandhi) : sceneAll;
     const readySceneWords = sceneWords.filter(
       (w) => !atoms(w).length || atoms(w).some((a) => a.due <= s.sessions),
     );

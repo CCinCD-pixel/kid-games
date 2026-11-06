@@ -449,7 +449,7 @@
       "kind": "final",
       "lesson": 11,
       "callSound": "er1",
-      "mnemonic": "耳朵耳朵",
+      "mnemonic": "儿子儿子",
       "grid": "middle",
       "callDisplay": "ér"
     },
@@ -3515,7 +3515,7 @@
       "initial": "zh",
       "final": "i",
       "tone": 3,
-      "lesson": 10,
+      "lesson": 8,
       "audio": "py.syl.zhi3"
     },
     {
@@ -5718,7 +5718,8 @@
       "lesson": 5,
       "beyond": false,
       "source": "家庭拼音练习与试卷题型",
-      "semanticGroup": "gu"
+      "semanticGroup": "gu",
+      "sandhi": true
     },
     {
       "id": "kugua",
@@ -6658,7 +6659,8 @@
       "lesson": 10,
       "beyond": false,
       "source": "学校拼音练习",
-      "semanticGroup": "shuijiao"
+      "semanticGroup": "shuijiao",
+      "sandhi": true
     },
     {
       "id": "xiaodao",
@@ -7048,7 +7050,8 @@
       "lesson": 3,
       "beyond": false,
       "source": "学校拼音练习",
-      "semanticGroup": "mapi"
+      "semanticGroup": "mapi",
+      "sandhi": true
     },
     {
       "id": "papo",
@@ -7393,7 +7396,8 @@
       "lesson": 7,
       "beyond": false,
       "source": "学校拼音练习",
-      "semanticGroup": "zumu"
+      "semanticGroup": "zumu",
+      "sandhi": true
     },
     {
       "id": "ziji",
@@ -7971,7 +7975,7 @@
           "nei4"
         ]
       ],
-      "tip": "左边这个，嘴巴先张大再放松；右边这个，嘴巴扁扁的，像要笑。",
+      "tip": "左边这个，嘴巴先张大，再把嘴角扁开；右边这个，嘴巴扁扁的，像要笑。",
       "focus": "both"
     },
     {
@@ -8162,7 +8166,7 @@
     "你把这幅图说给拼音听了",
     "你让字母和声调一起站好了",
     "你把句子的意思接通了",
-    "你慢慢读，台长听见了你的努力",
+    "你慢慢读完了",
     "你发现了两个声音的不同",
     "你把熟悉的声音认出来了",
     "你听出了这个字母",

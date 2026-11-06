@@ -65,6 +65,12 @@ export function validateBank(b: Bank): string[] {
         errors.push(`lesson: ${w.id}`);
     }
   }
+  // a tone series (and so its page) is one station: every syllable of it carries that station
+  for (const t of b.tone4 ?? [])
+    for (const id of t.ids) {
+      const x = b.syllables.find((s) => s.id === id);
+      if (x && x.lesson !== t.lesson) errors.push(`series lesson: ${id} is station ${x.lesson}, its series ${t.series} is ${t.lesson}`);
+    }
   for (const c of b.confusions)
     for (const pair of c.minimalPairs) for (const id of pair) if (!ids.has(id)) errors.push(`pair: ${id}`);
   return errors;

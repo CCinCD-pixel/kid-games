@@ -84,11 +84,12 @@ async function until(page: Page, from: number, n: number, ms = 20000) {
 const robotOnly = (h: Heard[]) => h.filter((x) => x.ids.length && !x.ids.some((id) => id.startsWith('py.syl.')));
 
 test.describe('mnemonic cards: a plain sentence, then the real call-sound recording', () => {
-  // the 8 rewritten ones, a normal one, a 2-letter initial, er (real recording is ér), a lesson 9+ card, and eng (no recording yet)
-  const cards = ['a', 'o', 'e', 'i', 'u', 'v', 'y', 'w', 'b', 'zh', 'er', 'ai', 'eng'];
+  // the 8 rewritten ones, a normal one, a 2-letter initial, er (real recording is ér) and a lesson 9+ card
+  // (eng belongs to the greyed station 13: a save is clamped to station 12, so its card cannot be reached)
+  const cards = ['a', 'o', 'e', 'i', 'u', 'v', 'y', 'w', 'b', 'zh', 'er', 'ai'];
   test('clip sequence, subtitle and silence of the robot for every card', async ({ page }) => {
     test.setTimeout(240_000);
-    await open(page, null, (s) => (s.settings.lesson = 13));
+    await open(page, null, (s) => (s.settings.lesson = 12));
     await page.getByRole('button', { name: '信号卡册', exact: true }).click();
     const rows: unknown[] = [];
     for (const id of cards) {
@@ -121,10 +122,10 @@ test.describe('mnemonic cards: a plain sentence, then the real call-sound record
       // 4. the card carries the same words and the label of the recording that plays
       await expect(card.locator('small')).toHaveText(letter.mnemonic);
     }
-    // er: the label and the subtitle both say ér (the recording is er2); eng: nothing plays and nothing breaks
+    // er: the label and the subtitle both say ér (the recording is er2); eng / ong (station 13, no recording) are not offered at all
     await expect(page.locator('.signal-card[data-letter="er"]')).toHaveAttribute('aria-label', /读音 ér$/);
-    await expect(page.locator('.signal-card[data-letter="eng"] > span:last-child')).toHaveText('点一点，看看样子');
-    await expect(page.locator('.signal-card[data-letter="ong"] > span:last-child')).toHaveText('点一点，看看样子');
+    await expect(page.locator('.signal-card[data-letter="eng"]')).toHaveCount(0);
+    await expect(page.locator('.signal-card[data-letter="ong"]')).toHaveCount(0);
     keep('eavesdrop-cards', rows);
   });
 });
@@ -137,8 +138,8 @@ test.describe('tips: a plain sentence, the two letters on screen, then the real 
     test(`tip ${key}`, async ({ page }, info) => {
       test.setTimeout(90_000);
       const [target, other] = c.minimalPairs.find((p) => p.every((id) => manifestFile[`py.syl.${id}`]))!;
-      const q: Question = { id: `B:${target}`, kind: 'B', target, skill: `pair:${c.pair.join('|')}:hear`, lesson: 8, phase: 'main', choices: [target, other] };
-      await open(page, [q, q], (s) => (s.settings.lesson = 8));
+      const q: Question = { id: `B:${target}`, kind: 'B', target, skill: `pair:${c.pair.join('|')}:hear`, lesson: 12, phase: 'main', choices: [target, other] };
+      await open(page, [q, q], (s) => (s.settings.lesson = 12)); // (an unfinished programme must belong to a station the child has reached)
       await page.getByRole('button', { name: '接着上次的节目' }).click();
       await expect(page.locator('.practice')).toBeVisible();
       await page.waitForTimeout(300);

@@ -1,5 +1,6 @@
 import { createRng } from '@kit/rng';
 import { displayPinyin } from './pinyin';
+import { readsAsOne } from './sound';
 import type { Bank, Syllable } from './types';
 
 /**
@@ -50,7 +51,7 @@ export function drillTables(b: Bank, station: number): DrillTable[] {
   const ok = playable(b);
   const byTone: string[][] = [[], [], [], []];
   for (const s of ok.values())
-    if (s.initial && s.lesson <= station && s.lesson >= station - 1 && !(b.tone4 ?? []).some((t) => t.ids.includes(s.id))) byTone[s.tone - 1].push(s.id);
+    if (s.initial && !readsAsOne(s) && s.lesson <= station && s.lesson >= station - 1 && !(b.tone4 ?? []).some((t) => t.ids.includes(s.id))) byTone[s.tone - 1].push(s.id);
   const cells: string[] = [];
   const rng = createRng(`drill:blend:${station}`);
   const lanes = byTone.map((l) => rng.shuffle(l));

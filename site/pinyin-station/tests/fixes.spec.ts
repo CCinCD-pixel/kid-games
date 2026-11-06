@@ -541,7 +541,7 @@ test.describe('R02 信号卡册 at lesson 8 scrolls and every card can be tapped
     }
     await cards.last().scrollIntoViewIfNeeded();
     await cards.last().tap();
-    await page.getByRole('button', { name: '去当小播音员' }).tap();
+    await page.getByRole('button', { name: '去读给台长听' }).tap();
     await expect(page.locator('.practice')).toBeVisible();
   });
 });

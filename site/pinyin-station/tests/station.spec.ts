@@ -129,7 +129,7 @@ test('spell on four-line grid, view the album and reject microphone gracefully',
   await page.getByRole('button', { name: '信号卡册', exact: true }).click();
   await fits(page);
   await shot(page, info.project.name, 'pinyin-album');
-  await page.getByRole('button', { name: '去当小播音员' }).click();
+  await page.getByRole('button', { name: '去读给台长听' }).click();
   await page.getByRole('button', { name: '读给台长听' }).click();
   await expect(page.getByRole('button', { name: '我读过啦' })).toBeVisible({ timeout: 12000 });
   expect(await page.locator('.practice').innerText()).not.toMatch(/失败|错误/);
@@ -479,7 +479,7 @@ test('three-part blending keeps the medial visible and offers a real vowel choic
   );
   await open(page);
   await page.getByRole('button', { name: '信号卡册', exact: true }).click();
-  await page.getByRole('button', { name: '去当小播音员' }).click();
+  await page.getByRole('button', { name: '去读给台长听' }).click();
   await page.getByRole('button', { name: '不开麦，跟着读', exact: true }).click();
   await page.getByRole('button', { name: '我读过啦', exact: true }).click();
   const syllable = parseSyllable(target)!;

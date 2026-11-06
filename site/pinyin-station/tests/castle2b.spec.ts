@@ -48,7 +48,11 @@ async function start(page: Page, queue: Question[] | null, tweak: (s: Save) => v
   const s = initialSave();
   s.tutorial = { A: true, B: true, C: true, D: true, E: true, F: true, G: true, H: true };
   tweak(s);
-  if (queue) s.resume = { mode: 'today', queue, index: 0, at: Date.now() };
+  // an unfinished programme is checked at start-up: its questions must belong to a station the child has reached
+  if (queue) {
+    s.settings.lesson = Math.max(s.settings.lesson, ...queue.map((q) => q.lesson));
+    s.resume = { mode: 'today', queue, index: 0, at: Date.now() };
+  }
   await instrument(page);
   await page.addInitScript(SPY);
   await page.addInitScript((data) => { if (!localStorage.getItem('kg:v1:pinyin-station')) localStorage.setItem('kg:v1:pinyin-station', JSON.stringify({ v: 1, updatedAt: Date.now(), data })); }, s);

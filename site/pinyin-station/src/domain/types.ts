@@ -39,6 +39,8 @@ export interface Word {
    * The text says why; delete the field once the new picture is in. Kept in the bank for the parent review page.
    */
   hold?: string;
+  /** A 3-3 word (水饺 祖母 打鼓 马匹): the whole-word voice may say the changed tone, so it is not asked where the child spells what they hear. */
+  sandhi?: boolean;
 }
 export interface Confusion {
   pair: string[];

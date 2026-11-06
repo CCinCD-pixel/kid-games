@@ -386,3 +386,11 @@ body.hub { overflow: hidden; overflow: clip; } /* nothing can scroll-shift the p
   .hub-card.is-launching::after { animation: none; }
   .hub-meteor { display: none; }
 }
+
+/* stage 5: in portrait the moon sits under the tools, not over the sound button */
+@media (orientation: portrait) and (min-width: 600px) {
+  .hub-moon { margin-top: 34px; }
+}
+@media (orientation: portrait) and (max-width: 599px) {
+  .hub-moon { margin-top: 12px; }
+}

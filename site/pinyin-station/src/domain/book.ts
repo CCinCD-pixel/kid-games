@@ -7,6 +7,13 @@ import type { Bank, Save } from './types';
  * book 14 = station 13 (its pages are not photographed yet, and eng / ong have no recording).
  */
 export const BOOK_OPEN_MAX = 13;
+/** Stations the game plays (station 13 = book 14 is greyed out and has no content yet). */
+export const STATION_MAX = 12;
+/** The station to use: whatever a damaged or future save says, clamped to 1-12. */
+export const stationOf = (s: { settings: { lesson: number } }): number => {
+  const n = Math.trunc(Number(s.settings?.lesson));
+  return Number.isFinite(n) ? Math.min(STATION_MAX, Math.max(1, n)) : 4;
+};
 export const BOOK_LAST = 14;
 export const stationOfBook = (book: number): number => (book <= 8 ? book : book === 9 ? 8 : book - 1);
 export const bookOfStation = (b: Bank, station: number): number => b.lessons.find((l) => l.id === station)?.book?.lesson ?? station;
@@ -22,6 +29,14 @@ export function bookLabel(b: Bank, station: number): string {
   if (!book) return `第 ${station} 站`;
   const lessons = book.also ? `${book.lesson}、${book.also}` : `${book.lesson}`;
   return [`课本第 ${lessons} 课`, pagesOf(book.pages)].filter(Boolean).join(' · ');
+}
+/** The label of where the teacher is, following the parent's book pick (book 9 = y w = station 8, page 10). */
+export function currentLabel(s: Save, b: Bank): string {
+  if (currentBook(s, b) === 9 && stationOfBook(9) === s.settings.lesson) {
+    const page = b.lessons.find((l) => l.book?.also === 9)?.book?.pages.at(-1);
+    return ['课本第 9 课', page ? `第 ${page} 页` : ''].filter(Boolean).join(' · ');
+  }
+  return bookLabel(b, s.settings.lesson);
 }
 export interface BookOption {
   book: number;

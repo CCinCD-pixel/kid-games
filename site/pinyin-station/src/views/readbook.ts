@@ -16,7 +16,7 @@ export interface BookPage {
 }
 export function bookPages(b: Bank): BookPage[] {
   return b.lessons
-    .flatMap((l) => (l.book?.pages ?? []).map((page) => ({ page, station: l.id, lesson: l.book!.lesson, title: l.title })))
+    .flatMap((l) => (l.book?.pages ?? []).map((page, i, all) => ({ page, station: l.id, lesson: l.book!.also !== undefined && all.length > 1 && i === all.length - 1 ? l.book!.also : l.book!.lesson, title: l.title })))
     .sort((x, y) => x.page - y.page);
 }
 export const readsText = (n: number): string => (n ? `已读 ${n} 遍` : '还没开始读');

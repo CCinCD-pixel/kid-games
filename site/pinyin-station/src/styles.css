@@ -3789,3 +3789,100 @@ body:has(.parent-panel) .kit-subtitle {
     zoom: 1 !important;
   }
 }
+
+/* ===== stage 5: first screen, review note on one line, hint as a card, recall scroll cue, bigger parent controls ===== */
+.due-hint {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.due-hint span {
+  flex: none;
+}
+.due-hint small {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+}
+.practice-paths .rule-hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.practice-paths .rule-hint p {
+  margin: 0;
+  flex: 1 1 220px;
+}
+.practice-paths .rule-hint .rule-hint-actions {
+  flex: none;
+}
+.recall-scroll {
+  padding-bottom: 12px;
+  background:
+    linear-gradient(var(--station-paper, #faf3e4) 30%, rgba(250, 243, 228, 0)) center top / 100% 28px no-repeat local,
+    linear-gradient(rgba(250, 243, 228, 0), var(--station-paper, #faf3e4) 70%) center bottom / 100% 28px no-repeat local,
+    radial-gradient(farthest-side at 50% 0, rgba(75, 63, 88, 0.28), rgba(75, 63, 88, 0)) center top / 100% 10px no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, rgba(75, 63, 88, 0.28), rgba(75, 63, 88, 0)) center bottom / 100% 10px no-repeat scroll;
+}
+.recall-page > .station-btn {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  flex: none;
+}
+.parent-panel .parent-field select,
+.parent-panel .recording-row select,
+.parent-panel select {
+  min-height: 44px;
+  height: 44px;
+  font-size: 16px;
+}
+.parent-panel .parent-field > input[type='checkbox'],
+.parent-panel input[type='checkbox'] {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+@media (max-width: 599px), (max-height: 599px) {
+  .parent-panel .parent-field select,
+  .parent-panel .recording-row select,
+  .parent-panel select {
+    min-height: 40px;
+    height: 40px;
+  }
+  .parent-panel .parent-field > input[type='checkbox'],
+  .parent-panel input[type='checkbox'] {
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+  }
+}
+/* in the phone layout the parent fields are columns: a select with flex: 1 collapsed to its text height */
+@media (max-width: 599px) {
+  .parent-panel .parent-field > select,
+  .parent-panel .parent-field > input[type='checkbox'] {
+    flex: none;
+  }
+}
+/* the one-line note must not widen the programme card (grid items default to min-width: auto) */
+.studio-row > *,
+.program-board,
+.due-hint {
+  min-width: 0;
+}
+.due-hint {
+  max-width: 100%;
+}

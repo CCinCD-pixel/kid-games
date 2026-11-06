@@ -1,7 +1,8 @@
 import { createRng } from '@kit/rng';
 import { drillTables } from './drill';
 import { displayPinyin, parseSyllable } from './pinyin';
-import { pageText, pagesOfStation, rootOf, stationBlends, stationTones, stationWords, weakItems, weekRoots } from './progress';
+import { aliasIds, pageText, pagesOfStation, rootOf, stationBlends, stationTones, stationWords, weakItems, weekRoots } from './progress';
+import { distinctSeries, readsAsOne } from './sound';
 import type { Bank, Save } from './types';
 
 /**
@@ -48,7 +49,7 @@ export const QUIZ_LENGTH = 18;
 const shown = (id: string) => id.replace(/v/g, 'ü');
 function blendOf(id: string): PrintBlend | null {
   const p = parseSyllable(id);
-  if (!p || !p.initial || ['y', 'w'].includes(p.initial)) return null;
+  if (!p || !p.initial || ['y', 'w'].includes(p.initial) || readsAsOne(p)) return null;
   const whole = displayPinyin(id);
   return { initial: p.initial, final: whole.slice(p.initial.length) };
 }
@@ -57,7 +58,7 @@ function take<T>(rng: ReturnType<typeof createRng>, pool: T[], liked: (x: T) => 
   return [...rng.shuffle(pool.filter(liked)), ...rng.shuffle(pool.filter((x) => !liked(x)))].slice(0, n);
 }
 
-function group(b: Bank, station: number, weak: Set<string>, rng: ReturnType<typeof createRng>): PrintGroup {
+function group(b: Bank, station: number, weak: Set<string>, rng: ReturnType<typeof createRng>, lesson: number): PrintGroup {
   const likedSyl = (id: string) => weak.has(`syl:${id}`);
   const tables = drillTables(b, station);
   const grid = tables.find((t) => t.kind === 'blend') ?? tables.find((t) => t.kind === 'final');
@@ -65,7 +66,7 @@ function group(b: Bank, station: number, weak: Set<string>, rng: ReturnType<type
   const cells = [...new Set([...weakCells, ...rng.shuffle(grid?.cells ?? [])])].slice(0, CELLS).map(displayPinyin);
   const blendPool = stationBlends(b, station);
   const blends = take(rng, blendPool, (x) => likedSyl(x.id), BLENDS).map((x) => blendOf(x.id)).filter((x): x is PrintBlend => !!x);
-  const wordPool = stationWords(b, station);
+  const wordPool = stationWords(b, station, lesson);
   const words = take(rng, wordPool, (w) => weak.has(`word:${w.id}`), WORDS).map((w) => ({ id: w.id, hanzi: w.hanzi, display: w.display }));
   const series = take(rng, stationTones(b, station), (t) => weak.has(`tone4:${t.series}`), 1)[0];
   return {
@@ -93,7 +94,7 @@ export function buildWorksheet(s: Save, b: Bank, scope: 'weak' | number, _now = 
     // nothing shaky yet: the practice page is about the station the teacher has reached
     if (!stations.length) stations = [s.settings.lesson];
   }
-  const groups = stations.map((st) => group(b, st, typeof scope === 'number' ? new Set<string>() : weakSet, rng)).filter((g) => !empty(g));
+  const groups = stations.map((st) => group(b, st, typeof scope === 'number' ? new Set<string>() : weakSet, rng, s.settings.lesson)).filter((g) => !empty(g));
   return {
     kind: typeof scope === 'number' ? 'lesson' : 'weak',
     title: typeof scope === 'number' ? `${pageText(pagesOfStation(b, scope)) || `第 ${scope} 站`} 练习` : '薄弱项练习页',
@@ -111,9 +112,10 @@ export function buildWeeklyQuiz(s: Save, b: Bank, now = Date.now()): Worksheet {
   for (const w of weakItems(s, b, 20)) wk.add(w.root);
   const near = (lesson: number) => lesson <= L;
   const syl = b.syllables.filter((x) => near(x.lesson) && x.tone > 0 && !x.wordOnly);
-  const blends = syl.filter((x) => x.initial && !['y', 'w'].includes(x.initial));
-  const words = b.words.filter((w) => near(w.lesson) && !w.hold && !w.beyond && !['sentence', 'cloze'].includes(w.kind));
-  const tones = (b.tone4 ?? []).filter((t) => near(t.lesson) && t.ids.filter((_, m) => !(t.skip ?? []).includes(m + 1)).length >= 3);
+  const blends = syl.filter((x) => x.initial && !['y', 'w'].includes(x.initial) && !readsAsOne(x));
+  const aliases = aliasIds(b, L);
+  const words = b.words.filter((w) => near(w.lesson) && !aliases.has(w.id) && !w.hold && !w.beyond && !['sentence', 'cloze'].includes(w.kind));
+  const tones = distinctSeries(b.tone4 ?? []).filter((t) => near(t.lesson) && t.ids.filter((_, m) => !(t.skip ?? []).includes(m + 1)).length >= 3);
   const pairs = b.confusions.filter((c) => c.pair.every((id) => b.letters.some((l) => l.id === id && near(l.lesson))));
   const letters = b.letters.filter((l) => near(l.lesson) && l.kind !== 'whole');
   const pools = {
