@@ -1,19 +1,23 @@
 import { initShell } from '@kit/shell';
 import { createStore, setHubProgress } from '@kit/progress';
 import { Narrator, type NarrationManifest } from '@kit/narration';
-import { createSubtitleBar, h } from '@kit/ui';
+import { createSubtitleBar, h, shouldAutoSkip } from '@kit/ui';
 import { mount } from '@kit/companion';
 import { decodeClip, playBuffer, releaseClips, type Voice } from '@kit/audio';
 import { bank } from './domain/content';
 import { initialSave, mastery } from './domain/learning';
 import { compactHistory } from './domain/history';
 import { callLabel, displayPinyin } from './domain/pinyin';
+import { bookLabel, currentBook } from './domain/book';
 import { getPicture, historyArchive, type Recording } from './speech/recordings';
 import { illustration, radio } from './views/art';
 import { button, glyph, pinyin, type Context } from './views/common';
 import { Practice } from './views/practice';
 import type { ResumeState, Word } from './domain/types';
 import { lineText } from './views/lines';
+import { defaultTable, drillTables } from './domain/drill';
+import { drillView } from './views/drill';
+import { rulesView } from './views/rules';
 import './styles.css';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
@@ -86,7 +90,7 @@ type Played = 'done' | 'interrupted' | 'skipped';
 const played = (result: unknown): Played =>
   result === 'interrupted' ? 'interrupted' : result === 'done' ? 'done' : 'skipped';
 // ---- navigation: home <-> exactly one sub-view (practice / album / parent / finish). One back step = one level.
-type ViewName = 'home' | 'practice' | 'album' | 'parent' | 'finish';
+type ViewName = 'home' | 'practice' | 'album' | 'parent' | 'finish' | 'recall' | 'drill' | 'rules';
 const NAV = 'ps';
 let view: ViewName = 'home';
 try {
@@ -318,6 +322,7 @@ const modeNames: Record<string, string> = {
   spell: '图画拼搭',
   repair: '老朋友重逢',
   read: '小播音员',
+  review: '阶段复习',
 };
 function home() {
   resetView();
@@ -345,6 +350,28 @@ function home() {
   const resume = pendingResume();
   const quietStart = button('开始今天的节目', () => startPractice('today'), 'quiet', 'play');
   quietStart.classList.add('start-show');
+  // 阶段复习 appears once the teacher is at book lesson 9 or later (and stays for stations 9-12).
+  const reviewBtn = currentBook(save, bank) >= 9 ? button('阶段复习', recall, 'secondary', 'book') : null;
+  const drillBtn = button('练读表', () => drill(), 'secondary', 'grid');
+  // The 小规则 hint shows once (a dismiss or a visit is remembered); the parent's 跳过开场和教学 keeps it away.
+  const ruleHint =
+    !save.rulesSeen?.hint && !shouldAutoSkip()
+      ? h(
+          'div',
+          { class: 'rule-hint', role: 'note' },
+          h('p', null, '新朋友：读拼音的小窍门，都放在“小规则”里。'),
+          h(
+            'div',
+            { class: 'rule-hint-actions' },
+            button('去看看', () => rules(), 'secondary', 'book'),
+            button('先不用', () => {
+              (save.rulesSeen ??= {}).hint = true;
+              persist();
+              ruleHint?.remove();
+            }, 'quiet'),
+          ),
+        )
+      : null;
   const doneToday = save.lastFinishAt !== undefined && sameDay(save.lastFinishAt, Date.now());
   const program = h(
     'aside',
@@ -352,7 +379,7 @@ function home() {
     h(
       'small',
       null,
-      `第 ${save.settings.lesson} 站 · ${bank.lessons.find((l) => l.id === save.settings.lesson)?.title ?? ''}`,
+      `${bookLabel(bank, save.settings.lesson)} · 第 ${save.settings.lesson} 站 · ${bank.lessons.find((l) => l.id === save.settings.lesson)?.title ?? ''}`,
     ),
     h('h2', null, '你的声音，从这里出发'),
     h(
@@ -380,6 +407,9 @@ function home() {
         )
       : null,
     resume ? quietStart : start,
+    reviewBtn,
+    drillBtn,
+    ruleHint,
     doneToday && !resume ? h('p', { class: 'program-done' }, '今天的节目已经播完一场啦，想再练也可以。') : null,
   );
   const paths = h(
@@ -422,6 +452,93 @@ function startPractice(mode: string, resume?: ResumeState) {
   app.replaceChildren(header(), practice.el);
   shell.session?.mark('pinyin-session', { mode, lesson: save.settings.lesson, resumed: !!resume });
 }
+/** 记一记: every letter on one screen, tap one to hear its real recording; then the 阶段复习 programme starts. */
+function recall() {
+  resetView();
+  open('recall');
+  const tiles = (letters: typeof bank.letters) =>
+    h(
+      'div',
+      { class: 'recall-tiles' },
+      letters.map((l) =>
+        h(
+          'button',
+          { type: 'button', class: 'recall-tile pinyin', 'data-letter': l.id, 'aria-label': l.id.replace('v', 'ü'), onclick: () => void syllable(l.callSound) },
+          l.id.replace('v', 'ü'),
+        ),
+      ),
+    );
+  const upTo8 = bank.letters.filter((l) => l.lesson <= 8);
+  const group = (title: string, letters: typeof bank.letters) => h('section', { class: 'recall-group' }, h('h3', null, title), tiles(letters));
+  app.replaceChildren(
+    header(),
+    h(
+      'main',
+      { class: 'album-page recall-page' },
+      h(
+        'div',
+        { class: 'album-title' },
+        h('div', null, h('small', null, '点一点，听一听'), h('h2', null, '记一记')),
+        button('回到电台', () => ctx.home(), 'secondary', 'back'),
+      ),
+      h(
+        'div',
+        { class: 'recall-scroll' },
+        group('单韵母', upTo8.filter((l) => l.kind === 'final')),
+        group('声母', upTo8.filter((l) => l.kind === 'initial')),
+        group('整体认读音节', upTo8.filter((l) => l.kind === 'whole')),
+      ),
+      button('开始阶段复习', () => startPractice('review'), 'primary', 'play'),
+    ),
+  );
+}
+/** 练读表: pick one of this station's tables (the one the lesson points at is marked), then read it cell by cell. */
+function drill() {
+  resetView();
+  open('drill');
+  const station = save.settings.lesson;
+  const tables = drillTables(bank, station);
+  const pointed = defaultTable(tables, station);
+  const list = h('div', { class: 'drill-menu' });
+  const choose = () => app.replaceChildren(header(), h('main', { class: 'album-page drill-page' }, title, list));
+  const title = h(
+    'div',
+    { class: 'album-title' },
+    h('div', null, h('small', null, '一格一格慢慢读，读得越来越顺'), h('h2', null, '练读表')),
+    button('回电台', () => ctx.home(), 'secondary', 'back'),
+  );
+  if (!tables.length)
+    list.append(h('p', { class: 'drill-empty' }, '这一站的练读表还没准备好，先去玩今天的节目吧。'));
+  for (const t of tables) {
+    const mine = save.drillBest?.[t.id];
+    list.append(
+      h(
+        'button',
+        {
+          type: 'button',
+          class: `drill-choice ${t === pointed ? 'recommended' : ''}`,
+          'data-table': t.id,
+          onclick: () => {
+            stopAudio();
+            app.replaceChildren(header(), drillView(ctx, t, () => drill()));
+          },
+        },
+        h('b', null, t.title),
+        h('small', null, t.note),
+        h('span', null, mine ? `上次读了 ${mine.last} 秒` : `${t.cells.length} 格`),
+      ),
+    );
+  }
+  choose();
+}
+/** 小规则: five small cards. Opening them marks the hint as seen. */
+function rules(focus?: string) {
+  resetView();
+  open('rules');
+  (save.rulesSeen ??= {}).hint = true;
+  persist();
+  app.replaceChildren(header(), rulesView(ctx, focus, save.settings.lesson));
+}
 function album() {
   resetView();
   open('album');
@@ -456,7 +573,8 @@ function album() {
     );
   }
   const listen = button('去当小播音员', () => startPractice('read'), 'primary', 'mic');
-  app.replaceChildren(header(), h('main', { class: 'album-page' }, title, cards, listen));
+  const ruleLink = h('div', { class: 'album-rules-link' }, button('小规则', () => rules(), 'quiet', 'book'));
+  app.replaceChildren(header(), h('main', { class: 'album-page' }, title, ruleLink, cards, listen));
 }
 function finish(records: Recording[], saved: number) {
   resetView();

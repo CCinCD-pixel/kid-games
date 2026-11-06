@@ -51,8 +51,8 @@ describe('what a card or a tip shows is what is said', () => {
         expect(clip.synthetic, `${l!.id} call sound is a real recording`).toBeFalsy();
       }
     }
-    expect(letterTips).toBe(11);
-    for (const id of ['b-p', 'd-t', 'b-d', 'l-n', 'p-f', 'g-k', 'j-q', 'z-c', 'zh-ch'])
+    expect(letterTips).toBe(20); // 11 from before + the 9 minimal-pair confusions of stage 3
+    for (const id of ['b-p', 'd-t', 'b-d', 'l-n', 'p-f', 'g-k', 'j-q', 'z-c', 'zh-ch', 'd-p', 'f-t', 'm-n', 'ai-ei', 'ao-ou', 'ui-iu', 'ie-ve', 'an-en', 'in-un'])
       expect(bank.confusions.find((c) => c.pair.join('-') === id)!.tip, id).toMatch(/左边|右边/);
   });
 });

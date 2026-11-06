@@ -2,7 +2,7 @@ import { h } from '@kit/ui';
 import { createRng } from '@kit/rng';
 import { displayPinyin, parseSyllable } from '../../domain/pinyin';
 import { STEP } from '../lines';
-import { button } from '../common';
+import { button, isTextCard } from '../common';
 import type { PracticeView, SpellLevel } from './types';
 
 const LEVELS: SpellLevel[] = ['initial', 'final', 'tone', 'full'];
@@ -45,7 +45,7 @@ export function spelling(this: PracticeView) {
     { class: 'spelling-picture' },
     this.ctx.picture(w),
     // Naming the picture is part of the question (a picture owns exactly one word), so it does not count as a hint.
-    button('听听图画', () => void this.stimulus(), 'quiet', 'listen'),
+    button(isTextCard(w) ? '听听这个词' : '听听图画', () => void this.stimulus(), 'quiet', 'listen'),
   );
   const sequence = h('div', { class: 'word-slots' });
   const drawSlots = (mode: 'open' | 'try' | 'all', value = '') =>

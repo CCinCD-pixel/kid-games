@@ -95,7 +95,7 @@ describe('supportive practice and session-based review', () => {
         s.settings.lesson = lesson;
         const qs = schedule(s, bank, mode);
         expect(qs).toHaveLength(15);
-        expect(qs.every((q) => q.lesson <= lesson && ['A', 'B', 'C', 'D', 'E', 'F'].includes(q.kind))).toBe(
+        expect(qs.every((q) => q.lesson <= lesson && ['A', 'B', 'C', 'D', 'E', 'F', 'H'].includes(q.kind))).toBe(
           true,
         );
       }

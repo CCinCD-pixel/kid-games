@@ -20,6 +20,8 @@ export const INSTRUCTION: Record<Exclude<Kind, 'F'>, Line> = {
   D: line('py.D', '准备好，就读给台长听。'),
   E: line('py.E2', '看一看拼音，点出它的图。'),
   G: line('py.G', '点点词卡，把话接起来。'),
+  H: line('py.H', '听一听，选出声调一样的那个。'),
+  I: line('py.I', '找一找，哪一个和上面的一模一样？'),
 };
 /** F (看图拼音) asks one small thing at a time. */
 export const STEP = {
@@ -32,6 +34,8 @@ export const HINT = {
   first: line('py.hint1', '先听一听，再找线索。'),
   split: line('py.hint2', '我们把声音拆开看看。'),
   demo: line('py.demo', '一起看示范，再接下一条信号。'),
+  near: line('py.H.near', '差一点点，再听一听。'),
+  look: line('py.I.look', '差一点点，再仔细看一看。'),
 };
 /** What the radio says once a recording really happened (or did not). */
 export const RECORDING = {
@@ -43,6 +47,18 @@ export const RECORDING = {
 export const FINISH = {
   recorded: line('py.finish', '今天的声音已送到星港，歇一歇吧。'),
   plain: line('py.finish2', '今天的节目播完啦，歇一歇吧。'),
+};
+/** 小规则: the plain-Chinese line of each card (the letters and tone marks are drawn on the card, never said). */
+export const RULES: { id: string; title: string; at: number; line: Line }[] = [
+  { id: 'tones', title: '四声歌', at: 1, line: line('py.rule.tones', '一声平，二声扬，三声拐弯，四声降。') },
+  { id: 'i', title: '小点点摘帽子', at: 2, line: line('py.rule.i', '有礼貌的小点点，标上声调就摘帽。') },
+  { id: 'v', title: '两个小点点擦眼泪', at: 6, line: line('py.rule.v', '两个小点点见到这几个字母，就擦掉眼泪笑嘻嘻。') },
+  { id: 'nl', title: '有的小点点要留着', at: 6, line: line('py.rule.nl', '有两个字母后面，两个小点点要好好留着。') },
+  { id: 'mark', title: '声调标在哪里', at: 9, line: line('py.rule.mark', '韵母里有张大嘴巴的，声调就标在它头上；没有的话，找圆圆嘴巴和扁扁嘴巴；两个小个子并排，标在后面那个。') },
+];
+export const DRILL = {
+  start: line('py.drill', '一格一格慢慢读，读好了就点下一个。'),
+  done: line('py.drill.done', '这一张读完啦，歇一歇。'),
 };
 /** Praise only says what the child really did. Index = position in bank.praise. */
 export const PRAISE = {
@@ -57,6 +73,8 @@ export const PRAISE = {
   Ftone: [6],
   Ffull: [7, 12],
   G: [18, 7],
+  H: [25],
+  I: [26],
 } as const;
 
 /** Text of every new/changed line, id → text (the narration yaml must match; see lines.test.ts). */
@@ -66,5 +84,7 @@ export const ALL_LINES: Line[] = [
   ...Object.values(HINT),
   ...Object.values(RECORDING),
   ...Object.values(FINISH),
+  ...RULES.map((r) => r.line),
+  ...Object.values(DRILL),
 ];
 export const lineText = (id: string): string | undefined => ALL_LINES.find((l) => l.id === id)?.text;

@@ -548,417 +548,419 @@
     {
       "id": "py.mnemonic.i",
       "role": "companion",
-      "text": "牙齿对齐"
+      "text": "一件衣服"
     },
     {
       "id": "py.mnemonic.u",
       "role": "companion",
-      "text": "嘴巴突出"
+      "text": "一只乌鸦"
     },
     {
       "id": "py.mnemonic.v",
       "role": "companion",
-      "text": "嘴吹口哨，两点要留住"
+      "text": "一条小鱼"
     },
     {
       "id": "py.mnemonic.y",
       "role": "companion",
-      "text": "小树分杈，认一认它的样子"
+      "text": "一根树杈"
     },
     {
       "id": "py.mnemonic.w",
       "role": "companion",
-      "text": "屋顶相连，认一认它的样子"
+      "text": "房屋倒影"
     },
     {
       "id": "py.mnemonic.b",
       "role": "companion",
-      "text": "右下半圆，轻轻闭唇"
+      "text": "右下半圆"
     },
     {
       "id": "py.mnemonic.p",
       "role": "companion",
-      "text": "右上半圆，纸条飘起来"
+      "text": "右上半圆"
     },
     {
       "id": "py.mnemonic.m",
       "role": "companion",
-      "text": "两个门洞，嘴唇轻轻合"
+      "text": "两个门洞"
     },
     {
       "id": "py.mnemonic.f",
       "role": "companion",
-      "text": "小拐杖，牙齿碰下唇"
+      "text": "像根拐杖"
     },
     {
       "id": "py.mnemonic.d",
       "role": "companion",
-      "text": "左下半圆，舌尖轻轻弹"
+      "text": "左下半圆"
     },
     {
       "id": "py.mnemonic.t",
       "role": "companion",
-      "text": "小伞把，纸条飘起来"
+      "text": "伞柄朝下"
     },
     {
       "id": "py.mnemonic.n",
       "role": "companion",
-      "text": "一个门洞，鼻子也唱歌"
+      "text": "一个门洞"
     },
     {
       "id": "py.mnemonic.l",
       "role": "companion",
-      "text": "一根小棒，舌尖轻轻抬"
+      "text": "一支铅笔"
     },
     {
       "id": "py.mnemonic.g",
       "role": "companion",
-      "text": "像一条小辫子，尾巴向下弯"
+      "text": "鸽子鸽子",
+      "seed": 1235
     },
     {
       "id": "py.mnemonic.k",
       "role": "companion",
-      "text": "一根小棒，右边伸出两条斜线"
+      "text": "蝌蚪蝌蚪"
     },
     {
       "id": "py.mnemonic.h",
       "role": "companion",
-      "text": "像一把小椅子，靠背高高的"
+      "text": "喝水喝水"
     },
     {
       "id": "py.mnemonic.j",
       "role": "companion",
-      "text": "小钩子向下弯，头上一点别忘记"
+      "text": "小鸡小鸡"
     },
     {
       "id": "py.mnemonic.q",
       "role": "companion",
-      "text": "圆圆气球向左靠，细细绳子垂下来",
+      "text": "气球气球",
       "seed": 1236
     },
     {
       "id": "py.mnemonic.x",
       "role": "companion",
-      "text": "两条斜线交个叉"
+      "text": "西瓜西瓜",
+      "seed": 1237
     },
     {
       "id": "py.mnemonic.z",
       "role": "companion",
-      "text": "像数字二，注意三个笔画"
+      "text": "写字写字"
     },
     {
       "id": "py.mnemonic.c",
       "role": "companion",
-      "text": "半圆开口朝右边"
+      "text": "刺猬刺猬"
     },
     {
       "id": "py.mnemonic.s",
       "role": "companion",
-      "text": "弯弯曲曲，像一条小路"
+      "text": "吐丝吐丝"
     },
     {
       "id": "py.mnemonic.zh",
       "role": "companion",
-      "text": "舌尖轻轻翘起来，和小椅子做朋友"
+      "text": "蜘蛛蜘蛛"
     },
     {
       "id": "py.mnemonic.ch",
       "role": "companion",
-      "text": "舌尖翘起来，轻轻送出一口气"
+      "text": "吃饭吃饭"
     },
     {
       "id": "py.mnemonic.sh",
       "role": "companion",
-      "text": "舌尖翘起来，让气流慢慢通过"
+      "text": "狮子狮子"
     },
     {
       "id": "py.mnemonic.r",
       "role": "companion",
-      "text": "小苗发芽，舌尖轻轻翘起来"
+      "text": "红日红日"
     },
     {
       "id": "py.word.lifa",
-      "role": "word",
+      "role": "companion",
       "text": "理发"
     },
     {
       "id": "py.word.dabo",
-      "role": "word",
+      "role": "companion",
       "text": "大伯"
     },
     {
       "id": "py.word.pipa",
-      "role": "word",
+      "role": "companion",
       "text": "琵琶"
     },
     {
       "id": "py.word.laba",
-      "role": "word",
+      "role": "companion",
       "text": "喇叭"
     },
     {
       "id": "py.word.mabu",
-      "role": "word",
+      "role": "companion",
       "text": "抹布"
     },
     {
       "id": "py.word.ditu",
-      "role": "word",
+      "role": "companion",
       "text": "地图"
     },
     {
       "id": "py.word.nitu",
-      "role": "word",
+      "role": "companion",
       "text": "泥土"
     },
     {
       "id": "py.word.muma",
-      "role": "word",
+      "role": "companion",
       "text": "木马"
     },
     {
       "id": "py.word.labi",
-      "role": "word",
+      "role": "companion",
       "text": "蜡笔"
     },
     {
       "id": "py.word.pubu",
-      "role": "word",
+      "role": "companion",
       "text": "瀑布"
     },
     {
       "id": "py.word.futi",
-      "role": "word",
+      "role": "companion",
       "text": "扶梯"
     },
     {
       "id": "py.word.baba",
-      "role": "word",
+      "role": "companion",
       "text": "爸爸"
     },
     {
       "id": "py.word.mama",
-      "role": "word",
+      "role": "companion",
       "text": "妈妈"
     },
     {
       "id": "py.word.didi",
-      "role": "word",
-      "text": "弟弟",
-      "seed": 1235
+      "role": "companion",
+      "text": "弟弟"
     },
     {
       "id": "py.word.milu",
-      "role": "word",
+      "role": "companion",
       "text": "迷路"
     },
     {
       "id": "py.word.didi-milu",
-      "role": "word",
-      "text": "弟弟迷路了"
+      "role": "companion",
+      "text": "弟弟迷路了",
+      "seed": 1235
     },
     {
       "id": "py.word.dabo-papati",
-      "role": "word",
+      "role": "companion",
       "text": "大伯爬爬梯"
     },
     {
       "id": "py.word.dami",
-      "role": "word",
+      "role": "companion",
       "text": "大米"
     },
     {
       "id": "py.word.dadi",
-      "role": "word",
+      "role": "companion",
       "text": "大地"
     },
     {
       "id": "py.word.tudi",
-      "role": "word",
-      "text": "土地",
-      "seed": 1235
+      "role": "companion",
+      "text": "土地"
     },
     {
       "id": "py.word.datu",
-      "role": "word",
-      "text": "大兔",
-      "seed": 1235
+      "role": "companion",
+      "text": "大兔"
     },
     {
       "id": "py.word.dali",
-      "role": "word",
-      "text": "大梨",
-      "seed": 1236
+      "role": "companion",
+      "text": "大梨"
     },
     {
       "id": "py.word.mali",
-      "role": "word",
+      "role": "companion",
       "text": "马蹄"
     },
     {
       "id": "py.word.daba",
-      "role": "word",
-      "text": "大巴"
+      "role": "companion",
+      "text": "大巴",
+      "seed": 1235
     },
     {
       "id": "py.word.mudi",
-      "role": "word",
+      "role": "companion",
       "text": "牧笛"
     },
     {
       "id": "py.word.damu",
-      "role": "word",
+      "role": "companion",
       "text": "大木马"
     },
     {
       "id": "py.word.gege",
-      "role": "word",
+      "role": "companion",
       "text": "哥哥"
     },
     {
       "id": "py.word.gugu",
-      "role": "word",
+      "role": "companion",
       "text": "姑姑"
     },
     {
       "id": "py.word.dagu",
-      "role": "word",
-      "text": "大鼓",
-      "seed": 1235
+      "role": "companion",
+      "text": "大鼓"
     },
     {
       "id": "py.word.dagu-action",
-      "role": "word",
+      "role": "companion",
       "text": "打鼓"
     },
     {
       "id": "py.word.kugua",
-      "role": "word",
+      "role": "companion",
       "text": "苦瓜"
     },
     {
       "id": "py.word.hema",
-      "role": "word",
+      "role": "companion",
       "text": "河马"
     },
     {
       "id": "py.word.hehua",
-      "role": "word",
+      "role": "companion",
       "text": "荷花"
     },
     {
       "id": "py.word.huahua",
-      "role": "word",
+      "role": "companion",
       "text": "画画"
     },
     {
       "id": "py.word.xiyi",
-      "role": "word",
+      "role": "companion",
       "text": "洗衣"
     },
     {
       "id": "py.word.qima",
-      "role": "word",
+      "role": "companion",
       "text": "骑马"
     },
     {
       "id": "py.word.jimu",
-      "role": "word",
+      "role": "companion",
       "text": "积木"
     },
     {
       "id": "py.word.xigua",
-      "role": "word",
+      "role": "companion",
       "text": "西瓜"
     },
     {
       "id": "py.word.juhua",
-      "role": "word",
+      "role": "companion",
       "text": "菊花"
     },
     {
       "id": "py.word.gezi",
-      "role": "word",
-      "text": "鸽子"
+      "role": "companion",
+      "text": "鸽子",
+      "seed": 1235
     },
     {
       "id": "py.word.tuzi",
-      "role": "word",
+      "role": "companion",
       "text": "兔子"
     },
     {
       "id": "py.word.wazi",
-      "role": "word",
+      "role": "companion",
       "text": "袜子"
     },
     {
       "id": "py.word.siji",
-      "role": "word",
+      "role": "companion",
       "text": "司机"
     },
     {
       "id": "py.word.shuaya",
-      "role": "word",
-      "text": "刷牙"
+      "role": "companion",
+      "text": "刷牙",
+      "seed": 1235
     },
     {
       "id": "py.word.dushu",
-      "role": "word",
+      "role": "companion",
       "text": "读书"
     },
     {
       "id": "py.word.zhuzi",
-      "role": "word",
+      "role": "companion",
       "text": "竹子"
     },
     {
       "id": "py.word.richu",
-      "role": "word",
+      "role": "companion",
       "text": "日出"
     },
     {
       "id": "py.word.hecha",
-      "role": "word",
+      "role": "companion",
       "text": "喝茶"
     },
     {
       "id": "py.word.zhuozi",
-      "role": "word",
+      "role": "companion",
       "text": "桌子"
     },
     {
       "id": "py.word.shizi",
-      "role": "word",
+      "role": "companion",
       "text": "狮子"
     },
     {
       "id": "py.word.mama-labi",
-      "role": "word",
+      "role": "companion",
       "text": "妈妈拿蜡笔"
     },
     {
       "id": "py.word.baba-ditu",
-      "role": "word",
+      "role": "companion",
       "text": "爸爸拿地图"
     },
     {
       "id": "py.word.didi-li",
-      "role": "word",
-      "text": "弟弟拿梨"
+      "role": "companion",
+      "text": "弟弟拿梨",
+      "seed": 1236
     },
     {
       "id": "py.word.mama-xiyi",
-      "role": "word",
+      "role": "companion",
       "text": "妈妈洗衣"
     },
     {
       "id": "py.word.baba-hecha",
-      "role": "word",
+      "role": "companion",
       "text": "爸爸喝茶"
     },
     {
       "id": "py.word.gege-dushu",
-      "role": "word",
+      "role": "companion",
       "text": "哥哥读书"
     },
     {
@@ -1017,6 +1019,583 @@
       "id": "py.local.warmup",
       "role": "companion",
       "text": "我在认识你的声音，再读几个吧"
+    },
+    {
+      "id": "py.H",
+      "role": "companion",
+      "text": "听一听，选出声调一样的那个。"
+    },
+    {
+      "id": "py.H.near",
+      "role": "companion",
+      "text": "差一点点，再听一听。"
+    },
+    {
+      "id": "py.praise.25",
+      "role": "companion",
+      "text": "你听出了这个声调",
+      "seed": 1237
+    },
+    {
+      "id": "py.word.chixigua",
+      "role": "companion",
+      "text": "吃西瓜"
+    },
+    {
+      "id": "py.word.tuodi",
+      "role": "companion",
+      "text": "拖地"
+    },
+    {
+      "id": "py.word.zhizhu",
+      "role": "companion",
+      "text": "蜘蛛"
+    },
+    {
+      "id": "py.word.caboli",
+      "role": "companion",
+      "text": "擦玻璃"
+    },
+    {
+      "id": "py.word.meihua",
+      "role": "companion",
+      "text": "梅花"
+    },
+    {
+      "id": "py.word.baitu",
+      "role": "companion",
+      "text": "白兔"
+    },
+    {
+      "id": "py.word.zuiba",
+      "role": "companion",
+      "text": "嘴巴"
+    },
+    {
+      "id": "py.word.baicai",
+      "role": "companion",
+      "text": "白菜"
+    },
+    {
+      "id": "py.word.maizi",
+      "role": "companion",
+      "text": "麦子"
+    },
+    {
+      "id": "py.word.wugui",
+      "role": "companion",
+      "text": "乌龟"
+    },
+    {
+      "id": "py.word.tishui",
+      "role": "companion",
+      "text": "提水"
+    },
+    {
+      "id": "py.word.huijia",
+      "role": "companion",
+      "text": "回家"
+    },
+    {
+      "id": "py.word.baozhi",
+      "role": "companion",
+      "text": "报纸"
+    },
+    {
+      "id": "py.word.shuijiao",
+      "role": "companion",
+      "text": "水饺"
+    },
+    {
+      "id": "py.word.xiaodao",
+      "role": "companion",
+      "text": "小刀"
+    },
+    {
+      "id": "py.word.limao",
+      "role": "companion",
+      "text": "礼貌"
+    },
+    {
+      "id": "py.word.dadou",
+      "role": "companion",
+      "text": "大豆"
+    },
+    {
+      "id": "py.word.youpiao",
+      "role": "companion",
+      "text": "邮票"
+    },
+    {
+      "id": "py.word.weirao",
+      "role": "companion",
+      "text": "围绕",
+      "seed": 1235
+    },
+    {
+      "id": "py.word.laoniu",
+      "role": "companion",
+      "text": "老牛",
+      "seed": 1235
+    },
+    {
+      "id": "py.word.eryue",
+      "role": "companion",
+      "text": "二月"
+    },
+    {
+      "id": "py.word.tielu",
+      "role": "companion",
+      "text": "铁路"
+    },
+    {
+      "id": "py.word.yeye",
+      "role": "companion",
+      "text": "爷爷"
+    },
+    {
+      "id": "py.word.yueya",
+      "role": "companion",
+      "text": "月牙"
+    },
+    {
+      "id": "py.word.maque",
+      "role": "companion",
+      "text": "麻雀"
+    },
+    {
+      "id": "py.word.erduo",
+      "role": "companion",
+      "text": "耳朵"
+    },
+    {
+      "id": "py.word.hudie",
+      "role": "companion",
+      "text": "蝴蝶"
+    },
+    {
+      "id": "py.word.shuye",
+      "role": "companion",
+      "text": "树叶"
+    },
+    {
+      "id": "py.word.wenzi",
+      "role": "companion",
+      "text": "蚊子"
+    },
+    {
+      "id": "py.word.qunzi",
+      "role": "companion",
+      "text": "裙子"
+    },
+    {
+      "id": "py.word.heiban",
+      "role": "companion",
+      "text": "黑板"
+    },
+    {
+      "id": "py.word.qianbi",
+      "role": "companion",
+      "text": "铅笔"
+    },
+    {
+      "id": "py.word.yuwen",
+      "role": "companion",
+      "text": "语文"
+    },
+    {
+      "id": "py.word.shanshui",
+      "role": "companion",
+      "text": "山水"
+    },
+    {
+      "id": "py.word.junjian",
+      "role": "companion",
+      "text": "军舰"
+    },
+    {
+      "id": "py.word.yuanchu",
+      "role": "companion",
+      "text": "远处"
+    },
+    {
+      "id": "py.mnemonic.ai",
+      "role": "companion",
+      "text": "高矮高矮"
+    },
+    {
+      "id": "py.mnemonic.ei",
+      "role": "companion",
+      "text": "水杯水杯"
+    },
+    {
+      "id": "py.mnemonic.ui",
+      "role": "companion",
+      "text": "围巾围巾"
+    },
+    {
+      "id": "py.mnemonic.ao",
+      "role": "companion",
+      "text": "棉袄棉袄"
+    },
+    {
+      "id": "py.mnemonic.ou",
+      "role": "companion",
+      "text": "海鸥海鸥"
+    },
+    {
+      "id": "py.mnemonic.iu",
+      "role": "companion",
+      "text": "优秀优秀"
+    },
+    {
+      "id": "py.mnemonic.ie",
+      "role": "companion",
+      "text": "椰子椰子",
+      "seed": 1236
+    },
+    {
+      "id": "py.mnemonic.ve",
+      "role": "companion",
+      "text": "月亮月亮"
+    },
+    {
+      "id": "py.mnemonic.er",
+      "role": "companion",
+      "text": "耳朵耳朵"
+    },
+    {
+      "id": "py.mnemonic.an",
+      "role": "companion",
+      "text": "天安门天安门",
+      "seed": 1237
+    },
+    {
+      "id": "py.mnemonic.en",
+      "role": "companion",
+      "text": "摁门铃摁门铃",
+      "seed": 1239
+    },
+    {
+      "id": "py.mnemonic.in",
+      "role": "companion",
+      "text": "音乐音乐"
+    },
+    {
+      "id": "py.mnemonic.un",
+      "role": "companion",
+      "text": "温暖温暖"
+    },
+    {
+      "id": "py.mnemonic.vn",
+      "role": "companion",
+      "text": "朵朵白云"
+    },
+    {
+      "id": "py.word.fumu",
+      "role": "companion",
+      "text": "父母"
+    },
+    {
+      "id": "py.word.pipa2",
+      "role": "companion",
+      "text": "枇杷",
+      "seed": 1236
+    },
+    {
+      "id": "py.word.pifa",
+      "role": "companion",
+      "text": "批发"
+    },
+    {
+      "id": "py.word.mapi",
+      "role": "companion",
+      "text": "马匹"
+    },
+    {
+      "id": "py.word.papo",
+      "role": "companion",
+      "text": "爬坡"
+    },
+    {
+      "id": "py.word.timu",
+      "role": "companion",
+      "text": "题目"
+    },
+    {
+      "id": "py.word.malu",
+      "role": "companion",
+      "text": "马路"
+    },
+    {
+      "id": "py.word.funv",
+      "role": "companion",
+      "text": "父女"
+    },
+    {
+      "id": "py.word.huli",
+      "role": "companion",
+      "text": "狐狸"
+    },
+    {
+      "id": "py.word.huatu",
+      "role": "companion",
+      "text": "画图"
+    },
+    {
+      "id": "py.word.dage",
+      "role": "companion",
+      "text": "打嗝"
+    },
+    {
+      "id": "py.word.hulu",
+      "role": "companion",
+      "text": "呼噜",
+      "seed": 1238
+    },
+    {
+      "id": "py.word.bage",
+      "role": "companion",
+      "text": "八个"
+    },
+    {
+      "id": "py.word.digua",
+      "role": "companion",
+      "text": "地瓜"
+    },
+    {
+      "id": "py.word.daku",
+      "role": "companion",
+      "text": "大哭"
+    },
+    {
+      "id": "py.word.luobo",
+      "role": "companion",
+      "text": "萝卜"
+    },
+    {
+      "id": "py.word.dahuo",
+      "role": "companion",
+      "text": "大火"
+    },
+    {
+      "id": "py.word.boluo",
+      "role": "companion",
+      "text": "菠萝"
+    },
+    {
+      "id": "py.word.jiqi",
+      "role": "companion",
+      "text": "机器"
+    },
+    {
+      "id": "py.word.huxu",
+      "role": "companion",
+      "text": "胡须"
+    },
+    {
+      "id": "py.word.jixu",
+      "role": "companion",
+      "text": "继续"
+    },
+    {
+      "id": "py.word.jiaqi",
+      "role": "companion",
+      "text": "假期"
+    },
+    {
+      "id": "py.word.jiaya",
+      "role": "companion",
+      "text": "假牙"
+    },
+    {
+      "id": "py.word.muji",
+      "role": "companion",
+      "text": "母鸡"
+    },
+    {
+      "id": "py.word.zaji",
+      "role": "companion",
+      "text": "杂技"
+    },
+    {
+      "id": "py.word.zufu",
+      "role": "companion",
+      "text": "祖父"
+    },
+    {
+      "id": "py.word.zumu",
+      "role": "companion",
+      "text": "祖母"
+    },
+    {
+      "id": "py.word.ziji",
+      "role": "companion",
+      "text": "自己"
+    },
+    {
+      "id": "py.word.zimu",
+      "role": "companion",
+      "text": "字母"
+    },
+    {
+      "id": "py.word.zuoxia",
+      "role": "companion",
+      "text": "坐下"
+    },
+    {
+      "id": "py.word.lvse",
+      "role": "companion",
+      "text": "绿色"
+    },
+    {
+      "id": "py.word.zuguo",
+      "role": "companion",
+      "text": "祖国"
+    },
+    {
+      "id": "py.word.shisi",
+      "role": "companion",
+      "text": "十四"
+    },
+    {
+      "id": "py.word.zhishi",
+      "role": "companion",
+      "text": "知识"
+    },
+    {
+      "id": "py.word.zhiri",
+      "role": "companion",
+      "text": "值日"
+    },
+    {
+      "id": "py.word.shushu",
+      "role": "companion",
+      "text": "数数",
+      "seed": 1239
+    },
+    {
+      "id": "py.word.chulu",
+      "role": "companion",
+      "text": "出路"
+    },
+    {
+      "id": "py.word.zhuazhu",
+      "role": "companion",
+      "text": "抓住"
+    },
+    {
+      "id": "py.word.shafa",
+      "role": "companion",
+      "text": "沙发"
+    },
+    {
+      "id": "py.word.huoche",
+      "role": "companion",
+      "text": "火车"
+    },
+    {
+      "id": "py.word.zise",
+      "role": "companion",
+      "text": "紫色"
+    },
+    {
+      "id": "py.tip.d-p",
+      "role": "companion",
+      "text": "左边这个，小肚子在左下；右边这个，小肚子在右上。"
+    },
+    {
+      "id": "py.tip.f-t",
+      "role": "companion",
+      "text": "左边这个像一根弯弯的小拐杖；右边这个像一把直直的小伞把。"
+    },
+    {
+      "id": "py.tip.m-n",
+      "role": "companion",
+      "text": "左边这个有两个门洞；右边这个只有一个门洞。"
+    },
+    {
+      "id": "py.tip.ai-ei",
+      "role": "companion",
+      "text": "左边这个，嘴巴先张大再放松；右边这个，嘴巴扁扁的，像要笑。"
+    },
+    {
+      "id": "py.tip.ao-ou",
+      "role": "companion",
+      "text": "左边这个，嘴巴从大大的慢慢变圆；右边这个，嘴巴从圆圆的慢慢变小。"
+    },
+    {
+      "id": "py.tip.ui-iu",
+      "role": "companion",
+      "text": "左边这个，嘴巴先圆后扁；右边这个，嘴巴先扁后圆。"
+    },
+    {
+      "id": "py.tip.ie-ve",
+      "role": "companion",
+      "text": "左边这个，嘴巴一直扁扁地笑着；右边这个，嘴巴先圆圆的再笑。",
+      "norm": "左边这个，嘴巴一直扁扁的笑着；右边这个，嘴巴先圆圆的再笑。"
+    },
+    {
+      "id": "py.tip.an-en",
+      "role": "companion",
+      "text": "左边这个，嘴巴张得大一些；右边这个，嘴巴小一些。"
+    },
+    {
+      "id": "py.tip.in-un",
+      "role": "companion",
+      "text": "左边这个，嘴巴扁扁地笑着；右边这个，嘴巴圆圆地噘着。",
+      "norm": "左边这个，嘴巴扁扁的笑着；右边这个，嘴巴圆圆的撅着。"
+    },
+    {
+      "id": "py.I",
+      "role": "companion",
+      "text": "找一找，哪一个和上面的一模一样？"
+    },
+    {
+      "id": "py.I.look",
+      "role": "companion",
+      "text": "差一点点，再仔细看一看。"
+    },
+    {
+      "id": "py.praise.26",
+      "role": "companion",
+      "text": "你把字母的样子看对了",
+      "seed": 1235
+    },
+    {
+      "id": "py.rule.tones",
+      "role": "companion",
+      "text": "一声平，二声扬，三声拐弯，四声降。"
+    },
+    {
+      "id": "py.rule.i",
+      "role": "companion",
+      "text": "有礼貌的小点点，标上声调就摘帽。"
+    },
+    {
+      "id": "py.rule.v",
+      "role": "companion",
+      "text": "两个小点点见到这几个字母，就擦掉眼泪笑嘻嘻。"
+    },
+    {
+      "id": "py.rule.nl",
+      "role": "companion",
+      "text": "有两个字母后面，两个小点点要好好留着。"
+    },
+    {
+      "id": "py.rule.mark",
+      "role": "companion",
+      "text": "韵母里有张大嘴巴的，声调就标在它头上；没有的话，找圆圆嘴巴和扁扁嘴巴；两个小个子并排，标在后面那个。"
+    },
+    {
+      "id": "py.drill",
+      "role": "companion",
+      "text": "一格一格慢慢读，读好了就点下一个。"
+    },
+    {
+      "id": "py.drill.done",
+      "role": "companion",
+      "text": "这一张读完啦，歇一歇。"
     }
   ]
 }

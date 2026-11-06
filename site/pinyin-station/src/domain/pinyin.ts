@@ -1,7 +1,7 @@
 import type { Bank, Letter } from './types';
 
 const VALID: Record<string, string> = {
-  '': 'a o e i u ai ei ao ou an en ang eng er',
+  '': 'a o e i u ai ei ao ou an en ang eng er ie ui iu in un ve vn ing ong',
   b: 'a o ai ei ao an en ang eng i ie iao ian in ing u',
   p: 'a o ai ei ao ou an en ang eng i ie iao ian in ing u',
   m: 'a o e ai ei ao ou an en ang eng i ie iao iu ian in ing u',
@@ -71,3 +71,12 @@ export function validateBank(b: Bank): string[] {
 }
 /** How a letter's call sound is written on its card and in the subtitle: the tone of the REAL recording (er plays ér). */
 export const callLabel = (l: Letter): string => l.callDisplay ?? displayPinyin(l.callSound);
+
+/**
+ * u / i + a o ai ao an ang: the glide that a three-part spelling shows as its own sound (g-u-ā → guā, x-i-ǎo → xiǎo,
+ * zh-u-ài → zhuài). ie ui iu in un üe ün are single finals in the book and are NOT split.
+ */
+export function medialSplit(final: string): { medial: 'i' | 'u'; rest: string } | null {
+  const m = /^([iu])(a|o|ai|ao|an|ang)$/.exec(final);
+  return m ? { medial: m[1] as 'i' | 'u', rest: m[2] } : null;
+}

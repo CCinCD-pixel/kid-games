@@ -3,67 +3,148 @@
     {
       "id": 1,
       "title": "a o e",
-      "unit": 2
+      "unit": 2,
+      "book": {
+        "lesson": 1,
+        "pages": [
+          1
+        ]
+      }
     },
     {
       "id": 2,
       "title": "i u ü · y w",
-      "unit": 2
+      "unit": 2,
+      "book": {
+        "lesson": 2,
+        "pages": [
+          2,
+          10
+        ],
+        "also": 9
+      }
     },
     {
       "id": 3,
       "title": "b p m f",
-      "unit": 2
+      "unit": 2,
+      "book": {
+        "lesson": 3,
+        "pages": [
+          3
+        ]
+      }
     },
     {
       "id": 4,
       "title": "d t n l",
-      "unit": 2
+      "unit": 2,
+      "book": {
+        "lesson": 4,
+        "pages": [
+          4
+        ]
+      }
     },
     {
       "id": 5,
       "title": "g k h",
-      "unit": 3
+      "unit": 3,
+      "book": {
+        "lesson": 5,
+        "pages": [
+          5
+        ]
+      }
     },
     {
       "id": 6,
       "title": "j q x",
-      "unit": 3
+      "unit": 3,
+      "book": {
+        "lesson": 6,
+        "pages": [
+          6
+        ]
+      }
     },
     {
       "id": 7,
       "title": "z c s",
-      "unit": 3
+      "unit": 3,
+      "book": {
+        "lesson": 7,
+        "pages": [
+          7
+        ]
+      }
     },
     {
       "id": 8,
       "title": "zh ch sh r",
-      "unit": 3
+      "unit": 3,
+      "book": {
+        "lesson": 8,
+        "pages": [
+          8,
+          9
+        ]
+      }
     },
     {
       "id": 9,
       "title": "ai ei ui",
-      "unit": 4
+      "unit": 4,
+      "book": {
+        "lesson": 10,
+        "pages": [
+          12
+        ]
+      }
     },
     {
       "id": 10,
       "title": "ao ou iu",
-      "unit": 4
+      "unit": 4,
+      "book": {
+        "lesson": 11,
+        "pages": [
+          13
+        ]
+      }
     },
     {
       "id": 11,
       "title": "ie üe er",
-      "unit": 4
+      "unit": 4,
+      "book": {
+        "lesson": 12,
+        "pages": [
+          14,
+          15
+        ]
+      }
     },
     {
       "id": 12,
       "title": "an en in un ün",
-      "unit": 4
+      "unit": 4,
+      "book": {
+        "lesson": 13,
+        "pages": [
+          16
+        ]
+      }
     },
     {
       "id": 13,
       "title": "ang eng ing ong",
-      "unit": 4
+      "unit": 4,
+      "book": {
+        "lesson": 14,
+        "pages": [],
+        "pending": true
+      }
     }
   ],
   "letters": [
@@ -96,7 +177,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "i1",
-      "mnemonic": "牙齿对齐",
+      "mnemonic": "一件衣服",
       "grid": "middle"
     },
     {
@@ -104,7 +185,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "u1",
-      "mnemonic": "嘴巴突出",
+      "mnemonic": "一只乌鸦",
       "grid": "middle"
     },
     {
@@ -112,7 +193,7 @@
       "kind": "final",
       "lesson": 2,
       "callSound": "yu1",
-      "mnemonic": "嘴吹口哨，两点要留住",
+      "mnemonic": "一条小鱼",
       "grid": "middle"
     },
     {
@@ -120,7 +201,7 @@
       "kind": "initial",
       "lesson": 2,
       "callSound": "yi1",
-      "mnemonic": "小树分杈，认一认它的样子",
+      "mnemonic": "一根树杈",
       "grid": "middle-lower"
     },
     {
@@ -128,7 +209,7 @@
       "kind": "initial",
       "lesson": 2,
       "callSound": "wu1",
-      "mnemonic": "屋顶相连，认一认它的样子",
+      "mnemonic": "房屋倒影",
       "grid": "middle"
     },
     {
@@ -136,7 +217,7 @@
       "kind": "initial",
       "lesson": 3,
       "callSound": "bo1",
-      "mnemonic": "右下半圆，轻轻闭唇",
+      "mnemonic": "右下半圆",
       "grid": "upper-middle"
     },
     {
@@ -144,7 +225,7 @@
       "kind": "initial",
       "lesson": 3,
       "callSound": "po1",
-      "mnemonic": "右上半圆，纸条飘起来",
+      "mnemonic": "右上半圆",
       "grid": "middle-lower"
     },
     {
@@ -152,7 +233,7 @@
       "kind": "initial",
       "lesson": 3,
       "callSound": "mo1",
-      "mnemonic": "两个门洞，嘴唇轻轻合",
+      "mnemonic": "两个门洞",
       "grid": "middle"
     },
     {
@@ -160,7 +241,7 @@
       "kind": "initial",
       "lesson": 3,
       "callSound": "fo1",
-      "mnemonic": "小拐杖，牙齿碰下唇",
+      "mnemonic": "像根拐杖",
       "grid": "upper-middle"
     },
     {
@@ -168,7 +249,7 @@
       "kind": "initial",
       "lesson": 4,
       "callSound": "de1",
-      "mnemonic": "左下半圆，舌尖轻轻弹",
+      "mnemonic": "左下半圆",
       "grid": "upper-middle"
     },
     {
@@ -176,7 +257,7 @@
       "kind": "initial",
       "lesson": 4,
       "callSound": "te1",
-      "mnemonic": "小伞把，纸条飘起来",
+      "mnemonic": "伞柄朝下",
       "grid": "upper-middle"
     },
     {
@@ -184,7 +265,7 @@
       "kind": "initial",
       "lesson": 4,
       "callSound": "ne1",
-      "mnemonic": "一个门洞，鼻子也唱歌",
+      "mnemonic": "一个门洞",
       "grid": "middle"
     },
     {
@@ -192,7 +273,7 @@
       "kind": "initial",
       "lesson": 4,
       "callSound": "le1",
-      "mnemonic": "一根小棒，舌尖轻轻抬",
+      "mnemonic": "一支铅笔",
       "grid": "upper-middle"
     },
     {
@@ -200,7 +281,7 @@
       "kind": "initial",
       "lesson": 5,
       "callSound": "ge1",
-      "mnemonic": "像一条小辫子，尾巴向下弯",
+      "mnemonic": "鸽子鸽子",
       "grid": "middle-lower"
     },
     {
@@ -208,7 +289,7 @@
       "kind": "initial",
       "lesson": 5,
       "callSound": "ke1",
-      "mnemonic": "一根小棒，右边伸出两条斜线",
+      "mnemonic": "蝌蚪蝌蚪",
       "grid": "upper-middle"
     },
     {
@@ -216,7 +297,7 @@
       "kind": "initial",
       "lesson": 5,
       "callSound": "he1",
-      "mnemonic": "像一把小椅子，靠背高高的",
+      "mnemonic": "喝水喝水",
       "grid": "upper-middle"
     },
     {
@@ -224,7 +305,7 @@
       "kind": "initial",
       "lesson": 6,
       "callSound": "ji1",
-      "mnemonic": "小钩子向下弯，头上一点别忘记",
+      "mnemonic": "小鸡小鸡",
       "grid": "middle-lower"
     },
     {
@@ -232,7 +313,7 @@
       "kind": "initial",
       "lesson": 6,
       "callSound": "qi1",
-      "mnemonic": "圆圆气球向左靠，细细绳子垂下来",
+      "mnemonic": "气球气球",
       "grid": "middle-lower"
     },
     {
@@ -240,7 +321,7 @@
       "kind": "initial",
       "lesson": 6,
       "callSound": "xi1",
-      "mnemonic": "两条斜线交个叉",
+      "mnemonic": "西瓜西瓜",
       "grid": "middle"
     },
     {
@@ -248,7 +329,7 @@
       "kind": "initial",
       "lesson": 7,
       "callSound": "zi1",
-      "mnemonic": "像数字二，注意三个笔画",
+      "mnemonic": "写字写字",
       "grid": "middle"
     },
     {
@@ -256,7 +337,7 @@
       "kind": "initial",
       "lesson": 7,
       "callSound": "ci1",
-      "mnemonic": "半圆开口朝右边",
+      "mnemonic": "刺猬刺猬",
       "grid": "middle"
     },
     {
@@ -264,7 +345,7 @@
       "kind": "initial",
       "lesson": 7,
       "callSound": "si1",
-      "mnemonic": "弯弯曲曲，像一条小路",
+      "mnemonic": "吐丝吐丝",
       "grid": "middle"
     },
     {
@@ -272,7 +353,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "zhi1",
-      "mnemonic": "舌尖轻轻翘起来，和小椅子做朋友",
+      "mnemonic": "蜘蛛蜘蛛",
       "grid": "upper-middle"
     },
     {
@@ -280,7 +361,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "chi1",
-      "mnemonic": "舌尖翘起来，轻轻送出一口气",
+      "mnemonic": "吃饭吃饭",
       "grid": "upper-middle"
     },
     {
@@ -288,7 +369,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "shi1",
-      "mnemonic": "舌尖翘起来，让气流慢慢通过",
+      "mnemonic": "狮子狮子",
       "grid": "upper-middle"
     },
     {
@@ -296,7 +377,7 @@
       "kind": "initial",
       "lesson": 8,
       "callSound": "ri1",
-      "mnemonic": "小苗发芽，舌尖轻轻翘起来",
+      "mnemonic": "红日红日",
       "grid": "middle"
     },
     {
@@ -304,7 +385,7 @@
       "kind": "final",
       "lesson": 9,
       "callSound": "ai1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "高矮高矮",
       "grid": "middle"
     },
     {
@@ -312,7 +393,7 @@
       "kind": "final",
       "lesson": 9,
       "callSound": "ei1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "水杯水杯",
       "grid": "middle"
     },
     {
@@ -320,7 +401,7 @@
       "kind": "final",
       "lesson": 9,
       "callSound": "ui1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "围巾围巾",
       "grid": "middle"
     },
     {
@@ -328,7 +409,7 @@
       "kind": "final",
       "lesson": 10,
       "callSound": "ao1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "棉袄棉袄",
       "grid": "middle"
     },
     {
@@ -336,7 +417,7 @@
       "kind": "final",
       "lesson": 10,
       "callSound": "ou1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "海鸥海鸥",
       "grid": "middle"
     },
     {
@@ -344,7 +425,7 @@
       "kind": "final",
       "lesson": 10,
       "callSound": "iu1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "优秀优秀",
       "grid": "middle"
     },
     {
@@ -352,7 +433,7 @@
       "kind": "final",
       "lesson": 11,
       "callSound": "ie1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "椰子椰子",
       "grid": "middle"
     },
     {
@@ -360,7 +441,7 @@
       "kind": "final",
       "lesson": 11,
       "callSound": "ve1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "月亮月亮",
       "grid": "middle"
     },
     {
@@ -368,7 +449,7 @@
       "kind": "final",
       "lesson": 11,
       "callSound": "er1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "耳朵耳朵",
       "grid": "middle",
       "callDisplay": "ér"
     },
@@ -377,7 +458,7 @@
       "kind": "final",
       "lesson": 12,
       "callSound": "an1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "天安门天安门",
       "grid": "middle"
     },
     {
@@ -385,7 +466,7 @@
       "kind": "final",
       "lesson": 12,
       "callSound": "en1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "摁门铃摁门铃",
       "grid": "middle"
     },
     {
@@ -393,7 +474,7 @@
       "kind": "final",
       "lesson": 12,
       "callSound": "in1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "音乐音乐",
       "grid": "middle"
     },
     {
@@ -401,7 +482,7 @@
       "kind": "final",
       "lesson": 12,
       "callSound": "un1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "温暖温暖",
       "grid": "middle"
     },
     {
@@ -409,7 +490,7 @@
       "kind": "final",
       "lesson": 12,
       "callSound": "vn1",
-      "mnemonic": "看一看，听一听，再读给台长听",
+      "mnemonic": "朵朵白云",
       "grid": "middle"
     },
     {
@@ -1705,7 +1786,7 @@
       "initial": "y",
       "final": "a",
       "tone": 2,
-      "lesson": 8,
+      "lesson": 6,
       "audio": "py.syl.ya2"
     },
     {
@@ -2319,6 +2400,2329 @@
       "tone": 4,
       "lesson": 4,
       "audio": "py.syl.lv4"
+    },
+    {
+      "id": "nai3",
+      "display": "nǎi",
+      "initial": "n",
+      "final": "ai",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.nai3"
+    },
+    {
+      "id": "zhai1",
+      "display": "zhāi",
+      "initial": "zh",
+      "final": "ai",
+      "tone": 1,
+      "lesson": 9,
+      "audio": "py.syl.zhai1"
+    },
+    {
+      "id": "zai4",
+      "display": "zài",
+      "initial": "z",
+      "final": "ai",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.zai4"
+    },
+    {
+      "id": "lei4",
+      "display": "lèi",
+      "initial": "l",
+      "final": "ei",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.lei4"
+    },
+    {
+      "id": "fei3",
+      "display": "fěi",
+      "initial": "f",
+      "final": "ei",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.fei3"
+    },
+    {
+      "id": "zei2",
+      "display": "zéi",
+      "initial": "z",
+      "final": "ei",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.zei2"
+    },
+    {
+      "id": "rui4",
+      "display": "ruì",
+      "initial": "r",
+      "final": "ui",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.rui4"
+    },
+    {
+      "id": "sui2",
+      "display": "suí",
+      "initial": "s",
+      "final": "ui",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.sui2"
+    },
+    {
+      "id": "chui1",
+      "display": "chuī",
+      "initial": "ch",
+      "final": "ui",
+      "tone": 1,
+      "lesson": 9,
+      "audio": "py.syl.chui1"
+    },
+    {
+      "id": "guai1",
+      "display": "guāi",
+      "initial": "g",
+      "final": "uai",
+      "tone": 1,
+      "lesson": 9,
+      "audio": "py.syl.guai1"
+    },
+    {
+      "id": "huai4",
+      "display": "huài",
+      "initial": "h",
+      "final": "uai",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.huai4"
+    },
+    {
+      "id": "kuai4",
+      "display": "kuài",
+      "initial": "k",
+      "final": "uai",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.kuai4"
+    },
+    {
+      "id": "zhuai3",
+      "display": "zhuǎi",
+      "initial": "zh",
+      "final": "uai",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.zhuai3"
+    },
+    {
+      "id": "ai1",
+      "display": "āi",
+      "initial": "",
+      "final": "ai",
+      "tone": 1,
+      "lesson": 9,
+      "audio": "py.syl.ai1"
+    },
+    {
+      "id": "ai2",
+      "display": "ái",
+      "initial": "",
+      "final": "ai",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.ai2"
+    },
+    {
+      "id": "ai3",
+      "display": "ǎi",
+      "initial": "",
+      "final": "ai",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.ai3"
+    },
+    {
+      "id": "ai4",
+      "display": "ài",
+      "initial": "",
+      "final": "ai",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.ai4"
+    },
+    {
+      "id": "ei1",
+      "display": "ēi",
+      "initial": "",
+      "final": "ei",
+      "tone": 1,
+      "lesson": 9,
+      "audio": "py.syl.ei1"
+    },
+    {
+      "id": "ei2",
+      "display": "éi",
+      "initial": "",
+      "final": "ei",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.ei2"
+    },
+    {
+      "id": "ei3",
+      "display": "ěi",
+      "initial": "",
+      "final": "ei",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.ei3"
+    },
+    {
+      "id": "ei4",
+      "display": "èi",
+      "initial": "",
+      "final": "ei",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.ei4"
+    },
+    {
+      "id": "ui1",
+      "display": "uī",
+      "initial": "",
+      "final": "ui",
+      "tone": 1,
+      "lesson": 9,
+      "audio": "py.syl.ui1"
+    },
+    {
+      "id": "ui2",
+      "display": "uí",
+      "initial": "",
+      "final": "ui",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.ui2"
+    },
+    {
+      "id": "ui3",
+      "display": "uǐ",
+      "initial": "",
+      "final": "ui",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.ui3"
+    },
+    {
+      "id": "ui4",
+      "display": "uì",
+      "initial": "",
+      "final": "ui",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.ui4"
+    },
+    {
+      "id": "bao1",
+      "display": "bāo",
+      "initial": "b",
+      "final": "ao",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.bao1"
+    },
+    {
+      "id": "mao4",
+      "display": "mào",
+      "initial": "m",
+      "final": "ao",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.mao4"
+    },
+    {
+      "id": "pao3",
+      "display": "pǎo",
+      "initial": "p",
+      "final": "ao",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.pao3"
+    },
+    {
+      "id": "dou1",
+      "display": "dōu",
+      "initial": "d",
+      "final": "ou",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.dou1"
+    },
+    {
+      "id": "lou4",
+      "display": "lòu",
+      "initial": "l",
+      "final": "ou",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.lou4"
+    },
+    {
+      "id": "shou3",
+      "display": "shǒu",
+      "initial": "sh",
+      "final": "ou",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.shou3"
+    },
+    {
+      "id": "miu4",
+      "display": "miù",
+      "initial": "m",
+      "final": "iu",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.miu4"
+    },
+    {
+      "id": "niu2",
+      "display": "niú",
+      "initial": "n",
+      "final": "iu",
+      "tone": 2,
+      "lesson": 10,
+      "audio": "py.syl.niu2"
+    },
+    {
+      "id": "jiu3",
+      "display": "jiǔ",
+      "initial": "j",
+      "final": "iu",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.jiu3"
+    },
+    {
+      "id": "ao1",
+      "display": "āo",
+      "initial": "",
+      "final": "ao",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.ao1"
+    },
+    {
+      "id": "ao2",
+      "display": "áo",
+      "initial": "",
+      "final": "ao",
+      "tone": 2,
+      "lesson": 10,
+      "audio": "py.syl.ao2"
+    },
+    {
+      "id": "ao3",
+      "display": "ǎo",
+      "initial": "",
+      "final": "ao",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.ao3"
+    },
+    {
+      "id": "ao4",
+      "display": "ào",
+      "initial": "",
+      "final": "ao",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.ao4",
+      "wordOnly": true
+    },
+    {
+      "id": "ou1",
+      "display": "ōu",
+      "initial": "",
+      "final": "ou",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.ou1"
+    },
+    {
+      "id": "ou2",
+      "display": "óu",
+      "initial": "",
+      "final": "ou",
+      "tone": 2,
+      "lesson": 10,
+      "audio": "py.syl.ou2"
+    },
+    {
+      "id": "ou3",
+      "display": "ǒu",
+      "initial": "",
+      "final": "ou",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.ou3"
+    },
+    {
+      "id": "ou4",
+      "display": "òu",
+      "initial": "",
+      "final": "ou",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.ou4"
+    },
+    {
+      "id": "iu1",
+      "display": "iū",
+      "initial": "",
+      "final": "iu",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.iu1"
+    },
+    {
+      "id": "iu2",
+      "display": "iú",
+      "initial": "",
+      "final": "iu",
+      "tone": 2,
+      "lesson": 10,
+      "audio": "py.syl.iu2"
+    },
+    {
+      "id": "iu3",
+      "display": "iǔ",
+      "initial": "",
+      "final": "iu",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.iu3"
+    },
+    {
+      "id": "iu4",
+      "display": "iù",
+      "initial": "",
+      "final": "iu",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.iu4"
+    },
+    {
+      "id": "tie3",
+      "display": "tiě",
+      "initial": "t",
+      "final": "ie",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.tie3"
+    },
+    {
+      "id": "jie3",
+      "display": "jiě",
+      "initial": "j",
+      "final": "ie",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.jie3"
+    },
+    {
+      "id": "qie2",
+      "display": "qié",
+      "initial": "q",
+      "final": "ie",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.qie2"
+    },
+    {
+      "id": "jue2",
+      "display": "jué",
+      "initial": "j",
+      "final": "ue",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.jue2"
+    },
+    {
+      "id": "xue2",
+      "display": "xué",
+      "initial": "x",
+      "final": "ue",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.xue2"
+    },
+    {
+      "id": "lve4",
+      "display": "lüè",
+      "initial": "l",
+      "final": "ve",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.lve4"
+    },
+    {
+      "id": "ie1",
+      "display": "iē",
+      "initial": "",
+      "final": "ie",
+      "tone": 1,
+      "lesson": 11,
+      "audio": "py.syl.ie1"
+    },
+    {
+      "id": "ie2",
+      "display": "ié",
+      "initial": "",
+      "final": "ie",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.ie2"
+    },
+    {
+      "id": "ie3",
+      "display": "iě",
+      "initial": "",
+      "final": "ie",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.ie3"
+    },
+    {
+      "id": "ie4",
+      "display": "iè",
+      "initial": "",
+      "final": "ie",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.ie4"
+    },
+    {
+      "id": "ve1",
+      "display": "üē",
+      "initial": "",
+      "final": "ve",
+      "tone": 1,
+      "lesson": 11,
+      "audio": "py.syl.ve1"
+    },
+    {
+      "id": "ve2",
+      "display": "üé",
+      "initial": "",
+      "final": "ve",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.ve2"
+    },
+    {
+      "id": "ve3",
+      "display": "üě",
+      "initial": "",
+      "final": "ve",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.ve3"
+    },
+    {
+      "id": "ve4",
+      "display": "üè",
+      "initial": "",
+      "final": "ve",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.ve4"
+    },
+    {
+      "id": "er2",
+      "display": "ér",
+      "initial": "",
+      "final": "er",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.er2"
+    },
+    {
+      "id": "er3",
+      "display": "ěr",
+      "initial": "",
+      "final": "er",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.er3"
+    },
+    {
+      "id": "er4",
+      "display": "èr",
+      "initial": "",
+      "final": "er",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.er4"
+    },
+    {
+      "id": "ye1",
+      "display": "yē",
+      "initial": "y",
+      "final": "e",
+      "tone": 1,
+      "lesson": 11,
+      "audio": "py.syl.ye1"
+    },
+    {
+      "id": "ye2",
+      "display": "yé",
+      "initial": "y",
+      "final": "e",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.ye2"
+    },
+    {
+      "id": "ye3",
+      "display": "yě",
+      "initial": "y",
+      "final": "e",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.ye3"
+    },
+    {
+      "id": "ye4",
+      "display": "yè",
+      "initial": "y",
+      "final": "e",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.ye4"
+    },
+    {
+      "id": "yue1",
+      "display": "yuē",
+      "initial": "y",
+      "final": "ue",
+      "tone": 1,
+      "lesson": 11,
+      "audio": "py.syl.yue1"
+    },
+    {
+      "id": "yue2",
+      "display": "yué",
+      "initial": "y",
+      "final": "ue",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.yue2"
+    },
+    {
+      "id": "yue3",
+      "display": "yuě",
+      "initial": "y",
+      "final": "ue",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.yue3"
+    },
+    {
+      "id": "yue4",
+      "display": "yuè",
+      "initial": "y",
+      "final": "ue",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.yue4"
+    },
+    {
+      "id": "pan2",
+      "display": "pán",
+      "initial": "p",
+      "final": "an",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.pan2"
+    },
+    {
+      "id": "chan3",
+      "display": "chǎn",
+      "initial": "ch",
+      "final": "an",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.chan3"
+    },
+    {
+      "id": "men2",
+      "display": "mén",
+      "initial": "m",
+      "final": "en",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.men2"
+    },
+    {
+      "id": "ken3",
+      "display": "kěn",
+      "initial": "k",
+      "final": "en",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.ken3"
+    },
+    {
+      "id": "pin1",
+      "display": "pīn",
+      "initial": "p",
+      "final": "in",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.pin1"
+    },
+    {
+      "id": "jin4",
+      "display": "jìn",
+      "initial": "j",
+      "final": "in",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.jin4"
+    },
+    {
+      "id": "dun4",
+      "display": "dùn",
+      "initial": "d",
+      "final": "un",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.dun4"
+    },
+    {
+      "id": "tun1",
+      "display": "tūn",
+      "initial": "t",
+      "final": "un",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.tun1"
+    },
+    {
+      "id": "jun1",
+      "display": "jūn",
+      "initial": "j",
+      "final": "un",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.jun1"
+    },
+    {
+      "id": "an1",
+      "display": "ān",
+      "initial": "",
+      "final": "an",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.an1"
+    },
+    {
+      "id": "an2",
+      "display": "án",
+      "initial": "",
+      "final": "an",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.an2"
+    },
+    {
+      "id": "an3",
+      "display": "ǎn",
+      "initial": "",
+      "final": "an",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.an3"
+    },
+    {
+      "id": "an4",
+      "display": "àn",
+      "initial": "",
+      "final": "an",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.an4"
+    },
+    {
+      "id": "en1",
+      "display": "ēn",
+      "initial": "",
+      "final": "en",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.en1"
+    },
+    {
+      "id": "en2",
+      "display": "én",
+      "initial": "",
+      "final": "en",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.en2"
+    },
+    {
+      "id": "en3",
+      "display": "ěn",
+      "initial": "",
+      "final": "en",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.en3"
+    },
+    {
+      "id": "en4",
+      "display": "èn",
+      "initial": "",
+      "final": "en",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.en4"
+    },
+    {
+      "id": "in1",
+      "display": "īn",
+      "initial": "",
+      "final": "in",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.in1"
+    },
+    {
+      "id": "in2",
+      "display": "ín",
+      "initial": "",
+      "final": "in",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.in2"
+    },
+    {
+      "id": "in3",
+      "display": "ǐn",
+      "initial": "",
+      "final": "in",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.in3"
+    },
+    {
+      "id": "in4",
+      "display": "ìn",
+      "initial": "",
+      "final": "in",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.in4"
+    },
+    {
+      "id": "un1",
+      "display": "ūn",
+      "initial": "",
+      "final": "un",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.un1"
+    },
+    {
+      "id": "un2",
+      "display": "ún",
+      "initial": "",
+      "final": "un",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.un2"
+    },
+    {
+      "id": "un3",
+      "display": "ǔn",
+      "initial": "",
+      "final": "un",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.un3"
+    },
+    {
+      "id": "un4",
+      "display": "ùn",
+      "initial": "",
+      "final": "un",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.un4"
+    },
+    {
+      "id": "vn1",
+      "display": "ǖn",
+      "initial": "",
+      "final": "vn",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.vn1"
+    },
+    {
+      "id": "vn2",
+      "display": "ǘn",
+      "initial": "",
+      "final": "vn",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.vn2"
+    },
+    {
+      "id": "vn3",
+      "display": "ǚn",
+      "initial": "",
+      "final": "vn",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.vn3"
+    },
+    {
+      "id": "vn4",
+      "display": "ǜn",
+      "initial": "",
+      "final": "vn",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.vn4"
+    },
+    {
+      "id": "yin1",
+      "display": "yīn",
+      "initial": "y",
+      "final": "in",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.yin1"
+    },
+    {
+      "id": "yin2",
+      "display": "yín",
+      "initial": "y",
+      "final": "in",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.yin2"
+    },
+    {
+      "id": "yin3",
+      "display": "yǐn",
+      "initial": "y",
+      "final": "in",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.yin3"
+    },
+    {
+      "id": "yin4",
+      "display": "yìn",
+      "initial": "y",
+      "final": "in",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.yin4"
+    },
+    {
+      "id": "yun1",
+      "display": "yūn",
+      "initial": "y",
+      "final": "un",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.yun1"
+    },
+    {
+      "id": "yun2",
+      "display": "yún",
+      "initial": "y",
+      "final": "un",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.yun2"
+    },
+    {
+      "id": "yun3",
+      "display": "yǔn",
+      "initial": "y",
+      "final": "un",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.yun3"
+    },
+    {
+      "id": "yun4",
+      "display": "yùn",
+      "initial": "y",
+      "final": "un",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.yun4"
+    },
+    {
+      "id": "yuan1",
+      "display": "yuān",
+      "initial": "y",
+      "final": "uan",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.yuan1"
+    },
+    {
+      "id": "yuan2",
+      "display": "yuán",
+      "initial": "y",
+      "final": "uan",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.yuan2"
+    },
+    {
+      "id": "yuan3",
+      "display": "yuǎn",
+      "initial": "y",
+      "final": "uan",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.yuan3"
+    },
+    {
+      "id": "yuan4",
+      "display": "yuàn",
+      "initial": "y",
+      "final": "uan",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.yuan4"
+    },
+    {
+      "id": "tuo1",
+      "display": "tuō",
+      "initial": "t",
+      "final": "uo",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.tuo1"
+    },
+    {
+      "id": "li0",
+      "display": "li",
+      "initial": "l",
+      "final": "i",
+      "tone": 0,
+      "lesson": 5,
+      "audio": "py.syl.li0"
+    },
+    {
+      "id": "mei2",
+      "display": "méi",
+      "initial": "m",
+      "final": "ei",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.mei2"
+    },
+    {
+      "id": "bai2",
+      "display": "bái",
+      "initial": "b",
+      "final": "ai",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.bai2"
+    },
+    {
+      "id": "zui3",
+      "display": "zuǐ",
+      "initial": "z",
+      "final": "ui",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.zui3"
+    },
+    {
+      "id": "cai4",
+      "display": "cài",
+      "initial": "c",
+      "final": "ai",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.cai4"
+    },
+    {
+      "id": "mai4",
+      "display": "mài",
+      "initial": "m",
+      "final": "ai",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.mai4"
+    },
+    {
+      "id": "gui1",
+      "display": "guī",
+      "initial": "g",
+      "final": "ui",
+      "tone": 1,
+      "lesson": 9,
+      "audio": "py.syl.gui1"
+    },
+    {
+      "id": "shui3",
+      "display": "shuǐ",
+      "initial": "sh",
+      "final": "ui",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.shui3"
+    },
+    {
+      "id": "hui2",
+      "display": "huí",
+      "initial": "h",
+      "final": "ui",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.hui2"
+    },
+    {
+      "id": "bao4",
+      "display": "bào",
+      "initial": "b",
+      "final": "ao",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.bao4"
+    },
+    {
+      "id": "zhi3",
+      "display": "zhǐ",
+      "initial": "zh",
+      "final": "i",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.zhi3"
+    },
+    {
+      "id": "jiao3",
+      "display": "jiǎo",
+      "initial": "j",
+      "final": "iao",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.jiao3"
+    },
+    {
+      "id": "xiao3",
+      "display": "xiǎo",
+      "initial": "x",
+      "final": "iao",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.xiao3"
+    },
+    {
+      "id": "dao1",
+      "display": "dāo",
+      "initial": "d",
+      "final": "ao",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.dao1"
+    },
+    {
+      "id": "dou4",
+      "display": "dòu",
+      "initial": "d",
+      "final": "ou",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.dou4"
+    },
+    {
+      "id": "you2",
+      "display": "yóu",
+      "initial": "y",
+      "final": "ou",
+      "tone": 2,
+      "lesson": 10,
+      "audio": "py.syl.you2"
+    },
+    {
+      "id": "piao4",
+      "display": "piào",
+      "initial": "p",
+      "final": "iao",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.piao4"
+    },
+    {
+      "id": "wei2",
+      "display": "wéi",
+      "initial": "w",
+      "final": "ei",
+      "tone": 2,
+      "lesson": 10,
+      "audio": "py.syl.wei2"
+    },
+    {
+      "id": "rao4",
+      "display": "rào",
+      "initial": "r",
+      "final": "ao",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.rao4"
+    },
+    {
+      "id": "lao3",
+      "display": "lǎo",
+      "initial": "l",
+      "final": "ao",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.lao3"
+    },
+    {
+      "id": "ye0",
+      "display": "ye",
+      "initial": "y",
+      "final": "e",
+      "tone": 0,
+      "lesson": 11,
+      "audio": "py.syl.ye0"
+    },
+    {
+      "id": "que4",
+      "display": "què",
+      "initial": "q",
+      "final": "ue",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.que4"
+    },
+    {
+      "id": "duo0",
+      "display": "duo",
+      "initial": "d",
+      "final": "uo",
+      "tone": 0,
+      "lesson": 11,
+      "audio": "py.syl.duo0"
+    },
+    {
+      "id": "die2",
+      "display": "dié",
+      "initial": "d",
+      "final": "ie",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.die2"
+    },
+    {
+      "id": "wen2",
+      "display": "wén",
+      "initial": "w",
+      "final": "en",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.wen2"
+    },
+    {
+      "id": "qun2",
+      "display": "qún",
+      "initial": "q",
+      "final": "un",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.qun2"
+    },
+    {
+      "id": "hei1",
+      "display": "hēi",
+      "initial": "h",
+      "final": "ei",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.hei1"
+    },
+    {
+      "id": "ban3",
+      "display": "bǎn",
+      "initial": "b",
+      "final": "an",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.ban3"
+    },
+    {
+      "id": "qian1",
+      "display": "qiān",
+      "initial": "q",
+      "final": "ian",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.qian1"
+    },
+    {
+      "id": "shan1",
+      "display": "shān",
+      "initial": "sh",
+      "final": "an",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.shan1"
+    },
+    {
+      "id": "jian4",
+      "display": "jiàn",
+      "initial": "j",
+      "final": "ian",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.jian4"
+    },
+    {
+      "id": "chu4",
+      "display": "chù",
+      "initial": "ch",
+      "final": "u",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.chu4"
+    },
+    {
+      "id": "ge2",
+      "display": "gé",
+      "initial": "g",
+      "final": "e",
+      "tone": 2,
+      "lesson": 5,
+      "audio": "py.syl.ge2"
+    },
+    {
+      "id": "hu1",
+      "display": "hū",
+      "initial": "h",
+      "final": "u",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.hu1"
+    },
+    {
+      "id": "lu0",
+      "display": "lu",
+      "initial": "l",
+      "final": "u",
+      "tone": 0,
+      "lesson": 5,
+      "audio": "py.syl.lu0"
+    },
+    {
+      "id": "luo2",
+      "display": "luó",
+      "initial": "l",
+      "final": "uo",
+      "tone": 2,
+      "lesson": 5,
+      "audio": "py.syl.luo2"
+    },
+    {
+      "id": "bo0",
+      "display": "bo",
+      "initial": "b",
+      "final": "o",
+      "tone": 0,
+      "lesson": 5,
+      "audio": "py.syl.bo0"
+    },
+    {
+      "id": "qi4",
+      "display": "qì",
+      "initial": "q",
+      "final": "i",
+      "tone": 4,
+      "lesson": 6,
+      "audio": "py.syl.qi4"
+    },
+    {
+      "id": "xu1",
+      "display": "xū",
+      "initial": "x",
+      "final": "u",
+      "tone": 1,
+      "lesson": 6,
+      "audio": "py.syl.xu1"
+    },
+    {
+      "id": "ji4",
+      "display": "jì",
+      "initial": "j",
+      "final": "i",
+      "tone": 4,
+      "lesson": 6,
+      "audio": "py.syl.ji4"
+    },
+    {
+      "id": "xu4",
+      "display": "xù",
+      "initial": "x",
+      "final": "u",
+      "tone": 4,
+      "lesson": 6,
+      "audio": "py.syl.xu4"
+    },
+    {
+      "id": "jia4",
+      "display": "jià",
+      "initial": "j",
+      "final": "ia",
+      "tone": 4,
+      "lesson": 6,
+      "audio": "py.syl.jia4"
+    },
+    {
+      "id": "jia3",
+      "display": "jiǎ",
+      "initial": "j",
+      "final": "ia",
+      "tone": 3,
+      "lesson": 6,
+      "audio": "py.syl.jia3"
+    },
+    {
+      "id": "za2",
+      "display": "zá",
+      "initial": "z",
+      "final": "a",
+      "tone": 2,
+      "lesson": 7,
+      "audio": "py.syl.za2"
+    },
+    {
+      "id": "ji3",
+      "display": "jǐ",
+      "initial": "j",
+      "final": "i",
+      "tone": 3,
+      "lesson": 7,
+      "audio": "py.syl.ji3"
+    },
+    {
+      "id": "xia4",
+      "display": "xià",
+      "initial": "x",
+      "final": "ia",
+      "tone": 4,
+      "lesson": 7,
+      "audio": "py.syl.xia4"
+    },
+    {
+      "id": "se4",
+      "display": "sè",
+      "initial": "s",
+      "final": "e",
+      "tone": 4,
+      "lesson": 7,
+      "audio": "py.syl.se4"
+    },
+    {
+      "id": "guo2",
+      "display": "guó",
+      "initial": "g",
+      "final": "uo",
+      "tone": 2,
+      "lesson": 7,
+      "audio": "py.syl.guo2"
+    },
+    {
+      "id": "shi2",
+      "display": "shí",
+      "initial": "sh",
+      "final": "i",
+      "tone": 2,
+      "lesson": 8,
+      "audio": "py.syl.shi2"
+    },
+    {
+      "id": "shi0",
+      "display": "shi",
+      "initial": "sh",
+      "final": "i",
+      "tone": 0,
+      "lesson": 8,
+      "audio": "py.syl.shi0"
+    },
+    {
+      "id": "zhi2",
+      "display": "zhí",
+      "initial": "zh",
+      "final": "i",
+      "tone": 2,
+      "lesson": 8,
+      "audio": "py.syl.zhi2"
+    },
+    {
+      "id": "shu3",
+      "display": "shǔ",
+      "initial": "sh",
+      "final": "u",
+      "tone": 3,
+      "lesson": 8,
+      "audio": "py.syl.shu3"
+    },
+    {
+      "id": "zhua1",
+      "display": "zhuā",
+      "initial": "zh",
+      "final": "ua",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.zhua1"
+    },
+    {
+      "id": "zhu4",
+      "display": "zhù",
+      "initial": "zh",
+      "final": "u",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.zhu4"
+    },
+    {
+      "id": "ga2",
+      "display": "gá",
+      "initial": "g",
+      "final": "a",
+      "tone": 2,
+      "lesson": 5,
+      "audio": "py.syl.ga2"
+    },
+    {
+      "id": "ka3",
+      "display": "kǎ",
+      "initial": "k",
+      "final": "a",
+      "tone": 3,
+      "lesson": 5,
+      "audio": "py.syl.ka3"
+    },
+    {
+      "id": "ha1",
+      "display": "hā",
+      "initial": "h",
+      "final": "a",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.ha1"
+    },
+    {
+      "id": "ku4",
+      "display": "kù",
+      "initial": "k",
+      "final": "u",
+      "tone": 4,
+      "lesson": 5,
+      "audio": "py.syl.ku4"
+    },
+    {
+      "id": "kua1",
+      "display": "kuā",
+      "initial": "k",
+      "final": "ua",
+      "tone": 1,
+      "lesson": 5,
+      "audio": "py.syl.kua1"
+    },
+    {
+      "id": "guo3",
+      "display": "guǒ",
+      "initial": "g",
+      "final": "uo",
+      "tone": 3,
+      "lesson": 5,
+      "audio": "py.syl.guo3"
+    },
+    {
+      "id": "hua2",
+      "display": "huá",
+      "initial": "h",
+      "final": "ua",
+      "tone": 2,
+      "lesson": 5,
+      "audio": "py.syl.hua2"
+    },
+    {
+      "id": "kuo4",
+      "display": "kuò",
+      "initial": "k",
+      "final": "uo",
+      "tone": 4,
+      "lesson": 5,
+      "audio": "py.syl.kuo4"
+    },
+    {
+      "id": "ji2",
+      "display": "jí",
+      "initial": "j",
+      "final": "i",
+      "tone": 2,
+      "lesson": 6,
+      "audio": "py.syl.ji2"
+    },
+    {
+      "id": "jia2",
+      "display": "jiá",
+      "initial": "j",
+      "final": "ia",
+      "tone": 2,
+      "lesson": 6,
+      "audio": "py.syl.jia2"
+    },
+    {
+      "id": "qia3",
+      "display": "qiǎ",
+      "initial": "q",
+      "final": "ia",
+      "tone": 3,
+      "lesson": 6,
+      "audio": "py.syl.qia3"
+    },
+    {
+      "id": "qu4",
+      "display": "qù",
+      "initial": "q",
+      "final": "u",
+      "tone": 4,
+      "lesson": 6,
+      "audio": "py.syl.qu4"
+    },
+    {
+      "id": "xu2",
+      "display": "xú",
+      "initial": "x",
+      "final": "u",
+      "tone": 2,
+      "lesson": 6,
+      "audio": "py.syl.xu2"
+    },
+    {
+      "id": "zu2",
+      "display": "zú",
+      "initial": "z",
+      "final": "u",
+      "tone": 2,
+      "lesson": 7,
+      "audio": "py.syl.zu2"
+    },
+    {
+      "id": "sa3",
+      "display": "sǎ",
+      "initial": "s",
+      "final": "a",
+      "tone": 3,
+      "lesson": 7,
+      "audio": "py.syl.sa3"
+    },
+    {
+      "id": "ze2",
+      "display": "zé",
+      "initial": "z",
+      "final": "e",
+      "tone": 2,
+      "lesson": 7,
+      "audio": "py.syl.ze2"
+    },
+    {
+      "id": "zha1",
+      "display": "zhā",
+      "initial": "zh",
+      "final": "a",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.zha1"
+    },
+    {
+      "id": "chu3",
+      "display": "chǔ",
+      "initial": "ch",
+      "final": "u",
+      "tone": 3,
+      "lesson": 8,
+      "audio": "py.syl.chu3"
+    },
+    {
+      "id": "zhua3",
+      "display": "zhuǎ",
+      "initial": "zh",
+      "final": "ua",
+      "tone": 3,
+      "lesson": 8,
+      "audio": "py.syl.zhua3"
+    },
+    {
+      "id": "chuo1",
+      "display": "chuō",
+      "initial": "ch",
+      "final": "uo",
+      "tone": 1,
+      "lesson": 8,
+      "audio": "py.syl.chuo1"
+    },
+    {
+      "id": "ruo4",
+      "display": "ruò",
+      "initial": "r",
+      "final": "uo",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.ruo4"
+    },
+    {
+      "id": "gua4",
+      "display": "guà",
+      "initial": "g",
+      "final": "ua",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.gua4"
+    },
+    {
+      "id": "xia2",
+      "display": "xiá",
+      "initial": "x",
+      "final": "ia",
+      "tone": 2,
+      "lesson": 8,
+      "audio": "py.syl.xia2"
+    },
+    {
+      "id": "i2",
+      "display": "í",
+      "initial": "",
+      "final": "i",
+      "tone": 2,
+      "lesson": 2,
+      "audio": "py.syl.i2"
+    },
+    {
+      "id": "i3",
+      "display": "ǐ",
+      "initial": "",
+      "final": "i",
+      "tone": 3,
+      "lesson": 2,
+      "audio": "py.syl.i3"
+    },
+    {
+      "id": "i4",
+      "display": "ì",
+      "initial": "",
+      "final": "i",
+      "tone": 4,
+      "lesson": 2,
+      "audio": "py.syl.i4"
+    },
+    {
+      "id": "u2",
+      "display": "ú",
+      "initial": "",
+      "final": "u",
+      "tone": 2,
+      "lesson": 2,
+      "audio": "py.syl.u2"
+    },
+    {
+      "id": "u3",
+      "display": "ǔ",
+      "initial": "",
+      "final": "u",
+      "tone": 3,
+      "lesson": 2,
+      "audio": "py.syl.u3"
+    },
+    {
+      "id": "u4",
+      "display": "ù",
+      "initial": "",
+      "final": "u",
+      "tone": 4,
+      "lesson": 2,
+      "audio": "py.syl.u4"
+    },
+    {
+      "id": "ci2",
+      "display": "cí",
+      "initial": "c",
+      "final": "i",
+      "tone": 2,
+      "lesson": 7,
+      "audio": "py.syl.ci2"
+    },
+    {
+      "id": "ci3",
+      "display": "cǐ",
+      "initial": "c",
+      "final": "i",
+      "tone": 3,
+      "lesson": 7,
+      "audio": "py.syl.ci3"
+    },
+    {
+      "id": "ci4",
+      "display": "cì",
+      "initial": "c",
+      "final": "i",
+      "tone": 4,
+      "lesson": 7,
+      "audio": "py.syl.ci4"
+    },
+    {
+      "id": "si3",
+      "display": "sǐ",
+      "initial": "s",
+      "final": "i",
+      "tone": 3,
+      "lesson": 7,
+      "audio": "py.syl.si3"
+    },
+    {
+      "id": "zhi4",
+      "display": "zhì",
+      "initial": "zh",
+      "final": "i",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.zhi4"
+    },
+    {
+      "id": "chi2",
+      "display": "chí",
+      "initial": "ch",
+      "final": "i",
+      "tone": 2,
+      "lesson": 8,
+      "audio": "py.syl.chi2"
+    },
+    {
+      "id": "chi4",
+      "display": "chì",
+      "initial": "ch",
+      "final": "i",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.chi4"
+    },
+    {
+      "id": "shi3",
+      "display": "shǐ",
+      "initial": "sh",
+      "final": "i",
+      "tone": 3,
+      "lesson": 8,
+      "audio": "py.syl.shi3"
+    },
+    {
+      "id": "shi4",
+      "display": "shì",
+      "initial": "sh",
+      "final": "i",
+      "tone": 4,
+      "lesson": 8,
+      "audio": "py.syl.shi4"
+    },
+    {
+      "id": "dao3",
+      "display": "dǎo",
+      "initial": "d",
+      "final": "ao",
+      "tone": 3,
+      "lesson": 4,
+      "audio": "py.syl.dao3"
+    },
+    {
+      "id": "dan4",
+      "display": "dàn",
+      "initial": "d",
+      "final": "an",
+      "tone": 4,
+      "lesson": 4,
+      "audio": "py.syl.dan4"
+    },
+    {
+      "id": "pan4",
+      "display": "pàn",
+      "initial": "p",
+      "final": "an",
+      "tone": 4,
+      "lesson": 4,
+      "audio": "py.syl.pan4"
+    },
+    {
+      "id": "fa3",
+      "display": "fǎ",
+      "initial": "f",
+      "final": "a",
+      "tone": 3,
+      "lesson": 4,
+      "audio": "py.syl.fa3"
+    },
+    {
+      "id": "fan1",
+      "display": "fān",
+      "initial": "f",
+      "final": "an",
+      "tone": 1,
+      "lesson": 4,
+      "audio": "py.syl.fan1"
+    },
+    {
+      "id": "tan1",
+      "display": "tān",
+      "initial": "t",
+      "final": "an",
+      "tone": 1,
+      "lesson": 4,
+      "audio": "py.syl.tan1"
+    },
+    {
+      "id": "fang2",
+      "display": "fáng",
+      "initial": "f",
+      "final": "ang",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.fang2"
+    },
+    {
+      "id": "tang2",
+      "display": "táng",
+      "initial": "t",
+      "final": "ang",
+      "tone": 2,
+      "lesson": 4,
+      "audio": "py.syl.tang2"
+    },
+    {
+      "id": "nai4",
+      "display": "nài",
+      "initial": "n",
+      "final": "ai",
+      "tone": 4,
+      "lesson": 4,
+      "audio": "py.syl.nai4"
+    },
+    {
+      "id": "pai2",
+      "display": "pái",
+      "initial": "p",
+      "final": "ai",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.pai2"
+    },
+    {
+      "id": "pei2",
+      "display": "péi",
+      "initial": "p",
+      "final": "ei",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.pei2"
+    },
+    {
+      "id": "mei4",
+      "display": "mèi",
+      "initial": "m",
+      "final": "ei",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.mei4"
+    },
+    {
+      "id": "lai2",
+      "display": "lái",
+      "initial": "l",
+      "final": "ai",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.lai2"
+    },
+    {
+      "id": "lei2",
+      "display": "léi",
+      "initial": "l",
+      "final": "ei",
+      "tone": 2,
+      "lesson": 9,
+      "audio": "py.syl.lei2"
+    },
+    {
+      "id": "gai3",
+      "display": "gǎi",
+      "initial": "g",
+      "final": "ai",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.gai3"
+    },
+    {
+      "id": "gei3",
+      "display": "gěi",
+      "initial": "g",
+      "final": "ei",
+      "tone": 3,
+      "lesson": 9,
+      "audio": "py.syl.gei3"
+    },
+    {
+      "id": "hai4",
+      "display": "hài",
+      "initial": "h",
+      "final": "ai",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.hai4"
+    },
+    {
+      "id": "hei4",
+      "display": "hèi",
+      "initial": "h",
+      "final": "ei",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.hei4"
+    },
+    {
+      "id": "nei4",
+      "display": "nèi",
+      "initial": "n",
+      "final": "ei",
+      "tone": 4,
+      "lesson": 9,
+      "audio": "py.syl.nei4"
+    },
+    {
+      "id": "hao4",
+      "display": "hào",
+      "initial": "h",
+      "final": "ao",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.hao4"
+    },
+    {
+      "id": "hou4",
+      "display": "hòu",
+      "initial": "h",
+      "final": "ou",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.hou4"
+    },
+    {
+      "id": "gao1",
+      "display": "gāo",
+      "initial": "g",
+      "final": "ao",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.gao1"
+    },
+    {
+      "id": "gou1",
+      "display": "gōu",
+      "initial": "g",
+      "final": "ou",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.gou1"
+    },
+    {
+      "id": "lou3",
+      "display": "lǒu",
+      "initial": "l",
+      "final": "ou",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.lou3"
+    },
+    {
+      "id": "zao3",
+      "display": "zǎo",
+      "initial": "z",
+      "final": "ao",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.zao3"
+    },
+    {
+      "id": "zou3",
+      "display": "zǒu",
+      "initial": "z",
+      "final": "ou",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.zou3"
+    },
+    {
+      "id": "kao3",
+      "display": "kǎo",
+      "initial": "k",
+      "final": "ao",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.kao3"
+    },
+    {
+      "id": "kou3",
+      "display": "kǒu",
+      "initial": "k",
+      "final": "ou",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.kou3"
+    },
+    {
+      "id": "wei1",
+      "display": "wēi",
+      "initial": "w",
+      "final": "ei",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.wei1"
+    },
+    {
+      "id": "you1",
+      "display": "yōu",
+      "initial": "y",
+      "final": "ou",
+      "tone": 1,
+      "lesson": 10,
+      "audio": "py.syl.you1"
+    },
+    {
+      "id": "wei3",
+      "display": "wěi",
+      "initial": "w",
+      "final": "ei",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.wei3"
+    },
+    {
+      "id": "you3",
+      "display": "yǒu",
+      "initial": "y",
+      "final": "ou",
+      "tone": 3,
+      "lesson": 10,
+      "audio": "py.syl.you3"
+    },
+    {
+      "id": "wei4",
+      "display": "wèi",
+      "initial": "w",
+      "final": "ei",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.wei4"
+    },
+    {
+      "id": "you4",
+      "display": "yòu",
+      "initial": "y",
+      "final": "ou",
+      "tone": 4,
+      "lesson": 10,
+      "audio": "py.syl.you4"
+    },
+    {
+      "id": "jie2",
+      "display": "jié",
+      "initial": "j",
+      "final": "ie",
+      "tone": 2,
+      "lesson": 11,
+      "audio": "py.syl.jie2"
+    },
+    {
+      "id": "xie3",
+      "display": "xiě",
+      "initial": "x",
+      "final": "ie",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.xie3"
+    },
+    {
+      "id": "xue3",
+      "display": "xuě",
+      "initial": "x",
+      "final": "ue",
+      "tone": 3,
+      "lesson": 11,
+      "audio": "py.syl.xue3"
+    },
+    {
+      "id": "qie4",
+      "display": "qiè",
+      "initial": "q",
+      "final": "ie",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.qie4"
+    },
+    {
+      "id": "lie4",
+      "display": "liè",
+      "initial": "l",
+      "final": "ie",
+      "tone": 4,
+      "lesson": 11,
+      "audio": "py.syl.lie4"
+    },
+    {
+      "id": "ban1",
+      "display": "bān",
+      "initial": "b",
+      "final": "an",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.ban1"
+    },
+    {
+      "id": "ben1",
+      "display": "bēn",
+      "initial": "b",
+      "final": "en",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.ben1"
+    },
+    {
+      "id": "pen2",
+      "display": "pén",
+      "initial": "p",
+      "final": "en",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.pen2"
+    },
+    {
+      "id": "man4",
+      "display": "màn",
+      "initial": "m",
+      "final": "an",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.man4"
+    },
+    {
+      "id": "men4",
+      "display": "mèn",
+      "initial": "m",
+      "final": "en",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.men4"
+    },
+    {
+      "id": "fen1",
+      "display": "fēn",
+      "initial": "f",
+      "final": "en",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.fen1"
+    },
+    {
+      "id": "zhan4",
+      "display": "zhàn",
+      "initial": "zh",
+      "final": "an",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.zhan4"
+    },
+    {
+      "id": "zhen4",
+      "display": "zhèn",
+      "initial": "zh",
+      "final": "en",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.zhen4"
+    },
+    {
+      "id": "shen1",
+      "display": "shēn",
+      "initial": "sh",
+      "final": "en",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.shen1"
+    },
+    {
+      "id": "wen1",
+      "display": "wēn",
+      "initial": "w",
+      "final": "en",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.wen1"
+    },
+    {
+      "id": "wen3",
+      "display": "wěn",
+      "initial": "w",
+      "final": "en",
+      "tone": 3,
+      "lesson": 12,
+      "audio": "py.syl.wen3"
+    },
+    {
+      "id": "wen4",
+      "display": "wèn",
+      "initial": "w",
+      "final": "en",
+      "tone": 4,
+      "lesson": 12,
+      "audio": "py.syl.wen4"
+    },
+    {
+      "id": "jin1",
+      "display": "jīn",
+      "initial": "j",
+      "final": "in",
+      "tone": 1,
+      "lesson": 12,
+      "audio": "py.syl.jin1"
+    },
+    {
+      "id": "qin2",
+      "display": "qín",
+      "initial": "q",
+      "final": "in",
+      "tone": 2,
+      "lesson": 12,
+      "audio": "py.syl.qin2"
     }
   ],
   "words": [
@@ -4043,6 +6447,1163 @@
         "shu1"
       ],
       "semanticGroup": "gege-dushu"
+    },
+    {
+      "id": "chixigua",
+      "hanzi": "吃西瓜",
+      "syllables": [
+        "chi1",
+        "xi1",
+        "gua1"
+      ],
+      "display": "chī xī guā",
+      "picture": "text:吃西瓜",
+      "kind": "phrase",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "gua"
+    },
+    {
+      "id": "tuodi",
+      "hanzi": "拖地",
+      "syllables": [
+        "tuo1",
+        "di4"
+      ],
+      "display": "tuō dì",
+      "picture": "text:拖地",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "tuodi"
+    },
+    {
+      "id": "zhizhu",
+      "hanzi": "蜘蛛",
+      "syllables": [
+        "zhi1",
+        "zhu1"
+      ],
+      "display": "zhī zhū",
+      "picture": "text:蜘蛛",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zhizhu"
+    },
+    {
+      "id": "caboli",
+      "hanzi": "擦玻璃",
+      "syllables": [
+        "ca1",
+        "bo1",
+        "li0"
+      ],
+      "display": "cā bō li",
+      "picture": "text:擦玻璃",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "caboli"
+    },
+    {
+      "id": "meihua",
+      "hanzi": "梅花",
+      "syllables": [
+        "mei2",
+        "hua1"
+      ],
+      "display": "méi huā",
+      "picture": "text:梅花",
+      "kind": "noun",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "meihua"
+    },
+    {
+      "id": "baitu",
+      "hanzi": "白兔",
+      "syllables": [
+        "bai2",
+        "tu4"
+      ],
+      "display": "bái tù",
+      "picture": "text:白兔",
+      "kind": "noun",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "tu"
+    },
+    {
+      "id": "zuiba",
+      "hanzi": "嘴巴",
+      "syllables": [
+        "zui3",
+        "ba0"
+      ],
+      "display": "zuǐ ba",
+      "picture": "text:嘴巴",
+      "kind": "noun",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zuiba"
+    },
+    {
+      "id": "baicai",
+      "hanzi": "白菜",
+      "syllables": [
+        "bai2",
+        "cai4"
+      ],
+      "display": "bái cài",
+      "picture": "text:白菜",
+      "kind": "noun",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "baicai"
+    },
+    {
+      "id": "maizi",
+      "hanzi": "麦子",
+      "syllables": [
+        "mai4",
+        "zi0"
+      ],
+      "display": "mài zi",
+      "picture": "text:麦子",
+      "kind": "noun",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "maizi"
+    },
+    {
+      "id": "wugui",
+      "hanzi": "乌龟",
+      "syllables": [
+        "wu1",
+        "gui1"
+      ],
+      "display": "wū guī",
+      "picture": "text:乌龟",
+      "kind": "noun",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "wugui"
+    },
+    {
+      "id": "tishui",
+      "hanzi": "提水",
+      "syllables": [
+        "ti2",
+        "shui3"
+      ],
+      "display": "tí shuǐ",
+      "picture": "text:提水",
+      "kind": "action",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "tishui"
+    },
+    {
+      "id": "huijia",
+      "hanzi": "回家",
+      "syllables": [
+        "hui2",
+        "jia1"
+      ],
+      "display": "huí jiā",
+      "picture": "text:回家",
+      "kind": "action",
+      "lesson": 9,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "wu"
+    },
+    {
+      "id": "baozhi",
+      "hanzi": "报纸",
+      "syllables": [
+        "bao4",
+        "zhi3"
+      ],
+      "display": "bào zhǐ",
+      "picture": "text:报纸",
+      "kind": "noun",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "baozhi"
+    },
+    {
+      "id": "shuijiao",
+      "hanzi": "水饺",
+      "syllables": [
+        "shui3",
+        "jiao3"
+      ],
+      "display": "shuǐ jiǎo",
+      "picture": "text:水饺",
+      "kind": "noun",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "shuijiao"
+    },
+    {
+      "id": "xiaodao",
+      "hanzi": "小刀",
+      "syllables": [
+        "xiao3",
+        "dao1"
+      ],
+      "display": "xiǎo dāo",
+      "picture": "text:小刀",
+      "kind": "noun",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "xiaodao"
+    },
+    {
+      "id": "limao",
+      "hanzi": "礼貌",
+      "syllables": [
+        "li3",
+        "mao4"
+      ],
+      "display": "lǐ mào",
+      "picture": "text:礼貌",
+      "kind": "noun",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "limao"
+    },
+    {
+      "id": "dadou",
+      "hanzi": "大豆",
+      "syllables": [
+        "da4",
+        "dou4"
+      ],
+      "display": "dà dòu",
+      "picture": "text:大豆",
+      "kind": "noun",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "dadou"
+    },
+    {
+      "id": "youpiao",
+      "hanzi": "邮票",
+      "syllables": [
+        "you2",
+        "piao4"
+      ],
+      "display": "yóu piào",
+      "picture": "text:邮票",
+      "kind": "noun",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "youpiao"
+    },
+    {
+      "id": "weirao",
+      "hanzi": "围绕",
+      "syllables": [
+        "wei2",
+        "rao4"
+      ],
+      "display": "wéi rào",
+      "picture": "text:围绕",
+      "kind": "action",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "weirao"
+    },
+    {
+      "id": "laoniu",
+      "hanzi": "老牛",
+      "syllables": [
+        "lao3",
+        "niu2"
+      ],
+      "display": "lǎo niú",
+      "picture": "text:老牛",
+      "kind": "noun",
+      "lesson": 10,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "laoniu"
+    },
+    {
+      "id": "eryue",
+      "hanzi": "二月",
+      "syllables": [
+        "er4",
+        "yue4"
+      ],
+      "display": "èr yuè",
+      "picture": "text:二月",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "eryue"
+    },
+    {
+      "id": "tielu",
+      "hanzi": "铁路",
+      "syllables": [
+        "tie3",
+        "lu4"
+      ],
+      "display": "tiě lù",
+      "picture": "text:铁路",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "tielu"
+    },
+    {
+      "id": "yeye",
+      "hanzi": "爷爷",
+      "syllables": [
+        "ye2",
+        "ye0"
+      ],
+      "display": "yé ye",
+      "picture": "text:爷爷",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "yeye"
+    },
+    {
+      "id": "yueya",
+      "hanzi": "月牙",
+      "syllables": [
+        "yue4",
+        "ya2"
+      ],
+      "display": "yuè yá",
+      "picture": "text:月牙",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "yueya"
+    },
+    {
+      "id": "maque",
+      "hanzi": "麻雀",
+      "syllables": [
+        "ma2",
+        "que4"
+      ],
+      "display": "má què",
+      "picture": "text:麻雀",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "maque"
+    },
+    {
+      "id": "erduo",
+      "hanzi": "耳朵",
+      "syllables": [
+        "er3",
+        "duo0"
+      ],
+      "display": "ěr duo",
+      "picture": "text:耳朵",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "erduo"
+    },
+    {
+      "id": "hudie",
+      "hanzi": "蝴蝶",
+      "syllables": [
+        "hu2",
+        "die2"
+      ],
+      "display": "hú dié",
+      "picture": "text:蝴蝶",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "hudie"
+    },
+    {
+      "id": "shuye",
+      "hanzi": "树叶",
+      "syllables": [
+        "shu4",
+        "ye4"
+      ],
+      "display": "shù yè",
+      "picture": "text:树叶",
+      "kind": "noun",
+      "lesson": 11,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "shuye"
+    },
+    {
+      "id": "wenzi",
+      "hanzi": "蚊子",
+      "syllables": [
+        "wen2",
+        "zi0"
+      ],
+      "display": "wén zi",
+      "picture": "text:蚊子",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "wenzi"
+    },
+    {
+      "id": "qunzi",
+      "hanzi": "裙子",
+      "syllables": [
+        "qun2",
+        "zi0"
+      ],
+      "display": "qún zi",
+      "picture": "text:裙子",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "qunzi"
+    },
+    {
+      "id": "heiban",
+      "hanzi": "黑板",
+      "syllables": [
+        "hei1",
+        "ban3"
+      ],
+      "display": "hēi bǎn",
+      "picture": "text:黑板",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "heiban"
+    },
+    {
+      "id": "qianbi",
+      "hanzi": "铅笔",
+      "syllables": [
+        "qian1",
+        "bi3"
+      ],
+      "display": "qiān bǐ",
+      "picture": "text:铅笔",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "qianbi"
+    },
+    {
+      "id": "yuwen",
+      "hanzi": "语文",
+      "syllables": [
+        "yu3",
+        "wen2"
+      ],
+      "display": "yǔ wén",
+      "picture": "text:语文",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "yuwen"
+    },
+    {
+      "id": "shanshui",
+      "hanzi": "山水",
+      "syllables": [
+        "shan1",
+        "shui3"
+      ],
+      "display": "shān shuǐ",
+      "picture": "text:山水",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "shanshui"
+    },
+    {
+      "id": "junjian",
+      "hanzi": "军舰",
+      "syllables": [
+        "jun1",
+        "jian4"
+      ],
+      "display": "jūn jiàn",
+      "picture": "text:军舰",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "junjian"
+    },
+    {
+      "id": "yuanchu",
+      "hanzi": "远处",
+      "syllables": [
+        "yuan3",
+        "chu4"
+      ],
+      "display": "yuǎn chù",
+      "picture": "text:远处",
+      "kind": "noun",
+      "lesson": 12,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "yuanchu"
+    },
+    {
+      "id": "fumu",
+      "hanzi": "父母",
+      "syllables": [
+        "fu4",
+        "mu3"
+      ],
+      "display": "fù mǔ",
+      "picture": "text:父母",
+      "kind": "noun",
+      "lesson": 3,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "fumu"
+    },
+    {
+      "id": "pipa2",
+      "hanzi": "枇杷",
+      "syllables": [
+        "pi2",
+        "pa0"
+      ],
+      "display": "pí pa",
+      "picture": "text:枇杷",
+      "kind": "noun",
+      "lesson": 3,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "pipa2"
+    },
+    {
+      "id": "pifa",
+      "hanzi": "批发",
+      "syllables": [
+        "pi1",
+        "fa1"
+      ],
+      "display": "pī fā",
+      "picture": "text:批发",
+      "kind": "action",
+      "lesson": 3,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "pifa"
+    },
+    {
+      "id": "mapi",
+      "hanzi": "马匹",
+      "syllables": [
+        "ma3",
+        "pi3"
+      ],
+      "display": "mǎ pǐ",
+      "picture": "text:马匹",
+      "kind": "noun",
+      "lesson": 3,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "mapi"
+    },
+    {
+      "id": "papo",
+      "hanzi": "爬坡",
+      "syllables": [
+        "pa2",
+        "po1"
+      ],
+      "display": "pá pō",
+      "picture": "text:爬坡",
+      "kind": "action",
+      "lesson": 3,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "papo"
+    },
+    {
+      "id": "timu",
+      "hanzi": "题目",
+      "syllables": [
+        "ti2",
+        "mu4"
+      ],
+      "display": "tí mù",
+      "picture": "text:题目",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "timu"
+    },
+    {
+      "id": "malu",
+      "hanzi": "马路",
+      "syllables": [
+        "ma3",
+        "lu4"
+      ],
+      "display": "mǎ lù",
+      "picture": "text:马路",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "malu"
+    },
+    {
+      "id": "funv",
+      "hanzi": "父女",
+      "syllables": [
+        "fu4",
+        "nv3"
+      ],
+      "display": "fù nǚ",
+      "picture": "text:父女",
+      "kind": "noun",
+      "lesson": 4,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "funv"
+    },
+    {
+      "id": "huli",
+      "hanzi": "狐狸",
+      "syllables": [
+        "hu2",
+        "li0"
+      ],
+      "display": "hú li",
+      "picture": "text:狐狸",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "huli"
+    },
+    {
+      "id": "huatu",
+      "hanzi": "画图",
+      "syllables": [
+        "hua4",
+        "tu2"
+      ],
+      "display": "huà tú",
+      "picture": "text:画图",
+      "kind": "action",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "huatu"
+    },
+    {
+      "id": "dage",
+      "hanzi": "打嗝",
+      "syllables": [
+        "da3",
+        "ge2"
+      ],
+      "display": "dǎ gé",
+      "picture": "text:打嗝",
+      "kind": "action",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "dage"
+    },
+    {
+      "id": "hulu",
+      "hanzi": "呼噜",
+      "syllables": [
+        "hu1",
+        "lu0"
+      ],
+      "display": "hū lu",
+      "picture": "text:呼噜",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "hulu"
+    },
+    {
+      "id": "bage",
+      "hanzi": "八个",
+      "syllables": [
+        "ba1",
+        "ge4"
+      ],
+      "display": "bā gè",
+      "picture": "text:八个",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "bage"
+    },
+    {
+      "id": "digua",
+      "hanzi": "地瓜",
+      "syllables": [
+        "di4",
+        "gua1"
+      ],
+      "display": "dì guā",
+      "picture": "text:地瓜",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "digua"
+    },
+    {
+      "id": "daku",
+      "hanzi": "大哭",
+      "syllables": [
+        "da4",
+        "ku1"
+      ],
+      "display": "dà kū",
+      "picture": "text:大哭",
+      "kind": "action",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "daku"
+    },
+    {
+      "id": "luobo",
+      "hanzi": "萝卜",
+      "syllables": [
+        "luo2",
+        "bo0"
+      ],
+      "display": "luó bo",
+      "picture": "text:萝卜",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "luobo"
+    },
+    {
+      "id": "dahuo",
+      "hanzi": "大火",
+      "syllables": [
+        "da4",
+        "huo3"
+      ],
+      "display": "dà huǒ",
+      "picture": "text:大火",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "dahuo"
+    },
+    {
+      "id": "boluo",
+      "hanzi": "菠萝",
+      "syllables": [
+        "bo1",
+        "luo2"
+      ],
+      "display": "bō luó",
+      "picture": "text:菠萝",
+      "kind": "noun",
+      "lesson": 5,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "boluo"
+    },
+    {
+      "id": "jiqi",
+      "hanzi": "机器",
+      "syllables": [
+        "ji1",
+        "qi4"
+      ],
+      "display": "jī qì",
+      "picture": "text:机器",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "jiqi"
+    },
+    {
+      "id": "huxu",
+      "hanzi": "胡须",
+      "syllables": [
+        "hu2",
+        "xu1"
+      ],
+      "display": "hú xū",
+      "picture": "text:胡须",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "huxu"
+    },
+    {
+      "id": "jixu",
+      "hanzi": "继续",
+      "syllables": [
+        "ji4",
+        "xu4"
+      ],
+      "display": "jì xù",
+      "picture": "text:继续",
+      "kind": "action",
+      "lesson": 6,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "jixu"
+    },
+    {
+      "id": "jiaqi",
+      "hanzi": "假期",
+      "syllables": [
+        "jia4",
+        "qi1"
+      ],
+      "display": "jià qī",
+      "picture": "text:假期",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "jiaqi"
+    },
+    {
+      "id": "jiaya",
+      "hanzi": "假牙",
+      "syllables": [
+        "jia3",
+        "ya2"
+      ],
+      "display": "jiǎ yá",
+      "picture": "text:假牙",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "jiaya"
+    },
+    {
+      "id": "muji",
+      "hanzi": "母鸡",
+      "syllables": [
+        "mu3",
+        "ji1"
+      ],
+      "display": "mǔ jī",
+      "picture": "text:母鸡",
+      "kind": "noun",
+      "lesson": 6,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "muji"
+    },
+    {
+      "id": "zaji",
+      "hanzi": "杂技",
+      "syllables": [
+        "za2",
+        "ji4"
+      ],
+      "display": "zá jì",
+      "picture": "text:杂技",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zaji"
+    },
+    {
+      "id": "zufu",
+      "hanzi": "祖父",
+      "syllables": [
+        "zu3",
+        "fu4"
+      ],
+      "display": "zǔ fù",
+      "picture": "text:祖父",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zufu"
+    },
+    {
+      "id": "zumu",
+      "hanzi": "祖母",
+      "syllables": [
+        "zu3",
+        "mu3"
+      ],
+      "display": "zǔ mǔ",
+      "picture": "text:祖母",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zumu"
+    },
+    {
+      "id": "ziji",
+      "hanzi": "自己",
+      "syllables": [
+        "zi4",
+        "ji3"
+      ],
+      "display": "zì jǐ",
+      "picture": "text:自己",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "ziji"
+    },
+    {
+      "id": "zimu",
+      "hanzi": "字母",
+      "syllables": [
+        "zi4",
+        "mu3"
+      ],
+      "display": "zì mǔ",
+      "picture": "text:字母",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zimu"
+    },
+    {
+      "id": "zuoxia",
+      "hanzi": "坐下",
+      "syllables": [
+        "zuo4",
+        "xia4"
+      ],
+      "display": "zuò xià",
+      "picture": "text:坐下",
+      "kind": "action",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zuoxia"
+    },
+    {
+      "id": "lvse",
+      "hanzi": "绿色",
+      "syllables": [
+        "lv4",
+        "se4"
+      ],
+      "display": "lǜ sè",
+      "picture": "text:绿色",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "lvse"
+    },
+    {
+      "id": "zuguo",
+      "hanzi": "祖国",
+      "syllables": [
+        "zu3",
+        "guo2"
+      ],
+      "display": "zǔ guó",
+      "picture": "text:祖国",
+      "kind": "noun",
+      "lesson": 7,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zuguo"
+    },
+    {
+      "id": "shisi",
+      "hanzi": "十四",
+      "syllables": [
+        "shi2",
+        "si4"
+      ],
+      "display": "shí sì",
+      "picture": "text:十四",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "shisi"
+    },
+    {
+      "id": "zhishi",
+      "hanzi": "知识",
+      "syllables": [
+        "zhi1",
+        "shi0"
+      ],
+      "display": "zhī shi",
+      "picture": "text:知识",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zhishi"
+    },
+    {
+      "id": "zhiri",
+      "hanzi": "值日",
+      "syllables": [
+        "zhi2",
+        "ri4"
+      ],
+      "display": "zhí rì",
+      "picture": "text:值日",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zhiri"
+    },
+    {
+      "id": "shushu",
+      "hanzi": "数数",
+      "syllables": [
+        "shu3",
+        "shu4"
+      ],
+      "display": "shǔ shù",
+      "picture": "text:数数",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "shushu"
+    },
+    {
+      "id": "chulu",
+      "hanzi": "出路",
+      "syllables": [
+        "chu1",
+        "lu4"
+      ],
+      "display": "chū lù",
+      "picture": "text:出路",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "chulu"
+    },
+    {
+      "id": "zhuazhu",
+      "hanzi": "抓住",
+      "syllables": [
+        "zhua1",
+        "zhu4"
+      ],
+      "display": "zhuā zhù",
+      "picture": "text:抓住",
+      "kind": "action",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zhuazhu"
+    },
+    {
+      "id": "shafa",
+      "hanzi": "沙发",
+      "syllables": [
+        "sha1",
+        "fa1"
+      ],
+      "display": "shā fā",
+      "picture": "text:沙发",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "shafa"
+    },
+    {
+      "id": "huoche",
+      "hanzi": "火车",
+      "syllables": [
+        "huo3",
+        "che1"
+      ],
+      "display": "huǒ chē",
+      "picture": "text:火车",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "huoche"
+    },
+    {
+      "id": "zise",
+      "hanzi": "紫色",
+      "syllables": [
+        "zi3",
+        "se4"
+      ],
+      "display": "zǐ sè",
+      "picture": "text:紫色",
+      "kind": "noun",
+      "lesson": 8,
+      "beyond": false,
+      "source": "学校拼音练习",
+      "semanticGroup": "zise"
     }
   ],
   "confusions": [
@@ -4276,6 +7837,309 @@
       ],
       "tip": "先让舌尖平放，再轻轻翘起，慢慢比较两个声音。",
       "focus": "both"
+    },
+    {
+      "pair": [
+        "d",
+        "p"
+      ],
+      "type": "shape",
+      "minimalPairs": [
+        [
+          "da1",
+          "pa1"
+        ],
+        [
+          "da2",
+          "pa2"
+        ],
+        [
+          "di1",
+          "pi1"
+        ],
+        [
+          "dao3",
+          "pao3"
+        ],
+        [
+          "dan4",
+          "pan4"
+        ],
+        [
+          "du4",
+          "pu4"
+        ]
+      ],
+      "tip": "左边这个，小肚子在左下；右边这个，小肚子在右上。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "f",
+        "t"
+      ],
+      "type": "shape",
+      "minimalPairs": [
+        [
+          "fa1",
+          "ta1"
+        ],
+        [
+          "fa3",
+          "ta3"
+        ],
+        [
+          "fu1",
+          "tu1"
+        ],
+        [
+          "fu4",
+          "tu4"
+        ],
+        [
+          "fan1",
+          "tan1"
+        ],
+        [
+          "fang2",
+          "tang2"
+        ]
+      ],
+      "tip": "左边这个像一根弯弯的小拐杖；右边这个像一把直直的小伞把。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "m",
+        "n"
+      ],
+      "type": "shape",
+      "minimalPairs": [
+        [
+          "ma2",
+          "na2"
+        ],
+        [
+          "ma3",
+          "na3"
+        ],
+        [
+          "mi2",
+          "ni2"
+        ],
+        [
+          "mu4",
+          "nu4"
+        ],
+        [
+          "mai4",
+          "nai4"
+        ]
+      ],
+      "tip": "左边这个有两个门洞；右边这个只有一个门洞。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "ai",
+        "ei"
+      ],
+      "type": "final",
+      "minimalPairs": [
+        [
+          "pai2",
+          "pei2"
+        ],
+        [
+          "mai4",
+          "mei4"
+        ],
+        [
+          "lai2",
+          "lei2"
+        ],
+        [
+          "gai3",
+          "gei3"
+        ],
+        [
+          "hai4",
+          "hei4"
+        ],
+        [
+          "nai4",
+          "nei4"
+        ]
+      ],
+      "tip": "左边这个，嘴巴先张大再放松；右边这个，嘴巴扁扁的，像要笑。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "ao",
+        "ou"
+      ],
+      "type": "final",
+      "minimalPairs": [
+        [
+          "dao1",
+          "dou1"
+        ],
+        [
+          "hao4",
+          "hou4"
+        ],
+        [
+          "gao1",
+          "gou1"
+        ],
+        [
+          "lao3",
+          "lou3"
+        ],
+        [
+          "zao3",
+          "zou3"
+        ],
+        [
+          "kao3",
+          "kou3"
+        ]
+      ],
+      "tip": "左边这个，嘴巴从大大的慢慢变圆；右边这个，嘴巴从圆圆的慢慢变小。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "ui",
+        "iu"
+      ],
+      "type": "final",
+      "minimalPairs": [
+        [
+          "wei1",
+          "you1"
+        ],
+        [
+          "wei2",
+          "you2"
+        ],
+        [
+          "wei3",
+          "you3"
+        ],
+        [
+          "wei4",
+          "you4"
+        ]
+      ],
+      "tip": "左边这个，嘴巴先圆后扁；右边这个，嘴巴先扁后圆。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "ie",
+        "ve"
+      ],
+      "type": "final",
+      "minimalPairs": [
+        [
+          "ye1",
+          "yue1"
+        ],
+        [
+          "ye4",
+          "yue4"
+        ],
+        [
+          "jie2",
+          "jue2"
+        ],
+        [
+          "xie3",
+          "xue3"
+        ],
+        [
+          "qie4",
+          "que4"
+        ],
+        [
+          "lie4",
+          "lve4"
+        ]
+      ],
+      "tip": "左边这个，嘴巴一直扁扁地笑着；右边这个，嘴巴先圆圆的再笑。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "an",
+        "en"
+      ],
+      "type": "final",
+      "minimalPairs": [
+        [
+          "ban1",
+          "ben1"
+        ],
+        [
+          "pan2",
+          "pen2"
+        ],
+        [
+          "man4",
+          "men4"
+        ],
+        [
+          "fan1",
+          "fen1"
+        ],
+        [
+          "zhan4",
+          "zhen4"
+        ],
+        [
+          "shan1",
+          "shen1"
+        ]
+      ],
+      "tip": "左边这个，嘴巴张得大一些；右边这个，嘴巴小一些。",
+      "focus": "both"
+    },
+    {
+      "pair": [
+        "in",
+        "un"
+      ],
+      "type": "final",
+      "minimalPairs": [
+        [
+          "yin1",
+          "wen1"
+        ],
+        [
+          "yin2",
+          "wen2"
+        ],
+        [
+          "yin3",
+          "wen3"
+        ],
+        [
+          "yin4",
+          "wen4"
+        ],
+        [
+          "jin1",
+          "jun1"
+        ],
+        [
+          "qin2",
+          "qun2"
+        ]
+      ],
+      "tip": "左边这个，嘴巴扁扁地笑着；右边这个，嘴巴圆圆地噘着。",
+      "focus": "both"
     }
   ],
   "praise": [
@@ -4303,7 +8167,9 @@
     "你把熟悉的声音认出来了",
     "你听出了这个字母",
     "你找到了开头的声音",
-    "你找到了后面的声音"
+    "你找到了后面的声音",
+    "你听出了这个声调",
+    "你把字母的样子看对了"
   ],
   "scenes": [
     {
@@ -4782,5 +8648,380 @@
       "zhuzi",
       "zhu"
     ]
-  }
+  },
+  "tone4": [
+    {
+      "series": "ai",
+      "kind": "final",
+      "lesson": 9,
+      "ids": [
+        "ai1",
+        "ai2",
+        "ai3",
+        "ai4"
+      ]
+    },
+    {
+      "series": "ei",
+      "kind": "final",
+      "lesson": 9,
+      "ids": [
+        "ei1",
+        "ei2",
+        "ei3",
+        "ei4"
+      ]
+    },
+    {
+      "series": "ui",
+      "kind": "final",
+      "lesson": 9,
+      "ids": [
+        "ui1",
+        "ui2",
+        "ui3",
+        "ui4"
+      ]
+    },
+    {
+      "series": "ao",
+      "kind": "final",
+      "lesson": 10,
+      "ids": [
+        "ao1",
+        "ao2",
+        "ao3",
+        "ao4"
+      ],
+      "skip": [
+        4
+      ]
+    },
+    {
+      "series": "ou",
+      "kind": "final",
+      "lesson": 10,
+      "ids": [
+        "ou1",
+        "ou2",
+        "ou3",
+        "ou4"
+      ]
+    },
+    {
+      "series": "iu",
+      "kind": "final",
+      "lesson": 10,
+      "ids": [
+        "iu1",
+        "iu2",
+        "iu3",
+        "iu4"
+      ]
+    },
+    {
+      "series": "ie",
+      "kind": "final",
+      "lesson": 11,
+      "ids": [
+        "ie1",
+        "ie2",
+        "ie3",
+        "ie4"
+      ]
+    },
+    {
+      "series": "ve",
+      "kind": "final",
+      "lesson": 11,
+      "ids": [
+        "ve1",
+        "ve2",
+        "ve3",
+        "ve4"
+      ]
+    },
+    {
+      "series": "er",
+      "kind": "final",
+      "lesson": 11,
+      "ids": [
+        "er1",
+        "er2",
+        "er3",
+        "er4"
+      ],
+      "skip": [
+        1
+      ],
+      "bookSkip": [
+        1
+      ]
+    },
+    {
+      "series": "ye",
+      "kind": "whole",
+      "lesson": 11,
+      "ids": [
+        "ye1",
+        "ye2",
+        "ye3",
+        "ye4"
+      ]
+    },
+    {
+      "series": "yue",
+      "kind": "whole",
+      "lesson": 11,
+      "ids": [
+        "yue1",
+        "yue2",
+        "yue3",
+        "yue4"
+      ]
+    },
+    {
+      "series": "an",
+      "kind": "final",
+      "lesson": 12,
+      "ids": [
+        "an1",
+        "an2",
+        "an3",
+        "an4"
+      ]
+    },
+    {
+      "series": "en",
+      "kind": "final",
+      "lesson": 12,
+      "ids": [
+        "en1",
+        "en2",
+        "en3",
+        "en4"
+      ]
+    },
+    {
+      "series": "in",
+      "kind": "final",
+      "lesson": 12,
+      "ids": [
+        "in1",
+        "in2",
+        "in3",
+        "in4"
+      ]
+    },
+    {
+      "series": "un",
+      "kind": "final",
+      "lesson": 12,
+      "ids": [
+        "un1",
+        "un2",
+        "un3",
+        "un4"
+      ]
+    },
+    {
+      "series": "vn",
+      "kind": "final",
+      "lesson": 12,
+      "ids": [
+        "vn1",
+        "vn2",
+        "vn3",
+        "vn4"
+      ]
+    },
+    {
+      "series": "yin",
+      "kind": "whole",
+      "lesson": 12,
+      "ids": [
+        "yin1",
+        "yin2",
+        "yin3",
+        "yin4"
+      ]
+    },
+    {
+      "series": "yun",
+      "kind": "whole",
+      "lesson": 12,
+      "ids": [
+        "yun1",
+        "yun2",
+        "yun3",
+        "yun4"
+      ]
+    },
+    {
+      "series": "yuan",
+      "kind": "whole",
+      "lesson": 12,
+      "ids": [
+        "yuan1",
+        "yuan2",
+        "yuan3",
+        "yuan4"
+      ]
+    },
+    {
+      "series": "a",
+      "kind": "final",
+      "lesson": 1,
+      "ids": [
+        "a1",
+        "a2",
+        "a3",
+        "a4"
+      ]
+    },
+    {
+      "series": "e",
+      "kind": "final",
+      "lesson": 1,
+      "ids": [
+        "e1",
+        "e2",
+        "e3",
+        "e4"
+      ]
+    },
+    {
+      "series": "i",
+      "kind": "final",
+      "lesson": 2,
+      "ids": [
+        "i1",
+        "i2",
+        "i3",
+        "i4"
+      ]
+    },
+    {
+      "series": "u",
+      "kind": "final",
+      "lesson": 2,
+      "ids": [
+        "u1",
+        "u2",
+        "u3",
+        "u4"
+      ]
+    },
+    {
+      "series": "yi",
+      "kind": "whole",
+      "lesson": 2,
+      "ids": [
+        "yi1",
+        "yi2",
+        "yi3",
+        "yi4"
+      ]
+    },
+    {
+      "series": "wu",
+      "kind": "whole",
+      "lesson": 2,
+      "ids": [
+        "wu1",
+        "wu2",
+        "wu3",
+        "wu4"
+      ]
+    },
+    {
+      "series": "yu",
+      "kind": "whole",
+      "lesson": 2,
+      "ids": [
+        "yu1",
+        "yu2",
+        "yu3",
+        "yu4"
+      ]
+    },
+    {
+      "series": "zi",
+      "kind": "whole",
+      "lesson": 7,
+      "ids": [
+        "zi1",
+        "zi2",
+        "zi3",
+        "zi4"
+      ],
+      "bookSkip": [
+        2
+      ],
+      "skip": [
+        2
+      ]
+    },
+    {
+      "series": "ci",
+      "kind": "whole",
+      "lesson": 7,
+      "ids": [
+        "ci1",
+        "ci2",
+        "ci3",
+        "ci4"
+      ]
+    },
+    {
+      "series": "si",
+      "kind": "whole",
+      "lesson": 7,
+      "ids": [
+        "si1",
+        "si2",
+        "si3",
+        "si4"
+      ],
+      "bookSkip": [
+        2
+      ],
+      "skip": [
+        2
+      ]
+    },
+    {
+      "series": "zhi",
+      "kind": "whole",
+      "lesson": 8,
+      "ids": [
+        "zhi1",
+        "zhi2",
+        "zhi3",
+        "zhi4"
+      ]
+    },
+    {
+      "series": "chi",
+      "kind": "whole",
+      "lesson": 8,
+      "ids": [
+        "chi1",
+        "chi2",
+        "chi3",
+        "chi4"
+      ]
+    },
+    {
+      "series": "shi",
+      "kind": "whole",
+      "lesson": 8,
+      "ids": [
+        "shi1",
+        "shi2",
+        "shi3",
+        "shi4"
+      ]
+    }
+  ]
 }

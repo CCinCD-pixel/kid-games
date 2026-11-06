@@ -51,8 +51,8 @@ export const HP_HZ = 60;
 export const NOTCH_Q = 10;
 export const HUM_MIN_PROMINENCE_DB = 9;
 export const MIN_BS1770_SECONDS = 0.4;
-export const MAX_LIMITER_DB = 3.3; // peak reduction we are happy with; beyond it the clip stays up to 0.9 dB under -16 LUFS instead
-export const MAX_LIMITER_HARD_DB = 5; // never limit harder than this
+export const MAX_LIMITER_DB = Number(process.env.NORMALIZE_MAX_LIMITER_DB ?? 3.3); // peak reduction we are happy with; beyond it the clip stays up to 0.9 dB under -16 LUFS instead
+export const MAX_LIMITER_HARD_DB = Math.max(5, MAX_LIMITER_DB); // never limit harder than this
 export const RMS_FALLBACK_DBFS = -16.9; // = TARGET_LUFS - 0.9 (median LUFS-RMS gap of the real recordings)
 export const DURATION_RANGE_S = [0.3, 25];
 export const PROCESSING_TAG = 'normalize-syllables@1';

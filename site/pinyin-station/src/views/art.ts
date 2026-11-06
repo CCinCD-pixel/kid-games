@@ -119,7 +119,19 @@ function drawing(id: string): string {
       );
   }
 }
+/**
+ * 汉字卡: a word without a drawing is shown as a big paper card with its characters (system Chinese font, never cropped:
+ * the size follows the number of characters). It is a card, not a picture, so it has no ink drawing around it.
+ */
+function textCard(word: string, label: string): HTMLElement {
+  const n = [...word].length,
+    size = Math.min(64, 140 / n);
+  const el = h('div', { class: 'illustration text-card', role: 'img', 'aria-label': label });
+  el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" aria-hidden="true"><rect x="19" y="49" width="152" height="100" rx="14" fill="#e9dcc0"/><rect x="14" y="42" width="152" height="100" rx="14" fill="#fffdf6" stroke="${INK}" stroke-width="3"/><path d="M28 92h124" stroke="#e8dec6" stroke-width="2" stroke-dasharray="7 7"/><text x="90" y="92" dy=".36em" text-anchor="middle" font-size="${size}" font-weight="600" fill="${INK}" font-family="'Songti SC','STSong','Noto Serif SC','PingFang SC','Hiragino Sans GB',serif">${word}</text></svg>`;
+  return el;
+}
 export function illustration(id: string, label = ''): HTMLElement {
+  if (id.startsWith('text:')) return textCard(id.slice(5), label || id.slice(5));
   const el = h('div', { class: 'illustration', role: 'img', 'aria-label': label });
   el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" aria-hidden="true"><g stroke="${INK}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" fill="none">${drawing(id)}</g></svg>`;
   return el;

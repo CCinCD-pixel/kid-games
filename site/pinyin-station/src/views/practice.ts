@@ -3,11 +3,14 @@ import { ordering } from './kinds/ordering';
 import { reading } from './kinds/reading';
 import { blending } from './kinds/blending';
 import { spelling } from './kinds/spelling';
+import { toneRow } from './kinds/tone';
+import { glyphMatch } from './kinds/glyph';
 import { listening } from './kinds/listening';
 import { readPicture } from './kinds/readPicture';
 import { h, shouldAutoSkip } from '@kit/ui';
 import { mount } from '@kit/companion';
 import { displayPinyin } from '../domain/pinyin';
+import { bookLabel } from '../domain/book';
 import { beginSession, insertContrasts, nextQuestion, recordAttempt, schedule } from '../domain/learning';
 import type { Confusion, Letter, Question, ResumeState } from '../domain/types';
 import { Microphone } from '../speech/mic';
@@ -24,7 +27,7 @@ import { buildScoreCard, getLocalScorer, scoreCopy, scoreTarget } from './score-
 import { assess } from '../speech/client';
 import { questionPlan } from '../speech/reference';
 import { saveRecording, type Recording } from '../speech/recordings';
-import { button, glyph, type Context, type Played } from './common';
+import { button, glyph, isTextCard, type Context, type Played } from './common';
 import { HINT, INSTRUCTION, PRAISE, RECORDING, type Line } from './lines';
 import type { SpellLevel } from './kinds/types';
 
@@ -36,6 +39,8 @@ const titles = {
   E: '给声音找个家',
   F: '图画也会说拼音',
   G: '把一句话接通',
+  H: '四声排排队',
+  I: '字形对对碰',
 };
 function heardLocalQuality(local: CaptureResult | null, int16: Int16Array): Record<string, number | boolean> {
   const q = local ? local.quality : analyzeClip(fromInt16(int16)).quality;
@@ -126,7 +131,8 @@ export class Practice {
       const l = this.ctx.bank.letters.find((l) => l.id === this.q.target);
       return l ? this.ctx.syllable(l.callSound, true) : 'skipped';
     }
-    if (this.q.kind === 'B' || this.q.kind === 'C') return this.ctx.syllable(this.q.target, true);
+    if (this.q.kind === 'B' || this.q.kind === 'C' || this.q.kind === 'H') return this.ctx.syllable(this.q.target, true);
+    if (this.q.kind === 'I') return 'skipped'; // looking, not listening
     if (this.q.kind === 'G' && this.word.frame) return 'skipped'; // a gap-fill read aloud would give the answer
     // 看图拼音 asks the child to spell the word: the sound plays, but its pinyin must not be printed as a subtitle.
     return this.ctx.word(this.word, this.q.kind === 'F');
@@ -202,7 +208,7 @@ export class Practice {
       'div',
       { class: 'practice-header' },
       button('回电台', () => this.ctx.home(), 'quiet', 'back'),
-      h('div', null, h('small', null, phase), h('h2', null, titles[this.q.kind])),
+      h('div', null, h('small', null, h('span', { class: 'phase-name' }, `${phase} · `), bookLabel(this.ctx.bank, this.q.lesson)), h('h2', null, titles[this.q.kind])),
       steps,
       h('span', { class: 'step-count', 'aria-hidden': 'true' }, `${this.index + 1} / ${this.queue.length}`),
     );
@@ -213,7 +219,7 @@ export class Practice {
     this.actions = h('div', { class: 'practice-actions' });
     const coach = h('div', { class: 'coach-mini' });
     mount(coach, { size: 80 });
-    const listensToSound = ['A', 'B', 'C'].includes(this.q.kind);
+    const listensToSound = ['A', 'B', 'C', 'H'].includes(this.q.kind);
     const controls = h(
       'div',
       { class: 'listening-tools' },
@@ -261,7 +267,9 @@ export class Practice {
             // A sentence is read out before it is built (never a gap-fill: that would read out the answer).
             ...(kind === 'G' && !this.word.frame ? [() => this.stimulus()] : []),
             () => this.ctx.say(INSTRUCTION[kind].id),
-            ...(kind === 'A' || kind === 'B' || kind === 'C' ? [() => this.stimulus()] : []),
+            ...(kind === 'A' || kind === 'B' || kind === 'C' || kind === 'H' ? [() => this.stimulus()] : []),
+            // A word on a text card is read out first (the demonstration), then the child reads it.
+            ...(kind === 'D' && isTextCard(this.word) ? [() => this.stimulus()] : []),
           ]),
     );
   }
@@ -272,6 +280,8 @@ export class Practice {
     else if (this.q.kind === 'F') this.spelling();
     else if (this.q.kind === 'A' || this.q.kind === 'B') this.listening();
     else if (this.q.kind === 'C') this.blending();
+    else if (this.q.kind === 'H') this.toneRow();
+    else if (this.q.kind === 'I') this.glyphMatch();
     else if (this.q.kind === 'G') this.ordering();
     else this.reading();
   }
@@ -289,6 +299,14 @@ export class Practice {
 
   blending() {
     blending.call(this);
+  }
+
+  toneRow() {
+    toneRow.call(this);
+  }
+
+  glyphMatch() {
+    glyphMatch.call(this);
   }
 
   /** The three “声母 韵母 声调” lamps only mean something when the cloud check is on; otherwise nothing is drawn. */
@@ -347,6 +365,8 @@ export class Practice {
       case 'D':
       case 'E':
       case 'G':
+      case 'H':
+      case 'I':
         return pick(PRAISE[this.q.kind]);
     }
   }
@@ -389,7 +409,7 @@ export class Practice {
         schedule(
           this.ctx.save,
           this.ctx.bank,
-          this.q.kind === 'A' || this.q.kind === 'B' ? 'listen' : 'today',
+          this.q.kind === 'A' || this.q.kind === 'B' || this.q.kind === 'H' ? 'listen' : 'today',
           60,
         ),
       );
@@ -418,6 +438,8 @@ export class Practice {
     if (this.el.classList.contains('is-recording')) return;
     this.assisted = true;
     const c = this.ctx.bank.confusions.find((c) => this.q.skill.includes(c.pair.join('|')));
+    if (this.q.kind === 'H') return this.hintTone();
+    if (this.q.kind === 'I') return this.hintGlyph();
     const line = this.tries >= 2 && (this.q.kind === 'F' || this.q.kind === 'C') ? HINT.split : HINT.first;
     this.feedback.replaceChildren(glyph('hint'), h('span', null, c?.tip ?? line.text));
     if (this.tries >= 2) this.reveal();
@@ -429,6 +451,29 @@ export class Practice {
       // A wrong blend is played back as the syllable it really makes, then the line, then the target.
       ...(this.q.kind === 'C' && this.lastChoice ? [() => this.ctx.syllable(this.lastChoice!, true)] : []),
       () => this.ctx.say(line.id),
+      () => this.stimulus(),
+    );
+  }
+  /**
+   * 四声排排队 hint ladder: “差一点点，再听一听” + the sound again (quiet); the second wrong try lights the right card and, for
+   * neighbouring tones, adds the tone tip (“二声像上坡…”). The third wrong try is the demonstration (see answer()).
+   */
+  /** 字形对对碰 has nothing to listen to: a gentle “look again”, then the right card lights up, then the demonstration. */
+  private hintGlyph() {
+    this.assisted = true;
+    this.feedback.replaceChildren(glyph('hint'), h('span', null, HINT.look.text));
+    if (this.tries >= 2) this.reveal();
+    this.play(() => this.ctx.say(HINT.look.id));
+  }
+  private hintTone() {
+    this.assisted = true;
+    const wrong = this.lastChoice ? Number(this.lastChoice.at(-1)) : 0,
+      right = Number(this.q.target.at(-1)),
+      tip = this.tries >= 2 ? this.ctx.bank.confusions.find((c) => c.pair.join('|') === [wrong, right].sort().join('|')) : undefined;
+    this.feedback.replaceChildren(glyph('hint'), h('span', null, tip?.tip ?? HINT.near.text));
+    if (this.tries >= 2) this.reveal();
+    this.play(
+      () => (tip ? this.ctx.explain(tip.tip) : this.ctx.say(HINT.near.id)),
       () => this.stimulus(),
     );
   }
@@ -453,7 +498,7 @@ export class Practice {
             'data-side': i ? 'right' : 'left',
             'data-clip': l.callSound,
           },
-          l.id,
+          l.id.replace('v', 'ü'), // (ü is written with its dots, never as v)
         ),
       ),
     );
@@ -497,7 +542,7 @@ export class Practice {
       if (result) result.textContent = displayPinyin(this.q.target);
     } else if (this.q.kind === 'E') {
       const right = this.stage.querySelector<HTMLElement>('[data-answer]');
-      if (right && !right.querySelector('.picture-caption'))
+      if (right && !right.querySelector('.picture-caption') && !isTextCard(this.word))
         right.append(h('span', { class: 'picture-caption' }, this.word.hanzi));
     }
     // The demonstration line first, then the sound itself, so neither swallows the other.

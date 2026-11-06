@@ -1,6 +1,6 @@
 import { h } from '@kit/ui';
 import { createRng } from '@kit/rng';
-import { displayPinyin, parseSyllable } from '../../domain/pinyin';
+import { displayPinyin, medialSplit, parseSyllable } from '../../domain/pinyin';
 import { INSTRUCTION } from '../lines';
 import { button, pinyin } from '../common';
 import type { PracticeView } from './types';
@@ -12,10 +12,12 @@ import type { PracticeView } from './types';
  */
 export function blending(this: PracticeView) {
   const s = parseSyllable(this.q.target)!;
-  const medial = /^([iu])([ao])$/.exec(s.final);
+  // Three-part spellings (g-u-āi, x-i-ǎo, zh-u-àng …) show the glide as its own tile; ü is written without its dots after
+  // j q x y (the id already says u) and keeps them after n / l (v), as in the book.
+  const medial = medialSplit(s.final);
   const part = (id: string) => {
     const f = parseSyllable(id)!.final;
-    return f.replace(/^([iu])([ao])$/, '$2');
+    return medialSplit(f)?.rest ?? f;
   };
   const slot = h('span', { class: 'blend-slot pinyin', 'aria-label': '缺的声音' }, '？');
   const result = pinyin('', 'blend-result');
@@ -24,7 +26,7 @@ export function blending(this: PracticeView) {
     'div',
     { class: 'blend-parts blend-equation' },
     tile(s.initial),
-    ...(medial ? [h('span', { class: 'blend-plus' }, '+'), tile(medial[1])] : []),
+    ...(medial ? [h('span', { class: 'blend-plus' }, '+'), tile(medial.medial)] : []),
     h('span', { class: 'blend-plus' }, '+'),
     slot,
   );

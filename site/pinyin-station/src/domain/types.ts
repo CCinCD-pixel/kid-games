@@ -1,4 +1,4 @@
-export type Kind = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
+export type Kind = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I';
 export interface Letter {
   id: string;
   kind: 'initial' | 'final' | 'whole';
@@ -17,6 +17,8 @@ export interface Syllable {
   tone: number;
   lesson: number;
   audio: string;
+  /** Only a part of a word: it has no recording of its own (yet), so no listening / blending / tone question may use it. */
+  wordOnly?: boolean;
 }
 export interface Word {
   id: string;
@@ -46,6 +48,24 @@ export interface Confusion {
   /** Which of the two letters the tip points at ("右边这个"): the screen highlights it while the tip is said. */
   focus?: 'left' | 'right' | 'both';
 }
+/** Where a game station sits in the school exercise book (课本课次 / 页码). Station 2 also holds book lesson 9 (y w). */
+export interface BookLesson {
+  lesson: number;
+  pages: number[];
+  also?: number;
+  /** The book pages for this station have not been photographed yet (station 13 = lesson 14). */
+  pending?: boolean;
+}
+export interface ToneSeries {
+  series: string;
+  kind: 'final' | 'whole';
+  lesson: number;
+  ids: string[];
+  /** Tones (1-4) that cannot be played honestly yet (no matching recording). */
+  skip?: number[];
+  /** Tones the school book itself does not have (zi 2, er 1 …); never filled in by a recording. */
+  bookSkip?: number[];
+}
 export interface Scene {
   id: string;
   title: string;
@@ -59,7 +79,9 @@ export interface Bank {
   syllables: Syllable[];
   words: Word[];
   confusions: Confusion[];
-  lessons: { id: number; title: string; unit: number }[];
+  lessons: { id: number; title: string; unit: number; book?: BookLesson }[];
+  /** 四声排排队: every vowel / whole-syllable series with the ids of its four tones (tone 1..4). */
+  tone4?: ToneSeries[];
   praise: string[];
   /**
    * Pictures that more than one word shares (兔/大兔/兔子 …). The first listed word whose lesson is open is the
@@ -107,10 +129,17 @@ export interface Save {
   tutorial?: Partial<Record<Kind, boolean>>;
   /** The programme the child left half way (lock screen, 回电台, opened the album…) so it can be picked up again. */
   resume?: ResumeState;
+  /** 练读表 times per table (seconds), only ever shown back to the child; never a ranking. */
+  drillBest?: Record<string, { best: number; last: number; at: number }>;
+  /** 小规则 cards the child has seen or skipped (the first-time hint appears once). */
+  rulesSeen?: Record<string, boolean>;
   /** When the last full programme was finished (for the “今天已完成” note on the home screen). */
   lastFinishAt?: number;
   settings: {
+    /** The game station (1-13). */
     lesson: number;
+    /** The book lesson the parent picked (several book lessons can share a station); see domain/book.ts. */
+    book?: number;
     ai: boolean;
     /** On-device tone-contour feedback (trial). Absent = off. */
     localScore?: boolean;

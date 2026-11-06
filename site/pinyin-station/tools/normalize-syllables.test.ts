@@ -21,7 +21,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'audio-manifest.json'
 >;
 const bank = JSON.parse(fs.readFileSync(path.join(root, 'content/pinyin-station/bank.json'), 'utf8')) as {
   letters: { id: string; callSound: string; lesson: number }[];
-  syllables: { id: string; tone: number; audio: string }[];
+  syllables: { id: string; tone: number; audio: string; wordOnly?: boolean }[];
 };
 const hasFfmpeg = ['ffmpeg', 'ffprobe'].every((c) => spawnSync(c, ['-version']).status === 0);
 if (!hasFfmpeg) console.warn('[normalize-syllables.test] ffmpeg/ffprobe not found: loudness tests skipped');
@@ -101,12 +101,48 @@ describe('manifest ids <-> files <-> content', () => {
   });
 
   it('every syllable and call-sound the bank can play (tone 1-4, all lessons) has a clip', () => {
-    const ids = new Set([...bank.letters.map((l) => `py.syl.${l.callSound}`), ...bank.syllables.filter((s) => s.tone > 0).map((s) => s.audio)]);
+    // A syllable without a recording is word-only (it is only ever heard inside a word clip); the flag must be honest both ways.
+    for (const s of bank.syllables.filter((x) => x.tone > 0)) expect(!!manifest[s.audio], `${s.id}: ${s.wordOnly ? 'word-only has no clip yet' : 'playable has a clip'}`).toBe(!s.wordOnly);
+    const ids = new Set([...bank.letters.map((l) => `py.syl.${l.callSound}`), ...bank.syllables.filter((s) => s.tone > 0 && !s.wordOnly).map((s) => s.audio)]);
     ids.delete('py.syl.eng1'); // registered gaps, see spoken-text.test.ts
     ids.delete('py.syl.ong1');
     for (const id of ids) expect(manifest[id], id).toBeDefined();
   });
 
+  it('castle stage 1: the 80 library syllables of lessons 10-13 are imported as py.syl.<game id>; er1 stays the card alias of the real er2; the final-only bank syllables alias the zero-initial files', () => {
+    const importer = fs.readFileSync(path.join(root, 'site/pinyin-station/tools/import-human-audio.mjs'), 'utf8');
+    const names = /const STAGE1 = '([^']+)'/.exec(importer)![1].split(' ');
+    expect(names).toHaveLength(81);
+    // ao4: the library's ào is flat (F0 range 0.8 semitones), withheld until a real fourth tone exists (importer WITHHELD)
+    expect(importer).toMatch(/const WITHHELD = \['ao4'\]/);
+    expect(manifest['py.syl.ao4']).toBeUndefined();
+    for (const name of names.filter((n) => n !== 'er1' && n !== 'ao4')) {
+      const id = `py.syl.${name.replaceAll('uu', 'v')}`;
+      expect(manifest[id], id).toBeDefined();
+      expect(manifest[id].source, id).toMatch(new RegExp(`^davinfifield/aa25ecce[0-9a-f]+/${name}$`));
+      expect(manifest[id].src, id).toMatch(new RegExp(`/human\\.${name}\\.[0-9a-f]{8}\\.m4a$`));
+    }
+    expect(manifest['py.syl.er1'].src).toMatch(/human\.er2\./);
+    expect(manifest['py.syl.ui2'].src).toBe(manifest['py.syl.wei2'].src);
+    expect(manifest['py.syl.vn4'].src).toBe(manifest['py.syl.yun4'].src);
+    expect(manifest['py.syl.er2'].src).toBe(manifest['py.syl.er1'].src);
+  });
+  it('castle stages 2-3: every imported library syllable has its py.syl.<id> clip from the pinned commit; i2-4 / u2-4 alias yi / wu; wei1 wen1 you1 alias the existing files', () => {
+    const importer = fs.readFileSync(path.join(root, 'site/pinyin-station/tools/import-human-audio.mjs'), 'utf8');
+    for (const list of ['STAGE2', 'STAGE3']) {
+      const names = new RegExp(`const ${list} = '([^']+)'`).exec(importer)![1].split(' ');
+      for (const name of names) {
+        const id = `py.syl.${name.replaceAll('uu', 'v')}`;
+        expect(manifest[id], id).toBeDefined();
+        expect(manifest[id].src, id).toMatch(/human\.[a-z0-9]+\.[0-9a-f]{8}\.m4a$/);
+        expect(manifest[id].processing, id).toBe('normalize-syllables@1');
+      }
+    }
+    for (const t of [2, 3, 4]) { expect(manifest[`py.syl.i${t}`].src).toBe(manifest[`py.syl.yi${t}`].src); expect(manifest[`py.syl.u${t}`].src).toBe(manifest[`py.syl.wu${t}`].src); }
+    expect(manifest['py.syl.wei1'].src).toBe(manifest['py.syl.ui1'].src);
+    expect(manifest['py.syl.you1'].src).toBe(manifest['py.syl.iu1'].src);
+    expect(manifest['py.syl.wen1'].src).toBe(manifest['py.syl.un1'].src);
+  });
   it('real-person clips carry the processing tag, durations match ffprobe, hash is in the file name', () => {
     for (const [id, c] of Object.entries(manifest)) {
       if (!id.startsWith('py.syl.') || c.synthetic) continue;

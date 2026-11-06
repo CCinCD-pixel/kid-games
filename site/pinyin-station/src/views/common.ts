@@ -43,5 +43,7 @@ export function button(
     h('span', null, text),
   );
 }
+/** A word shown as a 汉字卡 (picture: 'text:<characters>') instead of a drawing. */
+export const isTextCard = (w: Word): boolean => w.picture.startsWith('text:');
 export const pinyin = (text: string, cls = '') =>
   h('span', { class: `pinyin ${cls}`, lang: 'zh-Latn' }, text.replaceAll('v', 'ü'));

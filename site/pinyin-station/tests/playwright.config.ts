@@ -3,7 +3,7 @@ import base from '../../../tests/smoke/playwright.config';
 export default defineConfig({
   ...base,
   testDir: '.',
-  testMatch: /(station|score|fixes|voice-r3)\.spec\.ts$/,
+  testMatch: /(station|score|fixes|voice-r3|castle|castle2b|castle3)\.spec\.ts$/,
   projects: [
     ...base.projects!,
     {

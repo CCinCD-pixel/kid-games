@@ -1,6 +1,6 @@
 import { createRng } from '@kit/rng';
 import type { Attempt, Atom, Bank, Kind, Question, Save, Syllable, Word } from './types';
-import { parseSyllable } from './pinyin';
+import { medialSplit, parseSyllable } from './pinyin';
 
 export function initialSave(): Save {
   return {
@@ -113,7 +113,7 @@ export function heardLetters(callSound: string): Set<string> {
   if (parsed.initial === 'y' && parsed.final === 'u') out.add('v');
   return out;
 }
-const medialOf = (final: string) => /^([iu])[ao]$/.exec(final)?.[1] ?? '';
+const medialOf = (final: string) => medialSplit(final)?.medial ?? '';
 /** Same first sound and tone, a different last sound, same glide: the other choice of a “接起来” question. */
 export function blendRivals(target: Syllable, syllables: Syllable[]): Syllable[] {
   return syllables.filter(
@@ -156,8 +156,10 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
   const fresh = words.filter((w) => !atoms(w).length);
   const main = [...new Set([...due, ...fresh])];
   const familiar = words.filter((w) => atoms(w).some((a) => a.successes.length));
-  const letters = b.letters.filter((l) => l.lesson <= s.settings.lesson && l.kind !== 'whole');
-  const syllables = b.syllables.filter((x) => x.lesson <= s.settings.lesson && x.tone > 0);
+  // whole-recognition syllables (zhi chi shi ri zi ci si yi wu yu ye yue yin yun yuan ying) are asked like letters
+  const letters = b.letters.filter((l) => l.lesson <= s.settings.lesson);
+  // Neutral-tone syllables (tone 0) and syllables without a recording are never played on their own.
+  const syllables = b.syllables.filter((x) => x.lesson <= s.settings.lesson && x.tone > 0 && !x.wordOnly);
   const sentences = b.words.filter(
     (w) => ['sentence', 'cloze'].includes(w.kind) && w.lesson <= s.settings.lesson && !w.beyond && !w.hold,
   );
@@ -170,8 +172,56 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
           Number(atoms(b).some((x) => x.needsReview)) - Number(atoms(a).some((x) => x.needsReview)) ||
           wordSeen(a) - wordSeen(b),
       )[0];
+  // ---- 新课加权: the current station and the one before it are ~2/3 of a programme (warm-up and the two 读一读 slots look back).
+  const L = s.settings.lesson,
+    inFocus = (lesson: number) => lesson >= L - 1;
+  const focusWords = words.filter((w) => inFocus(w.lesson)),
+    focusLetters = letters.filter((l) => inFocus(l.lesson)),
+    focusSyl = syllables.filter((x) => inFocus(x.lesson));
+  const toneItems = (b.tone4 ?? [])
+    .filter((t) => t.lesson <= L)
+    .flatMap((t) =>
+      t.ids
+        .map((id, n) => ({ id, series: t.series, kind: t.kind, lesson: t.lesson, tone: n + 1, choices: t.ids.filter((_, m) => !(t.skip ?? []).includes(m + 1)) }))
+              .filter((x) => !(t.skip ?? []).includes(x.tone)),
+    )
+    .filter((x) => x.choices.length >= 3);
+  const focusTone = toneItems.filter((t) => inFocus(t.lesson));
+  const focusMain = [...new Set([...due, ...fresh])].filter((w) => inFocus(w.lesson));
+  // When the new station has no words yet, the picture / spelling slots turn into sound work on the new syllables.
+  const altKinds = (
+    [
+      focusSyl.length >= 2 ? 'B' : null,
+      focusSyl.some((x) => x.initial && !['y', 'w'].includes(x.initial)) ? 'C' : null,
+      focusTone.length ? 'H' : null,
+      focusLetters.length ? 'A' : null,
+    ] as (Kind | null)[]
+  ).filter((k): k is Kind => !!k);
+  let altAt = 0;
+  // ---- 汉字卡 words: never two such questions in a row, at most 40% of a programme.
+  const isText = (w: Word) => w.picture.startsWith('text:');
+  const textPool = words.filter(isText);
+  const maxText = Math.floor(count * 0.4);
+  let textCount = 0,
+    lastText = -2;
+  /** How alike two words sound (shared first sound, shared vowels, same length): text-card distractors must make the child read. */
+  const soundScore = (a: Word, w: Word) => {
+    const pa = a.syllables.map((id) => parseSyllable(id)),
+      pb = w.syllables.map((id) => parseSyllable(id));
+    let score = Number(a.syllables.length === w.syllables.length);
+    for (const x of pa)
+      for (const y of pb)
+        if (x && y) {
+          if (x.initial && x.initial === y.initial) score++;
+          if (x.final === y.final) score++;
+        }
+    return score;
+  };
+  const reviewWords = words.filter((w) => w.lesson <= 8);
   const pattern: Kind[] =
-    mode === 'scene'
+    mode === 'review'
+      ? ['C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C', 'D', 'C', 'C']
+      : mode === 'scene'
       ? ['E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E', 'F', 'E']
       : mode === 'read'
         ? ['D', 'C', 'D', 'C']
@@ -180,7 +230,8 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
           : mode === 'spell'
             ? ['F']
             : ['A', 'E', 'B', 'E', 'F', 'E', 'F', 'C', 'D', 'E', 'F', 'G', 'E', 'F', 'D'];
-  const sameAudio: Record<string, string> = { i: 'y', y: 'i', u: 'w', w: 'u' };
+  // letters that sound exactly like the target (zh and zhi, i and yi and y, u and wu and w …) are never offered next to it
+  const callGroup = (l: { callSound: string }) => ({ i1: 'yi1', u1: 'wu1' })[l.callSound as 'i1' | 'u1'] ?? l.callSound;
   const confusing: Record<string, string[]> = {
     b: ['p', 'd'],
     p: ['b'],
@@ -202,20 +253,36 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
         scene.lesson <= s.settings.lesson && scene.targets.some((id) => words.some((w) => w.id === id)),
     ),
   );
-  return Array.from({ length: count }, (_, i) => {
+  return Array.from({ length: mode === 'review' ? 20 : count }, (_, i) => {
     let kind = pattern[i % pattern.length];
     const phase = i < 3 ? ('warmup' as const) : ('main' as const);
     if (kind === 'G' && !sentences.length) kind = 'E';
     if (mode !== 'scene' && ['D', 'E', 'F'].includes(kind) && !(phase === 'warmup' ? words : main).length)
       kind = i % 2 ? 'B' : 'A';
     if (kind === 'C' && !syllables.some((sy) => sy.initial && !['y', 'w'].includes(sy.initial))) kind = 'B';
+    const textOk = lastText !== i - 1 && textCount < maxText;
+    const review = mode === 'today' && (i === 8 || i === 14);
+    const focusSlot = phase === 'main' && !review && (mode === 'today' || mode === 'listen' || mode === 'read');
+    if (focusSlot && mode === 'today') {
+      if (kind === 'G' && focusTone.length) kind = 'H';
+      else if ((kind === 'E' || kind === 'F') && L >= 2 && !focusWords.some((w) => textOk || !isText(w)) && altKinds.length)
+        kind = altKinds[altAt++ % altKinds.length];
+    }
+    if (focusSlot && mode === 'listen' && kind === 'B' && i % 3 === 2 && toneItems.length) kind = 'H';
+    if (kind === 'H' && !toneItems.length) kind = 'B';
+    // 字形对对碰: once b d p q are all known, one slot of today's programme is looking, not listening
+    if (focusSlot && mode === 'today' && kind === 'E' && i === 9 && L >= 6) kind = 'I';
     if (kind === 'A') {
       const known = letters.filter((l) => (s.atoms[`letter:${l.id}:hear`]?.successes.length ?? 0) > 0);
-      const target = pickLeast(phase === 'warmup' && known.length ? known : letters, (l) => l.id, 'A');
+      const target = pickLeast(
+        phase === 'warmup' && known.length ? known : focusSlot && focusLetters.length ? focusLetters : letters,
+        (l) => l.id,
+        'A',
+      );
       // Exactly one right answer: the call sound (fō) must not also contain another choice (f + o).
       const heard = heardLetters(target.callSound);
       const others = rng.shuffle(
-        letters.filter((l) => l.id !== target.id && l.id !== sameAudio[target.id] && !heard.has(l.id)),
+        letters.filter((l) => l.id !== target.id && callGroup(l) !== callGroup(target) && !heard.has(l.id)),
       );
       others.sort(
         (a, b) =>
@@ -238,7 +305,18 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
         .map((sy) => ({ sy, rivals: blendRivals(sy, syllables) }))
         .filter((o) => o.rivals.length);
       if (options.length) {
-        const { sy, rivals } = pickLeast(options, (o) => o.sy.id, 'C');
+        const near = focusSlot ? options.filter((o) => inFocus(o.sy.lesson)) : [];
+        // The 阶段复习 looks back at the first eight stations and spreads over the first sounds.
+        const old =
+          mode === 'review'
+            ? options
+                .filter((o) => o.sy.lesson <= 8)
+                .map((o) => ({ sy: o.sy, rivals: o.rivals.filter((r) => r.lesson <= 8) }))
+                .filter((o) => o.rivals.length)
+            : [];
+        const base = near.length ? near : old.length ? old : options;
+        const first = mode === 'review' ? pickLeast([...new Set(base.map((o) => o.sy.initial))], (x) => x, 'Cinit') : '';
+        const { sy, rivals } = pickLeast(mode === 'review' ? base.filter((o) => o.sy.initial === first) : base, (o) => o.sy.id, 'C');
         return {
           id: `C:${sy.id}`,
           kind,
@@ -252,16 +330,20 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
       kind = 'B';
     }
     if (kind === 'B') {
+      // A focus slot listens to the new station: only its own contrasts (or, when it has none, its own syllables).
+      const sylPool = focusSlot && focusSyl.length >= 2 ? focusSyl : syllables;
       const eligible = b.confusions.filter((c) =>
-        c.minimalPairs.some((p) => p.every((id) => syllables.some((sy) => sy.id === id))),
+        c.minimalPairs.some((p) => p.every((id) => sylPool.some((sy) => sy.id === id))),
       );
       const pair = eligible.length ? pickLeast(eligible, (c) => c.pair.join('|'), 'Bpair') : undefined;
       const candidates =
-        pair?.minimalPairs.filter((p) => p.every((id) => syllables.some((sy) => sy.id === id))) ?? [];
+        pair?.minimalPairs.filter((p) => p.every((id) => sylPool.some((sy) => sy.id === id))) ?? [];
       let alternatives = candidates.length ? pickLeast(candidates, (p) => p.join('|'), 'Bmin') : [];
       if (!alternatives.length) {
-        const first = rng.pick(syllables),
-          other = rng.pick(syllables.filter((sy) => sy.id !== first.id));
+        // Two sounds of the same series (same vowel, different tone) or the same first sound: a small, honest contrast.
+        const first = pickLeast(sylPool, (x) => x.id, 'Bfocus'),
+          mates = sylPool.filter((x) => x.id !== first.id && (x.final === first.final || x.initial === first.initial)),
+          other = rng.pick(mates.length ? mates : sylPool.filter((x) => x.id !== first.id));
         alternatives = [first.id, other.id];
       }
       const id = pickLeast(alternatives, (x) => x, 'Bid');
@@ -274,6 +356,37 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
         lesson: sy.lesson,
         phase,
         choices: rng.shuffle(alternatives),
+      };
+    }
+    if (kind === 'I') {
+      const target = pickLeast(['b', 'd', 'p', 'q'], (x) => x, 'I');
+      return {
+        id: `I:${target}`,
+        kind,
+        target,
+        skill: `glyph:${target}:see`,
+        lesson: L,
+        phase,
+        choices: rng.shuffle(['b', 'd', 'p', 'q']),
+      };
+    }
+    if (kind === 'H') {
+      // 四声排排队: hear one tone of a series, pick it among the (ordered) four.
+      const pool = focusSlot && focusTone.length ? focusTone : toneItems;
+      const series = pickLeast([...new Set(pool.map((t) => t.series))], (x) => x, 'Hseries');
+      const item = pickLeast(
+        pool.filter((t) => t.series === series),
+        (t) => t.id,
+        'H',
+      );
+      return {
+        id: `H:${item.id}`,
+        kind,
+        target: item.id,
+        skill: `tone4:${item.series}:hear`,
+        lesson: item.lesson,
+        phase,
+        choices: item.choices,
       };
     }
     if (kind === 'G') {
@@ -296,20 +409,32 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
       return schedule(s, b, 'listen', count)[i];
     }
     const pool =
-      phase === 'warmup'
+      mode === 'review'
+        ? reviewWords
+        : phase === 'warmup'
         ? familiar.length
           ? familiar
           : words
         : mode === 'repair' && due.length
           ? due
-          : main;
+          : focusSlot && mode === 'today' && focusMain.length
+            ? focusMain
+            : main;
     const scene =
       mode === 'scene' && scenes.length ? scenes[(s.sessions * count + i) % scenes.length] : undefined;
     const sceneWords = scene ? words.filter((w) => scene.targets.includes(w.id)) : [];
     const readySceneWords = sceneWords.filter(
       (w) => !atoms(w).length || atoms(w).some((a) => a.due <= s.sessions),
     );
-    const word = pickWord(scene ? (readySceneWords.length ? readySceneWords : sceneWords) : pool);
+    // Text cards: not twice in a row, at most 40%, and a picture question about a text card needs three more text cards to choose from.
+    const plain = pool.filter((w) => !isText(w)),
+      allowed = pool.filter((w) => !isText(w) || (textOk && (kind !== 'E' || textPool.length >= 4))),
+      usable = allowed.length ? allowed : plain.length ? plain : pool;
+    const word = pickWord(scene ? (readySceneWords.length ? readySceneWords : sceneWords) : usable);
+    if (isText(word)) {
+      textCount++;
+      lastText = i;
+    }
     const contexts = (b.scenes ?? []).filter((item) => item.targets.includes(word.id));
     const context =
       scene ??
@@ -332,7 +457,8 @@ export function schedule(s: Save, b: Bank, mode: string, count = 15): Question[]
             ),
           ];
     const distractors = rng
-      .shuffle(picturePool.filter((w) => w.id !== word.id))
+      .shuffle(picturePool.filter((w) => w.id !== word.id && isText(w) === isText(word)))
+      .sort((a, b) => (isText(word) ? soundScore(word, b) - soundScore(word, a) : 0))
       .filter((w) => {
         if (
           sounds.has(w.syllables.join(' ')) ||

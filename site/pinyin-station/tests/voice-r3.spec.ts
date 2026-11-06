@@ -130,12 +130,13 @@ test.describe('mnemonic cards: a plain sentence, then the real call-sound record
 });
 
 test.describe('tips: a plain sentence, the two letters on screen, then the real recordings', () => {
-  const pairs = bank.confusions.filter((c) => c.pair.every((id) => bank.letters.some((l) => l.id === id)));
+  // (the tips of the stage-3 pairs have no recording yet: castle3.spec.ts covers them as silent subtitles until they do)
+  const pairs = bank.confusions.filter((c) => c.pair.every((id) => bank.letters.some((l) => l.id === id)) && manifestFile[`py.tip.${c.pair.join('-')}`]);
   for (const c of pairs) {
     const key = c.pair.join('-');
     test(`tip ${key}`, async ({ page }, info) => {
       test.setTimeout(90_000);
-      const [target, other] = c.minimalPairs[0];
+      const [target, other] = c.minimalPairs.find((p) => p.every((id) => manifestFile[`py.syl.${id}`]))!;
       const q: Question = { id: `B:${target}`, kind: 'B', target, skill: `pair:${c.pair.join('|')}:hear`, lesson: 8, phase: 'main', choices: [target, other] };
       await open(page, [q, q], (s) => (s.settings.lesson = 8));
       await page.getByRole('button', { name: '接着上次的节目' }).click();
@@ -150,7 +151,9 @@ test.describe('tips: a plain sentence, the two letters on screen, then the real 
       const rows = h.map((x) => ({ clip: x.ids.join('/'), subtitle: x.sub, lit: x.lit, focus: x.focus }));
       keep(`eavesdrop-tip-${key}`, rows);
       // clip sequence: the tip sentence, the two real call sounds in order, then the sound of the question itself
-      expect(h.map((x) => x.ids.find((id) => id === tip || id.startsWith('py.syl.'))), key).toEqual([tip, ...calls.map((cs) => `py.syl.${cs}`), `py.syl.${target}`].map((id) => id));
+      // (an alias key such as ui1 / wei1 shares one file, so a clip matches by any of its ids)
+      const order = [tip, ...calls.map((cs) => `py.syl.${cs}`), `py.syl.${target}`];
+      expect(h.map((x, i) => (x.ids.includes(order[i]) ? order[i] : x.ids.find((id) => id === tip || id.startsWith('py.syl.')))), key).toEqual(order);
       // the robot says one thing only: the tip; nothing else is TTS and nothing is read by the device voice
       expect(robotOnly(h).map((x) => x.ids), key).toEqual([[tip]]);
       for (const x of h) expect(x.speech).toBeUndefined();
@@ -165,7 +168,7 @@ test.describe('tips: a plain sentence, the two letters on screen, then the real 
       expect(h[1 + calls.length].sub, 'the sound of the question is not printed').not.toMatch(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/);
       // the screen: the tip text is on screen as written, the two letters are there, the one it points at is marked
       await expect(page.locator('.feedback')).toContainText(c.tip);
-      await expect(page.locator('.tip-chip')).toHaveText(c.pair.map((id) => id));
+      await expect(page.locator('.tip-chip')).toHaveText(c.pair.map((id) => id.replace('v', 'ü'))); // (the letter box shows ü, never v)
       const focusSides = c.focus === 'both' ? ['left', 'right'] : [c.focus];
       expect(h[0].focus, 'letters marked while the tip is said').toEqual(focusSides);
       if (process.env.KG_SHOTS_R3) await page.screenshot({ path: path.join(process.env.KG_SHOTS_R3, `r3-tip-${key}-${info.project.name}.png`) });

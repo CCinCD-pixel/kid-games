@@ -71,17 +71,6 @@
     1237
    ]
   },
-  "py.mnemonic.b": {
-   "seed": 1235,
-   "base": 1234,
-   "sig": "d41649a55b5b5799e8dcb195874b6a4206c98ab0",
-   "score": 0.0,
-   "flags": [],
-   "tried": [
-    1234,
-    1235
-   ]
-  },
   "py.praise.0": {
    "seed": 1235,
    "base": 1234,
@@ -230,50 +219,6 @@
     1235,
     1236,
     1237
-   ]
-  },
-  "py.word.daba": {
-   "seed": 1235,
-   "base": 1234,
-   "sig": "cb6a67b26623be9149e9ea5cccafde5c65661bd8",
-   "score": 0.0,
-   "flags": [],
-   "tried": [
-    1234,
-    1235
-   ]
-  },
-  "py.word.hecha": {
-   "seed": 1235,
-   "base": 1234,
-   "sig": "a3a186b431a7d214e208211e4164f87f16fdfd19",
-   "score": 0.0,
-   "flags": [],
-   "tried": [
-    1234,
-    1235
-   ]
-  },
-  "py.word.mabu": {
-   "seed": 1235,
-   "base": 1234,
-   "sig": "47602cfde5feac868e9cdc252f386153767fe6ee",
-   "score": 0.0,
-   "flags": [],
-   "tried": [
-    1234,
-    1235
-   ]
-  },
-  "py.word.xiyi": {
-   "seed": 1235,
-   "base": 1234,
-   "sig": "a176a2be52cdd9ef292cd0a57f1f843032feb972",
-   "score": 0.0,
-   "flags": [],
-   "tried": [
-    1234,
-    1235
    ]
   }
  }

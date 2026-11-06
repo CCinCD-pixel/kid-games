@@ -1,5 +1,5 @@
 import { h } from '@kit/ui';
-import { button, pinyin } from '../common';
+import { button, isTextCard, pinyin } from '../common';
 import type { PracticeView } from './types';
 
 export function readPicture(this: PracticeView) {
@@ -17,7 +17,7 @@ export function readPicture(this: PracticeView) {
         onclick: () => {
           if (this.locked) return;
           // Echo first: the tapped picture shows its name and a tick or a gentle shake, right where the eyes are.
-          choice.append(h('span', { class: 'picture-caption' }, w.hanzi));
+          if (!isTextCard(w)) choice.append(h('span', { class: 'picture-caption' }, w.hanzi)); // a text card already shows its characters
           choice.classList.add(right ? 'ok' : 'miss');
           if (!right) this.markTried(choice);
           this.answer(right);

@@ -109,9 +109,13 @@ describe('held-out pictures', () => {
   const HELD = ['mali', 'dabo', 'eight-pears'];
   const MODES = ['today', 'scene', 'listen', 'spell', 'repair', 'read'];
   it('marks exactly the three unreadable pictures, each with a reason', () => {
-    const held = bank.words.filter((w) => w.hold);
+    // Two kinds of hold-out: an unreadable picture (to be redrawn) and a school word waiting for its text card (stage 2b).
+    const held = bank.words.filter((w) => w.hold && /重画/.test(w.hold));
     expect(held.map((w) => w.id).sort()).toEqual([...HELD].sort());
-    for (const w of held) expect(w.hold, w.id).toMatch(/重画/);
+    for (const w of bank.words.filter((w) => w.hold && !/重画/.test(w.hold))) {
+      expect(w.source, w.id).toBe('学校拼音练习');
+      expect(w.hold, w.id).toMatch(/录音/);
+    }
   });
   it.each(Array.from({ length: 13 }, (_, i) => i + 1))('lesson %i keeps a usable pool without them', (lesson) => {
     const save = initialSave();
@@ -139,7 +143,7 @@ describe('held-out pictures', () => {
           for (const q of qs) {
             expect(q.target, q.id).toBeTruthy();
             if (['E', 'F', 'D', 'G'].includes(q.kind)) expect(bank.words.some((w) => w.id === q.target), q.id).toBe(true);
-            expect(heldIds.has(q.target), q.id).toBe(false);
+            expect(heldIds.has(q.target) || bank.words.find((w) => w.id === q.target)?.hold, q.id).toBeFalsy();
             if (q.kind === 'E') {
               for (const c of q.choices) expect(heldIds.has(c), q.id).toBe(false);
               if (lesson >= 3) expect(q.choices.length, `${q.id} L${lesson}`).toBeGreaterThanOrEqual(3);

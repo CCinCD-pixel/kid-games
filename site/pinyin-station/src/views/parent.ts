@@ -2,6 +2,7 @@ import { h } from '@kit/ui';
 import { checkPin, hasPin, isValidPin, setPin } from '@kit/settings';
 import { pinyin as annotate } from 'pinyin-pro';
 import { parseSyllable, displayPinyin } from '../domain/pinyin';
+import { bookOptions, currentBook, stationOfBook } from '../domain/book';
 import { mastery, recordAttempt } from '../domain/learning';
 import { historyArchive, recordings, savePicture, saveRecording } from '../speech/recordings';
 import { reviseAttempt } from '../domain/history';
@@ -116,18 +117,14 @@ export function parentView(ctx: Context): HTMLElement {
     const lesson = h(
       'select',
       { 'aria-label': '当前课' },
-      ctx.bank.lessons
-        .filter((l) => l.id <= 8)
-        .map((l) =>
-          h(
-            'option',
-            { value: l.id, selected: l.id === s.settings.lesson },
-            `${l.id <= 4 ? '当前阶段' : '下一阶段'} · ${l.title}`,
-          ),
-        ),
+      // By BOOK lesson (what the teacher says): book 9 (y w) is station 8, book 10-13 are stations 9-12, book 14 waits.
+      bookOptions(ctx.bank).map((o) =>
+        h('option', { value: o.book, selected: o.book === currentBook(s, ctx.bank), disabled: o.disabled }, o.label),
+      ),
     );
     lesson.onchange = () => {
-      s.settings.lesson = Number(lesson.value);
+      s.settings.book = Number(lesson.value);
+      s.settings.lesson = stationOfBook(s.settings.book);
       ctx.persist();
     };
     const scaffold = h(
