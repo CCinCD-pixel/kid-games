@@ -268,7 +268,8 @@ test.describe('B / C / H wrong tries and reloads', () => {
     await expect(page.locator('.resume-card')).toContainText('第 2 / 3 条');
     await page.getByRole('button', { name: '接着上次的节目' }).click();
     await expect(page.locator('.signal-steps')).toHaveAttribute('aria-label', /第 2 条/);
-    expect(errors).toEqual([]);
+    // a reload can cut off a clip that is still loading; the browser reports that fetch as a page error
+    expect(errors.filter((m) => !/due to access control checks/.test(m))).toEqual([]);
   });
   test('a reload in a 练读表 or on the 朗读册 lands on the home and nothing is lost', async ({ page }) => {
     test.setTimeout(90_000);
