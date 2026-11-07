@@ -1,5 +1,7 @@
 # 拼音电台 · 本地试用
 
+**状态（2026-11-07）：已从大厅下架（`game.json` 的 `status: hidden`），暂停迭代。** 爸爸耳检后认为合成声音质量不行；孩子看不到入口，直接输入 `/pinyin-station/` 仍能打开。重启前先解决声音质量。
+
 工作目录 `/Users/ccincd/kid-games-work/pinyin-station`，分支 `pinyin-station`。只在本地提交，尚未 push 或部署。
 
 ```sh
