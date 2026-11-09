@@ -1,4 +1,4 @@
-import type { CardKey } from './model/sim';
+import type { CardKey, Cond } from './model/sim';
 
 /** The cards are pictures, not words: a 6-year-old reads arrows. Drawn in a 48×48 box. */
 const ARROW = 'M24 8 L38 24 H29 V40 H19 V24 H10 Z';
@@ -16,3 +16,13 @@ export const cardSvg = (c: CardKey): string => `<svg viewBox="0 0 48 48" aria-hi
 export const CARD_NAME: Record<CardKey, string> = {
   N: '向上开一米', E: '向右开一米', S: '向下开一米', W: '向左开一米', F: '向前开一米', L: '向左转', R: '向右转', P: '采样', X: '重复', C: '魔法卡',
 };
+
+/** the "if" tiles of the rule levels: a blue tile, a yellow tile, a sample, a wall ahead */
+const COND: Record<Cond, string> = {
+  B: '<rect x="8" y="8" width="32" height="32" rx="7" fill="#4678dc" stroke="#fff" stroke-width="3"/>',
+  Y: '<rect x="8" y="8" width="32" height="32" rx="7" fill="#f5c832" stroke="#fff" stroke-width="3"/>',
+  A: '<circle cx="24" cy="24" r="15" fill="rgba(255,210,74,.45)"/><circle cx="24" cy="24" r="7" fill="#ffd24a"/>',
+  W: '<path d="M6 40 V30 H16 V24 H26 V18 H36 V10 H42 V40 Z" fill="#6f6a64"/><path d="M6 30 H16 M16 24 H26 M26 18 H36" stroke="#9a948b" stroke-width="3" fill="none"/>',
+};
+export const condSvg = (c: Cond): string => `<svg viewBox="0 0 48 48" aria-hidden="true">${COND[c]}</svg>`;
+export const COND_NAME: Record<Cond, string> = { B: '蓝格', Y: '黄格', A: '样本', W: '前面堵住' };

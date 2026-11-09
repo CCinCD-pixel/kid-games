@@ -9,7 +9,7 @@ import { Board, type Frame } from '../render/board';
 
 export interface PlayHost {
   root: HTMLElement;
-  onWin(lv: Level, stars: 1 | 2 | 3): void;
+  onWin(lv: { id: string }, stars: 1 | 2 | 3): void;
   goMap(): void;
   openLevel(id: string): void;
 }

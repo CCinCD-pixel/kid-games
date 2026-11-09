@@ -1,18 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { LEVELS, CHAPTERS } from './levels';
-import { DEFAULT_CONFIG, MAX_BODY, type Card, act, cost, editCount, flatten, parseProg, progStr, run, slotsOf, startState, type Config } from './sim';
+import { LEVELS, CHAPTERS, GRID_LEVELS } from './levels';
+import { DEFAULT_CONFIG, MAX_BODY, autopilot, ruleStars, type Card, act, cost, editCount, flatten, parseProg, progStr, run, slotsOf, startState, type Config } from './sim';
 import { starsFor } from './stars';
 
 /** the garage setting a level is built for: its own `loadout`, else the plain rover */
-const cfgOf = (lv: (typeof LEVELS)[number]): Config => lv.loadout ?? DEFAULT_CONFIG;
+const cfgOf = (lv: (typeof GRID_LEVELS)[number]): Config => lv.loadout ?? DEFAULT_CONFIG;
 
 describe('rover-code levels (chapters 1-5)', () => {
-  it('has 48 levels in six chapters of eight', () => {
-    expect(LEVELS).toHaveLength(48);
+  it('has 64 levels in eight chapters of eight', () => {
+    expect(LEVELS).toHaveLength(64);
     for (const c of CHAPTERS) expect(LEVELS.filter((l) => l.ch === c.ch)).toHaveLength(8);
   });
 
-  it.each(LEVELS.map((l) => [l.id, l] as const))('%s: its solution gets there within the slots and only uses the cards in the box', (_id, lv) => {
+  it.each(GRID_LEVELS.map((l) => [l.id, l] as const))('%s: its solution gets there within the slots and only uses the cards in the box', (_id, lv) => {
     const prog = parseProg(lv.solution.main);
     const cfg = cfgOf(lv);
     const p1 = [...(lv.solution.p1 ?? '')] as Card[];
@@ -26,7 +26,7 @@ describe('rover-code levels (chapters 1-5)', () => {
     expect(starsFor(lv, prog, r, false, p1)).toBeGreaterThanOrEqual(2);
   });
 
-  it.each(LEVELS.filter((l) => l.buggy).map((l) => [l.id, l] as const))('%s: the buggy program does not get there, the fix does, and the distance is the number of bugs', (_id, lv) => {
+  it.each(GRID_LEVELS.filter((l) => l.buggy).map((l) => [l.id, l] as const))('%s: the buggy program does not get there, the fix does, and the distance is the number of bugs', (_id, lv) => {
     const cfg = cfgOf(lv);
     const buggy = parseProg(lv.buggy!), fix = parseProg(lv.fix!);
     const bp1 = [...(lv.buggyP1 ?? '')] as Card[], fp1 = [...(lv.fixP1 ?? '')] as Card[];
@@ -42,7 +42,7 @@ describe('rover-code levels (chapters 1-5)', () => {
   });
 
   it('never lets a level be solved by the plain rover when it was built for a garage part (so the choice matters)', () => {
-    for (const lv of LEVELS.filter((l) => l.garage && l.loadout)) {
+    for (const lv of GRID_LEVELS.filter((l) => l.garage && l.loadout)) {
       const prog = parseProg(lv.solution.main);
       const parts = lv.garage!.open;
       const needed = parts.filter((p) => lv.loadout![p] !== DEFAULT_CONFIG[p]);
@@ -58,7 +58,7 @@ describe('rover-code levels (chapters 1-5)', () => {
 
 describe('rover-code magic card', () => {
   it('a level that needs the magic card cannot be done in the main row alone', () => {
-    for (const lv of LEVELS.filter((l) => l.needCall && !l.buggy)) {
+    for (const lv of GRID_LEVELS.filter((l) => l.needCall && !l.buggy)) {
       const p1 = [...(lv.solution.p1 ?? '')] as Card[];
       const expanded = flatten(parseProg(lv.solution.main), p1).length;
       expect(expanded, lv.id).toBeGreaterThan(slotsOf(lv, lv.loadout ?? DEFAULT_CONFIG));
@@ -79,7 +79,7 @@ describe('rover-code magic card', () => {
 
 describe('rover-code repeat block', () => {
   it('a level that needs the loop cannot be done card by card in its slots', () => {
-    for (const lv of LEVELS.filter((l) => l.ch === 5 && !l.buggy)) {
+    for (const lv of GRID_LEVELS.filter((l) => l.ch === 5 && !l.buggy)) {
       const flat = flatten(parseProg(lv.solution.main)).length;
       expect(flat, lv.id).toBeGreaterThan(slotsOf(lv, lv.loadout ?? DEFAULT_CONFIG));
     }
@@ -94,7 +94,7 @@ describe('rover-code repeat block', () => {
     expect(editCount(parseProg('4(FFFR)F'), parseProg('3(FFFR)F'))).toBe(1);
   });
   it('a program is run in order and stops at the card that cannot be done, with its place in the block', () => {
-    const lv = LEVELS.find((l) => l.id === 'C5-1')!;
+    const lv = GRID_LEVELS.find((l) => l.id === 'C5-1')!;
     const r = run(lv, DEFAULT_CONFIG, parseProg('9(F)'.replace('9', '5')));
     expect(r.res).toBe('win');
     expect(flatten(parseProg('2(FR)')).map((x) => x.path)).toEqual([[0, 0], [0, 1], [0, 0], [0, 1]]);
@@ -102,7 +102,7 @@ describe('rover-code repeat block', () => {
 });
 
 describe('rover-code rules', () => {
-  const lv = LEVELS[0];
+  const lv = GRID_LEVELS[0];
   it('an arrow card turns and drives in one go; the program must END on the goal', () => {
     const r = run(lv, DEFAULT_CONFIG, parseProg('EEE'));
     expect(r.res).toBe('win');
@@ -117,5 +117,39 @@ describe('rover-code rules', () => {
     const r = run(lv, DEFAULT_CONFIG, parseProg('WEE'));
     expect(r.res).toBe('crash');
     expect(r.at).toEqual([0]);
+  });
+});
+
+describe('rover-code rule levels (chapter 7 and C8-6)', () => {
+  const RULE_LEVELS = LEVELS.filter((l): l is Extract<(typeof LEVELS)[number], { kind: 'rules' }> => l.kind === 'rules');
+  it('there are nine of them: eight in chapter 7 and one rescue', () => { expect(RULE_LEVELS).toHaveLength(9); });
+
+  it.each(RULE_LEVELS.map((l) => [l.id, l] as const))('%s: its rules take the rover home on BOTH maps and it has no more rules than the slots', (_id, rl) => {
+    expect(Object.keys(rl.solution).length).toBe(rl.expectRules);
+    expect(rl.expectRules).toBeLessThanOrEqual(rl.ruleSlots);
+    for (const cond of Object.keys(rl.solution)) expect(rl.conds).toContain(cond);
+    for (const m of rl.maps) expect(autopilot(m, DEFAULT_CONFIG, rl.solution).res, `${rl.id} ${m.id}`).toBe('win');
+    expect(ruleStars(rl, rl.solution, false)).toBe(3);
+    expect(ruleStars(rl, rl.solution, true)).toBe(1);
+  });
+
+  it.each(RULE_LEVELS.filter((l) => l.needW).map((l) => [l.id, l] as const))('%s: the wall rule is needed (without it one of the maps fails)', (_id, rl) => {
+    const { W: _w, ...rest } = rl.solution;
+    expect(rl.maps.some((m) => autopilot(m, DEFAULT_CONFIG, rest).res !== 'win')).toBe(true);
+  });
+
+  it('no single rule is enough where two are asked for', () => {
+    for (const rl of RULE_LEVELS.filter((l) => l.expectRules >= 2)) {
+      for (const key of Object.keys(rl.solution) as (keyof typeof rl.solution)[]) {
+        const { [key]: _drop, ...rest } = rl.solution;
+        expect(rl.maps.some((m) => autopilot(m, DEFAULT_CONFIG, rest).res !== 'win'), `${rl.id} without ${key}`).toBe(true);
+      }
+    }
+  });
+
+  it('a rover that rescues is not a sample: P on it does nothing, driving onto it picks it up', () => {
+    const c81 = GRID_LEVELS.find((l) => l.id === 'C8-1')!;
+    expect(run(c81, DEFAULT_CONFIG, parseProg('FFR3(F)')).res).toBe('win');
+    expect(c81.req.some((r) => r.kind === 'r')).toBe(true);
   });
 });

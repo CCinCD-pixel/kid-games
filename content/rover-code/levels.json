@@ -24,6 +24,14 @@
   {
    "ch": 6,
    "title": "魔法卡"
+  },
+  {
+   "ch": 7,
+   "title": "规则卡"
+  },
+  {
+   "ch": 8,
+   "title": "救援"
   }
  ],
  "levels": [
@@ -1605,6 +1613,598 @@
    },
    "minCrystal": 6,
    "D": 13.9
+  },
+  {
+   "kind": "rules",
+   "id": "C7-1",
+   "brief": "每到蓝格就右转。",
+   "ch": 7,
+   "n": 1,
+   "role": "起",
+   "title": "蓝格右转",
+   "teach": "规则卡一直有效：每到蓝格就右转；两张地图同一套规则",
+   "conds": [
+    "B"
+   ],
+   "ruleSlots": 1,
+   "expectRules": 1,
+   "maps": [
+    {
+     "map": [
+      ">..B",
+      "....",
+      "...G"
+     ]
+    },
+    {
+     "map": [
+      ">B..",
+      "....",
+      ".G.."
+     ]
+    }
+   ],
+   "solution": {
+    "B": "R"
+   }
+  },
+  {
+   "kind": "rules",
+   "id": "C7-2",
+   "brief": "蓝格右转，黄格左转。",
+   "ch": 7,
+   "n": 2,
+   "role": "起",
+   "title": "蓝右黄左",
+   "teach": "两条规则：蓝格右转，黄格左转",
+   "conds": [
+    "B",
+    "Y"
+   ],
+   "ruleSlots": 2,
+   "expectRules": 2,
+   "maps": [
+    {
+     "map": [
+      ">.B..",
+      ".....",
+      "..Y.G",
+      "....."
+     ]
+    },
+    {
+     "map": [
+      ">B...",
+      ".....",
+      ".....",
+      ".Y.G."
+     ]
+    }
+   ],
+   "solution": {
+    "B": "R",
+    "Y": "L"
+   }
+  },
+  {
+   "kind": "rules",
+   "id": "C7-3",
+   "brief": "看到样本就采。",
+   "ch": 7,
+   "n": 3,
+   "role": "承",
+   "title": "见样本就采",
+   "teach": "规则：到了样本格就采样（复习采样）",
+   "conds": [
+    "B",
+    "A"
+   ],
+   "ruleSlots": 2,
+   "expectRules": 2,
+   "review": [
+    "C2"
+   ],
+   "maps": [
+    {
+     "map": [
+      ">.a.B",
+      ".....",
+      "....G"
+     ]
+    },
+    {
+     "map": [
+      ">B...",
+      ".a...",
+      ".G..."
+     ]
+    }
+   ],
+   "solution": {
+    "B": "R",
+    "A": "P"
+   }
+  },
+  {
+   "kind": "rules",
+   "id": "C7-4",
+   "brief": "碰到墙就右转。",
+   "ch": 7,
+   "n": 4,
+   "role": "承",
+   "title": "碰墙右转",
+   "teach": "规则：前面堵住就右转——沿着墙走",
+   "conds": [
+    "W"
+   ],
+   "ruleSlots": 1,
+   "expectRules": 1,
+   "needW": true,
+   "maps": [
+    {
+     "map": [
+      ">...#",
+      "###.#",
+      "G...#",
+      "#####"
+     ]
+    },
+    {
+     "map": [
+      ">..#",
+      "##.#",
+      "##.#",
+      "G..#"
+     ]
+    }
+   ],
+   "solution": {
+    "W": "R"
+   }
+  },
+  {
+   "kind": "rules",
+   "id": "C7-5",
+   "brief": "碰墙左转，见样本采。",
+   "ch": 7,
+   "n": 5,
+   "role": "承",
+   "title": "沿墙采样",
+   "teach": "两条规则一起：碰墙左转 + 见样本采样",
+   "conds": [
+    "W",
+    "A"
+   ],
+   "ruleSlots": 2,
+   "expectRules": 2,
+   "needW": true,
+   "review": [
+    "C2"
+   ],
+   "maps": [
+    {
+     "map": [
+      ".a..<",
+      ".####",
+      "...aG"
+     ]
+    },
+    {
+     "map": [
+      "..a<",
+      ".###",
+      ".###",
+      "a..G"
+     ]
+    }
+   ],
+   "solution": {
+    "W": "L",
+    "A": "P"
+   }
+  },
+  {
+   "kind": "rules",
+   "id": "C7-6",
+   "brief": "两张图都要想到。",
+   "ch": 7,
+   "n": 6,
+   "role": "转",
+   "title": "两张图都要想到",
+   "teach": "只看一张图会漏掉规则：A 图要蓝格右转，B 图要黄格左转",
+   "conds": [
+    "B",
+    "Y"
+   ],
+   "ruleSlots": 2,
+   "expectRules": 2,
+   "maps": [
+    {
+     "map": [
+      ">...B.",
+      "......",
+      "....G."
+     ]
+    },
+    {
+     "map": [
+      "v.....",
+      "......",
+      "Y..G.."
+     ]
+    }
+   ],
+   "solution": {
+    "B": "R",
+    "Y": "L"
+   }
+  },
+  {
+   "kind": "rules",
+   "id": "C7-7",
+   "brief": "三条规则，两张图。",
+   "ch": 7,
+   "n": 7,
+   "role": "合",
+   "title": "自动驾驶大考",
+   "teach": "三条规则：黄格左转、见样本采样、碰墙右转",
+   "conds": [
+    "B",
+    "Y",
+    "A",
+    "W"
+   ],
+   "ruleSlots": 3,
+   "expectRules": 3,
+   "needW": true,
+   "maps": [
+    {
+     "map": [
+      ">.a..",
+      "####.",
+      "#.Y..",
+      "##.##",
+      "##G##"
+     ]
+    },
+    {
+     "map": [
+      ".a...",
+      ".###.",
+      ".###G",
+      ".####",
+      "^####"
+     ]
+    }
+   ],
+   "solution": {
+    "Y": "L",
+    "A": "P",
+    "W": "R"
+   }
+  },
+  {
+   "kind": "rules",
+   "id": "C7-8",
+   "brief": "黄格左转就到了。",
+   "ch": 7,
+   "n": 8,
+   "role": "喘息",
+   "title": "黄格左转",
+   "teach": "轻松一关：一条规则",
+   "conds": [
+    "Y"
+   ],
+   "ruleSlots": 1,
+   "expectRules": 1,
+   "maps": [
+    {
+     "map": [
+      "v...",
+      "....",
+      "Y..G"
+     ]
+    },
+    {
+     "map": [
+      ".v..",
+      ".Y.G",
+      "...."
+     ]
+    }
+   ],
+   "solution": {
+    "Y": "L"
+   }
+  },
+  {
+   "kind": "grid",
+   "id": "C8-1",
+   "brief": "去救被困的小车！",
+   "ch": 8,
+   "n": 1,
+   "role": "起",
+   "title": "第一辆救援",
+   "teach": "开到被困的小车上挂好拖绳（经过就挂上），再一起到基地",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "ghost": "off",
+   "map": [
+    "...G",
+    "r.#.",
+    "^.#."
+   ],
+   "solution": {
+    "main": "FFR3(F)"
+   },
+   "D": 11.6
+  },
+  {
+   "kind": "grid",
+   "id": "C8-2",
+   "brief": "绕坑救两辆车。",
+   "ch": 8,
+   "n": 2,
+   "role": "起",
+   "title": "环形山两辆",
+   "teach": "一张重复卡绕坑一圈，顺路救两辆",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "ghost": "off",
+   "map": [
+    ">..r",
+    "#oo.",
+    "#oo.",
+    "G..r"
+   ],
+   "solution": {
+    "main": "3(FFFR)"
+   },
+   "D": 11.6
+  },
+  {
+   "kind": "grid",
+   "id": "C8-3",
+   "brief": "高台上有辆车。",
+   "ch": 8,
+   "n": 3,
+   "role": "承",
+   "title": "高台上的车",
+   "teach": "车库 + 重复：大轮子上高台，电不够就用重复卡省卡",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 7,
+   "expectMin": 5,
+   "ghost": "off",
+   "garage": {
+    "open": [
+     "wheels",
+     "panel",
+     "mast"
+    ]
+   },
+   "map": [
+    "###G",
+    "###r",
+    "###u",
+    ">n.."
+   ],
+   "height": [
+    "0002",
+    "0000",
+    "0000",
+    "0000"
+   ],
+   "loadout": {
+    "wheels": "L",
+    "panel": "S",
+    "mast": "S"
+   },
+   "solution": {
+    "main": "3(F)L3(F)"
+   },
+   "D": 11.6
+  },
+  {
+   "kind": "grid",
+   "id": "C8-4",
+   "brief": "采样，再挂上拖车。",
+   "ch": 8,
+   "n": 4,
+   "role": "承",
+   "title": "采样拖车",
+   "teach": "魔法卡 = 前进、采样、前进；用两次，顺路挂车",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "C"
+   ],
+   "slots": 4,
+   "p1Slots": 3,
+   "expectMin": 6,
+   "needCall": true,
+   "ghost": "off",
+   "map": [
+    ">ar",
+    "##a",
+    "##G"
+   ],
+   "solution": {
+    "main": "CRC",
+    "p1": "FPF"
+   },
+   "D": 15.5
+  },
+  {
+   "kind": "grid",
+   "id": "C8-5",
+   "brief": "救援程序有两个 bug。",
+   "ch": 8,
+   "n": 5,
+   "role": "承",
+   "title": "救援程序有两个 bug",
+   "teach": "括号里一张转向卡不对，次数也不对（复习修 bug）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 8,
+   "expectMin": 7,
+   "ghost": "off",
+   "review": [
+    "C4"
+   ],
+   "map": [
+    "v###",
+    ".##G",
+    ".##.",
+    "...r"
+   ],
+   "buggy": "3(FFFR)FF",
+   "fix": "2(FFFL)FF",
+   "bugs": 2,
+   "bugKinds": [
+    "turn",
+    "count"
+   ],
+   "solution": {
+    "main": "2(FFFL)FF"
+   },
+   "D": 21.1
+  },
+  {
+   "kind": "rules",
+   "id": "C8-6",
+   "brief": "自动驾驶去救车。",
+   "ch": 8,
+   "n": 6,
+   "role": "转",
+   "title": "自动驾驶救援",
+   "teach": "用规则卡同时救两边的车（复习规则卡）",
+   "conds": [
+    "B",
+    "Y",
+    "W"
+   ],
+   "ruleSlots": 2,
+   "expectRules": 2,
+   "needW": true,
+   "review": [
+    "C7"
+   ],
+   "maps": [
+    {
+     "map": [
+      ">.r.#",
+      "##.B.",
+      "##..G"
+     ]
+    },
+    {
+     "map": [
+      "..B.G",
+      "r###.",
+      "^###."
+     ]
+    }
+   ],
+   "solution": {
+    "B": "L",
+    "W": "R"
+   }
+  },
+  {
+   "kind": "grid",
+   "id": "C8-7",
+   "brief": "大救援！本领都用上。",
+   "ch": 8,
+   "n": 7,
+   "role": "合",
+   "title": "大救援",
+   "teach": "车库 + 魔法卡 + 采样 + 挂车一起用；重复卡也在卡盒里，用不用自己判断",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "X",
+    "C"
+   ],
+   "slots": 8,
+   "p1Slots": 3,
+   "expectMin": 10,
+   "needCall": true,
+   "ghost": "off",
+   "garage": {
+    "open": [
+     "panel",
+     "mast"
+    ]
+   },
+   "map": [
+    ">dna.",
+    "Ga.ar",
+    "ooooo"
+   ],
+   "loadout": {
+    "wheels": "S",
+    "panel": "S",
+    "mast": "T"
+   },
+   "solution": {
+    "main": "CCRFRCC",
+    "p1": "FPF"
+   },
+   "D": 28.1
+  },
+  {
+   "kind": "grid",
+   "id": "C8-8",
+   "brief": "带大家回基地。",
+   "ch": 8,
+   "n": 8,
+   "role": "喘息",
+   "title": "车队回家",
+   "teach": "轻松一关：带着大家回基地",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 9,
+   "expectMin": 8,
+   "ghost": "off",
+   "map": [
+    ">....",
+    "####r",
+    "G.*.."
+   ],
+   "solution": {
+    "main": "FF2(FFR)4(F)"
+   },
+   "minCrystal": 8,
+   "D": 18.6
   }
  ]
 }

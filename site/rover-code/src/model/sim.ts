@@ -18,6 +18,7 @@ export interface Config { wheels: 'S' | 'L'; panel: 'S' | 'L'; mast: 'S' | 'T' }
 export const DEFAULT_CONFIG: Config = { wheels: 'S', panel: 'S', mast: 'S' };
 
 export interface LevelData {
+  kind?: 'grid';
   id: string; brief: string; ch: number; n: number; role: string; title: string; teach: string;
   cards: CardKey[]; slots: number; expectMin: number; minCrystal?: number | null;
   p1Slots?: number; needCall?: boolean | 'strict'; buggyP1?: string; fixP1?: string;
@@ -30,7 +31,7 @@ export interface LevelData {
   solution: { main: string; p1?: string };
 }
 
-export interface Cell { ch: string; h: number; block: boolean; narrow: boolean; over: boolean; req: number; crystal: boolean; goal: boolean }
+export interface Cell { ch: string; h: number; block: boolean; narrow: boolean; over: boolean; req: number; crystal: boolean; goal: boolean; color: 'B' | 'Y' | null }
 export interface Level extends LevelData {
   W: number; H: number; cells: Cell[];
   start: { x: number; y: number; d: number }; goal: { x: number; y: number };
@@ -55,11 +56,11 @@ export function parseLevel(L: LevelData): Level {
     for (let x = 0; x < W; x++) {
       const ch = L.map[y][x];
       if (!VALID.includes(ch)) throw new Error(`${L.id}: bad map symbol ${ch}`);
-      const c: Cell = { ch, h: L.height ? Number(L.height[y][x]) : 0, block: ch === '#' || ch === 'o', narrow: ch === 'n', over: ch === 'u', req: -1, crystal: ch === '*', goal: ch === 'G' };
+      const c: Cell = { ch, h: L.height ? Number(L.height[y][x]) : 0, block: ch === '#' || ch === 'o', narrow: ch === 'n', over: ch === 'u', req: -1, crystal: ch === '*', goal: ch === 'G', color: ch === 'B' || ch === 'Y' ? ch : null };
       if (ch in START) { if (start) throw new Error(`${L.id}: two starts`); start = { x, y, d: START[ch] }; }
       if (ch === 'G') { if (goal) throw new Error(`${L.id}: two goals`); goal = { x, y }; }
       if (ch === '*') hasCrystal = true;
-      if (ch === 'a' || ch === 'd') { c.req = req.length; req.push({ x, y, kind: ch }); }
+      if (ch === 'a' || ch === 'd' || ch === 'r') { c.req = req.length; req.push({ x, y, kind: ch }); }   // a stranded rover (r) is picked up by driving onto it
       cells.push(c);
     }
   }
@@ -80,7 +81,7 @@ export function act(lv: Level, cfg: Config, s: State, a: Card): { s: State; err?
   if (a === 'R') return { s: { ...s, d: (s.d + 1) & 3 } };
   if (a === 'P') {
     const c = cellAt(lv, s.x, s.y);
-    if (c.req < 0 || (s.m >> c.req) & 1) return { s, err: 'nosample' };
+    if (c.req < 0 || c.ch === 'r' || (s.m >> c.req) & 1) return { s, err: 'nosample' };
     if (c.ch === 'd' && cfg.mast !== 'T') return { s, err: 'dark' };
     return { s: { ...s, m: s.m | (1 << c.req) } };
   }
@@ -94,7 +95,7 @@ export function act(lv: Level, cfg: Config, s: State, a: Card): { s: State; err?
   if (Math.abs(c.h - cur.h) > climbOf(cfg)) return { s: turned, err: 'step' };
   if (c.narrow && cfg.panel === 'L') return { s: turned, err: 'narrow' };
   if (c.over && cfg.mast === 'T') return { s: turned, err: 'overhang' };
-  return { s: { x: nx, y: ny, d, m: s.m, c: c.crystal ? 1 : s.c } };
+  return { s: { x: nx, y: ny, d, m: c.ch === 'r' ? s.m | (1 << c.req) : s.m, c: c.crystal ? 1 : s.c } };
 }
 
 /** `path` says where in the programme the card sits: [item] for a plain card, [block item, place in the body] inside a block */
@@ -167,3 +168,73 @@ export const editCount = (a: readonly Item[], b: readonly Item[], aP1: readonly 
 
 /** metres still to go, for the "还差 N 米" line when the program ran out before the goal */
 export const metresLeft = (lv: Level, s: State): number => Math.abs(lv.goal.x - s.x) + Math.abs(lv.goal.y - s.y);
+
+// ───────────────────────────────────────────────────────── chapter 7: rule cards and the autopilot
+export type Cond = 'B' | 'Y' | 'A' | 'W';          // on a blue tile · on a yellow tile · on a sample not yet taken · the way ahead is blocked
+export type Rules = Partial<Record<Cond, 'L' | 'R' | 'P'>>;
+export interface RuleLevelData {
+  kind: 'rules'; id: string; brief: string; ch: number; n: number; role: string; title: string; teach: string;
+  conds: Cond[]; ruleSlots: number; expectRules: number; needW?: boolean; review?: string[];
+  maps: { map: string[] }[]; solution: Rules;
+}
+/** a level with two maps and one set of rules for both */
+export interface RuleLevel extends Omit<RuleLevelData, 'maps'> { maps: Level[] }
+export type AnyLevel = Level | RuleLevel;
+
+export function parseRuleLevel(d: RuleLevelData): RuleLevel {
+  const maps = d.maps.map((m, i) => parseLevel({ id: `${d.id}-${'AB'[i]}`, brief: d.brief, ch: d.ch, n: d.n, role: d.role, title: d.title, teach: d.teach, cards: [], slots: 0, expectMin: 0, map: m.map, solution: { main: '' } }));
+  return { ...d, maps };
+}
+
+export type AutoRes = 'win' | 'crash' | 'stuck' | 'loop' | 'cap';
+export interface AutoStep { card: Card; s: State; err?: Err }
+export interface AutoResult { res: AutoRes; s: State; steps: AutoStep[]; err?: Err }
+const blockedAhead = (lv: Level, cfg: Config, s: State): boolean => !!act(lv, cfg, s, 'F').err;
+
+/**
+ * "一直走，到终点就停": on arriving on a tile (and once on the start tile) a colour rule fires if the tile has that colour, else the
+ * sample rule if the tile holds a sample not yet taken; then, with the wall rule, the rover turns up to three times while the way ahead is
+ * blocked; then it drives one tile. Reaching the goal with everything collected ends the run.
+ */
+export function autopilot(lv: Level, cfg: Config, rules: Rules, cap = 60): AutoResult {
+  let s = startState(lv);
+  const steps: AutoStep[] = [];
+  const seen = new Set<string>();
+  let fresh = true;
+  for (let t = 0; t < cap; t++) {
+    const k = `${s.x},${s.y},${s.d},${s.m},${s.c},${fresh ? 1 : 0}`;
+    if (seen.has(k)) return { res: 'loop', s, steps };
+    seen.add(k);
+    const c = cellAt(lv, s.x, s.y);
+    if (fresh) {
+      fresh = false;
+      let a: 'L' | 'R' | 'P' | null = null;
+      if (c.color && rules[c.color]) a = rules[c.color]!;
+      else if (c.req >= 0 && c.ch !== 'r' && !((s.m >> c.req) & 1) && rules.A) a = rules.A;
+      if (a) {
+        const r = act(lv, cfg, s, a);
+        steps.push({ card: a, s: r.s, err: r.err });
+        if (r.err) return { res: 'crash', err: r.err, s: r.s, steps };
+        s = r.s;
+        if (atGoal(lv, s)) return { res: 'win', s, steps };
+      }
+    }
+    if (rules.W) {
+      let turns = 0;
+      while (blockedAhead(lv, cfg, s) && turns < 3) { const r = act(lv, cfg, s, rules.W); s = r.s; steps.push({ card: rules.W, s }); turns++; }
+      if (blockedAhead(lv, cfg, s)) return { res: 'stuck', s, steps };
+    }
+    const r = act(lv, cfg, s, 'F');
+    steps.push({ card: 'F', s: r.s, err: r.err });
+    if (r.err) return { res: 'crash', err: r.err, s: r.s, steps };
+    s = r.s; fresh = true;
+    if (atGoal(lv, s)) return { res: 'win', s, steps };
+  }
+  return { res: 'cap', s, steps };
+}
+
+/** stars for a rule level: 1 for getting both rovers home, 3 with no pulsing hint and no more rules than the fewest, else 2 */
+export function ruleStars(rl: RuleLevel, rules: Rules, hinted: boolean): 1 | 2 | 3 {
+  if (hinted) return 1;
+  return Object.keys(rules).length <= rl.expectRules ? 3 : 2;
+}

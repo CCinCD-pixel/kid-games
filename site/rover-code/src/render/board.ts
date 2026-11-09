@@ -77,10 +77,21 @@ export class Board {
         break;
       }
       case '*': if (!f.crystal) this.crystal(cx, cy, t, f.now); break;
+      case 'B': case 'Y': ctx.fillStyle = c.ch === 'B' ? 'rgba(70,120,220,0.85)' : 'rgba(245,200,50,0.9)'; ctx.beginPath(); ctx.roundRect(px + t * 0.14, py + t * 0.14, t * 0.72, t * 0.72, t * 0.12); ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 2; ctx.stroke(); break;
+      case 'r': if (!((f.taken >> c.req) & 1)) this.stranded(cx, cy, t, f.now); break;
       case 'n': this.boulder(px + t * 0.17, cy, t * 0.2); this.boulder(px + t * 0.83, cy, t * 0.2); break;
       case 'u': ctx.fillStyle = C.rock; ctx.beginPath(); ctx.moveTo(px + t * 0.1, py + t * 0.9); ctx.lineTo(px + t * 0.1, cy); ctx.quadraticCurveTo(cx, py - t * 0.05, px + t * 0.9, cy); ctx.lineTo(px + t * 0.9, py + t * 0.9); ctx.lineTo(px + t * 0.72, py + t * 0.9); ctx.lineTo(px + t * 0.72, cy + t * 0.05); ctx.quadraticCurveTo(cx, py + t * 0.25, px + t * 0.28, cy + t * 0.05); ctx.lineTo(px + t * 0.28, py + t * 0.9); ctx.closePath(); ctx.fill(); break;
       default: break;
     }
+  }
+
+  /** a stranded rover waiting to be picked up: a small grey rover with a blinking red light */
+  private stranded(cx: number, cy: number, t: number, now: number): void {
+    const { ctx } = this; const u = t * 0.3;
+    ctx.fillStyle = C.wheel; for (const sx of [-1, 1]) for (const wy of [-0.5, 0.5]) { ctx.beginPath(); ctx.arc(cx + sx * u * 0.95, cy + wy * u, u * 0.28, 0, 7); ctx.fill(); }
+    ctx.fillStyle = '#9d9a94'; ctx.strokeStyle = '#6b6862'; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(cx - u * 0.7, cy - u * 0.9, u * 1.4, u * 1.8, u * 0.2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#6b86b0'; ctx.fillRect(cx - u * 0.45, cy - u * 0.4, u * 0.9, u * 0.6);
+    ctx.fillStyle = Math.sin(now / 260) > 0 ? '#ff5d5d' : '#7a3333'; ctx.beginPath(); ctx.arc(cx, cy - u * 1.05, u * 0.16, 0, 7); ctx.fill();
   }
 
   private boulder(cx: number, cy: number, r: number): void {
@@ -130,6 +141,12 @@ export class Board {
     const cx = ox + (r.x + 0.5) * t, cy = oy + (r.y + 0.5) * t - r.lift * LIFT * t;
     ctx.save(); ctx.translate(cx, cy); ctx.rotate((r.ang * Math.PI) / 180);
     const u = t * 0.46; // half length of the body
+    const towed = f.lv.req.filter((q, i) => q.kind === 'r' && ((f.taken >> i) & 1)).length;
+    for (let k = 1; k <= towed; k++) {                                       // each rescued rover hangs on a rope behind
+      const by = u * (0.9 + 1.25 * k);
+      ctx.strokeStyle = '#6b6862'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, u * (k === 1 ? 0.7 : by / u - 1.55)); ctx.lineTo(0, by - u * 0.55); ctx.stroke();
+      ctx.fillStyle = '#9d9a94'; ctx.strokeStyle = '#6b6862'; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(-u * 0.38, by - u * 0.55, u * 0.76, u * 1.0, u * 0.14); ctx.fill(); ctx.stroke();
+    }
     ctx.fillStyle = 'rgba(40,36,30,0.16)'; ctx.beginPath(); ctx.ellipse(0, u * 0.12, u * 0.95, u * 0.9, 0, 0, 7); ctx.fill();
     const wr = cfg.wheels === 'L' ? u * 0.34 : u * 0.22, wx = u * 0.62;
     ctx.fillStyle = C.wheel;

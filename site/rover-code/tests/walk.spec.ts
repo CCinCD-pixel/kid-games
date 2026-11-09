@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { expect, test, type Page } from '@playwright/test';
 
 const KEY = 'kg:v1:rover-code';
-type L = { id: string; ch: number; n: number; solution: { main: string; p1?: string }; fixP1?: string; p1Slots?: number; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string> };
+type L = { id: string; kind?: string; ch: number; n: number; solution: Record<string, string>; fixP1?: string; p1Slots?: number; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string> };
 const LEVELS: L[] = JSON.parse(fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../content/rover-code/levels.json'), 'utf8')).levels;
 
 const card = (page: Page, c: string) => page.locator(`.rc-card[data-card="${c}"]`);
@@ -65,7 +65,9 @@ test('every level can be solved through the real buttons', async ({ page }, info
     for (const [part, val] of Object.entries(lv.loadout ?? {})) {
       if (lv.garage?.open.includes(part)) await page.locator(`.rc-part[data-part="${part}"] .rc-opt[data-val="${val}"]`).click();
     }
-    if (lv.buggy) { await takeApart(page); await lay(page, lv.fix!); await layP1(page, lv.fixP1 ?? ''); } else { await lay(page, lv.solution.main); await layP1(page, lv.solution.p1 ?? ''); }
+    if (lv.kind === 'rules') {
+      for (const [cond, act] of Object.entries(lv.solution)) { await page.locator(`.rc-cond[data-cond="${cond}"]`).click(); await page.locator(`.rc-act[data-act="${act}"]`).click(); }
+    } else if (lv.buggy) { await takeApart(page); await lay(page, lv.fix!); await layP1(page, lv.fixP1 ?? ''); } else { await lay(page, lv.solution.main); await layP1(page, lv.solution.p1 ?? ''); }
     await page.locator('.rc-send').click();
     await expect(page.getByRole('button', { name: /下一关|回地图/ }).first(), lv.id).toBeVisible({ timeout: 60_000 });
     const stars = (await page.evaluate((k) => JSON.parse(localStorage.getItem(k) ?? 'null')?.data, KEY)).levels[lv.id]?.stars;

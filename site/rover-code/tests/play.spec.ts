@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { expect, test, type Page } from '@playwright/test';
 
 const KEY = 'kg:v1:rover-code';
-type L = { id: string; fixP1?: string; ch: number; n: number; solution: { main: string; p1?: string }; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string>; slots: number; expectMin: number };
+type L = { id: string; kind?: string; fixP1?: string; ch: number; n: number; solution: Record<string, string>; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string>; slots: number; expectMin: number };
 const LEVELS: L[] = JSON.parse(fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../content/rover-code/levels.json'), 'utf8')).levels;
 const lv = (id: string): L => LEVELS.find((l) => l.id === id)!;
 
@@ -234,6 +234,43 @@ test.describe('玉兔编程', () => {
     await page.locator('.rc-send').click();
     await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 40000 });
     expect((await saved(page)).levels['C6-5'].stars).toBe(3);
+  });
+
+  test('C7-1 (rule card): "如果蓝格就右转" takes the rover home on both maps', async ({ page }) => {
+    const errors = await open(page, seed('C7-1', 7));
+    await openLevel(page, 'C7-1');
+    await expect(page.locator('.rc-stagewrap')).toHaveCount(2);
+    await expect(page.locator('.rc-send')).toBeDisabled();
+    await page.locator('.rc-cond[data-cond="B"]').click();
+    await expect(page.locator('.rc-send')).toBeDisabled();             // half a rule is not sent
+    await expect(page.locator('.rc-cond[data-cond="B"]')).toHaveClass(/is-dim/);
+    await page.locator('.rc-act[data-act="R"]').click();
+    await expect(page.locator('.rc-send')).toBeEnabled();
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 30000 });
+    expect((await saved(page)).levels['C7-1'].stars).toBe(3);
+    expect(errors).toEqual([]);
+  });
+
+  test('C7-1: a rule that does not fit both maps says which map and why, and the rule stays', async ({ page }) => {
+    await open(page, seed('C7-1', 7));
+    await openLevel(page, 'C7-1');
+    await page.locator('.rc-cond[data-cond="B"]').click();
+    await page.locator('.rc-act[data-act="L"]').click();              // blue → left is the wrong way
+    await page.locator('.rc-send').click();
+    await expect(page.locator('.rc-brief')).toContainText(/图 [AB]/, { timeout: 15000 });
+    await expect(page.locator('.rc-send')).toBeEnabled({ timeout: 10000 });
+    await expect(page.locator('.rc-rule .rc-slot.is-full')).toHaveCount(2);
+  });
+
+  test('C8-1 (rescue): driving onto the stranded rover picks it up and the tow reaches the base', async ({ page }) => {
+    test.setTimeout(90_000);
+    await open(page, seed('C8-1', 8));
+    await openLevel(page, 'C8-1');
+    await enter(page, lv('C8-1').solution.main);
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: /下一关|回地图/ }).first()).toBeVisible({ timeout: 40000 });
+    expect((await saved(page)).levels['C8-1'].stars).toBeGreaterThanOrEqual(2);
   });
 
   test('the back button goes from a level to the map; the layout never overflows; reload keeps the stars', async ({ page }) => {

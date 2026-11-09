@@ -6,17 +6,18 @@ import { bindPress } from '@kit/ui';
 import { LEVELS, levelById } from './model/levels';
 import { doneCount, store, type RoverSave } from './save';
 import { PlayScreen } from './screens/play';
+import { RulesScreen } from './screens/rules';
 import { frontier, renderMap } from './screens/map';
 import './styles.css';
 
 const root = document.getElementById('app')!;
 const save: RoverSave = store.load();
 if (!save.chapter) save.chapter = 1;
-let play: PlayScreen | null = null;
+let play: PlayScreen | RulesScreen | null = null;
 let redrawMap: (() => void) | null = null;
 
 const metrics = registerMetrics('rover-code', [
-  { id: 'levels', label: '月球车关卡', value: () => ({ value: `${doneCount(save)} / ${LEVELS.length}`, frac: doneCount(save) / LEVELS.length, detail: '已通过的关数（前六章）' }) },
+  { id: 'levels', label: '月球车关卡', value: () => ({ value: `${doneCount(save)} / ${LEVELS.length}`, frac: doneCount(save) / LEVELS.length, detail: '已通过的关数（共八章）' }) },
 ]);
 const persist = () => {
   store.save(save);
@@ -38,12 +39,13 @@ function openLevel(id: string): void {
   if (!lv) return showMap();
   play?.dispose();
   save.chapter = lv.ch;
-  play = new PlayScreen({
+  const host = {
     root,
-    onWin: (l, stars) => { const r = save.levels[l.id] ?? { stars: 0, tries: 0 }; save.levels[l.id] = { stars: Math.max(r.stars, stars), tries: r.tries + 1 }; persist(); shell.session?.mark('level-complete', { level: l.id, stars }); },
+    onWin: (l: { id: string }, stars: 1 | 2 | 3) => { const r = save.levels[l.id] ?? { stars: 0, tries: 0 }; save.levels[l.id] = { stars: Math.max(r.stars, stars), tries: r.tries + 1 }; persist(); shell.session?.mark('level-complete', { level: l.id, stars }); },
     goMap: showMap,
     openLevel,
-  }, lv);
+  };
+  play = lv.kind === 'rules' ? new RulesScreen(host, lv) : new PlayScreen(host, lv);
   redrawMap = null;
 }
 
