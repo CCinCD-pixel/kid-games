@@ -138,7 +138,7 @@ export class ArithmeticApp {
     else this.work();
     this.coach.attach(this.root.querySelector('.ma-bot-host'), this.root.querySelector('.ma-guide-text'));
     try { if (this.view !== 'home' && history.state?.ma !== 'inner') history.pushState({ ma: 'inner' }, ''); } catch { /* ignore */ }
-    if (this.view === 'sprint') this.clockTimer = window.setInterval(() => { const c = this.root.querySelector('.ma-clock'); if (c && this.sprint) c.textContent = clock(this.sprintSeconds()); }, 1000);
+    if (this.view === 'sprint') this.clockTimer = window.setInterval(() => { const c = this.root.querySelector('.ma-clock'); if (c && this.sprint) c.textContent = clock(this.sprintSeconds()); this.movePace(); }, 500);
   }
 
   private stageButton(stage: Stage): string {
@@ -266,7 +266,7 @@ export class ArithmeticApp {
     const secondary = split && !feedback ? '' : canSplit ? `<button class="ma-secondary" type="button" data-action="split">拆一拆</button>` : view === 'place' ? `<button class="ma-secondary" type="button" data-action="skip">这题不会</button>` : view === 'sprint' ? `<button class="ma-secondary" type="button" data-action="sprint-skip">这题不会</button>` : '';
     const hintKey = isRun && !split && !feedback;
     const input = feedback ? banner : typing.kind === 'cmp' ? this.cmpPad(hintKey) : this.keypad(hintKey);
-    const energy = isRun && cur ? energyHtml(this.outcomes, QUESTIONS_PER_STAGE, cur.kind === 'scored' ? run!.index : -1, this.streak, this.burst) : '';
+    const energy = isRun && cur ? energyHtml(this.outcomes, QUESTIONS_PER_STAGE, cur.kind === 'scored' ? run!.index : -1, this.streak, this.burst) : this.paceHtml();
     this.burst = false;
 
     this.root.innerHTML = `<main class="ma-page ma-play ma-mode-${view === 'place' ? 'place' : view.startsWith('sprint') ? 'sprint' : 'run'}${split ? ' is-split' : ''}${retryNote || stepNote ? ' has-note' : ''}" data-kind="${problem.kind}">
@@ -504,6 +504,25 @@ export class ArithmeticApp {
   }
 
   // ------------------------------------------------------------------ 超频
+  /**
+   * 和自己比: a short track with the child's rocket (one step per question) and a shadow rocket that runs at the pace of the best
+   * time on this line. Never a score, never red: the shadow is just a friend to race. Only shown once there is a best time.
+   */
+  private paceHtml(): string {
+    const sp = this.sprint; const best = sp ? this.save.fast[sp.op]?.best : undefined;
+    if (!sp || best === undefined || (this.view !== 'sprint' && this.view !== 'sprintFeedback')) return '';
+    const n = sp.items.length;
+    const me = (sp.i / n) * 100, shadow = Math.min(1, this.sprintSeconds() / best) * 100;
+    return `<div class="ma-pace" role="img" aria-label="和最好成绩 ${best} 秒比一比：第 ${sp.i + 1} 题，影子火箭在 ${Math.round(shadow / 10)} 格"><span class="ma-pace-note">和最好成绩 ${best} 秒比一比</span>`
+      + `<div class="ma-pace-track">${Array.from({ length: n + 1 }, (_, i) => `<i class="${i === n ? 'is-end' : ''}"></i>`).join('')}`
+      + `<span class="ma-pace-shadow" style="left:${shadow}%"></span><span class="ma-pace-me" style="left:${me}%">${glyph('bolt')}</span></div></div>`;
+  }
+  private movePace(): void {
+    const sp = this.sprint; const best = sp ? this.save.fast[sp.op]?.best : undefined;
+    const el = this.root.querySelector<HTMLElement>('.ma-pace-shadow');
+    if (!sp || best === undefined || !el) return;
+    el.style.left = `${Math.min(1, this.sprintSeconds() / best) * 100}%`;
+  }
   private sprintSeconds(): number { return this.sprint ? Math.max(0, Math.round(((this.hiddenAt || now()) - this.sprint.startedAt) / 1000)) : 0; }
   private startSprint(op: TrackOp): void {
     if (!sprintOpen(this.save, op)) { this.speak([line('ma.sprint.locked')], 'encouraging'); return; }

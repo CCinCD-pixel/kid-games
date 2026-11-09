@@ -456,3 +456,15 @@ body[data-xg-game="mars"] .kit-start__go:active { transform: translateY(4px); bo
   .ma-stage { min-height: 92px; }
 }
 @media (max-width: 370px) { .ma-home > .ma-home-bar { width: calc(100% + 24px); margin: 0 -12px 10px; padding: max(10px, env(safe-area-inset-top)) 12px 8px 72px; } }
+
+/* 和自己比 (超频): the child's rocket and a shadow rocket at the pace of the best time */
+.ma-pace { display: grid; gap: 4px; width: min(100%, 620px); }
+.ma-pace-note { color: #b9d6d7; font-size: 13px; }
+.ma-pace-track { position: relative; display: flex; justify-content: space-between; align-items: center; height: 34px; padding: 0 12px; border-radius: 17px; background: #1b3040; border: 2px solid #3f5d70; }
+.ma-pace-track i { width: 3px; height: 10px; border-radius: 2px; background: #4f7083; }
+.ma-pace-track i.is-end { height: 18px; width: 4px; background: #f2d185; }
+.ma-pace-me, .ma-pace-shadow { position: absolute; top: 50%; width: 26px; height: 26px; margin: -13px 0 0 -13px; display: grid; place-items: center; transition: left .5s linear; }
+.ma-pace-me { transition: left .35s ease-out; color: #fff5d6; background: #2a9d8f; border-radius: 50%; box-shadow: 0 0 0 2px #fff5d6; z-index: 2; }
+.ma-pace-me svg { width: 16px; height: 16px; }
+.ma-pace-shadow { background: rgba(242, 209, 133, .5); border: 2px dashed #f2d185; border-radius: 50%; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .ma-pace-me, .ma-pace-shadow { transition: none; } }

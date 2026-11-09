@@ -246,6 +246,7 @@ test('超频: ten questions, a miss is not a best, a clean run sets the best', a
   await page.locator('[data-action="sprint"][data-op="mul"]').click();
   await expect(page.locator('.ma-qno')).toHaveText('第 1 / 10 题');
   await shot(page, info, 'sprint-q1');
+  await expect(page.locator('.ma-pace')).toHaveCount(0);                              // no best time yet: nothing to race
   await answerNow(page, false);                                                       // one miss
   await expect(page.locator('.ma-feedback.wrong')).toBeVisible();
   await shot(page, info, 'sprint-miss');
@@ -265,6 +266,26 @@ test('超频: ten questions, a miss is not a best, a clean run sets the best', a
   await shot(page, info, 'sprint-done-best');
   await page.locator('[data-action="home"]').click();
   await expect(page.locator('.ma-tool-sprint[data-op="mul"]')).toContainText(`最好 ${best} 秒`);
+});
+
+test('超频 with a best time: a shadow rocket runs at that pace beside the child', async ({ page }, info) => {
+  await seed(page, { placed: { mul: 5 }, fast: { mul: { best: 40, last: 40, runs: 1 } } });
+  await boot(page);
+  await page.locator('[data-action="sprint"][data-op="mul"]').click();
+  await expect(page.locator('.ma-pace')).toBeVisible();
+  await expect(page.locator('.ma-pace-note')).toContainText('40 秒');
+  await expect(page.locator('.ma-pace-track i')).toHaveCount(11);
+  const left = (sel: string) => page.locator(sel).evaluate((e) => parseFloat((e as HTMLElement).style.left));
+  expect(await left('.ma-pace-me')).toBe(0);
+  await answerNow(page);
+  await expect(page.locator('.ma-qno')).toHaveText('第 2 / 10 题');
+  expect(await left('.ma-pace-me')).toBeCloseTo(10, 0);
+  await expect.poll(() => left('.ma-pace-shadow'), { timeout: 5000 }).toBeGreaterThan(0);   // the shadow keeps running with the clock
+  await shot(page, info, 'sprint-pace');
+  expect(await bigTargets(page)).toEqual([]);
+  await noOverflow(page);
+  for (let i = 1; i < 10; i++) await answerNow(page);
+  await expect(page.locator('.ma-result h1')).toHaveText('超频完成');
 });
 
 test('refresh resumes the round (also in 拆一拆); back keeps the run; targets stay big on every work screen', async ({ page }, info) => {
