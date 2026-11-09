@@ -169,3 +169,16 @@ body { background: radial-gradient(120% 90% at 50% 0%, var(--xg-night-700), var(
 .rc-ednote { text-align: center; min-height: 24px; margin: 0; font-size: 17px; }
 .rc-editor .rc-actions { justify-content: center; }
 @media (max-height: 640px) { .rc-edgrid { width: min(100%, 520px, calc((100dvh - 230px) * 5 / 4)); } .rc-edcell { min-height: 40px; font-size: 22px; } .rc-mine, .rc-editor { gap: 6px; } }
+
+/* 月面巡逻 */
+.rc-patrol { display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
+.rc-patrol-body { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.rc-daily, .rc-tier { display: flex; flex-direction: column; gap: 2px; min-height: 76px; padding: 8px 22px; }
+.rc-daily small, .rc-tier small { font-size: 14px; opacity: .8; font-weight: 400; }
+.rc-tiers { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.rc-tier { min-width: 170px; }
+
+@media (max-width: 560px) { .rc-maphead p { display: none; } .rc-tab, .rc-minebtn { min-height: 44px; padding: 0 12px; } .rc-tabs { gap: 6px; } .rc-maphead { min-height: 44px; } }
+
+.rc-tabrow { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+@media (max-width: 560px) { .rc-tab { min-width: 40px; padding: 0 8px; } .rc-tabs { gap: 4px; flex-wrap: nowrap; } }

@@ -10,6 +10,9 @@ import { Board, type Frame } from '../render/board';
 export interface PlayHost {
   root: HTMLElement;
   onWin(lv: { id: string }, stars: 1 | 2 | 3): void;
+  /** what "next" means here (the patrol makes a fresh level); default: the next level of the game */
+  next?(lv: { id: string }): { id: string } | undefined;
+  nextLabel?: string;
   goMap(): void;
   openLevel(id: string): void;
 }
@@ -361,11 +364,11 @@ export class PlayScreen {
       const praise = this.hinted ? '到啦！下一次试试不用提示。'
         : lv.buggy ? (stars === 3 ? '只改了该改的地方，真细心！' : '修好了！下次试试少改几张。')
           : stars === 3 ? '一张多余的卡都没有，真利落！' : stars === 2 ? '到啦！再少用一张卡就是三颗星。' : '到啦！想试试用更少的卡吗？';
-      const nxt = nextLevel(lv.id);
+      const nxt = this.host.next ? this.host.next(lv) : nextLevel(lv.id);
       const id = await showResult({
         ribbon: `${lv.id} 完成`, title: lv.title, text: praise, stars, accentGame: 'rabbit',
         stats: [{ label: lv.buggy ? '改动' : '用了卡', value: lv.buggy ? `${editCount(parseProg(lv.buggy), prog, [...(lv.buggyP1 ?? '')] as Card[], p1)} 处` : `${cost(prog, p1)} 张` }],
-        actions: [...(nxt ? [{ id: 'next', label: '下一关', kind: 'primary' as const }] : []), { id: 'again', label: '再来一次' }, { id: 'map', label: '回地图' }],
+        actions: [...(nxt ? [{ id: 'next', label: this.host.nextLabel ?? '下一关', kind: 'primary' as const }] : []), { id: 'again', label: '再来一次' }, { id: 'map', label: '回地图' }],
       });
       if (this.dead) return;
       if (id === 'next' && nxt) this.host.openLevel(nxt.id);

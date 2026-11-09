@@ -306,6 +306,34 @@ test.describe('玉兔编程', () => {
     expect(errors).toEqual([]);
   });
 
+  test('月面巡逻: a fresh level each time, solved with the helper pointing out the cards; "再来一张" makes the next one', async ({ page }) => {
+    test.setTimeout(120_000);
+    const errors = await open(page, seed('C2-1', 2));                       // chapter 1 done opens the patrol
+    await page.getByRole('button', { name: '月面巡逻' }).click();
+    await page.locator('.rc-tier[data-tier="1"]').click();
+    await page.waitForSelector('.rc-play');
+    const solveWithHelper = async () => {
+      await page.locator('.rc-hint').click();                              // the first press says what to do, the second points at a card
+      for (let i = 0; i < 20; i++) {
+        await page.locator('.rc-hint').click();
+        const pulse = page.locator('.rc-tray .rc-card.is-pulse');
+        if (!(await pulse.count())) break;
+        await pulse.first().click();
+      }
+      await page.locator('.rc-send').click();
+      await expect(page.getByRole('button', { name: '再来一张' })).toBeVisible({ timeout: 40000 });
+    };
+    await solveWithHelper();
+    expect((await saved(page)).patrol.count).toBe(1);
+    await page.getByRole('button', { name: '再来一张' }).click();
+    await page.waitForSelector('.rc-play');
+    await expect(page.locator('.rc-slot.is-full')).toHaveCount(0);           // a new, empty programme
+    await page.locator('.kit-back').click();
+    await expect(page.locator('.rc-patrol')).toBeVisible();
+    await expect(page.locator('.rc-progress')).toContainText('已巡逻 1 次');
+    expect(errors).toEqual([]);
+  });
+
   test('the back button goes from a level to the map; the layout never overflows; reload keeps the stars', async ({ page }) => {
     await open(page, seed('C1-3'));
     await openLevel(page, 'C1-3');

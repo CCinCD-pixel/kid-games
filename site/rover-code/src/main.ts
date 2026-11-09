@@ -9,6 +9,8 @@ import { PlayScreen } from './screens/play';
 import { RulesScreen } from './screens/rules';
 import { frontier, renderMap } from './screens/map';
 import { customLevel, renderEditor, renderMine } from './screens/mine';
+import { renderPatrol } from './screens/patrol';
+import { dailySeed, generatePatrol, type Tier } from './model/patrol';
 import './styles.css';
 
 const root = document.getElementById('app')!;
@@ -16,7 +18,7 @@ const save: RoverSave = store.load();
 if (!save.chapter) save.chapter = 1;
 let play: PlayScreen | RulesScreen | null = null;
 let redrawMap: (() => void) | null = null;
-type View = 'map' | 'mine' | 'edit' | 'play' | 'custom';
+type View = 'map' | 'mine' | 'edit' | 'play' | 'custom' | 'patrol' | 'patrolPlay';
 let view: View = 'map';
 
 const metrics = registerMetrics('rover-code', [
@@ -36,7 +38,32 @@ function showMap(): void {
     pick: (id) => openLevel(id),
     pickChapter: (ch) => { save.chapter = ch; persist(); showMap(); },
     mine: showMine,
+    patrol: showPatrol,
   });
+}
+/** 月面巡逻: made-on-the-spot levels */
+function showPatrol(): void {
+  play?.dispose(); play = null; view = 'patrol'; redrawMap = null;
+  renderPatrol({ root, save, back: showMap, start: (tier, seed) => drivePatrol(tier, seed) });
+}
+function drivePatrol(tier: Tier, seed: string): void {
+  play?.dispose(); view = 'patrolPlay'; redrawMap = null;
+  const lv = generatePatrol(seed, tier);
+  const fresh = () => ({ id: `patrol-${tier}-${Date.now()}-${Math.floor(Math.random() * 1e6)}` });
+  let nextSeed = '';
+  const host = {
+    root,
+    onWin: (_l: { id: string }, stars: 1 | 2 | 3) => {
+      const rec = (save.patrol ??= { count: 0, best3: 0 });
+      rec.count += 1; if (stars === 3) rec.best3 += 1; if (seed === dailySeed()) rec.daily = seed;
+      persist(); shell.session?.mark('patrol-complete', { tier, stars });
+    },
+    next: () => { nextSeed = `${Date.now()}-${Math.floor(Math.random() * 1e6)}`; return fresh(); },
+    nextLabel: '再来一张',
+    goMap: showPatrol,
+    openLevel: (id: string) => { if (id === lv.id) drivePatrol(tier, seed); else drivePatrol(tier, nextSeed || `${Date.now()}`); },
+  };
+  play = new PlayScreen(host, lv);
 }
 /** 我的地图: the maps I drew, solved by me, for dad to play */
 function showMine(): void {
@@ -80,7 +107,7 @@ function openLevel(id: string): void {
 const shell = initShell({
   game: 'rover-code',
   startGate: { title: '玉兔编程', subtitle: '给月球车排指令卡', buttonLabel: '进入飞控中心' },
-  back: { onClick: () => { if (view === 'custom' || view === 'edit') { showMine(); return true; } if (view === 'play' || view === 'mine') { showMap(); return true; } return false; } },
+  back: { onClick: () => { if (view === 'custom' || view === 'edit') { showMine(); return true; } if (view === 'patrolPlay') { showPatrol(); return true; } if (view === 'play' || view === 'mine' || view === 'patrol') { showMap(); return true; } return false; } },
   onLayout: () => { play?.resize(); redrawMap?.(); },
 });
 bindPress(document);
