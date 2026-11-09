@@ -1,17 +1,23 @@
 /**
  * 玉兔编程 model (the pure part): parse a level, run one card, run a whole program, count edits. A port of the spec's reference
- * model (specs/rover-code, core.mjs) restricted to the flat programs of chapters 1–4: no repeat card, no magic card.
+ * model (specs/rover-code, core.mjs) for chapters 1–5: single cards and the repeat block (no magic card yet).
  * Coordinates: x → east, y → south (row 0 is the top of the screen). A program succeeds only when it ENDS on the goal with
  * every required sample taken ("停在终点才算到"): passing over the goal on the way does not count.
  */
 export type Card = 'N' | 'E' | 'S' | 'W' | 'F' | 'L' | 'R' | 'P';
+/** what the card box can hold: the cards, and the repeat card X (which opens a block) */
+export type CardKey = Card | 'X';
+/** a repeat block: `n` times the body; the body holds up to four plain cards and no block (no nesting) */
+export interface Block { k: 'X'; n: number; body: Card[] }
+export type Item = Card | Block;
+export const MAX_BODY = 4;
 export type Part = 'wheels' | 'panel' | 'mast';
 export interface Config { wheels: 'S' | 'L'; panel: 'S' | 'L'; mast: 'S' | 'T' }
 export const DEFAULT_CONFIG: Config = { wheels: 'S', panel: 'S', mast: 'S' };
 
 export interface LevelData {
   id: string; brief: string; ch: number; n: number; role: string; title: string; teach: string;
-  cards: Card[]; slots: number; expectMin: number; minCrystal?: number | null;
+  cards: CardKey[]; slots: number; expectMin: number; minCrystal?: number | null;
   map: string[]; height?: string[];
   garage?: { open: Part[] }; loadout?: Config;
   fog?: { brief: [Card, number][] };
@@ -88,23 +94,53 @@ export function act(lv: Level, cfg: Config, s: State, a: Card): { s: State; err?
   return { s: { x: nx, y: ny, d, m: s.m, c: c.crystal ? 1 : s.c } };
 }
 
-export interface Step { card: Card; index: number; s: State; err?: Err }
-export interface RunResult { res: 'win' | 'crash' | 'end'; s: State; steps: Step[]; err?: Err; at?: number; crystal: boolean }
+/** `path` says where in the programme the card sits: [item] for a plain card, [block item, place in the body] inside a block */
+export interface Step { card: Card; path: [number, number?]; s: State; err?: Err }
+export interface RunResult { res: 'win' | 'crash' | 'end'; s: State; steps: Step[]; err?: Err; at?: Step['path']; crystal: boolean }
+
+/** the plain cards a programme boils down to, in the order the rover does them, each with where it came from */
+export function flatten(prog: readonly Item[]): { card: Card; path: Step['path'] }[] {
+  const out: { card: Card; path: Step['path'] }[] = [];
+  prog.forEach((it, i) => {
+    if (typeof it === 'string') out.push({ card: it, path: [i] });
+    else for (let k = 0; k < it.n; k++) it.body.forEach((c, j) => out.push({ card: c, path: [i, j] }));
+  });
+  return out;
+}
+/** what a programme costs in rail slots: a card 1, a repeat block 1 plus the cards in it */
+export const cost = (prog: readonly Item[]): number => prog.reduce((a, it) => a + (typeof it === 'string' ? 1 : 1 + it.body.length), 0);
 
 /** run a whole program; stops at the first card the rover cannot do */
-export function run(lv: Level, cfg: Config, prog: readonly Card[]): RunResult {
+export function run(lv: Level, cfg: Config, prog: readonly Item[]): RunResult {
   let s = startState(lv);
   const steps: Step[] = [];
-  for (let i = 0; i < prog.length; i++) {
-    const r = act(lv, cfg, s, prog[i]);
-    steps.push({ card: prog[i], index: i, s: r.s, err: r.err });
+  for (const { card, path } of flatten(prog)) {
+    const r = act(lv, cfg, s, card);
+    steps.push({ card, path, s: r.s, err: r.err });
     s = r.s;
-    if (r.err) return { res: 'crash', err: r.err, at: i, s, steps, crystal: s.c === 1 };
+    if (r.err) return { res: 'crash', err: r.err, at: path, s, steps, crystal: s.c === 1 };
   }
   return { res: atGoal(lv, s) ? 'win' : 'end', s, steps, crystal: s.c === 1 };
 }
 
-export const parseProg = (str: string): Card[] => [...str.replace(/\s/g, '')] as Card[];
+/** text form: "FF3(FR)F" — a digit 2-5 opens a block, a closing bracket ends it */
+export function parseProg(str: string): Item[] {
+  const out: Item[] = [];
+  const t = str.replace(/\s/g, '');
+  for (let i = 0; i < t.length; i++) {
+    const ch = t[i];
+    if (/[2-5]/.test(ch)) {
+      if (t[i + 1] !== '(') throw new Error(`expected ( in ${str}`);
+      const end = t.indexOf(')', i);
+      if (end < 0) throw new Error(`missing ) in ${str}`);
+      out.push({ k: 'X', n: Number(ch), body: [...t.slice(i + 2, end)] as Card[] });
+      i = end;
+    } else out.push(ch as Card);
+  }
+  return out;
+}
+export const progStr = (prog: readonly Item[]): string => prog.map((it) => (typeof it === 'string' ? it : `${it.n}(${it.body.join('')})`)).join('');
+const tokens = (prog: readonly Item[]): string[] => prog.flatMap((it) => (typeof it === 'string' ? [it] : [`X${it.n}`, ...it.body, ')']));
 
 /** optimal-string-alignment distance: insert, delete, replace, swap two neighbours each cost 1 */
 export function osa<T>(a: readonly T[], b: readonly T[]): number {
@@ -116,7 +152,7 @@ export function osa<T>(a: readonly T[], b: readonly T[]): number {
   }
   return d[a.length][b.length];
 }
-export const editCount = (a: readonly Card[], b: readonly Card[]): number => osa(a, b);
+export const editCount = (a: readonly Item[], b: readonly Item[]): number => osa(tokens(a), tokens(b));
 
 /** metres still to go, for the "还差 N 米" line when the program ran out before the goal */
 export const metresLeft = (lv: Level, s: State): number => Math.abs(lv.goal.x - s.x) + Math.abs(lv.goal.y - s.y);

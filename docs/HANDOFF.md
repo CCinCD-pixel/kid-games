@@ -1,5 +1,13 @@
 # kid-games 交接文档（HANDOFF）
 
+> **2026-11-09 最新状态（以这一块为准，下面的旧内容是历史快照）**
+> - 大厅上线 9 款：棋手学院（chess）、星晶消消乐（emoji-match）、机关守城（gear-fort）、火星基地（mars-base）、星图记忆站（memory-matrix）、陆战棋（military-chess）、贪吃蛇大作战（snake-battle）、星港搬运工（sokoban）、楚河棋院（xiangqi）；见 `site/*/game.json` 的 `status`。
+> - 隐藏（URL 可开、大厅不显示）：**拼音电台**（爸爸耳检后觉得合成声音不行，2026-11-07 起暂停迭代）、**玉兔编程**（2026-11-09 做出前四章 32 关，2D，无配音，等爸爸试玩后再决定上架）、山海故事匣 / 月宫建造师 / 天宫实验室（**只是“建造中”占位页，还没开始做**；`hidden` 不等于已做好）。
+> - 旧“基地任务”代码已于 2026-11-09 删除；家长页还在读旧存档（`site/mars-base/src/save/schema.ts`、`pets/unlock.ts`、`app/starPet*.ts` 及依赖）。
+> - 推送规则：Netlify 额度紧，一批改动只推一次；推送前 `npm run check`、`npm run build`、`tests/smoke` 要全绿；推送需要爸爸明确说“推”。
+> - 待办在 `docs/TODO.md`；爸爸要求测试静音、无头、不弹浏览器窗口（见 memory）。
+
+
 > **未完成事项和爸爸的备忘清单：见 [docs/TODO.md](TODO.md)（每次收尾前更新）。**
 
 

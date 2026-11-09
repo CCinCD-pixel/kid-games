@@ -40,8 +40,17 @@ async function openLevel(page: Page, id: string): Promise<void> {
   await page.waitForSelector('.rc-play');
 }
 const card = (page: Page, c: string) => page.locator(`.rc-card[data-card="${c}"]`);
+/** lay a programme the way a child does: "F3(FPF)" = a card, then the repeat card, three taps on its number, cards into the bracket, 收好 */
 async function enter(page: Page, prog: string): Promise<void> {
-  for (const c of prog) await card(page, c).click();
+  for (let i = 0; i < prog.length; i++) {
+    const c = prog[i];
+    if (/[2-5]/.test(c)) {
+      await card(page, 'X').click();
+      for (let k = 2; k < Number(c); k++) await page.locator('.rc-block.is-open .rc-bh').click();
+      i++; // the opening bracket
+    } else if (c === ')') await page.locator('.rc-bclose').click();
+    else await card(page, c).click();
+  }
 }
 const saved = (page: Page) => page.evaluate((k) => JSON.parse(localStorage.getItem(k) ?? 'null')?.data, KEY);
 
@@ -131,6 +140,64 @@ test.describe('玉兔编程', () => {
     await page.getByRole('button', { name: '下一关' }).click();
     await expect(page.locator('.rc-play')).toBeVisible(); // the next level opened straight away
     await expect(page.locator('.rc-title')).toContainText('C3-2').catch(() => {}); // the title is hidden on narrow screens
+  });
+
+  test('C5-1: the repeat card opens a bracket, the number is tapped up to 5, five steps reach the tower', async ({ page }) => {
+    const errors = await open(page, seed('C5-1', 5));
+    await openLevel(page, 'C5-1');
+    await card(page, 'X').click();
+    await expect(page.locator('.rc-block.is-open')).toHaveCount(1);
+    await expect(page.locator('.rc-bh b')).toHaveText('2');
+    await card(page, 'F').click();
+    for (let k = 0; k < 3; k++) await page.locator('.rc-bh').click();
+    await expect(page.locator('.rc-bh b')).toHaveText('5');
+    await page.locator('.rc-bclose').click();
+    await expect(page.locator('.rc-block.is-open')).toHaveCount(0);
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 25000 });
+    expect((await saved(page)).levels['C5-1'].stars).toBe(3);
+    expect(errors).toEqual([]);
+  });
+
+  test('an empty bracket is not sent: the rover stays and the helper says the bracket is empty', async ({ page }) => {
+    await open(page, seed('C5-1', 5));
+    await openLevel(page, 'C5-1');
+    await card(page, 'X').click();
+    await page.locator('.rc-send').click();
+    await expect(page.locator('.rc-brief')).toContainText('括号里还没有卡');
+    await expect(page.locator('.rc-send')).toBeEnabled();
+    await page.locator('.rc-bdel').click(); // the whole block goes with its x
+    await expect(page.locator('.rc-block')).toHaveCount(0);
+  });
+
+  test('C5-6 (fix the count): tapping the number from 4 round to 3 mends the programme with one edit', async ({ page }) => {
+    await open(page, seed('C5-6', 5));
+    await openLevel(page, 'C5-6');
+    await expect(page.locator('.rc-bh b')).toHaveText('4');
+    for (let k = 0; k < 3; k++) await page.locator('.rc-bh').click(); // 4 -> 5 -> 2 -> 3
+    await expect(page.locator('.rc-bh b')).toHaveText('3');
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 30000 });
+    expect((await saved(page)).levels['C5-6'].stars).toBe(3);
+  });
+
+  test('C5-2 (a card, then a block with a sample inside): laid through the real buttons it wins', async ({ page }) => {
+    test.setTimeout(90_000);
+    await open(page, seed('C5-2', 5));
+    await openLevel(page, 'C5-2');
+    await enter(page, lv('C5-2').solution.main);
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 40000 });
+  });
+
+  test('C5-5 (garage + loop): big wheels and a repeat block get up the stairs', async ({ page }) => {
+    test.setTimeout(90_000);
+    await open(page, seed('C5-5', 5));
+    await openLevel(page, 'C5-5');
+    await page.locator('.rc-part[data-part="wheels"] .rc-opt[data-val="L"]').click();
+    await enter(page, lv('C5-5').solution.main);
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 40000 });
   });
 
   test('the back button goes from a level to the map; the layout never overflows; reload keeps the stars', async ({ page }) => {

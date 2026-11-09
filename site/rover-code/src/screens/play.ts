@@ -3,7 +3,7 @@ import { mount, type Companion } from '@kit/companion';
 import { h, icon, showResult } from '@kit/ui';
 import { CARD_NAME, cardSvg } from '../cards';
 import { nextLevel } from '../model/levels';
-import { DEFAULT_CONFIG, cellAt, metresLeft, parseProg, run, slotsOf, startState, type Card, type Config, type Err, type Level, type Part, type RunResult } from '../model/sim';
+import { DEFAULT_CONFIG, MAX_BODY, cellAt, cost, editCount, metresLeft, parseProg, run, slotsOf, startState, type Block, type Card, type CardKey, type Config, type Err, type Item, type Level, type Part, type RunResult, type Step } from '../model/sim';
 import { starsFor } from '../model/stars';
 import { Board, type Frame } from '../render/board';
 
@@ -24,18 +24,29 @@ const WHY: Record<Err, string> = {
   dark: '阴影里看不清，要换高天线才能采到。',
 };
 const DIRWORD: Record<string, string> = { E: '东', N: '北', S: '南', W: '西' };
-const GARAGE: Record<Part, { label: string; opts: [string, string, string][]; note: Record<string, string> }> = {
-  wheels: { label: '轮子', opts: [['S', '小轮', 'wheel-s'], ['L', '大轮', 'wheel-l']], note: { S: '小轮子：只能上 1 级台阶。', L: '大轮子：能上 2 级台阶，但是更重，电量少 2 格。' } },
-  panel: { label: '电池板', opts: [['S', '小板', 'panel-s'], ['L', '大板', 'panel-l']], note: { S: '小电池板：窄缝也能过。', L: '大电池板：电量多 3 格，可是窄缝过不去。' } },
-  mast: { label: '天线', opts: [['S', '矮杆', 'mast-s'], ['T', '高杆', 'mast-t']], note: { S: '矮天线：能过低矮的石拱。', T: '高天线：能看见阴影里的样本，可是过不了石拱。' } },
+const GARAGE: Record<Part, { label: string; opts: [string, string][]; note: Record<string, string> }> = {
+  wheels: { label: '轮子', opts: [['S', '小轮'], ['L', '大轮']], note: { S: '小轮子：只能上 1 级台阶。', L: '大轮子：能上 2 级台阶，但是更重，电量少 2 格。' } },
+  panel: { label: '电池板', opts: [['S', '小板'], ['L', '大板']], note: { S: '小电池板：窄缝也能过。', L: '大电池板：电量多 3 格，可是窄缝过不去。' } },
+  mast: { label: '天线', opts: [['S', '矮天线'], ['T', '高天线']], note: { S: '矮天线：能过低矮的石拱。', T: '高天线：能看见阴影里的样本，可是过不了石拱。' } },
 };
-const MAX_MS = 20; // a frame is drawn at least this often while the screen is up (the lights and the samples breathe)
+const FRAME_MS = 20;
+/** levels where the first card to reach for, and then 发送, are pointed out by a gently breathing button */
+const FIRST_CARD: Record<string, CardKey> = { 'C1-1': 'E', 'C5-1': 'X' };
+const FIRST_SEND = ['C1-1', 'C1-2', 'C5-1'];
+
+const isBlock = (it: Item): it is Block => typeof it !== 'string';
+const sameItem = (a: Item | undefined, b: Item | undefined): boolean =>
+  a === b || (!!a && !!b && isBlock(a) && isBlock(b) && a.n === b.n && a.body.join('') === b.body.join(''));
+/** the text form of the programme so far; a block that is still open has no closing bracket yet */
+const partial = (prog: readonly Item[], open: number): string =>
+  prog.map((it, i) => (isBlock(it) ? `${it.n}(${it.body.join('')}${i === open ? '' : ')'}` : it)).join('');
 
 export class PlayScreen {
   private board: Board;
   private bot: Companion | null = null;
   private cfg: Config = { ...DEFAULT_CONFIG };
-  private prog: Card[] = [];
+  private prog: Item[] = [];
+  private open = -1;               // index of the repeat block that takes the next cards, -1 for none
   private state: 'edit' | 'running' | 'result' = 'edit';
   private hints = 0;
   private hinted = false;
@@ -48,9 +59,9 @@ export class PlayScreen {
   private ghost: Frame['ghost'] = null;
   private marker: Frame['marker'] = null;
   private el!: Record<'brief' | 'note' | 'count' | 'rail' | 'tray' | 'garage' | 'send' | 'clear' | 'hint' | 'bot' | 'canvas', HTMLElement>;
-  private nextPulse: Card | null = null;
-  private hintSlot = -1;
-  private doneSlot = -1;
+  private nextPulse: CardKey | 'close' | null = null;
+  private hintItem = -1;
+  private nowAt: Step['path'] | null = null;
 
   constructor(private host: PlayHost, readonly lv: Level) {
     this.prog = lv.buggy ? parseProg(lv.buggy) : [];
@@ -66,7 +77,7 @@ export class PlayScreen {
 
   private build(canvas: HTMLCanvasElement): void {
     const { lv } = this;
-    const q = (cls: string, tag = 'div') => h(tag as 'div', { class: cls });
+    const q = (cls: string) => h('div', { class: cls });
     const brief = q('rc-brief'), note = q('rc-note'), count = q('rc-count'), rail = q('rc-rail'), tray = q('rc-tray'), garage = q('rc-garage');
     const bot = q('rc-bot');
     const send = h('button', { class: 'xg-btn xg-btn--primary xg-btn--lg rc-send', type: 'button', onclick: () => void this.send() }, '发送');
@@ -74,86 +85,141 @@ export class PlayScreen {
     const hint = h('button', { class: 'xg-btn rc-hint', type: 'button', 'aria-label': '提示', onclick: () => this.hint() });
     hint.innerHTML = icon('hint');
     this.el = { brief, note, count, rail, tray, garage, send, clear, hint, bot, canvas };
-    const top = h('header', { class: 'rc-top' },
-      h('div', { class: 'rc-title' }, h('b', {}, lv.id), ` ${lv.title}`), bot, brief, hint);
+    const top = h('header', { class: 'rc-top' }, h('div', { class: 'rc-title' }, h('b', {}, lv.id), ` ${lv.title}`), bot, brief, hint);
     const side = h('aside', { class: 'rc-side' }, garage, count, rail, tray, h('div', { class: 'rc-actions' }, clear, send));
     const stage = h('div', { class: 'rc-stagewrap' }, canvas, note);
-    const section = h('section', { class: 'rc-play', 'data-ch': String(lv.ch) }, top, stage, side);
-    this.host.root.replaceChildren(section);
+    this.host.root.replaceChildren(h('section', { class: 'rc-play', 'data-ch': String(lv.ch) }, top, stage, side));
     try { this.bot = mount(bot, { size: 64 }); } catch { this.bot = null; }
     if (lv.fog) note.textContent = `任务单：${lv.fog.brief.map(([d, n]) => `向${DIRWORD[d]}开 ${n} 米`).join('，')}`;
-    // the garage: one switch per opened part
     if (lv.garage) {
       for (const part of lv.garage.open) {
         const row = h('div', { class: 'rc-part', 'data-part': part }, h('span', { class: 'rc-part-name' }, GARAGE[part].label));
         for (const [val, label] of GARAGE[part].opts) {
-          row.append(h('button', { class: 'xg-btn rc-opt', type: 'button', 'data-val': val, 'aria-pressed': String((this.cfg as unknown as Record<string, string>)[part] === val), onclick: () => this.setPart(part, val) }, label));
+          row.append(h('button', { class: 'xg-btn rc-opt', type: 'button', 'data-val': val, 'aria-pressed': String(this.cfgOf(part) === val), onclick: () => this.setPart(part, val) }, label));
         }
         garage.append(row);
       }
       garage.append(h('div', { class: 'rc-part-note' }));
     }
-    // the card box
     for (const c of lv.cards) {
       const b = h('button', { class: 'xg-btn rc-card', type: 'button', 'data-card': c, 'aria-label': CARD_NAME[c], onclick: () => this.add(c) });
       b.innerHTML = cardSvg(c);
       tray.append(b);
     }
   }
+  private cfgOf = (part: Part): string => (this.cfg as unknown as Record<string, string>)[part];
 
   // ───────────────────────────────────────────────────────── the programme
   private get slots(): number { return slotsOf(this.lv, this.cfg); }
+  private blockAt(i: number): Block | null { const it = this.prog[i]; return it && isBlock(it) ? it : null; }
 
-  private add(c: Card): void {
+  private add(key: CardKey): void {
     if (this.state !== 'edit') return;
-    if (this.prog.length >= this.slots) { this.say('卡槽满了。先拿掉一张再放。', 'thinking'); sfx.play('ui-locked'); return; }
-    this.prog.push(c); sfx.play('place-piece'); this.afterEdit();
+    if (key === 'X') {
+      if (this.open >= 0) { this.closeBlock(); return; }                       // tapping 重复 again closes the open bracket
+      if (cost(this.prog) >= this.slots) return this.full();
+      this.prog.push({ k: 'X', n: 2, body: [] }); this.open = this.prog.length - 1;
+      sfx.play('place-piece'); this.say('把要重复的卡放进括号里，点数字可以改次数。', 'thinking'); this.afterEdit(); return;
+    }
+    if (cost(this.prog) >= this.slots) return this.full();
+    const blk = this.open >= 0 ? this.blockAt(this.open) : null;
+    if (blk) {
+      blk.body.push(key);
+      if (blk.body.length >= MAX_BODY) { this.open = -1; this.say(`括号里最多放 ${MAX_BODY} 张卡。`, 'happy'); }
+    } else this.prog.push(key);
+    sfx.play('place-piece'); this.afterEdit();
   }
-  private removeAt(i: number): void {
+  private full(): void { this.say('卡槽满了。先拿掉一张再放。', 'thinking'); sfx.play('ui-locked'); }
+  private removeCard(i: number, j?: number): void {
     if (this.state !== 'edit') return;
-    this.prog.splice(i, 1); sfx.play('ui-pop'); this.afterEdit();
+    const blk = j === undefined ? null : this.blockAt(i);
+    if (blk && j !== undefined) blk.body.splice(j, 1); else this.removeItem(i);
+    sfx.play('ui-pop'); this.afterEdit();
   }
+  private removeItem(i: number): void {
+    this.prog.splice(i, 1);
+    if (this.open === i) this.open = -1; else if (this.open > i) this.open -= 1;
+  }
+  private cycle(i: number): void {
+    const blk = this.blockAt(i);
+    if (!blk || this.state !== 'edit') return;
+    blk.n = blk.n >= 5 ? 2 : blk.n + 1; sfx.play('ui-tick'); this.afterEdit();
+  }
+  private closeBlock(): void { this.open = -1; sfx.play('ui-tap'); this.afterEdit(); }
   private clear(): void {
     if (this.state !== 'edit') return;
-    this.prog = this.lv.buggy ? parseProg(this.lv.buggy) : []; sfx.play('ui-tap'); this.afterEdit();
+    this.prog = this.lv.buggy ? parseProg(this.lv.buggy) : []; this.open = -1; sfx.play('ui-tap'); this.afterEdit();
   }
-  private afterEdit(): void { this.marker = null; this.hintSlot = -1; this.nextPulse = null; this.refresh(); }
+  private afterEdit(): void { this.marker = null; this.hintItem = -1; this.nextPulse = null; this.refresh(); }
 
   private setPart(part: Part, val: string): void {
     if (this.state !== 'edit') return;
     (this.cfg as unknown as Record<string, string>)[part] = val;
     sfx.play('ui-toggle-on');
-    if (this.prog.length > this.slots) { this.prog.length = this.slots; this.say('大轮子更重，电量少了，最后几张卡放不下了。', 'thinking'); }
-    else this.say(GARAGE[part].note[val], 'thinking');
+    let trimmed = false;
+    while (cost(this.prog) > this.slots) { trimmed = true; this.dropLast(); }
+    this.say(trimmed ? '大轮子更重，电量少了，最后几张卡放不下了。' : GARAGE[part].note[val], 'thinking');
     this.afterEdit();
+  }
+  private dropLast(): void {
+    const last = this.prog[this.prog.length - 1];
+    if (last && isBlock(last) && last.body.length) last.body.pop(); else this.removeItem(this.prog.length - 1);
+  }
+
+  private tile(card: Card, i: number, j?: number): HTMLElement {
+    const now = !!this.nowAt && this.nowAt[0] === i && this.nowAt[1] === j;
+    const b = h('button', {
+      class: `rc-slot is-full${now ? ' is-now' : ''}${this.hintItem === i && j === undefined ? ' is-hint' : ''}`, type: 'button', 'data-i': String(i), ...(j === undefined ? {} : { 'data-j': String(j) }),
+      'aria-label': `${CARD_NAME[card]}，点一下拿掉`, onclick: () => this.removeCard(i, j),
+    });
+    b.innerHTML = cardSvg(card);
+    return b;
   }
 
   /** everything that depends on the programme or the garage: the rail, the count, the ghost path, the buttons */
   private refresh(): void {
     const { el, lv } = this;
-    const slots = this.slots;
-    el.count.textContent = `${this.prog.length} / ${slots}`;
-    el.rail.replaceChildren(...Array.from({ length: slots }, (_, i) => {
-      const c = this.prog[i];
-      const b = h('button', { class: `rc-slot${c ? ' is-full' : ''}${i === this.hintSlot ? ' is-hint' : ''}${i === this.doneSlot ? ' is-now' : ''}`, type: 'button', 'aria-label': c ? `第 ${i + 1} 张：${CARD_NAME[c]}，点一下拿掉` : `第 ${i + 1} 个空槽`, 'data-i': String(i), onclick: () => c && this.removeAt(i) });
-      if (c) b.innerHTML = cardSvg(c); else b.textContent = String(i + 1);
-      return b;
-    }));
-    for (const b of Array.from(el.tray.children) as HTMLElement[]) b.classList.toggle('is-pulse', b.dataset.card === this.nextPulse || (lv.id === 'C1-1' && !this.prog.length && this.state === 'edit' && this.hints === 0));
-    (el.send as HTMLButtonElement).disabled = this.state !== 'edit' || !this.prog.length;
+    const slots = this.slots; const used = cost(this.prog);
+    el.count.textContent = `${used} / ${slots}`;
+    const nodes: HTMLElement[] = [];
+    this.prog.forEach((it, i) => {
+      if (!isBlock(it)) { nodes.push(this.tile(it, i)); return; }
+      const isOpen = i === this.open;
+      const head = h('button', {
+        class: `rc-slot rc-bh${this.nowAt && this.nowAt[0] === i ? ' is-now' : ''}${this.hintItem === i ? ' is-hint' : ''}`, type: 'button', 'data-i': String(i), 'data-j': 'h',
+        'aria-label': `重复 ${it.n} 次，点一下改次数`, onclick: () => this.cycle(i),
+      });
+      head.innerHTML = `${cardSvg('X')}<b>${it.n}</b>`;
+      const tools: HTMLElement[] = [];
+      if (isOpen) tools.push(h('button', { class: `rc-bclose${this.nextPulse === 'close' ? ' is-pulse' : ''}`, type: 'button', 'aria-label': '括号收好', onclick: () => this.closeBlock() }, '收好'));
+      tools.push(h('button', { class: 'rc-bdel', type: 'button', 'aria-label': '拿掉整个重复块', onclick: () => this.removeCard(i) }, '×'));
+      nodes.push(h('div', { class: `rc-block${isOpen ? ' is-open' : ''}`, 'data-i': String(i) }, head, ...it.body.map((c, j) => this.tile(c, i, j)), ...tools));
+    });
+    for (let k = used; k < slots; k++) nodes.push(h('span', { class: 'rc-slot rc-empty', 'aria-hidden': 'true' }, String(k + 1)));
+    el.rail.replaceChildren(...nodes);
+    const first = FIRST_CARD[lv.id];
+    for (const b of Array.from(el.tray.children) as HTMLElement[]) {
+      const c = b.dataset.card;
+      const intro = !!first && c === first && !this.prog.length && this.state === 'edit' && this.hints === 0;
+      b.classList.toggle('is-pulse', c === this.nextPulse || intro);
+    }
+    const sendable = this.state === 'edit' && this.prog.length > 0;
+    (el.send as HTMLButtonElement).disabled = !sendable;
+    el.send.classList.toggle('is-pulse', FIRST_SEND.includes(lv.id) && sendable && this.tries === 0 && this.open < 0 && !this.hasEmptyBlock());
     (el.clear as HTMLButtonElement).disabled = this.state !== 'edit';
     for (const row of Array.from(el.garage.querySelectorAll<HTMLElement>('.rc-part'))) {
       const part = row.dataset.part as Part;
-      for (const b of Array.from(row.querySelectorAll<HTMLElement>('.rc-opt'))) b.setAttribute('aria-pressed', String((this.cfg as unknown as Record<string, string>)[part] === b.dataset.val));
+      for (const b of Array.from(row.querySelectorAll<HTMLElement>('.rc-opt'))) b.setAttribute('aria-pressed', String(this.cfgOf(part) === b.dataset.val));
     }
     const mode = lv.ghost ?? 'off';
-    if (mode === 'off' || !this.prog.length || this.state !== 'edit') this.ghost = null;
+    if (mode === 'off' || !this.prog.length || this.state !== 'edit' || this.hasEmptyBlock()) this.ghost = null;
     else {
       const r = run(lv, this.cfg, this.prog);
       this.ghost = { mode, pts: [{ x: lv.start.x, y: lv.start.y }, ...r.steps.filter((s) => !s.err).map((s) => ({ x: s.s.x, y: s.s.y }))] };
     }
     if (this.state === 'edit') this.resetRover();
   }
+  private hasEmptyBlock(): boolean { return this.prog.some((it) => isBlock(it) && !it.body.length); }
 
   // ───────────────────────────────────────────────────────── hints
   private hint(): void {
@@ -165,15 +231,15 @@ export class PlayScreen {
     if (this.lv.buggy && this.lv.fix) {
       const fix = parseProg(this.lv.fix);
       let i = 0;
-      while (i < this.prog.length && i < fix.length && this.prog[i] === fix[i]) i++;
-      this.hintSlot = i < this.slots ? i : -1;
+      while (i < this.prog.length && i < fix.length && sameItem(this.prog[i], fix[i])) i++;
+      this.hintItem = i < this.prog.length ? i : -1;
       this.say('看一看这一格：这里的卡可能要换一换。', 'encouraging');
     } else {
-      const sol = parseProg(this.lv.solution.main);
-      const prefix = this.prog.every((c, i) => c === sol[i]);
-      if (!prefix) { this.say('先点“清空”，从头再排一次吧。', 'encouraging'); return; }
-      this.nextPulse = sol[this.prog.length] ?? null;
-      this.say('试试这张卡。', 'encouraging');
+      const want = this.lv.solution.main, have = partial(this.prog, this.open);
+      if (!want.startsWith(have)) { this.say('先点“清空”，从头再排一次吧。', 'encouraging'); return; }
+      const next = want[have.length];
+      this.nextPulse = next === undefined ? null : /[2-5]/.test(next) ? 'X' : next === ')' ? 'close' : (next as Card);
+      this.say(this.nextPulse === 'X' ? '试试用重复卡。' : this.nextPulse === 'close' ? '括号里放好了，点“收好”。' : '试试这张卡。', 'encouraging');
     }
     this.refresh();
   }
@@ -181,26 +247,31 @@ export class PlayScreen {
   // ───────────────────────────────────────────────────────── running
   private async send(): Promise<void> {
     if (this.state !== 'edit' || !this.prog.length) return;
-    this.state = 'running'; this.tries++; this.ghost = null; this.marker = null; this.nextPulse = null; this.hintSlot = -1;
+    if (this.hasEmptyBlock()) {
+      this.say('括号里还没有卡。', 'thinking'); sfx.play('ui-locked');
+      this.el.rail.querySelector('.rc-block')?.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 260 });
+      return;
+    }
+    this.open = -1;
+    this.state = 'running'; this.tries++; this.ghost = null; this.marker = null; this.nextPulse = null; this.hintItem = -1;
     this.refresh();
     sfx.play('launch');
-    const prog = [...this.prog];
+    const prog = this.prog.map((it) => (isBlock(it) ? { ...it, body: [...it.body] } : it));
     const r = run(this.lv, this.cfg, prog);
     this.resetRover();
     await this.wait(260);
     for (const st of r.steps) {
       if (this.dead) return;
-      this.doneSlot = st.index; this.refresh2();
+      this.nowAt = st.path; this.refresh();
       await this.perform(st);
       if (st.err) break;
     }
-    this.doneSlot = -1;
+    this.nowAt = null;
     await this.finish(r, prog);
   }
-  private refresh2(): void { this.el.rail.querySelectorAll('.rc-slot').forEach((b, i) => b.classList.toggle('is-now', i === this.doneSlot)); }
 
   /** one card, animated: a turn rotates in place, a move slides, a sample pulses; a card the rover cannot do bumps */
-  private async perform(st: RunResult['steps'][number]): Promise<void> {
+  private async perform(st: Step): Promise<void> {
     const { lv } = this; const from = { ...this.rover };
     const targetAng = st.s.d * 90;
     const dAng = ((targetAng - from.ang + 540) % 360) - 180;
@@ -225,7 +296,7 @@ export class PlayScreen {
     this.rover.x = x0; this.rover.y = y0;
   }
 
-  private async finish(r: RunResult, prog: Card[]): Promise<void> {
+  private async finish(r: RunResult, prog: Item[]): Promise<void> {
     const { lv } = this;
     if (r.res === 'win') {
       this.state = 'result';
@@ -240,7 +311,7 @@ export class PlayScreen {
       const nxt = nextLevel(lv.id);
       const id = await showResult({
         ribbon: `${lv.id} 完成`, title: lv.title, text: praise, stars, accentGame: 'rabbit',
-        stats: [{ label: lv.buggy ? '改动' : '用了卡', value: lv.buggy ? `${starsDistance(lv, prog)} 处` : `${prog.length} 张` }],
+        stats: [{ label: lv.buggy ? '改动' : '用了卡', value: lv.buggy ? `${editCount(parseProg(lv.buggy), prog)} 处` : `${cost(prog)} 张` }],
         actions: [...(nxt ? [{ id: 'next', label: '下一关', kind: 'primary' as const }] : []), { id: 'again', label: '再来一次' }, { id: 'map', label: '回地图' }],
       });
       if (this.dead) return;
@@ -286,7 +357,7 @@ export class PlayScreen {
         if (this.dead) return done();
         const p = Math.min(1, (performance.now() - t0) / Math.max(1, ms));
         f(p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
-        if (p < 1) setTimeout(tick, MAX_MS); else done();
+        if (p < 1) setTimeout(tick, FRAME_MS); else done();
       };
       tick();
     });
@@ -294,6 +365,3 @@ export class PlayScreen {
 
   dispose(): void { this.dead = true; cancelAnimationFrame(this.raf); try { this.bot?.destroy(); } catch { /* ignore */ } }
 }
-
-import { editCount } from '../model/sim';
-const starsDistance = (lv: Level, prog: Card[]): number => editCount(parseProg(lv.buggy!), prog);

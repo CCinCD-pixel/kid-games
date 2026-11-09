@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { LEVELS, CHAPTERS } from './levels';
-import { DEFAULT_CONFIG, act, editCount, parseProg, run, slotsOf, startState, type Config } from './sim';
+import { DEFAULT_CONFIG, MAX_BODY, act, cost, editCount, flatten, parseProg, progStr, run, slotsOf, startState, type Config } from './sim';
 import { starsFor } from './stars';
 
 /** the garage setting a level is built for: its own `loadout`, else the plain rover */
 const cfgOf = (lv: (typeof LEVELS)[number]): Config => lv.loadout ?? DEFAULT_CONFIG;
 
-describe('rover-code levels (chapters 1-4)', () => {
-  it('has 32 levels in four chapters of eight', () => {
-    expect(LEVELS).toHaveLength(32);
+describe('rover-code levels (chapters 1-5)', () => {
+  it('has 40 levels in five chapters of eight', () => {
+    expect(LEVELS).toHaveLength(40);
     for (const c of CHAPTERS) expect(LEVELS.filter((l) => l.ch === c.ch)).toHaveLength(8);
   });
 
@@ -17,8 +17,9 @@ describe('rover-code levels (chapters 1-4)', () => {
     const cfg = cfgOf(lv);
     const r = run(lv, cfg, prog);
     expect(r.res).toBe('win');
-    expect(prog.length).toBeLessThanOrEqual(slotsOf(lv, cfg));
-    for (const c of prog) expect(lv.cards).toContain(c);
+    expect(cost(prog)).toBeLessThanOrEqual(slotsOf(lv, cfg));
+    for (const { card } of flatten(prog)) expect(lv.cards).toContain(card);
+    for (const it of prog) if (typeof it !== 'string') { expect(lv.cards).toContain('X'); expect(it.body.length).toBeGreaterThan(0); expect(it.body.length).toBeLessThanOrEqual(MAX_BODY); }
     expect(starsFor(lv, prog, r, false)).toBeGreaterThanOrEqual(2);
   });
 
@@ -28,7 +29,7 @@ describe('rover-code levels (chapters 1-4)', () => {
     expect(run(lv, cfg, buggy).res).not.toBe('win');
     expect(run(lv, cfg, fix).res).toBe('win');
     expect(editCount(buggy, fix)).toBe(lv.bugs);
-    expect(buggy.length).toBeLessThanOrEqual(slotsOf(lv, cfg));
+    expect(cost(buggy)).toBeLessThanOrEqual(slotsOf(lv, cfg));
     expect(starsFor(lv, fix, run(lv, cfg, fix), false)).toBe(3);
   });
 
@@ -44,10 +45,34 @@ describe('rover-code levels (chapters 1-4)', () => {
       // every opened part whose choice is not the default is worth something: the plain rover fails or runs out of slots
       if (needed.length) {
         const plain = run(lv, DEFAULT_CONFIG, prog);
-        const fits = prog.length <= slotsOf(lv, DEFAULT_CONFIG);
+        const fits = cost(prog) <= slotsOf(lv, DEFAULT_CONFIG);
         expect(plain.res !== 'win' || !fits, lv.id).toBe(true);
       }
     }
+  });
+});
+
+describe('rover-code repeat block', () => {
+  it('a level that needs the loop cannot be done card by card in its slots', () => {
+    for (const lv of LEVELS.filter((l) => l.ch === 5 && !l.buggy)) {
+      const flat = flatten(parseProg(lv.solution.main)).length;
+      expect(flat, lv.id).toBeGreaterThan(slotsOf(lv, lv.loadout ?? DEFAULT_CONFIG));
+    }
+  });
+  it('text form round-trips and costs one slot for the block plus the cards in it', () => {
+    const prog = parseProg('F3(FPF)R');
+    expect(progStr(prog)).toBe('F3(FPF)R');
+    expect(cost(prog)).toBe(1 + 4 + 1);
+    expect(flatten(prog)).toHaveLength(1 + 9 + 1);
+  });
+  it('editing the count of a block is one edit', () => {
+    expect(editCount(parseProg('4(FFFR)F'), parseProg('3(FFFR)F'))).toBe(1);
+  });
+  it('a program is run in order and stops at the card that cannot be done, with its place in the block', () => {
+    const lv = LEVELS.find((l) => l.id === 'C5-1')!;
+    const r = run(lv, DEFAULT_CONFIG, parseProg('9(F)'.replace('9', '5')));
+    expect(r.res).toBe('win');
+    expect(flatten(parseProg('2(FR)')).map((x) => x.path)).toEqual([[0, 0], [0, 1], [0, 0], [0, 1]]);
   });
 });
 
@@ -66,6 +91,6 @@ describe('rover-code rules', () => {
   it('a card the rover cannot do stops the program at that card', () => {
     const r = run(lv, DEFAULT_CONFIG, parseProg('WEE'));
     expect(r.res).toBe('crash');
-    expect(r.at).toBe(0);
+    expect(r.at).toEqual([0]);
   });
 });

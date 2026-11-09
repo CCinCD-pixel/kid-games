@@ -16,6 +16,10 @@
   {
    "ch": 4,
    "title": "修一修"
+  },
+  {
+   "ch": 5,
+   "title": "重复"
   }
  ],
  "levels": [
@@ -1055,6 +1059,267 @@
     "main": "FFFFRF"
    },
    "minCrystal": 7,
+   "D": 13.9
+  },
+  {
+   "kind": "grid",
+   "id": "C5-1",
+   "brief": "用重复卡开 5 米。",
+   "ch": 5,
+   "n": 1,
+   "role": "起",
+   "title": "5 个 1 米",
+   "teach": "重复卡：把前进卡放进括号，选 5 次",
+   "cards": [
+    "F",
+    "X"
+   ],
+   "slots": 2,
+   "expectMin": 2,
+   "needLoop": "strict",
+   "ghost": "last",
+   "map": [
+    ".......",
+    ">....G.",
+    "......."
+   ],
+   "solution": {
+    "main": "5(F)"
+   },
+   "D": 3.2
+  },
+  {
+   "kind": "grid",
+   "id": "C5-2",
+   "brief": "每 2 米采一次样。",
+   "ch": 5,
+   "n": 2,
+   "role": "起",
+   "title": "3 个 2 米",
+   "teach": "括号里放两张卡：每 2 米采一次样，重复 3 次",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "X"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "needLoop": "strict",
+   "ghost": "last",
+   "map": [
+    "........",
+    ">.a.a.aG",
+    "........"
+   ],
+   "solution": {
+    "main": "F3(FPF)"
+   },
+   "D": 12.9
+  },
+  {
+   "kind": "grid",
+   "id": "C5-3",
+   "brief": "绕着坑走一圈。",
+   "ch": 5,
+   "n": 3,
+   "role": "承",
+   "title": "绕坑一圈",
+   "teach": "转弯也能重复：前进、前进、右转 × 3",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 5,
+   "expectMin": 4,
+   "needLoop": "strict",
+   "ghost": "last",
+   "map": [
+    ">..",
+    "#o.",
+    "G.."
+   ],
+   "solution": {
+    "main": "3(FFR)"
+   },
+   "D": 9.3
+  },
+  {
+   "kind": "grid",
+   "id": "C5-4",
+   "brief": "爬楼梯，一级一级。",
+   "ch": 5,
+   "n": 4,
+   "role": "承",
+   "title": "爬楼梯",
+   "teach": "找出一模一样的一段：前进、左转、前进、右转",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "needLoop": "strict",
+   "ghost": "off",
+   "map": [
+    "###G",
+    "##..",
+    "#..#",
+    ">.##"
+   ],
+   "solution": {
+    "main": "3(FLFR)"
+   },
+   "D": 11.6
+  },
+  {
+   "kind": "grid",
+   "id": "C5-5",
+   "brief": "电不多，用重复卡。",
+   "ch": 5,
+   "n": 5,
+   "role": "承",
+   "title": "大轮子省电法",
+   "teach": "大轮子只剩 3 格电：用重复卡装下 6 米（复习车库）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 5,
+   "expectMin": 3,
+   "needLoop": "strict",
+   "ghost": "off",
+   "review": [
+    "C2"
+   ],
+   "garage": {
+    "open": [
+     "wheels",
+     "panel"
+    ]
+   },
+   "map": [
+    "#######",
+    ">.n...G",
+    "#######"
+   ],
+   "height": [
+    "0000222",
+    "0000222",
+    "0000222"
+   ],
+   "loadout": {
+    "wheels": "L",
+    "panel": "S",
+    "mast": "S"
+   },
+   "solution": {
+    "main": "F5(F)"
+   },
+   "D": 7
+  },
+  {
+   "kind": "grid",
+   "id": "C5-6",
+   "brief": "车开过头了，修一修。",
+   "ch": 5,
+   "n": 6,
+   "role": "转",
+   "title": "次数不对",
+   "teach": "修 bug：车开过了头——重复的次数多了（复习 C4）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 7,
+   "expectMin": 6,
+   "ghost": "off",
+   "review": [
+    "C4"
+   ],
+   "map": [
+    ">...",
+    "#oo.",
+    "Goo.",
+    "...."
+   ],
+   "buggy": "4(FFFR)F",
+   "fix": "3(FFFR)F",
+   "bugs": 1,
+   "bugKinds": [
+    "count"
+   ],
+   "solution": {
+    "main": "3(FFFR)F"
+   },
+   "D": 13.9
+  },
+  {
+   "kind": "grid",
+   "id": "C5-7",
+   "brief": "三个角都要采样。",
+   "ch": 5,
+   "n": 7,
+   "role": "合",
+   "title": "环形山三个角",
+   "teach": "括号里 4 张卡：前进、前进、采样、右转 × 3，最后再走一步",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "X"
+   ],
+   "slots": 7,
+   "expectMin": 6,
+   "needLoop": "strict",
+   "ghost": "off",
+   "map": [
+    ">.a",
+    "Go.",
+    "a.a"
+   ],
+   "solution": {
+    "main": "F3(FRPF)"
+   },
+   "D": 15.5
+  },
+  {
+   "kind": "grid",
+   "id": "C5-8",
+   "brief": "长长的峡谷，冲！",
+   "ch": 5,
+   "n": 8,
+   "role": "喘息",
+   "title": "长长的峡谷",
+   "teach": "轻松一关：一张重复卡跑完长路",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X"
+   ],
+   "slots": 6,
+   "expectMin": 6,
+   "needLoop": "strict",
+   "ghost": "off",
+   "map": [
+    ">......*",
+    "#......G"
+   ],
+   "solution": {
+    "main": "FF5(F)RF"
+   },
+   "minCrystal": 6,
    "D": 13.9
   }
  ]
