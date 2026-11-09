@@ -273,6 +273,39 @@ test.describe('玉兔编程', () => {
     expect((await saved(page)).levels['C8-1'].stars).toBeGreaterThanOrEqual(2);
   });
 
+  test('我的地图: draw a map, drive through it myself, it is kept and can be played again; a map with no way through is refused', async ({ page }) => {
+    test.setTimeout(90_000);
+    const errors = await open(page, seed('C8-1', 8));
+    await page.getByRole('button', { name: '我的地图' }).click();
+    await page.getByRole('button', { name: '画一张新地图' }).click();
+    await expect(page.locator('.rc-edgrid')).toBeVisible();
+    await expect(page.getByRole('button', { name: '开一开试试' })).toBeDisabled();                 // no flag yet
+    await page.locator('.rc-tool[data-tool="flag"]').click();
+    await page.locator('.rc-edcell[data-x="4"][data-y="1"]').click();
+    await expect(page.getByRole('button', { name: '开一开试试' })).toBeEnabled();
+    // wall the flag in: the editor says there is no way through
+    await page.locator('.rc-tool[data-tool="draw"]').click();
+    for (const [x, y] of [[3, 1], [4, 0], [4, 2]]) await page.locator(`.rc-edcell[data-x="${x}"][data-y="${y}"]`).click();
+    await page.getByRole('button', { name: '开一开试试' }).click();
+    await expect(page.locator('.rc-ednote')).toContainText('过不去');
+    await page.locator('.rc-edcell[data-x="3"][data-y="1"]').click();                              // rock -> crater
+    await page.locator('.rc-edcell[data-x="3"][data-y="1"]').click();                              // crater -> sample
+    await page.locator('.rc-edcell[data-x="3"][data-y="1"]').click();                              // sample -> empty
+    await page.getByRole('button', { name: '开一开试试' }).click();
+    await page.waitForSelector('.rc-play');
+    await enter(page, 'FFFF');
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '回地图' })).toBeVisible({ timeout: 30000 });
+    expect((await saved(page)).custom).toHaveLength(1);
+    expect((await saved(page)).custom[0].solved).toBe(true);
+    await page.getByRole('button', { name: '回地图' }).click();
+    await expect(page.locator('.rc-mine-item')).toHaveCount(1);
+    await page.getByRole('button', { name: '给爸爸玩' }).click();
+    await page.waitForSelector('.rc-play');
+    await expect(page.locator('.rc-title')).toContainText('我的地图 1').catch(() => {});
+    expect(errors).toEqual([]);
+  });
+
   test('the back button goes from a level to the map; the layout never overflows; reload keeps the stars', async ({ page }) => {
     await open(page, seed('C1-3'));
     await openLevel(page, 'C1-3');

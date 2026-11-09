@@ -3,7 +3,7 @@ import { h, nodeMap, type MapNode } from '@kit/ui';
 import { CHAPTERS, LEVELS, chapterLevels } from '../model/levels';
 import { doneCount, starsOf, type RoverSave } from '../save';
 
-export interface MapHost { root: HTMLElement; save: RoverSave; pick(id: string): void; pickChapter(ch: number): void }
+export interface MapHost { root: HTMLElement; save: RoverSave; pick(id: string): void; pickChapter(ch: number): void; mine(): void }
 
 const NAME: Record<number, string> = { 1: '用箭头卡开出去', 2: '采样、台阶和车库', 3: '车头的方向', 4: '帮忙修一修', 5: '重复：几个几', 6: '魔法卡：把一段收起来', 7: '规则卡：自动驾驶', 8: '救援：带小车回家' };
 
@@ -30,7 +30,9 @@ export function renderMap(host: MapHost): () => void {
   }));
   const done = doneCount(save);
   const head = h('header', { class: 'rc-maphead' },
-    h('h1', {}, '玉兔编程'), h('p', {}, `第 ${ch} 章 · ${NAME[ch] ?? ''}`), h('span', { class: 'rc-progress' }, `已通过 ${done} / ${LEVELS.length}`));
+    h('h1', {}, '玉兔编程'), h('p', {}, `第 ${ch} 章 · ${NAME[ch] ?? ''}`),
+    ...(chapterOpen(save, 8) || (save.custom?.length ?? 0) > 0 ? [h('button', { class: 'xg-btn rc-minebtn', type: 'button', onclick: () => host.mine() }, '我的地图')] : []),
+    h('span', { class: 'rc-progress' }, `已通过 ${done} / ${LEVELS.length}`));
   const map = h('div', { class: 'rc-map' });
   const screen = h('section', { class: 'rc-mapscreen' }, head, tabs, map);
   host.root.replaceChildren(screen);

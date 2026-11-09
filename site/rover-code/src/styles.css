@@ -150,3 +150,22 @@ body { background: radial-gradient(120% 90% at 50% 0%, var(--xg-night-700), var(
   .rc-opt { min-height: 44px; }
   .rc-part-note { display: none; }
 }
+
+/* 我的地图 and the map editor */
+.rc-minebtn { min-height: 48px; padding: 0 16px; }
+.rc-mine, .rc-editor { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+.rc-mine-list { display: flex; flex-direction: column; gap: 10px; }
+.rc-mine-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 16px; background: rgba(255, 255, 255, .08); flex-wrap: wrap; }
+.rc-mini { display: grid; grid-template-columns: repeat(5, 14px); gap: 2px; }
+.rc-mini i { width: 14px; height: 14px; border-radius: 3px; }
+.rc-c-e { background: #d3cabb; } .rc-c-r { background: #6f6a64; } .rc-c-o { background: #4a463f; } .rc-c-s { background: #ffd24a; } .rc-c-g { background: #e9b949; } .rc-c-v { background: #2a9d8f; }
+.rc-del { min-width: 48px; font-size: 22px; }
+.rc-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.rc-tool { min-height: 52px; padding: 0 16px; }
+.rc-tool[aria-pressed="true"] { outline: 3px solid #ffd24a; }
+.rc-edgrid { display: grid; gap: 4px; width: min(100%, 520px); margin: 0 auto; }
+.rc-edcell { aspect-ratio: 1; border-radius: 10px; border: 2px solid rgba(255, 255, 255, .35); font-size: 30px; color: #fff; padding: 0; min-height: 52px; }
+.rc-edcell.rc-c-e { color: #2b2418; }
+.rc-ednote { text-align: center; min-height: 24px; margin: 0; font-size: 17px; }
+.rc-editor .rc-actions { justify-content: center; }
+@media (max-height: 640px) { .rc-edgrid { width: min(100%, 520px, calc((100dvh - 230px) * 5 / 4)); } .rc-edcell { min-height: 40px; font-size: 22px; } .rc-mine, .rc-editor { gap: 6px; } }
