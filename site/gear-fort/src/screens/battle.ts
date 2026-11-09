@@ -504,9 +504,9 @@ export function mountBattle(root: HTMLElement, app: AppCtx, o: BattleOpts, done:
       const i = placed.findIndex((q) => q.lane === cell.lane && q.col === cell.col);
       if (i >= 0) { const q = placed.splice(i, 1)[0]; const dig = shovelMode; S = pzState(); stage.reset(); lastHud = ''; setShovel(false); sfx.play('refund', { lane: q.lane }); if (!dig) startCardDrag(q.card, ev); return; }
     }
-    // grain first (hit area 64×64) — also with a card in hand: the bag is taken, and the card goes down too when it can
+    // grain first (hit area 88×88) — also with a card in hand: the bag is taken, and the card goes down too when it can
     // (spec §2.7 rule ①); a tap on a bag never just fails with 还差 N粮 (QA r3)
-    const bag = S.drops.map((d) => ({ d, p: stage.dropXY(S, d, performance.now()) })).find(({ p }) => Math.abs(p.x - x) < 34 && Math.abs(p.y - y) < 34);
+    const bag = S.drops.map((d) => ({ d, p: stage.dropXY(S, d, performance.now()) })).find(({ p }) => Math.abs(p.x - x) < 44 && Math.abs(p.y - y) < 44);
     if (bag) collect(bag.d.id, bag.p.x, bag.p.y);
     if (selected && cell) { const oc = openCellAt(x, y) ?? cell; if (tryPlace(selected, oc.lane, oc.col, !!bag)) select(null); return; }
     if (bag) return;

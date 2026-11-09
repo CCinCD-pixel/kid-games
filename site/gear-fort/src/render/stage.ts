@@ -310,10 +310,10 @@ export class Stage {
   }
   dropXY(S: SimState, d: { id: number; lane: number; col: number; t: number }, now: number): { x: number; y: number } {
     const g = this.geo;
-    if (d.lane >= 0) return { x: cellCx(g, d.col) + g.w * 0.18, y: laneTop(g, d.lane) + g.h * 0.32 + Math.sin(now / 300 + d.id) * 2 };
+    if (d.lane >= 0) return { x: cellCx(g, d.col) + g.w * 0.18, y: laneTop(g, d.lane) + g.h * 0.32 + Math.sin(now / 300 + d.id) * 3.5 };
     const lanes = [0, 1, 2, 3, 4].filter((l) => S.L.lanes[l]); const l = lanes[(d.id * 7) % lanes.length]; const c = 1 + ((d.id * 5) % 6);
     const fall = Math.min(1, (S.tick - d.t) / 12);
-    return { x: cellCx(g, c), y: laneTop(g, l) + g.h * (0.45 * fall) - (1 - fall) * g.h * 1.5 + Math.sin(now / 300 + d.id) * 2 };
+    return { x: cellCx(g, c), y: laneTop(g, l) + g.h * (0.45 * fall) - (1 - fall) * g.h * 1.5 + Math.sin(now / 300 + d.id) * 3.5 };
   }
 
   /** consume new kernel events → effects (and forward to the battle screen for sound/voice) */
@@ -464,8 +464,12 @@ export class Stage {
     // ── grain bags ──
     for (const d of S.drops) {
       const p = this.dropXY(S, d, now); const age = (S.tick - d.t) / 20; const pop = Math.min(1, age * 4);
-      T(p.x, p.y); ctx.fillStyle = rgba(FB.grain, 0.38); ctx.beginPath(); ctx.arc(0, 0, g.w * 0.22 * (1 + Math.sin(now / 220) * 0.08), 0, Math.PI * 2); ctx.fill();
-      ctx.scale(g.k * 1.25 * pop, g.k * 1.25 * pop); ctx.translate(-11, -10); this.atlas.part(ctx, 'grainBag'); drawStats.calls++;
+      // a bag must be seen at a glance (dad: the sun in Plants vs Zombies is big and obvious): about 0.6 tile wide, a warm halo
+      // that breathes, and a ring that ripples out every 1.4 s so a bag nobody has noticed still draws the eye
+      const breathe = 1 + Math.sin(now / 220) * 0.08; const bounce = pop + Math.sin(pop * Math.PI) * 0.25; const ripple = (now / 1400 + d.id * 0.37) % 1;
+      T(p.x, p.y); ctx.fillStyle = rgba(FB.grain, 0.5); ctx.beginPath(); ctx.arc(0, 0, g.w * 0.4 * breathe * pop, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = rgba(FB.grain, 0.7 * (1 - ripple) * pop); ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(0, 0, g.w * (0.3 + 0.35 * ripple), 0, Math.PI * 2); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.scale(g.k * 2.8 * bounce, g.k * 2.8 * bounce); ctx.translate(-11, -10); this.atlas.part(ctx, 'grainBag'); drawStats.calls++;
     }
     // collect-stamps (陷坑 收)
     this.stamps = this.stamps.filter((s) => now - s.t0 < 900);
