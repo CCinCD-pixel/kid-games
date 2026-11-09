@@ -325,7 +325,12 @@ const CSS = `
 @keyframes xgbot-fan-flutter{0%,100%{transform:scale(1)}30%,66%{transform:scale(.94,1.03)}48%{transform:scale(1.04,.98)}}
 @keyframes xgbot-cap{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-7px) rotate(-7deg)}55%{transform:translateY(-2px) rotate(-3deg)}}
 @media (prefers-reduced-motion: reduce){
-  .xg-bot .b-float,.xg-bot .b-shadow,.xg-bot .b-hand-l>g,.xg-bot .b-hand-r>g,.xg-bot .b-tip,.xg-bot .b-tipglow,.xg-bot .b-acc-tail{animation:none}
+  .xg-bot .b-float,.xg-bot .b-shadow,.xg-bot .b-hand-l>g,.xg-bot .b-hand-r>g,.xg-bot .b-tip,.xg-bot .b-tipglow,.xg-bot .b-acc-tail,
+  .xg-bot .b-glow,.xg-bot .b-ear-led,
+  /* the mood rules are more specific than the ones above, and each of these runs forever: pumping, waving, wiggling, the sleepy z's.
+     The one-shot reactions (hop, nod, wiggle, fan, cap) are left alone: they end by themselves. */
+  .xg-bot[data-mood] .b-hand-l>g,.xg-bot[data-mood] .b-hand-r>g,.xg-bot[data-mood] .b-z,
+  .xg-bot[data-mood=celebrating]:not([class*=" r-"]) .b-pose{animation:none!important}
 }
 `;
 

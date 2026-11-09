@@ -188,3 +188,29 @@ test.describe('parent page additions', () => {
     await expect(box).not.toBeChecked();
   });
 });
+
+test.describe('reduced motion', () => {
+  const MOODS = ['idle', 'happy', 'thinking', 'surprised', 'encouraging', 'celebrating', 'sleepy'];
+  const endless = (page: import('@playwright/test').Page, mood: string) =>
+    page.evaluate((m) => {
+      const bot = document.querySelector('.xg-bot')!;
+      bot.setAttribute('data-mood', m);
+      return document
+        .getAnimations()
+        .filter((a) => {
+          const e = a.effect as KeyframeEffect | null;
+          return !!e?.target && bot.contains(e.target) && e.getComputedTiming().iterations === Infinity;
+        })
+        .map((a) => (a as CSSAnimation).animationName);
+    }, mood);
+
+  test('the companion robot has no endless animation in any mood', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/dev/kit/', { waitUntil: 'load' });
+    await page.waitForSelector('.xg-bot');
+    // control: without the preference the robot does keep moving, so an empty list below means something
+    expect((await endless(page, 'celebrating')).length).toBeGreaterThan(0);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const mood of MOODS) expect(await endless(page, mood), mood).toEqual([]);
+  });
+});
