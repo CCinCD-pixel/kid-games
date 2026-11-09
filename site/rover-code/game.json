@@ -4,7 +4,7 @@
   "subtitle": "给月球车排指令卡",
   "place": "base",
   "order": 30,
-  "status": "hidden",
+  "status": "live",
   "accent": "--xg-rabbit",
   "theme": "rabbit",
   "icon": "/icons/games/rover-code.svg",
