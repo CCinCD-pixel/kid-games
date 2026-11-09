@@ -29,7 +29,6 @@
 - [ ] 首页在“有可续节目”时，iPad 横屏和 iPhone 竖屏要向下滑才看到底部路线卡（没被遮挡，只是多一屏），可再压缩欢迎区。
 - [ ] 6 条旧台词的峰值比标准略超 0.1–0.2 dB（py.hint2、py.initial、py.mnemonic.k、py.scene.flag、py.scene.schoolbag、py.scene.seafood），不影响听感，顺手时重做。
 - [ ] 6 条已不用的台词还留在 yaml（py.E py.F py.C py.recording py.follow py.scene.family），下次整理音频时删。
-- [ ] 老的火星基地“基地任务”代码（已停用）等爸爸点头后删除。
 
 ## 下一个窗口想做（算术站 2.0 复查后的设计建议，来自独立 QA）
 - [ ] **把“超频”做成主玩法**：加“上次最好”的虚影或搭档对手，让孩子和自己比。
@@ -38,9 +37,8 @@
 - [ ] **“拆一拆”改成按需**，用完追加“再来一道”，让 8/8 仍然可达（本轮已改成“主动用且步步答对算对”）。
 - [ ] 难度：乘法第 9→10 阶最陡、除法第 9 阶比第 8 阶轻，等孩子实际玩过再调。
 - [ ] 孩子的 iPad 上用真手指走一遍算术站（目前只在无头浏览器里测过）。
-- [ ] kit 机器人在“减少动态”设置下仍在做无限动画（属于 kit，影响所有游戏）。
 - [ ] 其他游戏的旁白如果也觉得太嗲（旁白预设 Serena），改 `tools/voice/voice/config.py` 一个预设即可整体换，需要重配全部对应音频。
-- [ ] 算术站旧的 `public/audio/mars-base/numbers-100-1000.json` 和 `numbers-manifest.json`（旧基地任务用）现在运行时没人引用，等爸爸决定是否连同旧基地任务代码一起删。
+- [ ] 旧“基地任务”的代码、测试和脚本已在 2026-11-09 删除（爸爸同意）。还留着、等你决定要不要连根清掉的：`public/audio/mars-base/` 里旧基地任务的约 1400 条录音和 `numbers-100-1000.json`、`numbers-manifest.json`（`tests/narration-audio.test.ts` 和 `tools/mars-base/voice-*.mjs` 还在读它们，删之前要先改这些）；家长页还在读旧存档（`save/schema.ts`、`pets/unlock.ts`、`app/starPetMetrics.ts`、`app/starPetActivity.ts` 及它们依赖的 `app/`、`families/`）。
 
 ## 机关守城（A 档「出手有劲」已做，下面是后续）
 - [ ] **爸爸在 iPad 上玩 1-1、1-7、1-9、1-11 各一局**，看：连破会不会太抢戏、“克”字大小、命中停顿有没有拖沓、令的声音会不会太吵。不合适只调表现层参数（`render/stage.ts`、`audio/synth.ts`），不动规则内核。
