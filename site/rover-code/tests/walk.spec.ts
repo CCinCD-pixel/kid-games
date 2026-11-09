@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { expect, test, type Page } from '@playwright/test';
 
 const KEY = 'kg:v1:rover-code';
-type L = { id: string; ch: number; n: number; solution: { main: string }; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string> };
+type L = { id: string; ch: number; n: number; solution: { main: string; p1?: string }; fixP1?: string; p1Slots?: number; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string> };
 const LEVELS: L[] = JSON.parse(fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../content/rover-code/levels.json'), 'utf8')).levels;
 
 const card = (page: Page, c: string) => page.locator(`.rc-card[data-card="${c}"]`);
@@ -23,7 +23,18 @@ async function lay(page: Page, prog: string): Promise<void> {
     else await card(page, c).click();
   }
 }
+async function layP1(page: Page, p1: string): Promise<void> {
+  if (!p1) return;
+  await page.locator('.rc-p1-label').click(); // the magic row takes the next cards
+  for (const c of p1) await card(page, c).click();
+}
 async function takeApart(page: Page): Promise<void> {
+  for (let guard = 0; guard < 12; guard++) {
+    const one = page.locator('.rc-p1-rail .rc-slot.is-full');
+    if (!(await one.count())) break;
+    await one.first().click();
+  }
+  await page.locator('.rc-rail:not(.rc-p1-rail)').first().click({ position: { x: 3, y: 3 } }).catch(() => {}); // the main row takes the cards again
   for (let guard = 0; guard < 30; guard++) {
     const del = page.locator('.rc-bdel');
     if (await del.count()) { await del.first().click(); continue; }
@@ -42,7 +53,7 @@ test('every level can be solved through the real buttons', async ({ page }, info
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
   await page.goto('/rover-code/');
-  await page.evaluate((k) => localStorage.clear(), KEY);
+  await page.evaluate(() => localStorage.clear());
   await page.goto('/rover-code/', { waitUntil: 'load' });
   await page.getByRole('button', { name: /进入飞控中心/ }).click({ timeout: 8000 }).catch(() => {});
   await page.waitForSelector('.rc-mapscreen');
@@ -54,7 +65,7 @@ test('every level can be solved through the real buttons', async ({ page }, info
     for (const [part, val] of Object.entries(lv.loadout ?? {})) {
       if (lv.garage?.open.includes(part)) await page.locator(`.rc-part[data-part="${part}"] .rc-opt[data-val="${val}"]`).click();
     }
-    if (lv.buggy) { await takeApart(page); await lay(page, lv.fix!); } else await lay(page, lv.solution.main);
+    if (lv.buggy) { await takeApart(page); await lay(page, lv.fix!); await layP1(page, lv.fixP1 ?? ''); } else { await lay(page, lv.solution.main); await layP1(page, lv.solution.p1 ?? ''); }
     await page.locator('.rc-send').click();
     await expect(page.getByRole('button', { name: /下一关|回地图/ }).first(), lv.id).toBeVisible({ timeout: 60_000 });
     const stars = (await page.evaluate((k) => JSON.parse(localStorage.getItem(k) ?? 'null')?.data, KEY)).levels[lv.id]?.stars;

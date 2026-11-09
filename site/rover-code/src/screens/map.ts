@@ -5,7 +5,7 @@ import { doneCount, starsOf, type RoverSave } from '../save';
 
 export interface MapHost { root: HTMLElement; save: RoverSave; pick(id: string): void; pickChapter(ch: number): void }
 
-const NAME: Record<number, string> = { 1: '用箭头卡开出去', 2: '采样、台阶和车库', 3: '车头的方向', 4: '帮忙修一修', 5: '重复：几个几' };
+const NAME: Record<number, string> = { 1: '用箭头卡开出去', 2: '采样、台阶和车库', 3: '车头的方向', 4: '帮忙修一修', 5: '重复：几个几', 6: '魔法卡：把一段收起来' };
 
 /** a level is open when the one before it is done (all open with the parent's 全部解锁) */
 export const levelOpen = (save: RoverSave, id: string): boolean => {

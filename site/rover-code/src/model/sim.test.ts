@@ -1,36 +1,40 @@
 import { describe, expect, it } from 'vitest';
 import { LEVELS, CHAPTERS } from './levels';
-import { DEFAULT_CONFIG, MAX_BODY, act, cost, editCount, flatten, parseProg, progStr, run, slotsOf, startState, type Config } from './sim';
+import { DEFAULT_CONFIG, MAX_BODY, type Card, act, cost, editCount, flatten, parseProg, progStr, run, slotsOf, startState, type Config } from './sim';
 import { starsFor } from './stars';
 
 /** the garage setting a level is built for: its own `loadout`, else the plain rover */
 const cfgOf = (lv: (typeof LEVELS)[number]): Config => lv.loadout ?? DEFAULT_CONFIG;
 
 describe('rover-code levels (chapters 1-5)', () => {
-  it('has 40 levels in five chapters of eight', () => {
-    expect(LEVELS).toHaveLength(40);
+  it('has 48 levels in six chapters of eight', () => {
+    expect(LEVELS).toHaveLength(48);
     for (const c of CHAPTERS) expect(LEVELS.filter((l) => l.ch === c.ch)).toHaveLength(8);
   });
 
   it.each(LEVELS.map((l) => [l.id, l] as const))('%s: its solution gets there within the slots and only uses the cards in the box', (_id, lv) => {
     const prog = parseProg(lv.solution.main);
     const cfg = cfgOf(lv);
-    const r = run(lv, cfg, prog);
+    const p1 = [...(lv.solution.p1 ?? '')] as Card[];
+    const r = run(lv, cfg, prog, p1);
     expect(r.res).toBe('win');
     expect(cost(prog)).toBeLessThanOrEqual(slotsOf(lv, cfg));
-    for (const { card } of flatten(prog)) expect(lv.cards).toContain(card);
+    expect(p1.length).toBeLessThanOrEqual(lv.p1Slots ?? 0);
+    for (const { card } of flatten(prog, p1)) expect(lv.cards).toContain(card);
+    for (const it of prog) if (it === 'C' || (typeof it !== 'string' && it.body.includes('C'))) expect(lv.cards).toContain('C');
     for (const it of prog) if (typeof it !== 'string') { expect(lv.cards).toContain('X'); expect(it.body.length).toBeGreaterThan(0); expect(it.body.length).toBeLessThanOrEqual(MAX_BODY); }
-    expect(starsFor(lv, prog, r, false)).toBeGreaterThanOrEqual(2);
+    expect(starsFor(lv, prog, r, false, p1)).toBeGreaterThanOrEqual(2);
   });
 
   it.each(LEVELS.filter((l) => l.buggy).map((l) => [l.id, l] as const))('%s: the buggy program does not get there, the fix does, and the distance is the number of bugs', (_id, lv) => {
     const cfg = cfgOf(lv);
     const buggy = parseProg(lv.buggy!), fix = parseProg(lv.fix!);
-    expect(run(lv, cfg, buggy).res).not.toBe('win');
-    expect(run(lv, cfg, fix).res).toBe('win');
-    expect(editCount(buggy, fix)).toBe(lv.bugs);
+    const bp1 = [...(lv.buggyP1 ?? '')] as Card[], fp1 = [...(lv.fixP1 ?? '')] as Card[];
+    expect(run(lv, cfg, buggy, bp1).res).not.toBe('win');
+    expect(run(lv, cfg, fix, fp1).res).toBe('win');
+    expect(editCount(buggy, fix, bp1, fp1)).toBe(lv.bugs);
     expect(cost(buggy)).toBeLessThanOrEqual(slotsOf(lv, cfg));
-    expect(starsFor(lv, fix, run(lv, cfg, fix), false)).toBe(3);
+    expect(starsFor(lv, fix, run(lv, cfg, fix, fp1), false, fp1)).toBe(3);
   });
 
   it('shows nothing the child could read as being wrong: no 错 in any text of the levels', () => {
@@ -49,6 +53,27 @@ describe('rover-code levels (chapters 1-5)', () => {
         expect(plain.res !== 'win' || !fits, lv.id).toBe(true);
       }
     }
+  });
+});
+
+describe('rover-code magic card', () => {
+  it('a level that needs the magic card cannot be done in the main row alone', () => {
+    for (const lv of LEVELS.filter((l) => l.needCall && !l.buggy)) {
+      const p1 = [...(lv.solution.p1 ?? '')] as Card[];
+      const expanded = flatten(parseProg(lv.solution.main), p1).length;
+      expect(expanded, lv.id).toBeGreaterThan(slotsOf(lv, lv.loadout ?? DEFAULT_CONFIG));
+    }
+  });
+  it('a magic card plays the whole P1 row, with its place in the row, and costs one slot in the main row', () => {
+    const steps = flatten(parseProg('CRC'), ['F', 'F']);
+    expect(steps.map((x) => x.card).join('')).toBe('FFRFF');
+    expect(steps[1].p1).toBe(1);
+    expect(steps[2].p1).toBeUndefined();
+    expect(cost(parseProg('CRC'), [])).toBe(3);
+    expect(cost(parseProg('CRC'), ['F', 'F'])).toBe(5);
+  });
+  it('mending the magic card is one edit however many times it is played', () => {
+    expect(editCount(parseProg('CPCPC'), parseProg('CPCPC'), [...'FRF'] as Card[], [...'FRFL'] as Card[])).toBe(1);
   });
 });
 

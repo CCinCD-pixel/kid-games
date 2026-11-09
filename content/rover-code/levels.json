@@ -20,6 +20,10 @@
   {
    "ch": 5,
    "title": "重复"
+  },
+  {
+   "ch": 6,
+   "title": "魔法卡"
   }
  ],
  "levels": [
@@ -1318,6 +1322,286 @@
    ],
    "solution": {
     "main": "FF5(F)RF"
+   },
+   "minCrystal": 6,
+   "D": 13.9
+  },
+  {
+   "kind": "grid",
+   "id": "C6-1",
+   "brief": "做一张魔法卡。",
+   "ch": 6,
+   "n": 1,
+   "role": "起",
+   "title": "魔法卡",
+   "teach": "把一段卡收进魔法卡，主程序里放 3 张魔法卡就走 3 遍",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "C"
+   ],
+   "slots": 3,
+   "p1Slots": 3,
+   "expectMin": 6,
+   "needCall": "strict",
+   "ghost": "off",
+   "map": [
+    "G..",
+    "#o.",
+    ">.."
+   ],
+   "solution": {
+    "main": "CCC",
+    "p1": "FFL"
+   },
+   "D": 13.9
+  },
+  {
+   "kind": "grid",
+   "id": "C6-2",
+   "brief": "魔法卡中间插一张。",
+   "ch": 6,
+   "n": 2,
+   "role": "起",
+   "title": "中间插一张",
+   "teach": "魔法卡之间可以放别的卡：采样段 → 右转 → 采样段",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "C"
+   ],
+   "slots": 5,
+   "p1Slots": 3,
+   "expectMin": 7,
+   "needCall": true,
+   "ghost": "off",
+   "map": [
+    ">.a",
+    "##.",
+    "##a",
+    "##G"
+   ],
+   "solution": {
+    "main": "CRCF",
+    "p1": "FFP"
+   },
+   "D": 18.1
+  },
+  {
+   "kind": "grid",
+   "id": "C6-3",
+   "brief": "每级台阶采一次样。",
+   "ch": 6,
+   "n": 3,
+   "role": "承",
+   "title": "台阶采样站",
+   "teach": "魔法卡 = 上一级台阶；每上一级采一次样",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "C"
+   ],
+   "slots": 6,
+   "p1Slots": 4,
+   "expectMin": 9,
+   "needCall": "strict",
+   "ghost": "off",
+   "map": [
+    "###G",
+    "##a.",
+    "#a.#",
+    ">.##"
+   ],
+   "solution": {
+    "main": "CPCPC",
+    "p1": "FLFR"
+   },
+   "D": 23.3
+  },
+  {
+   "kind": "grid",
+   "id": "C6-4",
+   "brief": "两段坡，一张魔法卡。",
+   "ch": 6,
+   "n": 4,
+   "role": "承",
+   "title": "两段坡道",
+   "teach": "同一段魔法卡用在两个地方，中间隔着平路（复习台阶）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "C"
+   ],
+   "slots": 7,
+   "p1Slots": 4,
+   "expectMin": 10,
+   "needCall": "strict",
+   "ghost": "off",
+   "review": [
+    "C2"
+   ],
+   "map": [
+    "#####.G",
+    "##....#",
+    ">..####"
+   ],
+   "height": [
+    "0000022",
+    "0011110",
+    "0000000"
+   ],
+   "solution": {
+    "main": "CRFCRF",
+    "p1": "FFLF"
+   },
+   "D": 23.2
+  },
+  {
+   "kind": "grid",
+   "id": "C6-5",
+   "brief": "魔法卡坏了，修好它。",
+   "ch": 6,
+   "n": 5,
+   "role": "转",
+   "title": "魔法卡坏了",
+   "teach": "魔法卡里少一张：改一处，三个地方都好了（复习修 bug）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "C"
+   ],
+   "slots": 6,
+   "p1Slots": 4,
+   "expectMin": 9,
+   "ghost": "off",
+   "review": [
+    "C4"
+   ],
+   "map": [
+    ">.##",
+    "#a.#",
+    "##a.",
+    "###G"
+   ],
+   "buggy": "CPCPC",
+   "buggyP1": "FRF",
+   "fix": "CPCPC",
+   "fixP1": "FRFL",
+   "bugs": 1,
+   "bugKinds": [
+    "missing"
+   ],
+   "solution": {
+    "main": "CPCPC",
+    "p1": "FRFL"
+   },
+   "D": 12.9
+  },
+  {
+   "kind": "grid",
+   "id": "C6-6",
+   "brief": "重复魔法卡 4 次。",
+   "ch": 6,
+   "n": 6,
+   "role": "承",
+   "title": "重复魔法卡",
+   "teach": "重复卡里也能放魔法卡：4 次 × 一级台阶",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "X",
+    "C"
+   ],
+   "slots": 3,
+   "p1Slots": 4,
+   "expectMin": 6,
+   "needCall": true,
+   "ghost": "off",
+   "map": [
+    "####G",
+    "###..",
+    "##..#",
+    "#..##",
+    ">.###"
+   ],
+   "solution": {
+    "main": "4(CR)",
+    "p1": "FLF"
+   },
+   "D": 15.5
+  },
+  {
+   "kind": "grid",
+   "id": "C6-7",
+   "brief": "括号装不下？用魔法卡。",
+   "ch": 6,
+   "n": 7,
+   "role": "合",
+   "title": "三个采样角",
+   "teach": "重复（魔法卡 + 前进）：括号装不下 5 张，就把 4 张收进魔法卡",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P",
+    "X",
+    "C"
+   ],
+   "slots": 5,
+   "p1Slots": 4,
+   "expectMin": 7,
+   "needCall": "strict",
+   "ghost": "off",
+   "map": [
+    "##>.a",
+    "####.",
+    "#G##.",
+    "#a..a"
+   ],
+   "solution": {
+    "main": "3(CPF)",
+    "p1": "FFR"
+   },
+   "D": 19.7
+  },
+  {
+   "kind": "grid",
+   "id": "C6-8",
+   "brief": "拐两个弯就到了。",
+   "ch": 6,
+   "n": 8,
+   "role": "喘息",
+   "title": "拐角",
+   "teach": "轻松一关：魔法卡用两次",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "C"
+   ],
+   "slots": 4,
+   "p1Slots": 3,
+   "expectMin": 6,
+   "needCall": true,
+   "ghost": "off",
+   "map": [
+    ">.*.",
+    "###.",
+    "###.",
+    "###G"
+   ],
+   "solution": {
+    "main": "CRC",
+    "p1": "FFF"
    },
    "minCrystal": 6,
    "D": 13.9

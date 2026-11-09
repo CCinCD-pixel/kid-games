@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { expect, test, type Page } from '@playwright/test';
 
 const KEY = 'kg:v1:rover-code';
-type L = { id: string; ch: number; n: number; solution: { main: string }; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string>; slots: number; expectMin: number };
+type L = { id: string; fixP1?: string; ch: number; n: number; solution: { main: string; p1?: string }; buggy?: string; fix?: string; garage?: { open: string[] }; loadout?: Record<string, string>; slots: number; expectMin: number };
 const LEVELS: L[] = JSON.parse(fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../content/rover-code/levels.json'), 'utf8')).levels;
 const lv = (id: string): L => LEVELS.find((l) => l.id === id)!;
 
@@ -198,6 +198,42 @@ test.describe('玉兔编程', () => {
     await enter(page, lv('C5-5').solution.main);
     await page.locator('.rc-send').click();
     await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 40000 });
+  });
+
+  test('C6-1: the magic row takes the cards, three magic cards in the main row play it three times', async ({ page }) => {
+    const errors = await open(page, seed('C6-1', 6));
+    await openLevel(page, 'C6-1');
+    await expect(page.locator('.rc-p1')).toBeVisible();
+    await enter(page, 'CCC');
+    await page.locator('.rc-p1-label').click(); // the next cards go into the magic row
+    await expect(page.locator('.rc-p1')).toHaveClass(/is-target/);
+    for (const c of lv('C6-1').solution.p1 ?? '') await card(page, c).click();
+    await expect(page.locator('.rc-p1-rail .rc-slot.is-full')).toHaveCount(3);
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 30000 });
+    expect((await saved(page)).levels['C6-1'].stars).toBe(3);
+    expect(errors).toEqual([]);
+  });
+
+  test('an empty magic row is not sent: the helper says it is empty and the magic row takes the next card', async ({ page }) => {
+    await open(page, seed('C6-1', 6));
+    await openLevel(page, 'C6-1');
+    await enter(page, 'C');
+    await page.locator('.rc-send').click();
+    await expect(page.locator('.rc-brief')).toContainText('魔法卡还是空的');
+    await expect(page.locator('.rc-p1')).toHaveClass(/is-target/);
+  });
+
+  test('C6-5 (fix the magic card): one card added to the magic row mends all three places', async ({ page }) => {
+    await open(page, seed('C6-5', 6));
+    await openLevel(page, 'C6-5');
+    await expect(page.locator('.rc-p1-rail .rc-slot.is-full')).toHaveCount(3);
+    await page.locator('.rc-p1-label').click();
+    await card(page, 'L').click();
+    await expect(page.locator('.rc-p1-rail .rc-slot.is-full')).toHaveCount(4);
+    await page.locator('.rc-send').click();
+    await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 40000 });
+    expect((await saved(page)).levels['C6-5'].stars).toBe(3);
   });
 
   test('the back button goes from a level to the map; the layout never overflows; reload keeps the stars', async ({ page }) => {

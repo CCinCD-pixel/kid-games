@@ -16,7 +16,7 @@ let play: PlayScreen | null = null;
 let redrawMap: (() => void) | null = null;
 
 const metrics = registerMetrics('rover-code', [
-  { id: 'levels', label: '月球车关卡', value: () => ({ value: `${doneCount(save)} / ${LEVELS.length}`, frac: doneCount(save) / LEVELS.length, detail: '已通过的关数（前五章）' }) },
+  { id: 'levels', label: '月球车关卡', value: () => ({ value: `${doneCount(save)} / ${LEVELS.length}`, frac: doneCount(save) / LEVELS.length, detail: '已通过的关数（前六章）' }) },
 ]);
 const persist = () => {
   store.save(save);

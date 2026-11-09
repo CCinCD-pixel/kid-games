@@ -1,15 +1,17 @@
 /**
  * 玉兔编程 model (the pure part): parse a level, run one card, run a whole program, count edits. A port of the spec's reference
- * model (specs/rover-code, core.mjs) for chapters 1–5: single cards and the repeat block (no magic card yet).
+ * model (specs/rover-code, core.mjs) for chapters 1–6: single cards, the repeat block and the magic card (a second row P1 that a card C in the main row plays).
  * Coordinates: x → east, y → south (row 0 is the top of the screen). A program succeeds only when it ENDS on the goal with
  * every required sample taken ("停在终点才算到"): passing over the goal on the way does not count.
  */
 export type Card = 'N' | 'E' | 'S' | 'W' | 'F' | 'L' | 'R' | 'P';
 /** what the card box can hold: the cards, and the repeat card X (which opens a block) */
-export type CardKey = Card | 'X';
-/** a repeat block: `n` times the body; the body holds up to four plain cards and no block (no nesting) */
-export interface Block { k: 'X'; n: number; body: Card[] }
-export type Item = Card | Block;
+export type CardKey = Card | 'X' | 'C';
+/** the magic card: plays the whole P1 row once */
+export type MainCard = Card | 'C';
+/** a repeat block: `n` times the body; the body holds up to four cards (magic cards too) and no block (no nesting) */
+export interface Block { k: 'X'; n: number; body: MainCard[] }
+export type Item = MainCard | Block;
 export const MAX_BODY = 4;
 export type Part = 'wheels' | 'panel' | 'mast';
 export interface Config { wheels: 'S' | 'L'; panel: 'S' | 'L'; mast: 'S' | 'T' }
@@ -18,13 +20,14 @@ export const DEFAULT_CONFIG: Config = { wheels: 'S', panel: 'S', mast: 'S' };
 export interface LevelData {
   id: string; brief: string; ch: number; n: number; role: string; title: string; teach: string;
   cards: CardKey[]; slots: number; expectMin: number; minCrystal?: number | null;
+  p1Slots?: number; needCall?: boolean | 'strict'; buggyP1?: string; fixP1?: string;
   map: string[]; height?: string[];
   garage?: { open: Part[] }; loadout?: Config;
   fog?: { brief: [Card, number][] };
   ghost?: 'full' | 'last' | 'off';
   intro?: boolean; review?: string[];
   fix?: string; buggy?: string; bugs?: number; bugKinds?: string[];
-  solution: { main: string };
+  solution: { main: string; p1?: string };
 }
 
 export interface Cell { ch: string; h: number; block: boolean; narrow: boolean; over: boolean; req: number; crystal: boolean; goal: boolean }
@@ -95,28 +98,36 @@ export function act(lv: Level, cfg: Config, s: State, a: Card): { s: State; err?
 }
 
 /** `path` says where in the programme the card sits: [item] for a plain card, [block item, place in the body] inside a block */
-export interface Step { card: Card; path: [number, number?]; s: State; err?: Err }
+export interface Step { card: Card; path: [number, number?]; p1?: number; s: State; err?: Err }
 export interface RunResult { res: 'win' | 'crash' | 'end'; s: State; steps: Step[]; err?: Err; at?: Step['path']; crystal: boolean }
 
-/** the plain cards a programme boils down to, in the order the rover does them, each with where it came from */
-export function flatten(prog: readonly Item[]): { card: Card; path: Step['path'] }[] {
-  const out: { card: Card; path: Step['path'] }[] = [];
+/** the plain cards a programme boils down to, in the order the rover does them, each with where it came from; a magic card plays the P1 row
+ *  (its steps carry the call site in `path` and the place in the row in `p1`) */
+export function flatten(prog: readonly Item[], p1: readonly Card[] = []): { card: Card; path: Step['path']; p1?: number }[] {
+  const out: { card: Card; path: Step['path']; p1?: number }[] = [];
+  const play = (c: MainCard, path: Step['path']) => {
+    if (c === 'C') p1.forEach((q, k) => out.push({ card: q, path, p1: k }));
+    else out.push({ card: c, path });
+  };
   prog.forEach((it, i) => {
-    if (typeof it === 'string') out.push({ card: it, path: [i] });
-    else for (let k = 0; k < it.n; k++) it.body.forEach((c, j) => out.push({ card: c, path: [i, j] }));
+    if (typeof it === 'string') play(it, [i]);
+    else for (let k = 0; k < it.n; k++) it.body.forEach((c, j) => play(c, [i, j]));
   });
   return out;
 }
-/** what a programme costs in rail slots: a card 1, a repeat block 1 plus the cards in it */
-export const cost = (prog: readonly Item[]): number => prog.reduce((a, it) => a + (typeof it === 'string' ? 1 : 1 + it.body.length), 0);
+/** what a programme costs in rail slots: a card 1, a repeat block 1 plus the cards in it, plus the cards of the P1 row */
+export const cost = (prog: readonly Item[], p1: readonly Card[] = []): number =>
+  prog.reduce((a, it) => a + (typeof it === 'string' ? 1 : 1 + it.body.length), 0) + p1.length;
+/** the main row alone: the P1 row has its own slots */
+export const mainCost = (prog: readonly Item[]): number => cost(prog);
 
 /** run a whole program; stops at the first card the rover cannot do */
-export function run(lv: Level, cfg: Config, prog: readonly Item[]): RunResult {
+export function run(lv: Level, cfg: Config, prog: readonly Item[], p1: readonly Card[] = []): RunResult {
   let s = startState(lv);
   const steps: Step[] = [];
-  for (const { card, path } of flatten(prog)) {
+  for (const { card, path, p1: at } of flatten(prog, p1)) {
     const r = act(lv, cfg, s, card);
-    steps.push({ card, path, s: r.s, err: r.err });
+    steps.push({ card, path, p1: at, s: r.s, err: r.err });
     s = r.s;
     if (r.err) return { res: 'crash', err: r.err, at: path, s, steps, crystal: s.c === 1 };
   }
@@ -133,9 +144,9 @@ export function parseProg(str: string): Item[] {
       if (t[i + 1] !== '(') throw new Error(`expected ( in ${str}`);
       const end = t.indexOf(')', i);
       if (end < 0) throw new Error(`missing ) in ${str}`);
-      out.push({ k: 'X', n: Number(ch), body: [...t.slice(i + 2, end)] as Card[] });
+      out.push({ k: 'X', n: Number(ch), body: [...t.slice(i + 2, end)] as MainCard[] });
       i = end;
-    } else out.push(ch as Card);
+    } else out.push(ch as MainCard);
   }
   return out;
 }
@@ -152,7 +163,7 @@ export function osa<T>(a: readonly T[], b: readonly T[]): number {
   }
   return d[a.length][b.length];
 }
-export const editCount = (a: readonly Item[], b: readonly Item[]): number => osa(tokens(a), tokens(b));
+export const editCount = (a: readonly Item[], b: readonly Item[], aP1: readonly Card[] = [], bP1: readonly Card[] = []): number => osa(tokens(a), tokens(b)) + osa(aP1, bP1);
 
 /** metres still to go, for the "还差 N 米" line when the program ran out before the goal */
 export const metresLeft = (lv: Level, s: State): number => Math.abs(lv.goal.x - s.x) + Math.abs(lv.goal.y - s.y);

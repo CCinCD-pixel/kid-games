@@ -87,3 +87,12 @@ body { background: radial-gradient(120% 90% at 50% 0%, var(--xg-night-700), var(
 .rc-bclose.is-pulse { animation: rc-pulse 1.1s ease-in-out infinite; }
 .rc-empty { display: grid; place-items: center; }
 @media (prefers-reduced-motion: reduce) { .rc-bclose.is-pulse { animation: none; box-shadow: 0 0 0 4px rgba(255, 210, 74, .7); } }
+
+/* the magic card row (chapter 6): its own purple row under the main rail; tap either row to say where the next card goes */
+.rc-p1 { display: grid; gap: 6px; padding: 8px; border-radius: 16px; border: 2px dashed #b48cff; background: rgba(180, 140, 255, .12); }
+.rc-p1.is-target, .rc-rail.is-target { box-shadow: 0 0 0 3px rgba(255, 210, 74, .6); border-radius: 14px; }
+.rc-rail.is-target { padding: 4px; }
+.rc-p1.is-hint { box-shadow: 0 0 0 4px #ff9f5a; }
+.rc-p1-label { font: 700 15px var(--xg-font-read); color: #d9c5ff; }
+.rc-p1 .rc-slot.is-full { border-color: #b48cff; }
+.rc-p1[hidden] { display: none; }

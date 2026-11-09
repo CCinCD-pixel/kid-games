@@ -3,7 +3,7 @@ import { mount, type Companion } from '@kit/companion';
 import { h, icon, showResult } from '@kit/ui';
 import { CARD_NAME, cardSvg } from '../cards';
 import { nextLevel } from '../model/levels';
-import { DEFAULT_CONFIG, MAX_BODY, cellAt, cost, editCount, metresLeft, parseProg, run, slotsOf, startState, type Block, type Card, type CardKey, type Config, type Err, type Item, type Level, type Part, type RunResult, type Step } from '../model/sim';
+import { DEFAULT_CONFIG, MAX_BODY, cellAt, cost, editCount, metresLeft, parseProg, run, slotsOf, startState, type Block, type Card, type CardKey, type Config, type Err, type Item, type Level, type MainCard, type Part, type RunResult, type Step } from '../model/sim';
 import { starsFor } from '../model/stars';
 import { Board, type Frame } from '../render/board';
 
@@ -47,6 +47,10 @@ export class PlayScreen {
   private cfg: Config = { ...DEFAULT_CONFIG };
   private prog: Item[] = [];
   private open = -1;               // index of the repeat block that takes the next cards, -1 for none
+  private p1: Card[] = [];        // the magic card row (chapter 6)
+  private target: 'main' | 'p1' = 'main'; // where the next plain card goes
+  private nowP1 = -1;
+  private hintP1 = false;
   private state: 'edit' | 'running' | 'result' = 'edit';
   private hints = 0;
   private hinted = false;
@@ -58,13 +62,14 @@ export class PlayScreen {
   private rover = { x: 0, y: 0, ang: 0, lift: 0 };
   private ghost: Frame['ghost'] = null;
   private marker: Frame['marker'] = null;
-  private el!: Record<'brief' | 'note' | 'count' | 'rail' | 'tray' | 'garage' | 'send' | 'clear' | 'hint' | 'bot' | 'canvas', HTMLElement>;
+  private el!: Record<'brief' | 'note' | 'count' | 'rail' | 'tray' | 'garage' | 'send' | 'clear' | 'hint' | 'bot' | 'canvas' | 'p1box' | 'p1rail' | 'p1label', HTMLElement>;
   private nextPulse: CardKey | 'close' | null = null;
   private hintItem = -1;
   private nowAt: Step['path'] | null = null;
 
   constructor(private host: PlayHost, readonly lv: Level) {
     this.prog = lv.buggy ? parseProg(lv.buggy) : [];
+    this.p1 = lv.buggyP1 ? ([...lv.buggyP1] as Card[]) : [];
     const canvas = h('canvas', { class: 'rc-stage', 'aria-label': '月面地图' });
     this.board = new Board(canvas);
     this.build(canvas);
@@ -84,9 +89,13 @@ export class PlayScreen {
     const clear = h('button', { class: 'xg-btn rc-clear', type: 'button', onclick: () => this.clear() }, lv.buggy ? '还原' : '清空');
     const hint = h('button', { class: 'xg-btn rc-hint', type: 'button', 'aria-label': '提示', onclick: () => this.hint() });
     hint.innerHTML = icon('hint');
-    this.el = { brief, note, count, rail, tray, garage, send, clear, hint, bot, canvas };
+    const p1label = h('span', { class: 'rc-p1-label' }), p1rail = q('rc-rail rc-p1-rail');
+    const p1box = h('div', { class: 'rc-p1', 'data-target': 'p1', onclick: () => this.setTarget('p1') }, p1label, p1rail);
+    if (!lv.p1Slots) p1box.hidden = true;
+    rail.addEventListener('click', () => this.setTarget('main'));
+    this.el = { brief, note, count, rail, tray, garage, send, clear, hint, bot, canvas, p1box, p1rail, p1label };
     const top = h('header', { class: 'rc-top' }, h('div', { class: 'rc-title' }, h('b', {}, lv.id), ` ${lv.title}`), bot, brief, hint);
-    const side = h('aside', { class: 'rc-side' }, garage, count, rail, tray, h('div', { class: 'rc-actions' }, clear, send));
+    const side = h('aside', { class: 'rc-side' }, garage, count, rail, p1box, tray, h('div', { class: 'rc-actions' }, clear, send));
     const stage = h('div', { class: 'rc-stagewrap' }, canvas, note);
     this.host.root.replaceChildren(h('section', { class: 'rc-play', 'data-ch': String(lv.ch) }, top, stage, side));
     try { this.bot = mount(bot, { size: 64 }); } catch { this.bot = null; }
@@ -115,6 +124,12 @@ export class PlayScreen {
 
   private add(key: CardKey): void {
     if (this.state !== 'edit') return;
+    if (this.target === 'p1' && key !== 'C') {
+      if (key === 'X') { this.say('魔法卡里不能放重复卡。', 'thinking'); sfx.play('ui-locked'); return; }
+      if (this.p1.length >= (this.lv.p1Slots ?? 0)) { this.say('魔法卡放满了。先拿掉一张再放。', 'thinking'); sfx.play('ui-locked'); return; }
+      this.p1.push(key); sfx.play('place-piece'); this.afterEdit(); return;
+    }
+    if (key === 'C') this.target = 'main';                                     // a magic card is always played from the main row
     if (key === 'X') {
       if (this.open >= 0) { this.closeBlock(); return; }                       // tapping 重复 again closes the open bracket
       if (cost(this.prog) >= this.slots) return this.full();
@@ -140,6 +155,12 @@ export class PlayScreen {
       if (blk && blk.body.length === 1) this.say('点一点括号上的数字，改成 5 次。', 'happy');
     }
   }
+  private setTarget(t: 'main' | 'p1'): void {
+    if (this.state !== 'edit' || !this.lv.p1Slots || this.target === t) return;
+    this.target = t; sfx.play('ui-tap');
+    this.say(t === 'p1' ? '现在放进魔法卡里。' : '现在放进主程序里。', 'happy'); this.refresh();
+  }
+  private removeP1(k: number): void { if (this.state !== 'edit') return; this.p1.splice(k, 1); sfx.play('ui-pop'); this.afterEdit(); }
   private full(): void { this.say('卡槽满了。先拿掉一张再放。', 'thinking'); sfx.play('ui-locked'); }
   private removeCard(i: number, j?: number): void {
     if (this.state !== 'edit') return;
@@ -159,9 +180,9 @@ export class PlayScreen {
   private closeBlock(): void { this.open = -1; sfx.play('ui-tap'); this.afterEdit(); }
   private clear(): void {
     if (this.state !== 'edit') return;
-    this.prog = this.lv.buggy ? parseProg(this.lv.buggy) : []; this.open = -1; sfx.play('ui-tap'); this.afterEdit();
+    this.prog = this.lv.buggy ? parseProg(this.lv.buggy) : []; this.p1 = this.lv.buggyP1 ? ([...this.lv.buggyP1] as Card[]) : []; this.open = -1; this.target = 'main'; sfx.play('ui-tap'); this.afterEdit();
   }
-  private afterEdit(): void { this.marker = null; this.hintItem = -1; this.nextPulse = null; this.refresh(); }
+  private afterEdit(): void { this.marker = null; this.hintItem = -1; this.hintP1 = false; this.nextPulse = null; this.refresh(); }
 
   private setPart(part: Part, val: string): void {
     if (this.state !== 'edit') return;
@@ -177,7 +198,7 @@ export class PlayScreen {
     if (last && isBlock(last) && last.body.length) last.body.pop(); else this.removeItem(this.prog.length - 1);
   }
 
-  private tile(card: Card, i: number, j?: number): HTMLElement {
+  private tile(card: MainCard, i: number, j?: number): HTMLElement {
     const now = !!this.nowAt && this.nowAt[0] === i && this.nowAt[1] === j;
     const b = h('button', {
       class: `rc-slot is-full${now ? ' is-now' : ''}${this.hintItem === i && j === undefined ? ' is-hint' : ''}`, type: 'button', 'data-i': String(i), ...(j === undefined ? {} : { 'data-j': String(j) }),
@@ -208,6 +229,19 @@ export class PlayScreen {
     });
     for (let k = used; k < slots; k++) nodes.push(h('span', { class: 'rc-slot rc-empty', 'aria-hidden': 'true' }, String(k + 1)));
     el.rail.replaceChildren(...nodes);
+    if (lv.p1Slots) {
+      el.p1box.classList.toggle('is-target', this.target === 'p1');
+      el.p1box.classList.toggle('is-hint', this.hintP1);
+      el.rail.classList.toggle('is-target', this.target === 'main');
+      el.p1label.textContent = `魔法卡 ${this.p1.length} / ${lv.p1Slots}`;
+      const tiles: HTMLElement[] = this.p1.map((c, k) => {
+        const b = h('button', { class: `rc-slot is-full${this.nowP1 === k ? ' is-now' : ''}`, type: 'button', 'data-k': String(k), 'aria-label': `魔法卡第 ${k + 1} 张：${CARD_NAME[c]}，点一下拿掉`, onclick: (e: Event) => { e.stopPropagation(); this.removeP1(k); } });
+        b.innerHTML = cardSvg(c);
+        return b;
+      });
+      for (let k = this.p1.length; k < lv.p1Slots; k++) tiles.push(h('span', { class: 'rc-slot rc-empty', 'aria-hidden': 'true' }, String(k + 1)));
+      el.p1rail.replaceChildren(...tiles);
+    }
     const first = FIRST_CARD[lv.id];
     for (const b of Array.from(el.tray.children) as HTMLElement[]) {
       const c = b.dataset.card;
@@ -225,7 +259,7 @@ export class PlayScreen {
     const mode = lv.ghost ?? 'off';
     if (mode === 'off' || !this.prog.length || this.state !== 'edit' || this.hasEmptyBlock()) this.ghost = null;
     else {
-      const r = run(lv, this.cfg, this.prog);
+      const r = run(lv, this.cfg, this.prog, this.p1);
       this.ghost = { mode, pts: [{ x: lv.start.x, y: lv.start.y }, ...r.steps.filter((s) => !s.err).map((s) => ({ x: s.s.x, y: s.s.y }))] };
     }
     if (this.state === 'edit') this.resetRover();
@@ -244,12 +278,16 @@ export class PlayScreen {
       let i = 0;
       while (i < this.prog.length && i < fix.length && sameItem(this.prog[i], fix[i])) i++;
       this.hintItem = i < this.prog.length ? i : -1;
+      if (i >= this.prog.length && i >= fix.length && this.lv.fixP1 !== undefined && this.p1.join('') !== this.lv.fixP1) this.hintP1 = true; // the mistake is in the magic card
       this.say('看一看这一格：这里的卡可能要换一换。', 'encouraging');
     } else {
       const want = this.lv.solution.main, have = partial(this.prog, this.open);
-      if (!want.startsWith(have)) { this.say('先点“清空”，从头再排一次吧。', 'encouraging'); return; }
+      const want1 = this.lv.solution.p1 ?? '', have1 = this.p1.join('');
+      if (!want.startsWith(have) || !want1.startsWith(have1)) { this.say('先点“清空”，从头再排一次吧。', 'encouraging'); return; }
+      const mainDone = have === want && this.open < 0;
+      if (mainDone && want1.length > have1.length) { this.target = 'p1'; this.nextPulse = want1[have1.length] as Card; this.say('魔法卡里放这一张。', 'encouraging'); this.refresh(); return; }
       const next = want[have.length];
-      this.nextPulse = next === undefined ? null : /[2-5]/.test(next) ? 'X' : next === ')' ? 'close' : (next as Card);
+      this.nextPulse = next === undefined ? null : /[2-5]/.test(next) ? 'X' : next === ')' ? 'close' : (next as CardKey);
       this.say(this.nextPulse === 'X' ? '试试用重复卡。' : this.nextPulse === 'close' ? '括号里放好了，点“收好”。' : '试试这张卡。', 'encouraging');
     }
     this.refresh();
@@ -263,22 +301,26 @@ export class PlayScreen {
       this.el.rail.querySelector('.rc-block')?.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 260 });
       return;
     }
+    if (this.lv.p1Slots && !this.p1.length && this.prog.some((it) => it === 'C' || (isBlock(it) && it.body.includes('C')))) {
+      this.say('魔法卡还是空的。', 'thinking'); sfx.play('ui-locked'); this.target = 'p1'; this.refresh(); return;
+    }
     this.open = -1;
     this.state = 'running'; this.tries++; this.ghost = null; this.marker = null; this.nextPulse = null; this.hintItem = -1;
     this.refresh();
     sfx.play('launch');
     const prog = this.prog.map((it) => (isBlock(it) ? { ...it, body: [...it.body] } : it));
-    const r = run(this.lv, this.cfg, prog);
+    const p1 = [...this.p1];
+    const r = run(this.lv, this.cfg, prog, p1);
     this.resetRover();
     await this.wait(260);
     for (const st of r.steps) {
       if (this.dead) return;
-      this.nowAt = st.path; this.refresh();
+      this.nowAt = st.path; this.nowP1 = st.p1 ?? -1; this.refresh();
       await this.perform(st);
       if (st.err) break;
     }
-    this.nowAt = null;
-    await this.finish(r, prog);
+    this.nowAt = null; this.nowP1 = -1;
+    await this.finish(r, prog, p1);
   }
 
   /** one card, animated: a turn rotates in place, a move slides, a sample pulses; a card the rover cannot do bumps */
@@ -307,11 +349,11 @@ export class PlayScreen {
     this.rover.x = x0; this.rover.y = y0;
   }
 
-  private async finish(r: RunResult, prog: Item[]): Promise<void> {
+  private async finish(r: RunResult, prog: Item[], p1: Card[]): Promise<void> {
     const { lv } = this;
     if (r.res === 'win') {
       this.state = 'result';
-      const stars = starsFor(lv, prog, r, this.hinted);
+      const stars = starsFor(lv, prog, r, this.hinted, p1);
       this.bot?.setMood('celebrating'); playSuccess(stars); sfx.play(`star-${stars}`);
       this.host.onWin(lv, stars);
       this.refresh();
@@ -322,7 +364,7 @@ export class PlayScreen {
       const nxt = nextLevel(lv.id);
       const id = await showResult({
         ribbon: `${lv.id} 完成`, title: lv.title, text: praise, stars, accentGame: 'rabbit',
-        stats: [{ label: lv.buggy ? '改动' : '用了卡', value: lv.buggy ? `${editCount(parseProg(lv.buggy), prog)} 处` : `${cost(prog)} 张` }],
+        stats: [{ label: lv.buggy ? '改动' : '用了卡', value: lv.buggy ? `${editCount(parseProg(lv.buggy), prog, [...(lv.buggyP1 ?? '')] as Card[], p1)} 处` : `${cost(prog, p1)} 张` }],
         actions: [...(nxt ? [{ id: 'next', label: '下一关', kind: 'primary' as const }] : []), { id: 'again', label: '再来一次' }, { id: 'map', label: '回地图' }],
       });
       if (this.dead) return;
