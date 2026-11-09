@@ -1,0 +1,1061 @@
+{
+ "version": 1,
+ "chapters": [
+  {
+   "ch": 1,
+   "title": "出发"
+  },
+  {
+   "ch": 2,
+   "title": "采样和车库"
+  },
+  {
+   "ch": 3,
+   "title": "转弯"
+  },
+  {
+   "ch": 4,
+   "title": "修一修"
+  }
+ ],
+ "levels": [
+  {
+   "kind": "grid",
+   "id": "C1-1",
+   "brief": "开到 3 米外的信号塔。",
+   "ch": 1,
+   "n": 1,
+   "role": "起",
+   "title": "第一次出发",
+   "teach": "把→卡放进槽位，按发送，月球车照着做",
+   "cards": [
+    "E"
+   ],
+   "slots": 4,
+   "expectMin": 3,
+   "map": [
+    ".....",
+    ">..G.",
+    "....."
+   ],
+   "solution": {
+    "main": "EEE"
+   },
+   "D": 3
+  },
+  {
+   "kind": "grid",
+   "id": "C1-2",
+   "brief": "信号塔在上面，去吧！",
+   "ch": 1,
+   "n": 2,
+   "role": "起",
+   "title": "往上开",
+   "teach": "↑卡：朝屏幕上方开 1 米；两种卡要按顺序放",
+   "cards": [
+    "E",
+    "N"
+   ],
+   "slots": 5,
+   "expectMin": 4,
+   "map": [
+    "..G.",
+    "....",
+    ">..."
+   ],
+   "solution": {
+    "main": "EENN"
+   },
+   "D": 6.3
+  },
+  {
+   "kind": "grid",
+   "id": "C1-3",
+   "brief": "往左下开，绕开石头。",
+   "ch": 1,
+   "n": 3,
+   "role": "承",
+   "title": "四个方向",
+   "teach": "←↓ 也能用；挑出需要的方向卡",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W"
+   ],
+   "slots": 5,
+   "expectMin": 4,
+   "map": [
+    "..<",
+    ".#.",
+    "G.."
+   ],
+   "solution": {
+    "main": "SSWW"
+   },
+   "D": 9.3
+  },
+  {
+   "kind": "grid",
+   "id": "C1-4",
+   "brief": "大石头挡路，绕过去。",
+   "ch": 1,
+   "n": 4,
+   "role": "承",
+   "title": "绕过大石头",
+   "teach": "前面有石头时先拐出去再拐回来",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "map": [
+    "...*",
+    ">#.G",
+    "...."
+   ],
+   "solution": {
+    "main": "NEEES"
+   },
+   "minCrystal": 5,
+   "D": 11.6
+  },
+  {
+   "kind": "grid",
+   "id": "C1-5",
+   "brief": "石头中间有条路。",
+   "ch": 1,
+   "n": 5,
+   "role": "承",
+   "title": "石头缝",
+   "teach": "先看清整条路再放卡：两条路一样长",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W"
+   ],
+   "slots": 7,
+   "expectMin": 6,
+   "map": [
+    ">.#..",
+    "..#.#",
+    "*...G"
+   ],
+   "solution": {
+    "main": "ESSEEE"
+   },
+   "minCrystal": 6,
+   "D": 13.9
+  },
+  {
+   "kind": "grid",
+   "id": "C1-6",
+   "brief": "沙尘暴！按任务单开。",
+   "ch": 1,
+   "n": 6,
+   "role": "转",
+   "title": "沙尘暴",
+   "teach": "看不见信号塔，只按任务单的米数开：向东 4 米，向北 3 米",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W"
+   ],
+   "slots": 8,
+   "expectMin": 7,
+   "fog": {
+    "brief": [
+     [
+      "E",
+      4
+     ],
+     [
+      "N",
+      3
+     ]
+    ]
+   },
+   "map": [
+    "......",
+    "....G.",
+    "..#...",
+    "...#..",
+    ">....."
+   ],
+   "solution": {
+    "main": "NNNEEEE"
+   },
+   "D": 16.3
+  },
+  {
+   "kind": "grid",
+   "id": "C1-7",
+   "brief": "穿过陨石坑迷宫。",
+   "ch": 1,
+   "n": 7,
+   "role": "合",
+   "title": "陨石坑迷宫",
+   "teach": "长路线：一段一段规划",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W"
+   ],
+   "slots": 9,
+   "expectMin": 8,
+   "map": [
+    ">.#...",
+    "..#.#.",
+    "#..*#.",
+    "..#..G"
+   ],
+   "solution": {
+    "main": "ESSEESEE"
+   },
+   "minCrystal": 8,
+   "D": 18.6
+  },
+  {
+   "kind": "grid",
+   "id": "C1-8",
+   "brief": "回基地，顺路捡晶体。",
+   "ch": 1,
+   "n": 8,
+   "role": "喘息",
+   "title": "回基地",
+   "teach": "轻松一关；顺路捡晶体",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W"
+   ],
+   "slots": 7,
+   "expectMin": 5,
+   "map": [
+    ".*..",
+    "....",
+    ">.#G"
+   ],
+   "solution": {
+    "main": "NEEES"
+   },
+   "minCrystal": 7,
+   "D": 11.6
+  },
+  {
+   "kind": "grid",
+   "id": "C2-1",
+   "brief": "停在亮点上，采样！",
+   "ch": 2,
+   "n": 1,
+   "role": "起",
+   "title": "采一块月壤",
+   "teach": "采样卡：停在发光的样本点上采样",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "map": [
+    ".....",
+    ">.a.G",
+    "....."
+   ],
+   "solution": {
+    "main": "EEPEE"
+   },
+   "D": 12.9
+  },
+  {
+   "kind": "grid",
+   "id": "C2-2",
+   "brief": "样本在旁边，先去采。",
+   "ch": 2,
+   "n": 2,
+   "role": "起",
+   "title": "拐个弯去采样",
+   "teach": "样本不在路上：先去采，再回到路线",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 7,
+   "expectMin": 6,
+   "map": [
+    ".a.*",
+    ">..G",
+    "...."
+   ],
+   "solution": {
+    "main": "NEPEES"
+   },
+   "minCrystal": 6,
+   "D": 15.5
+  },
+  {
+   "kind": "grid",
+   "id": "C2-3",
+   "brief": "上台阶，一次一级。",
+   "intro": true,
+   "ch": 2,
+   "n": 3,
+   "role": "承",
+   "title": "台阶",
+   "teach": "小轮子一次只能上一级台阶；两级的悬崖要绕到楼梯",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 7,
+   "expectMin": 6,
+   "map": [
+    ".....",
+    ">...G",
+    "....."
+   ],
+   "height": [
+    "01222",
+    "02222",
+    "00000"
+   ],
+   "solution": {
+    "main": "NEEEES"
+   },
+   "D": 15.5
+  },
+  {
+   "kind": "grid",
+   "id": "C2-4",
+   "brief": "去车库换个轮子吧。",
+   "intro": true,
+   "ch": 2,
+   "n": 4,
+   "role": "承",
+   "title": "换大轮子",
+   "teach": "车库：大轮子能上两级台阶，但更重——电量少 2 格",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 9,
+   "expectMin": 6,
+   "garage": {
+    "open": [
+     "wheels"
+    ]
+   },
+   "map": [
+    "......",
+    ">..a.G",
+    "......"
+   ],
+   "height": [
+    "002222",
+    "002222",
+    "002222"
+   ],
+   "loadout": {
+    "wheels": "L",
+    "panel": "S",
+    "mast": "S"
+   },
+   "solution": {
+    "main": "EEEPEE"
+   },
+   "D": 15.5
+  },
+  {
+   "kind": "grid",
+   "id": "C2-5",
+   "brief": "路很长，电够不够？",
+   "intro": true,
+   "ch": 2,
+   "n": 5,
+   "role": "承",
+   "title": "大电池板",
+   "teach": "车库：大太阳能板让电量多 3 格，能放更多卡",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 5,
+   "expectMin": 7,
+   "garage": {
+    "open": [
+     "panel"
+    ]
+   },
+   "map": [
+    ">....",
+    "##a..",
+    "G...."
+   ],
+   "loadout": {
+    "wheels": "S",
+    "panel": "L",
+    "mast": "S"
+   },
+   "solution": {
+    "main": "EESPSWW"
+   },
+   "D": 18.1
+  },
+  {
+   "kind": "grid",
+   "id": "C2-6",
+   "brief": "影子里藏着样本。",
+   "intro": true,
+   "ch": 2,
+   "n": 6,
+   "role": "转",
+   "title": "影子里的样本",
+   "teach": "高天线能看见阴影里的样本；可它过不了低矮的石拱",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 8,
+   "expectMin": 7,
+   "garage": {
+    "open": [
+     "mast"
+    ]
+   },
+   "map": [
+    ".....",
+    ">.u.G",
+    "..d.."
+   ],
+   "loadout": {
+    "wheels": "S",
+    "panel": "S",
+    "mast": "T"
+   },
+   "solution": {
+    "main": "ESEPENE"
+   },
+   "D": 18.1
+  },
+  {
+   "kind": "grid",
+   "id": "C2-7",
+   "brief": "选对零件再出发。",
+   "ch": 2,
+   "n": 7,
+   "role": "合",
+   "title": "三样都要想",
+   "teach": "轮子、电池板、天线：只有一种搭配能完成任务",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 8,
+   "expectMin": 8,
+   "garage": {
+    "open": [
+     "wheels",
+     "panel",
+     "mast"
+    ]
+   },
+   "map": [
+    "u....G",
+    ".#..#.",
+    ".####.",
+    ">..n.."
+   ],
+   "height": [
+    "000002",
+    "000002",
+    "000000",
+    "000000"
+   ],
+   "loadout": {
+    "wheels": "L",
+    "panel": "L",
+    "mast": "S"
+   },
+   "solution": {
+    "main": "NNNEEEEE"
+   },
+   "D": 20.7
+  },
+  {
+   "kind": "grid",
+   "id": "C2-8",
+   "brief": "晒晒太阳，电满满。",
+   "ch": 2,
+   "n": 8,
+   "role": "喘息",
+   "title": "晒太阳",
+   "teach": "轻松一关：大电池板正合适",
+   "cards": [
+    "N",
+    "E",
+    "S",
+    "W",
+    "P"
+   ],
+   "slots": 4,
+   "expectMin": 6,
+   "garage": {
+    "open": [
+     "panel"
+    ]
+   },
+   "map": [
+    ">.a*.",
+    "....G",
+    "....."
+   ],
+   "loadout": {
+    "wheels": "S",
+    "panel": "L",
+    "mast": "S"
+   },
+   "solution": {
+    "main": "EEPEES"
+   },
+   "minCrystal": 6,
+   "D": 15.5
+  },
+  {
+   "kind": "grid",
+   "id": "C3-1",
+   "brief": "先右转，再前进。",
+   "ch": 3,
+   "n": 1,
+   "role": "起",
+   "title": "右转",
+   "teach": "右转卡只转车头、不前进；转完再前进",
+   "cards": [
+    "F",
+    "R"
+   ],
+   "slots": 4,
+   "expectMin": 3,
+   "ghost": "full",
+   "map": [
+    "...",
+    "...",
+    "^.G"
+   ],
+   "solution": {
+    "main": "RFF"
+   },
+   "D": 4.8
+  },
+  {
+   "kind": "grid",
+   "id": "C3-2",
+   "brief": "试试左转卡。",
+   "ch": 3,
+   "n": 2,
+   "role": "起",
+   "title": "左转",
+   "teach": "左转卡：车头向它自己的左边转",
+   "cards": [
+    "F",
+    "L"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "ghost": "full",
+   "map": [
+    "..G",
+    "...",
+    ">.."
+   ],
+   "solution": {
+    "main": "FFLFF"
+   },
+   "D": 7.9
+  },
+  {
+   "kind": "grid",
+   "id": "C3-3",
+   "brief": "左拐右拐，到塔下。",
+   "ch": 3,
+   "n": 3,
+   "role": "承",
+   "title": "S 形弯",
+   "teach": "左转、右转一起用；每放一张卡看幽灵车",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "ghost": "full",
+   "map": [
+    "....",
+    "..G.",
+    ">.#."
+   ],
+   "solution": {
+    "main": "FLFRF"
+   },
+   "D": 10
+  },
+  {
+   "kind": "grid",
+   "id": "C3-4",
+   "brief": "车头朝下，哪边是左？",
+   "ch": 3,
+   "n": 4,
+   "role": "承",
+   "title": "车头朝下",
+   "teach": "车头朝屏幕下方时，它的左边是屏幕的右边",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "ghost": "full",
+   "map": [
+    "v..",
+    "...",
+    "..G"
+   ],
+   "solution": {
+    "main": "FFLFF"
+   },
+   "D": 10
+  },
+  {
+   "kind": "grid",
+   "id": "C3-5",
+   "brief": "车头朝左，往上开。",
+   "ch": 3,
+   "n": 5,
+   "role": "承",
+   "title": "车头朝左",
+   "teach": "车头朝左时，右转会朝上",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 7,
+   "expectMin": 6,
+   "ghost": "last",
+   "map": [
+    "G.#..",
+    "..#..",
+    "...<."
+   ],
+   "solution": {
+    "main": "FFFRFF"
+   },
+   "D": 12
+  },
+  {
+   "kind": "grid",
+   "id": "C3-6",
+   "brief": "前面堵死了，掉头！",
+   "ch": 3,
+   "n": 6,
+   "role": "转",
+   "title": "掉头",
+   "teach": "前面堵死了：连转两次就掉头",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 9,
+   "expectMin": 8,
+   "ghost": "last",
+   "map": [
+    "G#....",
+    "....>#",
+    "......"
+   ],
+   "solution": {
+    "main": "LLFFFFRF"
+   },
+   "D": 16
+  },
+  {
+   "kind": "grid",
+   "id": "C3-7",
+   "brief": "去坑边采样。",
+   "ch": 3,
+   "n": 7,
+   "role": "合",
+   "title": "环形山采样",
+   "teach": "长程序 + 采样（复习 C2）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P"
+   ],
+   "slots": 11,
+   "expectMin": 9,
+   "ghost": "last",
+   "review": [
+    "C2"
+   ],
+   "map": [
+    "v.#.",
+    "..a.",
+    "#.*.",
+    "..#G"
+   ],
+   "solution": {
+    "main": "FLFFPFRFF"
+   },
+   "minCrystal": 11,
+   "D": 20.9
+  },
+  {
+   "kind": "grid",
+   "id": "C3-8",
+   "brief": "爬上小坡看日出。",
+   "ch": 3,
+   "n": 8,
+   "role": "喘息",
+   "title": "上坡看日出",
+   "teach": "轻松一关：台阶 + 相对方向（复习 C2）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P"
+   ],
+   "slots": 8,
+   "expectMin": 6,
+   "ghost": "last",
+   "review": [
+    "C2"
+   ],
+   "map": [
+    ">....",
+    "...*G"
+   ],
+   "height": [
+    "01110",
+    "00011"
+   ],
+   "solution": {
+    "main": "FFFFRF"
+   },
+   "minCrystal": 7,
+   "D": 13.9
+  },
+  {
+   "kind": "grid",
+   "id": "C4-1",
+   "brief": "有个 bug，先跑一遍。",
+   "ch": 4,
+   "n": 1,
+   "role": "起",
+   "title": "少了一步",
+   "teach": "先看车停在哪：差一格就是少了一张前进卡",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "ghost": "off",
+   "map": [
+    ">..#",
+    "...#",
+    "..G#"
+   ],
+   "buggy": "FRFF",
+   "fix": "FFRFF",
+   "bugs": 1,
+   "bugKinds": [
+    "missing"
+   ],
+   "solution": {
+    "main": "FFRFF"
+   },
+   "D": 8
+  },
+  {
+   "kind": "grid",
+   "id": "C4-2",
+   "brief": "车拐到另一边去了。",
+   "ch": 4,
+   "n": 2,
+   "role": "起",
+   "title": "转反了",
+   "teach": "车往另一边拐了：把这张转向卡换成另一张",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 6,
+   "expectMin": 5,
+   "ghost": "off",
+   "map": [
+    "..G",
+    "...",
+    ">.."
+   ],
+   "buggy": "FFRFF",
+   "fix": "FFLFF",
+   "bugs": 1,
+   "bugKinds": [
+    "turn"
+   ],
+   "solution": {
+    "main": "FFLFF"
+   },
+   "D": 10
+  },
+  {
+   "kind": "grid",
+   "id": "C4-3",
+   "brief": "两张卡顺序反了。",
+   "ch": 4,
+   "n": 3,
+   "role": "承",
+   "title": "先后颠倒",
+   "teach": "两张卡顺序反了：交换它们",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 7,
+   "expectMin": 6,
+   "ghost": "off",
+   "map": [
+    ".#...",
+    ">....",
+    "...#G"
+   ],
+   "buggy": "FFFRFF",
+   "fix": "FFFFRF",
+   "bugs": 1,
+   "bugKinds": [
+    "swap"
+   ],
+   "solution": {
+    "main": "FFFFRF"
+   },
+   "D": 12
+  },
+  {
+   "kind": "grid",
+   "id": "C4-4",
+   "brief": "好像多了一张卡。",
+   "ch": 4,
+   "n": 4,
+   "role": "承",
+   "title": "多了一张",
+   "teach": "多走了一步撞上石头：拿掉多余的卡",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 7,
+   "expectMin": 5,
+   "ghost": "off",
+   "map": [
+    ">..#.",
+    ".....",
+    "..G.."
+   ],
+   "buggy": "FFFRFF",
+   "fix": "FFRFF",
+   "bugs": 1,
+   "bugKinds": [
+    "extra"
+   ],
+   "solution": {
+    "main": "FFRFF"
+   },
+   "D": 12
+  },
+  {
+   "kind": "grid",
+   "id": "C4-5",
+   "brief": "这次有两个 bug。",
+   "ch": 4,
+   "n": 5,
+   "role": "承",
+   "title": "两个 bug",
+   "teach": "修好一个再发送，看看还剩哪里不对",
+   "cards": [
+    "F",
+    "L",
+    "R"
+   ],
+   "slots": 9,
+   "expectMin": 7,
+   "ghost": "off",
+   "map": [
+    "v.#..",
+    "..#..",
+    ".....",
+    "...G."
+   ],
+   "buggy": "FFRFFF",
+   "fix": "FFFLFFF",
+   "bugs": 2,
+   "bugKinds": [
+    "missing",
+    "turn"
+   ],
+   "solution": {
+    "main": "FFFLFFF"
+   },
+   "D": 15.6
+  },
+  {
+   "kind": "grid",
+   "id": "C4-6",
+   "brief": "车停在这，bug 在哪？",
+   "ch": 4,
+   "n": 6,
+   "role": "转",
+   "title": "往前找一找",
+   "teach": "车在采样时停下，可 bug 在更前面：少了一张前进卡",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P"
+   ],
+   "slots": 10,
+   "expectMin": 9,
+   "ghost": "off",
+   "review": [
+    "C2"
+   ],
+   "map": [
+    ".....",
+    ">....",
+    "...a.",
+    "....G"
+   ],
+   "buggy": "FFRFPFLF",
+   "fix": "FFFRFPFLF",
+   "bugs": 1,
+   "bugKinds": [
+    "missing"
+   ],
+   "solution": {
+    "main": "FFFRFPFLF"
+   },
+   "D": 18.6
+  },
+  {
+   "kind": "grid",
+   "id": "C4-7",
+   "brief": "程序坏了两处。",
+   "ch": 4,
+   "n": 7,
+   "role": "合",
+   "title": "修好救援程序",
+   "teach": "长程序里的两个 bug：逐步运行找出来",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P"
+   ],
+   "slots": 10,
+   "expectMin": 9,
+   "ghost": "off",
+   "map": [
+    "..a.",
+    ".#..",
+    "^.G."
+   ],
+   "buggy": "FRFFPLFF",
+   "fix": "FFRFFPRFF",
+   "bugs": 2,
+   "bugKinds": [
+    "missing",
+    "turn"
+   ],
+   "solution": {
+    "main": "FFRFFPRFF"
+   },
+   "D": 24.1
+  },
+  {
+   "kind": "grid",
+   "id": "C4-8",
+   "brief": "爸爸的程序有个 bug。",
+   "ch": 4,
+   "n": 8,
+   "role": "喘息",
+   "title": "爸爸的程序",
+   "teach": "轻松一关：一个 bug（复习台阶）",
+   "cards": [
+    "F",
+    "L",
+    "R",
+    "P"
+   ],
+   "slots": 8,
+   "expectMin": 6,
+   "ghost": "off",
+   "review": [
+    "C2"
+   ],
+   "map": [
+    ">....",
+    "...*G"
+   ],
+   "height": [
+    "01110",
+    "00011"
+   ],
+   "buggy": "FFFFLF",
+   "fix": "FFFFRF",
+   "bugs": 1,
+   "bugKinds": [
+    "turn"
+   ],
+   "solution": {
+    "main": "FFFFRF"
+   },
+   "minCrystal": 7,
+   "D": 13.9
+  }
+ ]
+}

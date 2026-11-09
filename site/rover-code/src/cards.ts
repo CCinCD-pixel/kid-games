@@ -1,0 +1,16 @@
+import type { Card } from './model/sim';
+
+/** The cards are pictures, not words: a 6-year-old reads arrows. Drawn in a 48×48 box. */
+const ARROW = 'M24 8 L38 24 H29 V40 H19 V24 H10 Z';
+const rot = (deg: number) => `<path d="${ARROW}" transform="rotate(${deg} 24 24)" fill="currentColor"/>`;
+const BODY: Record<Card, string> = {
+  N: rot(0), E: rot(90), S: rot(180), W: rot(270),
+  F: '<path d="M24 5 L39 19 H30 V26 H18 V19 H9 Z M18 30 H30 V35 H18 Z M18 39 H30 V43 H18 Z" fill="currentColor"/>',
+  L: '<path d="M38 40 V26 Q38 17 29 17 H20 V25 L7 14 L20 3 V11 H30 Q46 11 46 26 V40 Z" transform="translate(-3 3) scale(.92)" fill="currentColor"/>',
+  R: '<path d="M10 40 V26 Q10 17 19 17 H28 V25 L41 14 L28 3 V11 H18 Q2 11 2 26 V40 Z" transform="translate(5 3) scale(.92)" fill="currentColor"/>',
+  P: '<path d="M30 6 L35 11 L26 20 L21 15 Z M22 19 L29 26 Q31 33 27 37 L25 39 L12 26 L14 24 Q18 20 22 19 Z M11 38 H37 V42 H11 Z" fill="currentColor"/>',
+};
+export const cardSvg = (c: Card): string => `<svg viewBox="0 0 48 48" aria-hidden="true">${BODY[c]}</svg>`;
+export const CARD_NAME: Record<Card, string> = {
+  N: '向上开一米', E: '向右开一米', S: '向下开一米', W: '向左开一米', F: '向前开一米', L: '向左转', R: '向右转', P: '采样',
+};

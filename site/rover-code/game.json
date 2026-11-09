@@ -8,8 +8,15 @@
   "accent": "--xg-rabbit",
   "theme": "rabbit",
   "icon": "/icons/games/rover-code.svg",
-  "domains": ["coding", "spatial", "measurement", "engineering"],
-  "parentNote": "用指令卡给月球车编程：顺序、调试、重复、魔法卡；64 关全部经程序枚举校验。",
+  "domains": [
+    "coding",
+    "spatial",
+    "measurement",
+    "engineering"
+  ],
+  "parentNote": "用指令卡给月球车编程：顺序、方向、看路线、修 bug。前四章 32 关（箭头卡、采样和车库、转弯卡、修一修），每关都经程序验证；重复卡、魔法卡等后四章还没做。",
   "orientation": "any",
-  "smoke": {"waitFor": "#app[data-ready]"}
+  "smoke": {
+    "waitFor": "#app[data-ready]"
+  }
 }
