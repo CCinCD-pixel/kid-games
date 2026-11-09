@@ -128,6 +128,17 @@ export class PlayScreen {
       if (blk.body.length >= MAX_BODY) { this.open = -1; this.say(`括号里最多放 ${MAX_BODY} 张卡。`, 'happy'); }
     } else this.prog.push(key);
     sfx.play('place-piece'); this.afterEdit();
+    this.coach();
+  }
+  /** the very first level talks the child through its first run (captions only): what to put in, then 发送 */
+  private coach(): void {
+    if (this.lv.id === 'C1-1' && this.tries === 0) {
+      const n = cost(this.prog);
+      this.say(n === 1 ? '放好了！再放两张，一共三张。' : n === 2 ? '再放一张。' : n === 3 ? '三张啦！按“发送”，月球车就出发。' : this.el.brief.textContent ?? '', 'happy');
+    } else if (this.lv.id === 'C5-1' && this.tries === 0 && this.open >= 0) {
+      const blk = this.blockAt(this.open);
+      if (blk && blk.body.length === 1) this.say('点一点括号上的数字，改成 5 次。', 'happy');
+    }
   }
   private full(): void { this.say('卡槽满了。先拿掉一张再放。', 'thinking'); sfx.play('ui-locked'); }
   private removeCard(i: number, j?: number): void {
