@@ -1,20 +1,17 @@
 import { unlockAll } from '@kit/settings';
 import { h, nodeMap, type MapNode } from '@kit/ui';
 import { CHAPTERS, LEVELS, chapterLevels } from '../model/levels';
+import { chapterOpen as chapterOpenIn, levelOpen as levelOpenIn } from '../model/unlock';
 import { doneCount, starsOf, type RoverSave } from '../save';
 
 export interface MapHost { root: HTMLElement; save: RoverSave; pick(id: string): void; pickChapter(ch: number): void; mine(): void; patrol(): void }
 
 const NAME: Record<number, string> = { 1: '用箭头卡开出去', 2: '采样、台阶和车库', 3: '车头的方向', 4: '帮忙修一修', 5: '重复：几个几', 6: '魔法卡：把一段收起来', 7: '规则卡：自动驾驶', 8: '救援：带小车回家' };
 
-/** a level is open when the one before it is done (all open with the parent's 全部解锁) */
-export const levelOpen = (save: RoverSave, id: string): boolean => {
-  const i = LEVELS.findIndex((l) => l.id === id);
-  return unlockAll() || i <= 0 || starsOf(save, LEVELS[i - 1].id) > 0 || starsOf(save, id) > 0;
-};
-/** a chapter opens once six levels of the one before it are done */
-export const chapterOpen = (save: RoverSave, ch: number): boolean =>
-  unlockAll() || ch <= 1 || chapterLevels(ch - 1).filter((l) => starsOf(save, l.id) > 0).length >= 6;
+/** a level is open when the one before it is done; a chapter's first and big (合) level any time once the chapter is open (model/unlock) */
+export const levelOpen = (save: RoverSave, id: string): boolean => levelOpenIn(save, id, unlockAll());
+/** a chapter opens once six levels of the one before it are done, or its big level */
+export const chapterOpen = (save: RoverSave, ch: number): boolean => chapterOpenIn(save, ch, unlockAll());
 /** the chapter the child is working on: the first one that still has an open level not yet done */
 export const frontier = (save: RoverSave): number => {
   const next = LEVELS.find((l) => starsOf(save, l.id) === 0 && levelOpen(save, l.id));

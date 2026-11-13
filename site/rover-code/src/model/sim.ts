@@ -233,8 +233,8 @@ export function autopilot(lv: Level, cfg: Config, rules: Rules, cap = 60): AutoR
   return { res: 'cap', s, steps };
 }
 
-/** stars for a rule level: 1 for getting both rovers home, 3 with no pulsing hint and no more rules than the fewest, else 2 */
+/** stars for a rule level: 3 for getting both rovers home with no more rules than the fewest, else 2; the hint's third step caps at 2 */
 export function ruleStars(rl: RuleLevel, rules: Rules, hinted: boolean): 1 | 2 | 3 {
-  if (hinted) return 1;
+  if (hinted) return 2;
   return Object.keys(rules).length <= rl.expectRules ? 3 : 2;
 }

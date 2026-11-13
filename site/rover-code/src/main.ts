@@ -8,6 +8,9 @@ import { doneCount, store, type RoverSave } from './save';
 import { PlayScreen } from './screens/play';
 import { RulesScreen } from './screens/rules';
 import { frontier, renderMap } from './screens/map';
+import { patrolTurns } from './model/unlock';
+import { unlockAll } from '@kit/settings';
+import type { WinInfo } from './screens/play';
 import { customLevel, renderEditor, renderMine } from './screens/mine';
 import { renderPatrol } from './screens/patrol';
 import { dailySeed, generatePatrol, type Tier } from './model/patrol';
@@ -41,6 +44,11 @@ function showMap(): void {
     patrol: showPatrol,
   });
 }
+/** R6: a run that did not get there and a press of the hint button go into the session log, under the level's name `tag` */
+const marks = (tag: string) => ({
+  onFail: (_l: { id: string }, reason: string, attempt: number) => shell.session?.mark('level-fail', { level: tag, reason, attempt }),
+  onHint: (_l: { id: string }, tier: 1 | 2 | 3) => shell.session?.mark('hint', { level: tag, tier }),
+});
 /** 月面巡逻: made-on-the-spot levels */
 function showPatrol(): void {
   play?.dispose(); play = null; view = 'patrol'; redrawMap = null;
@@ -48,15 +56,16 @@ function showPatrol(): void {
 }
 function drivePatrol(tier: Tier, seed: string): void {
   play?.dispose(); view = 'patrolPlay'; redrawMap = null;
-  const lv = generatePatrol(seed, tier);
+  const lv = generatePatrol(seed, tier, patrolTurns(save, unlockAll()) ? 'turns' : 'arrows');
   const fresh = () => ({ id: `patrol-${tier}-${Date.now()}-${Math.floor(Math.random() * 1e6)}` });
   let nextSeed = '';
   const host = {
     root,
-    onWin: (_l: { id: string }, stars: 1 | 2 | 3) => {
+    ...marks(`patrol-${tier}`),
+    onWin: (_l: { id: string }, stars: 1 | 2 | 3, info: WinInfo) => {
       const rec = (save.patrol ??= { count: 0, best3: 0 });
       rec.count += 1; if (stars === 3) rec.best3 += 1; if (seed === dailySeed()) rec.daily = seed;
-      persist(); shell.session?.mark('patrol-complete', { tier, stars });
+      persist(); shell.session?.mark('patrol-complete', { tier, stars, tries: info.tries, hint: info.hint });
     },
     next: () => { nextSeed = `${Date.now()}-${Math.floor(Math.random() * 1e6)}`; return fresh(); },
     nextLabel: '再来一张',
@@ -79,10 +88,11 @@ function driveCustom(map: string[], index: number): void {
   const slot = index < 0 ? (save.custom?.length ?? 0) : index;
   const host = {
     root,
-    onWin: () => {
+    ...marks(`my-${slot + 1}`),
+    onWin: (_l: { id: string }, _s: 1 | 2 | 3, info: WinInfo) => {
       const list = (save.custom ??= []);
       list[Math.min(slot, list.length)] = { map, solved: true };
-      persist(); shell.session?.mark('custom-map-solved', { slot });
+      persist(); shell.session?.mark('custom-map-solved', { slot, tries: info.tries, hint: info.hint });
     },
     goMap: showMine,
     openLevel: () => showMine(),
@@ -96,7 +106,12 @@ function openLevel(id: string): void {
   save.chapter = lv.ch;
   const host = {
     root,
-    onWin: (l: { id: string }, stars: 1 | 2 | 3) => { const r = save.levels[l.id] ?? { stars: 0, tries: 0 }; save.levels[l.id] = { stars: Math.max(r.stars, stars), tries: r.tries + 1 }; persist(); shell.session?.mark('level-complete', { level: l.id, stars }); },
+    ...marks(lv.id),
+    onWin: (l: { id: string }, stars: 1 | 2 | 3, info: WinInfo) => {
+      const r = save.levels[l.id] ?? { stars: 0, tries: 0 };
+      save.levels[l.id] = { stars: Math.max(r.stars, stars), tries: r.tries + 1 };
+      persist(); shell.session?.mark('level-complete', { level: l.id, stars, tries: info.tries, hint: info.hint });
+    },
     goMap: showMap,
     openLevel,
   };

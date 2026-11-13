@@ -8,6 +8,10 @@ export interface Frame {
   crystal: boolean;       // the hidden crystal has been picked up
   ghost: { pts: { x: number; y: number }[]; mode: 'full' | 'last' } | null;
   marker: { x: number; y: number; kind: 'crash' | 'end' } | null;
+  /** the tiles the rover drove over, in order: drawn as wheel tracks (they stay after a run that did not get there) */
+  trail?: { x: number; y: number }[] | null;
+  /** hint ②: a tile circled on the map */
+  ring?: { x: number; y: number } | null;
   now: number;
 }
 
@@ -49,7 +53,9 @@ export class Board {
     const fog = !!lv.fog;
     for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) this.tile(f, x, y, t, ox, oy, fog);
     if (f.ghost && f.ghost.pts.length) this.drawGhost(f, t, ox, oy);
+    if (f.trail && f.trail.length > 1) this.drawTrail(f, t, ox, oy);
     if (f.marker) this.drawMarker(f, t, ox, oy);
+    if (f.ring) this.drawRing(f, t, ox, oy);
     this.drawRover(f, t, ox, oy);
     if (fog) this.drawFog(f, t, ox, oy);
   }
@@ -127,6 +133,25 @@ export class Board {
     ctx.setLineDash([]); const e = pts[pts.length - 1];
     ctx.lineWidth = Math.max(3, t * 0.06); ctx.beginPath(); ctx.arc(e.x, e.y, t * 0.2, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.arc(e.x, e.y, t * 0.06, 0, 7); ctx.fill();
     ctx.restore();
+  }
+
+  /** wheel tracks: two thin lines either side of the way the rover went */
+  private drawTrail(f: Frame, t: number, ox: number, oy: number): void {
+    const { ctx } = this; const pts = f.trail!.map((p) => this.pt(f, p.x, p.y, t, ox, oy));
+    ctx.save(); ctx.strokeStyle = 'rgba(74,64,52,0.5)'; ctx.lineWidth = Math.max(2, t * 0.045); ctx.lineCap = 'round';
+    for (let k = 1; k < pts.length; k++) {
+      const a = pts[k - 1], b = pts[k]; const len = Math.hypot(b.x - a.x, b.y - a.y);
+      if (len < 1) continue;
+      const nx = (-(b.y - a.y) / len) * t * 0.14, ny = ((b.x - a.x) / len) * t * 0.14;
+      for (const sgn of [-1, 1]) { ctx.beginPath(); ctx.moveTo(a.x + nx * sgn, a.y + ny * sgn); ctx.lineTo(b.x + nx * sgn, b.y + ny * sgn); ctx.stroke(); }
+    }
+    ctx.restore();
+  }
+  private drawRing(f: Frame, t: number, ox: number, oy: number): void {
+    const { ctx } = this; const p = this.pt(f, f.ring!.x, f.ring!.y, t, ox, oy);
+    const r = t * 0.47 * (1 + Math.sin(f.now / 220) * 0.05);
+    ctx.save(); ctx.strokeStyle = '#ff7a3d'; ctx.lineWidth = Math.max(4, t * 0.08); ctx.setLineDash([t * 0.16, t * 0.09]);
+    ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.stroke(); ctx.restore();
   }
 
   private drawMarker(f: Frame, t: number, ox: number, oy: number): void {

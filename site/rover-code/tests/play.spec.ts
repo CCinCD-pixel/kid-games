@@ -55,11 +55,12 @@ async function enter(page: Page, prog: string): Promise<void> {
 const saved = (page: Page) => page.evaluate((k) => JSON.parse(localStorage.getItem(k) ?? 'null')?.data, KEY);
 
 test.describe('玉兔编程', () => {
-  test('the map: chapter 1, the first level is the current one, the rest are locked; nothing in the console', async ({ page }) => {
+  test('the map: chapter 1, the first level is the current one, the big level C1-7 is open any time, the rest are locked; nothing in the console', async ({ page }) => {
     const errors = await open(page, null);
     await expect(page.locator('.xg-node')).toHaveCount(8);
     await expect(page.locator('.xg-node[data-state="current"]')).toHaveCount(1);
-    await expect(page.locator('.xg-node[data-state="locked"]')).toHaveCount(7);
+    await expect(page.locator('.xg-node[data-state="open"]')).toHaveCount(1);
+    await expect(page.locator('.xg-node[data-state="locked"]')).toHaveCount(6);
     await expect(page.getByRole('tab', { name: '第 2 章' })).toBeDisabled();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
     expect(errors).toEqual([]);
@@ -87,7 +88,8 @@ test.describe('玉兔编程', () => {
     await expect(page.locator('.rc-brief')).toContainText(/没有路|大石头/, { timeout: 10000 });
     await expect(page.locator('.rc-send')).toBeEnabled({ timeout: 5000 });
     await expect(page.locator('.rc-slot.is-full')).toHaveCount(4);
-    await page.locator('.rc-slot.is-full').first().click(); // tap a card to take it out again
+    await page.locator('.rc-slot.is-full').first().click(); // tap a card to choose it, then take it out
+    await page.locator('.rc-del1').click();
     await expect(page.locator('.rc-slot.is-full')).toHaveCount(3);
   });
 
@@ -120,11 +122,12 @@ test.describe('玉兔编程', () => {
     await expect(page.locator('.rc-slot.is-full')).toHaveCount(l.buggy!.length);
     await page.locator('.rc-clear').click(); // 还原 keeps the buggy one
     await expect(page.locator('.rc-slot.is-full')).toHaveCount(l.buggy!.length);
-    // edit it into the fix the way a child would: take the cards after the bug out, then lay the right ones
-    const fix = l.fix!; const bug = l.buggy!;
-    let i = 0; while (i < bug.length && bug[i] === fix[i]) i++;
-    for (let k = bug.length - 1; k >= i; k--) await page.locator('.rc-slot.is-full').nth(k).click();
-    await enter(page, fix.slice(i));
+    // FRFF -> FFRFF: choose the turn, 前面加一张, one 前进 card; nothing else is touched
+    expect([l.buggy, l.fix]).toEqual(['FRFF', 'FFRFF']);
+    await page.locator('.rc-rail .rc-slot.is-full').nth(1).click();
+    await page.locator('.rc-ins').click();
+    await card(page, 'F').click();
+    await expect(page.locator('.rc-rail .rc-slot.is-full')).toHaveCount(5);
     await page.locator('.rc-send').click();
     await expect(page.getByRole('button', { name: '下一关' })).toBeVisible({ timeout: 25000 });
     expect((await saved(page)).levels['C4-1'].stars).toBe(3);
@@ -308,12 +311,15 @@ test.describe('玉兔编程', () => {
 
   test('月面巡逻: a fresh level each time, solved with the helper pointing out the cards; "再来一张" makes the next one', async ({ page }) => {
     test.setTimeout(120_000);
-    const errors = await open(page, seed('C2-1', 2));                       // chapter 1 done opens the patrol
+    const errors = await open(page, seed('C2-1', 2));                       // chapter 1 done opens the patrol (with arrow cards: chapter 3 is still ahead)
     await page.getByRole('button', { name: '月面巡逻' }).click();
     await page.locator('.rc-tier[data-tier="1"]').click();
     await page.waitForSelector('.rc-play');
+    await expect(page.locator('.rc-tray .rc-card[data-card="F"]')).toHaveCount(0);   // arrows only before chapter 3 is behind him
+    await expect(page.locator('.rc-title')).not.toContainText('patrol-').catch(() => {}); // no inner number in the title
     const solveWithHelper = async () => {
-      await page.locator('.rc-hint').click();                              // the first press says what to do, the second points at a card
+      await page.locator('.rc-hint').click();                              // ① says what to do, ② circles a tile, ③ points at a card
+      await page.locator('.rc-hint').click();
       for (let i = 0; i < 20; i++) {
         await page.locator('.rc-hint').click();
         const pulse = page.locator('.rc-tray .rc-card.is-pulse');

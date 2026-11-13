@@ -130,7 +130,7 @@ describe('rover-code rule levels (chapter 7 and C8-6)', () => {
     for (const cond of Object.keys(rl.solution)) expect(rl.conds).toContain(cond);
     for (const m of rl.maps) expect(autopilot(m, DEFAULT_CONFIG, rl.solution).res, `${rl.id} ${m.id}`).toBe('win');
     expect(ruleStars(rl, rl.solution, false)).toBe(3);
-    expect(ruleStars(rl, rl.solution, true)).toBe(1);
+    expect(ruleStars(rl, rl.solution, true)).toBe(2); // the hint's third step caps at two stars
   });
 
   it.each(RULE_LEVELS.filter((l) => l.needW).map((l) => [l.id, l] as const))('%s: the wall rule is needed (without it one of the maps fails)', (_id, rl) => {

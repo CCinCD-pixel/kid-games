@@ -182,3 +182,48 @@ body { background: radial-gradient(120% 90% at 50% 0%, var(--xg-night-700), var(
 
 .rc-tabrow { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
 @media (max-width: 560px) { .rc-tab { min-width: 40px; padding: 0 8px; } .rc-tabs { gap: 4px; flex-wrap: nowrap; } }
+
+/* ── round 1 ──────────────────────────────────────────────────────────────────────────────────────────────── */
+.rc-play [hidden] { display: none !important; }
+/* the breathing first card (C1-1) grows past the edge of the scrolling desk: give it room without moving anything */
+.rc-side { padding: 8px; margin: -8px; }
+/* R1: the edit bar over the rail — 撤回 always, 拿掉 / 前面加一张 while a card is chosen, 加好了 while adding in the middle */
+.rc-edit { display: flex; align-items: center; gap: 8px; min-height: 56px; flex-wrap: wrap; }
+.rc-edit .xg-btn { min-height: 56px; min-width: 56px; padding: 0 14px; font-size: 17px; }
+.rc-edit .rc-count { margin-left: auto; }
+.rc-undo:disabled { opacity: .4; }
+.rc-del1 { background: #ffe2d6; color: #5a1d06; }
+.rc-ins, .rc-done { background: #fff2c4; color: #4a3505; }
+.rc-del1.is-pulse, .rc-opt.is-pulse, .rc-bdel.is-pulse { animation: rc-pulse 1.1s ease-in-out infinite; }
+.rc-slot.is-sel { outline: 4px solid #ffd24a; outline-offset: 2px; transform: translateY(-3px); }
+.rc-slot.is-bad { box-shadow: 0 0 0 4px #ff8060; background: #ffe2d6; }
+.rc-slot.is-bad.is-sel { box-shadow: 0 0 0 4px #ff8060, 0 0 0 9px rgba(255, 210, 74, .55); }
+.rc-caret { flex: none; align-self: stretch; width: 14px; min-height: 44px; border-radius: 7px; background: #ffd24a; box-shadow: 0 0 0 3px rgba(255, 210, 74, .35); animation: rc-blink 1s ease-in-out infinite; }
+@keyframes rc-blink { 50% { opacity: .35; } }
+/* R3: 走一步 between 清空 and 发送; R2: 回到起点 over the map while the scene of a run is kept */
+.rc-actions .rc-step { min-height: 64px; min-width: 96px; }
+.rc-home { position: absolute; left: 12px; bottom: 12px; min-height: 56px; padding: 0 18px; z-index: 2; }
+.rc-stagepair { position: relative; }
+@media (max-height: 460px) and (orientation: landscape) {
+  .rc-edit { gap: 6px; }
+  .rc-edit .xg-btn { padding: 0 10px; font-size: 15px; }
+  .rc-actions .rc-step { min-height: 56px; min-width: 76px; }
+  .rc-actions .rc-send, .rc-actions .rc-clear { min-height: 56px; }
+}
+/* a single column must never be pushed wider than the screen by the buttons in it (走一步 made the action row too wide on a phone) */
+@media (orientation: portrait), (max-width: 700px) { .rc-play { grid-template-columns: minmax(0, 1fr); } .rc-actions > .xg-btn { min-width: 0; } }
+@media (max-width: 560px) {
+  .rc-actions { gap: 8px; }
+  .rc-actions .rc-clear { min-width: 72px; padding: 0 12px; }
+  .rc-actions .rc-step { flex: 0 1 auto; padding: 0 12px; }
+  .rc-actions .rc-send { flex: 1 1 0; }
+  .rc-edit { gap: 6px; }
+  .rc-edit .xg-btn { padding: 0 10px; font-size: 16px; }
+  .rc-actions .rc-step { min-height: 56px; min-width: 72px; }
+  .rc-actions .rc-send, .rc-actions .rc-clear { min-height: 56px; }
+  .rc-home { left: 6px; bottom: 6px; padding: 0 12px; font-size: 15px; opacity: .94; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rc-del1.is-pulse, .rc-opt.is-pulse, .rc-bdel.is-pulse { animation: none; box-shadow: 0 0 0 4px rgba(255, 210, 74, .7); }
+  .rc-caret { animation: none; }
+}

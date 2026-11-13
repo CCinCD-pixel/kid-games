@@ -9,7 +9,7 @@ import type { PlayHost } from './play';
 
 type Act = 'L' | 'R' | 'P';
 interface Slot { cond: Cond | null; act: Act | null }
-interface Track { lv: Level; board: Board; rover: { x: number; y: number; ang: number; lift: number }; taken: number; crystal: boolean; marker: { x: number; y: number; kind: 'crash' | 'end' } | null }
+interface Track { lv: Level; board: Board; rover: { x: number; y: number; ang: number; lift: number }; taken: number; crystal: boolean; marker: { x: number; y: number; kind: 'crash' | 'end' } | null; trail: { x: number; y: number }[]; ring: { x: number; y: number } | null }
 
 const WHY: Record<Err, string> = {
   edge: '前面没有路了。', rock: '前面是大石头。', step: '台阶太高。', narrow: '这条缝太窄。', overhang: '石拱太矮。', nosample: '这里没有样本可以采。', dark: '阴影里看不清样本。',
@@ -26,12 +26,15 @@ export class RulesScreen {
   private slots: Slot[];
   private state: 'edit' | 'running' | 'result' = 'edit';
   private hints = 0;
-  private hinted = false;
+  private hintTier = 0;
+  private hinted = false;                                                       // the hint's third step was used: two stars at most
+  /** R2: after a run that did not get there both rovers stay where they stopped, with their tracks, until a rule is changed */
+  private scene = false;
   private tries = 0;
   private dead = false;
   private raf = 0;
   private pulse: { cond?: Cond; act?: Act } = {};
-  private el!: Record<'brief' | 'count' | 'rules' | 'conds' | 'acts' | 'send' | 'clear' | 'hint' | 'bot' | 'stage', HTMLElement>;
+  private el!: Record<'brief' | 'count' | 'rules' | 'conds' | 'acts' | 'send' | 'clear' | 'hint' | 'bot' | 'stage' | 'home', HTMLElement>;
 
   constructor(private host: PlayHost, readonly lv: RuleLevel) {
     this.slots = Array.from({ length: lv.ruleSlots }, () => ({ cond: null, act: null }));
@@ -51,13 +54,15 @@ export class RulesScreen {
     const hint = h('button', { class: 'xg-btn rc-hint', type: 'button', 'aria-label': '提示', onclick: () => this.hint() });
     hint.innerHTML = icon('hint');
     const stage = q('rc-stagepair');
+    const home = h('button', { class: 'xg-btn rc-home', type: 'button', onclick: () => this.backToStart() }, '回到起点');
     this.tracks = lv.maps.map((m, i) => {
       const canvas = h('canvas', { class: 'rc-stage', 'aria-label': `月面地图 ${'AB'[i]}` });
       stage.append(h('div', { class: 'rc-stagewrap rc-half' }, canvas, h('span', { class: 'rc-maptag' }, `图 ${'AB'[i]}`)));
       const s = startState(m);
-      return { lv: m, board: new Board(canvas), rover: { x: s.x, y: s.y, ang: s.d * 90, lift: cellAt(m, s.x, s.y).h }, taken: 0, crystal: false, marker: null };
+      return { lv: m, board: new Board(canvas), rover: { x: s.x, y: s.y, ang: s.d * 90, lift: cellAt(m, s.x, s.y).h }, taken: 0, crystal: false, marker: null, trail: [], ring: null };
     });
-    this.el = { brief, count, rules, conds, acts, send, clear, hint, bot, stage };
+    stage.append(home);
+    this.el = { brief, count, rules, conds, acts, send, clear, hint, bot, stage, home };
     const top = h('header', { class: 'rc-top' }, h('div', { class: 'rc-title' }, h('b', {}, lv.id), ` ${lv.title}`), bot, brief, hint);
     const side = h('aside', { class: 'rc-side' }, count, rules,
       h('div', { class: 'rc-trayhead' }, '如果……'), conds, h('div', { class: 'rc-trayhead' }, '就……'), acts, h('div', { class: 'rc-actions' }, clear, send));
@@ -100,7 +105,8 @@ export class RulesScreen {
     for (const s of this.slots) { s.cond = null; s.act = null; }
     sfx.play('ui-tap'); this.afterEdit();
   }
-  private afterEdit(): void { this.pulse = {}; for (const t of this.tracks) t.marker = null; this.refresh(); }
+  private afterEdit(): void { this.pulse = {}; this.scene = false; for (const t of this.tracks) { t.marker = null; t.ring = null; } this.refresh(); }
+  private backToStart(): void { if (this.state !== 'edit') return; this.scene = false; for (const t of this.tracks) t.marker = null; sfx.play('ui-tap'); this.refresh(); }
   private rules(): Rules { const r: Rules = {}; for (const s of this.slots) if (s.cond && s.act) r[s.cond] = s.act; return r; }
   private half(): boolean { return this.slots.some((s) => !!s.cond !== !!s.act); }
 
@@ -124,15 +130,29 @@ export class RulesScreen {
     (el.send as HTMLButtonElement).disabled = this.state !== 'edit' || !done || this.half();
     el.send.classList.toggle('is-pulse', this.lv.id === 'C7-1' && this.state === 'edit' && done > 0 && !this.half() && this.tries === 0);
     (el.clear as HTMLButtonElement).disabled = this.state !== 'edit';
-    if (this.state === 'edit') for (const t of this.tracks) this.reset(t);
+    el.home.hidden = !this.scene;
+    if (this.state === 'edit' && !this.scene) for (const t of this.tracks) this.reset(t);
   }
 
   // ───────────────────────────────────────────────────────── hints
   private hint(): void {
     if (this.state !== 'edit') return;
     this.hints++; sfx.play('hint');
-    if (this.hints === 1) { this.say(this.lv.teach, 'thinking'); return; }
-    this.hinted = true;                                                         // a pulsing hint leaves the level at one star
+    const tier = Math.min(3, this.hints) as 1 | 2 | 3;
+    this.hintTier = Math.max(this.hintTier, tier);
+    this.host.onHint?.(this.lv, tier);
+    for (const t of this.tracks) t.ring = null;
+    if (tier === 1) { this.say(`${this.lv.brief}${/[。！？]$/.test(this.lv.teach) ? this.lv.teach : `${this.lv.teach}。`}`, 'thinking'); return; }
+    if (tier === 2) {                                                           // ② circle where the first map that does not get there goes wrong
+      const rules = this.rules();
+      const bad = this.tracks.findIndex((t) => autopilot(t.lv, DEFAULT_CONFIG, rules).res !== 'win');
+      if (bad < 0) { this.say('两张图都能到。按“发送”试试。', 'encouraging'); return; }
+      const r = autopilot(this.tracks[bad].lv, DEFAULT_CONFIG, rules);
+      this.tracks[bad].ring = { x: r.s.x, y: r.s.y };
+      this.say(`图 ${'AB'[bad]}：车会在圈着的这一格出事。那里要一条什么规则？`, 'encouraging');
+      return;
+    }
+    this.hinted = true;                                                         // ③ hands over the next rule: two stars at most
     const want = Object.entries(this.lv.solution) as [Cond, Act][];
     const bad = this.slots.find((s) => s.cond && (!(s.cond in this.lv.solution) || (s.act && s.act !== this.lv.solution[s.cond])));
     if (bad) { this.say('先拿掉这一条，再换一换。', 'encouraging'); return; }
@@ -148,7 +168,8 @@ export class RulesScreen {
     if (this.state !== 'edit' || this.half()) return;
     const rules = this.rules();
     if (!Object.keys(rules).length) return;
-    this.state = 'running'; this.tries++; this.pulse = {};
+    this.state = 'running'; this.tries++; this.pulse = {}; this.scene = false;
+    for (const t of this.tracks) { t.marker = null; t.ring = null; this.reset(t); t.trail = [{ x: t.lv.start.x, y: t.lv.start.y }]; }
     this.refresh(); sfx.play('launch');
     const results = this.tracks.map((t) => autopilot(t.lv, DEFAULT_CONFIG, rules));
     await this.wait(260);
@@ -178,6 +199,7 @@ export class RulesScreen {
       if (t.lv.req.some((r, i) => r.kind === 'r' && r.x === st.s.x && r.y === st.s.y && !((t.taken >> i) & 1))) { t.taken = st.s.m; sfx.play('coin'); }
       if (st.s.c === 1) t.crystal = true;
       t.taken = st.s.m;
+      t.trail.push({ x: st.s.x, y: st.s.y });
     }
   }
 
@@ -187,7 +209,7 @@ export class RulesScreen {
       this.state = 'result';
       const stars = ruleStars(lv, rules, this.hinted);
       this.bot?.setMood('celebrating'); playSuccess(stars); sfx.play(`star-${stars}`);
-      this.host.onWin(lv, stars);
+      this.host.onWin(lv, stars, { tries: this.tries, hint: this.hintTier });
       this.refresh(); await this.wait(500);
       const nxt = nextLevel(lv.id);
       const id = await showResult({
@@ -208,15 +230,17 @@ export class RulesScreen {
         : r.res === 'loop' ? `${tag}：车在原地绕圈了。`
           : r.res === 'cap' ? `${tag}：走了很久还没到终点。`
             : `${tag}：还差 ${metresLeft(this.tracks[bad].lv, r.s)} 米。`, 'encouraging');
+    this.host.onFail?.(lv, r.res === 'crash' && r.err ? r.err : r.res, this.tries);
     playSoftMiss();
-    await this.wait(1200);
-    if (this.dead) return;
-    this.state = 'edit'; for (const t of this.tracks) t.marker = null; this.refresh();
+    this.state = 'edit'; this.scene = true; this.refresh();
   }
 
   // ───────────────────────────────────────────────────────── drawing
   private reset(t: Track): void { const s = startState(t.lv); t.rover = { x: s.x, y: s.y, ang: s.d * 90, lift: cellAt(t.lv, s.x, s.y).h }; t.taken = 0; t.crystal = false; }
-  private draw(t: Track): void { t.board.draw({ lv: t.lv, cfg: DEFAULT_CONFIG, rover: t.rover, taken: t.taken, crystal: t.crystal, ghost: null, marker: t.marker, now: performance.now() }); }
+  private draw(t: Track): void {
+    const trail = this.scene || this.state === 'running' ? t.trail : null;
+    t.board.draw({ lv: t.lv, cfg: DEFAULT_CONFIG, rover: t.rover, taken: t.taken, crystal: t.crystal, ghost: null, marker: t.marker, trail, ring: t.ring, now: performance.now() });
+  }
   resize(): void { for (const t of this.tracks) t.board.resize(); }
 
   private say(text: string, mood: 'happy' | 'thinking' | 'encouraging' | 'celebrating' = 'happy'): void {

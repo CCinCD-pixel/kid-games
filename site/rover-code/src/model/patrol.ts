@@ -33,11 +33,21 @@ export function shortest(lv: Level, alphabet: readonly Card[], maxDepth = 24): {
   return null;
 }
 
-export function generatePatrol(seed: string, tier: Tier): Level {
+/**
+ * Which cards a patrol is laid with: the arrow cards of chapters 1–2 until chapter 3 (车头的方向) is behind him, then 前进 左转 右转.
+ * With arrows the same map takes fewer cards (no turning), so the tiers ask for shorter levels.
+ */
+export type PatrolCards = 'arrows' | 'turns';
+const ARROW_MIN: Record<Tier, [number, number]> = { 1: [3, 6], 2: [5, 9], 3: [8, 13] };
+export const rangeOf = (tier: Tier, kind: PatrolCards): [number, number] => (kind === 'arrows' ? ARROW_MIN[tier] : TIERS[tier].min);
+
+export function generatePatrol(seed: string, tier: Tier, kind: PatrolCards = 'turns'): Level {
   const T = TIERS[tier];
-  const cards: Card[] = T.samples ? ['F', 'L', 'R', 'P'] : ['F', 'L', 'R'];
+  const moves: Card[] = kind === 'arrows' ? ['N', 'E', 'S', 'W'] : ['F', 'L', 'R'];
+  const cards: Card[] = T.samples ? [...moves, 'P'] : moves;
+  const min = rangeOf(tier, kind);
   for (let attempt = 0; attempt < 400; attempt++) {
-    const rng = createRng(`patrol:${tier}:${seed}:${attempt}`);
+    const rng = createRng(`${kind === 'arrows' ? 'patrol-a' : 'patrol'}:${tier}:${seed}:${attempt}`);
     const grid = Array.from({ length: T.H }, () => Array<string>(T.W).fill('.'));
     const cells = rng.shuffle(Array.from({ length: T.W * T.H }, (_, i) => i));
     const take = () => cells.pop()!;
@@ -52,9 +62,9 @@ export function generatePatrol(seed: string, tier: Tier): Level {
     const map = grid.map((r) => r.join(''));
     const draft = parseLevel({ id: 'draft', kind: 'grid', brief: '', ch: 0, n: 0, role: '', title: '', teach: '', cards, slots: 30, expectMin: 0, map, solution: { main: '' } });
     const best = shortest(draft, cards);
-    if (!best || best.n < T.min[0] || best.n > T.min[1]) continue;
+    if (!best || best.n < min[0] || best.n > min[1]) continue;
     return parseLevel({
-      id: `patrol-${tier}-${seed}`, kind: 'grid', brief: '巡逻任务：开到小旗那里。', ch: 0, n: 0, role: '', title: `月面巡逻 · ${T.label}`,
+      id: `patrol-${tier}-${seed}${kind === 'arrows' ? '-a' : ''}`, kind: 'grid', brief: '巡逻任务：开到小旗那里。', ch: 0, n: 0, role: '', title: `月面巡逻 · ${T.label}`,
       teach: T.samples ? '先想好路线，别忘了在亮点上采样。' : '先看看哪里能走，再排卡片。', cards, slots: best.n + 3, expectMin: best.n, map, solution: { main: best.prog },
     });
   }
