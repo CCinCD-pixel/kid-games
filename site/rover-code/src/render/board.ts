@@ -16,8 +16,9 @@ export interface Frame {
 }
 
 const LIFT = 0.16; // how much one level of height raises a tile, in tiles
+/** round 2 (R10) sample: moon colours — grey regolith instead of sand, blue-grey rocks, a starry sky round the map */
 const C = {
-  ground: ['#c9c0b0', '#d3cabb'], side: '#8d8576', rock: '#6f6a64', rockHi: '#9a948b', crater: '#4a463f', craterRim: '#a39b8c',
+  ground: ['#a8a7a3', '#b2b1ac'], side: '#6d6c69', rock: '#5d5f66', rockHi: '#8e9097', crater: '#57565a', craterRim: '#c3c2bd',
   gold: '#e9b949', goldDark: '#a97b1f', wheel: '#2c2a2e', panel: '#3b6fb6', panelHi: '#7fb0ee', tower: '#e8e4dc', sample: '#ffd24a', crystal: '#5ce1e6',
   fog: 'rgba(20,26,52,0.62)', night: '#10163a',
 };
@@ -50,6 +51,8 @@ export class Board {
     const { t, ox, oy } = this.geo(lv);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, this.cssW, this.cssH);
+    this.drawSky(f.now);
+    ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.fillRect(ox + t * 0.08, oy + t * 0.12, lv.W * t, lv.H * t); // the plateau's shadow on space
     const fog = !!lv.fog;
     for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) this.tile(f, x, y, t, ox, oy, fog);
     if (f.ghost && f.ghost.pts.length) this.drawGhost(f, t, ox, oy);
@@ -67,11 +70,18 @@ export class Board {
     const px = ox + x * t, py = oy + y * t - lift;
     if (lift > 0) { ctx.fillStyle = C.side; ctx.fillRect(px, py + t, t, lift); }
     ctx.fillStyle = C.ground[(x + y) & 1]; ctx.fillRect(px, py, t, t);
-    ctx.strokeStyle = 'rgba(80,72,60,0.18)'; ctx.lineWidth = 1; ctx.strokeRect(px + 0.5, py + 0.5, t - 1, t - 1);
+    this.regolith(px, py, t, x, y, c.ch === '.');
+    ctx.strokeStyle = 'rgba(36,36,48,0.22)'; ctx.lineWidth = 1; ctx.strokeRect(px + 0.5, py + 0.5, t - 1, t - 1);
     const cx = px + t / 2, cy = py + t / 2;
     switch (c.ch) {
       case '#': this.boulder(cx, cy, t * 0.36); break;
-      case 'o': ctx.fillStyle = C.craterRim; ctx.beginPath(); ctx.ellipse(cx, cy, t * 0.42, t * 0.34, 0, 0, 7); ctx.fill(); ctx.fillStyle = C.crater; ctx.beginPath(); ctx.ellipse(cx, cy + t * 0.03, t * 0.34, t * 0.26, 0, 0, 7); ctx.fill(); break;
+      case 'o': {                                                              // a crater: a lit rim, a dark bowl, the far wall catching the sun
+        ctx.fillStyle = C.craterRim; ctx.beginPath(); ctx.ellipse(cx, cy, t * 0.44, t * 0.36, 0, 0, 7); ctx.fill();
+        ctx.fillStyle = C.crater; ctx.beginPath(); ctx.ellipse(cx, cy + t * 0.02, t * 0.35, t * 0.27, 0, 0, 7); ctx.fill();
+        ctx.fillStyle = 'rgba(30,30,38,0.55)'; ctx.beginPath(); ctx.ellipse(cx - t * 0.05, cy - t * 0.03, t * 0.27, t * 0.2, 0, 0, 7); ctx.fill();
+        ctx.fillStyle = 'rgba(220,220,214,0.35)'; ctx.beginPath(); ctx.ellipse(cx + t * 0.12, cy + t * 0.1, t * 0.16, t * 0.08, -0.4, 0, 7); ctx.fill();
+        break;
+      }
       case 'G': if (!fog) this.tower(cx, cy, t, f.now); break;
       case 'a': case 'd': {
         const taken = (f.taken >> c.req) & 1;
@@ -91,6 +101,34 @@ export class Board {
     }
   }
 
+  /** fine grains on every tile, and on some plain tiles a tiny crater: decoration only, far smaller and fainter than a real crater */
+  private regolith(px: number, py: number, t: number, x: number, y: number, plain: boolean): void {
+    const { ctx } = this;
+    let h = (x * 73856093) ^ (y * 19349663);
+    const rnd = () => { h = (h * 1103515245 + 12345) & 0x7fffffff; return h / 0x7fffffff; };
+    for (let k = 0; k < 9; k++) {
+      ctx.fillStyle = rnd() < 0.5 ? 'rgba(70,70,78,0.22)' : 'rgba(240,240,236,0.28)';
+      ctx.beginPath(); ctx.arc(px + rnd() * t, py + rnd() * t, Math.max(1, t * (0.012 + rnd() * 0.018)), 0, 7); ctx.fill();
+    }
+    if (plain && rnd() < 0.35) {
+      const mx = px + t * (0.2 + rnd() * 0.6), my = py + t * (0.2 + rnd() * 0.6), r = t * (0.04 + rnd() * 0.03);
+      ctx.fillStyle = 'rgba(80,80,88,0.25)'; ctx.beginPath(); ctx.ellipse(mx, my, r, r * 0.75, 0, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(245,245,240,0.35)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(mx + 0.5, my + 0.5, r, r * 0.75, 0, 0.2, 2.6); ctx.stroke();
+    }
+  }
+  /** black sky with a few twinkling stars round the map */
+  private drawSky(now: number): void {
+    const { ctx } = this;
+    ctx.fillStyle = '#0b0f24'; ctx.fillRect(0, 0, this.cssW, this.cssH);
+    let h = 987654321;
+    const rnd = () => { h = (h * 1103515245 + 12345) & 0x7fffffff; return h / 0x7fffffff; };
+    for (let k = 0; k < 70; k++) {
+      const sx = rnd() * this.cssW, sy = rnd() * this.cssH, r = 0.5 + rnd() * 1.3, ph = rnd() * 6.28;
+      ctx.fillStyle = `rgba(255,255,255,${0.35 + 0.35 * (0.5 + 0.5 * Math.sin(now / 900 + ph))})`;
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, 7); ctx.fill();
+    }
+  }
+
   /** a stranded rover waiting to be picked up: a small grey rover with a blinking red light */
   private stranded(cx: number, cy: number, t: number, now: number): void {
     const { ctx } = this; const u = t * 0.3;
@@ -102,6 +140,7 @@ export class Board {
 
   private boulder(cx: number, cy: number, r: number): void {
     const { ctx } = this;
+    ctx.fillStyle = 'rgba(20,20,28,0.28)'; ctx.beginPath(); ctx.ellipse(cx + r * 0.35, cy + r * 0.62, r * 1.05, r * 0.35, 0, 0, 7); ctx.fill(); // its shadow
     ctx.fillStyle = C.rock; ctx.beginPath(); ctx.moveTo(cx - r, cy + r * 0.5); ctx.lineTo(cx - r * 0.7, cy - r * 0.6); ctx.lineTo(cx + r * 0.1, cy - r); ctx.lineTo(cx + r * 0.9, cy - r * 0.3); ctx.lineTo(cx + r, cy + r * 0.55); ctx.closePath(); ctx.fill();
     ctx.fillStyle = C.rockHi; ctx.beginPath(); ctx.moveTo(cx - r * 0.7, cy - r * 0.6); ctx.lineTo(cx + r * 0.1, cy - r); ctx.lineTo(cx + r * 0.2, cy - r * 0.2); ctx.closePath(); ctx.fill();
   }

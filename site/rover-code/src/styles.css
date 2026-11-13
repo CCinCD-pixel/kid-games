@@ -227,3 +227,17 @@ body { background: radial-gradient(120% 90% at 50% 0%, var(--xg-night-700), var(
   .rc-del1.is-pulse, .rc-opt.is-pulse, .rc-bdel.is-pulse { animation: none; box-shadow: 0 0 0 4px rgba(255, 210, 74, .7); }
   .rc-caret { animation: none; }
 }
+
+/* round 2 (R10) sample: the chapter map is a moonscape — stars, the Earth, the grey curve of the moon under the route */
+.rc-mapscreen {
+  background:
+    radial-gradient(circle at 93% 31%, #7fb2ff 0 18px, #2f62c9 26px, transparent 27px),
+    radial-gradient(130% 55% at 50% 120%, #b5b4af 0 58%, #8d8c87 70%, transparent 71%),
+    radial-gradient(1.5px 1.5px at 12% 22%, #fff 99%, transparent), radial-gradient(1.5px 1.5px at 33% 9%, #fff 99%, transparent),
+    radial-gradient(1px 1px at 56% 28%, #fff 99%, transparent), radial-gradient(1.5px 1.5px at 71% 6%, #fff 99%, transparent),
+    radial-gradient(1px 1px at 8% 48%, #fff 99%, transparent), radial-gradient(1px 1px at 93% 41%, #fff 99%, transparent),
+    radial-gradient(1.5px 1.5px at 45% 46%, #fff 99%, transparent), radial-gradient(1px 1px at 24% 61%, #fff 99%, transparent),
+    linear-gradient(#070a1c, #141a3c);
+}
+.rc-stagewrap { background: #0b0f24; }
+@media (max-width: 560px) { .rc-mapscreen { background: radial-gradient(130% 40% at 50% 115%, #b5b4af 0 58%, #8d8c87 70%, transparent 71%), radial-gradient(1px 1px at 20% 30%, #fff 99%, transparent), radial-gradient(1px 1px at 70% 22%, #fff 99%, transparent), linear-gradient(#070a1c, #141a3c); } }
