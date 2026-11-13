@@ -3,6 +3,7 @@
  * drawn once into a small canvas at the device pixel ratio, wearing what the save says.
  */
 import { drawRobot, restPose, type Cosmetics, type RobotPose } from '../render/robot';
+import { porterPaint } from '../render/livery';
 
 export interface Equipped {
   cosmetics: { equipped: Partial<Record<string, string>> };
@@ -19,6 +20,8 @@ export function cosmeticsOf(save: Equipped): Cosmetics {
     plate: !!e.plate,
     badge: e.badge === 'magnifier',
     random: e.badge === 'random',
+    // 涂装台 paint shows while no earned paint job (涂装 slot) is put on
+    livery: e.paint ? null : porterPaint(),
   };
 }
 

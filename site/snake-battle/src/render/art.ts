@@ -10,6 +10,8 @@
 import { AI_NAMES, FLOORS } from '../sim/venues';
 import collection from '../../../../content/snake-battle/collection.json';
 import { paintSkinHead, paintExtra, extrasOf, paintDeco, paintSkinSegment, addSharedSprites, DECO } from './skins';
+import { MINE, mineSkin, lvVariant } from './livery';
+import { drawSticker } from '@kit/livery/paint';
 
 export const CELL = 128;
 export const ATLAS = 2048;
@@ -26,9 +28,10 @@ const WHITE: Rgb = [255, 255, 255];
 
 export const STAR_COLORS = ['#ffd84d', '#ff8a3d', '#ff5f7e', '#c86bff', '#6c8cff', '#3fd0ff', '#4fe3a1', '#b6f25a'];
 
-export interface SkinDef { id: string; name: string; base: string; accent: string; pattern: string; head: string; eyes: string }
+/** `stickers` / `lvKey`: only on 我的蛇 (the 涂装台 look, livery.ts) — lvKey names its atlas sprites per look */
+export interface SkinDef { id: string; name: string; base: string; accent: string; pattern: string; head: string; eyes: string; stickers?: string[]; lvKey?: string }
 export const SKINS = (collection as unknown as { skins: SkinDef[] }).skins;
-export const skinById = (id: string) => SKINS.find((s) => s.id === id) ?? SKINS[0];
+export const skinById = (id: string) => (id === MINE ? mineSkin() : SKINS.find((s) => s.id === id) ?? SKINS[0]);
 
 /** body colour for an AI colour word + persona (skittish = 25 % lighter, spec §6.4) */
 export function aiBodyColor(color: string, persona: string): Rgb {
@@ -65,6 +68,7 @@ export function skinBaseOn(sk: SkinDef, floor: string): { base: Rgb; lift: numbe
 
 /** which segment variant a body index uses (spec §6.4 persona patterns, §6.5 skin patterns); n = segment count, ph = scroll phase */
 export function segVariant(pattern: string, i: number, n = 0, ph = 0): string {
+  if (pattern.startsWith('lv-')) return lvVariant(pattern, i);   // 我的蛇 (涂装台)
   switch (pattern) {
     case 'hunter': return i % 4 === 3 ? 'dark' : 'plain';
     case 'coiler': return i % 5 === 4 ? 'ring' : 'plain';
@@ -362,5 +366,6 @@ export function addColorSprites(A: Atlas, col: AtlasColor) {
     A.add(`head:${col.key}`, (c, R) => paintSkinHead(c, R, sk, col.base, col.accent));
     if (sk.head === 'digger') A.add(`head2:${col.key}`, (c, R) => paintSkinHead(c, R, sk, col.base, col.accent, true));
     for (const x of extrasOf(sk)) A.add(`x:${col.key}:${x}`, (c, R) => paintExtra(c, R, x, col.base, col.accent));
+    for (const id of sk.stickers ?? []) A.add(`stk:${id}`, (c, R) => drawSticker(c, id, 0, 0, 2 * R + 6));   // 我的蛇: his stickers
   } else A.add(`head:${col.key}`, (c, R) => paintHead(c, R, col.base, !!col.blush));
 }

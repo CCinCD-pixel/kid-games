@@ -738,3 +738,11 @@ body { margin: 0; overflow: hidden; }
 @media (orientation: landscape) and (max-height: 599px) and (min-width: 760px) {
   .xg-scrim { padding-right: calc(124px + env(safe-area-inset-right, 0px)); }
 }
+
+/* 我的定制: the 涂装台 entry in the hangar's top bar, left of the 回地图 key (the page's 🏠 返回 owns the left corner) */
+.sok-hud__paint.xg-btn { position: absolute; right: 92px; top: 10px; pointer-events: auto; --h: 64px; --depth: 5px; margin: 0; gap: 8px; padding: 0 22px 0 14px; font: 800 24px/1 var(--xg-font-ui); letter-spacing: .06em;
+  --face-1: #ffe27a; --face-2: var(--xg-gold-500, #f6b934); --edge: var(--xg-gold-700, #a8700a); --ink: #4a2c00; --glow: rgba(185, 120, 15, .45); }
+.sok-hud__paint-icon { width: 38px; height: 38px; display: grid; place-items: center; }
+.sok-hud__paint-icon svg { width: 100%; height: 100%; display: block; }
+[data-phone] .sok-hud__paint.xg-btn { right: 74px; top: 4px; --h: 56px; width: 56px; min-width: 56px; padding: 0; }
+[data-phone] .sok-hud__paint-label { display: none; }

@@ -7,6 +7,7 @@
  */
 import { ROBOT } from './palette';
 import { P, circle, ellipse, rrect } from './shapes';
+import type { Paint } from './livery';
 
 export type Facing = 0 | 1 | 2 | 3; // up down left right (engine Dir)
 export type Expr = 'normal' | 'blink' | 'happy' | 'effort' | 'question' | 'think' | 'surprised' | 'sleepy';
@@ -20,6 +21,8 @@ export interface Cosmetics {
   badge?: boolean;
   retro?: boolean;
   random?: boolean;
+  /** 涂装台 paint for the body (render/livery.ts); wins over the paint-slot jobs (stripes / retro) */
+  livery?: Paint | null;
 }
 
 export interface RobotPose {
@@ -148,13 +151,16 @@ function chassisSide(ctx: CanvasRenderingContext2D, tread: number): void {
   }
 }
 
-function bodyBlock(ctx: CanvasRenderingContext2D, x: number, w: number, c?: Cosmetics): void {
-  const col = BODY_COL(c);
+function bodyBlock(ctx: CanvasRenderingContext2D, x: number, w: number, c?: Cosmetics, view: 'front' | 'side' | 'back' = 'front'): void {
+  const lv = c?.livery ?? null;
+  if (lv) c = { ...c, stripes: false, retro: false };
+  const col = lv ? { body: lv.base, hi: lv.hi, shade: lv.shade } : BODY_COL(c);
   const body = P(rrect(x, -62, w, 47, 13));
   ctx.fillStyle = col.body;
   ctx.fill(body);
   ctx.save();
   ctx.clip(body);
+  if (lv?.layer) ctx.drawImage(lv.layer, x + w / 2 - 34, -72, 68, 68);   // the 涂装台 pattern, under the light and shade
   ctx.fillStyle = col.shade;
   ctx.globalAlpha = 0.55;
   ctx.fillRect(x - 2, -31, w + 4, 20);
@@ -189,9 +195,14 @@ function bodyBlock(ctx: CanvasRenderingContext2D, x: number, w: number, c?: Cosm
   }
   ctx.restore();
   // retro: an amber rim keeps the hero apart from the kraft crates (QA r1 figure/ground)
-  ctx.strokeStyle = c?.retro ? ROBOT.body : 'rgba(90, 50, 0, 0.55)';
+  ctx.strokeStyle = lv ? lv.edge : c?.retro ? ROBOT.body : 'rgba(90, 50, 0, 0.55)';
   ctx.lineWidth = c?.retro ? 4 : 3;
   ctx.stroke(body);
+  // 涂装台 stickers: two on the front (either side of the chest plate), the first one on the side, none on the back
+  if (lv && view !== 'back') {
+    const spots = view === 'front' ? [[-15, -27], [15, -27]] : [[x + w / 2 - 2, -33]];
+    lv.stickers.forEach((img, i) => { const p = spots[i]; if (p) ctx.drawImage(img, p[0] - 12, p[1] - 12, 24, 24); });
+  }
 }
 
 function headShell(ctx: CanvasRenderingContext2D, x: number, w: number, c?: Cosmetics): Path2D {
@@ -385,7 +396,7 @@ export function drawRobot(ctx: CanvasRenderingContext2D, x: number, y: number, s
     chassisSide(ctx, pose.tread);
     ctx.save();
     ctx.translate(0, -pose.bob);
-    bodyBlock(ctx, -27, 54, c);
+    bodyBlock(ctx, -27, 54, c, 'side');
     if (c?.lamp) lamp(ctx, -12, pose.glow ?? 0);
     ctx.fillStyle = ROBOT.tread;
     ctx.fill(P(rrect(-7, -68, 14, 8, 3)));
@@ -428,7 +439,7 @@ export function drawRobot(ctx: CanvasRenderingContext2D, x: number, y: number, s
       armBar(ctx, sgn * 28, -48, sgn * 34, -64 - lift);
       pusher(ctx, sgn * 34, -70 - lift, 14, 7);
     }
-    bodyBlock(ctx, -31, 62, c);
+    bodyBlock(ctx, -31, 62, c, 'back');
     ctx.fillStyle = 'rgba(90, 50, 0, 0.30)';
     ctx.fill(P(rrect(-19, -56, 38, 30, 7)));
     ctx.fillStyle = '#FFF1C9';

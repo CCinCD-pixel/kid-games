@@ -692,3 +692,10 @@ html[data-orientation] body.sb-playing.sb-vs .kit-subtitle, body.sb-playing.sb-v
   .sb-vsintro__title { display: none; }   /* (the dialog keeps its aria-label) */
   .sb-vsintro__row { min-height: 46px; }
 }
+
+/* 我的定制: the 涂装台 entry, first in the showcase's top-right group (beside ？ and 双人分屏对战; the 领航员 and the narration
+   bar live elsewhere) — ≥ 56 px */
+.sb-paint-entry.xg-btn { position: relative; z-index: 2; --h: 58px; --depth: 4px; margin: 0 0 4px; gap: 8px; padding: 0 20px 0 12px; font: 400 24px/1 var(--sb-font-title, var(--xg-font-title)); letter-spacing: .06em;
+  --face-1: #ffe27a; --face-2: var(--xg-gold-500, #f6b934); --edge: var(--xg-gold-700, #a8700a); --ink: #4a2c00; --glow: rgba(185, 120, 15, .45); }
+.sb-paint-entry__icon { width: 36px; height: 36px; display: grid; place-items: center; }
+.sb-paint-entry__icon svg { width: 100%; height: 100%; display: block; }

@@ -9,6 +9,8 @@ import { mount as mountBot, type Companion } from '@kit/companion';
 import { VENUES, VENUE_IDS, FLOORS, AI_NAMES, UNLOCK, type VenueId } from './sim/venues';
 import { hex2rgb, mix, paintSegment, paintHead, rgb2css, skinById, segVariant, variantsOf, ballOf, type Rgb } from './render/art';
 import { paintDeco, paintHeadPortrait, DECO, DECO_K } from './render/skins';
+import { stickerSlots, STICKER_K } from './render/livery';
+import { drawSticker } from '@kit/livery/paint';
 import type { SaveCtl } from './save';
 import type { MatchResult } from './match';
 import type { Snake, KillTag } from './sim/core';
@@ -94,6 +96,7 @@ export class Showcase {
     const mk = (key: string, f: (c: CanvasRenderingContext2D, R: number) => void) => { const cv = document.createElement('canvas'); cv.width = cv.height = 96; const c = cv.getContext('2d')!; c.translate(48, 48); f(c, 42); this.cache.set(key, cv); };
     for (const v of variantsOf(sk.pattern)) { mk(ballOf(v), (c, R) => paintSegment(c, R, base, acc, ballOf(v))); if (DECO.has(v)) mk(`d:${v}`, (c) => paintDeco(c, 40, v, base, acc)); }
     for (const closed of [false, true]) { const cv = document.createElement('canvas'); cv.width = cv.height = 160; const c = cv.getContext('2d')!; c.translate(80, 80); paintHeadPortrait(c, 30, sk, base, acc, closed); this.cache.set(closed ? 'headZ' : 'head', cv); }
+    for (const id of sk.stickers ?? []) mk(`stk:${id}`, (c) => drawSticker(c, id, 0, 0, 92));   // 我的蛇
   }
   fit() { const r = this.canvas.getBoundingClientRect(); if (r.width > 0) { const W = Math.round(r.width * 2), H = Math.round(r.height * 2); if (this.canvas.width !== W || this.canvas.height !== H) { this.canvas.width = W; this.canvas.height = H; } } }
   start() { this.fit(); this.last = performance.now(); const loop = (now: number) => { this.raf = requestAnimationFrame(loop); const dt = Math.min(0.05, (now - this.last) / 1000); if (dt < 1 / 32) return; this.last = now; this.tick(dt); }; this.raf = requestAnimationFrame(loop); }
@@ -143,6 +146,12 @@ export class Showcase {
       const dimg = DECO.has(v) ? this.cache.get(`d:${v}`) : undefined;
       if (dimg) { const [px, py] = pos(u0 - (i - 1) * sp * (sleeping ? 0.95 : 0.2)), dk = (DECO_K[v] ?? 1) * rr * 1.14; c.save(); c.translate(x, y); c.rotate(v === 'swirl' ? i * 0.8 - this.t * 1.8 : Math.atan2(py - y, px - x)); c.drawImage(dimg, -dk, -dk, dk * 2, dk * 2); c.restore(); }
     }
+    // 我的蛇: his stickers, upright on top of the body
+    (sk.stickers ?? []).forEach((id, k) => {
+      const i = stickerSlots(N)[k], img = this.cache.get(`stk:${id}`); if (i === undefined || !img) return;
+      const [x, y] = pos(u0 - i * sp * (sleeping ? 0.95 : 0.2)), s = R * STICKER_K * 96 / 92;
+      c.drawImage(img, x - s / 2, y - s / 2, s, s);
+    });
     const [hx, hy] = pos(u0), [nx, ny] = pos(u0 + 0.01); const a = Math.atan2(ny - hy, nx - hx);
     const shut = sleeping || (this.t % 4) < 0.12, hsz = R * 1.086 * 80 / 30;
     c.save(); c.translate(hx, hy); c.rotate(a); c.drawImage(this.cache.get(shut ? 'headZ' : 'head')!, -hsz, -hsz, hsz * 2, hsz * 2);
@@ -162,7 +171,10 @@ export class Showcase {
 }
 
 // ---------------------------------------------------------------- lobby
-export interface LobbyHandlers { onPlay: (mode: 'timed' | 'endless', v: VenueId) => void; onVersus: (v: VenueId) => void; onVersusHelp: () => void; onVenue: (v: VenueId, locked: boolean) => void; onSettings: () => void; onSoon: (what: string) => void; onMissions: () => void; onCollection: () => void; onRecords: () => void }
+export interface LobbyHandlers { onPlay: (mode: 'timed' | 'endless', v: VenueId) => void; onVersus: (v: VenueId) => void; onVersusHelp: () => void; onVenue: (v: VenueId, locked: boolean) => void; onSettings: () => void; onSoon: (what: string) => void; onMissions: () => void; onCollection: () => void; onRecords: () => void; onPaint?: () => void }
+
+/** paint roller: the 涂装台 entry on the lobby showcase */
+const PAINT_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4.5" width="19" height="9" rx="3.2" fill="#ffd23f" stroke="#7a4a00" stroke-width="2"/><path d="M8 7.2h8" stroke="#fff6c8" stroke-width="2" stroke-linecap="round"/><path d="M23 9h3.2v6.2H15.6v3.6" fill="none" stroke="#e4e8f0" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="12.6" y="18.4" width="6" height="10" rx="2.4" fill="#e8452c" stroke="#7a1d10" stroke-width="2"/><circle cx="26.5" cy="24" r="2.6" fill="#4fe3a1"/><circle cx="6.5" cy="22.5" r="2" fill="#6c8cff"/></svg>';
 
 export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, name: string, hd: LobbyHandlers) {
   const d = save.data;
@@ -223,6 +235,13 @@ export function renderLobby(root: HTMLElement, save: SaveCtl, venue: VenueId, na
   help.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.8 9a3.2 3.2 0 1 1 4.9 2.7c-1.1.7-1.7 1.3-1.7 2.6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="12" cy="19.4" r="1.9" fill="currentColor"/></svg>';
   help.addEventListener('click', () => hd.onVersusHelp());
   lobby.querySelector('.sb-showcase')?.append(h('div', { class: 'sb-versus-box' }, help, versus));
+  if (hd.onPaint) {   // 我的定制: paint his own snake (kit/livery 涂装台)
+    const paint = h('button', { class: 'sb-paint-entry xg-btn', type: 'button', 'data-sfx': 'ui-open', 'aria-label': '涂装台：给我的蛇换颜色和贴纸' });
+    paint.innerHTML = `<span class="sb-paint-entry__icon">${PAINT_ICON}</span><span class="sb-paint-entry__label">涂装台</span>`;
+    paint.addEventListener('click', () => { show.poke(); hd.onPaint?.(); });
+    lobby.querySelector('.sb-versus-box')?.prepend(paint);   // with ？ and 双人分屏对战: that corner is kept clear of the 领航员 and the narration bar
+    // (the smallest landscape phones pull it out to the showcase's top-left, phone.css)
+  }
   root.append(lobby);
   bindPress(lobby);
   lobby.addEventListener('pointerdown', () => show.poke());

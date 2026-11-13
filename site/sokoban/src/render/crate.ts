@@ -6,6 +6,7 @@
  */
 import { CRATES, LOCK_LED, SIGNAL, SYMBOL_INK, TAPE } from './palette';
 import { P, check, rrect, symbolPath } from './shapes';
+import { cratePaint, type Paint } from './livery';
 
 export interface CrateLook {
   color: number;
@@ -22,6 +23,8 @@ export interface CrateLook {
   /** sink into the lift (0..1): scaleY 1→0.6, darker, lower */
   sink?: number;
   alpha?: number;
+  /** 涂装台 paint for a colour-0 crate: undefined = the saved one, null = the original kraft art */
+  paint?: Paint | null;
 }
 
 const TOP = rrect(8, -12, 84, 84, 10);
@@ -31,7 +34,9 @@ const SHADOW = rrect(4, 80, 92, 18, 9);
 
 /** Draw a crate whose cell top-left is (x, y) px at cell size s. */
 export function drawCrate(ctx: CanvasRenderingContext2D, x: number, y: number, s: number, look: CrateLook): void {
-  const k = CRATES[look.color] ?? CRATES[0];
+  // only the 星港补给 (colour 0) crate takes a paint job: coloured crates carry the pad rule
+  const lv = look.color === 0 ? (look.paint === undefined ? cratePaint() : look.paint) : null;
+  const k = lv ? { ...CRATES[0], top: lv.base, front: lv.shade, stroke: lv.edge } : CRATES[look.color] ?? CRATES[0];
   const sink = look.sink ?? 0;
   ctx.save();
   ctx.translate(x, y);
@@ -57,15 +62,17 @@ export function drawCrate(ctx: CanvasRenderingContext2D, x: number, y: number, s
   g.addColorStop(1, 'rgba(60, 30, 8, 0.10)');
   ctx.fillStyle = g;
   ctx.fill(P(TOP));
+  if (lv?.layer) { ctx.save(); ctx.clip(P(TOP)); ctx.drawImage(lv.layer, 0, -22, 100, 100); ctx.restore(); }   // 涂装台 pattern
   // corner guards
   ctx.fillStyle = 'rgba(74, 45, 18, 0.28)';
   ctx.fill(P('M14 -6H30L14 10Z M86 -6H70L86 10Z M14 66H30L14 50Z M86 66H70L86 50Z'));
   // sealing tape (top) + its fold over the front
-  ctx.fillStyle = TAPE;
+  ctx.fillStyle = lv ? lv.trim : TAPE;
   ctx.fill(P('M44 -12H56V72H44Z'));
   ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
   ctx.fill(P('M44 -12H47V72H44Z'));
-  ctx.fillStyle = '#C37900';
+  ctx.fillStyle = lv ? 'rgba(20, 12, 40, 0.35)' : '#C37900';
+  if (lv) { ctx.save(); ctx.fillStyle = lv.trim; ctx.fill(P('M44 72H56V91H44Z')); ctx.restore(); }
   ctx.fill(P('M44 72H56V91H44Z'));
   // front ribs
   ctx.strokeStyle = 'rgba(40, 20, 4, 0.35)';
@@ -88,6 +95,8 @@ export function drawCrate(ctx: CanvasRenderingContext2D, x: number, y: number, s
   ctx.fill(P('M50 15A15 15 0 1 0 50.01 15Z'));
   ctx.fillStyle = SYMBOL_INK;
   ctx.fill(P(symbolPath(k.symbol, 50, 30, 13)));
+  // 涂装台 sticker: lower-left of the top face, clear of the tape and the ★ (the pad's symbol stays readable)
+  if (lv?.stickers[0]) ctx.drawImage(lv.stickers[0], 11, 33, 34, 34);
   // outline
   ctx.strokeStyle = k.stroke;
   ctx.lineWidth = 4;

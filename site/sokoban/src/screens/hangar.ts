@@ -113,6 +113,9 @@ const UNLOCK_TEXT = (c: CosmeticDef): string =>
 
 type Tab = 'items' | 'cards' | 'skills';
 
+/** paint roller: the 涂装台 entry in the hangar's top bar */
+const PAINT_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4.5" width="19" height="9" rx="3.2" fill="#ffd23f" stroke="#7a4a00" stroke-width="2"/><path d="M8 7.2h8" stroke="#fff6c8" stroke-width="2" stroke-linecap="round"/><path d="M23 9h3.2v6.2H15.6v3.6" fill="none" stroke="#e4e8f0" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="12.6" y="18.4" width="6" height="10" rx="2.4" fill="#e8452c" stroke="#7a1d10" stroke-width="2"/><circle cx="26.5" cy="24" r="2.6" fill="#4fe3a1"/><circle cx="6.5" cy="22.5" r="2" fill="#6c8cff"/></svg>';
+
 /** Mini diagrams of the two skills (QA r2: the 本领 panel was bare paper). Same palette as the board. */
 const TILE = (x: number, y: number, w = 40) => `<rect x="${x}" y="${y}" width="${w - 3}" height="${w - 3}" rx="7" fill="#F1E2C2" stroke="#D8BF8F" stroke-width="2"/>`;
 const BOT = (x: number, y: number) => `<g transform="translate(${x} ${y})"><rect x="-13" y="-6" width="26" height="20" rx="6" fill="#F6A21E" stroke="#8A4E0A" stroke-width="2"/><rect x="-12" y="-22" width="24" height="17" rx="6" fill="#F6B934" stroke="#8A4E0A" stroke-width="2"/><rect x="-8" y="-18" width="16" height="9" rx="3" fill="#1D2647"/><circle cx="-4" cy="-13.5" r="1.8" fill="#8FF7EC"/><circle cx="4" cy="-13.5" r="1.8" fill="#8FF7EC"/></g>`;
@@ -151,6 +154,16 @@ export class HangarScreen implements Screen {
     backBtn.innerHTML = icon('map');
     backBtn.addEventListener('click', () => this.ctx.go(this.back));
     this.hud.append(backBtn);
+    // 我的定制: the shared 涂装台 for 小推's body and the 星港补给 crate (open to him from the start, nothing to earn)
+    const paintBtn = document.createElement('button');
+    paintBtn.type = 'button';
+    paintBtn.className = 'xg-btn sok-hud__paint';
+    paintBtn.setAttribute('aria-label', '涂装台：给小推和箱子换颜色、花纹、贴纸');
+    paintBtn.dataset.testid = 'hangar-paint';
+    paintBtn.dataset.sfx = 'none';
+    paintBtn.innerHTML = `<span class="sok-hud__paint-icon">${PAINT_ICON}</span><span class="sok-hud__paint-label">涂装台</span>`;
+    paintBtn.addEventListener('click', () => void this.openPaint());
+    this.hud.append(paintBtn);
     this.stage = document.createElement('div');
     this.stage.className = 'sok-hangar__stage';
     this.robot = robotCanvas(this.robotSize, this.robotSize * 1.12, this.robotSize * 0.74, { cosmetics: cosmeticsOf(ctx.save.data) }, this.robotSize * 1.06, 'sok-hangar__robot');
@@ -311,6 +324,23 @@ export class HangarScreen implements Screen {
       row.append(opts);
       this.panel.append(row);
     }
+  }
+
+  private painting = false;
+  private async openPaint(): Promise<void> {
+    if (this.painting) return;
+    this.painting = true;
+    playSfx('ui-open', { volume: 0.7 });
+    try {
+      const { openPorterStudio } = await import('../livery-studio');
+      const res = await openPorterStudio(cosmeticsOf(this.ctx.save.data));
+      if (res.saved) {
+        // the new paint shows at once: an earned 涂装 job would hide it, so it comes off (still owned, one tap to put back)
+        this.ctx.save.update((s) => { delete s.cosmetics.equipped.paint; });
+        this.redraw({ eyes: 'happy', cheer: 0.6 });
+        this.render();
+      }
+    } finally { this.painting = false; }
   }
 
   private equip(slot: CosmeticSlot, id: string | undefined): void {
