@@ -184,22 +184,51 @@ export function paintBall(c: CanvasRenderingContext2D, x: number, y: number, R: 
   c.beginPath(); c.arc(x, y, R * 0.88, 0, TAU); c.fillStyle = g; c.fill();
 }
 
+/** the pattern laid over an area centred at (0, 0) that reaches `r` each way (the caller clips): chips, crate tops,
+ *  robot bodies — one look everywhere */
+export function paintPatternIn(c: CanvasRenderingContext2D, pattern: string, r: number, ink: MotifInk): void {
+  c.save();
+  c.lineJoin = 'round'; c.lineCap = 'round';
+  const fill = rgbCss(ink.trim), edge = rgbCss(ink.edge, 0.8), lw = Math.max(1.5, r * 0.05);
+  switch (pattern) {
+    case 'stripes': c.rotate(-0.6); for (const x of [-1.5, -0.75, 0, 0.75, 1.5]) { c.fillStyle = fill; c.fillRect((x - 0.17) * r, -1.6 * r, 0.34 * r, 3.2 * r); c.fillStyle = rgbCss(ink.edge, 0.35); c.fillRect((x + 0.13) * r, -1.6 * r, 0.04 * r, 3.2 * r); } break;
+    case 'dots': for (let j = -2; j <= 2; j++) for (let i = -2; i <= 2; i++) { const x = (i + (j % 2 ? 0.5 : 0)) * 0.5 * r, y = j * 0.45 * r; c.beginPath(); c.arc(x, y, 0.13 * r, 0, TAU); c.fillStyle = fill; c.fill(); c.lineWidth = lw; c.strokeStyle = edge; c.stroke(); } break;
+    case 'stars': for (const [x, y, k, a] of [[-0.35, -0.3, 0.42, -0.2], [0.42, 0.05, 0.32, 0.3], [-0.15, 0.52, 0.26, 0.1], [0.3, -0.6, 0.18, 0], [-0.75, 0.25, 0.2, 0.2], [0.78, 0.68, 0.2, -0.1]]) { starPath(c, x * r, y * r, k * r, k * 0.45 * r, -Math.PI / 2 + a); c.fillStyle = fill; c.fill(); c.lineWidth = lw; c.strokeStyle = edge; c.stroke(); } break;
+    case 'flames': c.rotate(-Math.PI / 2); for (const [y, k] of [[-0.42, 0.8], [0.18, 1], [0.7, 0.7]]) { flamePath(c, -0.75 * r, y * r, 1.25 * k * r, 0.6 * k * r); c.fillStyle = fill; c.fill(); c.lineWidth = lw; c.strokeStyle = edge; c.stroke(); flamePath(c, -0.8 * r, y * r, 0.75 * k * r, 0.3 * k * r); c.fillStyle = rgbCss(ink.glow); c.fill(); } break;
+    case 'zigzag': for (const y of [-1.15, -0.45, 0.25, 0.95]) { zig(c, [-1.1, -0.66, -0.22, 0.22, 0.66, 1.1].map((x) => x * r), [0, -1, 0, -1, 0, -1].map((q) => (y + q * 0.3) * r)); c.lineWidth = 0.22 * r; c.strokeStyle = edge; c.stroke(); c.lineWidth = 0.13 * r; c.strokeStyle = fill; c.stroke(); } break;
+    case 'scales': for (let j = -3; j <= 3; j++) for (let i = -2; i <= 2; i++) { const x = (i + (j % 2 ? 0.5 : 0)) * 0.56 * r, y = j * 0.36 * r; c.beginPath(); c.arc(x, y, 0.3 * r, 0, Math.PI); c.closePath(); c.fillStyle = rgbCss(mixRgb(ink.base, WHITE, 0.14)); c.fill(); c.lineWidth = Math.max(1.5, r * 0.06); c.strokeStyle = fill; c.stroke(); } break;
+    default: break;
+  }
+  c.restore();
+}
+
 /** the round pattern chip: the chosen colour with the pattern laid over it (studio tiles, parent page) */
 export function paintSwatch(c: CanvasRenderingContext2D, pattern: string, size: number, color: string | LiveryColor): void {
   const ink = motifInk(color), R = size / 2, cx = R, cy = R, r = R * 0.88;
   paintBall(c, cx, cy, R, ink.base);
   c.save(); c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.clip(); c.translate(cx, cy);
-  c.lineJoin = 'round'; c.lineCap = 'round';
-  const fill = rgbCss(ink.trim), edge = rgbCss(ink.edge, 0.8), lw = Math.max(1.5, r * 0.05);
-  switch (pattern) {
-    case 'stripes': c.rotate(-0.6); for (const x of [-0.75, 0, 0.75]) { c.fillStyle = fill; c.fillRect((x - 0.17) * r, -1.2 * r, 0.34 * r, 2.4 * r); c.fillStyle = rgbCss(ink.edge, 0.35); c.fillRect((x + 0.13) * r, -1.2 * r, 0.04 * r, 2.4 * r); } break;
-    case 'dots': for (let j = -2; j <= 2; j++) for (let i = -2; i <= 2; i++) { const x = (i + (j % 2 ? 0.5 : 0)) * 0.5 * r, y = j * 0.45 * r; c.beginPath(); c.arc(x, y, 0.13 * r, 0, TAU); c.fillStyle = fill; c.fill(); c.lineWidth = lw; c.strokeStyle = edge; c.stroke(); } break;
-    case 'stars': for (const [x, y, k, a] of [[-0.35, -0.3, 0.42, -0.2], [0.42, 0.05, 0.32, 0.3], [-0.15, 0.52, 0.26, 0.1], [0.3, -0.6, 0.18, 0]]) { starPath(c, x * r, y * r, k * r, k * 0.45 * r, -Math.PI / 2 + a); c.fillStyle = fill; c.fill(); c.lineWidth = lw; c.strokeStyle = edge; c.stroke(); } break;
-    case 'flames': c.rotate(-Math.PI / 2); for (const [y, k] of [[-0.42, 0.8], [0.18, 1], [0.7, 0.7]]) { flamePath(c, -0.75 * r, y * r, 1.25 * k * r, 0.6 * k * r); c.fillStyle = fill; c.fill(); c.lineWidth = lw; c.strokeStyle = edge; c.stroke(); flamePath(c, -0.8 * r, y * r, 0.75 * k * r, 0.3 * k * r); c.fillStyle = rgbCss(ink.glow); c.fill(); } break;
-    case 'zigzag': for (const y of [-0.45, 0.25, 0.95]) { zig(c, [-1.1, -0.66, -0.22, 0.22, 0.66, 1.1].map((x) => x * r), [0, -1, 0, -1, 0, -1].map((q) => (y + q * 0.3) * r)); c.lineWidth = 0.22 * r; c.strokeStyle = edge; c.stroke(); c.lineWidth = 0.13 * r; c.strokeStyle = fill; c.stroke(); } break;
-    case 'scales': for (let j = -2; j <= 2; j++) for (let i = -2; i <= 2; i++) { const x = (i + (j % 2 ? 0.5 : 0)) * 0.56 * r, y = j * 0.36 * r; c.beginPath(); c.arc(x, y, 0.3 * r, 0, Math.PI); c.closePath(); c.fillStyle = rgbCss(mixRgb(ink.base, WHITE, 0.14)); c.fill(); c.lineWidth = Math.max(1.5, r * 0.06); c.strokeStyle = fill; c.stroke(); } break;
-    default: break;
-  }
+  paintPatternIn(c, pattern, r, ink);
   c.restore();
   c.beginPath(); c.ellipse(cx - R * 0.3, cy - R * 0.42, R * 0.34, R * 0.17, -0.5, 0, TAU); c.fillStyle = 'rgba(255,255,255,0.38)'; c.fill();
+}
+
+// ------------------------------------------------------------------ cached images (draw once, blit every frame)
+const layers = new Map<string, HTMLCanvasElement | null>();
+const canvasOf = (px: number) => { const cv = document.createElement('canvas'); cv.width = cv.height = px; return cv; };
+/** the pattern alone (transparent elsewhere) on a px×px square, cached: games blit it clipped to a surface. null for 素色. */
+export function patternLayer(pattern: string, color: LiveryColor, px = 192): HTMLCanvasElement | null {
+  const key = `${pattern}|${color.base}|${color.trim}|${px}`;
+  if (layers.has(key)) return layers.get(key)!;
+  let cv: HTMLCanvasElement | null = null;
+  if (pattern !== 'plain' && pattern) { cv = canvasOf(px); const c = cv.getContext('2d')!; c.translate(px / 2, px / 2); paintPatternIn(c, pattern, px / 2, motifInk(color)); }
+  layers.set(key, cv);
+  return cv;
+}
+const stickerImgs = new Map<string, HTMLCanvasElement>();
+/** a sticker drawn once into a px×px canvas (full width incl. its border), cached */
+export function stickerImage(id: string, px = 128): HTMLCanvasElement {
+  const key = `${id}|${px}`;
+  let cv = stickerImgs.get(key);
+  if (!cv) { cv = canvasOf(px); drawSticker(cv.getContext('2d')!, id, px / 2, px / 2, px * 0.94); stickerImgs.set(key, cv); }
+  return cv;
 }

@@ -15,7 +15,7 @@
 import { h, bindPress, icon, showModal, xgToast, sound } from '../ui';
 import { prefersReducedMotion } from '../tween';
 import { colorById, patternById, stickerById } from './catalog';
-import { cloneLook, colorsOf, defaultLooks, liveryStore, maxStickersOf, patternsOf, randomLook, sameLook, sameLooks, sanitizeLooks, stickersOf, toggleSticker, type LiveryPart, type LiveryStore, type LiveryTarget, type Looks } from './look';
+import { cloneLook, colorsOf, partColor, defaultLooks, liveryStore, maxStickersOf, patternsOf, randomLook, sameLook, sameLooks, sanitizeLooks, stickersOf, toggleSticker, type LiveryPart, type LiveryStore, type LiveryTarget, type Looks } from './look';
 import { paintSwatch, stickerSvg } from './paint';
 import './studio.css';
 
@@ -97,8 +97,8 @@ function run(o: StudioOptions): Promise<StudioResult> {
       h('div', { class: 'lv-tools' }, dice, reset));
 
     const stage = h('div', { class: 'lv-stage' });
+    // which part (multi-part targets): first in the panel bar, never over the preview (short phone stages)
     const parts = h('div', { class: 'lv-parts', role: 'tablist', 'aria-label': '涂哪里' });
-    if (target.parts.length > 1) stage.append(parts);
     let canvas: HTMLCanvasElement | null = null, ctx: CanvasRenderingContext2D | null = null, mounted: MountedPreview | null = null;
     if ('draw' in o.preview) {
       canvas = h('canvas', { class: 'lv-cv', 'aria-hidden': 'true' }) as HTMLCanvasElement;
@@ -114,7 +114,7 @@ function run(o: StudioOptions): Promise<StudioResult> {
     const count = h('span', { class: 'lv-count', 'aria-live': 'polite' });
     const grid = h('div', { class: 'lv-grid', role: 'tabpanel' });
     stage.append(count);   // 已贴 n/3 sits on the preview, where the stickers show up
-    const panel = h('section', { class: 'lv-panel' }, h('div', { class: 'lv-panel__bar' }, tabs), grid);
+    const panel = h('section', { class: 'lv-panel' }, h('div', { class: 'lv-panel__bar' }, target.parts.length > 1 ? parts : null, tabs), grid);
     const save = h('button', { class: 'xg-btn xg-btn--primary xg-btn--lg lv-save', type: 'button', 'data-sfx': 'none' });
     save.innerHTML = `${icon('check')}<span>保存</span>`;
     const foot = h('footer', { class: 'lv-foot' }, save);
@@ -132,8 +132,8 @@ function run(o: StudioOptions): Promise<StudioResult> {
       for (const s of swatches) {
         const c = s.cv.getContext('2d'); if (!c) continue;
         c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, s.cv.width, s.cv.height);
-        if (s.kind === 'color') paintSwatch(c, look.pattern, s.cv.width, s.id);
-        else paintSwatch(c, s.id, s.cv.width, look.color);
+        if (s.kind === 'color') paintSwatch(c, look.pattern, s.cv.width, partColor(part, s.id));
+        else paintSwatch(c, s.id, s.cv.width, partColor(part, look.color));
       }
     };
     const swatch = (kind: 'color' | 'pattern', id: string) => {

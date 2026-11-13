@@ -14,10 +14,10 @@ export { COLORS, PATTERNS, STICKERS, colorById, patternById, stickerById } from 
 export type { LiveryColor, LiveryPattern, LiverySticker, StickerLayer } from './catalog';
 export {
   MAX_STICKERS, LIVERY_VERSION, liveryStore, defaultLooks, sanitizeLook, sanitizeLooks, randomLook, toggleSticker,
-  cloneLook, sameLook, sameLooks, colorsOf, patternsOf, stickersOf, maxStickersOf,
+  cloneLook, sameLook, sameLooks, colorsOf, partColor, patternsOf, stickersOf, maxStickersOf,
 } from './look';
 export type { PartLook, Looks, LiveryPart, LiveryTarget, LiverySave, LiveryStore } from './look';
-export { drawSticker, stickerSvg, paintBallMotif, paintSwatch, paintBall, motifInk, motifInkRgb, hexRgb, rgbCss, mixRgb, shadeRgb, STICKER_PAD } from './paint';
+export { drawSticker, stickerSvg, stickerImage, patternLayer, paintPatternIn, paintBallMotif, paintSwatch, paintBall, motifInk, motifInkRgb, hexRgb, rgbCss, mixRgb, shadeRgb, STICKER_PAD } from './paint';
 export type { MotifInk, Rgb } from './paint';
 export { openLiveryStudio, describeLook } from './studio';
 export type { StudioOptions, StudioResult, CanvasPreview, MountPreview, MountedPreview, PreviewInfo, StudioSfx } from './studio';

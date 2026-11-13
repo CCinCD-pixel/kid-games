@@ -5,7 +5,7 @@
  * export / import backs them up with everything else. No personal data, nothing leaves the device.
  */
 import { createStore, type Store } from '../progress';
-import { COLORS, PATTERNS, STICKERS } from './catalog';
+import { COLORS, PATTERNS, STICKERS, type LiveryColor } from './catalog';
 
 export interface PartLook {
   color: string;
@@ -24,7 +24,10 @@ export interface LiveryPart {
   defaults: PartLook;
   /** 0 = this part takes no stickers; default 3 (never more than 3) */
   maxStickers?: number;
-  /** limit the choice for this part (default: every colour / pattern / sticker) */
+  /** this part's own original colour(s), listed first ("小推橙", "纸箱色"): 恢复原样 can then be exactly the game's
+   *  own art, and the child can still put a pattern / stickers on it */
+  ownColors?: LiveryColor[];
+  /** limit the choice for this part (default: every colour / pattern / sticker; own colours are always offered) */
   colors?: string[];
   patterns?: string[];
   stickers?: string[];
@@ -46,7 +49,9 @@ export const MAX_STICKERS = 3;
 export const LIVERY_VERSION = 1;
 
 export const maxStickersOf = (part: LiveryPart) => Math.max(0, Math.min(MAX_STICKERS, part.maxStickers ?? MAX_STICKERS));
-export const colorsOf = (part: LiveryPart) => COLORS.filter((c) => !part.colors || part.colors.includes(c.id));
+export const colorsOf = (part: LiveryPart): LiveryColor[] => [...(part.ownColors ?? []), ...COLORS.filter((c) => !part.colors || part.colors.includes(c.id))];
+/** a colour of this part (its own colours included) */
+export const partColor = (part: LiveryPart, id: string): LiveryColor => colorsOf(part).find((c) => c.id === id) ?? colorsOf(part)[0];
 export const patternsOf = (part: LiveryPart) => PATTERNS.filter((p) => !part.patterns || part.patterns.includes(p.id));
 export const stickersOf = (part: LiveryPart) => (maxStickersOf(part) === 0 ? [] : STICKERS.filter((s) => !part.stickers || part.stickers.includes(s.id)));
 

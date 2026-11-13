@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { COLORS, PATTERNS, STICKERS } from './catalog';
-import { defaultLooks, liveryStore, randomLook, sanitizeLook, sanitizeLooks, sameLook, toggleSticker, MAX_STICKERS, type LiveryTarget } from './look';
+import { colorsOf, partColor, defaultLooks, liveryStore, randomLook, sanitizeLook, sanitizeLooks, sameLook, toggleSticker, MAX_STICKERS, type LiveryTarget } from './look';
 import { stickerSvg } from './paint';
 import { exportProgress, importProgress } from '../progress';
 
@@ -89,6 +89,17 @@ describe('livery looks', () => {
     }
     const crate = PORTER.parts[1];
     for (let i = 0; i < 50; i++) { const l = randomLook(crate, rnd); expect(l.stickers).toEqual([]); expect(['plain', 'stripes', 'stars']).toContain(l.pattern); }
+  });
+});
+
+describe('a part with its own colour', () => {
+  const crate = { id: 'crate', label: '箱子', ownColors: [{ id: 'kraft', name: '纸箱色', base: '#a27038', trim: '#f9a726' }], defaults: { color: 'kraft', pattern: 'plain', stickers: [] }, maxStickers: 1 };
+  it('offers it first, keeps it as the default, and other parts never see it', () => {
+    expect(colorsOf(crate).map((c) => c.id)).toEqual(['kraft', ...COLORS.map((c) => c.id)]);
+    expect(sanitizeLook(crate, { color: 'kraft', pattern: 'dots', stickers: ['gear'] })).toEqual({ color: 'kraft', pattern: 'dots', stickers: ['gear'] });
+    expect(sanitizeLook(SNAKE.parts[0], { color: 'kraft' }).color).toBe('sun');
+    expect(partColor(crate, 'kraft').base).toBe('#a27038');
+    expect(partColor(crate, 'nope').id).toBe('kraft');
   });
 });
 
