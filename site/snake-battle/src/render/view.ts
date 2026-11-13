@@ -9,6 +9,7 @@ import { Blend, Renderer } from './gl';
 import { Fx, rnd, FX_KEYFRAMES as KF, pulse } from './fx';
 import { buildAtlas, addColorSprites, aiBodyOn, skinBaseOn, hex2rgb, skinById, segVariant, ballOf, STAR_COLORS, mix, type Rgb, type Atlas, type AtlasColor, type SkinDef } from './art';
 import { HEAD_HS, EYE_SPOT, eyeLayout, extrasOf, DECO, DECO_K, spawnTrail, TRAIL_FOOD, TRAIL_EVERY, type EyeSpot } from './skins';
+import { stickerSlots, STICKER_K } from './livery';
 import { FLOORS } from '../sim/venues';
 import { angDiff, viewScaleOf, type Snake, type Food } from '../sim/core';
 import type { Match } from '../match';
@@ -84,7 +85,7 @@ export class WorldView {
   /** persona / skin look (§6.4): body colour + pattern, head painter, where and how the eyes are drawn */
   private makeLook(s: Snake): [Look, AtlasColor] {
     if (s.isPlayer) {
-      const sk = skinById(s.skin ?? 'venus'), { base, lift } = skinBaseOn(sk, this.match.floor), key = `skin-${sk.id}${lift ? `-${this.match.floor}` : ''}`;
+      const sk = skinById(s.skin ?? 'venus'), { base, lift } = skinBaseOn(sk, this.match.floor), key = `skin-${sk.lvKey ?? sk.id}${lift ? `-${this.match.floor}` : ''}`;
       return [{ key, base, pattern: sk.pattern, eyes: sk.eyes, head: sk.head, skin: sk, eye: eyeLayout(sk.head, sk.eyes), extras: extrasOf(sk), persona: 'me' }, { key, base, accent: hex2rgb(sk.accent), pattern: sk.pattern, blush: true, skin: sk }];
     }
     const mp = s.missionPersona;
@@ -355,6 +356,12 @@ export class WorldView {
       // 圈圈 encircling: its bright rings light up one after another (1.5 Hz sine, small, §6.10)
       if (coilGlow && v === 'ring') R.push(x, y, r * k, r * k, 0, 'dot', 255, 255, 255, Math.round(KF.coilRings.swing * (0.5 + 0.5 * Math.sin(T * 2 * Math.PI * KF.coilRings.hz - i * 0.35))));
       this.segCount++;
+    }
+    // 我的蛇: his stickers ride upright on the body, over the segment in front of them (≤ 3 quads)
+    const stk = look.skin?.stickers;
+    if (stk?.length && age >= 0.6) {
+      const sl = stickerSlots(n), hsS = r * STICKER_K * 64 / 118;   // atlas cell: a 118-px sticker in 128 px
+      for (let k = 0; k < stk.length && k < sl.length; k++) { const i = sl[k]; R.push(b[i * 3], b[i * 3 + 1], hsS, hsS, 0, `stk:${stk[k]}`, 255, 255, 255, alpha); }
     }
     // head: leans 8° into the turn; squash on eating (1.08×0.92, 90 ms)
     const lean = Math.max(-0.14, Math.min(0.14, angDiff(s.angle, s.target)));

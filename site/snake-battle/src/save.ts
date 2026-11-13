@@ -117,7 +117,7 @@ export class SaveCtl {
       try { const st = storage ?? localStorage, raw = st.getItem(this.store.key); if (raw) st.setItem(`${this.store.key}.bak`, raw); } catch { /* ignore */ }
       this.data = defaults();
     }
-    if (!SKIN_IDS.has(this.data.equipped.skin)) this.data.equipped.skin = 'venus';
+    if (!SKIN_IDS.has(this.data.equipped.skin) && this.data.equipped.skin !== 'mine') this.data.equipped.skin = 'venus';   // 'mine' = 我的蛇 (涂装台)
     if (!TRAIL_IDS.has(this.data.equipped.trail)) this.data.equipped.trail = 'stardust';
     for (const v of VENUE_IDS) this.data.venues[v] = fillDefaults(venueRec(), this.data.venues[v]);
     // leftover inProgress (killed in the background): close it as "left" — increments already committed; the

@@ -482,3 +482,16 @@ body:has(.sb-settings) .kit-subtitle { display: none; }
   html[data-orientation] .sb-settings .sb-panel__title { font-size: 22px; }
   html[data-orientation] .sb-settings .sb-set .xg-seg button { height: 44px; }
 }
+
+/* 涂装台 entry on phones: a compact pill, still 56 px tall */
+@media (max-width: 560px), (max-height: 500px) {
+  .sb-paint-entry.xg-btn { --h: 56px; font-size: 20px; padding: 0 14px 0 8px; gap: 6px; }
+  .sb-paint-entry__icon { width: 30px; height: 30px; }
+}
+/* the smallest landscape phones (≤ 700×359): the top-right group is full and the narration bar spans the rest, so the
+   entry becomes a 56 px icon square in the showcase's top-left corner, left of where the bar starts (sl + 80 px) */
+@media (orientation: landscape) and (max-width: 700px) and (max-height: 359px) {
+  .sb-versus-box { left: 6px; align-items: flex-start; }   /* the group spans the top edge; the entry is pushed to its left end */
+  .sb-paint-entry.xg-btn { margin-right: auto; width: 56px; min-width: 56px; padding: 0; }
+  .sb-paint-entry__label { display: none; }
+}

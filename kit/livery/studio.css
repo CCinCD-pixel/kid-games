@@ -1,0 +1,169 @@
+/* 涂装台 (kit/livery/studio.ts) — night paint shop: header, live stage, tabs + tiles, big 保存. Touch targets ≥ 56 px. */
+.lv-studio {
+  position: fixed; inset: 0; z-index: calc(var(--xg-z-modal, 100) - 10);
+  display: grid; gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(170px, 1fr) minmax(0, auto) auto;
+  grid-template-areas: "top" "stage" "panel" "foot";
+  padding: max(14px, env(safe-area-inset-top)) max(22px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-left));
+  background:
+    radial-gradient(60% 40% at 15% 8%, rgba(139, 92, 246, .22), transparent 70%),
+    radial-gradient(55% 45% at 90% 95%, rgba(31, 179, 158, .16), transparent 70%),
+    linear-gradient(180deg, #1b2656 0%, #131b42 48%, #0c1230 100%);
+  color: var(--xg-moon-100, #fff3d6);
+  font-family: var(--xg-font-ui);
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+  overscroll-behavior: contain; touch-action: manipulation;
+  animation: lv-in var(--xg-dur-slow, 320ms) var(--xg-ease-out, ease-out) both;
+}
+@keyframes lv-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+/* while the studio is open the page's 🏠 is hidden (its corner is 关上; leaving from here would drop the paint) */
+html.lv-studio-open .kit-back, html.lv-studio-open .kit-back-adopted { visibility: hidden !important; pointer-events: none !important; }
+
+/* ---------------------------------------------------------------- header */
+.lv-top { grid-area: top; display: flex; align-items: center; gap: 14px; min-width: 0; }
+.lv-top .xg-btn { margin-bottom: 4px; }
+.lv-close.xg-btn { --h: 60px; --px: 0px; --depth: 4px; width: 60px; flex: none; }
+.lv-close .xg-icon, .lv-tool .xg-icon { width: 30px; height: 30px; font-size: inherit; }
+.lv-title { flex: 1; min-width: 0; margin: 0; display: flex; align-items: baseline; gap: 12px; white-space: nowrap; overflow: hidden; }
+.lv-title__main { font: 400 38px/1.05 var(--xg-font-title); letter-spacing: .06em; color: #fff6e3; text-shadow: 0 3px 0 rgba(3, 5, 22, .45); }
+.lv-title__sub { font: 600 21px/1 var(--xg-font-read); color: var(--xg-gold-300, #ffd77a); overflow: hidden; text-overflow: ellipsis; }
+.lv-tools { display: flex; gap: 10px; flex: none; }
+.lv-tool.xg-btn { --h: 60px; --px: 20px; --fs: 19px; --depth: 4px; gap: 8px; --lv-dice-dot: var(--xg-night-700, #1b2656); }
+.lv-tool.is-off { opacity: .5; }
+.lv-random .xg-icon { color: #fff6e3; }
+.lv-random.is-roll .xg-icon { animation: lv-roll 620ms var(--xg-ease-out, ease-out); }
+@keyframes lv-roll { 0% { transform: rotate(0) scale(1); } 40% { transform: rotate(200deg) scale(1.25); } 100% { transform: rotate(360deg) scale(1); } }
+
+/* ---------------------------------------------------------------- stage */
+.lv-stage {
+  grid-area: stage; position: relative; min-height: 0; border-radius: 30px; overflow: hidden;
+  background: #0c1230;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .13), 0 18px 36px -16px rgba(0, 0, 0, .75);
+}
+.lv-cv, .lv-host { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.lv-stage::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 0 rgba(246, 185, 52, 0); }
+.lv-stage.is-pop::after { animation: lv-flash 520ms var(--xg-ease-out, ease-out); }
+@keyframes lv-flash { 0% { box-shadow: inset 0 0 0 6px rgba(246, 185, 52, .85); } 100% { box-shadow: inset 0 0 0 0 rgba(246, 185, 52, 0); } }
+.lv-parts { position: absolute; left: 14px; top: 14px; z-index: 1; display: flex; gap: 6px; padding: 6px; border-radius: 999px; background: rgba(5, 8, 30, .6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.lv-part { min-height: 58px; min-width: 96px; padding: 0 22px; border: 0; border-radius: 999px; background: transparent; color: var(--xg-moon-100, #fff3d6); font: 800 21px/1 var(--xg-font-ui); letter-spacing: .04em; cursor: pointer; touch-action: manipulation; }
+.lv-part.is-on { background: linear-gradient(180deg, #ffd96b, var(--xg-gold-500, #f6b934)); color: #4a2c00; box-shadow: 0 3px 0 var(--xg-gold-700, #a8700a); }
+
+/* ---------------------------------------------------------------- panel */
+.lv-panel { grid-area: panel; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+.lv-panel__bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.lv-tabs { display: flex; gap: 6px; padding: 6px; border-radius: 999px; background: rgba(4, 7, 28, .5); box-shadow: inset 0 2px 6px rgba(0, 0, 0, .35); }
+.lv-tab {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 58px; padding: 0 22px 0 16px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--xg-moon-100, #fff3d6); font: 800 21px/1 var(--xg-font-ui); letter-spacing: .04em; cursor: pointer;
+  touch-action: manipulation; --lv-dice-dot: #131b42; transition: background var(--xg-dur-fast, 120ms);
+}
+.lv-tab .xg-icon { width: 30px; height: 30px; flex: none; }
+.lv-tab.is-on { background: linear-gradient(180deg, #ffd96b, var(--xg-gold-500, #f6b934)); color: #4a2c00; box-shadow: 0 3px 0 var(--xg-gold-700, #a8700a), 0 8px 16px -6px rgba(246, 185, 52, .5); --lv-dice-dot: #ffd96b; }
+.lv-tab:active { transform: translateY(2px); }
+.lv-count { position: absolute; right: 14px; top: 14px; z-index: 1; padding: 11px 18px; border-radius: 999px; background: rgba(5, 8, 30, .62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font: 800 20px/1 var(--xg-font-ui); color: var(--xg-moon-200, #ffe7b3); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .12); }
+.lv-count.is-full { color: #4a2c00; background: var(--xg-gold-500, #f6b934); }
+.lv-count[hidden] { display: none; }
+
+.lv-grid {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 12px; align-content: start;
+  padding: 14px 10px 14px;
+}
+.lv-tile {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  min-height: 108px; padding: 10px 4px 9px; border: 0; border-radius: 24px; cursor: pointer; touch-action: manipulation;
+  background: linear-gradient(180deg, #27336e, #1b2656);
+  box-shadow: 0 5px 0 #070b24, 0 10px 18px -8px rgba(0, 0, 0, .6), inset 0 1.5px 0 rgba(255, 255, 255, .14);
+  color: var(--xg-moon-100, #fff3d6);
+  transition: transform var(--xg-dur-press, 90ms) var(--xg-ease-press, ease-out), box-shadow var(--xg-dur-press, 90ms);
+}
+.lv-tile:active { transform: translateY(4px); box-shadow: 0 1px 0 #070b24, inset 0 1.5px 0 rgba(255, 255, 255, .14); }
+.lv-tile__art { width: 66px; height: 66px; display: grid; place-items: center; pointer-events: none; }
+.lv-swatch { width: 62px; height: 62px; display: block; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .35)); }
+.lv-tile--sticker .lv-tile__art svg { width: 72px; height: 72px; display: block; overflow: visible; }
+.lv-tile__name { font: 600 16px/1.1 var(--xg-font-read); letter-spacing: .04em; color: var(--xg-moon-200, #ffe7b3); pointer-events: none; }
+.lv-tile.is-on {
+  background: linear-gradient(180deg, #45397f, #2d2763);
+  box-shadow: 0 0 0 4px var(--xg-gold-500, #f6b934), 0 5px 0 4px #070b24, 0 0 26px rgba(246, 185, 52, .5), inset 0 1.5px 0 rgba(255, 255, 255, .2);
+}
+.lv-tile.is-on .lv-tile__name { color: #ffe08a; }
+.lv-tile__badge {
+  position: absolute; top: -8px; right: -6px; width: 34px; height: 34px; border-radius: 50%;
+  display: none; place-items: center; font: 800 20px/1 var(--xg-font-num, var(--xg-font-ui)); color: #4a2c00;
+  background: radial-gradient(circle at 35% 30%, #ffe9a0, var(--xg-gold-500, #f6b934) 70%); box-shadow: 0 3px 0 var(--xg-gold-700, #a8700a), 0 0 0 3px #131b42;
+}
+.lv-tile.is-on .lv-tile__badge { display: grid; }
+.lv-tile.is-on .lv-tile__badge:empty::before { content: ""; width: 14px; height: 8px; margin-top: -4px; border-left: 4px solid #4a2c00; border-bottom: 4px solid #4a2c00; transform: rotate(-45deg); }
+.lv-tile.is-on .lv-tile__art { animation: lv-pick 380ms var(--xg-ease-pop, ease-out); }
+@keyframes lv-pick { 0% { transform: scale(.82); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
+.lv-studio .is-shake { animation: lv-shake 420ms ease-in-out; }
+@keyframes lv-shake { 0%, 100% { transform: none; } 20% { transform: translateX(-7px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); } }
+
+/* ---------------------------------------------------------------- footer */
+.lv-foot { grid-area: foot; display: flex; justify-content: center; }
+.lv-save.xg-btn { width: min(100%, 560px); --h: 78px; --fs: 30px; gap: 12px; margin-bottom: 7px; }
+.lv-save .xg-icon { width: 34px; height: 34px; font-size: inherit; }
+
+/* ---------------------------------------------------------------- iPad landscape: stage left, choices right */
+@media (orientation: landscape) and (min-height: 560px) {
+  .lv-studio {
+    grid-template-columns: minmax(0, 1.1fr) minmax(380px, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "top top" "stage panel" "stage foot";
+    column-gap: 22px;
+  }
+  .lv-save.xg-btn { width: 100%; }
+}
+
+/* ---------------------------------------------------------------- phones */
+@media (max-width: 560px) and (orientation: portrait) {
+  .lv-studio { gap: 10px; grid-template-rows: auto minmax(150px, 1fr) minmax(0, auto) auto; padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+  .lv-top { gap: 10px; }
+  .lv-close.xg-btn, .lv-tool.xg-btn { --h: 56px; width: 56px; --px: 0px; }
+  .lv-tool__label { display: none; }
+  .lv-title__main { font-size: 30px; }
+  .lv-title__sub { font-size: 17px; }
+  .lv-title { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .lv-stage { border-radius: 24px; }
+  .lv-tab { padding: 0 14px 0 10px; font-size: 18px; gap: 6px; }
+  .lv-tab .xg-icon { width: 26px; height: 26px; }
+  .lv-count { right: 10px; top: 10px; padding: 8px 12px; font-size: 16px; }
+  .lv-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 12px 8px 12px; }
+  .lv-tile { min-height: 92px; border-radius: 20px; gap: 4px; padding: 8px 2px 7px; }
+  .lv-tile__art { width: 54px; height: 54px; }
+  .lv-swatch { width: 52px; height: 52px; }
+  .lv-tile--sticker .lv-tile__art svg { width: 60px; height: 60px; }
+  .lv-tile__name { font-size: 14px; }
+  .lv-save.xg-btn { --h: 64px; --fs: 26px; width: 100%; }
+}
+@media (orientation: landscape) and (max-height: 559px) {
+  .lv-studio {
+    gap: 8px; column-gap: 14px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "stage top" "stage panel" "stage foot";
+    padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  }
+  .lv-close.xg-btn, .lv-tool.xg-btn { --h: 56px; width: 56px; --px: 0px; }
+  .lv-tool__label { display: none; }
+  .lv-title__main { font-size: 26px; }
+  .lv-title__sub { display: none; }
+  .lv-stage { border-radius: 22px; }
+  .lv-panel { gap: 8px; }
+  .lv-tab { padding: 0 12px 0 8px; font-size: 17px; gap: 4px; }
+  .lv-tab .xg-icon { width: 24px; height: 24px; }
+  .lv-count { padding: 7px 10px; font-size: 15px; }
+  .lv-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 9px; padding: 12px 8px 10px; }
+  .lv-tile { min-height: 78px; border-radius: 18px; padding: 6px 2px; gap: 2px; }
+  .lv-tile__art { width: 48px; height: 48px; }
+  .lv-swatch { width: 46px; height: 46px; }
+  .lv-tile--sticker .lv-tile__art svg { width: 52px; height: 52px; }
+  .lv-tile__name { font-size: 13px; }
+  .lv-save.xg-btn { --h: 58px; --fs: 24px; width: 100%; margin-bottom: 5px; }
+}
+
+/* reduced motion: no flashes, rolls, pops or shakes (the preview is also still) */
+.lv-studio.is-reduced, .lv-studio.is-reduced * { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) { .lv-studio, .lv-studio * { animation: none !important; transition: none !important; } }

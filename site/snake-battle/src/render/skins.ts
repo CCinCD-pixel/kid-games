@@ -14,6 +14,8 @@
 import { ball, mix, scale, rgb2css, type Rgb, type SkinDef } from './art';
 import { rnd, type Fx } from './fx';
 import { Blend } from './gl';
+import { LV_DECO, paintLvDeco, STICKER_K } from './livery';
+import { drawSticker } from '@kit/livery/paint';
 
 export const HEAD_HS = 2.2;
 const TAU = Math.PI * 2;
@@ -355,7 +357,7 @@ export function extrasOf(sk: SkinDef): string[] {
 
 // ------------------------------------------------------------------ body pattern overlays (segment cell, +x = toward the head)
 /** variants whose ball is the plain shaded ball (their look is the rotated overlay) */
-export const DECO = new Set(['car', 'panel', 'panelY', 'trackA', 'trackB', 'module', 'wing', 'scale', 'cloud', 'swirl', 'brickA', 'brickB', 'crenel']);
+export const DECO = new Set(['car', 'panel', 'panelY', 'trackA', 'trackB', 'module', 'wing', 'scale', 'cloud', 'swirl', 'brickA', 'brickB', 'crenel', ...LV_DECO]);
 /** overlay size multiplier (wings and merlons reach outside the ball) */
 export const DECO_K: Record<string, number> = { wing: 2, crenel: 1.3 };
 
@@ -444,6 +446,7 @@ export function paintDeco(c: CanvasRenderingContext2D, R: number, v: string, bas
       if (v === 'crenel') for (const sy of [-1, 1]) { c.beginPath(); c.roundRect(-0.28 * Rb, sy > 0 ? 0.78 * Rb : -1.2 * Rb, 0.56 * Rb, 0.42 * Rb, 3); c.fillStyle = css(mix(base, W, 0.12)); c.fill(); c.lineWidth = 3; c.strokeStyle = css(scale(base, 0.5)); c.stroke(); }
       break;
     }
+    default: paintLvDeco(c, Rb - 6, v, base, acc);   // 我的蛇: the 涂装台 pattern marks
   }
 }
 
@@ -579,6 +582,8 @@ export function paintSkinPortrait(c: CanvasRenderingContext2D, W_: number, H: nu
       c.save(); c.translate(x, y); c.rotate(v === 'swirl' ? i * 0.8 : a); c.scale(sz * dk / CELL_HALF, sz * dk / CELL_HALF); paintDeco(c, CELL_R, v, base, acc); c.restore();
     }
   }
+  // 我的蛇: his stickers, upright on the body (the portrait's segments are spread, so slots 1 / 3 / 5)
+  (sk.stickers ?? []).forEach((id, k) => { const p = pts[[1, 3, 5][k]]; if (p) drawSticker(c, id, p[0], p[1], r * STICKER_K); });
   const hs = r * HEAD_HS / CELL_HALF;
   const ex = extrasOf(sk);
   const at = (fn: () => void, rot = 0) => { c.save(); c.translate(hx, hy); c.rotate(rot); c.scale(hs, hs); fn(); c.restore(); };

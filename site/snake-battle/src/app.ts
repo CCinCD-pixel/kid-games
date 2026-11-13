@@ -27,6 +27,7 @@ import { hasClip } from './mini-replay';
 import demos from '../../../content/snake-battle/demos.json';
 import { VENUES, VENUE_IDS, TROPHIES, displayName, type VenueId } from './sim/venues';
 import { skinById, hex2rgb, aiBodyColor } from './render/art';
+import { avoidFor } from './render/livery';
 import { PHYS, turnRateOf, angDiff, type KillTag } from './sim/core';
 
 /** S9 praise that fits what the level asked for (QA r3/r4): one pool per objective type, rotating, never the same line
@@ -164,6 +165,7 @@ export class App {
       onMissions: () => this.showMap(),
       onCollection: () => this.showCollection(),
       onRecords: () => this.showRecords(),
+      onPaint: () => void this.showPaint(),
     });
     this.drainCards();
     // spec §2.4: the last 3 timed matches here were all podiums and the next venue is open → a breathing ring on it +
@@ -215,7 +217,7 @@ export class App {
     const s = this.save.data, settings = getSettings();
     const seed = opts.seed ?? randomSeed();
     const skin = s.equipped.skin;
-    const avoid = skin === 'venus' ? ['黄', '橙'] : [];
+    const avoid = skin === 'venus' ? ['黄', '橙'] : skin === 'mine' ? avoidFor() : [];
     if (!opts.twin) this.twinLine = null;
     let mdef: Mission | undefined = opts.mission ? MISSION_BY_ID[opts.mission] : undefined;
     if (mdef && opts.twin) for (let k = 0; k < Math.min(3, opts.twin); k++) mdef = twinOf(mdef);
@@ -921,6 +923,22 @@ export class App {
     const name = allItems().find((x) => x.key === key)?.item.name ?? (key.startsWith('venue:') ? VENUES[key.slice(6) as VenueId]?.name : '') ?? '';
     void this.say(`snake.unlock.${kind === 'crown' ? 'skin' : kind}`, { interrupt: true, vars: { name } });
     unlockCard(this.root, key, () => { this.cardKey = null; this.drainCards(then); });
+  }
+
+  /** 我的定制: the shared 涂装台 for his own snake; 保存 puts it on (skin `mine`) and the lobby shows it at once */
+  private painting = false;
+  async showPaint() {
+    if (this.painting) return;
+    this.painting = true;
+    try {
+      const { openSnakeStudio } = await import('./livery-studio');
+      const res = await openSnakeStudio(this.venue);
+      if (res.saved) {
+        this.save.data.equipped.skin = 'mine'; this.save.save();
+        const l = res.looks.snake; this.shell?.session?.mark('livery-save', { color: l.color, pattern: l.pattern, stickers: l.stickers.length });
+        if (this.root.querySelector('.sb-lobby')) this.showLobby();
+      }
+    } finally { this.painting = false; }
   }
 
   showCollection() {
